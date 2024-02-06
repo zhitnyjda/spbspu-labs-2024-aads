@@ -2,6 +2,6 @@
 
 int main()
 {
-  std::cout << "kovshikov.nikita/n";
+  std::cout << "kovshikov.nikita\n";
   return 0;
 }
