@@ -2,6 +2,7 @@
 #define LIST_HPP
 
 #include <cstddef>
+#include <stdexcept>
 
 namespace khoroshkin
 {
@@ -16,7 +17,7 @@ namespace khoroshkin
     void pop_front();
     void clear();
     size_t GetSize() {return Size;};
-    T & operator[](const int index);
+    T & operator[](const size_t index);
 
   private:
     template< typename S >
@@ -65,7 +66,7 @@ void khoroshkin::List< T >::push_back(T data)
 }
 
 template< typename T >
-T & khoroshkin::List< T >::operator[](const int index)
+T & khoroshkin::List< T >::operator[](const size_t index)
 {
   size_t counter = 0;
   Node< T > * current = this->head;
