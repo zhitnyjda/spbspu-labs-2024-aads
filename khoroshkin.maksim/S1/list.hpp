@@ -1,6 +1,8 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 
+#include <cstddef>
+
 namespace khoroshkin
 {
   template< typename T >
@@ -65,7 +67,7 @@ void khoroshkin::List< T >::push_back(T data)
 template< typename T >
 T & khoroshkin::List< T >::operator[](const int index)
 {
-  int counter = 0;
+  size_t counter = 0;
   Node< T > * current = this->head;
   while (current != nullptr)
   {
