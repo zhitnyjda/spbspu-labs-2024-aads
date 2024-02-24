@@ -13,7 +13,7 @@ namespace khoroshkin
     void push_back(T data);
     void pop_front();
     void clear();
-    int GetSize() {return Size;};
+    size_t GetSize() {return Size;};
     T & operator[](const int index);
 
   private:
@@ -31,7 +31,7 @@ namespace khoroshkin
       }
     };
 
-    int Size;
+    size_t Size;
     Node< T > * head;
   };
 }
@@ -76,6 +76,7 @@ T & khoroshkin::List< T >::operator[](const int index)
     current = current->pNext;
     counter++;
   }
+  throw std::out_of_range("Index out of range");
 }
 
 template < typename T >
