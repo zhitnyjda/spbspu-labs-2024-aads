@@ -3,13 +3,32 @@
 
 #include <utility>
 
-template< typename T >
-class List
+namespace miheev
 {
+  template< typename T >
+  class List
+  {
+  public:
+    List(T data);
+    void push(T data);
+    void pop();
 
-private:
-  std::pair<char*, int*> data_;
-  List* next_;
+  private:
+    T data_;
+    List< T >* next_;
+
+    class Iterator
+    {
+    private:
+      T* cur;
+
+    public:
+      T& operator++();
+      T& operator++(int);
+      T& operator+(size_t);
+    };
+  };
 }
 
 #endif
+
