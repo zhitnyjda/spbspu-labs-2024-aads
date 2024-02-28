@@ -8,17 +8,24 @@ namespace miheev
   template< typename T >
   class List
   {
-  private:
+  public:
     T data_;
     List< T >* next_;
-
-  public:
     class Iterator;
+
     List(T data):
       data_(data),
       next_(nullptr)
     {}
-    void push(T data)
+    ~List()
+    {
+      if (next_ != nullptr)
+      {
+        delete next_;
+      }
+    }
+    List() = default;
+    void pushBack(T data)
     {
       if (next_ == nullptr)
       {
@@ -26,15 +33,29 @@ namespace miheev
       }
       else
       {
-        this->push(data);
+        next_->pushBack(data);
+      }
+    }
+    T& operator[](size_t i)
+    {
+      if (i == 0)
+      {
+        return data_;
+      }
+      else
+      {
+        return next_[i-1];
       }
     }
 
     Iterator begin()
     {
-
+      return this;
     }
-    Iterator end();
+    Iterator end()
+    {
+      return nullptr;
+    }
 
     class Iterator
     {
@@ -46,9 +67,17 @@ namespace miheev
       {
         cur_ = head;
       }
-      T& operator++();
-      T& operator++(int);
-      T& operator+(size_t);
+      T& operator++()
+      {
+      }
+      T& operator++(int)
+      {
+        return *(cur_++);
+      }
+      T& operator+(size_t n)
+      {
+        return *(cur_ + n);
+      }
     };
   };
 }
