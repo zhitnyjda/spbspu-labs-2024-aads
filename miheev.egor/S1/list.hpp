@@ -2,6 +2,7 @@
 #define LIST_HPP
 
 #include <cstddef>
+#include <memory>
 
 namespace miheev
 {
@@ -69,14 +70,29 @@ namespace miheev
       }
       T& operator++()
       {
+        cur_ = cur_->next_;
+        return *cur_;
       }
       T& operator++(int)
       {
-        return *(cur_++);
+        T* copy = cur_;
+        cur_ = cur_->next_;
+        return *copy;
       }
       T& operator+(size_t n)
       {
-        return *(cur_ + n);
+        for (; n > 0; n--)
+        {
+          this++;
+        }
+      }
+      T& operator*()
+      {
+        return cur_->data;
+      }
+      T* operator->()
+      {
+        return std::addressof(cur_->data);
       }
     };
   };
