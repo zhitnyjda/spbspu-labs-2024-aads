@@ -58,25 +58,24 @@ namespace miheev
       return nullptr;
     }
 
-    class Iterator
+    struct Iterator
     {
-    private:
-      T* cur_;
+      T* cur;
 
-    public:
+      using this_t = List< T >::Iterator;
       Iterator(T* head)
       {
-        cur_ = head;
+        cur = head;
       }
       T& operator++()
       {
-        cur_ = cur_->next_;
-        return *cur_;
+        cur = cur->next_;
+        return *cur;
       }
       T& operator++(int)
       {
-        T* copy = cur_;
-        cur_ = cur_->next_;
+        T* copy = cur;
+        cur = cur->next_;
         return *copy;
       }
       T& operator+(size_t n)
@@ -88,11 +87,20 @@ namespace miheev
       }
       T& operator*()
       {
-        return cur_->data;
+        return cur->data;
       }
       T* operator->()
       {
-        return std::addressof(cur_->data);
+        return std::addressof(cur->data);
+      }
+
+      bool operator!=(const this_t & rhs) const
+      {
+        return cur != rhs.cur;
+      }
+      bool operator==(const this_t & rhs) const
+      {
+        return cur == rhs.cur;
       }
     };
   };
