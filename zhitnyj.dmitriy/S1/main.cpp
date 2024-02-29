@@ -13,8 +13,8 @@ int main()
     std::string name;
     iss >> name;
 
-    List<unsigned long long> sequence;
-    unsigned long long number;
+    List<int> sequence;
+    int number;
     while (iss >> number)
     {
       sequence.push_front(number);
