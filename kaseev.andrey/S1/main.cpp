@@ -1,11 +1,12 @@
 #include <iostream>
-#include <cstring>
+#include <string>
+#include <limits>
 #include "MaineArray.hpp"
 
 int main()
 {
-  kaseev::List<std::pair<char[100], kaseev::List<int>>> arr;
-  char ListName[100];
+  kaseev::List<std::pair<std::string, kaseev::List<int>>> arr;
+  std::string ListName;
   int List;
   while (true)
   {
@@ -13,15 +14,16 @@ int main()
     {
       break;
     }
-    kaseev::List<int> numbers;
+    kaseev::List<int> tempList;
     while (std::cin.peek() != '\n' && std::cin >> List)
     {
-      numbers.pushBack(List);
+      tempList.pushBack(List);
     }
-    std::pair<char[100], kaseev::List<int>> list_pair;
-    std::strcpy(list_pair.first, ListName);
-    list_pair.second = numbers;
+    std::pair<std::string, kaseev::List<int>> list_pair;
+    list_pair.first = ListName;
+    list_pair.second = tempList;
     arr.pushBack(list_pair);
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     if (std::cin.eof())
     {
       break;
@@ -29,7 +31,7 @@ int main()
   }
   for (size_t i = 0; i < arr.size(); ++i)
   {
-    std::pair<char[100], kaseev::List<int>> list = arr[i];
+    std::pair<std::string, kaseev::List<int>> list = arr[i];
     std::cout << list.first << " ";
   }
   std::cout << "\n";
@@ -46,11 +48,11 @@ int main()
     finished = true;
     for (size_t i = 0; i < arr.size(); ++i)
     {
-      std::pair<char[100], kaseev::List<int>> list = arr[i];
+      std::pair<std::string, kaseev::List<int>> list = arr[i];
       if (index < list.second.size())
       {
         std::cout << list.second[index] << " ";
-        sum[index] += list.second[index];
+        sum.pushBack(list.second[index]);
         finished = false;
       }
     }
@@ -69,9 +71,9 @@ int main()
 }
 
 
-/*first 1 1 1
+/*
+first 1 1 1
 second 2 2 2 2
 third
 fourth 4 4
- */
-
+*/
