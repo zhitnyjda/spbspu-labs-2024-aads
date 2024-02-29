@@ -19,6 +19,7 @@ namespace khoroshkin
     void pop_front();
     void clear();
     size_t getSize();
+    bool isEmpty();
     T & operator[](const size_t index);
     ListIterator< T > begin();
     ListIterator< T > end();
@@ -92,6 +93,12 @@ template < typename T >
 size_t khoroshkin::List< T >::getSize()
 {
   return size;
+}
+
+template < typename T >
+bool khoroshkin::List< T >::isEmpty()
+{
+  return head == nullptr;
 }
 
 template < typename T >
