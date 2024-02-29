@@ -40,7 +40,8 @@ int main()
   {
     std::cout << 0;
   }
-  for (size_t i = 0; i <= count; i++)
+
+  /*for (size_t i = 0; i <= count; i++)
   {
     std::cout << allPairs[i].first;
     i == count ? std::cout << "\n" : std::cout << " ";
@@ -71,6 +72,6 @@ int main()
     }
     std::cout << sum;
     i + 1 == maxLength ? std::cout << "\n" : std::cout << " ";
-  }
+  }*/
   return 0;
 }

@@ -2,6 +2,7 @@
 #define LIST_HPP
 
 #include "node.hpp"
+#include "listIterator.hpp"
 #include <cstddef>
 #include <stdexcept>
 
@@ -19,6 +20,8 @@ namespace khoroshkin
     void clear();
     size_t getSize();
     T & operator[](const size_t index);
+    ListIterator< T > begin();
+    ListIterator< T > end();
 
   private:
     size_t size;
@@ -95,6 +98,23 @@ template < typename T >
 khoroshkin::List< T >::~List()
 {
   clear();
+}
+
+template < typename T >
+khoroshkin::ListIterator< T > khoroshkin::List< T >::begin()
+{
+  return this->head;
+}
+
+template < typename T >
+khoroshkin::ListIterator< T > khoroshkin::List< T >::end()
+{
+  Node< T > * subhead = head;
+  while (subhead)
+  {
+    subhead = subhead->pNext;
+  }
+  return subhead;
 }
 
 #endif
