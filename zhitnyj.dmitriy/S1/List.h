@@ -80,11 +80,6 @@ public:
       head = std::make_shared<Node>(data, head);
     }
 
-    bool empty() const
-    {
-      return head == nullptr;
-    }
-
     Iterator begin() const
     {
       return Iterator(head);
