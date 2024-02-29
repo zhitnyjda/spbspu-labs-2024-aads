@@ -3,9 +3,9 @@
 #include <vector>
 #include <algorithm>
 
-void SequenceHandler::addSequence(const std::string& name, const List<unsigned long long>& sequence)
+void SequenceHandler::addSequence(const std::string& name, const List<int>& sequence)
 {
-  sequences.push_back({ name, sequence });
+  sequences[name] = sequence;
 }
 
 void SequenceHandler::printSequences()
