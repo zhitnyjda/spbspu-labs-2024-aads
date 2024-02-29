@@ -11,7 +11,7 @@ int main()
   pair_list seqs{};
 
   redko::Iterator< std::pair< std::string, redko::List< int > > > currSeq = seqs.beforeBegin();
-
+  int value = 0;
   while (!std::cin.eof())
   {
     std::getline(std::cin, seq);
@@ -22,7 +22,17 @@ int main()
       currSeq++;
       while (!seq.empty())
       {
-        currSeq->second.pushBack(redko::cutValue(seq));
+        try
+        {
+          value = redko::cutValue(seq);
+        }
+        catch (const std::out_of_range & e)
+        {
+          std::cerr << "Error: value overflow\n";
+          seqs.clear();
+          return 1;
+        }
+        currSeq->second.pushBack(value);
       }
     }
   }
@@ -31,7 +41,7 @@ int main()
     std::cout << "0\n";
     return 0;
   }
-  redko::List<int> sums{};
+  redko::List< int > sums{};
   redko::Iterator< std::pair< std::string, redko::List< int > > > outSeq = seqs.begin();
   std::cout << outSeq->first;
   outSeq++;

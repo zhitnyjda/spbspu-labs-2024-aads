@@ -1,7 +1,8 @@
 #include "inputFunctions.hpp"
 int redko::cutValue(std::string & str)
 {
-  int m = std::stoi(str.substr(0, str.find_first_of(" ", 0)));  if (str.find_first_of(" ") == std::string::npos)
+  int value = std::stoi(str.substr(0, str.find_first_of(" ", 0)));
+  if (str.find_first_of(" ") == std::string::npos)
   {
     str = "";
   }
@@ -9,12 +10,13 @@ int redko::cutValue(std::string & str)
   {
     str = str.substr(str.find_first_of(" ") + 1);
   }
-  return m;
+  return value;
 }
 
 std::string redko::cutName(std::string& str)
 {
-  std::string n = str.substr(0, str.find_first_of(" ", 0));  if (str.find_first_of(" ") == std::string::npos)
+  std::string name = str.substr(0, str.find_first_of(" ", 0));
+  if (str.find_first_of(" ") == std::string::npos)
   {
     str = "";
   }
@@ -22,5 +24,5 @@ std::string redko::cutName(std::string& str)
   {
     str = str.substr(str.find_first_of(" ") + 1);
   }
-  return n;
+  return name;
 }
