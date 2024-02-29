@@ -7,10 +7,10 @@
 
 class SequenceHandler
 {
-    std::vector<std::pair<std::string, List<unsigned long long>>> sequences;
+    std::map<std::string, List<int>> sequences;
 
 public:
-    void addSequence(const std::string& name, const List<unsigned long long>& sequence);
+    void addSequence(const std::string& name, const List<int>& sequence);
     void printSequences();
     void rearrangeAndPrint();
 };
