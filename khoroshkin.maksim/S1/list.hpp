@@ -1,6 +1,7 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 
+#include "node.hpp"
 #include <cstddef>
 #include <stdexcept>
 
@@ -11,40 +12,24 @@ namespace khoroshkin
   {
   public:
     List();
-    ~List() = default;
+    ~List();
 
     void push_back(T data);
     void pop_front();
     void clear();
-    size_t GetSize() {return Size;};
+    size_t getSize();
     T & operator[](const size_t index);
 
   private:
-    template< typename S >
-    class Node
-    {
-    public:
-      S data;
-      Node< S >  * pNext;
-
-      Node(S data = S(), Node * pNext = nullptr)
-      {
-        this->data = data;
-        this->pNext = pNext;
-      }
-    };
-
-    size_t Size;
+    size_t size;
     Node< T > * head;
   };
 }
 
 template< typename T >
-khoroshkin::List< T >::List()
-{
-  Size = 0;
-  head = nullptr;
-}
+khoroshkin::List< T >::List() :
+  size(0), head(nullptr)
+{}
 
 template< typename T >
 void khoroshkin::List< T >::push_back(T data)
@@ -62,7 +47,7 @@ void khoroshkin::List< T >::push_back(T data)
     }
     current->pNext = new Node< T >(data);
   }
-  Size++;
+  size++;
 }
 
 template< typename T >
@@ -88,16 +73,28 @@ void khoroshkin::List< T >::pop_front()
   Node< T > * temp = head;
   head = head->pNext;
   delete temp;
-  Size--;
+  size--;
 }
 
 template < typename T >
 void khoroshkin::List< T >::clear()
 {
-  while (Size)
+  while (size)
   {
     pop_front();
   }
+}
+
+template < typename T >
+size_t khoroshkin::List< T >::getSize()
+{
+  return size;
+}
+
+template < typename T >
+khoroshkin::List< T >::~List()
+{
+  clear();
 }
 
 #endif
