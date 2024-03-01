@@ -9,9 +9,11 @@ public:
   List();
   ~List();
 
+  void push_front(T data);
   void push_back(T data);
   void pop_front();
   void pop_back();
+  void clear();
   bool is_empty();
 
 private:
@@ -31,6 +33,24 @@ List<T>::List()
 template<typename T>
 List<T>::~List()
 {
+}
+
+template<typename T>
+inline void List<T>::push_front(T data)
+{
+  Node<T>* nd = new Node<T>(data);
+  if (head == nullptr)
+  {
+    head = nd;
+  }
+  else 
+  {
+    Node<T>* actual = head;
+    nd->pNext = actual;
+    head = nd;
+  }
+  size_l++;
+  
 }
 
 template<typename T>
@@ -66,12 +86,22 @@ template<typename T>
 void List<T>::pop_back()
 {
   Node<T>* actual = head;
-  for (size_t i = 0; i < size_l; i++)
+  for (size_t i = 0; i < (size_l - 1); i++)
   {
     actual = actual->pNext;
   }
   delete actual;
+  size_l--;
+}
 
+template<typename T>
+void List<T>::clear()
+{
+  size_t size = size_l;
+  for (size_t i = 0; i < size; i++)
+  {
+    pop_front();
+  }
 }
 
 template<typename T>
