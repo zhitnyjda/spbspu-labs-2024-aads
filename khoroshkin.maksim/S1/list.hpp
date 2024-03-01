@@ -2,7 +2,7 @@
 #define LIST_HPP
 
 #include "node.hpp"
-#include "listIterator.hpp"
+#include "iterator.hpp"
 #include <cstddef>
 #include <stdexcept>
 
@@ -14,6 +14,8 @@ namespace khoroshkin
   public:
     List();
     ~List();
+    List(const List & obj);
+
 
     void push_back(T data);
     void pop_front();
@@ -34,6 +36,20 @@ template< typename T >
 khoroshkin::List< T >::List() :
   size(0), head(nullptr)
 {}
+
+template < typename T >
+khoroshkin::List< T >::List(const khoroshkin::List< T > & obj)
+{
+  if (obj.head == nullptr)
+  {
+    head = nullptr;
+  }
+  else
+  {
+    head = new Node< T >(*obj.head);
+  }
+  size = obj.size;
+}
 
 template< typename T >
 void khoroshkin::List< T >::push_back(T data)
@@ -98,7 +114,7 @@ size_t khoroshkin::List< T >::getSize()
 template < typename T >
 bool khoroshkin::List< T >::isEmpty()
 {
-  return head == nullptr;
+  return !head;
 }
 
 template < typename T >

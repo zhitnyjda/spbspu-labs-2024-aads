@@ -47,22 +47,22 @@ khoroshkin::ListIterator< T > khoroshkin::ListIterator< T >::operator++(int)
   return result;
 }
 
-template< typename T > 
+template< typename T >
 T & khoroshkin::ListIterator< T >::operator*() {
   return node->data;
 }
 
-template< typename T > 
+template< typename T >
 T * khoroshkin::ListIterator< T >::operator->() {
   return std::addressof(node->data);
 }
 
-template< typename T > 
+template< typename T >
 bool khoroshkin::ListIterator< T >::operator!=(const khoroshkin::ListIterator< T > & rhs) const {
   return !(rhs == *this);
 }
 
-template< typename T > 
+template< typename T >
 bool khoroshkin::ListIterator< T >::operator==(const khoroshkin::ListIterator< T > & rhs) const {
   return node == rhs.node;
 }
