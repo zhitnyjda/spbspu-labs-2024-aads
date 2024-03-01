@@ -85,7 +85,7 @@ namespace litsinger
     if (ptr != nullptr)
     {
       ptr->next = nullptr;
-    } 
+    }
     delete tail;
     tail = ptr;
     size--;
