@@ -1,6 +1,6 @@
 #ifndef LIST_HPP
 #define LIST_HPP
-#include <stddef.h> // для size_t
+#include <stddef.h>
 #include <iostream>
 #include <string>
 
@@ -22,25 +22,25 @@ namespace mihalchenko
     void clear();
     size_t getSize() { return size_; };
 
-    Iterator<T> begin() const
+    /*Iterator<T> begin() const
     {
       return Iterator(begin_);
     }
     Iterator<T> end() const
     {
       return Iterator(nullptr);
-    }
+    }*/
 
   private:
     template <typename U>
     class Iterator
     {
     public:
-      U &operator=(const U &); // = default; // потом глянуть, мб полю data_ присваивать значение параметра data, не учитывая указатель на след. элемент
-      U &operator++();         // преинкремент, передается по ссылке, так как пользователь может его изменять до действия с ним
-      U operator++(int);       // постинкремент, в отличие от преинкремента, не имеет ссылки, да и принимает параметр int
-      U &operator*();          // + const-версия
-      U *operator->();         // + const-версия
+      U &operator=(const U &);
+      U &operator++();
+      U operator++(int);
+      U &operator*();
+      U *operator->();
 
       bool operator==(const U &) const;
       bool operator!=(const U &) const;
