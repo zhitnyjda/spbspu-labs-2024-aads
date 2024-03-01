@@ -4,7 +4,7 @@
 
 using namespace khoroshkin;
 
-void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, List< int > > > & allPairs, size_t maxLength)
+void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, List< int > > > & allPairs, int maxLength)
 {
   for (auto it = allPairs.begin(); it != allPairs.end(); ++it)
   {
