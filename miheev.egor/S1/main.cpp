@@ -1,47 +1,68 @@
 #include <iostream>
+#include <sstream>
 #include <utility>
 #include <string>
 #include "list.hpp"
-#include "utils.hpp"
+
+using SI_pair = typename std::pair< std::string, miheev::List< int > >;
+
+void expandPairsArr(SI_pair*& pairs, size_t& size)
+{
+  const size_t additionalSize = 5;
+  SI_pair* copy = new SI_pair[size + additionalSize];
+  for (size_t i = 0; i < size; i++)
+  {
+    copy[i] = pairs[i];
+  }
+  size += additionalSize;
+  delete [] pairs;
+  pairs = copy;
+}
+
+miheev::List< int > readNumbers(std::istringstream& stream)
+{
+  int number = 0;
+  stream >> number;
+
+  miheev::List< int > list(number);
+
+  while(stream >> number)
+  {
+    std::cout << "the number is " << number << '\n';
+    list.pushBack(number);
+  }
+  list.print();
+  return list;
+}
+
+SI_pair readLine()
+{
+  std::string line;
+  std::getline(std::cin, line);
+  std::istringstream stream(line);
+
+  SI_pair pair;
+  stream >> pair.first; // reading word
+  pair.second = readNumbers(stream);
+
+  return pair;
+}
 
 int main()
 {
   using namespace miheev;
-  using SI_pair = std::pair< std::string, List< int > >;
 
   size_t pairsSize = 5;
   SI_pair* pairs = new SI_pair[pairsSize];
   size_t unusedIndex = 0;
 
-  SI_pair curPair;
-  std::string word;
-  int number = 0;
   while (!std::cin.eof())
   {
-    std::cin >> word;
-    std::cout << word << '\n';
-    curPair.first = word;
-
-    size_t index = 0;
-    while (std::cin)
+    if (unusedIndex >= pairsSize)
     {
-      std::cin >> number;
-      std::cout << number << '\n';
-      if (index == 0)
-      {
-        curPair.second = List< int >(number);
-      }
-      else
-      {
-        curPair.second.pushBack(number);
-      }
-      index++;
+      expandPairsArr(pairs, pairsSize);
     }
-    if (unusedIndex == pairsSize)
-    {
-      copyWithExpand(pairs, pairsSize);
-    }
-    pairs[unusedIndex] = curPair;
+    pairs[unusedIndex] = readLine();
     unusedIndex++;
   }
 

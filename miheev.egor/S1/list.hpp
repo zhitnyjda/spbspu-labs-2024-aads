@@ -2,6 +2,7 @@
 #define LIST_HPP
 
 #include <cstddef>
+#include <iostream>
 #include <memory>
 
 namespace miheev
@@ -18,18 +19,25 @@ namespace miheev
       data_(data),
       next_(nullptr)
     {}
+
     ~List()
     {
-      if (next_ != nullptr)
+      std::cout << "deleting\n";
+      std::cout << "data_ = " << data_ << '\n';
+      std::cout << "next_ = " << next_ << '\n';
+      if (next_)
       {
         delete next_;
       }
     }
+
     List() = default;
+
     void pushBack(T data)
     {
       if (next_ == nullptr)
       {
+        std::cout << "input data = " << data << '\n';
         next_ = new List< T >(data);
       }
       else
@@ -37,6 +45,7 @@ namespace miheev
         next_->pushBack(data);
       }
     }
+
     T& operator[](size_t i)
     {
       if (i == 0)
@@ -46,6 +55,19 @@ namespace miheev
       else
       {
         return next_[i-1];
+      }
+    }
+
+    void print(std::ostream& stream = std::cout, const char& splitter = ' ') const
+    {
+      stream << data_ << splitter;
+      if (next_)
+      {
+        next_->print(stream, splitter);
+      }
+      else
+      {
+        std::cout << '\n';
       }
     }
 
