@@ -16,7 +16,6 @@ namespace khoroshkin
     ~List();
     List(const List & obj);
 
-
     void push_back(T data);
     void pop_front();
     void clear();
@@ -26,6 +25,7 @@ namespace khoroshkin
     ListIterator< T > begin();
     ListIterator< T > end();
 
+    ListIterator< T > next(ListIterator< T > it);
   private:
     size_t size;
     Node< T > * head;
@@ -68,6 +68,12 @@ void khoroshkin::List< T >::push_back(T data)
     current->pNext = new Node< T >(data);
   }
   size++;
+}
+
+template < typename T >
+khoroshkin::ListIterator< T > khoroshkin::List< T >::next(khoroshkin::ListIterator< T > it)
+{
+  return ++it;
 }
 
 template< typename T >

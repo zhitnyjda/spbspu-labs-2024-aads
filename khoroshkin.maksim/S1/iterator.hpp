@@ -2,6 +2,7 @@
 #define LISTITERATOR_HPP
 
 #include "node.hpp"
+#include <memory>
 
 namespace khoroshkin
 {
@@ -24,6 +25,8 @@ namespace khoroshkin
 
     bool operator!=(const ListIterator< T > &) const;
     bool operator==(const ListIterator< T > &) const;
+
+    T next(T it);
   };
 }
 
@@ -37,6 +40,12 @@ khoroshkin::ListIterator< T > & khoroshkin::ListIterator< T >::operator++()
 {
   node = node->pNext;
   return *this;
+}
+
+template < typename T >
+T khoroshkin::ListIterator< T >::next(T it)
+{
+  return ++it;
 }
 
 template < typename T >
