@@ -42,15 +42,15 @@ int main()
   {
     printResult(std::cout, allPairs, maxLength);
   }
-  catch(const std::logic_error & e)
-  {
-    std::cout << 0 << '\n';
-    return 0;
-  }
   catch(const std::out_of_range & e)
   {
     std::cerr << e.what() << '\n';
     return 1;
+  }
+  catch(const std::logic_error & e)
+  {
+    std::cout << 0 << '\n';
+    return 0;
   }
   return 0;
 }
