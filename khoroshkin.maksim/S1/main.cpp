@@ -12,7 +12,7 @@ int main()
   List< std::pair< std::string, List< int > > > allPairs;
   std::string input;
   size_t count = -1;
-  size_t maxLength = 0;
+  int maxLength = 0;
   while (std::cin >> input)
   {
     if (isdigit(input[0]))

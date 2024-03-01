@@ -17,7 +17,7 @@ void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, L
     throw std::logic_error("Empty list");
   }
 
-  for (size_t i = 0; i < maxLength; i++)
+  for (int i = 0; i < maxLength; i++)
   {
     for (auto it = allPairs.begin(); it != allPairs.end(); it++)
     {
@@ -29,7 +29,7 @@ void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, L
     }
   }
 
-  for (size_t i = 0; i < maxLength; i++)
+  for (int i = 0; i < maxLength; i++)
   {
     long long sum = 0;
     for (auto it = allPairs.begin(); it != allPairs.end(); it++)
