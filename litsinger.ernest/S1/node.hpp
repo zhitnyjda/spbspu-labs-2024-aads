@@ -10,8 +10,14 @@ namespace litsinger
     Node(T data);
     ~Node() = default;
     T data;
-    Node* prev;
-    Node* next;
+    Node< T > * prev;
+    Node< T > * next;
+    template<typename T>
+    inline Node<T>::Node(T data)
+    {
+      this->data = data;
+      this->next = this->prev = nullptr;
+    }
   };
 }
 #endif
