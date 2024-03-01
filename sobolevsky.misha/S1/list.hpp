@@ -8,8 +8,8 @@ class List
   public:
     List()
     {
-      head = NULL;
-      tail = NULL;
+      Node * head = NULL;
+      Node * tail = NULL;
     }
 
     Node * pushFront(T data)
@@ -31,10 +31,10 @@ class List
     Node * pushBack(T data)
     {
       Node * ptr = new Node(data);
-      ptr->next = tail;
+      ptr->prev = tail;
       if (tail != NULL)
       {
-        tail->prev = ptr;
+        tail->next = ptr;
       }
       if (head == NULL)
       {
@@ -43,7 +43,35 @@ class List
       tail = ptr;
       return ptr;
     }
-    void pop();
+
+    void popFront()
+    {
+      if (head == NULL)
+      {
+        return;
+      }
+
+      Node * ptr = head->next;
+      ptr == NULL ? (tail == NULL) : (ptr->prev = NULL);
+
+      delete head;
+      head = ptr;
+    }
+
+    void popBack()
+    {
+      if (tail == NULL)
+      {
+        return;
+      }
+
+      Node * ptr = tail->prev;
+      ptr == NULL ? (head == NULL) : (ptr->next = NULL);
+
+      delete tail;
+      tail = ptr;
+    }
+
     void clear();
     void swap();
   private:
