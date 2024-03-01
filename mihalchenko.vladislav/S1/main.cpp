@@ -25,11 +25,11 @@ int main()
     std::cout << list[it] << std::setw(4);
   }
 
-  auto iterator = list::Iterator(list.begin());
+  std::cout << list.begin();
 
-  for (auto it = list; it != list.end(); ++it)
+  /*for (auto it = list.begin(); it != list.end(); ++it)
   {
     std::cout<< *it;
-  }
+  }*/
   return 0;
 }

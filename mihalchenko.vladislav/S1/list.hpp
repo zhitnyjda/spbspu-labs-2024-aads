@@ -22,8 +22,14 @@ namespace mihalchenko
     void clear();
     size_t getSize() { return size_; };
 
-    Iterator<T> begin() const;
-    Iterator<T> end() const;
+    Iterator<T> begin() const
+    {
+      return Iterator(begin_);
+    }
+    Iterator<T> end() const
+    {
+      return Iterator(nullptr);
+    }
 
   private:
     template <typename U>
@@ -50,14 +56,13 @@ namespace mihalchenko
         pNext_ = pNext;
       }
 
-      ListIterator *pNext_;
+      Iterator *pNext_;
       U data_;
     };
 
     Iterator<T> *begin_;
     // ListIterator<T> *end_;
     size_t size_;
-    Iterator<T> *mainBegin_;
   };
 
   template <typename T>
@@ -76,11 +81,7 @@ namespace mihalchenko
   template <typename T>
   void mihalchenko::List<T>::push_front(T data)
   {
-    begin_ = new ListIterator<T>(data, begin_);
-    if (size == 0)
-    {
-      mainBegin = begin_;
-    }
+    begin_ = new Iterator<T>(data, begin_);
     size_++;
   }
 
@@ -90,10 +91,6 @@ namespace mihalchenko
     if (begin_ == nullptr)
     {
       begin_ = new Iterator<T>(data);
-      if (size == 0)
-      {
-        mainBegin = begin_;
-      }
     }
     else
     {
@@ -188,6 +185,18 @@ namespace mihalchenko
     }
   }
 
+  /*template <typename T>
+  mihalchenko::List<T>::Iterator<T> mihalchenko::List<T>::begin() const
+  {
+    return Iterator(begin_);
+  }
+
+  template <typename T>
+  mihalchenko::List<T>::Iterator<T> mihalchenko::List<T>::end() const
+  {
+    return Iterator(nullptr);
+  }*/
+
   template <typename T>
   template <typename U>
   U &mihalchenko::List<T>::Iterator<U>::operator++()
@@ -231,19 +240,6 @@ namespace mihalchenko
   bool mihalchenko::List<T>::Iterator<U>::operator!=(const U &rhs) const
   {
     return !(rhs == *this);
-  }
-
-  template <typename T>
-  mihalchenko::List<T>::Iterator<T> mihalchenko::List<T>::begin() const
-  {
-    return Iterator(mainBegin_);
-  }
-
-  template <typename T>
-  // template <typename U>
-  mihalchenko::List<T>::Iterator<T> mihalchenko::List<T>::end() const
-  {
-    return Iterator(nullptr);
   }
 }
 
