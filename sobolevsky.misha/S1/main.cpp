@@ -1,12 +1,14 @@
 #include <iostream>
+#include <vector>
 #include "list.hpp"
 
 int main()
 {
-  List< int > * head = new List< int >{0, nullptr, nullptr};
-  List< int > * tail = head;
-  head->next = new List< int >{1, nullptr, head};
-  tail = head->tail;
+  List< int > list;
+  list.pushBack(2);
+  list.pushBack(56);
+  list.pushBack(7);
 
+  list.clear();
   return 0;
 }

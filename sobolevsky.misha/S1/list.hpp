@@ -1,6 +1,7 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 #include "node.hpp"
+#include "iterator.hpp"
 
 template< class T >
 class List
@@ -25,6 +26,7 @@ class List
         tail = ptr;
       }
       head = ptr;
+      size++;
       return ptr;
     }
 
@@ -41,6 +43,7 @@ class List
         head = ptr;
       }
       tail = ptr;
+      size++;
       return ptr;
     }
 
@@ -55,6 +58,7 @@ class List
       ptr == NULL ? (tail == NULL) : (ptr->prev = NULL);
 
       delete head;
+      size--;
       head = ptr;
     }
 
@@ -69,21 +73,23 @@ class List
       ptr == NULL ? (head == NULL) : (ptr->next = NULL);
 
       delete tail;
+      size--;
       tail = ptr;
     }
 
-    void clear();
+    void clear()
+    {
+      while (head != NULL)
+      {
+        popFront();
+      }
+    }
+
     void swap();
   private:
     Node * head;
     Node * tail;
     size_t size;
 };
-
-template< class T >
-using ds_t = List< T >;
-
-template< class T >
-using in_lst = typename ds_t< T >::Node< T >;
 
 #endif

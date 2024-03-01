@@ -15,6 +15,7 @@ private:
   Node * next;
   Node * prev;
   T data;
+  char Name;
 };
 
 #endif
