@@ -1,6 +1,7 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 #include "node.hpp"
+#include "iterator.hpp"
 
 template <typename T>
 class List
@@ -16,9 +17,13 @@ public:
   void clear();
   bool is_empty();
 
+  Iterator<T> begin() const;
+  Iterator<T> end() const;
+  size_t size() const;
+
 private:
 
-  Node<T>* head;
+  Node<T>* head; 
   size_t size_l;
 };
 
@@ -70,7 +75,7 @@ void List<T>::push_back(T data)
     }
     actual->pNext = nd;
   }
-  ++size_l;
+  size_l++;
 }
 
 template<typename T>
@@ -112,6 +117,29 @@ bool List<T>::is_empty()
     return true;
   }
   return false;
+}
+
+
+template<typename T>
+Iterator<T> List<T>::begin() const
+{
+  return Iterator<T>(head);
+}
+
+template<typename T>
+Iterator<T> List<T>::end() const
+{
+  return Iterator<T>(nullptr);
+}
+
+template<typename T>
+size_t List<T>::size() const
+{
+  size_t s = 0;
+  for (Iterator it = begin(); it != end(); ++it) {
+    s++;
+  }
+  return s;
 }
 
 #endif
