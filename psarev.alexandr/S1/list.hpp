@@ -60,9 +60,9 @@ T& psarev::List< T >::operator[](const size_t index)
 template< typename T >
 void psarev::List< T >::popFront()
 {
-  Unit< T >* interim = head;
+  Unit< T >* tempo = head;
   head = head->next;
-  delete[] interim;
+  delete[] tempo;
 
   size--;
 }
@@ -112,13 +112,15 @@ void psarev::List<T>::insert(T data, size_t index)
   }
   else
   {
-    Unit< T >* pre = this->head;
+    Unit< T >* previous = this->head;
     for (size_t i = 0; i < (index - 1); i++)
     {
-      pre = pre->next;
+      previous = previous->next;
     }
 
-    pre->next = new Unit< T >(data, pre->next);
+    previous->next = new Unit< T >(data, previous->next, previous);
+    previous = previous->next;
+    previous->next->previous = previous;
     size++;
   }
 }
@@ -132,14 +134,15 @@ void psarev::List<T>::remove(size_t index)
   }
   else
   {
-    Unit< T >* pre = this->head;
+    Unit< T >* previous = this->head;
     for (size_t i = 0; i < (index - 1); i++)
     {
-      pre = pre->next;
+      previous = previous->next;
     }
 
-    Unit< T >* removable = pre->next;
-    pre->next = removable->next;
+    Unit< T >* removable = previous->next;
+    previous->next = removable->next;
+    removable->next->prev = previous;
     delete removable;
     size--;
   }

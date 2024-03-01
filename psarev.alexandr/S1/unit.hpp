@@ -16,7 +16,7 @@ namespace psarev
   template< typename T >
   psarev::Unit< T >::Unit(T data, Unit* next, Unit* prev)
   {
-    this->data = T();
+    this->data = data;
     this->next = next;
     this->prev = prev;
   }
