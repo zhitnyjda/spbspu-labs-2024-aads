@@ -2,7 +2,6 @@
 #define LIST_HPP
 #include "node.hpp"
 
-
 template <typename T>
 class List
 {
@@ -21,34 +20,6 @@ private:
 	size_t size_l;
 };
 
-
-template <typename T>
-class Iterator
-{
-public:
-	Iterator();
-	~Iterator() = default;
-
-	T& operator*();
-	const T& operator*() const;
-	T* operator->();
-	const T* operator->() const;
-
-
-private:
-	Node<T>* pNode;
-	const List<T>* this_list;
-};
-
-
-
-
-
-
-
-////////////
-/*List*/
-////////////
 
 template<typename T>
 List<T>::List()
@@ -111,42 +82,6 @@ bool List<T>::is_empty()
 		return true;
 	}
 	return false;
-}
-
-
-
-
-
-
-////////////
-/*Iterator*/
-////////////
-
-template<typename T>
-Iterator<T>::Iterator() : pNode(nullptr) {}
-
-template<typename T>
-T& Iterator<T>::operator*()
-{
-	return pNode->data;
-}
-
-template<typename T>
-const T& Iterator<T>::operator*() const
-{
-	return pNode->data;
-}
-
-template<typename T>
-T* Iterator<T>::operator->()
-{
-	return &(pNode->data);
-}
-
-template<typename T>
-const T* Iterator<T>::operator->() const
-{
-	return &(pNode->data);
 }
 
 #endif 

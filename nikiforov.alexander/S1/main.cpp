@@ -2,7 +2,6 @@
 #include <cstddef>
 #include "list.hpp"
 
-
 int main()
 {
 	List<int> lst;
@@ -11,9 +10,5 @@ int main()
 	lst.push_back(4);
 	lst.push_back(9);
 	lst.push_back(1);
-	
-
 	return 0;
 }
-
-
