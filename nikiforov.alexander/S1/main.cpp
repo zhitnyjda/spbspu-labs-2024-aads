@@ -4,24 +4,25 @@
 
 int main()
 {
-  List<int> lst;
+  using namespace nikiforov;
 
-  bool empty = lst.is_empty();
-  lst.push_back(3);
-  lst.push_back(6);
-  lst.push_back(10);
-  lst.push_front(4);
-  lst.push_front(3);
-  lst.push_front(4);
-  auto it_begin = lst.begin();
-  auto it_end = lst.end();
-  std::cout << *it_begin;
-  it_begin++;
-  bool b = it_begin == it_end;
-  std::cout << b;
-  std::cout << *it_begin;
-  lst.pop_back();
-  lst.pop_back();
-  lst.clear();
+  List<int> lst;
+  std::string name;
+  int num = 0;
+
+  std::pair<std::string, List<int>> list_pair;
+
+  while (!std::cin.eof())
+  {
+    if (true)
+    {
+
+    }
+    else 
+    {
+
+    }
+
+  }
   return 0;
 }

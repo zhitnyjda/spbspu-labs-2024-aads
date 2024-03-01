@@ -3,143 +3,142 @@
 #include "node.hpp"
 #include "iterator.hpp"
 
-template <typename T>
-class List
+namespace nikiforov
 {
-public:
-  List();
-  ~List();
-
-  void push_front(T data);
-  void push_back(T data);
-  void pop_front();
-  void pop_back();
-  void clear();
-  bool is_empty();
-
-  Iterator<T> begin() const;
-  Iterator<T> end() const;
-  size_t size() const;
-
-private:
-
-  Node<T>* head; 
-  size_t size_l;
-};
-
-
-template<typename T>
-List<T>::List()
-{
-  head = nullptr;
-  size_l = 0;
-}
-
-template<typename T>
-List<T>::~List()
-{
-}
-
-template<typename T>
-inline void List<T>::push_front(T data)
-{
-  Node<T>* nd = new Node<T>(data);
-  if (head == nullptr)
+  template <typename T>
+  class List
   {
-    head = nd;
-  }
-  else 
+  public:
+    List();
+    ~List();
+
+    void push_front(T data);
+    void push_back(T data);
+    void pop_front();
+    void pop_back();
+    void clear();
+    bool is_empty();
+
+    Iterator<T> begin() const;
+    Iterator<T> end() const;
+    size_t size() const;
+
+  private:
+
+    Node<T>* head; 
+    size_t size_l;
+  };
+
+
+  template<typename T>
+  List<T>::List()
   {
-    Node<T>* actual = head;
-    nd->pNext = actual;
-    head = nd;
+    head = nullptr;
+    size_l = 0;
   }
-  size_l++;
+
+  template<typename T>
+  List<T>::~List()
+  {
+  }
+
+  template<typename T>
+  inline void List<T>::push_front(T data)
+  {
+    Node<T>* nd = new Node<T>(data);
+    if (head == nullptr)
+    {
+      head = nd;
+    }
+    else 
+    {
+      Node<T>* actual = head;
+      nd->pNext = actual;
+      head = nd;
+    }
+    size_l++;
   
-}
-
-template<typename T>
-void List<T>::push_back(T data)
-{
-  Node<T>* nd = new Node<T>(data);
-  if (head == nullptr)
-  {
-    head = nd;
   }
-  else
+
+  template<typename T>
+  void List<T>::push_back(T data)
+  {
+    Node<T>* nd = new Node<T>(data);
+    if (head == nullptr)
+    {
+      head = nd;
+    }
+    else
+    {
+      Node<T>* actual = head;
+      while (actual->pNext != nullptr)
+      {
+        actual = actual->pNext;
+      }
+      actual->pNext = nd;
+    }
+    size_l++;
+  }
+
+  template<typename T>
+  void List<T>::pop_front()
   {
     Node<T>* actual = head;
-    while (actual->pNext != nullptr)
+    head = head->pNext;
+    delete actual;
+    size_l--;
+  }
+
+  template<typename T>
+  void List<T>::pop_back()
+  {
+    Node<T>* actual = head;
+    for (size_t i = 0; i < (size_l - 1); i++)
     {
       actual = actual->pNext;
     }
-    actual->pNext = nd;
+    delete actual;
+    size_l--;
   }
-  size_l++;
-}
 
-template<typename T>
-void List<T>::pop_front()
-{
-  Node<T>* actual = head;
-  head = head->pNext;
-  delete actual;
-  size_l--;
-}
-
-template<typename T>
-void List<T>::pop_back()
-{
-  Node<T>* actual = head;
-  for (size_t i = 0; i < (size_l - 1); i++)
+  template<typename T>
+  void List<T>::clear()
   {
-    actual = actual->pNext;
+    size_t size = size_l;
+    for (size_t i = 0; i < size; i++)
+    {
+      pop_front();
+    }
   }
-  delete actual;
-  size_l--;
-}
 
-template<typename T>
-void List<T>::clear()
-{
-  size_t size = size_l;
-  for (size_t i = 0; i < size; i++)
+  template<typename T>
+  bool List<T>::is_empty()
   {
-    pop_front();
+    if (head == nullptr)
+    {
+      return true;
+    }
+    return false;
   }
-}
 
-template<typename T>
-bool List<T>::is_empty()
-{
-  if (head == nullptr)
+
+  template<typename T>
+  Iterator<T> List<T>::begin() const
   {
-    return true;
+    return Iterator<T>(head);
   }
-  return false;
-}
 
-
-template<typename T>
-Iterator<T> List<T>::begin() const
-{
-  return Iterator<T>(head);
-}
-
-template<typename T>
-Iterator<T> List<T>::end() const
-{
-  return Iterator<T>(nullptr);
-}
-
-template<typename T>
-size_t List<T>::size() const
-{
-  size_t s = 0;
-  for (Iterator it = begin(); it != end(); ++it) {
-    s++;
+  template<typename T>
+  Iterator<T> List<T>::end() const
+  {
+    return Iterator<T>(nullptr);
   }
-  return s;
+
+  template<typename T>
+  size_t List<T>::size() const
+  {
+    return size_l;
+  }
 }
 
 #endif
