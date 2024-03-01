@@ -9,7 +9,7 @@ namespace litsinger
     Node();
     Node(T data);
     ~Node() = default;
-    T data_;
+    T data;
     Node* prev;
     Node* next;
   };
