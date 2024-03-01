@@ -20,12 +20,11 @@ namespace miheev
       next_(nullptr)
     {}
 
-    ~List()
+    ~List() = default;
+
+    void clear()
     {
-      std::cout << "deleting\n";
-      std::cout << "data_ = " << data_ << '\n';
-      std::cout << "next_ = " << next_ << '\n';
-      if (next_)
+      if (next_ != nullptr)
       {
         delete next_;
       }
@@ -37,7 +36,6 @@ namespace miheev
     {
       if (next_ == nullptr)
       {
-        std::cout << "input data = " << data << '\n';
         next_ = new List< T >(data);
       }
       else
@@ -85,6 +83,7 @@ namespace miheev
       T* cur;
 
       using this_t = List< T >::Iterator;
+      Iterator() = default;
       Iterator(T* head)
       {
         cur = head;

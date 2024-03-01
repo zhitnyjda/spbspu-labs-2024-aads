@@ -4,7 +4,8 @@
 #include <string>
 #include "list.hpp"
 
-using SI_pair = typename std::pair< std::string, miheev::List< int > >;
+using SI_pair = std::pair< std::string, miheev::List< int > >;
+using ListIter = miheev::List<int>::Iterator;
 
 void expandPairsArr(SI_pair*& pairs, size_t& size)
 {
@@ -28,7 +29,6 @@ miheev::List< int > readNumbers(std::istringstream& stream)
 
   while(stream >> number)
   {
-    std::cout << "the number is " << number << '\n';
     list.pushBack(number);
   }
   list.print();
@@ -66,6 +66,20 @@ int main()
     unusedIndex++;
   }
 
+  // print names
+  for (size_t i = 0; i < unusedIndex; i++)
+  {
+    std::cout << pairs[i].first << ' ';
+  }
+  std::cout << '\n';
+
+  List<int>::Iterator* iterators;
+  for (size_t i = 0; i < unusedIndex; i++)
+  {
+
+  }
+
+  delete[] pairs;
   return 0;
 }
 
