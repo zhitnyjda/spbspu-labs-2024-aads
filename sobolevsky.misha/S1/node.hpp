@@ -4,10 +4,17 @@
 template< class T >
 class Node
 {
-  private:
-    Node * next;
-    Node * prev;
-    T data;
+public:
+  Node(T data)
+  {
+    data = data;
+    prev = NULL;
+    next = NULL;
+  }
+private:
+  Node * next;
+  Node * prev;
+  T data;
 };
 
 #endif
