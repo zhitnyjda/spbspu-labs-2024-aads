@@ -7,7 +7,7 @@ namespace kaseev{
   {
   public:
     T data;
-    Node* next;
+    Node<T>* next;
 
     Node(const T& value) : data(value), next(nullptr) {}
   };
