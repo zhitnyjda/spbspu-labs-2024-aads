@@ -117,12 +117,4 @@ void lisitsyna::List<T>::insert(T data, int index)
     size++;
   }
 }
-
-
-template<typename T>
-void lisitsyna::List<T>::popBack()
-{
-  remove(size - 1);
-}
-
 #endif
