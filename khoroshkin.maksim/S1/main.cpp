@@ -1,6 +1,7 @@
 #include <iostream>
-#include <cstring>
+#include <string>
 #include <memory>
+#include <limits>
 #include "list.hpp"
 #include "funcs.hpp"
 
@@ -16,7 +17,15 @@ int main()
   {
     if (isdigit(input[0]))
     {
-      allPairs[count].second.push_back(std::stoll(input));
+      try
+      {
+        allPairs[count].second.push_back(std::stoll(input));
+      }
+      catch(const std::out_of_range & e)
+      {
+        std::cerr << e.what() << '\n';
+        return 1;
+      }
     }
     else
     {
@@ -28,16 +37,17 @@ int main()
       maxLength = allPairs[count].second.getSize();
     }
   }
-  if (allPairs[0].second.isEmpty())
-  {
-    std::cout << 0;
-    return 0;
-  }
+
   try
   {
     printResult(std::cout, allPairs, maxLength);
   }
-  catch(const std::exception & e)
+  catch(const std::logic_error & e)
+  {
+    std::cout << 0 << '\n';
+    return 0;
+  }
+  catch(const std::out_of_range & e)
   {
     std::cerr << e.what() << '\n';
     return 1;

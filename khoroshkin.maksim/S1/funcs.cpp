@@ -12,21 +12,20 @@ void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, L
     allPairs.next(it) == allPairs.end() ? std::cout << "\n" : std::cout << " ";
   }
 
+  if (allPairs[0].second.isEmpty())
+  {
+    throw std::logic_error("Empty list");
+  }
+
   for (size_t i = 0; i < maxLength; i++)
   {
-    bool emptyLine = true;
     for (auto it = allPairs.begin(); it != allPairs.end(); it++)
     {
       if ((*it).second.getSize() > i)
       {
         out << (*it).second[i];
-        (allPairs.next(it) == allPairs.end() || maxLength - 1 != i) ? std::cout << " " : std::cout << "\n";
-        emptyLine = false;
+        (allPairs.next(it) == allPairs.end()) ? out << "\n" : out << " ";
       }
-    }
-    if (!emptyLine && i != maxLength - 1)
-    {
-      out << "\n";
     }
   }
 
