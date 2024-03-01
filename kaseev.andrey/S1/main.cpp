@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include "MaineArray.hpp"
-#include "AdditionalFunctions.cpp"
+#include "AdditionalFunctions.hpp"
 
 int main() {
   kaseev::List<std::pair<std::string, kaseev::List<int>>> arr;
