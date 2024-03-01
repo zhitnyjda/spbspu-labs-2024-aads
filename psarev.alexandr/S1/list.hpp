@@ -1,5 +1,6 @@
 #ifndef LIST_HPP
 #define LIST_HPP
+#include "unit.hpp"
 #include <cstddef>
 
 namespace psarev
@@ -22,21 +23,6 @@ namespace psarev
     size_t getSize();
 
   private:
-    template< typename T >
-    class Unit
-    {
-    public:
-      Unit* next;
-      Unit* prev;
-      T data;
-      Unit(T data = T(), Unit* next = nullptr, Unit* prev = nullptr)
-      {
-        this->data = data;
-        this->next = next;
-        this->prev = prev;
-      }
-    };
-
     size_t size;
     Unit< T >* head;
   };
@@ -90,9 +76,11 @@ void psarev::List<T>::popBack()
 template<typename T>
 void psarev::List<T>::pushFront(T data)
 {
-  Unit< T >* interim = new Unit< T >(data, head);
-  head->prev = interim;
-  head = interim;
+  head = new Unit< T >(data, head);
+  if (size != 0)
+  {
+    head->next->prev = head;
+  }
   size++;
 }
 
@@ -140,7 +128,7 @@ void psarev::List<T>::remove(size_t index)
 {
   if (index == 0)
   {
-    popBack();
+    popFront();
   }
   else
   {
