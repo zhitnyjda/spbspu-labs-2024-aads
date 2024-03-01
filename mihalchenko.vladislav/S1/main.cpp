@@ -1,17 +1,35 @@
+#include <algorithm>
+// #include "Iterator.hpp"
+// #include "list.hpp"
 #include <iostream>
 #include <string>
+#include <iomanip> // setw
+
+// #include <utility>
 #include "list.hpp"
 
 using namespace mihalchenko;
 
 int main()
 {
-    std::cout << "Hello World" << std::endl;
-    List<int> lst;
-    lst.pushBack(5);
-    lst.pushBack(10);
-    lst.pushBack(22);
-    std::cout << lst[1] << std::endl;
+  std::cout << "Hello World" << std::endl;
 
-    return 0;
+  // std::pair<std::string, mihalchenko::List<int>> pairs[5];
+
+  List<int> list;
+  list.push_back(10);
+  list.push_back(123);
+
+  for (auto it = 0; it < list.getSize(); ++it)
+  {
+    std::cout << list[it] << std::setw(4);
+  }
+
+  auto iterator = list::Iterator(list.begin());
+
+  for (auto it = list; it != list.end(); ++it)
+  {
+    std::cout<< *it;
+  }
+  return 0;
 }
