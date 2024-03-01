@@ -1,14 +1,17 @@
 #ifndef LIST_HPP
 #define LIST_HPP
-#include "unit.hpp"
+#include "iterator.hpp"
 #include <cstddef>
 
 namespace psarev
 {
-  template< typename T >
+  template<typename T>
   class List
   {
   public:
+    Iterator< T > begin();
+    Iterator< T > end();
+
     List();
     ~List();
 
@@ -24,28 +27,45 @@ namespace psarev
 
   private:
     size_t size;
-    Unit< T >* head;
+    Unit<T>* head;
   };
 }
 
-template< typename T >
-psarev::List< T >::List()
+template <typename T>
+psarev::Iterator<T> psarev::List<T>::begin()
+{
+  return this(head);
+}
+
+template<typename T>
+psarev::Iterator<T> psarev::List< T >::end()
+{
+  Iterator<T> point = begin();
+  while (point.unit != nullptr)
+  {
+    point++;
+  }
+  return point;
+}
+
+template<typename T>
+psarev::List<T>::List()
 {
   size = 0;
   head = nullptr;
 }
 
-template< typename T >
-psarev::List< T >::~List()
+template<typename T>
+psarev::List<T>::~List()
 {
   clear();
 }
 
-template< typename T >
-T& psarev::List< T >::operator[](const size_t index)
+template<typename T>
+T& psarev::List<T>::operator[](const size_t index)
 {
   size_t cntr = 0;
-  Unit< T >* curr = this->head;
+  Unit<T>* curr = this->head;
   while (curr != nullptr)
   {
     if (cntr == index)
@@ -57,10 +77,10 @@ T& psarev::List< T >::operator[](const size_t index)
   }
 }
 
-template< typename T >
-void psarev::List< T >::popFront()
+template<typename T>
+void psarev::List<T>::popFront()
 {
-  Unit< T >* tempo = head;
+  Unit<T>* tempo = head;
   head = head->next;
   delete[] tempo;
 
@@ -76,7 +96,7 @@ void psarev::List<T>::popBack()
 template<typename T>
 void psarev::List<T>::pushFront(T data)
 {
-  head = new Unit< T >(data, head);
+  head = new Unit<T>(data, head);
   if (size != 0)
   {
     head->next->prev = head;
@@ -84,21 +104,21 @@ void psarev::List<T>::pushFront(T data)
   size++;
 }
 
-template< typename T >
-void psarev::List< T >::pushBack(T data)
+template<typename T>
+void psarev::List<T>::pushBack(T data)
 {
   if (head == nullptr)
   {
-    head = new Unit< T >(data);
+    head = new Unit<T>(data);
   }
   else
   {
-    Unit< T >* curr = this->head;
+    Unit<T>* curr = this->head;
     while (curr->next != nullptr)
     {
       curr = curr->next;
     }
-    curr->next = new Unit< T >(data, nullptr, curr);
+    curr->next = new Unit<T>(data, nullptr, curr);
   }
   size++;
 }
@@ -112,13 +132,13 @@ void psarev::List<T>::insert(T data, size_t index)
   }
   else
   {
-    Unit< T >* previous = this->head;
+    Unit<T>* previous = this->head;
     for (size_t i = 0; i < (index - 1); i++)
     {
       previous = previous->next;
     }
 
-    previous->next = new Unit< T >(data, previous->next, previous);
+    previous->next = new Unit<T>(data, previous->next, previous);
     previous = previous->next;
     previous->next->previous = previous;
     size++;
@@ -134,13 +154,13 @@ void psarev::List<T>::remove(size_t index)
   }
   else
   {
-    Unit< T >* previous = this->head;
+    Unit<T>* previous = this->head;
     for (size_t i = 0; i < (index - 1); i++)
     {
       previous = previous->next;
     }
 
-    Unit< T >* removable = previous->next;
+    Unit<T>* removable = previous->next;
     previous->next = removable->next;
     removable->next->prev = previous;
     delete removable;
@@ -157,8 +177,8 @@ void psarev::List<T>::clear()
   }
 }
 
-template< typename T >
-size_t psarev::List< T >::getSize()
+template<typename T>
+size_t psarev::List<T>::getSize()
 {
   return size;
 }
