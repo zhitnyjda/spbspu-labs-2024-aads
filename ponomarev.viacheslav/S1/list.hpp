@@ -67,6 +67,42 @@ namespace ponomarev
           const Node * elem;
       };
 
+      class Iterator : public ConstIterator
+      {
+        private:
+          explicit Iterator(Node * ptr) noexcept:
+            ConstIterator { ptr } {}
+
+        public:
+          T & operator*() noexcept
+          {
+            return const_cast< T & >(ConstIterator::operator*());
+          }
+
+          Iterator & operator++() noexcept
+          {
+            ConstIterator::operator++();
+            return *this;
+          }
+
+          Iterator & operator--() noexcept
+          {
+            ConstIterator::operator--();
+            return *this;
+          }
+
+          Iterator operator++(int) noexcept
+          {
+            auto res = ConstIterator::operator++(0);
+            return Iterator { const_cast< Node * >(res.get()) };
+          }
+
+          Iterator operator--(int) noexcept
+          {
+            auto res = ConstIterator::operator--(0);
+            return Iterator { const_cast< Node * >(res.get()) };
+          }
+
     private:
       struct Node
       {
