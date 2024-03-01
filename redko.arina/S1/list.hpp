@@ -49,7 +49,6 @@ namespace redko
 
     List< T > & operator=(const List< T > & other);
     List< T > & operator=(List< T > && other);
-    //List< T > & operator=(std::initializer_list< T > ilist);
 
     Iterator< T > eraseAfter(Iterator< T > pos);
 
@@ -65,6 +64,7 @@ namespace redko
     Iterator< T > begin();
     Iterator< T > end();
 
+    void swap(List< T > & other);
     void clear();
 
   private:
@@ -251,6 +251,13 @@ redko::Iterator< T > redko::List< T >::end()
     curr++;
   }
   return curr;
+}
+template< typename T >
+void redko::List< T >::swap(List< T > & other)
+{
+  ListElem< T > tmp = other.head_;
+  other.head_ = head_;
+  head_ = tmp;
 }
 template< typename T >
 void redko::List< T >::clear()
