@@ -4,7 +4,7 @@
 
 namespace kaseev
 {
-  void readList(std::string line, kaseev::List<std::pair<std::string, kaseev::List<int>>>& arr);
+  void readList(std::string &line, kaseev::List<std::pair<std::string, kaseev::List<int>>>& arr);
 }
 
 #endif //ACID_ADDITIONALFUNCTIONS_HPP

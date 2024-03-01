@@ -3,7 +3,7 @@
 #include "sstream"
 
 namespace kaseev {
-  void readList(std::string line, kaseev::List<std::pair<std::string, kaseev::List<int>>>& arr) {
+  void readList(std::string &line, kaseev::List<std::pair<std::string, kaseev::List<int>>>& arr) {
     std::istringstream iss(line);
     std::string ListName;
     if (!(iss >> ListName)) {

@@ -1,12 +1,11 @@
 #include <iostream>
 #include <string>
 #include "MaineArray.hpp"
-#include "AdditionalFunctions.hpp"
+#include "AdditionalFunctions.cpp"
 
 int main() {
   kaseev::List<std::pair<std::string, kaseev::List<int>>> arr;
   std::string line;
-
   while (std::getline(std::cin, line)) {
     if (line.empty())
     {
