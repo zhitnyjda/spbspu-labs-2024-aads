@@ -14,10 +14,3 @@ out
 # Helpers
 update-student-stats.sh
 generate-stats
-/.vs/2sem-aads/v17
-/.vs
-/aads/.vs/aads
-*.sln
-*.vcxproj
-*.filters
-*.user
