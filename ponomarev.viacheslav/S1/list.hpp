@@ -6,10 +6,49 @@ namespace ponomarev
   template< typename T >
   class List
   {
+    List() = default;
+    List(std::initializer_list< T > items)
+    {
+      for (auto &item : items)
+      {
+        push_back(item);
+      }
+    }
+
+    ~List()
+    {
+      clear()
+    }
+
+    void clear() noexcept
+    {
+      while (head)
+      {
+        delete std::exchange(head, head->next);
+      }
+      tail = nullptr;
+    }
+
+    void push(T item)
+    {
+      auto newNode = new Node { std::move(item) };
+      if (head)
+      {
+        head->prev = newNode;
+        newNode->next = head;
+        head = newNode;
+      }
+      else
+      {
+        head = tail = newNode;
+      }
+    }
+
     public:
       class ConstIterator
       {
         private:
+          friend class List;
           explicit ConstIterator(const Node * ptr) noexcept:
             elem { ptr } {}
         public:
@@ -70,6 +109,7 @@ namespace ponomarev
       class Iterator : public ConstIterator
       {
         private:
+          friend class List;
           explicit Iterator(Node * ptr) noexcept:
             ConstIterator { ptr } {}
 
@@ -102,7 +142,9 @@ namespace ponomarev
             auto res = ConstIterator::operator--(0);
             return Iterator { const_cast< Node * >(res.get()) };
           }
-
+        };
+        using iterator = Iterator;
+        using const_iterator = ConstIterator;
     private:
       struct Node
       {
@@ -110,10 +152,7 @@ namespace ponomarev
           T data;
           Node * prev = nullptr;
           Node * next = nullptr;
-          Node(T data)
-          {
-            this->data = data;
-          }
+          Node(T data) noexcept : data { std::move(item) } {}
       };
 
       Node * head = nullptr;
