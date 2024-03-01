@@ -29,7 +29,6 @@ int main()
         catch (const std::out_of_range & e)
         {
           std::cerr << "Error: value overflow\n";
-          seqs.clear();
           return 1;
         }
         currSeq->second.pushBack(value);
@@ -39,65 +38,64 @@ int main()
   if (seqs.isEmpty())
   {
     std::cout << "0\n";
-    return 0;
   }
-  redko::List< int > sums{};
-  redko::Iterator< std::pair< std::string, redko::List< int > > > outSeq = seqs.begin();
-  std::cout << outSeq->first;
-  outSeq++;
-  while (outSeq != seqs.end())
+  else
   {
-    std::cout << ' ' << outSeq->first;
+    redko::List< int > sums{};
+    redko::Iterator< std::pair< std::string, redko::List< int > > > outSeq = seqs.begin();
+    std::cout << outSeq->first;
     outSeq++;
-  }
-  std::cout << '\n';
-
-  redko::Iterator< int > sumNum = sums.beforeBegin();
-  redko::Iterator< std::pair< std::string, redko::List< int > > > prevSeq = seqs.beforeBegin();
-  while (!seqs.isEmpty())
-  {
-    sums.pushBack(0);
-    sumNum++;
-    outSeq = seqs.begin();
-    prevSeq = seqs.beforeBegin();
     while (outSeq != seqs.end())
     {
-      if (!(outSeq->second.isEmpty()))
+      std::cout << ' ' << outSeq->first;
+      outSeq++;
+    }
+    std::cout << '\n';
+
+    redko::Iterator< int > sumNum = sums.beforeBegin();
+    redko::Iterator< std::pair< std::string, redko::List< int > > > prevSeq = seqs.beforeBegin();
+    while (!seqs.isEmpty())
+    {
+      sums.pushBack(0);
+      sumNum++;
+      outSeq = seqs.begin();
+      prevSeq = seqs.beforeBegin();
+      while (outSeq != seqs.end())
       {
-        std::cout << ' ' << *(outSeq->second.begin());
-        *sumNum += *(outSeq->second.begin());
-        outSeq->second.popFront();
-        if (outSeq->second.isEmpty())
+        if (!(outSeq->second.isEmpty()))
+        {
+          std::cout << ' ' << *(outSeq->second.begin());
+          *sumNum += *(outSeq->second.begin());
+          outSeq->second.popFront();
+          if (outSeq->second.isEmpty())
+          {
+            outSeq = seqs.eraseAfter(prevSeq);
+            outSeq++;
+          }
+          else
+          {
+            outSeq++;
+            prevSeq++;
+          }
+        }
+        else
         {
           outSeq = seqs.eraseAfter(prevSeq);
           outSeq++;
         }
-        else
-        {
-          outSeq++;
-          prevSeq++;
-        }
       }
-      else
-      {
-        outSeq = seqs.eraseAfter(prevSeq);
-        outSeq++;
-      }
+      std::cout << '\n';
+    }
+
+    redko::Iterator< int > currSum = sums.begin();
+    std::cout << *currSum;
+    currSum++;
+    while (currSum != sums.end())
+    {
+      std::cout << ' ' << *currSum;
+      currSum++;
     }
     std::cout << '\n';
   }
-
-  redko::Iterator< int > currSum = sums.begin();
-  std::cout << *currSum;
-  currSum++;
-  while (currSum != sums.end())
-  {
-    std::cout << ' ' << *currSum;
-    currSum++;
-  }
-  std::cout << '\n';
-  seqs.clear();
-  sums.clear();
-
   return 0;
 }
