@@ -7,39 +7,32 @@ using namespace khoroshkin;
 
 int main()
 {
-  size_t length = 10;
-  std::unique_ptr<std::pair<std::string, List<int> >[]> allPairs(new std::pair<std::string, List<int> >[length]);
+  List< std::pair< std::string, List< int > > > allPairs;
   std::string input;
   size_t count = -1;
   size_t maxLength = 0;
-  bool seqWas = false;
   while (std::cin >> input)
   {
     if (isdigit(input[0]))
     {
       allPairs[count].second.push_back(std::stoi(input));
-      seqWas = true;
     }
     else
     {
-      if (count == length)
-      {
-        std::unique_ptr<std::pair<std::string, List<int> >[]> temp(new std::pair<std::string, List<int> >[length * 2]);
-        std::copy(allPairs.get(), allPairs.get() + length, temp.get());
-        allPairs = std::move(temp);
-        length *= 2;
-      }
-      allPairs[++count] = std::pair< std::string, List< int > >(input, List< int >());
+      allPairs.push_back({input,{}});
+      count++;
     }
     if (maxLength < allPairs[count].second.getSize())
     {
       maxLength = allPairs[count].second.getSize();
     }
   }
-  if (!seqWas)
+  if (allPairs[0].second.isEmpty())
   {
     std::cout << 0;
+    return 0;
   }
+
 
   /*for (size_t i = 0; i <= count; i++)
   {

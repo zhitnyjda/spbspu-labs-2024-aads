@@ -15,7 +15,7 @@ namespace khoroshkin
     ~ListIterator() = default;
     ListIterator(const ListIterator< T > &) = default;
     ListIterator< T > & operator=(const ListIterator< T > &) = default;
-  
+
     ListIterator< T > & operator++();
     ListIterator< T > operator++(int);
 
