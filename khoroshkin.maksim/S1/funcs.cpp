@@ -1,4 +1,6 @@
 #include "funcs.hpp"
+#include <limits>
+#include <stdexcept>
 
 using namespace khoroshkin;
 
@@ -10,30 +12,39 @@ void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, L
     allPairs.next(it) == allPairs.end() ? std::cout << "\n" : std::cout << " ";
   }
 
-  /*for (size_t i = 0; i < maxLength; i++)
+  for (size_t i = 0; i < maxLength; i++)
   {
-    for (size_t j = 0; j < length; j++)
+    bool emptyLine = true;
+    for (auto it = allPairs.begin(); it != allPairs.end(); it++)
     {
-      if (allPairs[j].second.getSize() > i)
+      if ((*it).second.getSize() > i)
       {
-        std::cout << allPairs[j].second[i];
-        j == length ? std::cout << "\n" : std::cout << " ";
+        out << (*it).second[i];
+        (allPairs.next(it) == allPairs.end() || maxLength - 1 != i) ? std::cout << " " : std::cout << "\n";
+        emptyLine = false;
       }
     }
-    std::cout << "\n";
+    if (!emptyLine && i != maxLength - 1)
+    {
+      out << "\n";
+    }
   }
 
   for (size_t i = 0; i < maxLength; i++)
   {
-    int sum = 0;
-    for (size_t j = 0; j < length; j++)
+    long long sum = 0;
+    for (auto it = allPairs.begin(); it != allPairs.end(); it++)
     {
-      if (allPairs[j].second.getSize() > i)
+      if ((*it).second.getSize() > i)
       {
-        sum += allPairs[j].second[i];
+        if (std::numeric_limits<long long>::max() - sum < (*it).second[i])
+        {
+          throw std::overflow_error("overflow!");
+        }
+        sum += (*it).second[i];
       }
     }
-    std::cout << sum;
-    i + 1 == maxLength ? std::cout << "\n" : std::cout << " ";
-  }*/
+    out << sum;
+    (i + 1 == maxLength) ? out << "\n" : out << " ";
+  }
 }

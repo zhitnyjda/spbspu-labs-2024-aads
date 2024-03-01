@@ -16,7 +16,7 @@ int main()
   {
     if (isdigit(input[0]))
     {
-      allPairs[count].second.push_back(std::stoi(input));
+      allPairs[count].second.push_back(std::stoll(input));
     }
     else
     {
@@ -33,6 +33,14 @@ int main()
     std::cout << 0;
     return 0;
   }
-  printResult(std::cout, allPairs, maxLength);
+  try
+  {
+    printResult(std::cout, allPairs, maxLength);
+  }
+  catch(const std::exception & e)
+  {
+    std::cerr << e.what() << '\n';
+    return 1;
+  }
   return 0;
 }
