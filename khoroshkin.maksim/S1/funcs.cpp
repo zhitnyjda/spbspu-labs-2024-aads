@@ -4,8 +4,12 @@
 
 using namespace khoroshkin;
 
-void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, List< int > > > & allPairs, int maxLength)
+void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, List< int > > > & allPairs, int maxLength, bool isOverflow)
 {
+  if (allPairs.getSize() == 0)
+  {
+    throw std::logic_error("Empty list");
+  }
   for (auto it = allPairs.begin(); it != allPairs.end(); ++it)
   {
     out << (*it).first;
@@ -27,6 +31,11 @@ void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, L
         (allPairs.next(it) == allPairs.end() || !checkAllNext(i, it, allPairs)) ? out << "\n" : out << " ";
       }
     }
+  }
+
+  if (isOverflow)
+  {
+    throw std::out_of_range("overflow!\n");
   }
 
   for (int i = 0; i < maxLength; i++)

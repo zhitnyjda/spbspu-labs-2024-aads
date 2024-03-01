@@ -6,7 +6,7 @@
 
 namespace khoroshkin
 {
-  void printResult(std::ostream & out, List< std::pair< std::string, List< int > > > & allPairs, int maxLength);
+  void printResult(std::ostream & out, List< std::pair< std::string, List< int > > > & allPairs, int maxLength, bool isOverflow);
   template < typename T >
   bool checkAllNext(int index, ListIterator< T > it, List< std::pair< std::string, List< int > > > & allPairs);
 }

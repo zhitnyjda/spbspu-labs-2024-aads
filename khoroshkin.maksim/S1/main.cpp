@@ -13,14 +13,14 @@ int main()
   std::string input;
   size_t count = -1;
   int maxLength = 0;
+  bool isOverflow = false;
   while (std::cin >> input)
   {
     if (isdigit(input[0]))
     {
       if (input.length() > std::to_string(std::numeric_limits< long long >::max()).length())
       {
-        std::cerr << "Overflow!\n";
-        return 1;
+        isOverflow = true;
       }
       else
       {
@@ -40,7 +40,7 @@ int main()
 
   try
   {
-    printResult(std::cout, allPairs, maxLength);
+    printResult(std::cout, allPairs, maxLength, isOverflow);
   }
   catch(const std::out_of_range & e)
   {
