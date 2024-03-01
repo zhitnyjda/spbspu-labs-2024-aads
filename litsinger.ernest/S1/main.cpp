@@ -18,8 +18,8 @@ int main()
 	  //std::cout << str << "\n";
 	  //str = "";
 	//}
-    //str += temp;	
+    //str += temp;
   //}
   //std::cin >> std::skipws;
-  //return 0;
+  return 0;
 }
