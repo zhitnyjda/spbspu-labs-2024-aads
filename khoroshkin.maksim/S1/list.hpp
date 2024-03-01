@@ -19,7 +19,7 @@ namespace khoroshkin
     void push_back(T data);
     void pop_front();
     void clear();
-    size_t getSize();
+    int getSize();
     bool isEmpty();
     T & operator[](const size_t index);
     ListIterator< T > begin();
@@ -27,7 +27,7 @@ namespace khoroshkin
 
     ListIterator< T > next(ListIterator< T > it);
   private:
-    size_t size;
+    int size;
     Node< T > * head;
   };
 }
@@ -112,7 +112,7 @@ void khoroshkin::List< T >::clear()
 }
 
 template < typename T >
-size_t khoroshkin::List< T >::getSize()
+int khoroshkin::List< T >::getSize()
 {
   return size;
 }

@@ -24,7 +24,7 @@ void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, L
       if ((*it).second.getSize() > i)
       {
         out << (*it).second[i];
-        (allPairs.next(it) == allPairs.end()) ? out << "\n" : out << " ";
+        (allPairs.next(it) == allPairs.end() || !checkAllNext(i, it, allPairs)) ? out << "\n" : out << " ";
       }
     }
   }
@@ -46,4 +46,19 @@ void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, L
     out << sum;
     (i + 1 == maxLength) ? out << "\n" : out << " ";
   }
+}
+
+template < typename T >
+bool khoroshkin::checkAllNext(int index, ListIterator< T > it, List< std::pair< std::string, List< int > > > & allPairs)
+{
+  bool flag = false;
+  while (allPairs.next(it) != allPairs.end())
+  {
+    if ((*allPairs.next(it)).second.getSize() - 1 >= index)
+    {
+      flag = true;
+    }
+    ++it;
+  }
+  return flag;
 }

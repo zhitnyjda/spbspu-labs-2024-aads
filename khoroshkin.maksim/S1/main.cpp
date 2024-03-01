@@ -17,14 +17,14 @@ int main()
   {
     if (isdigit(input[0]))
     {
-      try
+      if (input.length() > std::to_string(std::numeric_limits< long long >::max()).length())
+      {
+        std::cerr << "Overflow!\n";
+        return 1;
+      }
+      else
       {
         allPairs[count].second.push_back(std::stoll(input));
-      }
-      catch(const std::out_of_range & e)
-      {
-        std::cerr << e.what() << '\n';
-        return 1;
       }
     }
     else
