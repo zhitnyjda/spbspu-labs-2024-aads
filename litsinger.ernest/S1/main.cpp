@@ -1,10 +1,11 @@
 #include <iostream>
 #include <string>
 #include "list.hpp"
+#include "iterator.hpp"
+#include "node.hpp"
 
 int main()
 {
-
 	//litsinger::List< int > listik;
 	//std::string str = "";
 	//char temp = 0;
@@ -20,5 +21,5 @@ int main()
 		//str += temp;
 	//}
 	//std::cin >> std::skipws;
-	return 0;
+	//return 0;
 }
