@@ -10,9 +10,9 @@ namespace sobolevsky
   class List
   {
   public:
-    Node< T > * head;
-    Node< T > * tail;
-    size_t size;
+    Node< T > * head = nullptr;
+    Node< T > * tail = nullptr;
+    size_t size = 0;
 
     List();
     ~List();
@@ -84,7 +84,7 @@ void sobolevsky::List< T >::popFront()
   Node< T > * ptr = head->next;
   if (ptr == nullptr)
   {
-    tail == nullptr;
+    tail = nullptr;
   }
   else
   {
@@ -107,7 +107,7 @@ void sobolevsky::List< T >::popBack()
   Node< T > * ptr = tail->prev;
   if (ptr == nullptr)
   {
-    head == nullptr;
+    head = nullptr;
   }
   else
   {

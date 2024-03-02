@@ -17,6 +17,8 @@ namespace sobolevsky
   class Iterator
   {
   public:
+    Node< T > * currNode = nullptr;
+
     Iterator(Node< T > * node);
     ~Iterator() = default;
     Iterator(const Iterator< T > &) = default;
@@ -30,8 +32,6 @@ namespace sobolevsky
 
     T & operator * ();
     T * operator->();
-  private:
-    Node< T > * currNode;
   };
 }
 
@@ -76,19 +76,13 @@ bool sobolevsky::Iterator< T >::operator==(const Iterator& other) const
 template< typename T >
 T & sobolevsky::Iterator< T >::operator * ()
 {
-  if (currNode != nullptr)
-  {
-    return currNode->data;
-  }
+  return currNode->data;
 }
 
 template< typename T >
 T * sobolevsky::Iterator< T >::operator->()
 {
-  if (currNode != nullptr)
-  {
-    return std::addressof(currNode->data);
-  }
+  return std::addressof(currNode->data);
 }
 
 #endif

@@ -5,9 +5,9 @@
 int main()
 {
   sobolevsky::List< int > list;
-  list.pushBack(2);
-  list.pushBack(56);
-  list.pushBack(7);
+  list.pushFront(2);
+  list.pushFront(56);
+  list.pushFront(7);
 
   sobolevsky::Iterator< int > iter( list.head );
 
