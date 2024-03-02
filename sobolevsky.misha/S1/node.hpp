@@ -3,20 +3,20 @@
 
 namespace sobolevsky
 {
-  template< class T >
+  template< typename T >
   class Node
   {
   public:
-    Node(T data);
-  private:
     Node * next;
     Node * prev;
     T data;
     char Name;
+
+    Node(T data);
   };
 }
 
-template< class T >
+template< typename T >
 sobolevsky::Node< T >::Node(T data)
 {
   data = data;

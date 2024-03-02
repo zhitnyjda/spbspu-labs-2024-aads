@@ -4,11 +4,14 @@
 
 int main()
 {
-  List< int > list;
+  sobolevsky::List< int > list;
   list.pushBack(2);
   list.pushBack(56);
   list.pushBack(7);
 
-  list.clear();
+  sobolevsky::Iterator< int > iter( list.head );
+
+  std::cout << *iter << "\n";
+
   return 0;
 }

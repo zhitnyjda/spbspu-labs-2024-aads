@@ -6,10 +6,14 @@
 namespace sobolevsky
 {
 
-  template< class T >
+  template< typename T >
   class List
   {
   public:
+    Node< T > * head;
+    Node< T > * tail;
+    size_t size;
+
     List();
     ~List();
 
@@ -19,31 +23,26 @@ namespace sobolevsky
     void popBack();
     void clear();
     void swap(List * list1, List * list2);
-
-  private:
-    Node * head;
-    Node * tail;
-    size_t size;
   };
 }
 
-template< class T >
+template< typename T >
 sobolevsky::List< T >::List()
 {
-  Node * head = nullptr;
-  Node * tail = nullptr;
+  head = nullptr;
+  tail = nullptr;
 }
 
-template< class T >
+template< typename T >
 sobolevsky::List< T >::~List()
 {
   clear();
 }
 
-template< class T >
+template< typename T >
 void sobolevsky::List< T >::pushFront(T data)
 {
-  Node * ptr = new Node(data);
+  Node< T > * ptr = new Node(data);
   ptr->next = head;
   if (head != nullptr)
   {
@@ -57,10 +56,10 @@ void sobolevsky::List< T >::pushFront(T data)
   size++;
 }
 
-template< class T >
+template< typename T >
 void sobolevsky::List< T >::pushBack(T data)
 {
-  Node * ptr = new Node(data);
+  Node< T > * ptr = new Node(data);
   ptr->prev = tail;
   if (tail != nullptr)
   {
@@ -74,7 +73,7 @@ void sobolevsky::List< T >::pushBack(T data)
   size++;
 }
 
-template< class T >
+template< typename T >
 void sobolevsky::List< T >::popFront()
 {
   if (head == nullptr)
@@ -82,15 +81,22 @@ void sobolevsky::List< T >::popFront()
     return;
   }
 
-  Node * ptr = head->next;
-  ptr == nullptr ? (tail == nullptr) : (ptr->prev = nullptr);
+  Node< T > * ptr = head->next;
+  if (ptr == nullptr)
+  {
+    tail == nullptr;
+  }
+  else
+  {
+    ptr->prev = nullptr;
+  }
 
   delete head;
   size--;
   head = ptr;
 }
 
-template< class T >
+template< typename T >
 void sobolevsky::List< T >::popBack()
 {
   if (tail == nullptr)
@@ -98,15 +104,22 @@ void sobolevsky::List< T >::popBack()
     return;
   }
 
-  Node * ptr = tail->prev;
-  ptr == nullptr ? (head == nullptr) : (ptr->next = nullptr);
+  Node< T > * ptr = tail->prev;
+  if (ptr == nullptr)
+  {
+    head == nullptr;
+  }
+  else
+  {
+    ptr->next = nullptr;
+  }
 
   delete tail;
   size--;
   tail = ptr;
 }
 
-template< class T >
+template< typename T >
 void sobolevsky::List< T >::clear()
 {
   while (head != nullptr)
@@ -115,13 +128,13 @@ void sobolevsky::List< T >::clear()
   }
 }
 
-template< class T >
+template< typename T >
 void sobolevsky::List< T >::swap(List * list1, List * list2)
 {
   if (list1 != nullptr && list2 != nullptr)
   {
-    Node * tempHead;
-    Node * tempTail;
+    Node< T > * tempHead;
+    Node< T > * tempTail;
     size_t tempSize;
 
     tempHead = list1->head;
@@ -134,7 +147,7 @@ void sobolevsky::List< T >::swap(List * list1, List * list2)
 
     list2->head = tempHead->head;
     list2->tail = tempTail->tail;
-    list2->size = tempSize->size;
+    list2->size = tempSize;
 
     delete tempHead;
     delete tempTail;

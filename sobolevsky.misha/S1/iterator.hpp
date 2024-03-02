@@ -13,7 +13,7 @@
 
 namespace sobolevsky
 {
-  template< class T >
+  template< typename T >
   class Iterator
   {
   public:
@@ -28,66 +28,66 @@ namespace sobolevsky
     bool operator!=(const Iterator& other) const;
     bool operator==(const Iterator& other) const;
 
-    T & operator*();
+    T & operator * ();
     T * operator->();
   private:
-    Node * currNode;
+    Node< T > * currNode;
   };
 }
 
-template< class T >
+template< typename T >
 sobolevsky::Iterator< T >::Iterator(Node< T > * node)
 {
   currNode = node;
 }
 
-template< class T >
+template< typename T >
 sobolevsky::Iterator< T >& sobolevsky::Iterator< T >::operator++()
 {
   if (currNode)
   {
     currNode = currNode->next;
   }
-  return *this
+  return *this;
 }
 
-template< class T >
+template< typename T >
 sobolevsky::Iterator< T >& sobolevsky::Iterator< T >::operator--()
 {
   if (currNode)
   {
     currNode = currNode->prev;
   }
-  return *this
+  return *this;
 }
 
-template< class T >
+template< typename T >
 bool sobolevsky::Iterator< T >::operator!=(const Iterator& other) const
 {
   return currNode != other.currNode;
 }
 
-template< class T >
+template< typename T >
 bool sobolevsky::Iterator< T >::operator==(const Iterator& other) const
 {
   return currNode == other.currNode;
 }
 
-template< class T >
-T & sobolevsky::Iterator< T >::operator*()
+template< typename T >
+T & sobolevsky::Iterator< T >::operator * ()
 {
-  if (node != nullptr)
+  if (currNode != nullptr)
   {
-    return node->data;
+    return currNode->data;
   }
 }
 
-template< class T >
+template< typename T >
 T * sobolevsky::Iterator< T >::operator->()
 {
-  if (node != nullptr)
+  if (currNode != nullptr)
   {
-    return std::addressof(node->data);
+    return std::addressof(currNode->data);
   }
 }
 
