@@ -54,17 +54,19 @@ int main()
 
     redko::Iterator< int > sumNum = sums.beforeBegin();
     redko::Iterator< std::pair< std::string, redko::List< int > > > prevSeq = seqs.beforeBegin();
+
     while (!seqs.isEmpty())
     {
       sums.pushBack(0);
       sumNum++;
       outSeq = seqs.begin();
       prevSeq = seqs.beforeBegin();
+
       while (outSeq != seqs.end())
       {
         if (!(outSeq->second.isEmpty()))
         {
-          std::cout << ' ' << *(outSeq->second.begin());
+          std::cout << *(outSeq->second.begin());
           *sumNum += *(outSeq->second.begin());
           outSeq->second.popFront();
           if (outSeq->second.isEmpty())
@@ -77,6 +79,7 @@ int main()
             outSeq++;
             prevSeq++;
           }
+          std::cout << (outSeq == seqs.end() ? '\n' : ' ');
         }
         else
         {
@@ -84,7 +87,6 @@ int main()
           outSeq++;
         }
       }
-      std::cout << '\n';
     }
 
     redko::Iterator< int > currSum = sums.begin();
