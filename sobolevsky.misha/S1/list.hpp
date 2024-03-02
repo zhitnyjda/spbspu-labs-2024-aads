@@ -41,9 +41,9 @@ sobolevsky::List< T >::~List()
 }
 
 template< typename T >
-void sobolevsky::List< T >::pushFront(T data)
+void sobolevsky::List< T >::pushFront(const T data)
 {
-  Node< T > * ptr = new Node(data);
+  Node< T > * ptr = new Node< T >(data);
   ptr->next = head;
   if (head != nullptr)
   {
@@ -58,9 +58,9 @@ void sobolevsky::List< T >::pushFront(T data)
 }
 
 template< typename T >
-void sobolevsky::List< T >::pushBack(T data)
+void sobolevsky::List< T >::pushBack(const T data)
 {
-  Node< T > * ptr = new Node(data);
+  Node< T > * ptr = new Node< T >(data);
   ptr->prev = tail;
   if (tail != nullptr)
   {
