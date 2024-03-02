@@ -17,9 +17,9 @@ namespace sobolevsky
 }
 
 template< typename T >
-sobolevsky::Node< T >::Node(T data)
+sobolevsky::Node< T >::Node(T dataIn)
 {
-  data = data;
+  data = dataIn;
   prev = nullptr;
   next = nullptr;
 }
