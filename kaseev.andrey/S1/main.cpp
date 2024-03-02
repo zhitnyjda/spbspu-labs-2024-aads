@@ -51,12 +51,3 @@ int main() {
   std::cout << "\n";
   return 0;
 }
-
-
-
-/*
-first 1 1 1
-second 2 2 2 2
-third
-fourth 4 4
-*/
