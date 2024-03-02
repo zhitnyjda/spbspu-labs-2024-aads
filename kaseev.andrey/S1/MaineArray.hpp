@@ -8,7 +8,7 @@ namespace kaseev {
   template<class T>
   class List {
   public:
-    List() : head(nullptr), ArrSize(0) {}
+    List() : ArrSize(0), head(nullptr) {}
     ~List();
 
     void pushBack(T& value);

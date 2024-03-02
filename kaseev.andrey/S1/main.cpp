@@ -31,7 +31,7 @@ int main() {
 
   while (!finished) {
     finished = true;
-    for (size_t i = 0; i < arr.size(); ++i) {
+    for (long int i = 0; i < arr.size(); ++i) {
       std::pair<std::string, kaseev::List<int>> list = arr[i];
       if (index < list.second.size()) {
         std::cout << list.second[index] << " ";
@@ -45,7 +45,7 @@ int main() {
     index++;
   }
 
-  for (size_t i = 0; i <= sum.size() - 2; i++) {
+  for (int i = 0; i <= sum.size() - 2; i++) {
     std::cout << sum[i] << " ";
   }
   std::cout << "\n";
