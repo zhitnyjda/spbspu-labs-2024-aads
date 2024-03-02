@@ -42,7 +42,7 @@ int main()
   {
     printResult(std::cout, allPairs, maxLength, isOverflow);
   }
-  catch(const std::out_of_range & e)
+  catch(const std::overflow_error & e)
   {
     std::cerr << e.what() << '\n';
     return 1;

@@ -10,6 +10,7 @@ void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, L
   {
     throw std::logic_error("Empty list");
   }
+
   for (auto it = allPairs.begin(); it != allPairs.end(); ++it)
   {
     out << (*it).first;
@@ -33,11 +34,6 @@ void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, L
     }
   }
 
-  if (isOverflow)
-  {
-    throw std::out_of_range("overflow!\n");
-  }
-
   for (int i = 0; i < maxLength; i++)
   {
     long long sum = 0;
@@ -45,7 +41,7 @@ void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, L
     {
       if ((*it).second.getSize() > i)
       {
-        if (std::numeric_limits<long long>::max() - sum < (*it).second[i])
+        if (std::numeric_limits<long long>::max() - sum < (*it).second[i] || isOverflow)
         {
           throw std::overflow_error("overflow!");
         }
