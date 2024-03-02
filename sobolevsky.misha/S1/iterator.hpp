@@ -1,24 +1,45 @@
 #ifndef ITERATOR_HPP
 #define ITERATOR_HPP
-#include "node.hpp"
+#include "list.hpp"
 
 // мой итератор должен
 // копироваться -
 // иметь деструктор +
-// оператор инкремент -
-// оператор декремент -
+// оператор инкремент +
+// оператор декремент +
 // операция разыменовывания и проверки на равентсво/неравенство -
-// конструктор по умолчанию -
+// конструктор по умолчанию +
 
 template< class T >
 class Iterator
 {
 public:
+  friend class List;
+
+  Iterator(): currNode(nullptr) {};
+  Iterator(Node * node): currNode(node) {};
   ~Iterator() = default;
-  
+
+  Iterator& operator++()
+  {
+    if (current)
+    {
+      current = current->next;
+    }
+    return *this
+  }
+
+  Iterator& operator--()
+  {
+    if (current)
+    {
+      current = current->prev;
+    }
+    return *this
+  }
+
 private:
-  Node * node;
-  using this_t = Iterator< T >;
+  Node * currNode;
 };
 
 #endif

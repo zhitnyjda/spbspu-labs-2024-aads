@@ -4,6 +4,9 @@
 #include "iterator.hpp"
 
 template< class T >
+class Iterator;
+
+template< class T >
 class List
 {
   public:
