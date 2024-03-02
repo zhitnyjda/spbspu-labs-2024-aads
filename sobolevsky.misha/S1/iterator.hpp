@@ -24,30 +24,30 @@ public:
 
   Iterator& operator++()
   {
-    if (current)
+    if (currNode)
     {
-      current = current->next;
+      currNode = currNode->next;
     }
     return *this
   }
 
   Iterator& operator--()
   {
-    if (current)
+    if (currNode)
     {
-      current = current->prev;
+      currNode = currNode->prev;
     }
     return *this
   }
 
   bool operator!=(const Iterator& other) const
   {
-    return current != other.current;
+    return currNode != other.currNode;
   }
 
   bool operator==(const Iterator& other) const
   {
-    return current == other.current;
+    return currNode == other.currNode;
   }
 
   T & operator*()
