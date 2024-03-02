@@ -2,12 +2,11 @@
 #define NODE_HPP
 
 template <typename T>
-class Node {
-public:
-    Node(const T& val) : value(val), next(nullptr) {}
-
-    T value;
+struct Node {
+    T data;
     Node<T>* next;
+
+    Node(const T& value) : data(value), next(nullptr) {}
 };
 
 #endif

@@ -1,39 +1,47 @@
 #ifndef ITERATOR_HPP
 #define ITERATOR_HPP
 
-template <typename T>
-class List;
+#include <cassert>
+#include "node.hpp"
 
-template <typename T>
-class Iterator {
-public:
-    Iterator(T* node) : current(node) {}
+namespace jirkov {
+    template <typename T>
+    struct ListIterator {
+        Node<T>* node;
 
-    T& operator*() const {
-        return *current;
-    }
+        ListIterator() : node(nullptr) {}
+        ListIterator(Node<T>* pointer) : node(pointer) {}
 
-    Iterator<T>& operator++() {
-        current = current->next;
-        return *this;
-    }
+        ListIterator<T>& operator++() {
+            assert(node && "Iterator points to null.");
+            node = node->next;
+            return *this;
+        }
 
-    Iterator<T> operator++(int) {
-        Iterator<T> temp(*this);
-        ++(*this);
-        return temp;
-    }
+        ListIterator<T> operator++(int) {
+            ListIterator<T> temp(*this);
+            ++(*this);
+            return temp;
+        }
 
-    bool operator==(const Iterator<T>& other) const {
-        return current == other.current;
-    }
+        T& operator*() {
+            assert(node && "Iterator points to null.");
+            return node->data;
+        }
 
-    bool operator!=(const Iterator<T>& other) const {
-        return !(*this == other);
-    }
+        T* operator->() {
+            assert(node && "Iterator points to null.");
+            return &(node->data);
+        }
 
-private:
-    T* current;
-};
+        bool operator!=(const ListIterator<T>& rhs) const {
+            return node != rhs.node;
+        }
+
+        bool operator==(const ListIterator<T>& rhs) const {
+            return node == rhs.node;
+        }
+    };
+}
 
 #endif

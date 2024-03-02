@@ -1,79 +1,53 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 
-#include "iterator.hpp"
+#include <cassert>
 #include "node.hpp"
+#include "iterator.hpp"
 
-template <typename T>
-class List {
-public:
-    List() : head(nullptr), tail(nullptr), size(0) {}
-
-    ~List() {
-        clear();
-    }
-
-    void push_back(const T& value) {
-        Node<T>* newNode = new Node<T>(value);
-
-        if (head == nullptr) {
-            head = newNode;
-            tail = newNode;
-        } else {
-            tail->next = newNode;
-            tail = newNode;
+namespace jirkov {
+    template <typename T>
+    class List {
+    public:
+        List() : head_(nullptr) {}
+        ~List() {
+            clear();
         }
 
-        size++;
-    }
-
-    void pop_back() {
-        if (head == nullptr) {
-            return;
+        void pushFront(const T& data) {
+            Node<T>* newNode = new Node<T>(data);
+            newNode->next = head_;
+            head_ = newNode;
         }
 
-        if (head == tail) {
-            delete head;
-            head = nullptr;
-            tail = nullptr;
-            size = 0;
-            return;
-        }
-
-        Node<T>* temp = head;
-        while (temp->next != tail) {
-            temp = temp->next;
-        }
-
-        delete tail;
-        tail = temp;
-        tail->next = nullptr;
-        size--;
-    }
-
-    void clear() {
-        while (head != nullptr) {
-            Node<T>* temp = head;
-            head = head->next;
+        void popFront() {
+            assert(!isEmpty() && "List is empty.");
+            Node<T>* temp = head_;
+            head_ = head_->next;
             delete temp;
         }
 
-        tail = nullptr;
-        size = 0;
-    }
+        bool isEmpty() {
+            return head_ == nullptr;
+        }
 
-    Iterator<Node<T>> begin() const {
-        return Iterator<Node<T>>(head);
-    }
+        void clear() {
+            while (!isEmpty()) {
+                popFront();
+            }
+        }
 
-    Iterator<Node<T>> end() const {
-        return Iterator<Node<T>>(nullptr);
-    }
+        ListIterator<T> begin() {
+            return ListIterator<T>(head_);
+        }
 
-private:
-    Node<T>* head;
-    Node<T>* tail;
-    int size;
-};
+        ListIterator<T> end() {
+            return ListIterator<T>(nullptr);
+        }
+
+    private:
+        Node<T>* head_;
+    };
+}
 
 #endif
