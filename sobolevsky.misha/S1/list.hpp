@@ -5,25 +5,25 @@
 
 namespace sobolevsky
 {
-  
+
   template< class T >
   class List
   {
-    public:
-      List();
-      ~List();
+  public:
+    List();
+    ~List();
 
-      void pushFront(T data);
-      void pushBack(T data);
-      void popFront();
-      void popBack();
-      void clear();
-      void swap(List * list1, List * list2);
+    void pushFront(T data);
+    void pushBack(T data);
+    void popFront();
+    void popBack();
+    void clear();
+    void swap(List * list1, List * list2);
 
-    private:
-      Node * head;
-      Node * tail;
-      size_t size;
+  private:
+    Node * head;
+    Node * tail;
+    size_t size;
   };
 }
 
