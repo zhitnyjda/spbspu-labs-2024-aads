@@ -8,8 +8,8 @@ public:
   Node(T data)
   {
     data = data;
-    prev = NULL;
-    next = NULL;
+    prev = nullptr;
+    next = nullptr;
   }
 private:
   Node * next;

@@ -12,19 +12,19 @@ class List
   public:
     List()
     {
-      Node * head = NULL;
-      Node * tail = NULL;
+      Node * head = nullptr;
+      Node * tail = nullptr;
     }
 
     Node * pushFront(T data)
     {
       Node * ptr = new Node(data);
       ptr->next = head;
-      if (head != NULL)
+      if (head != nullptr)
       {
         head->prev = ptr;
       }
-      if (tail == NULL)
+      if (tail == nullptr)
       {
         tail = ptr;
       }
@@ -37,11 +37,11 @@ class List
     {
       Node * ptr = new Node(data);
       ptr->prev = tail;
-      if (tail != NULL)
+      if (tail != nullptr)
       {
         tail->next = ptr;
       }
-      if (head == NULL)
+      if (head == nullptr)
       {
         head = ptr;
       }
@@ -52,13 +52,13 @@ class List
 
     void popFront()
     {
-      if (head == NULL)
+      if (head == nullptr)
       {
         return;
       }
 
       Node * ptr = head->next;
-      ptr == NULL ? (tail == NULL) : (ptr->prev = NULL);
+      ptr == nullptr ? (tail == nullptr) : (ptr->prev = nullptr);
 
       delete head;
       size--;
@@ -67,13 +67,13 @@ class List
 
     void popBack()
     {
-      if (tail == NULL)
+      if (tail == nullptr)
       {
         return;
       }
 
       Node * ptr = tail->prev;
-      ptr == NULL ? (head == NULL) : (ptr->next = NULL);
+      ptr == nullptr ? (head == nullptr) : (ptr->next = nullptr);
 
       delete tail;
       size--;
@@ -82,7 +82,7 @@ class List
 
     void clear()
     {
-      while (head != NULL)
+      while (head != nullptr)
       {
         popFront();
       }

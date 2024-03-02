@@ -3,11 +3,11 @@
 #include "list.hpp"
 
 // мой итератор должен
-// копироваться -
+// копироваться +
 // иметь деструктор +
 // оператор инкремент +
 // оператор декремент +
-// операция разыменовывания и проверки на равентсво/неравенство -
+// операция разыменовывания и проверки на равентсво/неравенство +
 // конструктор по умолчанию +
 
 template< class T >
@@ -19,6 +19,8 @@ public:
   Iterator(): currNode(nullptr) {};
   Iterator(Node * node): currNode(node) {};
   ~Iterator() = default;
+  Iterator(const Iterator< T > &) = default;
+  Iterator< T > & operator=(const Iterator< T > &) = default;
 
   Iterator& operator++()
   {
@@ -36,6 +38,32 @@ public:
       current = current->prev;
     }
     return *this
+  }
+
+  bool operator!=(const Iterator& other) const
+  {
+    return current != other.current;
+  }
+
+  bool operator==(const Iterator& other) const
+  {
+    return current == other.current;
+  }
+
+  T & operator*()
+  {
+    if (node != nullptr)
+    {
+      return node->data;
+    }
+  }
+
+  T * operator->()
+  {
+    if (node != nullptr)
+    {
+      return std::addressof(node->data);
+    }
   }
 
 private:
