@@ -11,10 +11,10 @@ namespace kaseev {
     List() : ArrSize(0), head(nullptr) {}
     ~List();
 
-    void pushBack(T& value);
-    bool empty();
-    long int size() const;
-    T& operator[](size_t index);
+    void pushBack(const T& value);
+    bool empty() const;
+    long int size() const; //
+    const T& operator[](size_t index) const;
 
   private:
     size_t ArrSize;
@@ -31,7 +31,7 @@ namespace kaseev {
   }
 
   template<class T>
-  void List<T>::pushBack(T& value) {
+  void List<T>::pushBack(const T& value) {
     Node<T>* newNode = new Node<T>(value);
 
     if (head == nullptr) {
@@ -48,7 +48,7 @@ namespace kaseev {
   }
 
   template<class T>
-  bool List<T>::empty() {
+  bool List<T>::empty() const {
     return head == nullptr;
   }
 
@@ -58,7 +58,7 @@ namespace kaseev {
   }
 
   template<class T>
-  T& List<T>::operator[](size_t index) {
+  const T& List<T>::operator[](size_t index) const {
     if (index >= ArrSize) {
       throw std::out_of_range("Index out of range");
     }
