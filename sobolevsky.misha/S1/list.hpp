@@ -88,7 +88,30 @@ class List
       }
     }
 
-    void swap();
+    void swap(List * list1, List * list2)
+    {
+      if (list1 != nullptr && list2 != nullptr)
+      {
+        Node * tempHead;
+        Node * tempTail;
+        size_t tempSize;
+
+        tempHead = list1->head;
+        tempTail = list1->tail;
+        tempSize = list1->size;
+
+        list1->head = list2->head;
+        list1->tail = list2->tail;
+        list1->size = list2->size;
+
+        list2->head = tempHead->head;
+        list2->tail = tempTail->tail;
+        list2->size = tempSize->size;
+
+        delete tempHead;
+        delete tempTail;
+      }
+    }
   private:
     Node * head;
     Node * tail;

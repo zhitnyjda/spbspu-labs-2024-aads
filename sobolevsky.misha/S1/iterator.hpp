@@ -1,6 +1,7 @@
 #ifndef ITERATOR_HPP
 #define ITERATOR_HPP
 #include "list.hpp"
+#include <memory>
 
 // мой итератор должен
 // копироваться +
