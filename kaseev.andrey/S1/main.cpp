@@ -14,7 +14,7 @@ int main() {
     kaseev::readList(line, arr);
   }
 
-  for (size_t i = 0; i < arr.size(); ++i) {
+  for (long int i = 0; i < arr.size(); ++i) {
     std::pair<std::string, kaseev::List<int>> list = arr[i];
     std::cout << list.first << " ";
   }
@@ -26,7 +26,7 @@ int main() {
   }
 
   bool finished = false;
-  size_t index = 0;
+  long int index = 0;
   kaseev::List<int> sum;
 
   while (!finished) {
