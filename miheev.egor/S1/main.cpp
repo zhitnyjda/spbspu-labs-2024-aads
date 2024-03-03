@@ -7,45 +7,58 @@
 using SI_pair = std::pair< std::string, miheev::List< int > >;
 using ListIter = miheev::List<int>::Iterator;
 
-void expandPairsArr(SI_pair*& pairs, size_t& size)
+namespace miheev
 {
-  const size_t additionalSize = 5;
-  SI_pair* copy = new SI_pair[size + additionalSize];
-  for (size_t i = 0; i < size; i++)
+  void expandPairsArr(SI_pair*& pairs, size_t& size)
   {
-    copy[i] = pairs[i];
+    const size_t additionalSize = 5;
+    SI_pair* copy = new SI_pair[size + additionalSize];
+    for (size_t i = 0; i < size; i++)
+    {
+      copy[i] = pairs[i];
+    }
+    size += additionalSize;
+    delete [] pairs;
+    pairs = copy;
   }
-  size += additionalSize;
-  delete [] pairs;
-  pairs = copy;
-}
 
-miheev::List< int > readNumbers(std::istringstream& stream)
-{
-  int number = 0;
-  stream >> number;
-
-  miheev::List< int > list(number);
-
-  while(stream >> number)
+  miheev::List< int > readNumbers(std::istringstream& stream)
   {
-    list.pushBack(number);
+    int number = 0;
+    stream >> number;
+
+    miheev::List< int > list(number);
+
+    while(stream >> number)
+    {
+      list.pushBack(number);
+    }
+    list.print();
+    return list;
   }
-  list.print();
-  return list;
-}
 
-SI_pair readLine()
-{
-  std::string line;
-  std::getline(std::cin, line);
-  std::istringstream stream(line);
+  SI_pair readLine()
+  {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream stream(line);
 
-  SI_pair pair;
-  stream >> pair.first; // reading word
-  pair.second = readNumbers(stream);
+    SI_pair pair;
+    stream >> pair.first; // reading word
+    pair.second = readNumbers(stream);
 
-  return pair;
+    return pair;
+  }
+
+  ListIter* getIters(SI_pair* pairs, size_t size)
+  {
+    ListIter* iters = new ListIter[size];
+    for (size_t i = 0; i < size; i++)
+    {
+      iters[i] = ListIter(pairs[i].second.begin());
+    }
+    return iters;
+  }
 }
 
 int main()
@@ -73,11 +86,23 @@ int main()
   }
   std::cout << '\n';
 
-  List<int>::Iterator* iterators;
-  for (size_t i = 0; i < unusedIndex; i++)
-  {
+  ListIter* iters = getIters(pairs, unusedIndex);
 
-  }
+  do
+  {
+    bool flag = false;
+    for (size_t i = 0; i < unusedIndex; i++)
+    {
+      ListIter iter = iters[i];
+      if (*iter->next_)
+      {
+        flag = true;
+      }
+      std::cout << iter->data_ << " ";
+      ++iter;
+    }
+    std::cout << '\n';
+  } while (flag)
 
   delete[] pairs;
   return 0;

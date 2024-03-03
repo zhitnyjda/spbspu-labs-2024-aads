@@ -80,11 +80,11 @@ namespace miheev
 
     struct Iterator
     {
-      T* cur;
+      List<T>* cur;
 
       using this_t = List< T >::Iterator;
       Iterator() = default;
-      Iterator(T* head)
+      Iterator(List<T>* head)
       {
         cur = head;
       }
@@ -103,16 +103,16 @@ namespace miheev
       {
         for (; n > 0; n--)
         {
-          this++;
+          ++this;
         }
       }
-      T& operator*()
+      List<T>& operator*()
       {
-        return cur->data;
+        return *cur;
       }
-      T* operator->()
+      List<T>& operator->()
       {
-        return std::addressof(cur->data);
+        return std::addressof(*cur);
       }
 
       bool operator!=(const this_t & rhs) const
