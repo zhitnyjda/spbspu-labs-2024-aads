@@ -15,13 +15,19 @@ namespace khoroshkin
     List();
     ~List();
     List(const List & obj);
+    List< T > & operator=(const List & obj);
+    List(List && obj);
+    List< T > & operator=(List && obj);
 
     void push_back(T data);
     void pop_front();
+    Node< T > * front();
     void clear();
     int getSize();
     bool isEmpty();
     T & operator[](const size_t index);
+    void swap(List< T > & other);
+
     ListIterator< T > begin();
     ListIterator< T > end();
 
@@ -49,6 +55,48 @@ khoroshkin::List< T >::List(const khoroshkin::List< T > & obj)
     head = new Node< T >(*obj.head);
   }
   size = obj.size;
+}
+
+template < typename T >
+khoroshkin::List< T > & khoroshkin::List< T >::operator=(const List & obj)
+{
+  if (this != &obj)
+  {
+    this->size = obj.size;
+    clear();
+    Node< T > * temp = obj.head;
+    while (temp)
+    {
+      push_back(temp->data);
+      temp = temp->pNext;
+    }
+  }
+  return *this;
+}
+
+template < typename T >
+khoroshkin::List< T >::List(khoroshkin::List< T > && obj) :
+  size(obj.size), head(obj.head)
+{
+  obj.size = 0;
+  obj.head = nullptr;
+}
+
+template < typename T >
+khoroshkin::List< T > & khoroshkin::List< T >::operator=(List && obj)
+{
+  if (this != &obj)
+  {
+    clear();
+    this->size = obj.size;
+    while (obj.head)
+    {
+      push_back(obj.head->data);
+      obj.head = obj.head->pNext;
+    }
+  }
+  obj.clear();
+  return *this;
 }
 
 template< typename T >
@@ -103,6 +151,12 @@ void khoroshkin::List< T >::pop_front()
 }
 
 template < typename T >
+khoroshkin::Node< T > * khoroshkin::List< T >::front()
+{
+  return head;
+}
+
+template < typename T >
 void khoroshkin::List< T >::clear()
 {
   while (size)
@@ -129,21 +183,33 @@ khoroshkin::List< T >::~List()
   clear();
 }
 
+template< typename T >
+void khoroshkin::List< T >::swap(khoroshkin::List< T > & other)
+{
+  Node < T > * tempH = this->head;
+  this->head = other.head;
+  other.head = tempH;
+
+  int tempS = this->size;
+  this->size = other.size;
+  other.size = tempS;
+}
+
+
 template < typename T >
 khoroshkin::ListIterator< T > khoroshkin::List< T >::begin()
 {
+  if (isEmpty())
+  {
+    return end();
+  }
   return this->head;
 }
 
 template < typename T >
 khoroshkin::ListIterator< T > khoroshkin::List< T >::end()
 {
-  Node< T > * subhead = head;
-  while (subhead)
-  {
-    subhead = subhead->pNext;
-  }
-  return subhead;
+  return nullptr;
 }
 
 #endif

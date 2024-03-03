@@ -22,6 +22,8 @@ namespace khoroshkin
 
     T & operator*();
     T * operator->();
+    const T & operator*() const;
+    const T * operator->() const;
 
     bool operator!=(const ListIterator< T > &) const;
     bool operator==(const ListIterator< T > &) const;
@@ -55,6 +57,16 @@ T & khoroshkin::ListIterator< T >::operator*() {
 
 template< typename T >
 T * khoroshkin::ListIterator< T >::operator->() {
+  return std::addressof(node->data);
+}
+
+template< typename T >
+const T & khoroshkin::ListIterator< T >::operator*() const{
+  return node->data;
+}
+
+template< typename T >
+const T * khoroshkin::ListIterator< T >::operator->() const {
   return std::addressof(node->data);
 }
 
