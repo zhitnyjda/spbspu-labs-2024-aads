@@ -6,7 +6,6 @@ int main()
 {
   using namespace nikiforov;
 
-  
   std::string input;
   std::string stroka;
   input = "lol";
@@ -17,15 +16,13 @@ int main()
   List<int> lst;
   lst.push_back(12);
   lst.push_back(10);
-  
-  std::cout << iter->first << '\n';
-  */
+  std::cout << iter->first << '\n';*/
+
   List< std::pair< std::string, int> > seqs;
   seqs.push_back(std::pair< std::string, int>("lol", 2));
   Iterator< std::pair< std::string, int> > iter = seqs.begin();
 
   std::cout << iter->first << '\n';
-  
 
 
   while (std::cin >> stroka)
@@ -34,7 +31,7 @@ int main()
     {
       continue;
     }
-    
+
     while (std::cin >> num)
     {
       if (std::cin.peek() == '\n')

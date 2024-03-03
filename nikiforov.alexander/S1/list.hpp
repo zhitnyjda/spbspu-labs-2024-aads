@@ -58,7 +58,6 @@ namespace nikiforov
       head = nd;
     }
     size_l++;
-  
   }
 
   template<typename T>
