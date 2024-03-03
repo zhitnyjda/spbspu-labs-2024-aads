@@ -3,7 +3,7 @@
 #include "sstream"
 
 namespace kaseev {
-  void readList(std::string &line, kaseev::List<std::pair<std::string, kaseev::List<int>>>& arr) {
+  void readList(const std::string &line, kaseev::List<std::pair<std::string, kaseev::List<int>>>& arr) {
     std::istringstream iss(line);
     std::string ListName;
     if (!(iss >> ListName)) {
@@ -19,5 +19,23 @@ namespace kaseev {
     list_pair.first = ListName;
     list_pair.second = tempList;
     arr.pushBack(list_pair);
+  }
+}
+
+int sumNumbersInString(const std::string& line) {
+  std::istringstream iss(line);
+  int sum = 0;
+  int num;
+  while (iss >> num) {
+    sum += num;
+  }
+  return sum;
+}
+
+void sumNumbersInArray(const kaseev::List<std::string> sums) {
+  for (int i = 0; i < sums.size(); ++i) {
+    const std::string& line = sums[i];
+    const int sum = sumNumbersInString(line);
+    std::cout << "Sum of numbers in " << line << ": " << sum << std::endl;
   }
 }

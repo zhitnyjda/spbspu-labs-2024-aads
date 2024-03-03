@@ -4,7 +4,9 @@
 
 namespace kaseev
 {
-  void readList(std::string &line, kaseev::List<std::pair<std::string, kaseev::List<int>>>& arr);
+  void readList(const std::string &line, kaseev::List<std::pair<std::string, kaseev::List<int>>>& arr);
+  int sumNumbersInString(const std::string& line);
+  int sumNumbersInArray(const kaseev::List<std::string> sums);
 }
 
 #endif

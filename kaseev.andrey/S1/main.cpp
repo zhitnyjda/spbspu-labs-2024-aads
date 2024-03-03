@@ -27,27 +27,27 @@ int main() {
 
   bool finished = false;
   long int index = 0;
-  kaseev::List<int> sum;
-
+  kaseev::List<std::string> sum;
   while (!finished) {
     finished = true;
+    std::string currentString;
+
     for (long int i = 0; i < arr.size(); ++i) {
-      std::pair<std::string, kaseev::List<int>> list = arr[i];
+      const std::pair<std::string, kaseev::List<int>>& list = arr[i];
       if (index < list.second.size()) {
         std::cout << list.second[index] << " ";
-        sum.pushBack(list.second[index]);
+        currentString += std::to_string(list.second[index]) + " ";
         finished = false;
       }
     }
+
     if (!finished) {
       std::cout << "\n";
+      sum.pushBack(currentString);
     }
+
     index++;
   }
-
-  for (int i = 0; i <= sum.size() - 2; i++) {
-    std::cout << sum[i] << " ";
-  }
-  std::cout << "\n";
+  sumNumbersInArray(sum);
   return 0;
 }
