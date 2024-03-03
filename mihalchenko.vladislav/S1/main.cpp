@@ -46,15 +46,15 @@ int main()
   }
   std::cout << "lenMixList = " << lenMixList << std::endl;
 
-  /*for (auto it = list.begin_; it < list.end_; ++it)
+  /*for (auto it = mixedList.begin(); it != mixedList.end(); ++it)
   {
-    std::cout << it;
+    std::cout << it->first;
   }*/
 
-  /*for (size_t ind = 0; ind < list.size_; ind++)
+  for (size_t ind = 0; ind < list.size_; ind++)
   {
-    std::cout << mixedList[ind].first;
-  }*/
+    // std::cout << mixedList[ind].first;
+  }
 
   return 0;
 }

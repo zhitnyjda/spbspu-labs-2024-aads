@@ -21,34 +21,33 @@ namespace mihalchenko
     T &operator[](const size_t i);
     void clear();
     size_t getSize() { return size_; };
+    // class Iterator;
 
     // private:
     template <typename U>
     class Iterator
     {
     public:
-      U &operator=(const U &);
-      Iterator<U> &operator++();
-      Iterator<U> operator++(int);
-      U &operator*();
-      U *operator->();
+      T &operator=(const T &);
+      Iterator<T> &operator++();
+      Iterator<T> operator++(int);
+      T &operator*();
+      T *operator->();
 
-      bool operator==(const U &) const;
-      bool operator!=(const U &) const;
+      bool operator==(const mihalchenko::List<T>::Iterator<T> &) const;
+      bool operator!=(const mihalchenko::List<T>::Iterator<T> &) const;
 
-      Iterator<U> getPointerNext() { return pNext_; };
-
-      U getSize() { return data_; };
+      Iterator<T> getPointerNext() { return pNext_; };
 
       // private:
-      Iterator(U data = U(), Iterator<T> *pNext = nullptr)
+      Iterator(T data = T(), Iterator<T> *pNext = nullptr)
       {
         data_ = data;
         pNext_ = pNext;
       }
 
       Iterator<T> *pNext_;
-      U data_;
+      T data_;
     };
 
   public:
@@ -57,6 +56,7 @@ namespace mihalchenko
 
     Iterator<T> *begin_;
     Iterator<T> *end_;
+
     size_t size_;
   };
 
@@ -158,7 +158,7 @@ namespace mihalchenko
   template <typename T>
   mihalchenko::List<T>::Iterator<T> mihalchenko::List<T>::begin() const
   {
-    return this->begin_;
+    return begin_;
   }
 
   template <typename T>
@@ -201,7 +201,6 @@ namespace mihalchenko
   {
     return Iterator(begin_);
   }
-
   template <typename T>
   mihalchenko::List<T>::Iterator<T> mihalchenko::List<T>::end() const
   {
@@ -210,7 +209,7 @@ namespace mihalchenko
 
   template <typename T>
   template <typename U>
-  mihalchenko::List<T>::Iterator<U> &mihalchenko::List<T>::Iterator<U>::operator++()
+  mihalchenko::List<T>::Iterator<T> &mihalchenko::List<T>::Iterator<U>::operator++()
   {
     begin_ = begin_->pNext_;
     return this;
@@ -218,37 +217,37 @@ namespace mihalchenko
 
   template <typename T>
   template <typename U>
-  mihalchenko::List<T>::Iterator<U> mihalchenko::List<T>::Iterator<U>::operator++(int)
+  mihalchenko::List<T>::Iterator<T> mihalchenko::List<T>::Iterator<U>::operator++(int)
   {
-    Iterator<U> result(*this);
+    Iterator<T> result(*this);
     ++(*this);
     return result;
   }
 
   template <typename T>
   template <typename U>
-  U &mihalchenko::List<T>::Iterator<U>::operator*()
+  T &mihalchenko::List<T>::Iterator<U>::operator*()
   {
     return begin_->data_;
   }
 
   template <typename T>
   template <typename U>
-  U *mihalchenko::List<T>::Iterator<U>::operator->()
+  T *mihalchenko::List<T>::Iterator<U>::operator->()
   {
     return std::addressof(begin_->data_);
   }
 
   template <typename T>
   template <typename U>
-  bool mihalchenko::List<T>::Iterator<U>::operator==(const U &rhs) const
+  bool mihalchenko::List<T>::Iterator<U>::operator==(const mihalchenko::List<T>::Iterator<T> &rhs) const
   {
     return begin_ == rhs.begin_;
   }
 
   template <typename T>
   template <typename U>
-  bool mihalchenko::List<T>::Iterator<U>::operator!=(const U &rhs) const
+  bool mihalchenko::List<T>::Iterator<U>::operator!=(const mihalchenko::List<T>::Iterator<T> &rhs) const
   {
     return !(rhs == *this);
   }
