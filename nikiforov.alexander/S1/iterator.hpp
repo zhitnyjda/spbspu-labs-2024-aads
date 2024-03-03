@@ -26,51 +26,51 @@ namespace nikiforov
   private:
     Node<T>* pNode;
   };
-
-  template<typename T>
-  T& nikiforov::Iterator<T>::operator*()
-  {
-    return pNode->data;
-  }
-
-  template<typename T>
-  const T& nikiforov::Iterator<T>::operator*() const
-  {
-    return pNode->data;
-  }
-
-  template<typename T>
-  T* nikiforov::Iterator<T>::operator->()
-  {
-    return &(pNode->data);
-  }
-
-  template<typename T>
-  const T* nikiforov::Iterator<T>::operator->() const
-  {
-    return &(pNode->data);
-  }
-
-  template<typename T>
-  bool nikiforov::Iterator<T>::operator!=(const Iterator& lhs) const
-  {
-    return !(*this == lhs);
-  }
-
-  template<typename T>
-  bool nikiforov::Iterator<T>::operator==(const Iterator& lhs) const
-  {
-    return pNode == lhs.pNode;
-  }
-
-
-  template<typename T>
-  nikiforov::Iterator<T> nikiforov::Iterator<T>::operator++(int)
-  {
-    if (pNode != nullptr)
-      pNode = pNode->pNext;
-    return *this;
-  }
 }
+template<typename T>
+T& nikiforov::Iterator<T>::operator*()
+{
+  return pNode->data;
+}
+
+template<typename T>
+const T& nikiforov::Iterator<T>::operator*() const
+{
+  return pNode->data;
+}
+
+template<typename T>
+T* nikiforov::Iterator<T>::operator->()
+{
+  return &(pNode->data);
+}
+
+template<typename T>
+const T* nikiforov::Iterator<T>::operator->() const
+{
+  return &(pNode->data);
+}
+
+template<typename T>
+bool nikiforov::Iterator<T>::operator!=(const Iterator& lhs) const
+{
+  return !(*this == lhs);
+}
+
+template<typename T>
+bool nikiforov::Iterator<T>::operator==(const Iterator& lhs) const
+{
+  return pNode == lhs.pNode;
+}
+
+
+template<typename T>
+nikiforov::Iterator<T> nikiforov::Iterator<T>::operator++(int)
+{
+  if (pNode != nullptr)
+    pNode = pNode->pNext;
+  return *this;
+}
+
 
 #endif
