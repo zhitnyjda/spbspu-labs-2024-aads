@@ -24,10 +24,15 @@ namespace miheev
 
   miheev::List< int > readNumbers(std::istream& stream)
   {
+    if ((stream >> std::ws).eof())
+    {
+      List< int > list;
+      return list;
+    }
+
     int number = 0;
     stream >> number;
-
-    miheev::List< int > list(number);
+    List< int > list(number);
 
     while(stream >> number)
     {
@@ -37,16 +42,12 @@ namespace miheev
     return list;
   }
 
-  void getSIPair(std::istream& stream, SI_pair* pairs, size_t& pairIndex)
+  SI_pair getSIPair(std::istream& stream)
   {
     SI_pair pair;
     stream >> pair.first; // reading word
-    stream >> std::ws;
-    if (stream.rdbuf()->in_avail() != 0)
-    {
-      pair.second = readNumbers(stream);
-      pairs[pairIndex++] = pair;
-    }
+    pair.second = readNumbers(stream);
+    return pair;
   }
 
   ListIter* getIters(SI_pair* pairs, size_t size)
@@ -78,13 +79,13 @@ int main()
       std::cout << "EOF\n";
       break;
     }
-
     std::istringstream stream(line);
+
     if (unusedIndex >= pairsSize)
     {
       expandPairsArr(pairs, pairsSize);
     }
-    getSIPair(stream, pairs, unusedIndex);
+    pairs[unusedIndex++] = getSIPair(stream);
   }
 
   // print names
@@ -103,7 +104,7 @@ int main()
     for (size_t i = 0; i < unusedIndex; i++)
     {
       ListIter iter = iters[i];
-      if (iter != nullptr)
+      if (iter != nullptr and !iter.isEmptyObject())
       {
         std::cout << *iter << ' ';
         if (iter)

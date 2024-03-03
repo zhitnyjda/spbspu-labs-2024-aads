@@ -24,7 +24,7 @@ namespace miheev
 
     List(T data):
       data_(data),
-      next_(nullptr)
+      next_(nullptr),
       isEmpty_(false)
     {}
 
@@ -130,6 +130,10 @@ namespace miheev
       explicit operator bool() const
       {
         return cur->next_ != nullptr;
+      }
+      bool isEmptyObject() const
+      {
+        return cur->isEmpty_;
       }
       this_t& operator++()
       {
