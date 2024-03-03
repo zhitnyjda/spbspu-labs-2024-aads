@@ -8,9 +8,11 @@ int main()
   sobolevsky::List< std::vector<int> > list;
 
   std::string nodeName;
+  std::string tempNodeName;
+  std::cin >> tempNodeName;
   while (std::cin)
   {
-    std::cin >> nodeName;
+    nodeName = tempNodeName;
     if (std::cin.eof())
     {
       sobolevsky::Iterator< std::vector<int> > iter( list.head );
@@ -20,11 +22,11 @@ int main()
     }
     std::vector<int> vec;
     std::string elem;
-    std::string end = "\n";
     while (std::cin >> elem)
     {
-      if (elem == end)
+      if (isalpha(elem[0]))
       {
+        tempNodeName = elem;
         break;
       }
       int i = stoi(elem);
