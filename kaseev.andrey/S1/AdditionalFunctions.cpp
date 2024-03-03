@@ -32,7 +32,7 @@ int sumNumbersInString(const std::string& line) {
   return sum;
 }
 
-void sumNumbersInArray(const kaseev::List<std::string> sums) {
+void sumNumbersInArray(const kaseev::List<std::string>& sums) {
   for (int i = 0; i < sums.size(); ++i) {
     const std::string& line = sums[i];
     const int sum = sumNumbersInString(line);
