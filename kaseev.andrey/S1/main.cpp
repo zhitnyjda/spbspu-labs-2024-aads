@@ -48,6 +48,6 @@ int main() {
 
     index++;
   }
-  sumNumbersInArray(sum);
+  kaseev::sumNumbersInArray(sum);
   return 0;
 }
