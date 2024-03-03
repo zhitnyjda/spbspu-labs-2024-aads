@@ -9,7 +9,7 @@ namespace kaseev {
     std::string ListName;
     if (!(iss >> ListName))
     {
-      std::cerr << "Empty line!" << std::endl;
+      std::cerr << "Empty line! \n";
       return;
     }
     kaseev::List<int> tempList;

@@ -13,25 +13,20 @@ int main() {
     }
     kaseev::readList(line, arr);
   }
-
+  if (arr.empty()) {
+    return 0;
+  }
   for (long int i = 0; i < arr.size(); ++i) {
     std::pair<std::string, kaseev::List<int>> list = arr[i];
     std::cout << list.first << " ";
   }
   std::cout << "\n";
-
-  if (arr.empty()) {
-    std::cout << "0 \n";
-    return 1;
-  }
-
   bool finished = false;
   long int index = 0;
   kaseev::List<std::pair<std::string, kaseev::List<int>>> sum;
   while (!finished) {
     finished = true;
     std::string currentString;
-
     for (long int i = 0; i < arr.size(); ++i) {
       const std::pair<std::string, kaseev::List<int>>& list = arr[i];
       if (index < list.second.size()) {
@@ -40,12 +35,10 @@ int main() {
         finished = false;
       }
     }
-
     if (!finished) {
       std::cout << "\n";
       sum.pushBack({currentString, kaseev::List<int>()});
     }
-
     index++;
   }
   kaseev::sumNumbersInArray(sum);
