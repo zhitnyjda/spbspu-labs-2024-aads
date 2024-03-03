@@ -49,22 +49,19 @@ namespace redko
     using const_iterator = Iterator< const T >;
 
     List(): head_() {};
-    List(const List & l);
-    List(List< T > && l);
+    List(const List & other);
+    List(List< T > && other) noexcept;
     ~List();
 
     List< T > & operator=(const List< T > & other);
     List< T > & operator=(List< T > && other);
 
-    Iterator< T > eraseAfter(Iterator< T > pos);
+    void assign(size_t count, const T & value);
+    void assign(iterator first, iterator last);
+    void assign(std::initializer_list< T > ilist);
 
-    ListElem< T > & front();
+    T & front();
 
-    void pushBack(const T & value);
-    void pushBack(T && value);
-    void popFront();
-
-    bool isEmpty();
     iterator beforeBegin() noexcept;
     const_iterator beforeBegin() const noexcept;
     const_iterator cbeforeBegin() const noexcept;
@@ -77,8 +74,17 @@ namespace redko
     const_iterator end() const noexcept;
     const_iterator cend() const noexcept;
 
-    void swap(List< T > & other);
+    bool isEmpty();
+
     void clear();
+    Iterator< T > eraseAfter(Iterator< T > pos);
+    void pushBack(const T & value);
+    void pushBack(T && value);
+    void popFront();
+    void swap(List< T > & other);
+    size_t remove(const T & value);
+    template< typename UnaryPredicate >
+    size_t removeIf(UnaryPredicate pred);
 
   private:
     ListElem< T > head_;
@@ -86,25 +92,34 @@ namespace redko
 }
 
 template < typename T >
-redko::ListElem< T >::ListElem() : data(), next(nullptr)
+redko::ListElem< T >::ListElem():
+  data(),
+  next(nullptr)
 {}
 template < typename T >
-redko::ListElem< T >::ListElem(T d) : data(d), next(nullptr)
+redko::ListElem< T >::ListElem(T d):
+  data(d),
+  next(nullptr)
 {}
 
 template < typename T >
-redko::Iterator< T >::Iterator() : node(nullptr)
+redko::Iterator< T >::Iterator():
+  node(nullptr)
 {}
 template < typename T >
-redko::Iterator< T >::Iterator(ListElem< T >* ptr) : node(ptr) {}
+redko::Iterator< T >::Iterator(ListElem< T > * ptr):
+  node(ptr)
+{}
 template< typename T >
-redko::Iterator< T >& redko::Iterator< T >::operator++() {
+redko::Iterator< T > & redko::Iterator< T >::operator++()
+{
   assert(node != nullptr);
   node = node->next;
   return *this;
 }
 template< typename T >
-redko::Iterator< T > redko::Iterator< T >::operator++(int) {
+redko::Iterator< T > redko::Iterator< T >::operator++(int)
+{
   assert(node != nullptr);
   this_t result(*this);
   ++(*this);
@@ -150,97 +165,35 @@ template< typename T >
 redko::List< T >::List(const List & other)
 {
   ListElem< T > * othrElem = other.head_.next;
-  ListElem< T > * thisElem = head_.next;
-
   while (othrElem != nullptr)
   {
-    thisElem = new ListElem< T >(othrElem->data);
-    thisElem = thisElem->next;
+    pushBack(othrElem->data);
     othrElem = othrElem->next;
   }
 }
-
 template< typename T >
-redko::List< T >::List(List< T > && other)
+redko::List< T >::List(List< T > && other) noexcept
 {
   head_.next = other.head_.next;
   other.head_.next = nullptr;
 }
-
 template< typename T >
 redko::List< T >::~List()
 {
   clear();
 }
-template< typename T >
-void redko::List< T >::pushBack(const T & value)
-{
-  redko::ListElem< T > * tmp = new redko::ListElem< T >(value);
-  if (head_.next == nullptr)
-  {
-    head_.next = tmp;
-  }
-  else
-  {
-    Iterator< T > curr = begin();
-    while (curr.node->next != nullptr)
-    {
-      curr++;
-    }
-    curr.node->next = tmp;
-  }
-}
-template< typename T >
-void redko::List< T >::pushBack(T && value)
-{
-  redko::ListElem< T > * tmp = new redko::ListElem< T >(value);
-  if (head_.next == nullptr)
-  {
-    head_.next = tmp;
-  }
-  else
-  {
-    Iterator< T > curr = begin();
-    while (curr.node->next != nullptr)
-    {
-      curr++;
-    }
-    curr.node->next = tmp;
-  }
-}
-template< typename T >
-redko::Iterator< T > redko::List< T >::eraseAfter(Iterator< T > pos)
-{
-  redko::ListElem< T > * p = pos.node->next;
-  if (p != nullptr)
-  {
-    pos.node->next = p->next;
-    delete p;
-  }
-  return pos++;
-}
-template< typename T >
-void redko::List< T >::popFront()
-{
-  eraseAfter(beforeBegin());
-}
 
-template< typename T >
-redko::ListElem< T > & redko::List< T >::front()
-{
-  return head_.next;
-}
 template< typename T >
 redko::List< T > & redko::List< T >::operator=(const redko::List< T > & other)
 {
   if (&other != this)
   {
     clear();
-    redko::Iterator< T > otherElem = other.begin();
-    while (otherElem != other.end())
+    ListElem< T > * othrElem = other.head_.next;
+    while (othrElem != nullptr)
     {
-      pushBack(*otherElem);
-      otherElem++;
+      pushBack(othrElem->data);
+      othrElem = othrElem->next;
     }
   }
   return *this;
@@ -251,16 +204,45 @@ redko::List< T > & redko::List< T >::operator=(redko::List< T > && other)
   if (&other != this)
   {
     clear();
-    redko::ListElem< T > * tmp = other.front();
-    head_.next = tmp;
+    head_.next = other.head_.next;
     other.head_.next = nullptr;
   }
   return *this;
 }
+
 template< typename T >
-bool redko::List< T >::isEmpty()
+void redko::List< T >::assign(size_t count, const T & value)
 {
-  return head_.next == nullptr;
+  clear();
+  for (int i = 0; i < count; i++)
+  {
+    pushBack(value);
+  }
+}
+template< typename T >
+void redko::List< T >::assign(Iterator< T > first, Iterator< T > last)
+{
+  clear();
+  while (first != last)
+  {
+    pushBack(*first);
+    first++;
+  }
+}
+template< typename T >
+void redko::List< T >::assign(std::initializer_list< T > ilist)
+{
+  clear();
+  for (auto value : ilist)
+  {
+    pushBack(value);
+  }
+}
+
+template< typename T >
+T & redko::List< T >::front()
+{
+  return head_.next->data;
 }
 
 template< typename T >
@@ -327,12 +309,11 @@ redko::Iterator< const T > redko::List< T >::cend() const noexcept
 }
 
 template< typename T >
-void redko::List< T >::swap(List< T > & other)
+bool redko::List< T >::isEmpty()
 {
-  ListElem< T > tmp = other.head_;
-  other.head_ = head_;
-  head_ = tmp;
+  return head_.next == nullptr;
 }
+
 template< typename T >
 void redko::List< T >::clear()
 {
@@ -340,6 +321,103 @@ void redko::List< T >::clear()
   {
     popFront();
   }
+}
+template< typename T >
+redko::Iterator< T > redko::List< T >::eraseAfter(Iterator< T > pos)
+{
+  ListElem< T > * p = pos.node->next;
+  if (p != nullptr)
+  {
+    pos.node->next = p->next;
+    delete p;
+  }
+  return pos++;
+}
+template< typename T >
+void redko::List< T >::pushBack(const T & value)
+{
+  ListElem< T > * tmp = new ListElem< T >(value);
+  if (head_.next == nullptr)
+  {
+    head_.next = tmp;
+  }
+  else
+  {
+    Iterator< T > curr = begin();
+    while (curr.node->next != nullptr)
+    {
+      curr++;
+    }
+    curr.node->next = tmp;
+  }
+}
+template< typename T >
+void redko::List< T >::pushBack(T && value)
+{
+  ListElem< T > * tmp = new ListElem< T >(value);
+  if (head_.next == nullptr)
+  {
+    head_.next = tmp;
+  }
+  else
+  {
+    Iterator< T > curr = begin();
+    while (curr.node->next != nullptr)
+    {
+      curr++;
+    }
+    curr.node->next = tmp;
+  }
+}
+template< typename T >
+void redko::List< T >::popFront()
+{
+  eraseAfter(beforeBegin());
+}
+template< typename T >
+void redko::List< T >::swap(List< T > & other)
+{
+  ListElem< T > tmp = other.head_;
+  other.head_ = head_;
+  head_ = tmp;
+}
+
+template< typename T >
+size_t redko::List< T >::remove(const T & value)
+{
+  size_t count = 0;
+  Iterator< T > prevIt = beforeBegin();
+  Iterator< T > currIt = begin();
+  while (currIt != end())
+  {
+    if (*currIt == value)
+    {
+      currIt = eraseAfter(prevIt);
+      count++;
+    }
+    currIt++;
+    prevIt++;
+  }
+  return count;
+}
+template< typename T >
+template< typename UnaryPredicate >
+size_t redko::List< T >::removeIf(UnaryPredicate pred)
+{
+  size_t count = 0;
+  Iterator< T > prevIt = beforeBegin();
+  Iterator< T > currIt = begin();
+  while (currIt != end())
+  {
+    if (pred(*currIt))
+    {
+      currIt = eraseAfter(prevIt);
+      count++;
+    }
+    currIt++;
+    prevIt++;
+  }
+  return count;
 }
 
 #endif
