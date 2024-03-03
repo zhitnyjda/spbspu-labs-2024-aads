@@ -2,6 +2,7 @@
 #define LIST_HPP
 #include "node.hpp"
 #include "iterator.hpp"
+#include <cstddef>
 
 namespace nikiforov
 {
@@ -123,13 +124,13 @@ namespace nikiforov
 
 
   template<typename T>
-  nikiforov::Iterator<T> nikiforov::List<T>::begin() const
+  Iterator<T> nikiforov::List<T>::begin() const
   {
     return Iterator<T>(head);
   }
 
   template<typename T>
-  nikiforov::Iterator<T> nikiforov::List<T>::end() const
+  Iterator<T> nikiforov::List<T>::end() const
   {
     return Iterator<T>(nullptr);
   }
