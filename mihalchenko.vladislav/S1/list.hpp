@@ -185,6 +185,7 @@ namespace mihalchenko
       actual = actual->pNext_;
       c++;
     }
+    throw std::out_of_range("Index out of range");
   }
 
   template <typename T>

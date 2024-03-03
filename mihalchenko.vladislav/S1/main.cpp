@@ -16,7 +16,7 @@ int main()
   std::string inputStr;
   std::string slovo;
 
-  bool flg = false;
+  // bool flg = false;
 
   while (std::cin >> inputStr)
   {
@@ -40,12 +40,8 @@ int main()
     else
     {
       tempIntList = intList1;
-      // std::string ggg = "25";
-      // integerList intList1;
-      //  intList1.push_back(std::stoi(ggg));
-      //  intList1.push_back(std::stoi(ggg));
-      //  il2.push_back(std::stoi(inputStr));
       tempIntList.push_back(std::stoi(inputStr));
+      std::cout << std::stoi(inputStr) << " ";
 
       if (std::cin.peek() == '\n')
       {
@@ -63,7 +59,13 @@ int main()
   for (size_t ind = 0; ind < mixedList.size_; ind++)
   {
     std::cout << mixedList[ind].first << std::endl;
-    // std::cout << mixedList[ind].second << std::endl;
+    integerList intList2;
+    /* for (size_t i = 0; i < mixedList[ind].second.getSize() - 1; i++)
+    {
+      intList2[i] = mixedList[ind].second[i];
+      std::cout << intList2[i] << " ";
+    }*/
+    // std::cout << mixedList[ind].second[1] << std::endl;
   }
-  // return 0;
+  return 0;
 }
