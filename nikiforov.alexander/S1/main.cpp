@@ -1,28 +1,51 @@
 #include <iostream>
-#include <cstddef>
+#include <string>
 #include "list.hpp"
 
 int main()
 {
   using namespace nikiforov;
 
-  List<int> lst;
-  std::string name;
+  
+  std::string input;
+  std::string stroka;
+  input = "lol";
   int num = 0;
+  /*std::pair<std::string, List< int >> listPair;
+  List < std::pair< std::string, List< int >> > allListsPairs;
+  Iterator< List< int > > iter = allListsPairs.begin();
+  List<int> lst;
+  lst.push_back(12);
+  lst.push_back(10);
+  
+  std::cout << iter->first << '\n';
+  */
+  List< std::pair< std::string, int> > seqs;
+  seqs.push_back(std::pair< std::string, int>("lol", 2));
+  Iterator< std::pair< std::string, int> > iter = seqs.begin();
 
-  std::pair<std::string, List<int>> list_pair;
+  std::cout << iter->first << '\n';
+  
 
-  while (!std::cin.eof())
+
+  while (std::cin >> stroka)
   {
-    if (true)
+    if (std::cin.peek() == '\n')
     {
-
+      continue;
     }
-    else 
+    
+    while (std::cin >> num)
     {
-
+      if (std::cin.peek() == '\n')
+      {
+        std::cout << num << "\n";
+        break;
+      }
+      std::cout << num << "\n";
     }
 
   }
+
   return 0;
 }

@@ -31,19 +31,20 @@ namespace nikiforov
 
 
   template<typename T>
-  List<T>::List()
+  nikiforov::List<T>::List()
   {
     head = nullptr;
     size_l = 0;
   }
 
   template<typename T>
-  List<T>::~List()
+  nikiforov::List<T>::~List()
   {
+    clear();
   }
 
   template<typename T>
-  inline void List<T>::push_front(T data)
+  void nikiforov::List<T>::push_front(T data)
   {
     Node<T>* nd = new Node<T>(data);
     if (head == nullptr)
@@ -61,7 +62,7 @@ namespace nikiforov
   }
 
   template<typename T>
-  void List<T>::push_back(T data)
+  void nikiforov::List<T>::push_back(T data)
   {
     Node<T>* nd = new Node<T>(data);
     if (head == nullptr)
@@ -81,7 +82,7 @@ namespace nikiforov
   }
 
   template<typename T>
-  void List<T>::pop_front()
+  void nikiforov::List<T>::pop_front()
   {
     Node<T>* actual = head;
     head = head->pNext;
@@ -90,7 +91,7 @@ namespace nikiforov
   }
 
   template<typename T>
-  void List<T>::pop_back()
+  void nikiforov::List<T>::pop_back()
   {
     Node<T>* actual = head;
     for (size_t i = 0; i < (size_l - 1); i++)
@@ -102,7 +103,7 @@ namespace nikiforov
   }
 
   template<typename T>
-  void List<T>::clear()
+  void nikiforov::List<T>::clear()
   {
     size_t size = size_l;
     for (size_t i = 0; i < size; i++)
@@ -112,7 +113,7 @@ namespace nikiforov
   }
 
   template<typename T>
-  bool List<T>::is_empty()
+  bool nikiforov::List<T>::is_empty()
   {
     if (head == nullptr)
     {
@@ -123,19 +124,19 @@ namespace nikiforov
 
 
   template<typename T>
-  Iterator<T> List<T>::begin() const
+  nikiforov::Iterator<T> nikiforov::List<T>::begin() const
   {
     return Iterator<T>(head);
   }
 
   template<typename T>
-  Iterator<T> List<T>::end() const
+  nikiforov::Iterator<T> nikiforov::List<T>::end() const
   {
     return Iterator<T>(nullptr);
   }
 
   template<typename T>
-  size_t List<T>::size() const
+  size_t nikiforov::List<T>::size() const
   {
     return size_l;
   }
