@@ -2,6 +2,7 @@
 #define LIST_ITERATOR
 #include "node.hpp"
 #include <cassert>
+#include <memory>
 
 namespace doroshenko
 {
