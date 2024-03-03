@@ -3,6 +3,7 @@
 #include "node.hpp"
 #include "iterator.hpp"
 #include <cstddef>
+#include <string>
 
 namespace sobolevsky
 {
@@ -18,8 +19,8 @@ namespace sobolevsky
     List();
     ~List();
 
-    void pushFront(T data);
-    void pushBack(T data);
+    void pushFront(T data, std::string nameIn);
+    void pushBack(T data, std::string nameIn);
     void popFront();
     void popBack();
     void clear();
@@ -41,9 +42,9 @@ sobolevsky::List< T >::~List()
 }
 
 template< typename T >
-void sobolevsky::List< T >::pushFront(const T data)
+void sobolevsky::List< T >::pushFront(const T data, std::string nameIn)
 {
-  Node< T > * ptr = new Node< T >(data);
+  Node< T > * ptr = new Node< T >(data, nameIn);
   ptr->next = head;
   if (head != nullptr)
   {
@@ -58,9 +59,9 @@ void sobolevsky::List< T >::pushFront(const T data)
 }
 
 template< typename T >
-void sobolevsky::List< T >::pushBack(const T data)
+void sobolevsky::List< T >::pushBack(const T data, std::string nameIn)
 {
-  Node< T > * ptr = new Node< T >(data);
+  Node< T > * ptr = new Node< T >(data, nameIn);
   ptr->prev = tail;
   if (tail != nullptr)
   {

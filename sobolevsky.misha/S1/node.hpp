@@ -1,5 +1,6 @@
 #ifndef NODE_HPP
 #define NODE_HPP
+#include <string>
 
 namespace sobolevsky
 {
@@ -10,15 +11,16 @@ namespace sobolevsky
     Node * next;
     Node * prev;
     T data;
-    char Name;
+    std::string name;
 
-    Node(T data);
+    Node(T dataIn, std::string nameIn);
   };
 }
 
 template< typename T >
-sobolevsky::Node< T >::Node(T dataIn)
+sobolevsky::Node< T >::Node(T dataIn, std::string nameIn)
 {
+  name = nameIn;
   data = dataIn;
   prev = nullptr;
   next = nullptr;

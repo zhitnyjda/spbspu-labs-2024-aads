@@ -32,6 +32,8 @@ namespace sobolevsky
 
     T & operator * ();
     T * operator->();
+
+    std::string name();
   };
 }
 
@@ -83,6 +85,12 @@ template< typename T >
 T * sobolevsky::Iterator< T >::operator->()
 {
   return std::addressof(currNode->data);
+}
+
+template< typename T >
+std::string sobolevsky::Iterator< T >::name()
+{
+  return currNode->name;
 }
 
 #endif
