@@ -27,7 +27,7 @@ int main() {
 
   bool finished = false;
   long int index = 0;
-  kaseev::List<std::string> sum;
+  kaseev::List<std::pair<std::string, kaseev::List<int>>> sum;
   while (!finished) {
     finished = true;
     std::string currentString;
@@ -43,7 +43,7 @@ int main() {
 
     if (!finished) {
       std::cout << "\n";
-      sum.pushBack(currentString);
+      sum.pushBack({currentString, kaseev::List<int>()});
     }
 
     index++;

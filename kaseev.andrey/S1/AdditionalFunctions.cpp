@@ -32,10 +32,12 @@ int sumNumbersInString(const std::string& line) {
   return sum;
 }
 
-void sumNumbersInArray(const kaseev::List<std::string>& sums) {
+void sumNumbersInArray(const kaseev::List<std::pair<std::string, kaseev::List<int>>>& sums) {
   for (int i = 0; i < sums.size(); ++i) {
-    const std::string& line = sums[i];
+    const auto& pair = sums[i];
+    const std::string& line = pair.first;
     const int sum = sumNumbersInString(line);
-    std::cout << "Sum of numbers in " << line << ": " << sum << std::endl;
+    std::cout << sum << " ";
   }
+  std::cout << "\n";
 }
