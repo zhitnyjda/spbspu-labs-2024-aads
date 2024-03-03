@@ -13,11 +13,19 @@ namespace miheev
   public:
     T data_;
     List< T >* next_;
+    bool isEmpty_;
     class Iterator;
+
+    List():
+      data_(0),
+      next_(nullptr),
+      isEmpty_(true)
+    {}
 
     List(T data):
       data_(data),
       next_(nullptr)
+      isEmpty_(false)
     {}
 
     ~List() = default;
@@ -28,9 +36,21 @@ namespace miheev
       {
         delete next_;
       }
+      delete this;
     }
 
-    List() = default;
+    size_t size() const
+    {
+      if (isEmpty_)
+      {
+        return 0;
+      }
+      if (!next_)
+      {
+        return 1;
+      }
+      return 1 + size();
+    }
 
     void pushBack(T data)
     {
@@ -83,38 +103,45 @@ namespace miheev
       List<T>* cur;
 
       using this_t = List< T >::Iterator;
-      Iterator() = default;
-      Iterator(List<T>* head)
-      {
-        cur = head;
-      }
-      T& operator++()
-      {
-        cur = cur->next_;
-        return *cur;
-      }
-      T& operator++(int)
-      {
-        T* copy = cur;
-        cur = cur->next_;
-        return *copy;
-      }
-      T& operator+(size_t n)
+      Iterator():
+        cur(nullptr)
+      {}
+      Iterator(List< T >* head):
+        cur(head)
+      {}
+      Iterator(const this_t&) = default;
+      this_t& operator=(const this_t&) = default;
+      List<T>& operator+(size_t n)
       {
         for (; n > 0; n--)
         {
-          ++this;
+          cur++;
         }
+        return cur;
       }
-      List<T>& operator*()
+      T& operator*()
       {
-        return *cur;
+        return cur->data_;
       }
-      List<T>& operator->()
+      T* operator->() const
       {
-        return std::addressof(*cur);
+        return std::addressof(cur->data_);
       }
-
+      explicit operator bool() const
+      {
+        return cur->next_ != nullptr;
+      }
+      this_t& operator++()
+      {
+        cur = cur->next_;
+        return *this;
+      }
+      this_t operator++(int)
+      {
+        this_t copy(*this);
+        cur = cur->next_;
+        return *copy;
+      }
       bool operator!=(const this_t & rhs) const
       {
         return cur != rhs.cur;

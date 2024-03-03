@@ -22,7 +22,7 @@ namespace miheev
     pairs = copy;
   }
 
-  miheev::List< int > readNumbers(std::istringstream& stream)
+  miheev::List< int > readNumbers(std::istream& stream)
   {
     int number = 0;
     stream >> number;
@@ -37,17 +37,16 @@ namespace miheev
     return list;
   }
 
-  SI_pair readLine()
+  void getSIPair(std::istream& stream, SI_pair* pairs, size_t& pairIndex)
   {
-    std::string line;
-    std::getline(std::cin, line);
-    std::istringstream stream(line);
-
     SI_pair pair;
     stream >> pair.first; // reading word
-    pair.second = readNumbers(stream);
-
-    return pair;
+    stream >> std::ws;
+    if (stream.rdbuf()->in_avail() != 0)
+    {
+      pair.second = readNumbers(stream);
+      pairs[pairIndex++] = pair;
+    }
   }
 
   ListIter* getIters(SI_pair* pairs, size_t size)
@@ -69,14 +68,23 @@ int main()
   SI_pair* pairs = new SI_pair[pairsSize];
   size_t unusedIndex = 0;
 
-  while (!std::cin.eof())
+  while (1)
   {
+    std::string line;
+    std::getline(std::cin, line);
+
+    if (std::cin.eof())
+    {
+      std::cout << "EOF\n";
+      break;
+    }
+
+    std::istringstream stream(line);
     if (unusedIndex >= pairsSize)
     {
       expandPairsArr(pairs, pairsSize);
     }
-    pairs[unusedIndex] = readLine();
-    unusedIndex++;
+    getSIPair(stream, pairs, unusedIndex);
   }
 
   // print names
@@ -88,21 +96,25 @@ int main()
 
   ListIter* iters = getIters(pairs, unusedIndex);
 
+  bool flag = false;
   do
   {
-    bool flag = false;
+    flag = false;
     for (size_t i = 0; i < unusedIndex; i++)
     {
       ListIter iter = iters[i];
-      if (*iter->next_)
+      if (iter != nullptr)
       {
-        flag = true;
+        std::cout << *iter << ' ';
+        if (iter)
+        {
+          flag = true;
+        }
+        iters[i] = ++iter;
       }
-      std::cout << iter->data_ << " ";
-      ++iter;
     }
     std::cout << '\n';
-  } while (flag)
+  } while (flag);
 
   delete[] pairs;
   return 0;
