@@ -17,6 +17,7 @@ namespace zheleznyakov
     void popFront();
     void popBack();
     void clear();
+    bool isEmpty();
     T operator[](const size_t index);
 
   private:
@@ -112,5 +113,11 @@ void zheleznyakov::List< T >::clear()
   {
     popFront();
   }
+}
+
+template< typename T>
+bool zheleznyakov::List< T >::isEmpty()
+{
+  return size == 0;
 }
 #endif
