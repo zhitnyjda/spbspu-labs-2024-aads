@@ -3,63 +3,8 @@
 #include <utility>
 #include <string>
 #include "list.hpp"
+#include "mainUtils.hpp"
 
-using SI_pair = std::pair< std::string, miheev::List< int > >;
-using ListIter = miheev::List<int>::Iterator;
-
-namespace miheev
-{
-  void expandPairsArr(SI_pair*& pairs, size_t& size)
-  {
-    const size_t additionalSize = 5;
-    SI_pair* copy = new SI_pair[size + additionalSize];
-    for (size_t i = 0; i < size; i++)
-    {
-      copy[i] = pairs[i];
-    }
-    size += additionalSize;
-    delete [] pairs;
-    pairs = copy;
-  }
-
-  miheev::List< int > readNumbers(std::istream& stream)
-  {
-    if ((stream >> std::ws).eof())
-    {
-      List< int > list;
-      return list;
-    }
-
-    int number = 0;
-    stream >> number;
-    List< int > list(number);
-
-    while(stream >> number)
-    {
-      list.pushBack(number);
-    }
-    list.print();
-    return list;
-  }
-
-  SI_pair getSIPair(std::istream& stream)
-  {
-    SI_pair pair;
-    stream >> pair.first; // reading word
-    pair.second = readNumbers(stream);
-    return pair;
-  }
-
-  ListIter* getIters(SI_pair* pairs, size_t size)
-  {
-    ListIter* iters = new ListIter[size];
-    for (size_t i = 0; i < size; i++)
-    {
-      iters[i] = ListIter(pairs[i].second.begin());
-    }
-    return iters;
-  }
-}
 
 int main()
 {
@@ -83,12 +28,19 @@ int main()
 
     if (unusedIndex >= pairsSize)
     {
-      expandPairsArr(pairs, pairsSize);
+      const size_t additionalSize = 5;
+      SI_pair* copy = new SI_pair[pairsSize + additionalSize];
+      for (size_t i = 0; i < pairsSize; i++)
+      {
+        copy[i] = pairs[i];
+      }
+      pairsSize += additionalSize;
+      delete [] pairs;
+      pairs = copy;
     }
     pairs[unusedIndex++] = getSIPair(stream);
   }
 
-  // print names
   for (size_t i = 0; i < unusedIndex; i++)
   {
     std::cout << pairs[i].first << ' ';
@@ -96,6 +48,10 @@ int main()
   std::cout << '\n';
 
   ListIter* iters = getIters(pairs, unusedIndex);
+  List< int >* lists = getLists(pairs, unusedIndex);
+
+  int* sumArr = new int[maxListSize(lists, unusedIndex)]{};
+  size_t index = 0;
 
   bool flag = false;
   do
@@ -106,6 +62,7 @@ int main()
       ListIter iter = iters[i];
       if (iter != nullptr and !iter.isEmptyObject())
       {
+        sumArr += *iter;
         std::cout << *iter << ' ';
         if (iter)
         {
@@ -114,10 +71,10 @@ int main()
         iters[i] = ++iter;
       }
     }
+    index++;
     std::cout << '\n';
   } while (flag);
 
   delete[] pairs;
   return 0;
 }
-

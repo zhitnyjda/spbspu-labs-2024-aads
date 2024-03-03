@@ -49,7 +49,7 @@ namespace miheev
       {
         return 1;
       }
-      return 1 + size();
+      return 1 + next_->size();
     }
 
     void pushBack(T data)
@@ -61,18 +61,6 @@ namespace miheev
       else
       {
         next_->pushBack(data);
-      }
-    }
-
-    T& operator[](size_t i)
-    {
-      if (i == 0)
-      {
-        return data_;
-      }
-      else
-      {
-        return next_[i-1];
       }
     }
 
