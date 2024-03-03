@@ -19,5 +19,6 @@ int main()
   {
     std::cout << i << ' ' << list[i] << '\n';
   }
+  list.clear();
   return 0;
 }

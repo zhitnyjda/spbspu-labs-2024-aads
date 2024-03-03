@@ -16,6 +16,7 @@ namespace zheleznyakov
     size_t getSize();
     void popFront();
     void popBack();
+    void clear();
     T operator[](const size_t index);
 
   private:
@@ -102,5 +103,14 @@ T zheleznyakov::List< T >::operator[](const size_t index)
     currentIndex++;
   }
   throw new std::runtime_error("Element not found");
+}
+
+template< typename T >
+void zheleznyakov::List< T >::clear()
+{
+  while (size != 0)
+  {
+    popFront();
+  }
 }
 #endif
