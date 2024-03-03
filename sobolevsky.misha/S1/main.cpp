@@ -5,7 +5,7 @@
 
 int main()
 {
-  sobolevsky::List< std::vector<int> > list;
+  sobolevsky::List< std::vector< long long > > list;
 
   std::string nodeName;
   std::string tempNodeName;
@@ -15,12 +15,12 @@ int main()
     nodeName = tempNodeName;
     if (std::cin.eof())
     {
-      sobolevsky::Iterator< std::vector<int> > iter( list.head );
+      sobolevsky::Iterator< std::vector< long long > > iter( list.head );
       std::cout << iter.name() << " ";
       list.clear();
       return 1;
     }
-    std::vector<int> vec;
+    std::vector< long long > vec;
     std::string elem;
     while (std::cin >> elem)
     {
@@ -29,7 +29,7 @@ int main()
         tempNodeName = elem;
         break;
       }
-      int i = stoi(elem);
+      long long i = stoll(elem);
       vec.push_back(i);
     }
     list.pushBack(vec, nodeName);
