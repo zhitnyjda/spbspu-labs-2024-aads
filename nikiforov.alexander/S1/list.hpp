@@ -25,7 +25,7 @@ namespace nikiforov
 
   private:
 
-    Node<T>* head; 
+    Node<T>* head;
     size_t size_l;
   };
 
@@ -51,7 +51,7 @@ namespace nikiforov
     {
       head = nd;
     }
-    else 
+    else
     {
       Node<T>* actual = head;
       nd->pNext = actual;
