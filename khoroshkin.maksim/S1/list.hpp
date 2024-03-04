@@ -13,11 +13,16 @@ namespace khoroshkin
   {
   public:
     List();
+    List(size_t count, const T & value);
     ~List();
     List(const List & obj);
     List< T > & operator=(const List & obj);
     List(List && obj);
     List< T > & operator=(List && obj);
+
+    void assign(size_t count, const T & value);
+    void assign(ListIterator< T > first, ListIterator< T > last);
+
 
     void push_back(T data);
     void pop_front();
@@ -45,6 +50,15 @@ template< typename T >
 khoroshkin::List< T >::List() :
   size(0), head(nullptr)
 {}
+
+template< typename T >
+khoroshkin::List< T >::List(size_t count, const T & value)
+{
+  for (size_t i = 0; i < count; ++i)
+  {
+    this->push_back(value);
+  }
+}
 
 template< typename T >
 khoroshkin::List< T >::List(const khoroshkin::List< T > & obj)
@@ -100,6 +114,27 @@ khoroshkin::List< T > & khoroshkin::List< T >::operator=(List && obj)
   }
   obj.clear();
   return *this;
+}
+
+template< typename T >
+void khoroshkin::List< T >::assign(size_t count, const T & value)
+{
+  this->clear();
+  for (size_t i = 0; i < count; ++i)
+  {
+    this->push_back(value);
+  }
+}
+
+template< typename T >
+void khoroshkin::List< T >::assign(khoroshkin::ListIterator< T > first, khoroshkin::ListIterator< T > last)
+{
+  this->clear();
+  while (first != last)
+  {
+    this->push_back(*first);
+    first++;
+  }
 }
 
 template< typename T >
