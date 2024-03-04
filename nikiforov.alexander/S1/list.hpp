@@ -125,13 +125,13 @@ bool nikiforov::List<T>::is_empty()
 template<typename T>
 nikiforov::Iterator<T> nikiforov::List<T>::begin()
 {
-  return Iterator<T>(head);
+  return head;
 }
 
 template<typename T>
 nikiforov::Iterator<T> nikiforov::List<T>::end()
 {
-  return Iterator<T>(nullptr);
+  return nullptr;
 }
 
 template<typename T>
