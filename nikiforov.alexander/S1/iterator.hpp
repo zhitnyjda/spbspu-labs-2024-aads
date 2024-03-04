@@ -1,6 +1,5 @@
 #ifndef ITERATOR_HPP
 #define ITERATOR_HPP
-#include "list.hpp"
 #include "node.hpp"
 
 namespace nikiforov
