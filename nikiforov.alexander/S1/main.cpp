@@ -45,17 +45,29 @@ int main()
   iter = seqsPair.begin();
   Iterator< std::pair< std::string, List< int > > > iterEnd = seqsPair.end();
 
+  bool flag = false;
+
   for (iter = seqsPair.begin(); iter != iterEnd; ++iter) {
-    std::cout << iter->first << " ";
+    if (flag == true)
+    {
+      std::cout << " ";
+    }
+    std::cout << iter->first;
+    flag = true;
   }
   std::cout << "\n";
 
   iter = seqsPair.begin();
+
+  List< int > listSumm;
   Iterator< int > iterList = (*iter).second.begin();
   Iterator< int > iterListEnd = (*iter).second.end();
+
   size_t seqsPair_size = seqsPair.size();
-  List< int > listSumm;
+  
   int long long summ = 0;
+  size_t size = 0;
+  flag = false;
 
   while (seqsPair_size > 0)
   {
@@ -66,28 +78,34 @@ int main()
       iterList = (*iter).second.begin();
       if (iterList != nullptr)
       {
+        if (flag == true)
+        {
+          std::cout << " ";
+        }
         std::cout << *iterList;
         summ += *iterList;
         (*iter).second.pop_front();
         seqsPair_size += (*iter).second.size();
-      }
-      if (iter != iterEnd)
-      {
-        std::cout << " ";
+        size = (*iter).second.size();
+        flag = true;
       }
     }
+    flag = false;
     listSumm.push_back(summ);
     std::cout << "\n";
   }
 
   Iterator< int > iterListSummEnd = listSumm.end();
+  flag = false;
 
-  for (Iterator< int > iterListSumm = listSumm.begin(); iterListSumm != iterListSummEnd; ++iterListSumm) {
-    std::cout << *iterListSumm;
-    if (iterListSumm != iterListSummEnd)
+  for (Iterator< int > iterListSumm = listSumm.begin(); iterListSumm != iterListSummEnd; ++iterListSumm) 
+  {
+    if (flag == true)
     {
       std::cout << " ";
     }
+    std::cout << *iterListSumm;
+    flag = true;
   }
 
 
