@@ -68,16 +68,14 @@ bool nikiforov::Iterator<T>::operator==(const Iterator& lhs) const
 template<typename T>
 nikiforov::Iterator<T>& nikiforov::Iterator<T>::operator++()
 {
-  if (pNode != nullptr)
-    pNode = pNode->pNext;
+  pNode = pNode->pNext;
   return *this;
 }
 
 template<typename T>
 nikiforov::Iterator<T> nikiforov::Iterator<T>::operator++(int)
 {
-  if (pNode != nullptr)
-    pNode = pNode->pNext;
+  pNode = pNode->pNext;
   return *this;
 }
 
