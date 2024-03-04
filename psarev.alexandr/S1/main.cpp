@@ -36,7 +36,11 @@ int main()
   iterLine = lines.begin();
   for (size_t i = 0; i < lines.getSize(); i++)
   {
-    std::cout << (*iterLine).first << ' ';
+    std::cout << (*iterLine).first;
+    if (i != lines.getSize())
+    {
+    std::cout << ' ';
+    }
     iterLine++;
   }
   std::cout << '\n';
@@ -56,14 +60,11 @@ int main()
         {
           iterDig++;
         }
-        if (j == (lines.getSize() - 1))
+        if (curSum != 0)
         {
-          std::cout << *iterDig;
+          std::cout << ' ' ;
         }
-        else
-        {
-          std::cout << *iterDig << ' ';
-        }
+        std::cout << *iterDig;
         curSum += *iterDig;
       }
       iterLine++;
@@ -81,13 +82,10 @@ int main()
     Iterator< int > iterSums = sums.begin();
     for (size_t i = 0; i < sums.getSize(); i++)
     {
-      if (i == sums.getSize())
+      std::cout << *iterSums;
+      if (i != sums.getSize())
       {
-        std::cout << *iterSums;
-      }
-      else
-      {
-        std::cout << *iterSums << ' ';
+        std::cout << ' ';
       }
       iterSums++;
     }
