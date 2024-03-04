@@ -9,7 +9,7 @@ namespace nikiforov
   class Iterator
   {
   public:
-    Iterator(Node<T>* pNode) : pNode(pNode) { }
+    Iterator(Node<T>* pNode);
     ~Iterator() = default;
     Iterator(const Iterator<T>&) = default;
 
@@ -28,6 +28,12 @@ namespace nikiforov
     Node<T>* pNode;
   };
 }
+template<typename T>
+nikiforov::Iterator<T>::Iterator(Node<T>* pNode)
+{
+  this->pNode = pNode;
+}
+
 template<typename T>
 T& nikiforov::Iterator<T>::operator*()
 {

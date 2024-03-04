@@ -17,7 +17,4 @@ nikiforov::Node<T>::Node(T data, Node* pNext)
   this->data = data;
   this->pNext = pNext;
 }
-
-
-
 #endif

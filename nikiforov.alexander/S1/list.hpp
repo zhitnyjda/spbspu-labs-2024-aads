@@ -122,7 +122,6 @@ bool nikiforov::List<T>::is_empty()
   return false;
 }
 
-
 template<typename T>
 nikiforov::Iterator<T> nikiforov::List<T>::begin()
 {
