@@ -20,8 +20,8 @@ namespace nikiforov
     void clear();
     bool is_empty();
 
-    Iterator<T> begin();
-    Iterator<T> end();
+    Iterator< T > begin();
+    Iterator< T > end();
     size_t size();
 
   private:
@@ -29,115 +29,114 @@ namespace nikiforov
     Node<T>* head;
     size_t size_l;
   };
-}
 
-template<typename T>
-nikiforov::List<T>::List()
-{
-  head = nullptr;
-  size_l = 0;
-}
-
-template<typename T>
-nikiforov::List<T>::~List()
-{
-  clear();
-}
-
-template<typename T>
-void nikiforov::List<T>::push_front(T data)
-{
-  Node<T>* nd = new Node<T>(data);
-  if (head == nullptr)
+  template<typename T>
+  List<T>::List()
   {
-    head = nd;
+    head = nullptr;
+    size_l = 0;
   }
-  else
+
+  template<typename T>
+  List<T>::~List()
+  {
+    clear();
+  }
+
+  template<typename T>
+  void List<T>::push_front(T data)
+  {
+    Node<T>* nd = new Node<T>(data);
+    if (head == nullptr)
+    {
+      head = nd;
+    }
+    else
+    {
+      Node<T>* actual = head;
+      nd->pNext = actual;
+      head = nd;
+    }
+    size_l++;
+  }
+
+  template<typename T>
+  void List<T>::push_back(T data)
+  {
+    Node<T>* nd = new Node<T>(data);
+    if (head == nullptr)
+    {
+      head = nd;
+    }
+    else
+    {
+      Node<T>* actual = head;
+      while (actual->pNext != nullptr)
+      {
+        actual = actual->pNext;
+      }
+      actual->pNext = nd;
+    }
+    size_l++;
+  }
+
+  template<typename T>
+  void List<T>::pop_front()
   {
     Node<T>* actual = head;
-    nd->pNext = actual;
-    head = nd;
+    head = head->pNext;
+    delete actual;
+    size_l--;
   }
-  size_l++;
-}
 
-template<typename T>
-void nikiforov::List<T>::push_back(T data)
-{
-  Node<T>* nd = new Node<T>(data);
-  if (head == nullptr)
-  {
-    head = nd;
-  }
-  else
+  template<typename T>
+  void List<T>::pop_back()
   {
     Node<T>* actual = head;
-    while (actual->pNext != nullptr)
+    for (size_t i = 0; i < (size_l - 1); i++)
     {
       actual = actual->pNext;
     }
-    actual->pNext = nd;
+    delete actual;
+    size_l--;
   }
-  size_l++;
-}
 
-template<typename T>
-void nikiforov::List<T>::pop_front()
-{
-  Node<T>* actual = head;
-  head = head->pNext;
-  delete actual;
-  size_l--;
-}
-
-template<typename T>
-void nikiforov::List<T>::pop_back()
-{
-  Node<T>* actual = head;
-  for (size_t i = 0; i < (size_l - 1); i++)
+  template<typename T>
+  void List<T>::clear()
   {
-    actual = actual->pNext;
+    size_t size = size_l;
+    for (size_t i = 0; i < size; i++)
+    {
+      pop_front();
+    }
   }
-  delete actual;
-  size_l--;
-}
 
-template<typename T>
-void nikiforov::List<T>::clear()
-{
-  size_t size = size_l;
-  for (size_t i = 0; i < size; i++)
+  template<typename T>
+  bool nikiforov::List<T>::is_empty()
   {
-    pop_front();
+    if (head == nullptr)
+    {
+      return true;
+    }
+    return false;
   }
-}
 
-template<typename T>
-bool nikiforov::List<T>::is_empty()
-{
-  if (head == nullptr)
+  template<typename T>
+  Iterator<T> List<T>::begin()
   {
-    return true;
+    return head;
   }
-  return false;
-}
 
-template<typename T>
-nikiforov::Iterator<T> nikiforov::List<T>::begin()
-{
-  return head;
-}
+  template<typename T>
+  Iterator<T> List<T>::end()
+  {
+    return nullptr;
+  }
 
-template<typename T>
-nikiforov::Iterator<T> nikiforov::List<T>::end()
-{
-  return nullptr;
+  template<typename T>
+  size_t List<T>::size()
+  {
+    return size_l;
+  }
 }
-
-template<typename T>
-size_t nikiforov::List<T>::size()
-{
-  return size_l;
-}
-
 #endif
