@@ -37,11 +37,11 @@ int main()
   for (size_t i = 0; i < lines.getSize(); i++)
   {
     std::cout << (*iterLine).first;
+    iterLine++;
     if (i != lines.getSize())
     {
     std::cout << ' ';
     }
-    iterLine++;
   }
   std::cout << '\n';
   Iterator< int > iterDig;
@@ -82,11 +82,11 @@ int main()
     Iterator< int > iterSums = sums.begin();
     for (size_t i = 0; i < sums.getSize(); i++)
     {
-      std::cout << *iterSums;
-      if (i != sums.getSize())
+      if (i != 0)
       {
         std::cout << ' ';
       }
+      std::cout << *iterSums;
       iterSums++;
     }
   }
