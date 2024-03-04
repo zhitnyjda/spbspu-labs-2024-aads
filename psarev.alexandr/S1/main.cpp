@@ -38,7 +38,7 @@ int main()
   {
     std::cout << (*iterLine).first;
     iterLine++;
-    if (i != lines.getSize())
+    if (i < (lines.getSize() - 1))
     {
     std::cout << ' ';
     }
