@@ -1,5 +1,6 @@
 #include <iostream>
 #include <utility>
+#include <cmath>
 #include "list.hpp"
 #include "divideFuncs.hpp"
 
