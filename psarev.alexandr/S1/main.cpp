@@ -8,7 +8,7 @@ int main()
   using namespace psarev;
   List< std::pair< std::string, List< int > > > seqs;
 
-  seqs.pushBack({ "lol", {} });
+  seqs.pushBack({ "", {} });
   Iterator< std::pair< std::string, List< int > > > iterSeqs = seqs.begin();
   (*iterSeqs).second.pushBack(14);
   Iterator< int > iter = (*iterSeqs).second.begin();
@@ -35,7 +35,6 @@ int main()
         (*iterLine).second.pushBack(digit);
       }
     }
-
   }
 
   return 0;
