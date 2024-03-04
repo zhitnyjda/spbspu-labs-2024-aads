@@ -15,7 +15,6 @@ namespace psarev
     List();
     ~List();
 
-    T& operator[](const size_t index);
     void popFront();
     void popBack();
     void pushFront(T data);
@@ -34,7 +33,7 @@ namespace psarev
 template <typename T>
 psarev::Iterator<T> psarev::List<T>::begin()
 {
-  return this(head);
+  return Iterator<T>(head);
 }
 
 template<typename T>
@@ -62,27 +61,11 @@ psarev::List<T>::~List()
 }
 
 template<typename T>
-T& psarev::List<T>::operator[](const size_t index)
-{
-  size_t cntr = 0;
-  Unit<T>* curr = this->head;
-  while (curr != nullptr)
-  {
-    if (cntr == index)
-    {
-      return curr->data;
-    }
-    curr = curr->next;
-    cntr++;
-  }
-}
-
-template<typename T>
 void psarev::List<T>::popFront()
 {
   Unit<T>* tempo = head;
   head = head->next;
-  delete[] tempo;
+  delete tempo;
 
   size--;
 }

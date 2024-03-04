@@ -1,7 +1,6 @@
 #ifndef ITERATOR_HPP
 #define ITERATOR_HPP
 #include "unit.hpp"
-#include <memory>
 
 namespace psarev
 {
@@ -15,6 +14,9 @@ namespace psarev
     Iterator<T>& operator=(const Iterator< T >&) = default;
     Iterator<T>& operator++();
     Iterator<T> operator++(int);
+
+    Iterator<T>& operator--();
+    Iterator<T> operator--(int);
 
     T& operator*();
     T* operator->();
@@ -46,6 +48,21 @@ psarev::Iterator<T> psarev::Iterator<T>::operator++(int)
   return inked;
 }
 
+template <typename T>
+psarev::Iterator<T>& psarev::Iterator<T>::operator--()
+{
+  unit = unit->prev;
+  return *this;
+}
+
+template <typename T>
+psarev::Iterator<T> psarev::Iterator<T>::operator--(int)
+{
+  Iterator<T> deked(*this);
+  --(*this);
+  return deked;
+}
+
 template<typename T>
 T& psarev::Iterator<T>::operator*()
 {
@@ -55,7 +72,7 @@ T& psarev::Iterator<T>::operator*()
 template<typename T>
 T* psarev::Iterator<T>::operator->()
 {
-  return std::addressof(unit->data);
+  return &(unit->data);
 }
 
 template<typename T>

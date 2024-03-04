@@ -10,7 +10,7 @@ namespace psarev
     T data;
     Unit* next;
     Unit* prev;
-    Unit(T data = T(), Unit* next = nullptr, Unit* prev = nullptr);
+    Unit(T data, Unit* next = nullptr, Unit* prev = nullptr);
   };
 
   template< typename T >

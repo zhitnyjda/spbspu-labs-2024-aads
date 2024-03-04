@@ -1,24 +1,42 @@
 #include <iostream>
 #include <utility>
 #include "list.hpp"
+#include "divideFuncs.hpp"
 
 int main()
 {
-  psarev::List< std::pair< std::string, psarev::List< int > > > seqs;
+  using namespace psarev;
+  List< std::pair< std::string, List< int > > > seqs;
 
-  while (!std::cin.eof())
+  seqs.pushBack({ "lol", {} });
+  Iterator< std::pair< std::string, List< int > > > iterSeqs = seqs.begin();
+  (*iterSeqs).second.pushBack(14);
+  Iterator< int > iter = (*iterSeqs).second.begin();
+
+  std::cout << *iter << '\n';
+//testing ^
+//-------------------------------------------
+//variant
+  List< std::pair< std::string, List< int > > > lines;
+  Iterator< std::pair< std::string, List< int > > > iterLine = seqs.begin();
+  iterLine--;
+  std::string line = "";
+  while (std::cin >> line)
   {
-    for (size_t i = 0; i < psarev::list.getSize(); i++)
+    if (line.size() != 0)
     {
-      std::cout << list[i] << ' ';
-    }
-    std::cout << '\n';
+      std::string ord = psarev::getOrd(line);
+      lines.pushBack({ ord, {} });
+      iterLine++;
 
-    list.remove(2);
-    for (size_t i = 0; i < list.getSize(); i++)
-    {
-      std::cout << list[i] << ' ';
+      while (line.size() != 0)
+      {
+        int digit = psarev::getDigit(line);
+        (*iterLine).second.pushBack(digit);
+      }
     }
-    std::cout << '\n';
+
   }
+
+  return 0;
 }
