@@ -26,6 +26,11 @@ int main()
       iter++;
     }
 
+    if (std::cin.peek() == '\n')
+    {
+      continue;
+    }
+
     while (std::cin >> num)
     {
       if (std::cin.peek() == '\n')
@@ -61,10 +66,14 @@ int main()
       iterList = (*iter).second.begin();
       if (iterList != nullptr)
       {
-        std::cout << *iterList << " ";
+        std::cout << *iterList;
         summ += *iterList;
         (*iter).second.pop_front();
         seqsPair_size += (*iter).second.size();
+      }
+      if (iter != iterEnd)
+      {
+        std::cout << " ";
       }
     }
     listSumm.push_back(summ);
@@ -74,7 +83,11 @@ int main()
   Iterator< int > iterListSummEnd = listSumm.end();
 
   for (Iterator< int > iterListSumm = listSumm.begin(); iterListSumm != iterListSummEnd; ++iterListSumm) {
-    std::cout << *iterListSumm << " ";
+    std::cout << *iterListSumm;
+    if (iterListSumm != iterListSummEnd)
+    {
+      std::cout << " ";
+    }
   }
 
 
