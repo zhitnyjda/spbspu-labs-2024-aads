@@ -70,16 +70,15 @@ void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, L
 template < typename T>
 bool khoroshkin::checkAllNext(int index, ListIterator< T > it, List< T > & allPairs)
 {
-  bool flag = false;
   while (allPairs.next(it) != allPairs.end())
   {
     if ((*allPairs.next(it)).second.getSize() - 1 >= index)
     {
-      flag = true;
+      return true;
     }
     ++it;
   }
-  return flag;
+  return false;
 }
 
 #endif
