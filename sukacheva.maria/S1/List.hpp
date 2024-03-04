@@ -9,14 +9,17 @@ namespace sukacheva {
   {
 	Node< T >* head;
 	Node< T >* tail;
+	size_t listSize;
 
 	using iterator = Iterator< T >;
 	using const_iterator = Iterator< const T >;
 
-	List() : head(nullptr), tail(nullptr){}
+	List() : head(nullptr), tail(nullptr), listSize(0){}
 	~List();
 	List(const List&) = default;
 	List(List&&) = default;
+
+	Node<T>* operator[](size_t index);
 
 	void pushFront(const T& data);
 	void pushBack(const T& data);
@@ -45,6 +48,16 @@ namespace sukacheva {
   }
 
   template<class T>
+  Node<T>* sukacheva::List<T>::operator[](size_t index)
+  {
+	Iterator< T > it = begin();
+	for (int i = 0; i != index; i++) {
+	  it++;
+	}
+	return it.node;
+  }
+
+  template<class T>
   void sukacheva::List<T>::pushBack(const T& data)
   {
 	Node< T >* newNode = new Node< T >(data);
@@ -56,6 +69,7 @@ namespace sukacheva {
 	  tail->next = newNode;
 	  tail = newNode;
 	}
+	listSize++;
   }
 
   template< class T>
@@ -69,7 +83,7 @@ namespace sukacheva {
 	  newNode->next = head;
 	  head = newNode;
 	}
-	
+	listSize++;
   }
 
   template< class T>
@@ -83,6 +97,7 @@ namespace sukacheva {
 	  tail = nullptr;
 	}
 	delete front;
+	listSize--;
   }
 
   template< class T>
@@ -102,6 +117,9 @@ namespace sukacheva {
   void List<T>::swap(List& other) {
 	Node< T >* temp_head = head;
 	Node< T >* temp_tail = tail;
+	size_t tempSize = other.listSize;
+	other.listSize = listSize;
+	listSize = tempSize;
 	head = other.head;
 	tail = other.tail;
 	other.head = temp_head;

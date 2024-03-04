@@ -1,5 +1,10 @@
 #include "HelpFunc.hpp"
+#include "List.hpp"
+#include "Node.hpp"
+#include "ListIterator.hpp"
 #include <string>
+#include <utility>
+#include <stddef.h>
 
 sukacheva::List<std::pair<std::string, sukacheva::List<size_t>>> sukacheva::listInput(std::istream& in)
 {
@@ -9,10 +14,21 @@ sukacheva::List<std::pair<std::string, sukacheva::List<size_t>>> sukacheva::list
   in >> name;
   while (in) {
      resultList.pushBack({ name, args });
-
      while (in >> name && std::isdigit(name[0])) {
-       resultList.head->data.second.pushBack(std::stoul(name));
+       resultList.tail->data.second.pushBack(std::stoul(name));
      }
   }
   return resultList;
+}
+
+size_t sukacheva::maxListSize(List< std::pair< std::string, List< size_t > > >& newList) {
+  size_t size = 0;
+  size_t maxSize = 0;
+  Iterator<std::pair< std::string, List< size_t > >> it = newList.begin();
+  while (it.node){
+    size = it.node->data.second.listSize;
+    maxSize = (maxSize < size ? size : maxSize);
+    it++;
+  }
+  return maxSize;
 }

@@ -11,5 +11,16 @@ int main() {
     std::cout << it.node->data.first << " ";
     it++;
   } while (it.node);
+  std::cout << "\n";
+  for (size_t i = 0; i <= maxListSize(newList); i++) {
+    it = newList.begin();
+    do {
+      if (it.node->data.second[i]) {
+        std::cout << it.node->data.second[i]->data << " ";
+      }
+      it++;
+    } while (it.node);
+    std::cout << "\n";
+  }
   return 0;
 }
