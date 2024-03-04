@@ -14,7 +14,7 @@ int main()
   std::string inputStr;
   std::string slovo;
 
-  using iter = mihalchenko::List<int>::Iterator<int>;
+  // using iter = mihalchenko::List<int>::Iterator<int>;
 
   // bool flg = false;
 

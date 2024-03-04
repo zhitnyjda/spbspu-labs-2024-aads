@@ -12,12 +12,12 @@ namespace mihalchenko
   public:
     List();
     ~List();
-    /*List(const List &copy);
+    List(const List &copy);
     List<T> &operator=(const List &copy);
     List(List &&move);
     List<T> &operator=(List &&move);
 
-    void swap(List<T> &other);*/
+    void swap(List<T> &other);
 
     void push_front(T data);
     void push_back(T data);
@@ -84,10 +84,10 @@ namespace mihalchenko
     clear();
   }
 
-  /*template <typename T>
+  template <typename T>
   mihalchenko::List<T>::List(const mihalchenko::List<T> &copy)
   {
-    if (copy->begin_ == nullptr)
+    if (copy.begin_ == nullptr)
     {
       this->begin_ = nullptr;
     }
@@ -95,7 +95,7 @@ namespace mihalchenko
     {
       this->begin_ = new Iterator<T>(*copy.begin_);
     }
-    if (copy->end_ == nullptr)
+    if (copy.end_ == nullptr)
     {
       this->end_ = nullptr;
     }
@@ -115,7 +115,7 @@ namespace mihalchenko
     }
     clear();
     this->size_ = copy.size_;
-    Iterator<T> *pointer = new Iterator<T>(copy->begin_);
+    Iterator<T> *pointer = copy.begin_;
 
     while (pointer)
     {
@@ -128,12 +128,12 @@ namespace mihalchenko
   template <typename T>
   mihalchenko::List<T>::List(mihalchenko::List<T> &&move)
   {
-    this->begin_ = move->begin_;
-    move->begin_ = nullptr;
-    this->end_ = move->begin_;
-    move->end_ = nullptr;
-    this->size_ = move->size_;
-    move->size_ = 0;
+    this->begin_ = move.begin_;
+    move.begin_ = nullptr;
+    this->end_ = move.begin_;
+    move.end_ = nullptr;
+    this->size_ = move.size_;
+    move.size_ = 0;
   }
 
   template <typename T>
@@ -146,25 +146,25 @@ namespace mihalchenko
     this->clear();
     mihalchenko::List<T> temp(std::move(move));
     swap(temp);
-    move->clear();
-    return *this
+    move.clear();
+    return *this;
   }
 
   template <typename T>
   void mihalchenko::List<T>::swap(mihalchenko::List<T> &other)
   {
-    mihalchenko::List<t> *tempPointerBegin = this->begin_;
-    this->begin_ = other->begin_;
-    other->begin_ = tempPointerBegin;
+    mihalchenko::List<T> *tempPointerBegin = this->begin_;
+    this->begin_ = other.begin_;
+    other.begin_ = tempPointerBegin;
 
-    mihalchenko::List<t> *tempPointerEnd = this->end_;
-    this->end_ = other->end_;
-    other->end_ = tempPointerEnd;
+    mihalchenko::List<T> *tempPointerEnd = this->end_;
+    this->end_ = other.end_;
+    other.end_ = tempPointerEnd;
 
     size_t tempSize = this->size_;
-    this->size_ = other->size_;
-    other->size_ = this->size_;
-  }*/
+    this->size_ = other.size_;
+    other.size_ = tempSize;
+  }
 
   template <typename T>
   void mihalchenko::List<T>::push_front(T data)
