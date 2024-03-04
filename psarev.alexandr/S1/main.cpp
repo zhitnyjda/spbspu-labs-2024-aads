@@ -56,7 +56,7 @@ int main()
         {
           iterDig++;
         }
-        if (j == lines.getSize())
+        if (j == (lines.getSize() - 1))
         {
           std::cout << *iterDig;
         }
