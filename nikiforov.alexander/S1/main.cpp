@@ -64,7 +64,7 @@ int main()
   Iterator< int > iterListEnd = (*iter).second.end();
 
   size_t seqsPair_size = seqsPair.size();
-  
+
   int long long summ = 0;
   size_t size = 0;
   flag = false;
@@ -98,7 +98,7 @@ int main()
   Iterator< int > iterListSummEnd = listSumm.end();
   flag = false;
 
-  for (Iterator< int > iterListSumm = listSumm.begin(); iterListSumm != iterListSummEnd; ++iterListSumm) 
+  for (Iterator< int > iterListSumm = listSumm.begin(); iterListSumm != iterListSummEnd; ++iterListSumm)
   {
     if (flag == true)
     {
