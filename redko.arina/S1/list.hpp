@@ -49,8 +49,12 @@ namespace redko
     using const_iterator = Iterator< const T >;
 
     List(): head_() {};
+    List(size_t count, const T & value);
+    List(size_t count);
+    List(iterator first, iterator last);
     List(const List & other);
     List(List< T > && other) noexcept;
+    List(std::initializer_list< T > ilist);
     ~List();
 
     List< T > & operator=(const List< T > & other);
@@ -162,6 +166,38 @@ bool redko::Iterator< T >::operator!=(const this_t & rhs) const
 }
 
 template< typename T >
+redko::List< T >::List(size_t count, const T & value)
+{
+  for (int i = 0; i < count; i++)
+  {
+    pushBack(value);
+  }
+}
+template< typename T >
+redko::List< T >::List(size_t count)
+{
+  if (count < 1)
+  {
+    throw std::logic_error("non-positive number");
+  }
+  head_.next = new ListElem< T >();
+  ListElem< T > * curr = head_.next->next;
+  for (int i = 1; i < count; i++)
+  {
+    curr = new ListElem< T >();
+    curr = curr->next;
+  }
+}
+template< typename T >
+redko::List< T >::List(Iterator< T > first, Iterator< T > last)
+{
+  while (first != last)
+  {
+    pushBack(*first);
+    first++;
+  }
+}
+template< typename T >
 redko::List< T >::List(const List & other)
 {
   ListElem< T > * othrElem = other.head_.next;
@@ -181,6 +217,14 @@ template< typename T >
 redko::List< T >::~List()
 {
   clear();
+}
+template< typename T >
+redko::List< T >::List(std::initializer_list< T > ilist)
+{
+  for (auto value : ilist)
+  {
+    pushBack(value);
+  }
 }
 
 template< typename T >
@@ -242,6 +286,10 @@ void redko::List< T >::assign(std::initializer_list< T > ilist)
 template< typename T >
 T & redko::List< T >::front()
 {
+  if (isEmpty())
+  {
+    throw std::logic_error("calling from empty list");
+  }
   return head_.next->data;
 }
 
