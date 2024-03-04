@@ -21,6 +21,7 @@ namespace nikiforov
     bool operator!=(const Iterator& lhs) const;
     bool operator==(const Iterator& lhs) const;
 
+    Iterator<T>& operator++();
     Iterator<T> operator++(int);
 
   private:
@@ -63,6 +64,14 @@ bool nikiforov::Iterator<T>::operator==(const Iterator& lhs) const
   return pNode == lhs.pNode;
 }
 
+
+template<typename T>
+nikiforov::Iterator<T>& nikiforov::Iterator<T>::operator++()
+{
+  if (pNode != nullptr)
+    pNode = pNode->pNext;
+  return *this;
+}
 
 template<typename T>
 nikiforov::Iterator<T> nikiforov::Iterator<T>::operator++(int)

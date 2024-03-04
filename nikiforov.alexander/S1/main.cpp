@@ -17,14 +17,22 @@ int main()
   lst.push_back(12);
   lst.push_back(10);
   std::cout << iter->first << '\n';*/
-
-  List< std::pair< std::string, int> > seqs;
-  seqs.push_back(std::pair< std::string, int>("lol", 2));
-  Iterator< std::pair< std::string, int> > iter = seqs.begin();
-
+  List< int > list;  
+  List< std::pair< std::string, List< int > > > seqs;
+  seqs.push_back({ input, {} });
+  Iterator< std::pair< std::string, List< int > > > iter = seqs.begin();
+  (*iter).second.push_back(14);
+  (*iter).second.push_back(12);
+  (*iter).second.push_back(18);
+  Iterator< int > iterList = (*iter).second.begin();
+  Iterator< int > iterListEnd = (*iter).second.end();
+  
   std::cout << iter->first << '\n';
+  for (iterList; iterList != iterListEnd; ++iterList) {
+    std::cout << *iterList << " ";
+  }
 
-
+  std::cout << '\n';
   while (std::cin >> stroka)
   {
     if (std::cin.peek() == '\n')
@@ -43,6 +51,5 @@ int main()
     }
 
   }
-
   return 0;
 }
