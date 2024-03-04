@@ -66,7 +66,6 @@ int main()
   size_t seqsPair_size = seqsPair.size();
 
   int long long summ = 0;
-  size_t size = 0;
   flag = false;
 
   while (seqsPair_size > 0)
@@ -86,7 +85,6 @@ int main()
         summ += *iterList;
         (*iter).second.pop_front();
         seqsPair_size += (*iter).second.size();
-        size = (*iter).second.size();
         flag = true;
       }
     }
