@@ -50,7 +50,8 @@ int main()
   ListIter* iters = getIters(pairs, unusedIndex);
   List< int >* lists = getLists(pairs, unusedIndex);
 
-  int* sumArr = new int[maxListSize(lists, unusedIndex)]{};
+  int maxSize = maxListSize(lists, unusedIndex);
+  int* sumArr = new int[maxSize]{};
   size_t index = 0;
 
   bool flag = false;
@@ -62,7 +63,7 @@ int main()
       ListIter iter = iters[i];
       if (iter != nullptr and !iter.isEmptyObject())
       {
-        sumArr += *iter;
+        sumArr[index] += *iter;
         std::cout << *iter << ' ';
         if (iter)
         {
@@ -74,6 +75,12 @@ int main()
     index++;
     std::cout << '\n';
   } while (flag);
+
+  for (size_t i = 0; i < maxSize; i++)
+  {
+    std::cout << sumArr[i] << ' ';
+  }
+  std::cout << '\n';
 
   delete[] pairs;
   return 0;
