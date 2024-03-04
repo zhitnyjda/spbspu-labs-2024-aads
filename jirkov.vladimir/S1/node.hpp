@@ -1,11 +1,18 @@
 #ifndef NODE_HPP
 #define NODE_HPP
 
+namespace jirkov {
+
 template <typename T>
 struct Node {
-  T data;
+  using value_type = T;
+
+  Node(const value_type& value, Node<T>* next) : data(value), next(next) {}
+
+  value_type data;
   Node<T>* next;
-  Node(const T& value) : data(value), next(nullptr) {}
 };
+
+}
 
 #endif
