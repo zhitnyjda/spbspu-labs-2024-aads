@@ -2,26 +2,14 @@
 
 int main()
 {
-  int seqLen = 10;
-  std::string input = "";
-  size_t count = -1;
-  size_t maxSeqLen = 0;
-  size_t currSeqLen = 0;
-  bool flag = 0;
-  while (std::cin)
+  hohlova::List<std::pair<std::string, hohlova::List<int>>>;
+  std::string input;
+  while (std::getline(std::cin, input))
   {
-    std::cin >> input;
-    if (!std::cin)
+    if (input == "")
     {
-      if (currSeqLen > maxSeqLen)
-      {
-        maxSeqLen = currSeqLen;
-      }
-      continue;
+      break;
     }
   }
-  if (!flag)
-  {
-    std::cout << 0;
-  }
 }
+
