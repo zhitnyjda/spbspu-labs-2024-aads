@@ -75,7 +75,7 @@ int main()
     // std::cout << mixedList[ind].second << std::endl;
     // integerList intList2;
     std::cout << mixedList.begin().data_.second;
-    /* for (size_t i = 0; i < mixedList[ind].second.getSize() - 1; i++)
+    /*for (size_t i = 0; i < mixedList[ind].second.getSize() - 1; i++)
     {
       intList2[i] = mixedList[ind].second[i];
       std::cout << intList2[i] << " ";
