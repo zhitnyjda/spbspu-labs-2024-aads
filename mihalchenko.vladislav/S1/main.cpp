@@ -28,8 +28,6 @@ int main()
       // intList.clear();
       intList1 = tempIntList;
       // flg = true;
-      // std::string ggg = "25";
-      // intList.push_back(std::stoi(ggg));
 
       if (std::cin.peek() == '\n')
       {
@@ -41,7 +39,6 @@ int main()
     {
       tempIntList = intList1;
       tempIntList.push_back(std::stoi(inputStr));
-      // std::cout << std::stoi(inputStr) << " ";
 
       if (std::cin.peek() == '\n')
       {
@@ -63,23 +60,22 @@ int main()
   }
   std::cout << std::endl;
 
-  for (size_t ind = 0; ind < mixedList.size_; ind++)
+  /*for (size_t ind = 0; ind < mixedList.size_; ind++)
   {
     iter it = mixedList[ind].second[0];
     it = mixedList[ind].second[0];
     std::cout << it.data_;
   }
-
-  /*for (size_t ind = 0; ind < mixedList.getSize(); ind++)
+  for (size_t ind = 0; ind < mixedList.getSize(); ind++)
   {
     // std::cout << mixedList[ind].second << std::endl;
     // integerList intList2;
     std::cout << mixedList.begin().data_.second;
-    /*for (size_t i = 0; i < mixedList[ind].second.getSize() - 1; i++)
+    for (size_t i = 0; i < mixedList[ind].second.getSize() - 1; i++)
     {
       intList2[i] = mixedList[ind].second[i];
       std::cout << intList2[i] << " ";
-    }*/
+    }
   // std::cout << mixedList[ind].second[1] << std::endl;}*/
 
   return 0;
