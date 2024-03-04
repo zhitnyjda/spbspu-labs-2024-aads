@@ -105,7 +105,7 @@ int main()
     std::cout << *iterListSumm;
     flag = true;
   }
-
+  std::cout << "\n";
 
   return 0;
 }
