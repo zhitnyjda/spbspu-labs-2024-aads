@@ -41,13 +41,11 @@ int main()
   }
   iter = seqsPair.begin();
   Iterator< std::pair< std::string, List< int > > > iterEnd = seqsPair.end();
-  
 
   for (iter; iter != iterEnd; ++iter) {
     std::cout << iter->first << " ";
   }
   std::cout << "\n";
-
 
   iter = seqsPair.begin();
   Iterator< int > iterList = (*iter).second.begin();
@@ -71,8 +69,5 @@ int main()
     iter = seqsPair.begin();
     std::cout << "\n";
   }
-  
-
-  
   return 0;
 }

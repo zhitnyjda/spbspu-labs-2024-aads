@@ -8,8 +8,16 @@ namespace nikiforov
   {
     T data;
     Node* pNext;
-    Node(T data, Node* pNext = nullptr) : data(data), pNext(nullptr) {}
+    Node(T data, Node* pNext = nullptr);
   };
 }
+template<typename T>
+nikiforov::Node<T>::Node(T data, Node* pNext)
+{
+  this->data = data;
+  this->pNext = pNext;
+}
+
+
 
 #endif
