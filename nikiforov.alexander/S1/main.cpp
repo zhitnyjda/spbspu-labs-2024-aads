@@ -30,13 +30,11 @@ int main()
     {
       if (std::cin.peek() == '\n')
       {
-        std::cout << num << "\n";
         (*iter).second.push_back(num);
         firstLine = true;
         break;
       }
       (*iter).second.push_back(num);
-      std::cout << "num1" << "\n";
     }
   }
   iter = seqsPair.begin();
@@ -51,21 +49,34 @@ int main()
   Iterator< int > iterList = (*iter).second.begin();
   Iterator< int > iterListEnd = (*iter).second.end();
   size_t seqsPair_size = seqsPair.size();
+  List< int > listSumm;
+  int long long summ = 0;
 
   while (seqsPair_size > 0)
   {
     seqsPair_size = 0;
+    summ = 0;
     for (iter = seqsPair.begin(); iter != iterEnd; ++iter)
     {
       iterList = (*iter).second.begin();
       if (iterList != nullptr)
       {
         std::cout << *iterList << " ";
+        summ += *iterList;
         (*iter).second.pop_front();
         seqsPair_size += (*iter).second.size();
       }
     }
+    listSumm.push_back(summ);
     std::cout << "\n";
   }
+
+  Iterator< int > iterListSummEnd = listSumm.end();
+
+  for (Iterator< int > iterListSumm = listSumm.begin(); iterListSumm != iterListSummEnd; ++iterListSumm) {
+    std::cout << *iterListSumm << " ";
+  }
+
+
   return 0;
 }
