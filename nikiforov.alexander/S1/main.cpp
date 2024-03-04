@@ -20,12 +20,12 @@ int main()
       seqs.push_back({ stroka, {} });
       iter = seqs.begin();
     }
-    else 
+    else
     {
       seqs.push_back({ stroka, {} });
       iter++;
     }
-    
+
     while (std::cin >> num)
     {
       if (std::cin.peek() == '\n')
@@ -38,8 +38,6 @@ int main()
       (*iter).second.push_back(num);
       std::cout << "num1" << "\n";
     }
-    
   }
-  
   return 0;
 }
