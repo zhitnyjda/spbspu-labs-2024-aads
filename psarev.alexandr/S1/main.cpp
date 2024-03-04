@@ -56,7 +56,7 @@ int main()
         {
           iterDig++;
         }
-        if ((j == lines.getSize()) && (i == maxDigits))
+        if (j == lines.getSize())
         {
           std::cout << *iterDig;
         }
@@ -72,18 +72,25 @@ int main()
     std::cout << '\n';
   }
 
-  Iterator< int > iterSums = sums.begin();
-  for (size_t i = 0; i < sums.getSize(); i++)
+  if (sums.getSize() == 0)
   {
-    if (i == sums.getSize())
+    std::cout << 0;
+  }
+  else
+  {
+    Iterator< int > iterSums = sums.begin();
+    for (size_t i = 0; i < sums.getSize(); i++)
     {
-      std::cout << *iterSums;
+      if (i == sums.getSize())
+      {
+        std::cout << *iterSums;
+      }
+      else
+      {
+        std::cout << *iterSums << ' ';
+      }
+      iterSums++;
     }
-    else
-    {
-      std::cout << *iterSums << ' ';
-    }
-    iterSums++;
   }
   std::cout << '\n';
 
