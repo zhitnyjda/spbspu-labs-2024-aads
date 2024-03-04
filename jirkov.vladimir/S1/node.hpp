@@ -3,16 +3,13 @@
 
 namespace jirkov {
 
-template <typename T>
-struct Node {
-  using value_type = T;
+  template<typename T>
+  struct Node {
+    T value;
+    Node* next;
 
-  Node(const value_type& value, Node<T>* next) : data(value), next(next) {}
-
-  value_type data;
-  Node<T>* next;
-};
-
+    Node(const T& value) : value(value), next(nullptr) {}
+  };
 }
 
 #endif
