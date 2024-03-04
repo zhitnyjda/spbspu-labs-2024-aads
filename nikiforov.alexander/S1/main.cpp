@@ -9,20 +9,20 @@ int main()
   std::string stroka;
   int num = 0;
 
-  List< std::pair< std::string, List< int > > > seqs;
-  Iterator< std::pair< std::string, List< int > > > iter = seqs.begin();
+  List< std::pair< std::string, List< int > > > seqsPair;
+  Iterator< std::pair< std::string, List< int > > > iter = seqsPair.begin();
   bool firstLine = false;
 
   while (std::cin >> stroka)
   {
     if (!firstLine)
     {
-      seqs.push_back({ stroka, {} });
-      iter = seqs.begin();
+      seqsPair.push_back({ stroka, {} });
+      iter = seqsPair.begin();
     }
     else
     {
-      seqs.push_back({ stroka, {} });
+      seqsPair.push_back({ stroka, {} });
       iter++;
     }
 
@@ -39,5 +39,40 @@ int main()
       std::cout << "num1" << "\n";
     }
   }
+  iter = seqsPair.begin();
+  Iterator< std::pair< std::string, List< int > > > iterEnd = seqsPair.end();
+  
+
+  for (iter; iter != iterEnd; ++iter) {
+    std::cout << iter->first << " ";
+  }
+  std::cout << "\n";
+
+
+  iter = seqsPair.begin();
+  Iterator< int > iterList = (*iter).second.begin();
+  Iterator< int > iterListEnd = (*iter).second.end();
+  size_t seqsPair_size = seqsPair.size();
+  int long long summ = 0;
+
+  while (seqsPair_size > 0)
+  {
+    seqsPair_size = 0;
+    for (iter; iter != iterEnd; ++iter)
+    {
+      iterList = (*iter).second.begin();
+      if (iterList != nullptr)
+      {
+        std::cout << *iterList << " ";
+        (*iter).second.pop_front();
+        seqsPair_size += (*iter).second.size();
+      }
+    }
+    iter = seqsPair.begin();
+    std::cout << "\n";
+  }
+  
+
+  
   return 0;
 }

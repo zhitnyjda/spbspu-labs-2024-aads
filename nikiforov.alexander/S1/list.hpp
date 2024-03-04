@@ -20,9 +20,9 @@ namespace nikiforov
     void clear();
     bool is_empty();
 
-    Iterator<T> begin() const;
-    Iterator<T> end() const;
-    size_t size() const;
+    Iterator<T> begin();
+    Iterator<T> end();
+    size_t size();
 
   private:
 
@@ -124,19 +124,19 @@ bool nikiforov::List<T>::is_empty()
 
 
 template<typename T>
-nikiforov::Iterator<T> nikiforov::List<T>::begin() const
+nikiforov::Iterator<T> nikiforov::List<T>::begin()
 {
   return Iterator<T>(head);
 }
 
 template<typename T>
-nikiforov::Iterator<T> nikiforov::List<T>::end() const
+nikiforov::Iterator<T> nikiforov::List<T>::end()
 {
   return Iterator<T>(nullptr);
 }
 
 template<typename T>
-size_t nikiforov::List<T>::size() const
+size_t nikiforov::List<T>::size()
 {
   return size_l;
 }
