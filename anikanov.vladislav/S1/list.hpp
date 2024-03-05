@@ -33,9 +33,9 @@ namespace anikanov {
     List< T > &operator=(List< T > &&other) noexcept;
     List< T > &operator=(List< T > other);
 
-    anikanov::Iterator< T > back();
-    anikanov::Iterator< T > begin() const;
-    anikanov::Iterator< T > end() const;
+    Iterator< T > back();
+    Iterator< T > begin() const;
+    Iterator< T > end() const;
 
   private:
     std::shared_ptr< Node< T>> head, tail;
@@ -247,21 +247,21 @@ namespace anikanov {
   }
 
   template<typename T>
-  anikanov::Iterator< T > List< T >::back()
+  Iterator< T > List< T >::back()
   {
-    return anikanov::Iterator< T >(tail);
+    return Iterator< T >(tail);
   }
 
   template<typename T>
-  anikanov::Iterator< T > List< T >::begin() const
+  Iterator< T > List< T >::begin() const
   {
-    return anikanov::Iterator< T >(head);
+    return Iterator< T >(head);
   }
 
   template<typename T>
-  anikanov::Iterator< T > List< T >::end() const
+  Iterator< T > List< T >::end() const
   {
-    return anikanov::Iterator< T >(nullptr);
+    return Iterator< T >(nullptr);
   }
 }
 
