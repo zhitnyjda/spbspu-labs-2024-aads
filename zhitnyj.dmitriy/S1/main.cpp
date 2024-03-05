@@ -4,27 +4,47 @@
 
 int main()
 {
-  SequenceHandler handler;
-  std::string line;
-
-  while (std::getline(std::cin, line))
+  try
   {
-    std::istringstream iss(line);
-    std::string name;
-    iss >> name;
+    SequenceHandler handler;
+    std::string line;
 
-    List<int> sequence;
-    int number;
-    while (iss >> number)
+    while (std::getline(std::cin, line))
     {
-      sequence.push_front(number);
+      std::istringstream iss(line);
+      std::string name;
+      iss >> name;
+
+      List<unsigned long long> sequence;
+      unsigned long long number;
+
+      while (iss >> number)
+      {
+        sequence.push_front(number);
+      }
+      if (iss.fail() && errno == 34)
+      {
+        throw std::overflow_error("Entered number was to big!");
+      }
+
+      handler.addSequence(name, sequence);
     }
 
-    handler.addSequence(name, sequence);
+    handler.printSequences();
+    handler.rearrangeAndPrint();
   }
+  catch (const std::overflow_error& err)
+  {
+    std::cout << err.what() << std::endl;
 
-  handler.printSequences();
-  handler.rearrangeAndPrint();
+    return 1;
+  }
+  catch (const std::exception& err)
+  {
+    std::cout << err.what() << std::endl;
+
+    return 1;
+  }
 
   return 0;
 }
