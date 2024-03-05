@@ -42,7 +42,8 @@ namespace kaseev {
     {
       const auto &pair = sums[i];
       const std::string &line = pair.first;
-      const int sum = sumNumbersInString(line);
+      int sum = 0;
+      sum = sumNumbersInString(line);
       std::cout << sum << " ";
     }
     std::cout << "\n";
