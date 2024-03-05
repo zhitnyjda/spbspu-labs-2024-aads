@@ -1,11 +1,10 @@
 #include "SequenceHandler.h"
 #include <iostream>
 #include <vector>
-#include <algorithm>
 
-void SequenceHandler::addSequence(const std::string& name, const List<int>& sequence)
+void SequenceHandler::addSequence(const std::string& name, const List<unsigned long long>& sequence)
 {
-  sequences[name] = sequence;
+  sequences.push_back({ name, sequence });
 }
 
 void SequenceHandler::printSequences()
@@ -19,50 +18,34 @@ void SequenceHandler::printSequences()
 
 void SequenceHandler::rearrangeAndPrint()
 {
-  std::vector<std::vector<int>> numbers;
-  int maxLen = 0;
-
+  size_t maxLen = 0;
   for (const auto& seq : sequences)
   {
-    int len = 0;
-    for (auto it = seq.second.begin(); it != seq.second.end(); ++it)
-    {
-      len++;
-    }
-    maxLen = std::max(maxLen, len);
+    maxLen = std::max(maxLen, seq.second.to_vector().size());
   }
 
-  for (int i = 0; i < maxLen; ++i)
+  std::vector<unsigned long long> sums(maxLen, 0);
+  for (size_t level = 0; level < maxLen; ++level)
   {
-    std::vector<int> row;
     for (const auto& seq : sequences)
     {
-      auto it = seq.second.begin();
-      for (int j = 0; j < i; ++j)
+      auto elements = seq.second.to_vector();
+      if (level < elements.size())
       {
-        if (it != seq.second.end()) ++it;
+        std::cout << elements[level] << " ";
+        sums[level] += elements[level];
       }
-      if (it != seq.second.end()) row.push_back(*it);
-    }
-    if (!row.empty()) numbers.push_back(row);
-  }
-
-  std::vector<int> sums;
-  for (const auto& row : numbers)
-  {
-    int sum = 0;
-    for (int num : row)
-    {
-      std::cout << num << " ";
-      sum += num;
     }
     std::cout << std::endl;
-    sums.push_back(sum);
   }
 
-  for (int sum : sums)
+  for (auto sum : sums)
   {
     std::cout << sum << " ";
   }
-  if (!sums.empty()) std::cout << std::endl;
+
+  if (sums.empty())
+    std::cout << "0";
+
+  std::cout << std::endl;
 }
