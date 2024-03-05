@@ -1,4 +1,5 @@
 #include "divideFuncs.hpp"
+#include <iostream>
 
 std::string psarev::getOrd(std::string& line)
 {

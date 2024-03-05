@@ -1,7 +1,5 @@
-#include <iostream>
 #include <utility>
 #include <cmath>
-#include "list.hpp"
 #include "divideFuncs.hpp"
 
 int main()
@@ -33,20 +31,9 @@ int main()
       maxDigits = fmax(maxDigits, cntDigits);
     }
   }
-  iterLine = lines.begin();
-  for (size_t i = 0; i < lines.getSize(); i++)
-  {
-    std::cout << (*iterLine).first;
-    iterLine++;
-    if (i < (lines.getSize() - 1))
-    {
-    std::cout << ' ';
-    }
-    else
-    {
-      std::cout << '\n';
-    }
-  }
+
+  outOrds(lines);
+
   Iterator< int > iterDig;
   List< int > sums;
   int curSum = 0;
@@ -76,24 +63,6 @@ int main()
     std::cout << '\n';
   }
 
-  if (sums.getSize() == 0)
-  {
-    std::cout << 0;
-  }
-  else
-  {
-    Iterator< int > iterSums = sums.begin();
-    for (size_t i = 0; i < sums.getSize(); i++)
-    {
-      if (i != 0)
-      {
-        std::cout << ' ';
-      }
-      std::cout << *iterSums;
-      iterSums++;
-    }
-  }
-  std::cout << '\n';
-
+  outSums(sums);
   return 0;
 }
