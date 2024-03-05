@@ -39,15 +39,16 @@ int main()
     if (std::cin.eof()) { break; }
   }
 
+  if (lists->empty()) {
+    std::cout << "0\n";
+    return 0;
+  }
+
   for (auto it = lists->begin(); it != lists->end(); ++it) {
     std::cout << it->first << " ";
   }
   std::cout << "\n";
 
-  if (lists->empty()) {
-    std::cout << "0\n";
-    return 1;
-  }
 
   bool finished = false;
   size_t idx = 0;
