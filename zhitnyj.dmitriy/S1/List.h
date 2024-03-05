@@ -3,6 +3,7 @@
 
 #include <iterator>
 #include <memory>
+#include <algorithm>
 
 template<typename T>
 class List
@@ -67,10 +68,22 @@ public:
         }
     };
 
-private:
+public:
     std::shared_ptr<Node> head;
 
-public:
+    std::vector<unsigned long long> to_vector() const
+    {
+      std::vector<unsigned long long> elements;
+      auto current = head;
+      while (current != nullptr)
+      {
+        elements.push_back(current->data);
+        current = current->next;
+      }
+      std::reverse(elements.begin(), elements.end());
+      return elements;
+    }
+
     List() : head(nullptr)
     {
     }
@@ -78,11 +91,6 @@ public:
     void push_front(T data)
     {
       head = std::make_shared<Node>(data, head);
-    }
-
-    bool empty() const
-    {
-      return head == nullptr;
     }
 
     Iterator begin() const
