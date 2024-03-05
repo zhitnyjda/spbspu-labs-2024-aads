@@ -66,7 +66,7 @@ void Funcs<T>::outputName_(List<std::pair<std::string, List<T>>>& seqsPair)
   Iterator< std::pair< std::string, List< int > > > iterEnd = seqsPair.end();
   size_t countNames = seqsPair.size();
 
-  for (iter = seqsPair.begin(); iter != iterEnd; ++iter) 
+  for (iter = seqsPair.begin(); iter != iterEnd; ++iter)
   {
     if (countNames == 1)
     {
