@@ -29,6 +29,8 @@ namespace anikanov {
     void assign(size_t count, const T &value);
 
     T &operator[](size_t index);
+    List< T > &operator=(List< T > &&other) noexcept;
+    List< T > &operator=(List< T > other);
 
     Iterator< T > back();
     Iterator< T > begin() const;
@@ -38,6 +40,28 @@ namespace anikanov {
     std::shared_ptr< Node< T>> head, tail;
     size_t list_size;
   };
+
+  template<typename T>
+  List< T > &List< T >::operator=(List< T > other)
+  {
+    swap(other);
+    return *this;
+  }
+
+  template<typename T>
+  List< T > &List< T >::operator=(List< T > &&other) noexcept
+  {
+    if (this != &other) {
+      clear(); // Освободим существующие ресурсы
+
+      head = other.head;
+      tail = other.tail;
+
+      other.head = nullptr;
+      other.tail = nullptr;
+    }
+    return *this;
+  }
 
   template<typename T>
   List< T >::List() : head(nullptr), tail(nullptr), list_size(0)
@@ -149,7 +173,6 @@ namespace anikanov {
     auto current = head;
     while (current != nullptr) {
       auto next = current->next;
-      delete current;
       current = next;
     }
     head = nullptr;
