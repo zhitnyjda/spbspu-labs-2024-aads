@@ -1,15 +1,26 @@
+#include <cstring>
 #include "list.hpp"
 
 int main()
 {
-  hohlova::List<std::pair<std::string, hohlova::List<int>>>;
-  std::string input;
-  while (std::getline(std::cin, input))
+  hohlova::List<std::pair<std::string, hohlova::List<int>>> seq;
+  std::string name;
+  hohlova::List<int> nums;
+  while (std::cin)
   {
-    if (input == "")
+    seq.push_front({ name, nums });
+    while (std::cin >> name && std::isdigit(name[0]))
     {
-      break;
+      seq.push_front({name, nums});
     }
   }
+  if (!std::cin)
+  {
+    for (int i = 0; i < seq.getSize(); i++)
+    {
+      std::cout << nums[i] << std::endl;
+    }
+  }
+  return 0;
 }
 
