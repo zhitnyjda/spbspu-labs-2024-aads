@@ -249,19 +249,19 @@ namespace anikanov {
   template<typename T>
   anikanov::Iterator< T > List< T >::back()
   {
-    return Iterator< T >(tail);
+    return anikanov::Iterator< T >(tail);
   }
 
   template<typename T>
   anikanov::Iterator< T > List< T >::begin() const
   {
-    return Iterator< T >(head);
+    return anikanov::Iterator< T >(head);
   }
 
   template<typename T>
   anikanov::Iterator< T > List< T >::end() const
   {
-    return Iterator< T >(nullptr);
+    return anikanov::Iterator< T >(nullptr);
   }
 }
 
