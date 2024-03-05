@@ -42,8 +42,11 @@ int main()
     {
     std::cout << ' ';
     }
+    else
+    {
+      std::cout << '\n';
+    }
   }
-  std::cout << '\n';
   Iterator< int > iterDig;
   List< int > sums;
   int curSum = 0;
