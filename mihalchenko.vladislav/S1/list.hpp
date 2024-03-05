@@ -24,9 +24,11 @@ namespace mihalchenko
     void pop_front();
     void pop_back();
     void insert(T value, size_t i);
-    void removeAt(size_t i);
+    void erase(size_t i);
     T &operator[](const size_t i);
     void clear();
+    bool empty();
+
     size_t getSize() { return size_; };
     // class Iterator;
 
@@ -143,7 +145,7 @@ namespace mihalchenko
     {
       return *this;
     }
-    this->clear();
+    clear();
     mihalchenko::List<T> temp(std::move(move));
     swap(temp);
     move.clear();
@@ -153,14 +155,22 @@ namespace mihalchenko
   template <typename T>
   void mihalchenko::List<T>::swap(mihalchenko::List<T> &other)
   {
-    while (this->begin_->pNext_ != nullptr)
+    /*while (this->begin_->pNext_ != nullptr)
     {
       mihalchenko::List<T> *tempPointerBegin = this->begin_;
       this->begin_ = other.begin_;
       other.begin_ = tempPointerBegin;
       this->begin_ = this->begin_->pNext_;
       other.begin_ = other.begin_->pNext_;
-    }
+    }*/
+    mihalchenko::List<T> *tempPointerBegin = this->begin_;
+    this->begin_ = other.begin_;
+    other.begin_ = tempPointerBegin;
+
+    mihalchenko::List<T> *tempPointerEnd = this->end_;
+    this->end_ = other.end_;
+    other.end_ = tempPointerEnd;
+
     size_t tempSize = this->size_;
     this->size_ = other.size_;
     other.size_ = tempSize;
@@ -204,7 +214,7 @@ namespace mihalchenko
   template <typename T>
   void mihalchenko::List<T>::pop_back()
   {
-    removeAt(size_ - 1);
+    erase(size_ - 1);
   }
 
   template <typename T>
@@ -228,7 +238,7 @@ namespace mihalchenko
   }
 
   template <typename T>
-  void mihalchenko::List<T>::removeAt(size_t index)
+  void mihalchenko::List<T>::erase(size_t index)
   {
     if (index == 0)
     {
@@ -288,6 +298,12 @@ namespace mihalchenko
     {
       pop_front();
     }
+  }
+
+  template <typename T>
+  bool mihalchenko::List<T>::empty()
+  {
+    return (this->begin_ == nullptr);
   }
 
   /*template <typename T>
