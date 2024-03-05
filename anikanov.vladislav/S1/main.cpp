@@ -59,7 +59,7 @@ int main()
       const auto &list = *list_it;
       if (idx < list.second.size()) {
         auto num_it = list.second.begin();
-        for (size_t i = 0; i < (idx == 0 ? 0 : idx - 1); ++i) {
+        for (size_t i = 0; i < (idx == 0 ? 0 : idx); ++i) {
           num_it++;
         }
         std::cout << *num_it << " ";
