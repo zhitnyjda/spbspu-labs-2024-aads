@@ -1,72 +1,28 @@
 #include <iostream>
 #include <string>
-#include "list.hpp"
+#include "functions.hpp"
 
 int main()
 {
   using namespace nikiforov;
 
-  std::string stroka;
-  int num = 0;
-
   List< std::pair< std::string, List< int > > > seqsPair;
-  Iterator< std::pair< std::string, List< int > > > iter = seqsPair.begin();
-  bool firstLine = false;
+  Funcs< int > func;
 
-  while (std::cin >> stroka)
-  {
-    if (!firstLine)
-    {
-      seqsPair.push_back({ stroka, {} });
-      iter = seqsPair.begin();
-    }
-    else
-    {
-      seqsPair.push_back({ stroka, {} });
-      iter++;
-    }
-
-    if (std::cin.peek() == '\n')
-    {
-      continue;
-    }
-
-    while (std::cin >> num)
-    {
-      if (std::cin.peek() == '\n')
-      {
-        (*iter).second.push_back(num);
-        firstLine = true;
-        break;
-      }
-      (*iter).second.push_back(num);
-    }
-  }
-  iter = seqsPair.begin();
-  Iterator< std::pair< std::string, List< int > > > iterEnd = seqsPair.end();
-
-  bool flag = false;
-
-  for (iter = seqsPair.begin(); iter != iterEnd; ++iter) {
-    if (flag == true)
-    {
-      std::cout << " ";
-    }
-    std::cout << iter->first;
-    flag = true;
-  }
-  std::cout << "\n";
-
-  iter = seqsPair.begin();
+  func.input_(std::cin, seqsPair);
+  func.outputName_(seqsPair);
 
   List< int > listSumm;
+  Iterator< std::pair< std::string, List< int > > > iter = seqsPair.begin();
+  Iterator< std::pair< std::string, List< int > > > iterEnd = seqsPair.end();
   Iterator< int > iterList = (*iter).second.begin();
   Iterator< int > iterListEnd = (*iter).second.end();
 
   size_t seqsPair_size = seqsPair.size();
 
   int long long summ = 0;
-  flag = false;
+
+  bool flag = false;
 
   while (seqsPair_size > 0)
   {
