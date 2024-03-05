@@ -7,17 +7,17 @@ using namespace mihalchenko;
 
 int main()
 {
-  mihalchenko::List<std::pair<std::string, mihalchenko::List<int>>> mixedList;
+  using mainList = mihalchenko::List<std::pair<std::string, mihalchenko::List<int>>>;
+  mainList mixedList;
   using integerList = mihalchenko::List<int>;
   integerList intList1;
 
   std::string inputStr;
   std::string slovo;
 
-  // using iter = mihalchenko::List<int>::Iterator<int>;
+  size_t maxLenOfSecondList = 0;
 
-  // bool flg = false;
-
+  integerList tempIntList;
   while (std::cin >> inputStr)
   {
     integerList tempIntList;
@@ -25,34 +25,35 @@ int main()
     if (!isdigit(inputStr[0]))
     {
       slovo = inputStr;
-      // intList.clear();
-      intList1 = tempIntList;
-      // flg = true;
+      tempIntList.clear();
+      // integerList tempIntList;
 
       if (std::cin.peek() == '\n')
       {
-        mixedList.push_back(std::make_pair(slovo, intList1));
+        mixedList.push_back(std::make_pair(slovo, tempIntList));
         continue;
       }
     }
     else
     {
-      tempIntList = intList1;
       tempIntList.push_back(std::stoi(inputStr));
-
+      // std::cout << "tempIntList.Size = " << tempIntList.size_ << " tempIntList[0] = " << tempIntList[0] << std::endl;
       if (std::cin.peek() == '\n')
       {
-        /*for (size_t i = 0; i < intList.getSize(); i++)
-        {
-          std::cout << intList[i] << std::endl;
-        }*/
+        // int tempIntList[5] = {1, 2, 3, 4, 5};
+        // auto p2 = std::make_pair(slovo, tempIntList);
         mixedList.push_back(std::make_pair(slovo, tempIntList));
-        // mixedList.push_back(std::pair(slovo, tempIntList));
+        if (maxLenOfSecondList < tempIntList.size_)
+        {
+          maxLenOfSecondList = tempIntList.size_;
+        }
         continue;
       }
     }
-    // mixedList.push_back(std::make_pair(slovo, tempIntList));
   }
+
+  std::cout << "mixedList.size= " << mixedList.size_ << std::endl;
+  std::cout << "maxLenOfSecondList= " << maxLenOfSecondList << std::endl;
 
   for (size_t ind = 0; ind < mixedList.size_; ind++)
   {
@@ -60,23 +61,29 @@ int main()
   }
   std::cout << std::endl;
 
-  /*for (size_t ind = 0; ind < mixedList.size_; ind++)
+  integerList summaEveryString;
+  size_t summa = 0;
+  // maxLenOfSecondList = 4;
+  for (size_t numericView = 0; numericView < maxLenOfSecondList; numericView++)
   {
-    iter it = mixedList[ind].second[0];
-    it = mixedList[ind].second[0];
-    std::cout << it.data_;
-  }
-  for (size_t ind = 0; ind < mixedList.getSize(); ind++)
-  {
-    // std::cout << mixedList[ind].second << std::endl;
-    // integerList intList2;
-    std::cout << mixedList.begin().data_.second;
-    for (size_t i = 0; i < mixedList[ind].second.getSize() - 1; i++)
+    summa = 0;
+    for (size_t i = 0; i < mixedList.size_; i++)
     {
-      intList2[i] = mixedList[ind].second[i];
-      std::cout << intList2[i] << " ";
+      if (mixedList[i].second.size_ > numericView)
+      {
+        std::cout << mixedList[i].second[numericView] << " ";
+        summa = summa + mixedList[i].second[numericView];
+      }
     }
-  // std::cout << mixedList[ind].second[1] << std::endl;}*/
+    std::cout << std::endl;
+    summaEveryString.push_back(summa);
+  }
+
+  for (size_t ind = 0; ind < maxLenOfSecondList; ind++)
+  {
+    std::cout << summaEveryString[ind] << " ";
+  }
+  std::cout << std::endl;
 
   return 0;
 }

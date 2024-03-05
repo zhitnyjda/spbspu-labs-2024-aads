@@ -153,14 +153,14 @@ namespace mihalchenko
   template <typename T>
   void mihalchenko::List<T>::swap(mihalchenko::List<T> &other)
   {
-    mihalchenko::List<T> *tempPointerBegin = this->begin_;
-    this->begin_ = other.begin_;
-    other.begin_ = tempPointerBegin;
-
-    mihalchenko::List<T> *tempPointerEnd = this->end_;
-    this->end_ = other.end_;
-    other.end_ = tempPointerEnd;
-
+    while (this->begin_->pNext_ != nullptr)
+    {
+      mihalchenko::List<T> *tempPointerBegin = this->begin_;
+      this->begin_ = other.begin_;
+      other.begin_ = tempPointerBegin;
+      this->begin_ = this->begin_->pNext_;
+      other.begin_ = other.begin_->pNext_;
+    }
     size_t tempSize = this->size_;
     this->size_ = other.size_;
     other.size_ = tempSize;
