@@ -20,7 +20,6 @@ namespace nikiforov
     bool is_empty();
 
     Iterator< T > begin();
-    Iterator< T > before_end();
     Iterator< T > end();
     size_t size();
 
@@ -126,12 +125,6 @@ template<typename T>
 nikiforov::Iterator<T> nikiforov::List<T>::begin()
 {
   return Iterator<T>(head);
-}
-
-template<typename T>
-nikiforov::Iterator<T> nikiforov::List<T>::before_end()
-{
-  return Iterator<T>(head->pNext);
 }
 
 template<typename T>
