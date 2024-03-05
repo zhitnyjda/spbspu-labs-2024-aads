@@ -10,7 +10,6 @@ namespace kaseev {
   public:
     List() : ArrSize(0), head(nullptr) {}
     ~List();
-
     void pushBack(const T& value);
     bool empty() const;
     long int size() const; //
@@ -68,7 +67,6 @@ namespace kaseev {
     }
     return current->data;
   }
-
 }
 
 #endif
