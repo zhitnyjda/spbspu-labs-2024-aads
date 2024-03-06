@@ -127,7 +127,6 @@ void Funcs<T>::outputSeqs_(List<std::pair<std::string, List<T>>>& seqsPair)
       listSumm.push_back(summ);
       summ = 0;
     }
-    overflow_();
   }
 
 
@@ -146,6 +145,7 @@ void Funcs<T>::outputSeqs_(List<std::pair<std::string, List<T>>>& seqsPair)
   {
     std::cout << 0 << "\n";
   }
+  overflow_();
 }
 
 template<typename T>
