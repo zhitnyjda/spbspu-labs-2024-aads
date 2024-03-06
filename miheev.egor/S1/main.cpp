@@ -50,7 +50,7 @@ int main()
   ListIter* iters = getIters(pairs, unusedIndex);
   List< int >* lists = getLists(pairs, unusedIndex);
 
-  int maxSize = maxListSize(lists, unusedIndex);
+  size_t maxSize = maxListSize(lists, unusedIndex);
   int* sumArr = new int[maxSize]{};
   size_t index = 0;
 
