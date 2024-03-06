@@ -82,6 +82,9 @@ int main()
   }
   std::cout << '\n';
 
+
+  delete[] lists;
+  delete[] sumArr;
   delete[] pairs;
   return 0;
 }

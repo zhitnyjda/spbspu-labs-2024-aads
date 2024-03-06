@@ -28,7 +28,44 @@ namespace miheev
       isEmpty_(false)
     {}
 
-    ~List() = default;
+    List(const List& toCopy)
+    {
+      data_ = toCopy.data_;
+      isEmpty_ = toCopy.isEmpty_;
+      if (toCopy.next_)
+      {
+        next_ = new List< T >(*toCopy.next_);
+      }
+      else
+      {
+        next_ = nullptr;
+      }
+    }
+
+    List& operator= (const List& list)
+    {
+      data_ = list.data_;
+      isEmpty_ = list.isEmpty_;
+      if (next_)
+      {
+        List< T >* old = next_;
+        next_ = nullptr;
+        delete old;
+      }
+      if (list.next_)
+      {
+        next_ = new List< T >(*(list.next_));
+      }
+      return *this;
+    }
+
+    ~List()
+    {
+      if (next_)
+      {
+        delete next_;
+      }
+    }
 
     void clear()
     {
