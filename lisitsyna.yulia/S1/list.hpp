@@ -39,15 +39,15 @@ lisitsyna::List<T>::~List()
 template<typename T>
 void lisitsyna::List<T>::popFront()
 {
-  if (head == NULL) return;
+  if (head == nullptr) return;
   if (head == tail)
   {
     delete tail;
-    head = tail = NULL;
+    head = tail = nullptr;
     return;
   }
 
-  Node* node = head
+  Node<T>* node = head
   head = node->next;
   delete node;
 }
@@ -55,9 +55,9 @@ void lisitsyna::List<T>::popFront()
 template<typename T>
 void lisitsyna::List<T>::pushBack(T data)
 {
-  Node* node = new Node(data);
-  if (head == NULL) head = node;
-  if (tail != NULL) tail->next = node;
+  Node<T>* node = new Node(data);
+  if (head == nullptr) head = node;
+  if (tail != nullptr) tail->next = node;
   tail = node;
 }
 
@@ -89,8 +89,27 @@ T& lisitsyna::List<T>::operator[](const int index)
 template<typename T>
 void lisitsyna::List<T>::pushFront(T data)
 {
-  head = new Node<T>(data, head);
-  size++;
+  Node<T>* node = new Node(data);
+  node->next = head;
+  head = node;
+  if (tail == nullptr) tail = node;
+}
+
+template<typename T>
+void lisitsina::List<T>::popBack(T data)
+{
+  if (tail == nullptr) return;
+  if (head == tail)
+  {
+    delete tail;
+    head = tail = nullptr;
+    return;
+  }
+  Node<T>* node = head;
+  for(node->next != != tail; node = node->next);
+  node->next = nullptr;
+  delete tail;
+  tail = node;
 }
 
 template<typename T>
@@ -104,6 +123,7 @@ void lisitsyna::List<T>::insert(T data, int index)
   {
     Node<T>* previous = this->head;
     for (int i = 0; i < index - 1; i++)
+
     {
       previous = previous->Next;
     }
