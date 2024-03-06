@@ -23,7 +23,7 @@ namespace kaseev {
     catch (const std::bad_alloc &)
     {
       std::cerr << "List size exceeds maximum limit";
-      return;
+      return 0;
     }
     std::pair<std::string, kaseev::List<int>> list_pair;
     list_pair.first = ListName;
