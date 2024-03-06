@@ -17,18 +17,18 @@ int main() {
     std::cout << "0\n";
     return 0;
   }
-  for (long int i = 0; i < arr.size(); ++i) {
+  for (int i = 0; i < arr.size(); ++i) {
     std::pair<std::string, kaseev::List<int>> list = arr[i];
     std::cout << list.first << " ";
   }
   std::cout << "\n";
   bool finished = false;
-  long int index = 0;
+  int index = 0;
   kaseev::List<std::pair<std::string, kaseev::List<int>>> sum;
   while (!finished) {
     finished = true;
     std::string currentString;
-    for (long int i = 0; i < arr.size(); ++i) {
+    for (int i = 0; i < arr.size(); ++i) {
       const std::pair<std::string, kaseev::List<int>>& list = arr[i];
       if (index < list.second.size()) {
         std::cout << list.second[index] << " ";

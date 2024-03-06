@@ -12,7 +12,7 @@ namespace kaseev {
     ~List();
     void pushBack(const T& value);
     bool empty() const;
-    long int size() const; //
+    int size() const; //
     const T& operator[](size_t index) const;
 
   private:
@@ -52,7 +52,7 @@ namespace kaseev {
   }
 
   template<class T>
-  long int List<T>::size() const {
+  int List<T>::size() const {
     return ArrSize;
   }
 
