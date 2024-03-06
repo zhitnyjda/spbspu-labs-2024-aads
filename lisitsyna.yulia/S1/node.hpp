@@ -9,7 +9,7 @@ struct Node
   Node(T data = T(), Node* Next = nullptr)
   {
     this->data = data;
-    this->Next = Next;
+    this->Next = NULL;
   }
 };
 

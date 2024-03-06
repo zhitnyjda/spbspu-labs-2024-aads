@@ -21,10 +21,11 @@ namespace lisitsyna
     void pushFront(T data);
     void insert(T data, int index);
     void popBack();
+    size_t GetSize();
     bool isEmpty();
 
   private:
-    Node<T>* head = nullptr;
+    Node<T>* head, tail;
     size_t size() const;
   };
 }
@@ -38,32 +39,26 @@ lisitsyna::List<T>::~List()
 template<typename T>
 void lisitsyna::List<T>::popFront()
 {
-  if (head != nullptr)
+  if (head == NULL) return;
+  if (head == tail)
   {
-    Node<T>* node = head;
-    head = node->next;
-    delete node;
+    delete tail;
+    head = tail = NULL;
+    return;
   }
-  size--;
+
+  Node* node = head
+  head = node->next;
+  delete node;
 }
 
 template<typename T>
 void lisitsyna::List<T>::pushBack(T data)
 {
-  if (head == nullptr)
-  {
-    head = new Node<T>(data);
-  }
-  else
-  {
-    Node<T>* current = this->head;
-    while (current->Next != nullptr)
-    {
-	current = current->Next;
-    }
-    current->Next = new Node<T>(data);
-}
-   size++;
+  Node* node = new Node(data);
+  if (head == NULL) head = node;
+  if (tail != NULL) tail->next = node;
+  tail = node;
 }
 
 template<typename T>
