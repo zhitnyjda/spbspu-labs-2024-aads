@@ -2,14 +2,14 @@
 #include "sstream"
 
 namespace kaseev {
-  void readList(const std::string &line, kaseev::List<std::pair<std::string, kaseev::List<int>>> &arr)
+  int readList(const std::string &line, kaseev::List<std::pair<std::string, kaseev::List<int>>> &arr)
   {
     std::istringstream iss(line);
     std::string ListName;
     if (!(iss >> ListName))
     {
       std::cerr << "Empty line! \n";
-      return;
+      return 1;
     }
     kaseev::List<int> tempList;
     int num;
@@ -22,12 +22,14 @@ namespace kaseev {
     }
     catch (const std::bad_alloc &)
     {
-      throw std::overflow_error("List size exceeds maximum limit");
+      std::cerr << "List size exceeds maximum limit";
+      return;
     }
     std::pair<std::string, kaseev::List<int>> list_pair;
     list_pair.first = ListName;
     list_pair.second = tempList;
     arr.pushBack(list_pair);
+    return 0;
   }
 
 

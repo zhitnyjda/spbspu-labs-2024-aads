@@ -11,7 +11,11 @@ int main() {
     {
       break;
     }
-    kaseev::readList(line, arr);
+    int marker = kaseev::readList(line, arr);
+    if (marker == 1)
+    {
+      return 1;
+    }
   }
   if (arr.empty()) {
     std::cout << "0\n";
