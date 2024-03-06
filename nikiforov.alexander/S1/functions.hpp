@@ -87,15 +87,15 @@ template<typename T>
 void Funcs<T>::outputSeqs_(List<std::pair<std::string, List<T>>>& seqsPair)
 {
   List< int > listSumm;
-  Iterator< std::pair< std::string, List< int > > > iter = seqsPair.begin();
-  Iterator< std::pair< std::string, List< int > > > iterEnd = seqsPair.end();
-  Iterator< int > iterList = (*iter).second.begin();
-  Iterator< int > iterListEnd = (*iter).second.end();
-
-  size_t countInSeq = 0;
-  int long long summ = 0;
   if (maxSize != 0)
   {
+    Iterator< std::pair< std::string, List< int > > > iter = seqsPair.begin();
+    Iterator< std::pair< std::string, List< int > > > iterEnd = seqsPair.end();
+    Iterator< int > iterList = (*iter).second.begin();
+    Iterator< int > iterListEnd = (*iter).second.end();
+    size_t countInSeq = 0;
+    int long long summ = 0;
+
     while (countInSeq < maxSize)
     {
       for (iter = seqsPair.begin(); iter != iterEnd; ++iter)
@@ -110,7 +110,7 @@ void Funcs<T>::outputSeqs_(List<std::pair<std::string, List<T>>>& seqsPair)
         }
         if (iterList != nullptr)
         {
-          summ == 0 ? std::cout << *iterList : std::cout << "-" << *iterList;
+          summ == 0 ? std::cout << *iterList : std::cout << " " << *iterList;
           summ += *iterList;
         }
       }
@@ -121,20 +121,21 @@ void Funcs<T>::outputSeqs_(List<std::pair<std::string, List<T>>>& seqsPair)
     }
   }
 
-  Iterator< int > iterListSummEnd = listSumm.end();
-  size_t count = 0;
+
   if (maxSize != 0)
   {
+    Iterator< int > iterListSummEnd = listSumm.end();
+    size_t count = 0;
     for (Iterator< int > iterListSumm = listSumm.begin(); iterListSumm != iterListSummEnd; ++iterListSumm)
     {
       count++;
-      listSumm.size() == count ? std::cout << *iterListSumm : std::cout << *iterListSumm << "-";
+      listSumm.size() == count ? std::cout << *iterListSumm : std::cout << *iterListSumm << " ";
     }
     std::cout << "\n";
   }
   else
   {
-    std::cout << 0;
+    std::cout << 0 << "\n";
   }
 }
 
