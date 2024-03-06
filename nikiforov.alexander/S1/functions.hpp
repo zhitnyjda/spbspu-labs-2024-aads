@@ -2,6 +2,7 @@
 #define FUNCTION_HPP
 #include <iostream>
 #include <string>
+#include <limits>
 #include "list.hpp"
 
 namespace nikiforov
