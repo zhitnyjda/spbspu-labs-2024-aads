@@ -14,6 +14,7 @@ int main() {
     kaseev::readList(line, arr);
   }
   if (arr.empty()) {
+    std::cout << "0\n";
     return 0;
   }
   for (long int i = 0; i < arr.size(); ++i) {

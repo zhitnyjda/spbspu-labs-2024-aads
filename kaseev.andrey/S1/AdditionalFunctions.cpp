@@ -1,6 +1,6 @@
-// AdditionalFunctions.cpp
 #include "AdditionalFunctions.hpp"
 #include "sstream"
+#include "limits"
 
 namespace kaseev {
   void readList(const std::string &line, kaseev::List<std::pair<std::string, kaseev::List<int>>> &arr)
@@ -16,6 +16,10 @@ namespace kaseev {
     int num;
     while (iss >> num)
     {
+      if (tempList.size() >= std::numeric_limits<size_t>::max())
+      {
+        throw std::overflow_error("List size exceeds maximum limit");
+      }
       tempList.pushBack(num);
     }
     std::pair<std::string, kaseev::List<int>> list_pair;
