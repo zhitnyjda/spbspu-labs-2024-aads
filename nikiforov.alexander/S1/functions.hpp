@@ -67,7 +67,6 @@ void Funcs<T>::input_(std::istream& input, List< std::pair< std::string, List< T
       overflow = true;
     }
   }
-  overflow_();
 }
 
 template<typename T>
@@ -128,6 +127,7 @@ void Funcs<T>::outputSeqs_(List<std::pair<std::string, List<T>>>& seqsPair)
       listSumm.push_back(summ);
       summ = 0;
     }
+    overflow_();
   }
 
 
