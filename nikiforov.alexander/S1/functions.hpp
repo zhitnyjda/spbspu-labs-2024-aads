@@ -14,10 +14,12 @@ namespace nikiforov
     void input_(std::istream& input, List< std::pair< std::string, List< T > > >& seqsPair);
     void outputName_(List< std::pair< std::string, List< T > > >& seqsPair);
     void outputSeqs_(List< std::pair< std::string, List< T > > >& seqsPair);
+    void overflow_();
     size_t max(const size_t first_param, const size_t second_param);
 
   private:
     size_t maxSize = 0;
+    bool overflow = false;
   };
 }
 using namespace nikiforov;
@@ -61,7 +63,8 @@ void Funcs<T>::input_(std::istream& input, List< std::pair< std::string, List< T
     }
     if (std::numeric_limits<int>::max() == num)
     {
-      throw std::overflow_error("Error: overflow!");
+      std::cin.clear();
+      overflow = true;
     }
   }
 }
@@ -141,6 +144,15 @@ void Funcs<T>::outputSeqs_(List<std::pair<std::string, List<T>>>& seqsPair)
   else
   {
     std::cout << 0 << "\n";
+  }
+}
+
+template<typename T>
+void nikiforov::Funcs<T>::overflow_()
+{
+  if (overflow == true)
+  {
+    throw std::overflow_error("Error: overflow!");
   }
 }
 
