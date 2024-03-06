@@ -6,10 +6,16 @@ int main()
 
   List< std::pair< std::string, List< int > > > seqsPair;
   Funcs< int > func;
-
-  func.input_(std::cin, seqsPair);
-  func.outputName_(seqsPair);
-  func.outputSeqs_(seqsPair);
-
+  try
+  {
+    func.input_(std::cin, seqsPair);
+    func.outputName_(seqsPair);
+    func.outputSeqs_(seqsPair);
+  }
+  catch (const std::exception& e)
+  {
+    std::cerr << e.what() << '\n';
+    return 1;
+  }
   return 0;
 }

@@ -58,6 +58,10 @@ void Funcs<T>::input_(std::istream& input, List< std::pair< std::string, List< T
       }
       (*iter).second.push_back(num);
     }
+    if (std::numeric_limits<int>::max() == num)
+    {
+      throw std::overflow_error("Error: overflow!");
+    }
   }
 }
 
