@@ -11,7 +11,6 @@ int main()
     func.input_(std::cin, seqsPair);
     func.outputName_(seqsPair);
     func.outputSeqs_(seqsPair);
-    func.overflow_();
   }
   catch (const std::exception& e)
   {

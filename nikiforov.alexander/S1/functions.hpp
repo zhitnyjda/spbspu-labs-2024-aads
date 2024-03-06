@@ -67,6 +67,7 @@ void Funcs<T>::input_(std::istream& input, List< std::pair< std::string, List< T
       overflow = true;
     }
   }
+  overflow_();
 }
 
 template<typename T>
