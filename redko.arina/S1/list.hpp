@@ -87,9 +87,19 @@ namespace redko
     void pushBack(T && value);
     void popFront();
     void swap(List< T > & other);
+
     size_t remove(const T & value);
     template< typename UnaryPredicate >
     size_t removeIf(UnaryPredicate pred);
+    void reverse() noexcept;
+    size_t unique();
+
+    bool operator==(const List< T > & rhs);
+    bool operator!=(const List< T > & rhs);
+    bool operator<(const List< T > & rhs);
+    bool operator<=(const List< T > & rhs);
+    bool operator>(const List< T > & rhs);
+    bool operator>=(const List< T > & rhs);
 
   private:
     ListElem< T > head_;
@@ -467,6 +477,144 @@ size_t redko::List< T >::removeIf(UnaryPredicate pred)
     prevIt++;
   }
   return count;
+}
+template< typename T >
+void redko::List< T >::reverse() noexcept
+{
+  if (!isEmpty() && head_.next->next != nullptr)
+  {
+    ListElem< T > * prevNode = head_.next;
+    ListElem< T > * tmpNode = head_.next->next;
+    while (tmpNode->next != nullptr)
+    {
+      tmpNode = tmpNode->next;
+      prevNode = prevNode->next;
+    }
+    tmpNode->next = prevNode;
+    ListElem< T > * currNode = prevNode;
+    while (currNode != head_.next)
+    {
+      prevNode = head_.next;
+      while (prevNode->next != currNode)
+      {
+        prevNode = prevNode->next;
+      }
+      currNode->next = prevNode;
+      currNode = prevNode;
+    }
+    currNode->next = nullptr;
+    head_.next = tmpNode;
+  }
+}
+template< typename T >
+size_t redko::List< T >::unique()
+{
+  size_t res = 0;
+  if (!isEmpty() && head_.next->next != nullptr)
+  {
+    Iterator< T > nextElem(head_.next->next);
+    Iterator< T > currElem(head_.next);
+    while (nextElem != end())
+    {
+      if (*currElem == *nextElem)
+      {
+        res++;
+        nextElem = eraseAfter((currElem));
+        nextElem++;
+      }
+      else
+      {
+        currElem++;
+        nextElem++;
+      }
+    }
+  }
+  return res;
+}
+
+template< typename T >
+bool redko::List< T >::operator==(const List< T > & rhs)
+{
+  if (this != &rhs)
+  {
+    ListElem< T > * lCurr = head_.next;
+    ListElem< T > * rCurr = rhs.head_.next;
+    while (lCurr != nullptr && rCurr != nullptr)
+    {
+      if (lCurr->data != rCurr->data)
+      {
+        return false;
+      }
+      lCurr = lCurr->next;
+      rCurr = rCurr->next;
+    }
+    if (lCurr != nullptr || rCurr != nullptr)
+    {
+      return false;
+    }
+  }
+  return true;
+}
+template< typename T >
+bool redko::List< T >::operator!=(const List< T > & rhs)
+{
+  return !(*this == rhs);
+}
+template< typename T >
+bool redko::List< T >::operator<(const List< T > & rhs)
+{
+  if (this != &rhs)
+  {
+    ListElem< T > * lCurr = head_.next;
+    ListElem< T > * rCurr = rhs.head_.next;
+    while (rCurr != nullptr)
+    {
+      if (lCurr == nullptr || lCurr->data < rCurr->data)
+      {
+        return true;
+      }
+      else if (lCurr->data > rCurr->data)
+      {
+        return false;
+      }
+      lCurr = lCurr->next;
+      rCurr = rCurr->next;
+    }
+  }
+  return false;
+}
+template< typename T >
+bool redko::List< T >::operator<=(const List< T > & rhs)
+{
+  return !(*this > rhs);
+}
+template< typename T >
+bool redko::List< T >::operator>(const List< T > & rhs)
+{
+  if (this != &rhs)
+  {
+    ListElem< T > * lCurr = head_.next;
+    ListElem< T > * rCurr = rhs.head_.next;
+    while (lCurr != nullptr)
+    {
+      if (rCurr == nullptr || lCurr->data > rCurr->data)
+      {
+        return true;
+      }
+      else if (lCurr->data < rCurr->data)
+      {
+        return false;
+      }
+      lCurr = lCurr->next;
+      rCurr = rCurr->next;
+    }
+  }
+  return false;
+}
+template< typename T >
+bool redko::List< T >::operator>=(const List< T > & rhs)
+{
+  return !(*this < rhs);
 }
 
 #endif
