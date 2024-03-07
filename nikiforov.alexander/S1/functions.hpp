@@ -27,9 +27,9 @@ using namespace nikiforov;
 template<typename T>
 void Funcs<T>::input_(std::istream& input, List< std::pair< std::string, List< T > > >& seqsPair)
 {
-  Iterator< std::pair< std::string, List< int > > > iter = seqsPair.begin();
+  Iterator< std::pair< std::string, List< unsigned long long > > > iter = seqsPair.begin();
   std::string nameSeq;
-  int num = 0;
+  unsigned long long num = 0;
   bool firstLine = false;
 
   while (input >> nameSeq)
@@ -53,6 +53,10 @@ void Funcs<T>::input_(std::istream& input, List< std::pair< std::string, List< T
 
     while (input >> num)
     {
+      if (std::numeric_limits<int>::max() < num)
+      {
+        overflow = true;
+      }
       if (input.peek() == '\n')
       {
         (*iter).second.push_back(num);
@@ -60,19 +64,14 @@ void Funcs<T>::input_(std::istream& input, List< std::pair< std::string, List< T
       }
       (*iter).second.push_back(num);
     }
-    if (std::numeric_limits<int>::max() == num)
-    {
-      std::cin.clear();
-      overflow = true;
-    }
   }
 }
 
 template<typename T>
 void Funcs<T>::outputName_(List<std::pair<std::string, List<T>>>& seqsPair)
 {
-  Iterator< std::pair< std::string, List< int > > > iter = seqsPair.begin();
-  Iterator< std::pair< std::string, List< int > > > iterEnd = seqsPair.end();
+  Iterator< std::pair< std::string, List< unsigned long long > > > iter = seqsPair.begin();
+  Iterator< std::pair< std::string, List< unsigned long long > > > iterEnd = seqsPair.end();
   size_t countNames = seqsPair.size();
 
   for (iter = seqsPair.begin(); iter != iterEnd; ++iter)
@@ -96,10 +95,10 @@ void Funcs<T>::outputSeqs_(List<std::pair<std::string, List<T>>>& seqsPair)
   List< int > listSumm;
   if (maxSize != 0)
   {
-    Iterator< std::pair< std::string, List< int > > > iter = seqsPair.begin();
-    Iterator< std::pair< std::string, List< int > > > iterEnd = seqsPair.end();
-    Iterator< int > iterList = (*iter).second.begin();
-    Iterator< int > iterListEnd = (*iter).second.end();
+    Iterator< std::pair< std::string, List< unsigned long long > > > iter = seqsPair.begin();
+    Iterator< std::pair< std::string, List< unsigned long long > > > iterEnd = seqsPair.end();
+    Iterator< unsigned long long > iterList = (*iter).second.begin();
+    Iterator< unsigned long long > iterListEnd = (*iter).second.end();
     size_t countInSeq = 0;
     int long long summ = 0;
 

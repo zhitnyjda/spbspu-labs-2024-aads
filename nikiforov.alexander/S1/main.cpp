@@ -4,8 +4,8 @@ int main()
 {
   using namespace nikiforov;
 
-  List< std::pair< std::string, List< int > > > seqsPair;
-  Funcs< int > func;
+  List< std::pair< std::string, List< unsigned long long > > > seqsPair;
+  Funcs< unsigned long long > func;
   try
   {
     func.input_(std::cin, seqsPair);

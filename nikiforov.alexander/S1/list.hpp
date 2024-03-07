@@ -10,12 +10,14 @@ namespace nikiforov
   {
   public:
     List();
+    List(Iterator< T > begin, Iterator< T > end, int value);
     ~List();
 
     void push_front(T data);
     void push_back(T data);
     void pop_front();
     void pop_back();
+    void swap(List< T >& other);
     void clear();
     bool is_empty();
 
@@ -35,6 +37,15 @@ nikiforov::List<T>::List()
 {
   head = nullptr;
   size_l = 0;
+}
+
+template<typename T>
+nikiforov::List<T>::List(Iterator<T> begin, Iterator<T> end, int value)
+{
+  for (begin; begin != end; ++begin)
+  {
+    push_back(value);
+  }
 }
 
 template<typename T>
@@ -102,10 +113,21 @@ void nikiforov::List<T>::pop_back()
 }
 
 template<typename T>
+void nikiforov::List<T>::swap(List<T>& other)
+{
+  Node<T>* short_termH = this->head;
+  head = other.head;
+  other.head = short_termH;
+
+  size_t short_termS = this->size_l;
+  size_l = other.size_l;
+  other.size_l = short_termS;
+}
+
+template<typename T>
 void nikiforov::List<T>::clear()
 {
-  size_t size = size_l;
-  for (size_t i = 0; i < size; i++)
+  for (size_t i = 0; i < size_l; i++)
   {
     pop_front();
   }
