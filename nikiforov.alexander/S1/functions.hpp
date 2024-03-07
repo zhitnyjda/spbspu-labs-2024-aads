@@ -56,7 +56,6 @@ void Funcs<T>::input_(std::istream& input, List< std::pair< std::string, List< T
       if (input.peek() == '\n')
       {
         (*iter).second.push_back(num);
-        firstLine = true;
         break;
       }
       (*iter).second.push_back(num);
@@ -127,6 +126,7 @@ void Funcs<T>::outputSeqs_(List<std::pair<std::string, List<T>>>& seqsPair)
       listSumm.push_back(summ);
       summ = 0;
     }
+    overflow_();
   }
 
 
@@ -145,7 +145,6 @@ void Funcs<T>::outputSeqs_(List<std::pair<std::string, List<T>>>& seqsPair)
   {
     std::cout << 0 << "\n";
   }
-  overflow_();
 }
 
 template<typename T>
