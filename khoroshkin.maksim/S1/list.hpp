@@ -5,6 +5,7 @@
 #include "iterator.hpp"
 #include <cstddef>
 #include <stdexcept>
+#include <initializer_list>
 
 namespace khoroshkin
 {
@@ -14,6 +15,7 @@ namespace khoroshkin
   public:
     List();
     List(size_t count, const T & value);
+    List(std::initializer_list< T > init);
     ~List();
     List(const List & obj);
     List< T > & operator=(const List & obj);
@@ -22,7 +24,7 @@ namespace khoroshkin
 
     void assign(size_t count, const T & value);
     void assign(ListIterator< T > first, ListIterator< T > last);
-
+    void assign(std::initializer_list< T > ilist);
 
     void push_back(T data);
     void pop_front();
@@ -57,6 +59,15 @@ khoroshkin::List< T >::List(size_t count, const T & value)
   for (size_t i = 0; i < count; ++i)
   {
     this->push_back(value);
+  }
+}
+
+template< typename T >
+khoroshkin::List< T >::List(std::initializer_list< T > init)
+{
+  for (auto it = init.begin(); it != init.end(); ++it)
+  {
+    this->push_back(*it);
   }
 }
 
@@ -134,6 +145,16 @@ void khoroshkin::List< T >::assign(khoroshkin::ListIterator< T > first, khoroshk
   {
     this->push_back(*first);
     first++;
+  }
+}
+
+template< typename T >
+void khoroshkin::List< T >::assign(std::initializer_list< T > ilist)
+{
+  this->clear();
+  for (auto it = ilist.begin(); it != ilist.end(); ++it)
+  {
+    this->push_back(*it);
   }
 }
 
@@ -257,10 +278,7 @@ void khoroshkin::List< T >::remove(const T & value)
   {
     if (*it == value && *it == *this->begin())
     {
-      Node< T > * todelete = it.node;
-      this->head = todelete->pNext;
-      delete todelete;
-      this->size--;
+      this->pop_front();
       it = this->begin();
     }
     else if (next(it) != this->end() && *next(it) == value)
@@ -283,10 +301,7 @@ void khoroshkin::List< T >::remove_if(UnaryPredicate p)
   {
     if (p(*it) && *it == *this->begin())
     {
-      Node< T > * todelete = it.node;
-      this->head = todelete->pNext;
-      delete todelete;
-      this->size--;
+      this->pop_front();
       it = this->begin();
     }
     else if (next(it) != this->end() && p(*next(it)))

@@ -9,23 +9,15 @@ using namespace khoroshkin;
 
 int main()
 {
-  List< std::pair< std::string, List< int > > > allPairs;
+  List< std::pair< std::string, List< unsigned long long > > > allPairs;
   std::string input;
   size_t count = -1;
   int maxLength = 0;
-  bool isOverflow = false;
   while (std::cin >> input)
   {
     if (isdigit(input[0]))
     {
-      if (input.length() > std::to_string(std::numeric_limits< long long >::max()).length())
-      {
-        isOverflow = true;
-      }
-      else
-      {
-        allPairs[count].second.push_back(std::stoll(input));
-      }
+      allPairs[count].second.push_back(std::stoull(input));
     }
     else
     {
@@ -40,7 +32,7 @@ int main()
 
   try
   {
-    printResult(std::cout, allPairs, maxLength, isOverflow);
+    printResult(std::cout, allPairs, maxLength);
   }
   catch(const std::overflow_error & e)
   {

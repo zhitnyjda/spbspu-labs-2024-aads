@@ -9,7 +9,7 @@
 namespace khoroshkin
 {
   template < typename T >
-  void printResult(std::ostream & out, List< std::pair< std::string, List< T > > > & allPairs, int maxLength, bool isOverflow);
+  void printResult(std::ostream & out, List< std::pair< std::string, List< T > > > & allPairs, int maxLength);
   template < typename T >
   bool checkAllNext(int index, ListIterator< T > it, List< T > & allPairs);
 }
@@ -17,7 +17,7 @@ namespace khoroshkin
 using namespace khoroshkin;
 
 template < typename T >
-void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, List< T > > > & allPairs, int maxLength, bool isOverflow)
+void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, List< T > > > & allPairs, int maxLength)
 {
   using type = std::pair<std::string, khoroshkin::List< T > >;
   if (allPairs.getSize() == 0)
@@ -48,22 +48,27 @@ void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, L
     }
   }
 
+  List< unsigned long long > sumList;
   for (int i = 0; i < maxLength; i++)
   {
-    long long sum = 0;
+    unsigned long long sum = 0;
     for (auto it = allPairs.begin(); it != allPairs.end(); it++)
     {
       if ((*it).second.getSize() > i)
       {
-        if (std::numeric_limits<long long>::max() - sum < (*it).second[i] || isOverflow)
+        if (std::numeric_limits< unsigned long long >::max() - sum < (*it).second[i])
         {
           throw std::overflow_error("overflow!");
         }
         sum += (*it).second[i];
       }
     }
-    out << sum;
-    (i + 1 == maxLength) ? out << "\n" : out << " ";
+    sumList.push_back(sum);
+  }
+  for (auto it = sumList.begin(); it != sumList.end(); ++it)
+  {
+    out << *it;
+    (sumList.next(it) == sumList.end()) ? out << "\n" : out << " ";
   }
 }
 
