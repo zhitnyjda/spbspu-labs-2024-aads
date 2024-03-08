@@ -41,6 +41,8 @@ namespace khoroshkin
 
     ListIterator< T > insert_after(ListIterator< T > pos, const T & value);
     ListIterator< T > insert_after(ListIterator< T > pos, size_t count, const T & value);
+    ListIterator< T > erase_after(ListIterator< T > pos);
+    ListIterator< T > erase_after(ListIterator< T > first, ListIterator< T > last);
 
     ListIterator< T > begin();
     ListIterator< T > end();
@@ -303,18 +305,9 @@ void khoroshkin::List< T >::remove_if(UnaryPredicate p)
 {
   for (auto it = this->begin(); it != this->end(); ++it)
   {
-    if (p(*it) && *it == *this->begin())
+    if (p(*it))
     {
-      this->pop_front();
-      it = this->begin();
-    }
-    else if (next(it) != this->end() && p(*next(it)))
-    {
-      Node< T > * subhead = it.node;
-      Node< T > * todelete = subhead->pNext;
-      subhead->pNext = todelete->pNext;
-      delete todelete;
-      this->size--;
+      remove(*it);
       it = this->begin();
     }
   }
@@ -337,16 +330,35 @@ khoroshkin::ListIterator< T > khoroshkin::List< T >::insert_after(ListIterator< 
   {
     return pos;
   }
-  Node< T > * newNode = nullptr;
   for (size_t i = 0; i < count; ++i)
   {
-    Node< T > * subhead = pos.node;
-    newNode = new Node< T >(value);
-    newNode->pNext = subhead->pNext;
-    subhead->pNext = newNode;
-    pos++;
+    pos = insert_after(pos, value);
   }
-  return newNode;
+  return pos;
+}
+
+template< typename T >
+khoroshkin::ListIterator< T > khoroshkin::List< T >::erase_after(ListIterator< T > pos)
+{
+  if (pos.node->pNext)
+  {
+    Node< T > * todelete = pos.node->pNext;
+    pos.node->pNext = pos.node->pNext->pNext;
+    delete todelete;
+    size--;
+    return pos.node->pNext;
+  }
+  return this->end();
+}
+
+template< typename T >
+khoroshkin::ListIterator< T > khoroshkin::List< T >::erase_after(ListIterator< T > first, ListIterator< T > last)
+{
+  while (next(first) != last)
+  {
+    erase_after(first);
+  }
+  return last;
 }
 
 #endif
