@@ -4,14 +4,15 @@ int main()
 {
   using namespace nikiforov;
 
-  List< std::pair< std::string, List< unsigned long > > > seqsPair;
-  Funcs< unsigned long > func;
+  List< std::pair< std::string, List< unsigned long long > > > seqsPair;
+  Funcs< unsigned long long > func;
   try
   {
     func.input_(std::cin, seqsPair);
     func.outputName_(seqsPair);
+    List< unsigned long long > listSumm = func.outputSeqs_(seqsPair);
     func.overflow_();
-    func.outputSeqs_(seqsPair);
+    func.outputSumms(listSumm);
   }
   catch (const std::exception& e)
   {
