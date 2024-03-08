@@ -1,4 +1,5 @@
 #include <utility>
+#include <limits>
 #include <cmath>
 #include "utilityFuncs.hpp"
 
@@ -6,8 +7,8 @@ int main()
 {
   using namespace psarev;
 
-  List< std::pair< std::string, List< int > > > lines;
-  Iterator< std::pair< std::string, List< int > > > iterLine;
+  List< std::pair< std::string, List< unsigned long long > > > lines;
+  Iterator< std::pair< std::string, List< unsigned long long > > > iterLine;
   std::string line = "";
   size_t maxDigits = 0;
   while (std::getline(std::cin, line))
@@ -24,7 +25,7 @@ int main()
       size_t cntDigits = 0;
       while (line.size() != 0)
       {
-        int digit = psarev::getDigit(line);
+        unsigned long long digit = psarev::getDigit(line);
         (*iterLine).second.pushBack(digit);
         cntDigits++;
       }
@@ -32,8 +33,14 @@ int main()
     }
   }
 
-  outOrds(lines);
-  List< int > sums = outDigits(lines, maxDigits);
-  outSums<int>(sums);
+  outOrds< unsigned long long >(lines);
+  bool isOverflow = false;
+  List< unsigned long long > sums = outDigits(lines, maxDigits, isOverflow);
+  if (isOverflow)
+  {
+    std::cerr << "Error: Value overflow during counting the sum!\n";
+    return 1;
+  }
+  outSums< unsigned long long >(sums);
   return 0;
 }

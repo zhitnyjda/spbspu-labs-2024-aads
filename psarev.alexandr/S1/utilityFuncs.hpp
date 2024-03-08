@@ -13,7 +13,7 @@ namespace psarev
   void outOrds(List< std::pair< std::string, List< T > > >& lines);
 
   template < typename T >
-  List< T > outDigits(List< std::pair< std::string, List< T > > >& lines, size_t maxDigits);
+  List< T > outDigits(List< std::pair< std::string, List< T > > >& lines, size_t maxDigits, bool& isOF);
 
   template < typename T >
   void outSums(List< T >& sums);
@@ -39,12 +39,12 @@ void psarev::outOrds(List< std::pair< std::string, List< T > > >& lines)
 }
 
 template < typename T >
-psarev::List< T > psarev::outDigits(List< std::pair< std::string, List< T > > >& lines, size_t maxDigits)
+psarev::List< T > psarev::outDigits(List< std::pair< std::string, List< T > > >& lines, size_t maxDigits, bool& isOF)
 {
   Iterator< std::pair< std::string, List< T > > > iterLine = lines.begin();
-  Iterator< int > iterDig;
-  List< int > sums;
-  int curSum = 0;
+  Iterator< unsigned long long > iterDig;
+  List< unsigned long long > sums;
+  unsigned long long curSum = 0;
   for (size_t i = 0; i < maxDigits; i++)
   {
     curSum = 0;
@@ -63,7 +63,14 @@ psarev::List< T > psarev::outDigits(List< std::pair< std::string, List< T > > >&
           std::cout << ' ';
         }
         std::cout << *iterDig;
-        curSum += *iterDig;
+        if (*iterDig > std::numeric_limits< unsigned long long >::max() - curSum)
+        {
+          isOF = true;
+        }
+        else
+        {
+          curSum += *iterDig;
+        }
       }
       iterLine++;
     }

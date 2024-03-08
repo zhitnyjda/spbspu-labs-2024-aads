@@ -18,7 +18,7 @@ std::string psarev::getOrd(std::string& line)
 
 int psarev::getDigit(std::string& line)
 {
-  int digit = std::stoi(line.substr(0, line.find_first_of(" ", 0)));
+  unsigned long long digit = std::stoull(line.substr(0, line.find_first_of(" ", 0)));
   if (line.find_first_of(" ") != std::string::npos)
   {
     line = line.substr(line.find_first_of(" ") + 1);
