@@ -75,7 +75,6 @@ int main()
             {
               isNext = true;
             }
-            nextSeq++;
           }
           std::cout << (isNext ? ' ' : '\n');
           allWasOutputed = false;
