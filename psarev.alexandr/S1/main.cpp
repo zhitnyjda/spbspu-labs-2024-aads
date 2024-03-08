@@ -1,6 +1,6 @@
 #include <utility>
 #include <cmath>
-#include "divideFuncs.hpp"
+#include "utilityFuncs.hpp"
 
 int main()
 {
@@ -33,36 +33,7 @@ int main()
   }
 
   outOrds(lines);
-
-  Iterator< int > iterDig;
-  List< int > sums;
-  int curSum = 0;
-  for (size_t i = 0; i < maxDigits; i++)
-  {
-    curSum = 0;
-    iterLine = lines.begin();
-    for (size_t j = 0; j < lines.getSize(); j++)
-    {
-      iterDig = (*iterLine).second.begin();
-      if ((*iterLine).second.getSize() > i)
-      {
-        for (size_t k = 0; k < i; k++)
-        {
-          iterDig++;
-        }
-        if (curSum != 0)
-        {
-          std::cout << ' ' ;
-        }
-        std::cout << *iterDig;
-        curSum += *iterDig;
-      }
-      iterLine++;
-    }
-    sums.pushBack(curSum);
-    std::cout << '\n';
-  }
-
-  outSums(sums);
+  List< int > sums = outDigits(lines, maxDigits);
+  outSums<int>(sums);
   return 0;
 }
