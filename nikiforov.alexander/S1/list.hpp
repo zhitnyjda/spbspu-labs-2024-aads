@@ -11,6 +11,7 @@ namespace nikiforov
   public:
     List();
     List(Iterator< T > begin, Iterator< T > end, int value);
+    List(const List& other);
     ~List();
 
     void push_front(T data);
@@ -46,6 +47,20 @@ nikiforov::List<T>::List(Iterator<T> begin, Iterator<T> end, int value)
   {
     push_back(value);
   }
+}
+
+template<typename T>
+nikiforov::List<T>::List(const List& other)
+{
+  if (other.head == nullptr)
+  {
+    head = nullptr;
+  }
+  else
+  {
+    head = new Node<T>(*other.head);
+  }
+  size_l = other.size_l;
 }
 
 template<typename T>
