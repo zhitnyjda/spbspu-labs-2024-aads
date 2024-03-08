@@ -34,9 +34,13 @@ namespace khoroshkin
     bool isEmpty();
     T & operator[](const size_t index);
     void swap(List< T > & other);
+
     void remove(const T & value);
     template< typename UnaryPredicate >
     void remove_if(UnaryPredicate p);
+
+    ListIterator< T > insert_after(ListIterator< T > pos, const T & value);
+    ListIterator< T > insert_after(ListIterator< T > pos, size_t count, const T & value);
 
     ListIterator< T > begin();
     ListIterator< T > end();
@@ -314,6 +318,35 @@ void khoroshkin::List< T >::remove_if(UnaryPredicate p)
       it = this->begin();
     }
   }
+}
+
+template< typename T >
+khoroshkin::ListIterator< T > khoroshkin::List< T >::insert_after(ListIterator< T > pos, const T & value)
+{
+  Node< T > * subhead = pos.node;
+  Node< T > * newNode = new Node< T >(value);
+  newNode->pNext = subhead->pNext;
+  subhead->pNext = newNode;
+  return newNode;
+}
+
+template< typename T >
+khoroshkin::ListIterator< T > khoroshkin::List< T >::insert_after(ListIterator< T > pos, size_t count, const T & value)
+{
+  if (count == 0)
+  {
+    return pos;
+  }
+  Node< T > * newNode = nullptr;
+  for (size_t i = 0; i < count; ++i)
+  {
+    Node< T > * subhead = pos.node;
+    newNode = new Node< T >(value);
+    newNode->pNext = subhead->pNext;
+    subhead->pNext = newNode;
+    pos++;
+  }
+  return newNode;
 }
 
 #endif
