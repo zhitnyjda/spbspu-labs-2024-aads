@@ -1,7 +1,8 @@
 #include "inputFunctions.hpp"
-int redko::cutValue(std::string & str)
+
+unsigned long long redko::cutValue(std::string & str)
 {
-  int value = std::stoi(str.substr(0, str.find_first_of(" ", 0)));
+  unsigned long long value = std::stoull(str.substr(0, str.find_first_of(" ", 0)));
   if (str.find_first_of(" ") == std::string::npos)
   {
     str = "";

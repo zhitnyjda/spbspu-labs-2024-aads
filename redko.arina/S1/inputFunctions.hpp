@@ -4,7 +4,7 @@
 
 namespace redko
 {
-  int cutValue(std::string & str);
+  unsigned long long cutValue(std::string & str);
   std::string cutName(std::string & str);
 }
 
