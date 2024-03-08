@@ -9,7 +9,7 @@ namespace nikiforov
   class List
   {
   public:
-    List();
+    List() noexcept;
     List(Iterator< T > begin, Iterator< T > end, int value);
     List(const List& other);
     ~List();
@@ -34,7 +34,7 @@ namespace nikiforov
 }
 
 template<typename T>
-nikiforov::List<T>::List()
+nikiforov::List<T>::List() noexcept
 {
   head = nullptr;
   size_l = 0;
