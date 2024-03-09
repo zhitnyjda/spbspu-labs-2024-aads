@@ -11,11 +11,9 @@ namespace nikiforov
   class Funcs
   {
   public:
-    ~Funcs() = default;
     void input_(std::istream& input, List< std::pair< std::string, List< T > > >& seqsPair);
     void outputName_(List< std::pair< std::string, List< T > > >& seqsPair);
-    List<T> outputSeqs_(List< std::pair< std::string, List< T > > >& seqsPair);
-    void outputSumms(List<T>& listSumm);
+    void outputSeqs_(List< std::pair< std::string, List< T > > >& seqsPair);
     void overflow_();
     size_t max(const size_t first_param, const size_t second_param);
 
@@ -88,7 +86,7 @@ void Funcs<T>::outputName_(List<std::pair<std::string, List<T>>>& seqsPair)
 }
 
 template<typename T>
-List<T> Funcs<T>::outputSeqs_(List<std::pair<std::string, List<T>>>& seqsPair)
+void Funcs<T>::outputSeqs_(List<std::pair<std::string, List<T>>>& seqsPair)
 {
   List< unsigned long long > listSumm;
   if (maxSize != 0)
@@ -130,13 +128,9 @@ List<T> Funcs<T>::outputSeqs_(List<std::pair<std::string, List<T>>>& seqsPair)
       listSumm.push_back(summ);
       summ = 0;
     }
+    overflow_();
   }
-  return listSumm;
-}
 
-template<typename T>
-void nikiforov::Funcs<T>::outputSumms(List<T>& listSumm)
-{
   if (maxSize != 0)
   {
     Iterator< unsigned long long > iterListSummEnd = listSumm.end();
@@ -157,7 +151,7 @@ void nikiforov::Funcs<T>::outputSumms(List<T>& listSumm)
 template<typename T>
 void nikiforov::Funcs<T>::overflow_()
 {
-  if (overflow == true)
+  if (overflow)
   {
     throw std::overflow_error("Error: overflow!");
   }

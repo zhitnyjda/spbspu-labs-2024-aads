@@ -10,9 +10,7 @@ int main()
   {
     func.input_(std::cin, seqsPair);
     func.outputName_(seqsPair);
-    List< unsigned long long > listSumm = func.outputSeqs_(seqsPair);
-    func.overflow_();
-    func.outputSumms(listSumm);
+    func.outputSeqs_(seqsPair);
   }
   catch (const std::exception& e)
   {

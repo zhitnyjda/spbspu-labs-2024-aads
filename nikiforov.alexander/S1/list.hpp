@@ -142,7 +142,8 @@ void nikiforov::List<T>::swap(List<T>& other)
 template<typename T>
 void nikiforov::List<T>::clear()
 {
-  for (size_t i = 0; i < size_l; i++)
+  const size_t size = size_l;
+  for (size_t i = 0; i < size; i++)
   {
     pop_front();
   }
