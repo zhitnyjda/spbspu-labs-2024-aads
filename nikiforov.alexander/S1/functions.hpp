@@ -92,15 +92,13 @@ void Funcs<T>::outputSeqs_(List<std::pair<std::string, List<T>>>& seqsPair)
   if (maxSize != 0)
   {
     Iterator< std::pair< std::string, List< unsigned long long > > > iter = seqsPair.begin();
-    Iterator< std::pair< std::string, List< unsigned long long > > > iterEnd = seqsPair.end();
     Iterator< unsigned long long > iterList = (*iter).second.begin();
-    Iterator< unsigned long long > iterListEnd = (*iter).second.end();
     size_t countInSeq = 0;
     unsigned long long summ = 0;
 
     while (countInSeq < maxSize)
     {
-      for (iter = seqsPair.begin(); iter != iterEnd; ++iter)
+      for (iter = seqsPair.begin(); iter != seqsPair.end(); ++iter)
       {
         iterList = (*iter).second.begin();
         for (size_t i = 0; i < countInSeq; i++)
@@ -112,13 +110,14 @@ void Funcs<T>::outputSeqs_(List<std::pair<std::string, List<T>>>& seqsPair)
         }
         if (iterList != nullptr)
         {
-          iter == seqsPair.begin() ? std::cout << *iterList : std::cout << " " << *iterList;
+          summ == 0 ? std::cout << *iterList : std::cout << " " << *iterList;
           if ((std::numeric_limits<unsigned long long>::max() - summ) > *iterList)
           {
             summ += *iterList;
           }
           else
           {
+            summ = *iterList;
             overflow = true;
           }
         }
