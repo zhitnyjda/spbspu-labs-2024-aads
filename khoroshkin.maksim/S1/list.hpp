@@ -34,6 +34,8 @@ namespace khoroshkin
     bool isEmpty();
     T & operator[](const size_t index);
     void swap(List< T > & other);
+    void reverse();
+    void splice_after(ListIterator< T > pos, List< T > & other);
 
     void remove(const T & value);
     template< typename UnaryPredicate >
@@ -260,7 +262,6 @@ void khoroshkin::List< T >::swap(khoroshkin::List< T > & other)
   other.size = tempS;
 }
 
-
 template< typename T >
 khoroshkin::ListIterator< T > khoroshkin::List< T >::begin()
 {
@@ -359,6 +360,44 @@ khoroshkin::ListIterator< T > khoroshkin::List< T >::erase_after(ListIterator< T
     erase_after(first);
   }
   return last;
+}
+
+template< typename T >
+void khoroshkin::List< T >::reverse()
+{
+  List< T > temp;
+  auto it = this->begin();
+  while (it != this->end())
+  {
+    if (this->next(it) != this->end() && next(it).node->pNext == nullptr)
+    {
+      temp.push_back(*next(it));
+      this->erase_after(it);
+      if (this->getSize() != 1)
+      {
+        it = this->begin();
+      }
+    }
+    if (this->getSize() == 1)
+    {
+      temp.push_back(*(this->begin()));
+    }
+    if (this->getSize() != 2)
+    {
+      it++;
+    }
+  }
+  this->assign(temp.begin(), temp.end());
+}
+
+template< typename T >
+void khoroshkin::List< T >::splice_after(ListIterator< T > pos, khoroshkin::List< T > & other)
+{
+  for (auto it = other.begin(); it != other.end(); ++it)
+  {
+    this->insert_after(pos, *it);
+    pos++;
+  }
 }
 
 #endif
