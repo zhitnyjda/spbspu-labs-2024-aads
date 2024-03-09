@@ -21,7 +21,11 @@ namespace psarev
     void pushBack(T data);
     void insert(T data, size_t index);
     void remove(size_t index);
+
+    void swap(List< T >& other);
     void clear();
+
+    bool empty();
     size_t getSize();
 
   private:
@@ -152,12 +156,29 @@ void psarev::List<T>::remove(size_t index)
 }
 
 template<typename T>
+void psarev::List<T>::swap(List<T>& targetList)
+{
+  Unit< T > tempoH = targetList.head;
+  targetList.head = head;
+  head = tempoH;
+  size_t tempoS = targetList.size;
+  targetList.size = size;
+  size = tempoS;
+}
+
+template<typename T>
 void psarev::List<T>::clear()
 {
   while (size > 0)
   {
     popFront();
   }
+}
+
+template<typename T>
+bool psarev::List<T>::empty()
+{
+  return this->getSize() == 0;
 }
 
 template<typename T>

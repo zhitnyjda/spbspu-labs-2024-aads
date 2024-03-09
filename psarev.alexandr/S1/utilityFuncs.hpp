@@ -84,7 +84,7 @@ psarev::List< T > psarev::outDigits(List< std::pair< std::string, List< T > > >&
 template < typename T >
 void psarev::outSums(List< T >& sums)
 {
-  if (sums.getSize() == 0)
+  if (sums.empty())
   {
     std::cout << 0;
   }
