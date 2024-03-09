@@ -10,6 +10,7 @@ namespace nikiforov
   {
   public:
     List();
+    List(size_t count, const T& value);
     List(Iterator< T > begin, Iterator< T > end, int value);
     List(const List& other);
     ~List();
@@ -41,6 +42,15 @@ nikiforov::List<T>::List()
 }
 
 template<typename T>
+nikiforov::List<T>::List(size_t count, const T& value)
+{
+  for (size_t i = 0; i < count; i++)
+  {
+    push_back(value);
+  }
+}
+
+template<typename T>
 nikiforov::List<T>::List(Iterator<T> begin, Iterator<T> end, int value)
 {
   for (begin; begin != end; ++begin)
@@ -50,7 +60,7 @@ nikiforov::List<T>::List(Iterator<T> begin, Iterator<T> end, int value)
 }
 
 template<typename T>
-nikiforov::List<T>::List(const List& other)
+nikiforov::List<T>::List(const nikiforov::List<T>& other)
 {
   if (other.head == nullptr)
   {
