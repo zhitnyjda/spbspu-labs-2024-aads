@@ -62,11 +62,6 @@ void Funcs<T>::input_(std::istream& input, List< std::pair< std::string, List< T
       }
       (*iter).second.push_back(num);
     }
-    if (std::numeric_limits<unsigned long long>::max() <= num)
-    {
-      std::cin.clear();
-      overflow = true;
-    }
   }
 }
 
@@ -119,16 +114,20 @@ List<T> Funcs<T>::outputSeqs_(List<std::pair<std::string, List<T>>>& seqsPair)
         }
         if (iterList != nullptr)
         {
-          summ == 0 ? std::cout << *iterList : std::cout << " " << *iterList;
-          summ += *iterList;
+          iter == seqsPair.begin() ? std::cout << *iterList : std::cout << " " << *iterList;
+          if ((std::numeric_limits<unsigned long long>::max() - summ) > *iterList)
+          {
+            summ += *iterList;
+          }
+          else
+          {
+            overflow = true;
+          }
         }
       }
       std::cout << "\n";
       countInSeq++;
-      if (!overflow)
-      {
-        listSumm.push_back(summ);
-      }
+      listSumm.push_back(summ);
       summ = 0;
     }
   }
