@@ -1,5 +1,6 @@
 #ifndef HELPFUNC_HPP
 #define HELPFUNC_HPP
+#include <string>
 #include <iostream>
 #include "List.hpp"
 

@@ -1,8 +1,4 @@
 #include "HelpFunc.hpp"
-#include "List.hpp"
-#include "Node.hpp"
-#include "ListIterator.hpp"
-#include <string>
 #include <utility>
 #include <stddef.h>
 

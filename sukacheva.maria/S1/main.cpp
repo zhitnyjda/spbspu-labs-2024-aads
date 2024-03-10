@@ -1,7 +1,7 @@
-#include <iostream>
-#include "List.hpp"
-#include <string>
 #include "HelpFunc.hpp"
+#include "Node.hpp"
+#include "ListIterator.hpp"
+#include "List.hpp"
 
 int main() {
   using namespace sukacheva;
@@ -12,14 +12,14 @@ int main() {
     it++;
   } while (it.node);
   std::cout << "\n";
-  for (size_t i = 0; i <= maxListSize(newList); i++) {
+  for (size_t i = 0; i < maxListSize(newList); i++) {
     it = newList.begin();
-    do {
+    while (it.node) {
       if (it.node->data.second[i]) {
         std::cout << it.node->data.second[i]->data << " ";
       }
       it++;
-    } while (it.node);
+    }
     std::cout << "\n";
   }
   return 0;
