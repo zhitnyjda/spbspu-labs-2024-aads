@@ -128,7 +128,8 @@ int main()
     redko::Iterator< unsigned long long > currSum = sums.begin();
     while (currSum != sums.end())
     {
-      std::cout << *currSum << (++currSum != sums.end() ? ' ' : '\n');
+      std::cout << *currSum;
+      std::cout <<(++currSum != sums.end() ? ' ' : '\n');
     }
   }
   return 0;
