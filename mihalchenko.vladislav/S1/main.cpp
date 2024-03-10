@@ -16,44 +16,45 @@ int main()
   std::string slovo;
 
   size_t maxLenOfSecondList = 0;
+  size_t CountSecondList = 0;
+  size_t CountmixedList = 0;
 
   integerList tempIntList;
   while (std::cin >> inputStr)
   {
-    integerList tempIntList;
-
     if (!isdigit(inputStr[0]))
     {
       slovo = inputStr;
       tempIntList.clear();
-      // integerList tempIntList;
+      CountSecondList = 0;
+
+      mixedList.push_back(std::make_pair(slovo, tempIntList));
+      CountmixedList++;
 
       if (std::cin.peek() == '\n')
       {
-        mixedList.push_back(std::make_pair(slovo, tempIntList));
+        // mixedList.push_back(std::make_pair(slovo, tempIntList));
         continue;
       }
     }
     else
     {
-      tempIntList.push_back(std::stoi(inputStr));
-      // std::cout << "tempIntList.Size = " << tempIntList.size_ << " tempIntList[0] = " << tempIntList[0] << std::endl;
+      mixedList[CountmixedList - 1].second.push_back(std::stoull(inputStr));
+      CountSecondList++;
       if (std::cin.peek() == '\n')
       {
-        // int tempIntList[5] = {1, 2, 3, 4, 5};
-        // auto p2 = std::make_pair(slovo, tempIntList);
-        mixedList.push_back(std::make_pair(slovo, tempIntList));
-        if (maxLenOfSecondList < tempIntList.size_)
+        if (maxLenOfSecondList < CountSecondList)
         {
-          maxLenOfSecondList = tempIntList.size_;
+          maxLenOfSecondList = CountSecondList;
         }
         continue;
       }
     }
   }
 
-  std::cout << "mixedList.size= " << mixedList.size_ << std::endl;
-  std::cout << "maxLenOfSecondList= " << maxLenOfSecondList << std::endl;
+  // std::cout << "mixedList.size= " << mixedList.size_ << std::endl;
+  // std::cout << "maxLenOfSecondList= " << maxLenOfSecondList << std::endl;
+  // std::cout << "CountSecondList= " << CountSecondList << std::endl;
 
   for (size_t ind = 0; ind < mixedList.size_; ind++)
   {
@@ -61,9 +62,7 @@ int main()
   }
   std::cout << std::endl;
 
-  integerList summaEveryString;
   size_t summa = 0;
-  // maxLenOfSecondList = 4;
   for (size_t numericView = 0; numericView < maxLenOfSecondList; numericView++)
   {
     summa = 0;
@@ -76,12 +75,12 @@ int main()
       }
     }
     std::cout << std::endl;
-    summaEveryString.push_back(summa);
+    tempIntList.push_back(summa);
   }
 
-  for (size_t ind = 0; ind < maxLenOfSecondList; ind++)
+  for (size_t i = 0; i < tempIntList.size_; i++)
   {
-    std::cout << summaEveryString[ind] << " ";
+    std::cout << tempIntList[i] << " ";
   }
   std::cout << std::endl;
 

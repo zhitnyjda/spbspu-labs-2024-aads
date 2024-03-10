@@ -65,6 +65,7 @@ namespace mihalchenko
 
   public:
     Iterator<T> begin() const;
+    // Iterator<T> getAt(size_t k) const;
     Iterator<T> end() const;
 
     Iterator<T> *begin_;
@@ -264,6 +265,19 @@ namespace mihalchenko
     return begin_;
   }
 
+  /*template <typename T>
+  mihalchenko::List<T>::Iterator<T> mihalchenko::List<T>::getAt(size_t k) const
+  {
+    Iterator<T> *elem = begin_;
+    size_t n = 0;
+    while (elem && n != k && elem->pNext_)
+    {
+      elem = elem->pNext_;
+      n++;
+    }
+    return *elem;
+  }*/
+
   template <typename T>
   mihalchenko::List<T>::Iterator<T> mihalchenko::List<T>::end() const
   {
@@ -362,5 +376,4 @@ namespace mihalchenko
     return !(rhs == *this);
   }
 }
-
 #endif
