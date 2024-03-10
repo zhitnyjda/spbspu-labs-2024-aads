@@ -86,5 +86,12 @@ int main()
     }
     sums.pushFront(sum);
   }
+  sums.reverse();
+  typename List<int>::ListIterator<int> is = sums.begin();
+  while(is != sums.end())
+  {
+    std::cout << *is << " ";
+    is++;
+  }
   return 0;
 }
