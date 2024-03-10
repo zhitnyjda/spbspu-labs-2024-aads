@@ -17,7 +17,7 @@ namespace sukacheva {
 
     List() : head(nullptr), tail(nullptr), listSize(0){}
     ~List();
-    List(const List& other);
+    List(const List&);
     List(List&& other);
 
     Node<T>* operator[](size_t index);
@@ -135,7 +135,7 @@ namespace sukacheva {
   }
 
   template<class T>
-  List<T>::List(const List& other) :
+  List<T>::List(const List&) :
     head(nullptr),
     tail(nullptr),
     listSize(0)
