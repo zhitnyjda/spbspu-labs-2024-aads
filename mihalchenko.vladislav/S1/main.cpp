@@ -2,15 +2,18 @@
 #include <string>
 #include "list.hpp"
 #include <utility>
+#include <limits>
 
 using namespace mihalchenko;
 
 int main()
 {
-  using mainList = mihalchenko::List<std::pair<std::string, mihalchenko::List<int>>>;
+  using mainList = mihalchenko::List<std::pair<std::string, mihalchenko::List<size_t>>>;
   mainList mixedList;
-  using integerList = mihalchenko::List<int>;
+  using integerList = mihalchenko::List<size_t>;
   integerList intList1;
+
+  size_t ullMax = std::numeric_limits<size_t>::max();
 
   std::string inputStr;
   std::string slovo;
@@ -39,15 +42,66 @@ int main()
     }
     else
     {
-      mixedList[CountmixedList - 1].second.push_back(std::stoull(inputStr));
-      CountSecondList++;
-      if (std::cin.peek() == '\n')
+      bool owerflow = false;
+      std::string inputItog = "";
+
+      std::string str = "";
+      char counter = 0;
+      if (inputStr.length() > 10)
       {
-        if (maxLenOfSecondList < CountSecondList)
+        owerflow = true;
+      }
+      else
+      {
+        while (str.length() <= 10)
         {
-          maxLenOfSecondList = CountSecondList;
+          str += inputStr[counter];
+          if (str.length() == 10)
+          {
+            for (size_t i = 1000000000; i < ullMax; i++)
+            {
+              if (str == std::to_string(i))
+              {
+                inputItog = inputStr;
+                break;
+              }
+            }
+            if (inputItog == "")
+            {
+              owerflow = true;
+            }
+          }
+          else
+          {
+            if (str == inputStr)
+            {
+              inputItog = inputStr;
+              break;
+            }
+          }
         }
-        continue;
+      }
+      counter = 0;
+      if (owerflow == true)
+      {
+        throw std::overflow_error("Input overflow!");
+        return 1;
+      }
+      else
+      {
+        /*size_t wrem = 0;
+          sscanf(inputStr.c_str(), "%zu", &wrem);
+          mixedList[CountmixedList - 1].second.push_back(wrem);*/
+        mixedList[CountmixedList - 1].second.push_back(std::stoull(inputStr));
+        CountSecondList++;
+        if (std::cin.peek() == '\n')
+        {
+          if (maxLenOfSecondList < CountSecondList)
+          {
+            maxLenOfSecondList = CountSecondList;
+          }
+          continue;
+        }
       }
     }
   }
