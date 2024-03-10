@@ -2,7 +2,7 @@
 #include <string>
 #include <cstring>
 #include "List.hpp"
-#include "ListIterator.hpp"
+
 
 int main()
 {
@@ -16,14 +16,14 @@ int main()
     list.pushFront({name, nums});
     while (std::cin >> name && std::isdigit(name[0]))
     {
-      list.head->data.second.pushFront(std::stoll(name));
+      list.front().second.pushFront(std::stoll(name));
     }
   }
   list.reverse();
-  ListIterator< std::pair< std::string, List< int > > > i = list.begin();
+  typename List<std::pair<std::string, List<int>>>::ListIterator< std::pair< std::string, List<int>>> i = list.begin();
   while(i != list.end())
   {
-   std::cout << i.node->data.first << " ";
+   std::cout << i->first << " ";
     ++i;
   }
   std::cout << "\n";

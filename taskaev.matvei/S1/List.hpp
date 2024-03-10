@@ -1,7 +1,7 @@
-#ifndef LIST_HPP
-#define LIST_HPP
-
-#include "ListIterator.hpp"
+#ifndef LIST_H
+#define LIST_H
+#include <cassert>
+#include <memory>
 #include "Node.hpp"
 
 namespace taskaev
@@ -14,19 +14,41 @@ namespace taskaev
     ~List() = default;
     List(const List&) = default;
     List(List&&) = default;
+    T& front() const;
     void pushFront(const T& data);
     void popFront();
     void clean();
     bool empty();
     void swap(List<T>& other);
     void reverse();
-    ListIterator<T> begin();
-    ListIterator<T> end();
     Node<T>* head;
+  public:
+  template< typename U >
+  class ListIterator
+  {
+  public:
+    ListIterator() : node(nullptr) {}
+    ListIterator(Node<T>* value) : node(value) {}
+    ~ListIterator() = default;
+    ListIterator<T>& operator++();
+    ListIterator<T> operator++(int);
+    T& operator*();
+    T* operator->();
+    bool operator==(const List<T>::ListIterator<T>& rhs) const;
+    bool operator!=(const List<T>::ListIterator<T>& rhs) const;
+    Node<T>* node;
   };
+  public:
+    ListIterator<T> begin() {return ListIterator<T>(head); };
+    ListIterator<T> end() { return ListIterator<T>(); };
+  };
+  template <typename T>
+  List<T>::List():head(nullptr){}
 
   template <typename T>
-  List<T>::List():head(nullptr) {}
+  T& List<T>::front() const {
+    return head->data;
+  }
 
   template <typename T>
   void List<T>::pushFront(const T& data)
@@ -51,8 +73,7 @@ namespace taskaev
   }
 
   template <typename T>
-  bool List<T>::empty()
-  {
+  bool List<T>::empty() {
     return(head == nullptr);
   }
 
@@ -82,16 +103,53 @@ namespace taskaev
     head = node;
   }
 
-  template <typename T>
-  ListIterator<T> List<T>::begin()
+  template<typename T>
+  template<typename U>
+  List<T>::ListIterator<T> &List<T>::ListIterator<U>::operator++()
   {
-    return ListIterator<T>(head);
+    assert(node != nullptr);
+    node = node->next;
+    return *this;
   }
 
-  template <typename T>
-  ListIterator<T> List<T>::end()
+  template<typename T>
+  template<typename U>
+  List<T>::ListIterator<T> List<T>::ListIterator<U>::operator++(int)
   {
-    return ListIterator<T>();
+    assert(node != nullptr);
+    ListIterator<T> result(*this);
+    ++(*this);
+    return result;
+  }
+
+  template<typename T>
+  template<typename U>
+  T& List<T>::ListIterator<U>::operator*()
+  {
+    assert(node != nullptr);
+    return node->data;
+  }
+
+  template<typename T>
+  template<typename U>
+  T* List<T>::ListIterator<U>::operator->()
+  {
+    assert(node != nullptr);
+    return std::addressof(node->data);
+  }
+
+  template<typename T>
+  template<typename U>
+  bool List<T>::ListIterator<U>::operator==(const List<T>::ListIterator<T>& rhs) const
+  {
+    return node == rhs.node;
+  }
+
+  template<typename T>
+  template<typename U>
+  bool taskaev::List<T>::ListIterator<U>::operator!=(const taskaev::List<T>::ListIterator<T>& rhs) const
+  {
+    return !(rhs == *this);
   }
 }
 #endif
