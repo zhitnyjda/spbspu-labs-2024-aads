@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <stdexcept>
 #include <initializer_list>
+#include <limits>
 
 namespace khoroshkin
 {
@@ -36,10 +37,19 @@ namespace khoroshkin
     void swap(List< T > & other);
     void reverse();
     void splice_after(ListIterator< T > pos, List< T > & other);
+    void unique();
+    void sort();
 
-    void remove(const T & value);
+    void remove(const T & value, bool onlyFirst = false);
     template< typename UnaryPredicate >
     void remove_if(UnaryPredicate p);
+
+    bool operator==(List< T > & rhs);
+    bool operator!=(List< T > & rhs);
+    bool operator<(List< T > & rhs);
+    /*bool operator<=(List< T > & rhs);
+    bool operator>(List< T > & rhs);
+    bool operator>=(List< T > & rhs);*/
 
     ListIterator< T > insert_after(ListIterator< T > pos, const T & value);
     ListIterator< T > insert_after(ListIterator< T > pos, size_t count, const T & value);
@@ -279,7 +289,7 @@ khoroshkin::ListIterator< T > khoroshkin::List< T >::end()
 }
 
 template< typename T >
-void khoroshkin::List< T >::remove(const T & value)
+void khoroshkin::List< T >::remove(const T & value, bool onlyFirst)
 {
   for (auto it = this->begin(); it != this->end(); ++it)
   {
@@ -287,6 +297,10 @@ void khoroshkin::List< T >::remove(const T & value)
     {
       this->pop_front();
       it = this->begin();
+      if (onlyFirst)
+      {
+        break;
+      }
     }
     else if (next(it) != this->end() && *next(it) == value)
     {
@@ -296,6 +310,10 @@ void khoroshkin::List< T >::remove(const T & value)
       delete todelete;
       this->size--;
       it = this->begin();
+      if (onlyFirst)
+      {
+        break;
+      }
     }
   }
 }
@@ -398,6 +416,85 @@ void khoroshkin::List< T >::splice_after(ListIterator< T > pos, khoroshkin::List
     this->insert_after(pos, *it);
     pos++;
   }
+}
+
+template< typename T >
+void khoroshkin::List< T >::unique()
+{
+  auto it = this->begin();
+  while (it != this->end())
+  {
+    if (next(it) != this->end() && *next(it) == *it)
+    {
+      this->erase_after(it);
+      it = this->begin();
+    }
+    it++;
+  }
+}
+
+template< typename T >
+bool khoroshkin::List< T >::operator==(khoroshkin::List< T > & rhs)
+{
+  if (this->getSize() != rhs.getSize())
+  {
+    return false;
+  }
+  auto it1 = this->begin();
+  auto it2 = rhs.begin();
+  while (it1 != this->end())
+  {
+    if (*it1 != *it2)
+    {
+      return false;
+    }
+    it1++;
+    it2++;
+  }
+  return true;
+}
+
+template< typename T >
+bool khoroshkin::List< T >::operator!=(khoroshkin::List< T > & rhs)
+{
+  return !(*this == rhs);
+}
+
+template< typename T >
+bool khoroshkin::List< T >::operator<(khoroshkin::List< T > & rhs)
+{
+  auto it1 = this->begin();
+  auto it2 = rhs.begin();
+  while (it1 != this->end() && it2 != rhs.end())
+  {
+    if (*it1 < *it2)
+    {
+      return true;
+    }
+    it1++;
+    it2++;
+  }
+  return false;
+}
+
+template< typename T >
+void khoroshkin::List< T >::sort()
+{
+  List< T > temp;
+  while (this->getSize())
+  {
+    T minValue = std::numeric_limits< T >::max();
+    for (auto it = this->begin(); it != this->end(); ++it)
+    {
+      if (*it < minValue)
+      {
+        minValue = *it;
+      }
+    }
+    temp.push_back(minValue);
+    this->remove(minValue, true);
+  }
+  this->assign(temp.begin(), temp.end());
 }
 
 #endif
