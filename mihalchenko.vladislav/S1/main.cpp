@@ -61,7 +61,7 @@ int main()
       }
       else
       {
-        std::cout << "Input overflow!";
+        std::cerr << "Input overflow!";
         return 1;
       }
     }
@@ -73,7 +73,11 @@ int main()
 
   for (size_t ind = 0; ind < mixedList.size_; ind++)
   {
-    std::cout << mixedList[ind].first << " ";
+    std::cout << mixedList[ind].first;
+    if (ind != mixedList.size_ - 1)
+    {
+      std::cout << " ";
+    }
   }
   std::cout << std::endl;
 
@@ -92,7 +96,11 @@ int main()
     {
       if (mixedList[i].second.size_ > numericView)
       {
-        std::cout << mixedList[i].second[numericView] << " ";
+        std::cout << mixedList[i].second[numericView];
+        if (i != mixedList.size_ - 1)
+        {
+          std::cout << " ";
+        }
         if (ullMax - mixedList[i].second[numericView] > summa)
         {
           summa = summa + mixedList[i].second[numericView];
@@ -109,13 +117,17 @@ int main()
 
   if (overflow)
   {
-    std::cout << "Input overflow!";
+    std::cerr << "Input overflow!";
     return 1;
   }
 
   for (size_t i = 0; i < tempIntList.size_; i++)
   {
-    std::cout << tempIntList[i] << " ";
+    std::cout << tempIntList[i];
+    if (i != tempIntList.size_ - 1)
+    {
+      std::cout << " ";
+    }
   }
   std::cout << std::endl;
 
