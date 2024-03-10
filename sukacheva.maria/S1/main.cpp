@@ -8,7 +8,10 @@ int main() {
   List< std::pair< std::string, List< size_t > > > newList = listInput(std::cin);
   Iterator<std::pair< std::string, List< size_t > >> it = newList.begin();
   do {
-    std::cout << it.node->data.first << " ";
+    std::cout << it.node->data.first;
+    if (it.node->next) {
+      std::cout << " ";
+    }
     it++;
   } while (it.node);
   std::cout << "\n";

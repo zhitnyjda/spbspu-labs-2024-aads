@@ -29,6 +29,8 @@ namespace sukacheva {
     void swap(List& other);
     bool empty();
     void printList();
+    T& front();
+    void reverse();
 
     iterator begin() { return iterator(head); }
     iterator end() { return iterator(nullptr); }
@@ -38,13 +40,24 @@ namespace sukacheva {
   };
 
   template<class T>
+  void sukacheva::List<T>::reverse()
+  {
+  }
+
+  template<class T>
+  T& sukacheva::List<T>::front()
+  {
+    return head->data;
+  }
+
+  template<class T>
   void List<T>::printList()
   {
     Iterator< T > it = begin();
     do {
       std::cout << it.node->data << " ";
       it++;
-    } while (it != tail);
+    } while (it.node);
     std::cout << it.node->data;
   }
 
