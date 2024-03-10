@@ -1,7 +1,18 @@
 #include "mainUtils.hpp"
+#include "stdexcept"
 
 namespace miheev
 {
+  int readInt(std::istream& stream)
+  {
+    int number = 0;
+    if (!(stream >> number))
+    {
+      throw std::logic_error("Cant process number on input\n");
+    }
+    return number;
+  }
+
   List< int > readNumbers(std::istream& stream)
   {
     if ((stream >> std::ws).eof())
@@ -9,14 +20,13 @@ namespace miheev
       List< int > list;
       return list;
     }
-
     int number = 0;
-    stream >> number;
-    List< int > list(number);
 
-    while(stream >> number)
+    List< int > list(readInt(stream));
+
+    while(stream)
     {
-      list.pushBack(number);
+      list.pushBack(readInt(stream));
     }
     list.print();
     return list;

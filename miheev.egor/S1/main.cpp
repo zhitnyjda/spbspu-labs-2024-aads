@@ -38,7 +38,16 @@ int main()
       delete [] pairs;
       pairs = copy;
     }
-    pairs[unusedIndex++] = getSIPair(stream);
+    try
+    {
+      pairs[unusedIndex++] = getSIPair(stream);
+    }
+    catch (const std::logic_error& e)
+    {
+      std::cerr << e.what();
+      delete[] pairs;
+      return 1;
+    }
   }
 
   for (size_t i = 0; i < unusedIndex; i++)
