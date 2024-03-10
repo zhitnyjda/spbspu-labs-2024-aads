@@ -98,14 +98,14 @@ namespace mihalchenko
     {
       this->begin_ = new Iterator<T>(*copy.begin_);
     }
-    if (copy.end_ == nullptr)
+    /*if (copy.end_ == nullptr)
     {
       this->end_ = nullptr;
     }
     else
     {
       this->end_ = new Iterator<T>(*copy.end_);
-    }
+    }*/
     this->size_ = copy.size_;
   }
 
@@ -116,10 +116,9 @@ namespace mihalchenko
     {
       return *this;
     }
-    clear();
     this->size_ = copy.size_;
+    clear();
     Iterator<T> *pointer = copy.begin_;
-
     while (pointer)
     {
       this->push_back(pointer->data_);
@@ -144,10 +143,11 @@ namespace mihalchenko
   {
     if (this == &move)
     {
+      move.clear();
       return *this;
     }
     clear();
-    mihalchenko::List<T> temp(std::move(move));
+    mihalchenko::List<T> temp = std::move(move);
     swap(temp);
     move.clear();
     return *this;
@@ -156,21 +156,18 @@ namespace mihalchenko
   template <typename T>
   void mihalchenko::List<T>::swap(mihalchenko::List<T> &other)
   {
-    /*while (this->begin_->pNext_ != nullptr)
+    while (other.begin_)
     {
-      mihalchenko::List<T> *tempPointerBegin = this->begin_;
-      this->begin_ = other.begin_;
-      other.begin_ = tempPointerBegin;
-      this->begin_ = this->begin_->pNext_;
+      push_back(other.begin_->data_);
       other.begin_ = other.begin_->pNext_;
-    }*/
-    mihalchenko::List<T> *tempPointerBegin = this->begin_;
+    }
+    /*mihalchenko::List<T> *tempPointerBegin = this->begin_;
     this->begin_ = other.begin_;
     other.begin_ = tempPointerBegin;
 
     mihalchenko::List<T> *tempPointerEnd = this->end_;
     this->end_ = other.end_;
-    other.end_ = tempPointerEnd;
+    other.end_ = tempPointerEnd;*/
 
     size_t tempSize = this->size_;
     this->size_ = other.size_;
