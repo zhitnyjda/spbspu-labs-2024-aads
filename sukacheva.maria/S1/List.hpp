@@ -53,6 +53,9 @@ namespace sukacheva {
   {
     Iterator< T > it = begin();
     for (size_t i = 0; i != index; i++) {
+      if (it == nullptr) {
+        return nullptr;
+      }
       it++;
     }
     return it.node;

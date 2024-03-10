@@ -12,15 +12,22 @@ int main() {
     it++;
   } while (it.node);
   std::cout << "\n";
+  List<size_t> sumOfArgs;
+  size_t sum = 0;
   for (size_t i = 0; i < maxListSize(newList); i++) {
     it = newList.begin();
     while (it.node) {
-      if (it.node->data.second[i]) {
+      if (it.node->data.second[i])
+      {
         std::cout << it.node->data.second[i]->data << " ";
+        sum += it.node->data.second[i]->data;
       }
       it++;
     }
     std::cout << "\n";
+    sumOfArgs.pushBack(sum);
+    sum = 0;
   }
+  sumOfArgs.printList();
   return 0;
 }
