@@ -67,9 +67,9 @@ int main()
     }
   }
 
-  // std::cout << "mixedList.size= " << mixedList.size_ << std::endl;
-  // std::cout << "maxLenOfSecondList= " << maxLenOfSecondList << std::endl;
-  // std::cout << "CountSecondList= " << CountSecondList << std::endl;
+  std::cout << "mixedList.size= " << mixedList.size_ << std::endl;
+  std::cout << "maxLenOfSecondList= " << maxLenOfSecondList << std::endl;
+  std::cout << "CountSecondList= " << CountSecondList << std::endl;
 
   for (size_t ind = 0; ind < mixedList.size_; ind++)
   {
@@ -90,18 +90,30 @@ int main()
 
   size_t summa = 0;
   // size_t maxSizeT = ullMax - 1;
+  bool flgNewStr = false;
   for (size_t numericView = 0; numericView < maxLenOfSecondList; numericView++)
   {
+    // std::cout << numericView << std::endl;
+    flgNewStr = true;
     summa = 0;
     for (size_t i = 0; i < mixedList.size_; i++)
     {
+      // std::cout << mixedList[i].second.size_ << std::endl;
       if (mixedList[i].second.size_ > numericView)
       {
-        std::cout << mixedList[i].second[numericView];
-        if (i != mixedList.size_ - 1)
+        if (flgNewStr)
         {
-          std::cout << " ";
+          std::cout << mixedList[i].second[numericView];
+          flgNewStr = false;
         }
+        else
+        {
+          std::cout << " " << mixedList[i].second[numericView];
+        }
+        // if ((numericView != maxLenOfSecondList - 1) && (i != mixedList.size_ - 1) && (mixedList[i].second.size_ - 1 != numericView))
+        //{
+        // std::cout << " ";
+        //}
         if (ullMax - mixedList[i].second[numericView] > summa)
         {
           summa = summa + mixedList[i].second[numericView];
@@ -116,7 +128,6 @@ int main()
     std::cout << std::endl;
     tempIntList.push_back(summa);
   }
-
   if (overflow)
   {
     std::cerr << "Input overflow!";
