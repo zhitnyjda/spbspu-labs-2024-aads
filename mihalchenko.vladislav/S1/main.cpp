@@ -79,11 +79,12 @@ int main()
       std::cout << " ";
     }
   }
+  // std::cout << "!";
   std::cout << std::endl;
 
   if (maxLenOfSecondList == 0)
   {
-    std::cout << 0;
+    std::cout << 0 << std::endl;
     return 0;
   }
 
@@ -111,6 +112,7 @@ int main()
         }
       }
     }
+    // std::cout << "!";
     std::cout << std::endl;
     tempIntList.push_back(summa);
   }
@@ -129,7 +131,7 @@ int main()
       std::cout << " ";
     }
   }
-  // std::cout << std::endl;
+  // std::cout << "!";
 
   // size_t max_size = (size_t)-1;
   // std::cout << "size_t=" << maxSizeT << std::endl;
