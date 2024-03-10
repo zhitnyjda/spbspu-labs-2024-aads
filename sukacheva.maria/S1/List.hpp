@@ -58,7 +58,6 @@ namespace sukacheva {
       std::cout << it.node->data << " ";
       it++;
     } while (it.node);
-    std::cout << it.node->data;
   }
 
   template<class T>
