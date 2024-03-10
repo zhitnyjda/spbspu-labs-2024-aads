@@ -66,6 +66,12 @@ int main()
     }
   }
 
+  if (mixedList.size_ == 0)
+  {
+    std::cout << 0 << std::endl;
+    return 0;
+  }
+
   for (size_t ind = 0; ind < mixedList.size_; ind++)
   {
     std::cout << mixedList[ind].first;
@@ -74,13 +80,15 @@ int main()
       std::cout << " ";
     }
   }
-  // std::cout << "!" << std::endl;
+  // std::cout << "!";
 
   if (maxLenOfSecondList == 0)
   {
+    std::cout << std::endl;
     std::cout << 0 << std::endl;
     return 0;
   }
+  std::cout << std::endl;
 
   size_t summa = 0;
   bool flgNewStr = false;
