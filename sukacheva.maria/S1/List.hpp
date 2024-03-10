@@ -2,6 +2,7 @@
 #define LIST_HPP
 
 #include "ListIterator.hpp"
+#include <iostream>
 
 namespace sukacheva {
   template <class T>
@@ -139,9 +140,10 @@ namespace sukacheva {
     tail(nullptr),
     listSize(0)
   {
-    for (size_t i = 0; i < other.listSize; ++i)
-    {
-      this->pushBack(other[i]);
+    Iterator< T > it = begin();
+    while (it.node) {
+      this->pushBack(it.node->data);
+      ++it;
     }
   }
 

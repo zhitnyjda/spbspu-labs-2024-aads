@@ -4,6 +4,7 @@
 #include <cassert>
 #include <memory>
 #include "Node.hpp"
+#include <iostream>
 
 namespace sukacheva {
   template <class T>
