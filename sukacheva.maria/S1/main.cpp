@@ -19,7 +19,10 @@ int main() {
     while (it.node) {
       if (it.node->data.second[i])
       {
-        std::cout << it.node->data.second[i]->data << " ";
+        std::cout << it.node->data.second[i]->data;
+        if (it.node->next) {
+          std::cout << " ";
+        }
         sum += it.node->data.second[i]->data;
       }
       it++;
