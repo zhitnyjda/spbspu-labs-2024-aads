@@ -17,6 +17,8 @@ int main()
   std::string inputStr;
   std::string slovo;
 
+  bool overflow = false;
+
   size_t ullMax = std::numeric_limits<size_t>::max();
 
   size_t maxLenOfSecondList = 0;
@@ -97,14 +99,18 @@ int main()
         }
         else
         {
-          std::cout << std::endl;
-          std::cout << "Input overflow!";
-          return 1;
+          overflow = true;
         }
       }
     }
     std::cout << std::endl;
     tempIntList.push_back(summa);
+  }
+
+  if (overflow)
+  {
+    std::cout << "Input overflow!";
+    return 1;
   }
 
   for (size_t i = 0; i < tempIntList.size_; i++)
