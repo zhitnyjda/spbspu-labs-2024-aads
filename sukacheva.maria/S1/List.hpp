@@ -55,7 +55,10 @@ namespace sukacheva {
   {
     Iterator< T > it = begin();
     do {
-      std::cout << it.node->data << " ";
+      std::cout << it.node->data;
+      if (it.node->next) {
+        std::cout << " ";
+      }
       it++;
     } while (it.node);
   }
