@@ -1,9 +1,9 @@
 #ifndef LISTITERATOR_HPP
 #define LISTITERATOR_HPP
 
-#include "Node.hpp"
 #include <cassert>
 #include <memory>
+#include "Node.hpp"
 
 namespace sukacheva {
   template <class T>

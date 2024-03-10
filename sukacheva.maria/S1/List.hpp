@@ -51,7 +51,7 @@ namespace sukacheva {
   Node<T>* sukacheva::List<T>::operator[](size_t index)
   {
     Iterator< T > it = begin();
-    for (int i = 0; i != index; i++) {
+    for (size_t i = 0; i != index; i++) {
       it++;
     }
     return it.node;

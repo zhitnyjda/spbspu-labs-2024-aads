@@ -1,7 +1,7 @@
-#include "HelpFunc.hpp"
-#include "Node.hpp"
-#include "ListIterator.hpp"
+#include <iostream>
 #include "List.hpp"
+#include <string>
+#include "HelpFunc.hpp"
 
 int main() {
   using namespace sukacheva;
