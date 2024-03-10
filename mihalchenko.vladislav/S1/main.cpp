@@ -2,6 +2,7 @@
 #include <string>
 #include "list.hpp"
 #include <utility>
+#include <cstdio>
 #include <limits>
 
 using namespace mihalchenko;
@@ -11,18 +12,17 @@ int main()
   using mainList = mihalchenko::List<std::pair<std::string, mihalchenko::List<size_t>>>;
   mainList mixedList;
   using integerList = mihalchenko::List<size_t>;
-  integerList intList1;
-
-  size_t ullMax = std::numeric_limits<size_t>::max();
+  integerList tempIntList;
 
   std::string inputStr;
   std::string slovo;
+
+  size_t ullMax = std::numeric_limits<size_t>::max();
 
   size_t maxLenOfSecondList = 0;
   size_t CountSecondList = 0;
   size_t CountmixedList = 0;
 
-  integerList tempIntList;
   while (std::cin >> inputStr)
   {
     if (!isdigit(inputStr[0]))
@@ -42,57 +42,11 @@ int main()
     }
     else
     {
-      bool owerflow = false;
-      std::string inputItog = "";
-
-      std::string str = "";
-      char counter = 0;
-      if (inputStr.length() > 10)
+      size_t wrem = 0;
+      sscanf(inputStr.c_str(), "%zu", &wrem);
+      mixedList[CountmixedList - 1].second.push_back(wrem);
+      if (inputStr == std::to_string(wrem))
       {
-        owerflow = true;
-      }
-      else
-      {
-        while (str.length() <= 10)
-        {
-          str += inputStr[counter];
-          if (str.length() == 10)
-          {
-            for (size_t i = 1000000000; i < ullMax; i++)
-            {
-              if (str == std::to_string(i))
-              {
-                inputItog = inputStr;
-                break;
-              }
-            }
-            if (inputItog == "")
-            {
-              owerflow = true;
-            }
-          }
-          else
-          {
-            if (str == inputStr)
-            {
-              inputItog = inputStr;
-              break;
-            }
-          }
-        }
-      }
-      counter = 0;
-      if (owerflow == true)
-      {
-        throw std::overflow_error("Input overflow!");
-        return 1;
-      }
-      else
-      {
-        /*size_t wrem = 0;
-          sscanf(inputStr.c_str(), "%zu", &wrem);
-          mixedList[CountmixedList - 1].second.push_back(wrem);*/
-        mixedList[CountmixedList - 1].second.push_back(std::stoull(inputStr));
         CountSecondList++;
         if (std::cin.peek() == '\n')
         {
@@ -102,6 +56,11 @@ int main()
           }
           continue;
         }
+      }
+      else
+      {
+        std::cout << "Input overflow!";
+        return 1;
       }
     }
   }
@@ -116,7 +75,14 @@ int main()
   }
   std::cout << std::endl;
 
+  if (maxLenOfSecondList == 0)
+  {
+    std::cout << 0 << std::endl;
+    return 0;
+  }
+
   size_t summa = 0;
+  // size_t maxSizeT = ullMax - 1;
   for (size_t numericView = 0; numericView < maxLenOfSecondList; numericView++)
   {
     summa = 0;
@@ -125,7 +91,16 @@ int main()
       if (mixedList[i].second.size_ > numericView)
       {
         std::cout << mixedList[i].second[numericView] << " ";
-        summa = summa + mixedList[i].second[numericView];
+        if (ullMax - mixedList[i].second[numericView] > summa)
+        {
+          summa = summa + mixedList[i].second[numericView];
+        }
+        else
+        {
+          std::cout << std::endl;
+          std::cout << "Input overflow!";
+          return 1;
+        }
       }
     }
     std::cout << std::endl;
@@ -137,6 +112,9 @@ int main()
     std::cout << tempIntList[i] << " ";
   }
   std::cout << std::endl;
+
+  // size_t max_size = (size_t)-1;
+  // std::cout << "size_t=" << maxSizeT << std::endl;
 
   return 0;
 }
