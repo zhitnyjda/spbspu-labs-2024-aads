@@ -74,7 +74,7 @@ int main()
       std::cout << " ";
     }
   }
-  std::cout << std::endl;
+  // std::cout << "!" << std::endl;
 
   if (maxLenOfSecondList == 0)
   {
@@ -101,7 +101,7 @@ int main()
         {
           std::cout << " " << mixedList[i].second[numericView];
         }
-        if (ullMax - mixedList[i].second[numericView] > summa)
+        if (ullMax - mixedList[i].second[numericView] >= summa)
         {
           summa = summa + mixedList[i].second[numericView];
         }
@@ -111,6 +111,7 @@ int main()
         }
       }
     }
+    // std::cout << "!";
     std::cout << std::endl;
     tempIntList.push_back(summa);
   }
@@ -127,5 +128,6 @@ int main()
       std::cout << " ";
     }
   }
+  // std::cout << "!";
   return 0;
 }
