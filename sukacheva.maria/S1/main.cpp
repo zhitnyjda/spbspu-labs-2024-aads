@@ -20,7 +20,7 @@ int main() {
       if (it.node->data.second[i])
       {
         std::cout << it.node->data.second[i]->data;
-        if (it.node->next) {
+        if (it.node->data.second[i]->next) {
           std::cout << " ";
         }
         sum += it.node->data.second[i]->data;
