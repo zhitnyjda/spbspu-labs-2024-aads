@@ -20,8 +20,6 @@ namespace miheev
       List< int > list;
       return list;
     }
-    int number = 0;
-
     List< int > list(readInt(stream));
 
     while(stream)
