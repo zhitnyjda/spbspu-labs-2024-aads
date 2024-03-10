@@ -83,7 +83,7 @@ int main()
 
   if (maxLenOfSecondList == 0)
   {
-    std::cout << 0 << std::endl;
+    std::cout << 0;
     return 0;
   }
 
@@ -129,7 +129,7 @@ int main()
       std::cout << " ";
     }
   }
-  std::cout << std::endl;
+  // std::cout << std::endl;
 
   // size_t max_size = (size_t)-1;
   // std::cout << "size_t=" << maxSizeT << std::endl;
