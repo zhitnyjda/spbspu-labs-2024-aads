@@ -14,10 +14,15 @@ int main()
     func.outputSeqs_(seqsPair, listSumm);
     func.outputSumm_(listSumm);
   }
-  catch (const std::exception& e)
+  catch (const std::overflow_error& e)
   {
     std::cerr << e.what() << "\n";
     return 1;
+  }
+  catch (const std::exception& e)
+  {
+    std::cerr << e.what() << "\n";
+    return 0;
   }
   return 0;
 }

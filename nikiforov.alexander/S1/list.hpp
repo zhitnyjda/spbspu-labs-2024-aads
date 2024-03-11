@@ -15,17 +15,27 @@ namespace nikiforov
     List(const List& other);
     ~List();
 
+    T& front();
+    T& back();
+
+    void assign(size_t count, const T& value);
+    void assign(Iterator< T > first, Iterator< T > last);
+    void assign(std::initializer_list<T> ilist);
+
+    bool is_empty();
+    size_t size();
+
     void push_front(T data);
     void push_back(T data);
     void pop_front();
     void pop_back();
     void swap(List< T >& other);
     void clear();
-    bool is_empty();
+
+    void remove(T value);
 
     Iterator< T > begin();
     Iterator< T > end();
-    size_t size();
 
   private:
 
@@ -77,6 +87,78 @@ template<typename T>
 nikiforov::List<T>::~List()
 {
   clear();
+}
+
+template<typename T>
+T& nikiforov::List<T>::front()
+{
+  if (is_empty())
+  {
+    throw std::logic_error("Empty list!");
+  }
+  return head->data;
+}
+
+template<typename T>
+T& nikiforov::List<T>::back()
+{
+  if (is_empty())
+  {
+    throw std::logic_error("Empty list!");
+  }
+  Node<T>* actual = head;
+  for (size_t i = 0; i < (size_l - 1); i++)
+  {
+    actual = actual->pNext;
+  }
+  return actual->data;
+}
+
+template<typename T>
+void nikiforov::List<T>::assign(size_t count, const T& value)
+{
+  clear();
+  for (size_t i = 0; i < count; i++)
+  {
+    push_back(value);
+  }
+}
+
+template<typename T>
+void nikiforov::List<T>::assign(Iterator<T> first, Iterator<T> last)
+{
+  clear();
+  while (first != last)
+  {
+    push_back(*first);
+    first++;
+  }
+}
+
+template<typename T>
+void nikiforov::List<T>::assign(std::initializer_list<T> ilist)
+{
+  clear();
+  for (const T* iter = ilist.begin(); iter != ilist.end(); ++iter)
+  {
+    push_back(*iter);
+  }
+}
+
+template<typename T>
+bool nikiforov::List<T>::is_empty()
+{
+  if (head == nullptr)
+  {
+    return true;
+  }
+  return false;
+}
+
+template<typename T>
+size_t nikiforov::List<T>::size()
+{
+  return size_l;
 }
 
 template<typename T>
@@ -160,13 +242,44 @@ void nikiforov::List<T>::clear()
 }
 
 template<typename T>
-bool nikiforov::List<T>::is_empty()
+void nikiforov::List<T>::remove(T value)
 {
-  if (head == nullptr)
+  size_t size = size_l;
+  size_t count = 0;
+  Node<T>* actual = head;
+  Node<T>* todel = head;
+  Iterator<T> iter = begin();
+  for (size_t i = 0; i < size; i++)
   {
-    return true;
+    actual = head;
+    todel = head;
+    if (*iter == value)
+    {
+      if (iter == begin())
+      {
+        head = head->pNext;
+        iter = begin();
+        delete actual;
+        size_l--;
+        continue;
+      }
+      else
+      {
+        for (size_t i = 0; i < (count - 1); i++)
+        {
+          actual = actual->pNext;
+        }
+        todel = actual->pNext;
+        actual->pNext = todel->pNext;
+        iter++;
+        delete todel;
+        size_l--;
+        continue;
+      }
+    }
+    iter++;
+    count++;
   }
-  return false;
 }
 
 template<typename T>
@@ -179,11 +292,5 @@ template<typename T>
 nikiforov::Iterator<T> nikiforov::List<T>::end()
 {
   return Iterator<T>(nullptr);
-}
-
-template<typename T>
-size_t nikiforov::List<T>::size()
-{
-  return size_l;
 }
 #endif
