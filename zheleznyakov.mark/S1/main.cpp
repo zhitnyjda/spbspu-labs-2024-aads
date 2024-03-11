@@ -25,16 +25,15 @@ int main()
   {
     zheleznyakov::processTask(std::cout, pairs);
   }
-  catch(const std::logic_error& e)
+  catch (const std::logic_error &e)
   {
     std::cerr << e.what() << '\n';
     return 0;
   }
-  catch(const std::exception& e)
+  catch (const std::exception &e)
   {
     std::cerr << e.what() << '\n';
     return 2;
   }
-  
   return 0;
 }
