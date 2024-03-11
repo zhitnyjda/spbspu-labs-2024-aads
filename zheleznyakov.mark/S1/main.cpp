@@ -2,24 +2,33 @@
 #include <string>
 #include "list.hpp"
 #include "numbers.hpp"
+#include "task.hpp"
 
 int main()
 {
   zheleznyakov::List<std::pair<std::string, zheleznyakov::List<unsigned long long>>> pairs;
-  size_t maxSequenceSize = 0;
-  size_t pairsCount = -1;
+  size_t pairsIndex = -1;
   std::string input;
   while (std::cin >> input)
   {
     if (zheleznyakov::isNumeric(input))
     {
-      pairs[pairsCount].second.pushBack(std::stoull(input));
+      pairs[pairsIndex].second.pushBack(std::stoull(input));
     }
     else
     {
       pairs.pushBack({input, {}});
-      pairsCount++;
+      pairsIndex++;
     }
   }
+  try
+  {
+    zheleznyakov::processTask(std::cout, pairs);
+  }
+  catch(const std::exception& e)
+  {
+    std::cerr << e.what() << '\n';
+  }
+  
   return 0;
 }

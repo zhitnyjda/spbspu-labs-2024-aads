@@ -105,7 +105,7 @@ T &zheleznyakov::List<T>::operator[](const size_t index)
     currentElement = currentElement->next;
     currentIndex++;
   }
-  throw new std::runtime_error("Element not found");
+  throw std::out_of_range("Out of range");
 }
 
 template <typename T>
