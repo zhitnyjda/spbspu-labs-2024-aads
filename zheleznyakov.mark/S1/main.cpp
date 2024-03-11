@@ -1,24 +1,25 @@
 #include <iostream>
+#include <string>
 #include "list.hpp"
+#include "numbers.hpp"
 
 int main()
 {
-  zheleznyakov::List<int> list;
-  for (int i = 20; i > 0; i--)
+  zheleznyakov::List<std::pair<std::string, zheleznyakov::List<unsigned long long>>> pairs;
+  size_t maxSequenceSize = 0;
+  size_t pairsCount = -1;
+  std::string input;
+  while (std::cin >> input)
   {
-    if (i % 2 == 0)
+    if (zheleznyakov::isNumeric(input))
     {
-      list.pushBack(i);
+      pairs[pairsCount].second.pushBack(std::stoull(input));
     }
     else
     {
-      list.pushFront(i);
+      pairs.pushBack({input, {}});
+      pairsCount++;
     }
   }
-  for (size_t i = 0; i < list.getSize(); i++)
-  {
-    std::cout << i << ' ' << list[i] << '\n';
-  }
-  list.clear();
   return 0;
 }

@@ -21,7 +21,7 @@ namespace zheleznyakov
     void clear();
     void swap(size_t index1, size_t index2);
     bool isEmpty();
-    T operator[](const size_t index);
+    T &operator[](const size_t index);
 
   private:
     size_t size;
@@ -92,7 +92,7 @@ void zheleznyakov::List<T>::popBack()
 }
 
 template <typename T>
-T zheleznyakov::List<T>::operator[](const size_t index)
+T &zheleznyakov::List<T>::operator[](const size_t index)
 {
   ListItem<T> *currentElement = head;
   size_t currentIndex = 0;
