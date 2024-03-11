@@ -1,6 +1,8 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 #include "iterator.hpp"
+#include <stdexcept>
+#include <initializer_list>
 #include <cstddef>
 
 namespace nikiforov

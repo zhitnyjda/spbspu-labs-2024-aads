@@ -1,9 +1,9 @@
 #ifndef FUNCTION_HPP
 #define FUNCTION_HPP
+#include "list.hpp"
 #include <iostream>
 #include <string>
 #include <limits>
-#include "list.hpp"
 
 namespace nikiforov
 {
