@@ -30,8 +30,8 @@ int main()
   typename List<std::pair<std::string, List<int>>>::ListIterator< std::pair< std::string, List<int>>> i = list.begin();
   while(i != list.end())
   {
-   std::cout << i->first << " ";
-    ++i;
+   std::cout << i->first;
+   if(i++ != list.end()) { std::cout << " "; }
   }
   std::cout << "\n";
   int maxNum = 1;
@@ -90,8 +90,8 @@ int main()
   typename List<int>::ListIterator<int> is = sums.begin();
   while(is != sums.end())
   {
-    std::cout << *is << " ";
-    is++;
+    std::cout << *is;
+    if(is++ != sums.end()) { std::cout << " "; }
   }
   return 0;
 }
