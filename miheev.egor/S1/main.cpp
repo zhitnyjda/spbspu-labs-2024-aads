@@ -13,6 +13,7 @@ int main()
   size_t pairsSize = 5;
   SI_pair* pairs = new SI_pair[pairsSize];
   size_t unusedIndex = 0;
+  bool isOverflow = false;
 
   while (1)
   {
@@ -21,7 +22,6 @@ int main()
 
     if (std::cin.eof())
     {
-      std::cout << "EOF\n";
       break;
     }
     std::istringstream stream(line);
@@ -42,11 +42,9 @@ int main()
     {
       pairs[unusedIndex++] = getSIPair(stream);
     }
-    catch (const std::logic_error& e)
+    catch (const std::logic_error&)
     {
-      std::cerr << e.what();
-      delete[] pairs;
-      return 1;
+      isOverflow = true;
     }
   }
 
@@ -85,14 +83,21 @@ int main()
     std::cout << '\n';
   } while (flag);
 
-  for (size_t i = 0; i < maxSize; i++)
+  if (!isOverflow and index > 0)
   {
-    std::cout << sumArr[i] << ' ';
+    for (size_t i = 0; i < maxSize; i++)
+    {
+      std::cout << sumArr[i] << ' ';
+    }
+  }
+  else if (!isOverflow)
+  {
+    std::cout << 0;
   }
   std::cout << '\n';
 
-
   delete[] lists;
+  delete[] iters;
   delete[] sumArr;
   delete[] pairs;
   return 0;

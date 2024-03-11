@@ -22,7 +22,7 @@ namespace miheev
     }
     List< int > list(readInt(stream));
 
-    while(stream)
+    while(!(stream >> std::ws).eof())
     {
       list.pushBack(readInt(stream));
     }
