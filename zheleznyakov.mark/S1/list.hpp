@@ -4,10 +4,11 @@
 #include <cstddef>
 #include <stdexcept>
 #include "list-item.hpp"
+#include "list-iterator.hpp"
 
 namespace zheleznyakov
 {
-  template < typename T > 
+  template <typename T>
   class List
   {
   public:
@@ -24,26 +25,26 @@ namespace zheleznyakov
 
   private:
     size_t size;
-    ListItem< T >  *head;
-    ListItem< T >  *tail;
+    ListItem<T> *head;
+    ListItem<T> *tail;
   };
 };
 
-template < typename T > 
-zheleznyakov::List< T >::List() : size(0), head(nullptr), tail(nullptr)
+template <typename T>
+zheleznyakov::List<T>::List() : size(0), head(nullptr), tail(nullptr)
 {
 }
 
-template < typename T > 
-size_t zheleznyakov::List< T >::getSize()
+template <typename T>
+size_t zheleznyakov::List<T>::getSize()
 {
   return size;
 }
 
-template < typename T > 
-void zheleznyakov::List< T >::pushFront(T value)
+template <typename T>
+void zheleznyakov::List<T>::pushFront(T value)
 {
-  ListItem< T >  *newListItem = new zheleznyakov::ListItem< T > (value);
+  ListItem<T> *newListItem = new zheleznyakov::ListItem<T>(value);
   size++;
   if (head == nullptr)
   {
@@ -56,10 +57,10 @@ void zheleznyakov::List< T >::pushFront(T value)
   head = newListItem;
 }
 
-template < typename T > 
-void zheleznyakov::List< T >::pushBack(T value)
+template <typename T>
+void zheleznyakov::List<T>::pushBack(T value)
 {
-  ListItem< T >  *newListItem = new zheleznyakov::ListItem< T > (value);
+  ListItem<T> *newListItem = new zheleznyakov::ListItem<T>(value);
   size++;
   if (head == nullptr)
   {
@@ -72,28 +73,28 @@ void zheleznyakov::List< T >::pushBack(T value)
   this->tail = newListItem;
 }
 
-template < typename T > 
-void zheleznyakov::List< T >::popFront()
+template <typename T>
+void zheleznyakov::List<T>::popFront()
 {
-  ListItem< T >  *current = head;
+  ListItem<T> *current = head;
   head = head->next;
   delete[] current;
   size--;
 }
 
-template < typename T > 
-void zheleznyakov::List< T >::popBack()
+template <typename T>
+void zheleznyakov::List<T>::popBack()
 {
-  ListItem< T >  *current = tail;
+  ListItem<T> *current = tail;
   tail = tail->prev;
   delete[] current;
   size--;
 }
 
-template < typename T > 
-T zheleznyakov::List< T >::operator[](const size_t index)
+template <typename T>
+T zheleznyakov::List<T>::operator[](const size_t index)
 {
-  ListItem< T >  *currentElement = head;
+  ListItem<T> *currentElement = head;
   size_t currentIndex = 0;
   while (currentElement != nullptr)
   {
@@ -107,8 +108,8 @@ T zheleznyakov::List< T >::operator[](const size_t index)
   throw new std::runtime_error("Element not found");
 }
 
-template < typename T > 
-void zheleznyakov::List< T >::clear()
+template <typename T>
+void zheleznyakov::List<T>::clear()
 {
   while (size != 0)
   {
@@ -116,23 +117,23 @@ void zheleznyakov::List< T >::clear()
   }
 }
 
-template < typename T > 
-bool zheleznyakov::List< T >::isEmpty()
+template <typename T>
+bool zheleznyakov::List<T>::isEmpty()
 {
   return size == 0;
 }
 
-template < typename T > 
-void zheleznyakov::List< T >::swap(size_t index1, size_t index2)
+template <typename T>
+void zheleznyakov::List<T>::swap(size_t index1, size_t index2)
 {
-  zheleznyakov::ListItem< T > *currentItem1 = this->head;
+  zheleznyakov::ListItem<T> *currentItem1 = this->head;
   size_t currentIndex1 = 0;
   while (currentIndex1 < index1)
   {
     currentItem1 = currentItem1->next;
     ++currentIndex1;
   }
-  zheleznyakov::ListItem< T > *currentItem2 = this->head;
+  zheleznyakov::ListItem<T> *currentItem2 = this->head;
   size_t currentIndex2 = 0;
   while (currentIndex2 < index2)
   {
