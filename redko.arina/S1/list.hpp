@@ -589,7 +589,7 @@ void redko::List< T >::spliceAfter(Iterator< false > pos, List & other)
 {
   if (!other.isEmpty())
   {
-    Iterator otherElem = other.begin();
+    Iterator< false > otherElem = other.begin();
     while (otherElem != other.end())
     {
       insertAfter(pos, *otherElem);
