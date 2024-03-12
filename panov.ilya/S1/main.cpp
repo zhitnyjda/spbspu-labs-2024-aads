@@ -20,6 +20,16 @@ int main()
     freeMemory(pairs, size);
     return 1;
   }
+  catch (const std::logic_error& e)
+  {
+    std::cout << 0 << '\n';
+    return 0;
+  }
+  catch (const std::exception& e)
+  {
+    std::cerr << e.what() << '\n';
+    return 1;
+  }
   std::cout << '\n';
   freeMemory(pairs, size);
 }
