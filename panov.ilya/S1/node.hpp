@@ -1,17 +1,20 @@
 #ifndef NODE_HPP
 #define NODE_HPP
+
 namespace Panov
 {
-  template< typename T >
+  template< class T >
   struct Node
   {
-  public:
-    Node();
-    Node(T data);
+    Node(const T& value = T(), Node* next = nullptr, Node* prev = nullptr) :
+      value_(value),
+      next_(next),
+      prev_(prev)
+    {}
     ~Node() = default;
-    T data_;
-    Node* prev_;
+    T value_;
     Node* next_;
+    Node* prev_;
   };
 }
 #endif
