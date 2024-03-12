@@ -11,7 +11,8 @@ int main()
   using pair_list = redko::List< std::pair< std::string, redko::List< unsigned long long > > >;
   pair_list seqs{};
 
-  redko::Iterator< std::pair< std::string, redko::List< unsigned long long > > > currSeq = seqs.beforeBegin();
+  pair_list::iterator currSeq = seqs.beforeBegin();
+
   unsigned long long value = 0;
   while (!std::cin.eof())
   {
@@ -50,7 +51,7 @@ int main()
       allWasOutputed = true;
       while (currSeq != seqs.end())
       {
-        redko::Iterator< unsigned long long > currElem = currSeq->second.begin();
+        redko::List< unsigned long long >::iterator currElem = currSeq->second.begin();
         size_t i = 0;
         while (i < elemNum && currElem != currSeq->second.end())
         {
@@ -60,12 +61,12 @@ int main()
         if (currElem != currSeq->second.end())
         {
           std::cout << *currElem;
-          redko::Iterator< std::pair< std::string, redko::List< unsigned long long > > > nextSeq = currSeq;
+          pair_list::iterator nextSeq = currSeq;
           bool isNext = false;
           while (nextSeq != nullptr && ++nextSeq != nullptr && !isNext)
           {
             size_t i = 0;
-            redko::Iterator< unsigned long long > nextElem = nextSeq->second.begin();
+            redko::List< unsigned long long >::iterator nextElem = nextSeq->second.begin();
             while (i < elemNum && nextElem != nextSeq->second.end())
             {
               nextElem++;
@@ -86,8 +87,8 @@ int main()
     }
 
     redko::List< unsigned long long > sums{};
-    redko::Iterator< unsigned long long > sumNum = sums.beforeBegin();
-    redko::Iterator< std::pair< std::string, redko::List< unsigned long long > > > prevSeq = seqs.beforeBegin();
+    redko::List< unsigned long long >::iterator sumNum = sums.beforeBegin();
+    pair_list::iterator prevSeq = seqs.beforeBegin();
     while (!seqs.isEmpty())
     {
       sums.pushBack(0);
@@ -125,12 +126,13 @@ int main()
       }
     }
 
-    redko::Iterator< unsigned long long > currSum = sums.begin();
+    redko::List< unsigned long long >::iterator currSum = sums.begin();
     while (currSum != sums.end())
     {
       std::cout << *currSum;
-      std::cout <<(++currSum != sums.end() ? ' ' : '\n');
+      std::cout << (++currSum != sums.end() ? ' ' : '\n');
     }
   }
+
   return 0;
 }
