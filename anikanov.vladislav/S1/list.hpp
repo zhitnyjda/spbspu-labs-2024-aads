@@ -91,7 +91,7 @@ namespace anikanov {
   template<typename T>
   List< T >::List(const T &value, size_t count): head(nullptr), tail(nullptr), list_size(0)
   {
-    for (auto i = 0; i < count; ++i) {
+    for (size_t i = 0; i < count; ++i) {
       push_back(value);
     }
   }
@@ -132,7 +132,7 @@ namespace anikanov {
       throw std::out_of_range("Index out of range");
     }
     auto current = head;
-    for (auto i = 0; i < n; ++i) {
+    for (size_t i = 0; i < n; ++i) {
       current = current->next;
     }
 
@@ -192,7 +192,7 @@ namespace anikanov {
   void List< T >::assign(size_t count, const T &value)
   {
     clear();
-    for (auto i = 0; i < count; ++i) {
+    for (size_t i = 0; i < count; ++i) {
       push_back(value);
     }
   }
@@ -240,7 +240,7 @@ namespace anikanov {
     }
 
     auto current = head;
-    for (auto i = 0; i < index; ++i) {
+    for (size_t i = 0; i < index; ++i) {
       current = current->next;
     }
 

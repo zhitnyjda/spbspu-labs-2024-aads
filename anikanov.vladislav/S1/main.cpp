@@ -71,7 +71,7 @@ int main()
       const auto &list = *list_it;
       if (idx < list.second.size()) {
         auto num_it = list.second.begin();
-        for (auto i = 0; i < idx; ++i) {
+        for (size_t i = 0; i < idx; ++i) {
           num_it++;
         }
         if (start_print) {
