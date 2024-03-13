@@ -16,9 +16,9 @@ int main()
 {
   using namespace anikanov;
 
-  std::unique_ptr< List< std::pair< char[51], List< int > > > > lists(new List< std::pair< char[51], List< int > > >);
+  std::unique_ptr< List< std::pair< char[51], List< unsigned long long > > > > lists(new List< std::pair< char[51], List< int > > >);
   char input_name[51];
-  int number;
+  unsigned long long number;
 
   while (true) {
 
@@ -26,12 +26,12 @@ int main()
       break;
     }
 
-    List< int > numbers;
+    List< unsigned long long > numbers;
     while (std::cin.peek() != '\n' && std::cin >> number) {
       numbers.push_back(number);
     }
 
-    std::pair< char[51], List< int > > list_pair;
+    std::pair< char[51], List< unsigned long long > > list_pair;
     std::strcpy(list_pair.first, input_name);
     list_pair.second = numbers;
     lists->push_back(list_pair);
@@ -55,7 +55,7 @@ int main()
 
   bool finished = false;
   size_t idx = 0;
-  List< int > sums;
+  List< unsigned long long > sums;
   while (!finished) {
     finished = true;
     sums.push_back(0);
@@ -66,7 +66,7 @@ int main()
         for (size_t i = 0; i < (idx == 0 ? 0 : idx); ++i) {
           num_it++;
         }
-        if (idx == 0) {
+        if (num_it == list.second.begin()) {
           std::cout << *num_it;
         } else {
           std::cout << " " << *num_it;
