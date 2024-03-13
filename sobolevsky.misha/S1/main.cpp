@@ -34,10 +34,11 @@ int main()
     }
   }
 
-  //if (length == 0)
-  //{
-  //  return 0;
-  //}
+  if (length == 0)
+  {
+    std::cout << "0\n";
+    return 0;
+  }
 
   sobolevsky::Iterator< std::vector< unsigned long long > > iter(list.head);
   for (size_t i = 0; i < length; i++)
