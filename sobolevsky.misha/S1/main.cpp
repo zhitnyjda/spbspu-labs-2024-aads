@@ -50,17 +50,21 @@ int main()
   for (size_t i = 0; i < maxlen; i++)
   {
     sumInts = 0;
+    bool first = true;
     sobolevsky::Iterator< std::vector< int > > iter2(list.head);
     for (size_t j = 0; j < length; j++)
     {
       if (i < iter2.currNode->data.size())
       {
-        std::cout << iter2.currNode->data[i];
-        sumInts += iter2.currNode->data[i];
-        if (j != (length - 1))
+        if (first)
         {
-          std::cout << " ";
+          std::cout << iter2.currNode->data[i];
         }
+        else
+        {
+          std::cout << " " << iter2.currNode->data[i];
+        }
+        sumInts += iter2.currNode->data[i];
       }
       ++iter2;
     }
