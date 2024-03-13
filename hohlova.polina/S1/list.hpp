@@ -36,8 +36,8 @@ namespace hohlova
 template< typename T >
 hohlova::List<T>::List()
 {
-  int Size = 0;
-  Node<T>* head = nullptr;
+  Size = 0;
+  head = nullptr;
 }
 
 template< typename T >
