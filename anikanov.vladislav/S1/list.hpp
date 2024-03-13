@@ -157,7 +157,7 @@ namespace anikanov {
   template<typename T>
   bool List< T >::empty()
   {
-    if (head == tail) {
+    if (head == nullptr) {
       return true;
     }
     return false;
