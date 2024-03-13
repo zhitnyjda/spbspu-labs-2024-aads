@@ -8,7 +8,7 @@
 namespace hohlova
 {
   template < typename T >
-  class List
+  struct List
   {
   public:
     List();
