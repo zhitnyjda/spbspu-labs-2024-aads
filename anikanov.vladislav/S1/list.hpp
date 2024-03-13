@@ -18,7 +18,7 @@ namespace anikanov {
     ~List();
 
     void push_back(const T &value);
-    T pop(size_t n = -1);
+    T pop(size_t n);
     bool empty();
     size_t size() const;
     void clear();
@@ -110,6 +110,7 @@ namespace anikanov {
       tail = newNode;
     } else {
       tail->next = newNode;
+      newNode->prev = tail;
       tail = newNode;
     }
     list_size++;
@@ -122,11 +123,7 @@ namespace anikanov {
       throw std::out_of_range("List is empty");
     }
 
-    if (n < 0) {
-      n += list_size;
-    }
-
-    if (n < 0 || n >= list_size) {
+    if (n >= list_size) {
       throw std::out_of_range("Index out of range");
     }
     auto current = head;
@@ -147,7 +144,6 @@ namespace anikanov {
     }
 
     T value = current->data;
-    delete current;
     --list_size;
 
     return value;
