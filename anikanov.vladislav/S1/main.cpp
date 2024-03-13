@@ -9,7 +9,9 @@ int main()
 {
   using namespace anikanov;
 
-  std::unique_ptr< List< std::pair< std::string, List< unsigned long long > > > > lists(new List< std::pair< std::string, List< unsigned long long > > >);
+  std::unique_ptr< List< std::pair< std::string, List< unsigned long long > > > > lists(
+      new List< std::pair< std::string, List< unsigned long long > > >
+  );
   std::string input_name;
   unsigned long long number;
 
@@ -65,7 +67,7 @@ int main()
     for (auto list_it = lists->begin(); list_it != lists->end(); ++list_it) {
       const auto &list = *list_it;
       if (idx < list.second.size()) {
-        if (finished){
+        if (finished) {
           sums.push_back(0);
           finished = false;
         }
@@ -102,7 +104,7 @@ int main()
     }
   }
 
-  if (sums.empty()){
+  if (sums.empty()) {
     std::cout << "0";
   }
 
