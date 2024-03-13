@@ -47,7 +47,6 @@ int main()
       std::cout << " ";
     }
   }
-  std::cout << "\n";
 
   if (bad_input) {
     std::cerr << "overflow\n";
@@ -57,6 +56,8 @@ int main()
   if (lists->empty()) {
     std::cout << "0\n";
     return 0;
+  } else {
+    std::cout << "\n";
   }
 
   bool finished = false;
