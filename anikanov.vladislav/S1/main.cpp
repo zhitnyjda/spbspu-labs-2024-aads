@@ -5,14 +5,6 @@
 #include "list.hpp"
 
 
-/*
-first 1 1 1
-second 2 2 2 2
-third
-fourth 4 4
-*/
-
-
 int main()
 {
   using namespace anikanov;
@@ -30,12 +22,12 @@ int main()
 
     List< int > numbers;
     while (std::cin.peek() != '\n') {
-      if (std::cin >> number){
+      if (std::cin >> number) {
         numbers.push_back(number);
       } else {
         bad_input = true;
         std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
         break;
       }
     }
@@ -57,7 +49,7 @@ int main()
   }
   std::cout << "\n";
 
-  if (bad_input){
+  if (bad_input) {
     std::cerr << "overflow\n";
     return 1;
   }
@@ -96,9 +88,12 @@ int main()
     idx++;
   }
 
-  for (auto sum_it = sums.begin(); sum_it != sums.end(); ++sum_it) {
+  for (auto sum_it = sums.begin(); sum_it != sums.end();) {
     if (sum_it != sums.back()) {
-      std::cout << *sum_it << " ";
+      std::cout << *sum_it;
+    }
+    if (++sum_it != sums.end()) {
+      std::cout << " ";
     }
   }
 
