@@ -28,6 +28,8 @@ namespace hohlova
     void pop_back();
   private:
     std::vector<std::vector<T>> data;
+    int Size = 0;
+    Node<T>* head;
   };
 }
 
