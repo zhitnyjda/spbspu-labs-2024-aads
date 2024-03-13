@@ -39,7 +39,7 @@ namespace anikanov {
     Iterator< T > end() const;
 
   private:
-    std::shared_ptr< Node< T>> head, tail;
+    std::shared_ptr< Node< T > > head, tail;
     size_t list_size;
   };
 
@@ -99,13 +99,13 @@ namespace anikanov {
   template<typename T>
   List< T >::~List()
   {
-    clear();
+    this->clear();
   }
 
   template<typename T>
   void List< T >::push_back(const T &value)
   {
-    auto newNode = std::make_shared< Node< T>>(value);
+    auto newNode = std::make_shared< Node< T > >(value);
     if (head == nullptr) {
       head = newNode;
       tail = newNode;
@@ -172,10 +172,12 @@ namespace anikanov {
   template<typename T>
   void List< T >::clear()
   {
-    auto current = head;
+    auto current = tail;
     while (current != nullptr) {
-      auto next = current->next;
-      current = next;
+      auto prev = current->prev;
+      current->next = nullptr;
+      current->prev = nullptr;
+      current = prev;
     }
     head = nullptr;
     tail = nullptr;
