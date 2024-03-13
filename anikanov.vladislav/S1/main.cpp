@@ -71,7 +71,7 @@ int main()
       const auto &list = *list_it;
       if (idx < list.second.size()) {
         auto num_it = list.second.begin();
-        for (size_t i = 0; i < idx; ++i) {
+        for (auto i = 0; i < idx; ++i) {
           num_it++;
         }
         if (start_print) {
@@ -87,7 +87,7 @@ int main()
     std::cout << (finished ? "" : "\n");
     idx++;
   }
-  sums.pop(sums.size() - 1);
+  sums.pop();
   for (auto sum_it = sums.begin(); sum_it != sums.end();) {
     std::cout << *sum_it;
     if (++sum_it != sums.end()) {

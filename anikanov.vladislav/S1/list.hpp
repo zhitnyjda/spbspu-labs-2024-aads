@@ -4,6 +4,7 @@
 #include "node.hpp"
 #include "iterator.hpp"
 #include <memory>
+#include <limits>
 #include <stdexcept>
 
 namespace anikanov {
@@ -18,7 +19,7 @@ namespace anikanov {
     ~List();
 
     void push_back(const T &value);
-    T pop(size_t n);
+    T pop(size_t n = std::numeric_limits< size_t >::max());
     bool empty();
     size_t size() const;
     void clear();
@@ -90,7 +91,7 @@ namespace anikanov {
   template<typename T>
   List< T >::List(const T &value, size_t count): head(nullptr), tail(nullptr), list_size(0)
   {
-    for (size_t i = 0; i < count; ++i) {
+    for (auto i = 0; i < count; ++i) {
       push_back(value);
     }
   }
@@ -123,11 +124,15 @@ namespace anikanov {
       throw std::out_of_range("List is empty");
     }
 
+    if (n == std::numeric_limits< size_t >::max()) {
+      n = list_size - 1;
+    }
+
     if (n >= list_size) {
       throw std::out_of_range("Index out of range");
     }
     auto current = head;
-    for (int i = 0; i < n; ++i) {
+    for (auto i = 0; i < n; ++i) {
       current = current->next;
     }
 
@@ -187,7 +192,7 @@ namespace anikanov {
   void List< T >::assign(size_t count, const T &value)
   {
     clear();
-    for (size_t i = 0; i < count; ++i) {
+    for (auto i = 0; i < count; ++i) {
       push_back(value);
     }
   }
@@ -235,7 +240,7 @@ namespace anikanov {
     }
 
     auto current = head;
-    for (size_t i = 0; i < index; ++i) {
+    for (auto i = 0; i < index; ++i) {
       current = current->next;
     }
 
