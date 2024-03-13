@@ -18,7 +18,7 @@ int main()
     }
     if (isalpha(elem[0]))
     {
-      maxlen = max(maxlen, currlen);
+      maxlen = std::max(maxlen, currlen);
       std::vector< int > vec;
       currlen = 0;
       list.pushBack(vec, elem);
