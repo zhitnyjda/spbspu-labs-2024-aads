@@ -35,7 +35,6 @@ int main()
 
   if (length == 0)
   {
-    std::cerr << "Empty input\n";
     return 0;
   }
 
