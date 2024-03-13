@@ -28,7 +28,7 @@ int main()
     }
     else
     {
-      unsigned long long i = stoi(elem);
+      unsigned long long i = stoll(elem);
       currlen++;
       list.tail->data.push_back(i);
     }
