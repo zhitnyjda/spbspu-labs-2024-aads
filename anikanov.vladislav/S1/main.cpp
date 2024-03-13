@@ -43,7 +43,7 @@ int main()
   for (auto it = lists->begin(); it != lists->end();) {
     std::cout << it->first;
     if (++it != lists->end()) {
-      std:cout << " ";
+      std::cout << " ";
     }
   }
   std::cout << "\n";
