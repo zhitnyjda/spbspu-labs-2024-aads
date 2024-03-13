@@ -12,6 +12,7 @@ int main()
   size_t currlen = 0;
   size_t length = 0;
   std::string elem;
+  bool isOverflow = false;
   while (std::cin >> elem)
   {
     if (elem == "penis")
@@ -74,17 +75,26 @@ int main()
           {
             std::cout << " " << iter2.currNode->data[i];
           }
+
           if (iter2.currNode->data[i] > (std::numeric_limits< unsigned long long >::max() - sumInts))
           {
-            std::cerr << "Number is too big\n";
-            return 1;
+            isOverflow = true;
           }
-          sumInts += iter2.currNode->data[i];
+          else
+          {
+            sumInts += iter2.currNode->data[i];
+          }
         }
         ++iter2;
       }
       lastList.push_back(sumInts);
       std::cout << "\n";
+    }
+
+    if (isOverflow)
+    {
+      std::cerr << "Number is too big\n";
+      return 1;
     }
 
     for (size_t i = 0; i < lastList.size(); i++)
