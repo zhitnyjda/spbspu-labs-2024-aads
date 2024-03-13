@@ -1,38 +1,38 @@
 #include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 #include "list.hpp"
 
 int main()
 {
-  sobolevsky::List< std::vector< long long > > list;
+  sobolevsky::List< std::vector< int > > list;
 
-  std::string nodeName;
-  std::string tempNodeName;
-  std::cin >> tempNodeName;
-  while (std::cin)
+  size_t maxlen = 0;
+  size_t currlen = 0;
+  std::string elem;
+  while (std::cin >> elem)
   {
-    nodeName = tempNodeName;
-    if (std::cin.eof())
+    if (elem == "penis")
     {
-      sobolevsky::Iterator< std::vector< long long > > iter( list.head );
-      std::cout << iter.name() << " ";
-      list.clear();
-      return 1;
+      break;
     }
-    std::vector< long long > vec;
-    std::string elem;
-    while (std::cin >> elem)
+    if (isalpha(elem[0]))
     {
-      if (isalpha(elem[0]))
-      {
-        tempNodeName = elem;
-        break;
-      }
-      long long i = stoll(elem);
-      vec.push_back(i);
+      maxlen = max(maxlen, currlen);
+      std::vector< int > vec;
+      currlen = 0;
+      list.pushBack(vec, elem);
     }
-    list.pushBack(vec, nodeName);
+    else
+    {
+      int i = stoi(elem);
+      currlen++;
+      list.tail->data.push_back(i);
+    }
   }
+
+  std::cout << list.head->name << "\n";
+  std::cout << list.head->data[0] << "\n";
+
   return 0;
 }
