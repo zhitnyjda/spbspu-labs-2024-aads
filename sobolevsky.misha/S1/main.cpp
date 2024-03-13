@@ -45,43 +45,50 @@ int main()
   }
   std::cout << "\n";
 
-  std::vector< int > lastList;
-  size_t sumInts = 0;
-  for (size_t i = 0; i < maxlen; i++)
+  if (maxlen > 0)
   {
-    sumInts = 0;
-    bool first = true;
-    sobolevsky::Iterator< std::vector< int > > iter2(list.head);
-    for (size_t j = 0; j < length; j++)
+    std::vector< int > lastList;
+    size_t sumInts = 0;
+    for (size_t i = 0; i < maxlen; i++)
     {
-      if (i < iter2.currNode->data.size())
+      sumInts = 0;
+      bool first = true;
+      sobolevsky::Iterator< std::vector< int > > iter2(list.head);
+      for (size_t j = 0; j < length; j++)
       {
-        if (first)
+        if (i < iter2.currNode->data.size())
         {
-          std::cout << iter2.currNode->data[i];
-          first = false;
+          if (first)
+          {
+            std::cout << iter2.currNode->data[i];
+            first = false;
+          }
+          else
+          {
+            std::cout << " " << iter2.currNode->data[i];
+          }
+          sumInts += iter2.currNode->data[i];
         }
-        else
-        {
-          std::cout << " " << iter2.currNode->data[i];
-        }
-        sumInts += iter2.currNode->data[i];
+        ++iter2;
       }
-      ++iter2;
+      lastList.push_back(sumInts);
+      std::cout << "\n";
     }
-    lastList.push_back(sumInts);
+
+    for (size_t i = 0; i < lastList.size(); i++)
+    {
+      std::cout << lastList[i];
+      if (i != (lastList.size() - 1))
+      {
+        std::cout << " ";
+      }
+    }
     std::cout << "\n";
   }
-
-  for (size_t i = 0; i < lastList.size(); i++)
+  else
   {
-    std::cout << lastList[i];
-    if (i != (lastList.size() - 1))
-    {
-      std::cout << " ";
-    }
+    std::cout << "0\n"
   }
-  std::cout << "\n";
 
   return 0;
 }
