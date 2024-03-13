@@ -59,6 +59,7 @@ int main()
         if (first)
         {
           std::cout << iter2.currNode->data[i];
+          first = false;
         }
         else
         {
