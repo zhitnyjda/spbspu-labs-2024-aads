@@ -1,5 +1,5 @@
 #include <iostream>
-#include <cstring>
+#include <string>
 #include <memory>
 #include <limits>
 #include "list.hpp"
@@ -9,9 +9,9 @@ int main()
 {
   using namespace anikanov;
 
-  std::unique_ptr< List< std::pair< char[51], List< long long > > > > lists(new List< std::pair< char[51], List< long long > > >);
-  char input_name[51];
-  long long number;
+  std::unique_ptr< List< std::pair< std::string, List< unsigned long long > > > > lists(new List< std::pair< std::string, List< unsigned long long > > >);
+  std::string input_name;
+  unsigned long long number;
 
   while (true) {
 
@@ -19,7 +19,7 @@ int main()
       break;
     }
 
-    List< long long > numbers;
+    List< unsigned long long > numbers;
     while (std::cin.peek() != '\n') {
       if (std::cin >> number) {
         numbers.push_back(number);
@@ -30,8 +30,8 @@ int main()
       }
     }
 
-    std::pair< char[51], List< long long > > list_pair;
-    std::strcpy(list_pair.first, input_name);
+    std::pair< std::string, List< unsigned long long > > list_pair;
+    list_pair.first = input_name;
     list_pair.second = numbers;
     lists->push_back(list_pair);
 
@@ -56,8 +56,9 @@ int main()
   bool finished = false;
   bool start_print = false;
   size_t idx = 0;
-  List< long long > sums;
+  List< unsigned long long > sums;
   bool bad_sum = false;
+
   while (!finished) {
     finished = true;
     start_print = true;
@@ -78,7 +79,7 @@ int main()
         } else {
           std::cout << " " << *num_it;
         }
-        if (*sums.back() + *num_it > std::numeric_limits< long long >::max()) {
+        if (*sums.back() + *num_it < std::max(*sums.back(), *num_it)) {
           std::cerr << "overflow\n";
           bad_sum = true;
         }
