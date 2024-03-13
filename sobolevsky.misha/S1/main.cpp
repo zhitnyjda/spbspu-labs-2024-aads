@@ -1,11 +1,12 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <limits>
 #include "list.hpp"
 
 int main()
 {
-  sobolevsky::List< std::vector< int > > list;
+  sobolevsky::List< std::vector< unsigned long long > > list;
 
   size_t maxlen = 0;
   size_t currlen = 0;
@@ -20,25 +21,25 @@ int main()
     if (isalpha(elem[0]))
     {
       maxlen = std::max(maxlen, currlen);
-      std::vector< int > vec;
+      std::vector< unsigned long long > vec;
       currlen = 0;
       list.pushBack(vec, elem);
       length++;
     }
     else
     {
-      int i = stoi(elem);
+      unsigned long long i = stoi(elem);
       currlen++;
       list.tail->data.push_back(i);
     }
   }
 
-  if (length == 0)
-  {
-    return 0;
-  }
+  //if (length == 0)
+  //{
+  //  return 0;
+  //}
 
-  sobolevsky::Iterator< std::vector< int > > iter(list.head);
+  sobolevsky::Iterator< std::vector< unsigned long long > > iter(list.head);
   for (size_t i = 0; i < length; i++)
   {
     std::cout << iter.name();
@@ -52,13 +53,13 @@ int main()
 
   if (maxlen > 0)
   {
-    std::vector< int > lastList;
+    std::vector< unsigned long long > lastList;
     size_t sumInts = 0;
     for (size_t i = 0; i < maxlen; i++)
     {
       sumInts = 0;
       bool first = true;
-      sobolevsky::Iterator< std::vector< int > > iter2(list.head);
+      sobolevsky::Iterator< std::vector< unsigned long long > > iter2(list.head);
       for (size_t j = 0; j < length; j++)
       {
         if (i < iter2.currNode->data.size())
@@ -71,6 +72,11 @@ int main()
           else
           {
             std::cout << " " << iter2.currNode->data[i];
+          }
+          if (iter2.currNode->data[i] > (std::numeric_limits< unsigned long long >::max() - sumInts))
+          {
+            std::cerr << "Number is too big\n";
+            return 1;
           }
           sumInts += iter2.currNode->data[i];
         }
