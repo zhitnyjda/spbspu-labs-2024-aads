@@ -7,47 +7,47 @@
 
 int main() 
 {
-    hohlova::List<int> numbers;
-    std::vector<std::string> words;
-    std::string line;
+  hohlova::List<int> numbers;
+  std::vector<std::string> words;
+  std::string line;
 
-    while (std::getline(std::cin, line) && !line.empty()) 
+  while (std::getline(std::cin, line) && !line.empty()) 
+  {
+    std::istringstream iss(line);
+    std::string word;
+    iss >> word;
+    words.push_back(word);
+
+    std::vector<int> nums;
+    int num;
+    while (iss >> num) 
     {
-        std::istringstream iss(line);
-        std::string word;
-        iss >> word;
-        words.push_back(word);
-
-        std::vector<int> nums;
-        int num;
-        while (iss >> num) 
-        {
-            nums.push_back(num);
-        }
-        numbers.push_back(nums);
+      nums.push_back(num);
     }
+    numbers.push_back(nums);
+  }
 
-    size_t max_length = 0;
-    for (size_t i = 0; i < numbers.size(); ++i) 
-    {
-        max_length = std::max(max_length, numbers[i].size());
-    }
+  size_t max_length = 0;
+  for (size_t i = 0; i < numbers.size(); ++i) 
+  {
+    max_length = std::max(max_length, numbers[i].size());
+  }
 
-    for (const auto& word : words) 
-    {
-        std::cout << word << " ";
-    }
-    std::cout << "\n";
+  for (const auto& word : words) 
+  {
+    std::cout << word << " ";
+  }
+  std::cout << "\n";
 
-    for (size_t i = 0; i < max_length; ++i) 
+  for (size_t i = 0; i < max_length; ++i) 
+  {
+    for (size_t j = 0; j < numbers.size(); ++j) 
     {
-      for (size_t j = 0; j < numbers.size(); ++j) 
+      if (i < numbers[j].size()) 
       {
-        if (i < numbers[j].size()) 
-        {
-          std::cout << numbers[j][i] << " ";
-        }
+        std::cout << numbers[j][i] << " ";
       }
+    }
     std::cout << "\n";
   }
 
