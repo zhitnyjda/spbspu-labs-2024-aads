@@ -88,7 +88,7 @@ int main()
     std::cout << (finished ? "" : "\n");
     idx++;
   }
-  sums.pop();
+//  sums.pop();
   for (auto sum_it = sums.begin(); sum_it != sums.end();) {
     std::cout << *sum_it;
     if (++sum_it != sums.end()) {
