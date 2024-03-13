@@ -92,7 +92,7 @@ int main()
     if (sum_it != sums.back()) {
       std::cout << *sum_it;
     }
-    if (++sum_it != sums.end()) {
+    if (++sum_it != --sums.end()) {
       std::cout << " ";
     }
   }
