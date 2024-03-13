@@ -16,7 +16,9 @@ int main()
 {
   using namespace anikanov;
 
-  std::unique_ptr< List< std::pair< char[51], List< unsigned long long > > > > lists(new List< std::pair< char[51], List< int > > >);
+  std::unique_ptr< List< std::pair< char[51], List< unsigned long long > > > > lists(
+    new List< std::pair< char[51], List< unsigned long long > > >
+    );
   char input_name[51];
   unsigned long long number;
 
