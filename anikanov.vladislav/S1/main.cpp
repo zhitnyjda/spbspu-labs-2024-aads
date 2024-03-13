@@ -40,8 +40,11 @@ int main()
   }
 
 
-  for (auto it = lists->begin(); it != lists->end(); ++it) {
-    std::cout << it->first << " ";
+  for (auto it = lists->begin(); it != lists->end();) {
+    std::cout << it->first;
+    if (++it != lists->end()) {
+      std:cout << " ";
+    }
   }
   std::cout << "\n";
 
@@ -63,7 +66,11 @@ int main()
         for (size_t i = 0; i < (idx == 0 ? 0 : idx); ++i) {
           num_it++;
         }
-        std::cout << *num_it << " ";
+        if (idx == 0) {
+          std::cout << *num_it;
+        } else {
+          std::cout << " " << *num_it;
+        }
         *sums.back() += *num_it;
         finished = false;
       }
