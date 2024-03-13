@@ -33,6 +33,12 @@ int main()
     }
   }
 
+  if (length == 0)
+  {
+    std::cerr << "Empty input\n";
+    return 0;
+  }
+
   sobolevsky::Iterator< std::vector< int > > iter(list.head);
   for (size_t i = 0; i < length; i++)
   {
