@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 #include "list.hpp"
-
+#include "node.hpp"
 
 int main()
 {

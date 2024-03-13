@@ -4,6 +4,7 @@
 #include <sstream>
 #include <vector>
 #include <string>
+#include "node.hpp"
 
 namespace hohlova
 {
@@ -26,18 +27,6 @@ namespace hohlova
     void removeAt(int index);
     void pop_back();
   private:
-    template < typename T >
-    class Node
-    {
-    public:
-      Node* nextPoint;
-      T  data;
-      Node(T data = T(), Node* nextPoint = nullptr)
-      {
-        this->data = data;
-        this->nextPoint = nextPoint;
-      }
-    };
     std::vector<std::vector<T>> data;
     Node<T>* head;
     int Size = 0;
