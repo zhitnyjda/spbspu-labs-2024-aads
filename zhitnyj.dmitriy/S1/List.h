@@ -24,6 +24,11 @@ public:
     {
     }
 
+    int empty() const
+    {
+      return head == nullptr;
+    }
+
     void push_front(T data)
     {
       head = std::make_shared<Node>(data, head);
