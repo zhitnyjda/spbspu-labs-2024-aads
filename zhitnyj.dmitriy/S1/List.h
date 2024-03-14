@@ -1,10 +1,8 @@
 #ifndef LIST_H
 #define LIST_H
 
-#include <iterator>
 #include <memory>
-#include <algorithm>
-#include <vector>
+#include <iostream>
 
 template<typename T>
 class List
@@ -20,18 +18,53 @@ public:
         }
     };
 
+    std::shared_ptr<Node> head;
+
+    List() : head(nullptr)
+    {
+    }
+
+    void push_front(T data)
+    {
+      head = std::make_shared<Node>(data, head);
+    }
+
+    void push_back(T data)
+    {
+      auto newNode = std::make_shared<Node>(data);
+      if (!head)
+      {
+        head = newNode;
+      }
+      else
+      {
+        auto current = head;
+        while (current->next)
+        {
+          current = current->next;
+        }
+        current->next = newNode;
+      }
+    }
+
+    size_t size() const
+    {
+      size_t count = 0;
+      auto node = head;
+      while (node != nullptr)
+      {
+        count++;
+        node = node->next;
+      }
+      return count;
+    }
+
     class Iterator
     {
     private:
         std::shared_ptr<Node> node;
 
     public:
-        using iterator_category = std::forward_iterator_tag;
-        using difference_type = std::ptrdiff_t;
-        using value_type = T;
-        using pointer = T*;
-        using reference = T&;
-
         Iterator(std::shared_ptr<Node> node = nullptr) : node(node)
         {
         }
@@ -40,6 +73,7 @@ public:
         {
           return node->data;
         }
+
         T* operator->()
         {
           return &node->data;
@@ -69,39 +103,13 @@ public:
         }
     };
 
-public:
-    std::shared_ptr<Node> head;
-
-    std::vector<unsigned long long> to_vector() const
-    {
-      std::vector<unsigned long long> elements;
-      auto current = head;
-      while (current != nullptr)
-      {
-        elements.push_back(current->data);
-        current = current->next;
-      }
-      std::reverse(elements.begin(), elements.end());
-      return elements;
-    }
-
-    List() : head(nullptr)
-    {
-    }
-
-    void push_front(T data)
-    {
-      head = std::make_shared<Node>(data, head);
-    }
-
     Iterator begin() const
     {
       return Iterator(head);
     }
-
     Iterator end() const
     {
-      return Iterator();
+      return Iterator(nullptr);
     }
 };
 
