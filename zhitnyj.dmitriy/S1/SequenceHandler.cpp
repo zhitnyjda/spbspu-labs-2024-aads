@@ -8,22 +8,11 @@ void SequenceHandler::addSequence(const std::string& name, const List<unsigned l
   sequences.push_back(sequence);
 }
 
-void SequenceHandler::parseNum(const std::string& num, unsigned long long& number)
-{
-  char* end;
-  errno = 0;
-  number = std::strtoull(num.c_str(), &end, 10);
-  if (errno == ERANGE || *end != '\0')
-  {
-    throw std::overflow_error("Entered number is too big or invalid.");
-  }
-}
-
 void SequenceHandler::printSequences()
 {
   for (auto it = names.begin(); it != names.end(); ++it)
   {
-    std::cout << *it << " ";
+    std::cout << *it << (it + 1 == names.end() ? "" : " ");
   }
   std::cout << std::endl;
 }
@@ -56,7 +45,7 @@ void SequenceHandler::rearrangeAndPrint()
       }
       if (numIt != nullptr)
       {
-        std::cout << numIt->data << " ";
+        std::cout << numIt->data << (numIt->next == nullptr ? "" : " ");
         if (sums[i] > std::numeric_limits<unsigned long long>::max() - numIt->data)
         {
           throw std::overflow_error("\nSum of numbers is too big.");
