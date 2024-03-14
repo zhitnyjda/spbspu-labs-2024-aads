@@ -71,6 +71,6 @@ void SequenceHandler::rearrangeAndPrint()
   {
     std::cout << sums[i] << (i == (maxLen - 1) ? "\n" : " ");
   }
-  
+
   delete[] sums;
 }
