@@ -24,9 +24,18 @@ namespace anikanov {
     {
     }
 
-    std::shared_ptr< Node< T>> get_node() const;
+    std::shared_ptr< Node< T > > get_node() const;
 
     this_t &operator=(const this_t &);
+
+    Iterator< T > operator+(int n) const;
+
+    Iterator< T > operator-(int n) const;
+
+    Iterator< T > &operator+=(int n);
+
+    // Оператор -= для смещения назад
+    Iterator< T > &operator-=(int n);
 
     this_t &operator++();
     this_t operator++(int);
@@ -61,6 +70,44 @@ namespace anikanov {
   typename Iterator< T >::this_t &Iterator< T >::operator=(const typename Iterator< T >::this_t &other)
   {
     node = other.node;
+    return *this;
+  }
+
+  template<typename T>
+  Iterator< T > Iterator< T >::operator+(int n) const
+  {
+    Iterator< T > tmp = *this;
+    for (int i = 0; i < n && tmp.node != nullptr; ++i) {
+      ++tmp;
+    }
+    return tmp;
+  }
+
+  template<typename T>
+  Iterator< T > Iterator< T >::operator-(int n) const
+  {
+    Iterator< T > tmp = *this;
+    for (int i = 0; i < n && tmp.node != nullptr; ++i) {
+      --tmp;
+    }
+    return tmp;
+  }
+
+  template<typename T>
+  Iterator< T > &Iterator< T >::operator+=(int n)
+  {
+    for (int i = 0; i < n && this->node != nullptr; ++i) {
+      ++(*this);
+    }
+    return *this;
+  }
+
+  template<typename T>
+  Iterator< T > &Iterator< T >::operator-=(int n)
+  {
+    for (int i = 0; i < n && this->node != nullptr; ++i) {
+      --(*this);
+    }
     return *this;
   }
 
