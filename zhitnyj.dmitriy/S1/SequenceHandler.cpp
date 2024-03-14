@@ -45,7 +45,7 @@ void SequenceHandler::rearrangeAndPrint()
       }
       if (numIt != nullptr)
       {
-        std::cout << numIt->data << (numIt->next == nullptr ? "" : " ");
+        std::cout << numIt->data;
         if (sums[i] > std::numeric_limits<unsigned long long>::max() - numIt->data)
         {
           throw std::overflow_error("\nSum of numbers is too big.");
@@ -57,8 +57,8 @@ void SequenceHandler::rearrangeAndPrint()
     }
     std::cout << "\n";
   }
-
-  if (!maxLen && !sequences.empty())
+  
+  if (!maxLen && (*names.begin() != ""))
   {
     std::cout << "0\n";
   }
