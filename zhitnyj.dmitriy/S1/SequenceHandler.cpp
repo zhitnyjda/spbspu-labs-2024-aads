@@ -1,5 +1,6 @@
 #include "SequenceHandler.h"
 #include <iostream>
+#include <limits>
 
 void SequenceHandler::addSequence(const std::string& name, const List<unsigned long long>& sequence)
 {
