@@ -1,17 +1,28 @@
 #include "SequenceHandler.h"
 #include <iostream>
-#include <vector>
 
 void SequenceHandler::addSequence(const std::string& name, const List<unsigned long long>& sequence)
 {
-  sequences.push_back({ name, sequence });
+  names.push_back(name);
+  sequences.push_back(sequence);
+}
+
+void SequenceHandler::parseNum(const std::string& num, unsigned long long& number)
+{
+  char* end;
+  errno = 0;
+  number = std::strtoull(num.c_str(), &end, 10);
+  if (errno == ERANGE || *end != '\0')
+  {
+    throw std::overflow_error("Entered number is too big or invalid.");
+  }
 }
 
 void SequenceHandler::printSequences()
 {
-  for (const auto& pair : sequences)
+  for (auto it = names.begin(); it != names.end(); ++it)
   {
-    std::cout << pair.first << " ";
+    std::cout << *it << " ";
   }
   std::cout << std::endl;
 }
@@ -19,33 +30,53 @@ void SequenceHandler::printSequences()
 void SequenceHandler::rearrangeAndPrint()
 {
   size_t maxLen = 0;
-  for (const auto& seq : sequences)
+  auto seqIt = sequences.head;
+  while (seqIt != nullptr)
   {
-    maxLen = std::max(maxLen, seq.second.to_vector().size());
+    maxLen = std::max(maxLen, seqIt->data.size());
+    seqIt = seqIt->next;
   }
 
-  std::vector<unsigned long long> sums(maxLen, 0);
-  for (size_t level = 0; level < maxLen; ++level)
+  unsigned long long* sums = new unsigned long long[maxLen]{};
+
+  for (size_t i = 0; i < maxLen; ++i)
   {
-    for (const auto& seq : sequences)
+    seqIt = sequences.head;
+    while (seqIt != nullptr)
     {
-      auto elements = seq.second.to_vector();
-      if (level < elements.size())
+      List<unsigned long long>& currentSeq = seqIt->data;
+      auto numIt = currentSeq.head;
+      size_t count = 0;
+
+      while (count < i && numIt != nullptr)
       {
-        std::cout << elements[level] << " ";
-        sums[level] += elements[level];
+        numIt = numIt->next;
+        count++;
       }
+      if (numIt != nullptr)
+      {
+        std::cout << numIt->data << " ";
+        if (sums[i] > std::numeric_limits<unsigned long long>::max() - numIt->data)
+        {
+          throw std::overflow_error("\nSum of numbers is too big.");
+        }
+        sums[i] += numIt->data;
+      }
+
+      seqIt = seqIt->next;
     }
-    std::cout << std::endl;
+    std::cout << "\n";
   }
 
-  for (auto sum : sums)
+  if (!maxLen)
   {
-    std::cout << sum << " ";
+    std::cout << "0";
   }
 
-  if (sums.empty())
-    std::cout << "0";
+  for (size_t i = 0; i < maxLen; ++i)
+  {
+    std::cout << sums[i] << (i == (maxLen - 1) ? "" : " ");
+  }
 
-  std::cout << std::endl;
+  delete[] sums;
 }
