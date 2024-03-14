@@ -29,6 +29,7 @@ void SequenceHandler::rearrangeAndPrint()
 
   unsigned long long* sums = new unsigned long long[maxLen]{};
 
+  int s = 0;
   for (size_t i = 0; i < maxLen; ++i)
   {
     seqIt = sequences.head;
@@ -45,6 +46,8 @@ void SequenceHandler::rearrangeAndPrint()
       }
       if (numIt != nullptr)
       {
+        std::cout << (s ? " " : "");
+        s = 1;
         std::cout << numIt->data;
         if (sums[i] > std::numeric_limits<unsigned long long>::max() - numIt->data)
         {
@@ -56,8 +59,9 @@ void SequenceHandler::rearrangeAndPrint()
       seqIt = seqIt->next;
     }
     std::cout << "\n";
+    s = 0;
   }
-  
+
   if (!maxLen && (*names.begin() != ""))
   {
     std::cout << "0\n";
@@ -67,6 +71,6 @@ void SequenceHandler::rearrangeAndPrint()
   {
     std::cout << sums[i] << (i == (maxLen - 1) ? "\n" : " ");
   }
-
+  
   delete[] sums;
 }
