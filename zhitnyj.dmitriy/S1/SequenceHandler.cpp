@@ -58,7 +58,7 @@ void SequenceHandler::rearrangeAndPrint()
     std::cout << "\n";
   }
 
-  if (!maxLen)
+  if (!maxLen && !sequences.empty())
   {
     std::cout << "0\n";
   }
