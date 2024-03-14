@@ -14,7 +14,7 @@ void SequenceHandler::printSequences()
   {
     std::cout << *it << (it + 1 == names.end() ? "" : " ");
   }
-  std::cout << std::endl;
+  std::cout << "\n";
 }
 
 void SequenceHandler::rearrangeAndPrint()
