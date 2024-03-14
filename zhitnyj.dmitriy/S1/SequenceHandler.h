@@ -3,15 +3,21 @@
 
 #include "List.h"
 #include <string>
-#include <map>
+#include <iostream>
 #include <sstream>
+#include <stdexcept>
 
 class SequenceHandler
 {
-    std::vector<std::pair<std::string, List<unsigned long long>>> sequences;
+private:
+    List<std::string> names;
+    List<List<unsigned long long>> sequences;
 
 public:
+    SequenceHandler() = default;
+
     void addSequence(const std::string& name, const List<unsigned long long>& sequence);
+    void parseNum(const std::string& num, unsigned long long& number);
     void printSequences();
     void rearrangeAndPrint();
 };
