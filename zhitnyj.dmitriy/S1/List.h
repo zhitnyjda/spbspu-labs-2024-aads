@@ -85,6 +85,16 @@ public:
           return *this;
         }
 
+        Iterator operator+(int n) const
+        {
+          Iterator temp = *this;
+          for (int i = 0; i < n && temp.node != nullptr; ++i)
+          {
+            temp.node = temp.node->next;
+          }
+          return temp;
+        }
+
         Iterator operator++(int)
         {
           Iterator tmp = *this;
