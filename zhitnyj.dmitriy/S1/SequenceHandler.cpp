@@ -60,12 +60,12 @@ void SequenceHandler::rearrangeAndPrint()
 
   if (!maxLen)
   {
-    std::cout << "0";
+    std::cout << "0\n";
   }
 
   for (size_t i = 0; i < maxLen; ++i)
   {
-    std::cout << sums[i] << (i == (maxLen - 1) ? "" : " ");
+    std::cout << sums[i] << (i == (maxLen - 1) ? "\n" : " ");
   }
 
   delete[] sums;
