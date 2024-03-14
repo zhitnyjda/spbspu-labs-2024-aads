@@ -18,6 +18,9 @@ int main()
       List<unsigned long long> sequence;
       unsigned long long number;
 
+      if (name == "_EOF")
+        break;
+
       while (iss >> number)
       {
         sequence.push_back(number);
@@ -31,13 +34,13 @@ int main()
   }
   catch (const std::overflow_error& err)
   {
-    std::cout << err.what() << std::endl;
+    std::cerr << err.what() << std::endl;
 
     return 1;
   }
   catch (const std::exception& err)
   {
-    std::cout << err.what() << std::endl;
+    std::cerr << err.what() << std::endl;
 
     return 1;
   }
