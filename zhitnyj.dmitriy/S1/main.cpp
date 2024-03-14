@@ -16,12 +16,10 @@ int main()
       iss >> name;
 
       List<unsigned long long> sequence;
-      std::string num;
       unsigned long long number;
 
-      while (iss >> num)
+      while (iss >> number)
       {
-        handler.parseNum(num, number);
         sequence.push_back(number);
       }
 
