@@ -16,15 +16,13 @@ int main()
       iss >> name;
 
       List<unsigned long long> sequence;
+      std::string num;
       unsigned long long number;
 
-      while (iss >> number)
+      while (iss >> num)
       {
-        sequence.push_front(number);
-      }
-      if (iss.fail() && errno == 34)
-      {
-        throw std::overflow_error("Entered number was to big!");
+        handler.parseNum(num, number);
+        sequence.push_back(number);
       }
 
       handler.addSequence(name, sequence);
