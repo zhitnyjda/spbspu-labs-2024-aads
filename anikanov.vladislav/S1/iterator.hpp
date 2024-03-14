@@ -24,6 +24,8 @@ namespace anikanov {
     {
     }
 
+    std::shared_ptr< Node< T>> get_node() const;
+
     this_t &operator=(const this_t &);
 
     this_t &operator++();
@@ -47,6 +49,12 @@ namespace anikanov {
   Iterator< T >::Iterator()
   {
     node = nullptr;
+  }
+
+  template<typename T>
+  std::shared_ptr< Node< T>> Iterator< T >::get_node() const
+  {
+    return node;
   }
 
   template<typename T>
