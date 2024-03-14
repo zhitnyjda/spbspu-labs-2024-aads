@@ -51,6 +51,7 @@ void SequenceHandler::rearrangeAndPrint()
         std::cout << numIt->data;
         if (sums[i] > std::numeric_limits<unsigned long long>::max() - numIt->data)
         {
+          delete[] sums;
           throw std::overflow_error("\nSum of numbers is too big.");
         }
         sums[i] += numIt->data;
@@ -62,7 +63,7 @@ void SequenceHandler::rearrangeAndPrint()
     s = 0;
   }
 
-  if (!maxLen && (*names.begin() != ""))
+  if (!maxLen)
   {
     std::cout << "0\n";
   }
