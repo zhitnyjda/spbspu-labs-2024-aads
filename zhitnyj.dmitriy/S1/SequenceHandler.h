@@ -17,7 +17,6 @@ public:
     SequenceHandler() = default;
 
     void addSequence(const std::string& name, const List<unsigned long long>& sequence);
-    void parseNum(const std::string& num, unsigned long long& number);
     void printSequences();
     void rearrangeAndPrint();
 };
