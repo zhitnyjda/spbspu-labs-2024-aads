@@ -1,35 +1,53 @@
 #include <iostream>
+#include <vector>
+#include <string>
+#include <sstream>
 #include "list.hpp"
-#include "inputlist.hpp"
-#include "output.hpp"
 
-int main()
-{
-  using namespace Panov;
-  size_t size = 0;
-  size_t max_size_list = 0;
-  std::pair< std::string, Panov::List< unsigned long long >* >* pairs = nullptr;
-  try
-  {
-    pairs = inputList(std::cin, size, max_size_list);
-    output(std::cout, pairs, size, max_size_list);
+int main() {
+  Panov::List<std::pair<std::string, std::vector<int>>> sequences;
+
+  std::string line;
+  while (std::getline(std::cin, line)) {
+    std::istringstream iss(line);
+    std::string name;
+    iss >> name;
+    if (name.empty())
+      break;
+
+    std::vector<int> sequence;
+    int num;
+    while (iss >> num)
+      sequence.push_back(num);
+
+    sequences.push_back({ name, sequence });
   }
-  catch (const std::invalid_argument& e)
-  {
-    std::cerr << e.what() << '\n';
-    freeMemory(pairs, size);
-    return 1;
+
+  for (const auto& seq : sequences)
+    std::cout << seq.first << ' ';
+  std::cout << std::endl;
+
+  size_t maxLength = 0;
+  for (const auto& seq : sequences)
+    maxLength = std::max(maxLength, seq.second.size());
+
+  for (size_t i = 0; i < maxLength; ++i) {
+    for (const auto& seq : sequences) {
+      if (i < seq.second.size())
+        std::cout << seq.second[i] << ' ';
+    }
+    std::cout << std::endl;
   }
-  catch (const std::logic_error& e)
-  {
-    std::cout << 0 << '\n';
-    return 0;
+
+  for (size_t i = 0; i < maxLength; ++i) {
+    int sum = 0;
+    for (const auto& seq : sequences) {
+      if (i < seq.second.size())
+        sum += seq.second[i];
+    }
+    std::cout << sum << ' ';
   }
-  catch (const std::exception& e)
-  {
-    std::cerr << e.what() << '\n';
-    return 1;
-  }
-  std::cout << '\n';
-  freeMemory(pairs, size);
+  std::cout << std::endl;
+
+  return 0;
 }
