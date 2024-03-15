@@ -30,17 +30,20 @@ int main()
     }
 
     handler.printSequences();
-    handler.rearrangeAndPrint();
+    if (handler.rearrangeAndPrint())
+    {
+      return 1;
+    }
   }
   catch (const std::overflow_error& err)
   {
-    std::cerr << err.what() << std::endl;
+    std::cerr << err.what() << "\n";
 
     return 1;
   }
   catch (const std::exception& err)
   {
-    std::cerr << err.what() << std::endl;
+    std::cerr << err.what() << "\n";
 
     return 1;
   }
