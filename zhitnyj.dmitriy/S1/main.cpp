@@ -33,7 +33,7 @@ int main()
   {
     std::cerr << err.what() << "\n";
 
-    exit(1);
+    return 1;
   }
   catch (const std::exception& err)
   {
