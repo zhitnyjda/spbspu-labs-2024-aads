@@ -11,15 +11,20 @@ namespace lisitsyna
   class List
   {
   public:
-    List() = default;
-    ~List();
+    Node<T>* head;
+    Node<T>* tail;
+    size_t size;
+    List() : head(nullptr), tail(nullptr), size(0) {}
+    ~List()
+    {
+      clear();
+    }
 
-    T& operator[](const int index);
+    T& operator[](const size_t index);
     void popFront();
-    void pushBack(T data);
-    void clearList();
-    void pushFront(T data);
-    void insert(T data, int index);
+    void pushBack(T& data);
+    void clear();
+    void pushFront(const T& data);
     void popBack();
     size_t GetSize();
     bool isEmpty();
@@ -71,19 +76,15 @@ void lisitsyna::List<T>::clearList()
 }
 
 template<typename T>
-T& lisitsyna::List<T>::operator[](const int index)
+T& lisitsyna::List<T>::operator[](const size_t index) 
 {
-  int counter = 0;
-  Node<T>* current = this->head;
-  while (current != nullptr)
-  {
-    if (counter == index)
-    {
-      return current->data;
-    }
-    current = current->Next;
-    counter++;
-  }
+     if (index >= size) throw std::out_of_range("Index out of bounds");
+     Node<T>* current = head;
+     for (size_t i = 0; i < index; i++) {
+         current = current->next;
+     }
+     return current->data;
+ }
 }
 
 template<typename T>
