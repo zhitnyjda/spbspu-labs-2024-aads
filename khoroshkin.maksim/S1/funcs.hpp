@@ -25,7 +25,7 @@ void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, L
     throw std::logic_error("Empty list");
   }
 
-  for (auto it = allPairs.cbegin(); it != allPairs.cend(); ++it)
+  for (auto it = allPairs.begin(); it != allPairs.end(); ++it)
   {
     out << (*it).first;
     allPairs.next(it) == allPairs.end() ? std::cout << "\n" : std::cout << " ";
@@ -38,7 +38,7 @@ void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, L
 
   for (int i = 0; i < maxLength; i++)
   {
-    for (auto it = allPairs.cbegin(); it != allPairs.cend(); it++)
+    for (auto it = allPairs.begin(); it != allPairs.end(); it++)
     {
       if ((*it).second.getSize() > i)
       {
@@ -52,7 +52,7 @@ void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, L
   for (int i = 0; i < maxLength; i++)
   {
     unsigned long long sum = 0;
-    for (auto it = allPairs.cbegin(); it != allPairs.cend(); it++)
+    for (auto it = allPairs.begin(); it != allPairs.end(); it++)
     {
       if ((*it).second.getSize() > i)
       {
@@ -65,7 +65,7 @@ void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, L
     }
     sumList.push_back(sum);
   }
-  for (auto it = sumList.cbegin(); it != sumList.cend(); ++it)
+  for (auto it = sumList.begin(); it != sumList.end(); ++it)
   {
     out << *it;
     (sumList.next(it) == sumList.end()) ? out << "\n" : out << " ";
