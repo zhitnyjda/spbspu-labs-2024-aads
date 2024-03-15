@@ -20,7 +20,7 @@ void SequenceHandler::printSequences()
   }
 }
 
-int SequenceHandler::rearrangeAndPrint()
+void SequenceHandler::rearrangeAndPrint()
 {
   size_t maxLen = 0;
   auto seqIt = sequences.head;
@@ -55,10 +55,7 @@ int SequenceHandler::rearrangeAndPrint()
         if (sums[i] > std::numeric_limits<unsigned long long>::max() - numIt->data)
         {
           delete[] sums;
-
-          std::cerr << "\nSum of numbers is too big.";
-
-          return 1;
+          throw std::overflow_error("\nSum of numbers is too big.");
         }
         sums[i] += numIt->data;
       }
@@ -80,6 +77,4 @@ int SequenceHandler::rearrangeAndPrint()
   }
 
   delete[] sums;
-
-  return 0;
 }
