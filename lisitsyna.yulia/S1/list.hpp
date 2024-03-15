@@ -76,19 +76,19 @@ void lisitsyna::List<T>::clearList()
 }
 
 template<typename T>
-T& lisitsyna::List<T>::operator[](const size_t index) 
+T& lisitsyna::List<T>::operator[](const size_t index)
 {
-     if (index >= size) throw std::out_of_range("Index out of bounds");
-     Node<T>* current = head;
-     for (size_t i = 0; i < index; i++) {
-         current = current->next;
-     }
-     return current->data;
- }
+  if (index >= size) throw std::out_of_range("Index out of bounds");
+  Node<T>* current = head;
+  for (size_t i = 0; i < index; i++)
+  {
+    current = current->next;
+  }
+  return current->data;
 }
 
 template<typename T>
-void lisitsyna::List<T>::pushFront(T data)
+void lisitsyna::List<T>::pushFront(T& data)
 {
   Node<T>* node = new Node(data);
   node->next = head;
@@ -113,24 +113,6 @@ void lisitsina::List<T>::popBack(T data)
   tail = node;
 }
 
-template<typename T>
-void lisitsyna::List<T>::insert(T data, int index)
-{
-  if (index == 0)
-  {
-    push_front(data);
-  }
-  else
-  {
-    Node<T>* previous = this->head;
-    for (int i = 0; i < index - 1; i++)
 
-    {
-      previous = previous->Next;
-    }
-    Node<T>* newNode = new Node<T>(data, previous->Next);
-    previous->Next = newNode;
-    size++;
-  }
 }
 #endif
