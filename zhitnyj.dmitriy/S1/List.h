@@ -80,7 +80,11 @@ public:
 
     void swap(List& other)
     {
-      std::swap(head, other.head);
+      auto temp = head;
+
+      head = other.head;
+      
+      other.head = temp;
     }
 
     void fill(const T& value, size_t n)
