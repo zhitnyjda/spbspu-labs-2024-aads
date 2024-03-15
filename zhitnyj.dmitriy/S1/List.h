@@ -24,6 +24,180 @@ public:
     {
     }
 
+    List(size_t count, const T& value)
+    {
+      for (size_t i = 0; i < count; ++i)
+      {
+        push_back(value);
+      }
+    }
+
+    List(std::initializer_list<T> init)
+    {
+      for (const auto& value : init)
+      {
+        push_back(value);
+      }
+    }
+
+    List(const List& other)
+    {
+      for (auto node = other.head; node != nullptr; node = node->next)
+      {
+        push_back(node->data);
+      }
+    }
+
+    List& operator=(const List& other)
+    {
+      if (this != &other)
+      {
+        for (auto node = other.head; node != nullptr; node = node->next)
+        {
+          push_back(node->data);
+        }
+      }
+      return *this;
+    }
+
+    void push(T data)
+    {
+      head = std::make_shared<Node>(data, head);
+    }
+
+    void pop()
+    {
+      if (head != nullptr)
+      {
+        head = head->next;
+      }
+    }
+
+    void clear()
+    {
+      head = nullptr;
+    }
+
+    void swap(List& other)
+    {
+      std::swap(head, other.head);
+    }
+
+    void fill(const T& value, size_t n)
+    {
+      clear();
+      for (size_t i = 0; i < n; ++i)
+      {
+        push_back(value);
+      }
+    }
+
+    void splice(List<T>& other)
+    {
+      if (other.head == nullptr)
+      {
+        return;
+      }
+
+      if (head == nullptr)
+      {
+        head = other.head;
+      }
+      else
+      {
+        auto current = head;
+        while (current->next != nullptr)
+        {
+          current = current->next;
+        }
+        current->next = other.head;
+      }
+      other.head = nullptr;
+    }
+
+    List(List&& other) noexcept: head(std::move(other.head))
+    {
+      other.head = nullptr;
+    }
+
+    List& operator=(List&& other) noexcept
+    {
+      if (this != &other)
+      {
+        head = std::move(other.head);
+        other.head = nullptr;
+      }
+      return *this;
+    }
+
+    List<T>& operator[](size_t index)
+    {
+      auto current = head;
+      for (size_t i = 0; i < index; ++i)
+      {
+        if (!current) throw std::out_of_range("Index is out of range.");
+        current = current->next;
+      }
+      return current->data;
+    }
+
+    void assign(size_t count, const T& value)
+    {
+      clear();
+      fill(value, count);
+    }
+
+    void insert(size_t index, const T& value)
+    {
+      if (index == 0 || !head)
+      {
+        head = std::make_shared<Node>(value, head);
+        return;
+      }
+
+      auto current = head;
+      size_t currentIndex = 0;
+      while (current->next && currentIndex < index - 1)
+      {
+        current = current->next;
+        ++currentIndex;
+      }
+      current->next = std::make_shared<Node>(value, current->next);
+    }
+
+    void erase(const T& value)
+    {
+      while (head && head->data == value)
+      {
+        head = head->next;
+      }
+      auto current = head;
+      while (current && current->next)
+      {
+        if (current->next->data == value)
+        {
+          current->next = current->next->next;
+        }
+        else
+        {
+          current = current->next;
+        }
+      }
+    }
+
+    void reverse()
+    {
+      std::shared_ptr<Node> prev = nullptr, current = head, next = nullptr;
+      while (current != nullptr)
+      {
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+      }
+      head = prev;
+    }
+
     int empty() const
     {
       return head == nullptr;
@@ -98,6 +272,15 @@ public:
             temp.node = temp.node->next;
           }
           return temp;
+        }
+
+        Iterator& operator+=(int n)
+        {
+          for (int i = 0; i < n && node != nullptr; i++)
+          {
+            node = node->next;
+          }
+          return *this;
         }
 
         Iterator operator++(int)
