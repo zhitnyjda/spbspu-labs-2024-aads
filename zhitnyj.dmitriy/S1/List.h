@@ -81,9 +81,7 @@ public:
     void swap(List& other)
     {
       auto temp = head;
-
       head = other.head;
-      
       other.head = temp;
     }
 
