@@ -35,6 +35,8 @@ namespace nikiforov
     void clear();
 
     void remove(T value);
+    template<class UnaryPredicate>
+    void remove_if(UnaryPredicate p);
 
     Iterator< T > begin();
     Iterator< T > end();
@@ -166,16 +168,16 @@ size_t nikiforov::List<T>::size()
 template<typename T>
 void nikiforov::List<T>::push_front(T data)
 {
-  Node<T>* nd = new Node<T>(data);
+  Node<T>* nData = new Node<T>(data);
   if (head == nullptr)
   {
-    head = nd;
+    head = nData;
   }
   else
   {
     Node<T>* actual = head;
-    nd->pNext = actual;
-    head = nd;
+    nData->pNext = actual;
+    head = nData;
   }
   size_l++;
 }
@@ -183,10 +185,10 @@ void nikiforov::List<T>::push_front(T data)
 template<typename T>
 void nikiforov::List<T>::push_back(T data)
 {
-  Node<T>* nd = new Node<T>(data);
+  Node<T>* nData = new Node<T>(data);
   if (head == nullptr)
   {
-    head = nd;
+    head = nData;
   }
   else
   {
@@ -195,7 +197,7 @@ void nikiforov::List<T>::push_back(T data)
     {
       actual = actual->pNext;
     }
-    actual->pNext = nd;
+    actual->pNext = nData;
   }
   size_l++;
 }
@@ -203,6 +205,10 @@ void nikiforov::List<T>::push_back(T data)
 template<typename T>
 void nikiforov::List<T>::pop_front()
 {
+  if (is_empty())
+  {
+    throw std::logic_error("Empty list!");
+  }
   Node<T>* actual = head;
   head = head->pNext;
   delete actual;
@@ -212,12 +218,19 @@ void nikiforov::List<T>::pop_front()
 template<typename T>
 void nikiforov::List<T>::pop_back()
 {
+  if (is_empty())
+  {
+    throw std::logic_error("Empty list!");
+  }
   Node<T>* actual = head;
+  Node<T>* todel = head;
   for (size_t i = 0; i < (size_l - 1); i++)
   {
-    actual = actual->pNext;
+    actual = todel;
+    todel = actual->pNext;
   }
-  delete actual;
+  actual->pNext = nullptr;
+  delete todel;
   size_l--;
 }
 
@@ -284,6 +297,38 @@ void nikiforov::List<T>::remove(T value)
   }
 }
 
+template< typename T >
+template< class UnaryPredicate>
+void nikiforov::List< T >::remove_if(UnaryPredicate p)
+{
+  Node<T>* actial = head;
+  Node<T>* before_actial = head;
+  while (actial)
+  {
+    if ((p(actial->data)) && (actial == head))
+    {
+      pop_front();
+      actial = head;
+      before_actial = head;
+      continue;
+    }
+    else if ((p(actial->data)) && (actial->pNext == nullptr))
+    {
+      pop_back();
+      break;
+    }
+    else if ((p(actial->data)) && (actial != head))
+    {
+      before_actial->pNext = actial->pNext;
+      delete actial;
+      actial = before_actial;
+      size_l--;
+    }
+    before_actial = actial;
+    actial = before_actial->pNext;
+  }
+}
+
 template<typename T>
 nikiforov::Iterator<T> nikiforov::List<T>::begin()
 {
@@ -295,4 +340,5 @@ nikiforov::Iterator<T> nikiforov::List<T>::end()
 {
   return Iterator<T>(nullptr);
 }
+
 #endif

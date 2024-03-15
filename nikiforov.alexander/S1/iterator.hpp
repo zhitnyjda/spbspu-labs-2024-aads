@@ -80,8 +80,9 @@ nikiforov::Iterator<T>& nikiforov::Iterator<T>::operator++()
 template<typename T>
 nikiforov::Iterator<T> nikiforov::Iterator<T>::operator++(int)
 {
-  pNode = pNode->pNext;
-  return *this;
+  Iterator<T> iter = *this;
+  ++(*this);
+  return iter;
 }
 
 
