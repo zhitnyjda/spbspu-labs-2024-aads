@@ -80,4 +80,6 @@ int SequenceHandler::rearrangeAndPrint()
   }
 
   delete[] sums;
+
+  return 0;
 }
