@@ -1,19 +1,17 @@
 #include <iostream>
 #include <utility>
-#include <limits>
 #include "list.hpp"
 #include "inputFunctions.hpp"
+#include "outputFunctions.hpp"
 
 int main()
 {
-  std::string name;
-  std::string seq;
   using pair_list = redko::List< std::pair< std::string, redko::List< unsigned long long > > >;
   pair_list seqs{};
-
   pair_list::iterator currSeq = seqs.beforeBegin();
-
   unsigned long long value = 0;
+  std::string seq;
+  std::string name;
   while (!std::cin.eof())
   {
     std::getline(std::cin, seq);
@@ -42,97 +40,26 @@ int main()
       currSeq++;
       std::cout << (currSeq == seqs.end() ? '\n' : ' ');
     }
+    redko::printElementsInOrder(std::cout, seqs);
 
-    bool allWasOutputed = false;
-    size_t elemNum = 0;
-    currSeq = seqs.begin();
-    while (!allWasOutputed)
+    redko::List< unsigned long long > * sums = nullptr;
+    try
     {
-      allWasOutputed = true;
-      while (currSeq != seqs.end())
-      {
-        redko::List< unsigned long long >::iterator currElem = currSeq->second.begin();
-        size_t i = 0;
-        while (i < elemNum && currElem != currSeq->second.end())
-        {
-          currElem++;
-          i++;
-        }
-        if (currElem != currSeq->second.end())
-        {
-          std::cout << *currElem;
-          pair_list::iterator nextSeq = currSeq;
-          bool isNext = false;
-          while (nextSeq != nullptr && ++nextSeq != nullptr && !isNext)
-          {
-            size_t i = 0;
-            redko::List< unsigned long long >::iterator nextElem = nextSeq->second.begin();
-            while (i < elemNum && nextElem != nextSeq->second.end())
-            {
-              nextElem++;
-              i++;
-            }
-            if (nextElem != nextSeq->second.end())
-            {
-              isNext = true;
-            }
-          }
-          std::cout << (isNext ? ' ' : '\n');
-          allWasOutputed = false;
-        }
-        currSeq++;
-      }
-      elemNum++;
-      currSeq = seqs.begin();
+      sums = redko::calculateSums(seqs);
+    }
+    catch (const std::overflow_error & e)
+    {
+      std::cerr << e.what() << '\n';
+      return 1;
     }
 
-    redko::List< unsigned long long > sums{};
-    redko::List< unsigned long long >::iterator sumNum = sums.beforeBegin();
-    pair_list::iterator prevSeq = seqs.beforeBegin();
-    while (!seqs.isEmpty())
-    {
-      sums.pushBack(0);
-      sumNum++;
-      currSeq = seqs.begin();
-      prevSeq = seqs.beforeBegin();
-
-      while (currSeq != seqs.end())
-      {
-        if (!(currSeq->second.isEmpty()))
-        {
-          if (*(currSeq->second.begin()) > std::numeric_limits< unsigned long long >::max() - *sumNum)
-          {
-            std::cerr << "Error: unable to calculate the sum due to overflow\n";
-            return 1;
-          }
-          *sumNum += *(currSeq->second.begin());
-          currSeq->second.popFront();
-          if (currSeq->second.isEmpty())
-          {
-            currSeq = seqs.eraseAfter(prevSeq);
-            currSeq++;
-          }
-          else
-          {
-            currSeq++;
-            prevSeq++;
-          }
-        }
-        else
-        {
-          currSeq = seqs.eraseAfter(prevSeq);
-          currSeq++;
-        }
-      }
-    }
-
-    redko::List< unsigned long long >::iterator currSum = sums.begin();
-    while (currSum != sums.end())
+    redko::List< unsigned long long >::iterator currSum = sums->begin();
+    while (currSum != sums->end())
     {
       std::cout << *currSum;
-      std::cout << (++currSum != sums.end() ? ' ' : '\n');
+      std::cout << (++currSum != sums->end() ? ' ' : '\n');
     }
+    delete sums;
   }
-
   return 0;
 }

@@ -93,7 +93,7 @@ namespace redko
     const_iterator end() const noexcept;
     const_iterator cend() const noexcept;
 
-    bool isEmpty();
+    bool isEmpty() const;
 
     void clear();
     iterator insertAfter(iterator pos, const T & value);
@@ -101,6 +101,8 @@ namespace redko
     template< class... Args >
     iterator emplaceAfter(iterator pos, Args &&... args);
     iterator eraseAfter(iterator pos);
+    void pushFront(const T & value);
+    void pushFront(T && value);
     void pushBack(const T & value);
     void pushBack(T && value);
     void popFront();
@@ -392,7 +394,7 @@ redko::List< T >::Iterator< true > redko::List< T >::cend() const noexcept
 }
 
 template< typename T >
-bool redko::List< T >::isEmpty()
+bool redko::List< T >::isEmpty() const
 {
   return head_.next == nullptr;
 }
@@ -440,6 +442,20 @@ redko::List< T >::Iterator< false > redko::List< T >::eraseAfter(Iterator< false
     delete p;
   }
   return pos++;
+}
+template< typename T >
+void redko::List< T >::pushFront(const T & value)
+{
+  ListElem< T > * tmp = head_.next;
+  head_.next = new ListElem< T >(value);
+  head_.next->next = tmp;
+}
+template< typename T >
+void redko::List< T >::pushFront(T && value)
+{
+  ListElem< T > * tmp = head_.next;
+  head_.next = new ListElem< T >(value);
+  head_.next->next = tmp;
 }
 template< typename T >
 void redko::List< T >::pushBack(const T & value)
