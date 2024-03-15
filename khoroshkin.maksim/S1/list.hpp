@@ -53,22 +53,21 @@ namespace khoroshkin
     bool operator==(List< T > & rhs);
     bool operator!=(List< T > & rhs);
     bool operator<(List< T > & rhs);
-    /*bool operator<=(List< T > & rhs);
     bool operator>(List< T > & rhs);
-    bool operator>=(List< T > & rhs);*/
+    bool operator<=(List< T > & rhs);
+    bool operator>=(List< T > & rhs);
 
     iterator< T > insert_after(iterator< T > pos, const T & value);
     iterator< T > insert_after(iterator< T > pos, size_t count, const T & value);
     iterator< T > erase_after(iterator< T > pos);
     iterator< T > erase_after(iterator< T > first, iterator< T > last);
-    //template< class... Args >
-    //ListIterator< T > emplace_after(ListIterator< T > pos, Args &&... args);
+    template< class... Args >
+    iterator< T > emplace_after(iterator< T > pos, Args &&... args);
 
     iterator< T > begin();
     iterator< T > end();
     const_iterator< T > cbegin();
     const_iterator< T > cend();
-
 
     iterator< T > next(iterator< T > it);
   private:
@@ -366,6 +365,7 @@ khoroshkin::iterator< T > khoroshkin::List< T >::insert_after(iterator< T > pos,
   Node< T > * newNode = new Node< T >(value);
   newNode->pNext = subhead->pNext;
   subhead->pNext = newNode;
+  size++;
   return newNode;
 }
 
@@ -501,7 +501,44 @@ bool khoroshkin::List< T >::operator<(khoroshkin::List< T > & rhs)
     it1++;
     it2++;
   }
+  if (this->getSize() < rhs.getSize())
+  {
+    return true;
+  }
   return false;
+}
+
+template< typename T >
+bool khoroshkin::List< T >::operator>(khoroshkin::List< T > & rhs)
+{
+  auto it1 = this->begin();
+  auto it2 = rhs.begin();
+  while (it1 != this->end() && it2 != rhs.end())
+  {
+    if (*it1 > *it2)
+    {
+      return true;
+    }
+    it1++;
+    it2++;
+  }
+  if (this->getSize() > rhs.getSize())
+  {
+    return true;
+  }
+  return false;
+}
+
+template< typename T >
+bool khoroshkin::List< T >::operator>=(khoroshkin::List< T > & rhs)
+{
+  return !(*this < rhs);
+}
+
+template< typename T >
+bool khoroshkin::List< T >::operator<=(khoroshkin::List< T > & rhs)
+{
+  return !(*this > rhs);
 }
 
 template< typename T >
@@ -539,11 +576,11 @@ void khoroshkin::List< T >::merge(khoroshkin::List< T > & other)
   other.clear();
 }
 
-/*template< typename T >
+template< typename T >
 template< class... Args >
-khoroshkin::ListIterator< T > khoroshkin::List< T >::emplace_after(ListIterator< T > pos, Args &&... args)
+khoroshkin::iterator< T > khoroshkin::List< T >::emplace_after(iterator< T > pos, Args &&... args)
 {
   return insert_after(pos, std::forward< Args >(args)...);
-}*/
+}
 
 #endif

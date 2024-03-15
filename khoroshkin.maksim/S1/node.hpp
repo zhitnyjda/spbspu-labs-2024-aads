@@ -14,12 +14,12 @@ namespace khoroshkin
   };
 }
 
-template < typename T >
+template< typename T >
 khoroshkin::Node< T >::Node(T data, khoroshkin::Node< T > * pNext) :
   data(data), pNext(pNext)
 {}
 
-template < typename T>
+template< typename T>
 khoroshkin::Node< T >::Node(const Node< T > & obj)
 {
   data = obj.data;
