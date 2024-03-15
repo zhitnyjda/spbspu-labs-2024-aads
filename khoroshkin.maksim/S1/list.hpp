@@ -11,6 +11,11 @@
 namespace khoroshkin
 {
   template< typename T >
+  using iterator = ListIterator< T, false >;
+  template< typename T >
+  using const_iterator = ListIterator< T, true >;
+
+  template< typename T >
   class List
   {
   public:
@@ -24,21 +29,22 @@ namespace khoroshkin
     List< T > & operator=(List && obj);
 
     void assign(size_t count, const T & value);
-    void assign(ListIterator< T > first, ListIterator< T > last);
+    void assign(const_iterator< T > first, const_iterator< T > last);
     void assign(std::initializer_list< T > ilist);
 
     void push_back(T data);
     void pop_front();
-    Node< T > * front();
+    T & front();
     void clear();
     int getSize();
     bool isEmpty();
     T & operator[](const size_t index);
     void swap(List< T > & other);
     void reverse();
-    void splice_after(ListIterator< T > pos, List< T > & other);
+    void splice_after(iterator< T > pos, List< T > & other);
     void unique();
     void sort();
+    void merge(List< T > & other);
 
     void remove(const T & value, bool onlyFirst = false);
     template< typename UnaryPredicate >
@@ -51,15 +57,20 @@ namespace khoroshkin
     bool operator>(List< T > & rhs);
     bool operator>=(List< T > & rhs);*/
 
-    ListIterator< T > insert_after(ListIterator< T > pos, const T & value);
-    ListIterator< T > insert_after(ListIterator< T > pos, size_t count, const T & value);
-    ListIterator< T > erase_after(ListIterator< T > pos);
-    ListIterator< T > erase_after(ListIterator< T > first, ListIterator< T > last);
+    iterator< T > insert_after(iterator< T > pos, const T & value);
+    iterator< T > insert_after(iterator< T > pos, size_t count, const T & value);
+    iterator< T > erase_after(iterator< T > pos);
+    iterator< T > erase_after(iterator< T > first, iterator< T > last);
+    //template< class... Args >
+    //ListIterator< T > emplace_after(ListIterator< T > pos, Args &&... args);
 
-    ListIterator< T > begin();
-    ListIterator< T > end();
+    iterator< T > begin();
+    iterator< T > end();
+    const_iterator< T > cbegin();
+    const_iterator< T > cend();
 
-    ListIterator< T > next(ListIterator< T > it);
+
+    iterator< T > next(iterator< T > it);
   private:
     int size;
     Node< T > * head;
@@ -156,7 +167,7 @@ void khoroshkin::List< T >::assign(size_t count, const T & value)
 }
 
 template< typename T >
-void khoroshkin::List< T >::assign(khoroshkin::ListIterator< T > first, khoroshkin::ListIterator< T > last)
+void khoroshkin::List< T >::assign(const_iterator< T > first, const_iterator< T > last)
 {
   this->clear();
   while (first != last)
@@ -196,7 +207,7 @@ void khoroshkin::List< T >::push_back(T data)
 }
 
 template< typename T >
-khoroshkin::ListIterator< T > khoroshkin::List< T >::next(khoroshkin::ListIterator< T > it)
+khoroshkin::iterator< T > khoroshkin::List< T >::next(iterator< T > it)
 {
   return ++it;
 }
@@ -228,9 +239,9 @@ void khoroshkin::List< T >::pop_front()
 }
 
 template< typename T >
-khoroshkin::Node< T > * khoroshkin::List< T >::front()
+T & khoroshkin::List< T >::front()
 {
-  return head;
+  return head->data;
 }
 
 template< typename T >
@@ -273,7 +284,7 @@ void khoroshkin::List< T >::swap(khoroshkin::List< T > & other)
 }
 
 template< typename T >
-khoroshkin::ListIterator< T > khoroshkin::List< T >::begin()
+khoroshkin::iterator< T > khoroshkin::List< T >::begin()
 {
   if (isEmpty())
   {
@@ -283,7 +294,23 @@ khoroshkin::ListIterator< T > khoroshkin::List< T >::begin()
 }
 
 template< typename T >
-khoroshkin::ListIterator< T > khoroshkin::List< T >::end()
+khoroshkin::iterator< T > khoroshkin::List< T >::end()
+{
+  return nullptr;
+}
+
+template< typename T >
+khoroshkin::const_iterator< T > khoroshkin::List< T >::cbegin()
+{
+  if (isEmpty())
+  {
+    return end();
+  }
+  return this->head;
+}
+
+template< typename T >
+khoroshkin::const_iterator< T > khoroshkin::List< T >::cend()
 {
   return nullptr;
 }
@@ -333,7 +360,7 @@ void khoroshkin::List< T >::remove_if(UnaryPredicate p)
 }
 
 template< typename T >
-khoroshkin::ListIterator< T > khoroshkin::List< T >::insert_after(ListIterator< T > pos, const T & value)
+khoroshkin::iterator< T > khoroshkin::List< T >::insert_after(iterator< T > pos, const T & value)
 {
   Node< T > * subhead = pos.node;
   Node< T > * newNode = new Node< T >(value);
@@ -343,7 +370,7 @@ khoroshkin::ListIterator< T > khoroshkin::List< T >::insert_after(ListIterator< 
 }
 
 template< typename T >
-khoroshkin::ListIterator< T > khoroshkin::List< T >::insert_after(ListIterator< T > pos, size_t count, const T & value)
+khoroshkin::iterator< T > khoroshkin::List< T >::insert_after(iterator< T > pos, size_t count, const T & value)
 {
   if (count == 0)
   {
@@ -357,7 +384,7 @@ khoroshkin::ListIterator< T > khoroshkin::List< T >::insert_after(ListIterator< 
 }
 
 template< typename T >
-khoroshkin::ListIterator< T > khoroshkin::List< T >::erase_after(ListIterator< T > pos)
+khoroshkin::iterator< T > khoroshkin::List< T >::erase_after(iterator< T > pos)
 {
   if (pos.node->pNext)
   {
@@ -371,7 +398,7 @@ khoroshkin::ListIterator< T > khoroshkin::List< T >::erase_after(ListIterator< T
 }
 
 template< typename T >
-khoroshkin::ListIterator< T > khoroshkin::List< T >::erase_after(ListIterator< T > first, ListIterator< T > last)
+khoroshkin::iterator< T > khoroshkin::List< T >::erase_after(iterator< T > first, iterator< T > last)
 {
   while (next(first) != last)
   {
@@ -409,7 +436,7 @@ void khoroshkin::List< T >::reverse()
 }
 
 template< typename T >
-void khoroshkin::List< T >::splice_after(ListIterator< T > pos, khoroshkin::List< T > & other)
+void khoroshkin::List< T >::splice_after(iterator< T > pos, khoroshkin::List< T > & other)
 {
   for (auto it = other.begin(); it != other.end(); ++it)
   {
@@ -496,5 +523,27 @@ void khoroshkin::List< T >::sort()
   }
   this->assign(temp.begin(), temp.end());
 }
+
+template< typename T >
+void khoroshkin::List< T >::merge(khoroshkin::List< T > & other)
+{
+  if (*this == other)
+  {
+    return;
+  }
+  for (auto it = other.begin(); it != other.end(); ++it)
+  {
+    this->push_back(*it);
+  }
+  this->sort();
+  other.clear();
+}
+
+/*template< typename T >
+template< class... Args >
+khoroshkin::ListIterator< T > khoroshkin::List< T >::emplace_after(ListIterator< T > pos, Args &&... args)
+{
+  return insert_after(pos, std::forward< Args >(args)...);
+}*/
 
 #endif
