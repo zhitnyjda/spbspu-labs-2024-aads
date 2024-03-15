@@ -14,6 +14,12 @@ int main()
     iss >> name;
     List<int> nums;
     int num;
+    while (iss >> num)
+    {
+      nums.push_back(num);
+    }
+    sequences.push_back(std::make_pair(name, nums));
   }
-  sequences.push_back(std::make_pair(name, nums));
+
 }
+
