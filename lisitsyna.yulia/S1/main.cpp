@@ -1,21 +1,19 @@
 #include <iostream>
-#include <cstddef>
+#include <sstream>
+#include <string>
 #include "list.hpp"
 
 int main()
 {
-  List<int> lst;
-  lst.push_front(7);
-  lst.push_front(11);
-  for (int i = 0; i < lst.GetSize(); i++)
+  List<std::pair<std::string, List<int>>> sequences;
+  std::string line;
+  while (getline(std::cin, line))
   {
-    std::cout << lst[i] << endl;
+    std::istringstream iss(line);
+    std::string name;
+    iss >> name;
+    List<int> nums;
+    int num;
   }
-  std::cout << endl << "popBack " << endl << endl;
-  lst.popBack();
-  for (int i = 0; i < lst.GetSize(); i++)
-  {
-    std::cout << lst[i] << endl;
-  }
-  return 0;
+  sequences.push_back(std::make_pair(name, nums));
 }
