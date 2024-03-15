@@ -39,7 +39,7 @@ int main()
   {
     std::cerr << err.what() << "\n";
 
-    return 0;
+    return 1;
   }
 
   return 0;
