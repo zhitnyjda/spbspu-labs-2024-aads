@@ -18,9 +18,6 @@ int main()
       List<unsigned long long> sequence;
       unsigned long long number;
 
-      if (name == "_EOF")
-        break;
-
       while (iss >> number)
       {
         sequence.push_back(number);
