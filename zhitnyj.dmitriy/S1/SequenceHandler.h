@@ -18,7 +18,7 @@ public:
 
     void addSequence(const std::string& name, const List<unsigned long long>& sequence);
     void printSequences();
-    int rearrangeAndPrint();
+    void rearrangeAndPrint();
 };
 
 #endif
