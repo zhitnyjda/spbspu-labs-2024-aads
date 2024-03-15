@@ -20,6 +20,30 @@ int main()
     }
     sequences.push_back(std::make_pair(name, nums));
   }
-
+  for (size_t i = 0; i < sequences.GetSize(); ++i)
+  {
+    std::cout << sequences[i].first << " ";
+  }
+  std::cout << std::endl;
+  size_t maxLen = 0;
+  for (size_t i = 0; i < sequences.GetSize(); ++i)
+  {
+    if (sequences[i].second.GetSize() > maxLen)
+    {
+        maxLen = sequences[i].second.GetSize();
+    }
+  }
+  for (size_t j = 0; j < maxLen; ++j)
+  {
+    for (size_t i = 0; i < sequences.GetSize(); ++i)
+    {
+      if (j < sequences[i].second.GetSize())
+      {
+            std::cout << sequences[i].second[j] << " ";
+      }
+    }
+    std::cout << std::endl;
+  }
+  return 0;
 }
 
