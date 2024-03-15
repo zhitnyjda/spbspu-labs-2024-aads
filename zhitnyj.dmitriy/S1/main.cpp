@@ -27,10 +27,7 @@ int main()
     }
 
     handler.printSequences();
-    if (handler.rearrangeAndPrint())
-    {
-      return 1;
-    }
+    handler.rearrangeAndPrint();
   }
   catch (const std::overflow_error& err)
   {
@@ -42,7 +39,7 @@ int main()
   {
     std::cerr << err.what() << "\n";
 
-    return 1;
+    return 0;
   }
 
   return 0;
