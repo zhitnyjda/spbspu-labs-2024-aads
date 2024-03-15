@@ -149,6 +149,25 @@ public:
       fill(value, count);
     }
 
+    template<typename InputIterator>
+    void assign(InputIterator first, InputIterator last)
+    {
+      clear();
+      for (auto it = first; it != last; ++it)
+      {
+        push_back(*it);
+      }
+    }
+
+    void assign(std::initializer_list<T> list)
+    {
+      clear();
+      for (const auto& value : list)
+      {
+        push_back(value);
+      }
+    }
+
     void insert(size_t index, const T& value)
     {
       if (index == 0 || !head)
