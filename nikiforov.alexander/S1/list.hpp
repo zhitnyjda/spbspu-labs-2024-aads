@@ -31,6 +31,7 @@ namespace nikiforov
     void push_back(T data);
     void pop_front();
     void pop_back();
+    void reverse();
     void swap(List< T >& other);
     void clear();
 
@@ -40,6 +41,8 @@ namespace nikiforov
 
     Iterator< T > begin();
     Iterator< T > end();
+    void advance(Iterator<T>& pos, size_t count);
+    void advance(Iterator<T>& first, Iterator<T> last);
 
   private:
 
@@ -235,6 +238,25 @@ void nikiforov::List<T>::pop_back()
 }
 
 template<typename T>
+void nikiforov::List<T>::reverse()
+{
+  Iterator<T> iter = begin();
+  size_t count = size();
+  size_t count_iter = size();
+  for (size_t i = 0; i < count; i++)
+  {
+    advance(iter, count_iter);
+    push_back(*iter);
+    iter = begin();
+    count_iter--;
+  }
+  for (size_t i = 0; i < count; i++)
+  {
+    pop_front();
+  }
+}
+
+template<typename T>
 void nikiforov::List<T>::swap(List<T>& other)
 {
   Node<T>* short_termH = this->head;
@@ -339,6 +361,36 @@ template<typename T>
 nikiforov::Iterator<T> nikiforov::List<T>::end()
 {
   return Iterator<T>(nullptr);
+}
+
+template<typename T>
+void nikiforov::List<T>::advance(Iterator<T>& pos, size_t count)
+{
+  if (count < 0)
+  {
+    throw std::logic_error("Wrong count!");
+  }
+  for (size_t i = 0; i < (count - 1); i++)
+  {
+    if (pos == end())
+    {
+      break;
+    }
+    pos++;
+  }
+}
+
+template<typename T>
+void nikiforov::List<T>::advance(Iterator<T>& first, Iterator<T> last)
+{
+  for (Iterator<T> iter = first; iter != last; ++iter)
+  {
+    if (iter == end())
+    {
+      break;
+    }
+    first++;
+  }
 }
 
 #endif
