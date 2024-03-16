@@ -2,6 +2,7 @@
 #define DOUBLELIST_HPP
 #include "node.hpp"
 #include <cstddef>
+#include <iostream> //brrr
 //для копирующего перемещения
 //#include <utility>
 
@@ -144,27 +145,71 @@ namespace kovshikov
       Node<T>* temp = head_->next;
       delete head_;
       head_ = temp;
-      head_->prev = nullptr;
       if(head_ == nullptr)
       {
         tail_ = nullptr;
       }
+      else
+      {
+        head_->prev = nullptr;
+      }
+      std::cout << "popFront" << "\n"; //brrr
     }
   }
+
+
+  /*template< typename T >
+  void DoubleList<T>::popFront()
+  {
+    if (head_ == tail_)
+    {
+      delete tail_;
+      head_ = tail_ = nullptr;
+    }
+    if (head_ != nullptr)
+    {
+      Node<T>* node = head_;
+      head_ = node->next;
+      delete node;
+    }
+    std::cout << "popFront" << "\n";
+  }*/
+
+  /*template <typename T>
+  void DoubleList<T>::popBack()
+  {
+    if(head_ == tail_)
+    {
+      delete tail_;
+      head_ = tail_ = nullptr;
+    }
+    if(head_ != nullptr)
+    {
+      Node<T>* node = tail_;
+      tail_ = node->prev;
+      delete node;
+    }
+    std::cout << "popBack" << "\n";
+  }*/
 
   template <typename T>
   void DoubleList<T>::popBack()
   {
+   // std::cout << "qwerty"; // brrr
     if(head_ != nullptr && tail_ != nullptr)
     {
       Node<T>* temp = tail_->prev;
       delete tail_;
       tail_ = temp;
-      tail_->next = nullptr;
       if(tail_ == nullptr)
       {
         head_ = nullptr;
       }
+      else
+      {
+        tail_->next = nullptr;
+      }
+      std::cout << "popBack" << "\n"; //brrr
     }
   }
 
