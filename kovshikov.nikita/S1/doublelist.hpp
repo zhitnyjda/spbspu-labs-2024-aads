@@ -41,7 +41,7 @@ namespace kovshikov
   template<typename T>
   DoubleList<T>::DoubleList(Node<T>* head, Node<T>* tail):
   head_(head),
-  tail_(tail),
+  tail_(tail)
   {};
 
   template <typename T>
@@ -166,6 +166,7 @@ namespace kovshikov
         head_ = nullptr;
       }
     }
+  }
 
   template <typename T>
   void DoubleList<T>::clear()
@@ -176,6 +177,8 @@ namespace kovshikov
     }
   }
 
+
+//а получится ли обратится к приватному полю в методе?
   template <typename T>
   void DoubleList<T>::swap(DoubleList& dl)
   {
@@ -185,8 +188,6 @@ namespace kovshikov
     this->head_ = tempHead;
     dl.tail_ = this->tail_;
     this->tail_ = tempTail;
-    tempHead = nullptr; // а надо ли если объект все равно уничтожится
-    tempTail = nullptr;
   }
 
 

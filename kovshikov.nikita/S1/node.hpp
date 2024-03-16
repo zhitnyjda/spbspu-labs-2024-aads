@@ -16,6 +16,7 @@ namespace kovshikov
     next(next_)
     {};
     ~Node() = default;
+  };
 }
 
 #endif
