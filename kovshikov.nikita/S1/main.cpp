@@ -23,5 +23,27 @@ int main()
   list.popBack();
   std::cout << "type";
   std::cout << "bool is empty? " << list.empty() << "\n";
+  list.pushFront(3);
+  list.pushBack(4);
+  std::cout << "begin: " << list.front() << " end: " << list.back() << "\n";
+  list.popFront();
+  list.popBack();
+  std::cout << "bool is empty? " << list.empty() << "\n";
+  list.pushFront(1);
+  list.pushFront(2);
+  list.pushFront(3);
+  list.pushBack(4);
+  list.clear();
+  std::cout << "bool is empty? " << list.empty() << "\n";
+  list.pushFront(25);
+  list.pushFront(27);
+  DoubleList<int> newList;
+  newList.pushFront(98);
+  newList.pushFront(99);
+  std::cout << "begin: " << list.front() << " end: " << list.back() << "\n";
+  std::cout << "begin: " << newList.front() << " end: " << newList.back() << "\n";
+  list.swap(newList);
+  std::cout << "begin: " << list.front() << " end: " << list.back() << "\n";
+  std::cout << "begin: " << newList.front() << " end: " << newList.back() << "\n";
   return 0;
 }
