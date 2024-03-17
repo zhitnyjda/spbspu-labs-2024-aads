@@ -4,7 +4,6 @@
 #include <cstddef>
 #include <utility>
 #include <iostream>
-#include <limits>
 
 namespace Panov {
 
@@ -75,13 +74,8 @@ namespace Panov {
     }
 
     void push_back(const T& value) {
-      if (size == std::numeric_limits<std::size_t>::max()) {
-        std::cerr << "Error: Maximum size of the list reached. Overflow detected.\n";
-        exit(1);
-      }
-
+      Node* newNode = new Node(value);
       try {
-        Node* newNode = new Node(value);
         if (empty()) {
           head = newNode;
         }
@@ -93,7 +87,7 @@ namespace Panov {
         ++size;
       }
       catch (const std::bad_alloc& e) {
-        std::cerr << "Error: Memory allocation failed. Overflow detected.\n";
+        std::cerr << "Formed lists with exit code 1 and error message in standard error because of overflow" << std::endl;
         exit(1);
       }
     }

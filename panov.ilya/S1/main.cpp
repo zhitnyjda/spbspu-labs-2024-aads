@@ -9,11 +9,11 @@ int main() {
 
   std::string line;
   while (std::getline(std::cin, line)) {
+    if (line.empty()) break;
+
     std::istringstream iss(line);
     std::string name;
     iss >> name;
-    if (name.empty())
-      break;
 
     std::vector<int> sequence;
     int num;
@@ -24,7 +24,7 @@ int main() {
   }
 
   if (sequences.empty()) {
-    std::cout << "0" << std::endl;
+    std::cout << "Zero exit code without error message in standard error and 0 on separate line as output" << std::endl;
     return 0;
   }
 
@@ -40,16 +40,16 @@ int main() {
     for (const auto& seq : sequences) {
       if (i < seq.second.size())
         std::cout << seq.second[i] << ' ';
-      else
-        std::cout << " ";
     }
     std::cout << std::endl;
   }
 
-  for (const auto& seq : sequences) {
+  for (size_t i = 0; i < maxLength; ++i) {
     int sum = 0;
-    for (int num : seq.second)
-      sum += num;
+    for (const auto& seq : sequences) {
+      if (i < seq.second.size())
+        sum += seq.second[i];
+    }
     std::cout << sum << ' ';
   }
   std::cout << std::endl;
