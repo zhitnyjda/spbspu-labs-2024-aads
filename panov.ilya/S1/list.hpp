@@ -3,6 +3,7 @@
 
 #include <cstddef>
 #include <utility>
+#include <iostream>
 
 namespace Panov {
 
@@ -74,15 +75,21 @@ namespace Panov {
 
     void push_back(const T& value) {
       Node* newNode = new Node(value);
-      if (empty()) {
-        head = newNode;
+      try {
+        if (empty()) {
+          head = newNode;
+        }
+        else {
+          tail->next = newNode;
+          newNode->prev = tail;
+        }
+        tail = newNode;
+        ++size;
       }
-      else {
-        tail->next = newNode;
-        newNode->prev = tail;
+      catch (const std::bad_alloc& e) {
+        std::cerr << "Formed lists with exit code 1 and error message in standard error because of overflow" << std::endl;
+        exit(1);
       }
-      tail = newNode;
-      ++size;
     }
 
     void clear() {

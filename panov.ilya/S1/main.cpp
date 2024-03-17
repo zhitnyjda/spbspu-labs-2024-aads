@@ -9,11 +9,11 @@ int main() {
 
   std::string line;
   while (std::getline(std::cin, line)) {
+    if (line.empty()) break;
+
     std::istringstream iss(line);
     std::string name;
     iss >> name;
-    if (name.empty())
-      break;
 
     std::vector<int> sequence;
     int num;
@@ -21,6 +21,11 @@ int main() {
       sequence.push_back(num);
 
     sequences.push_back({ name, sequence });
+  }
+
+  if (sequences.empty()) {
+    std::cout << "Zero exit code without error message in standard error and 0 on separate line as output" << std::endl;
+    return 0;
   }
 
   for (const auto& seq : sequences)
