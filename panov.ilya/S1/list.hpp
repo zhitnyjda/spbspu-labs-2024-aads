@@ -88,7 +88,7 @@ namespace Panov {
       }
       catch (const std::bad_alloc& e) {
         std::cerr << "Formed lists with exit code 1 and error message in standard error because of overflow" << std::endl;
-        exit(1);
+        exit(2);
       }
     }
 
