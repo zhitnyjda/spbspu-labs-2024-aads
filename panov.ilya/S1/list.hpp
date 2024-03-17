@@ -1,6 +1,7 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 
+#include <cstddef>
 #include <utility>
 
 namespace Panov {
@@ -17,7 +18,7 @@ namespace Panov {
 
     Node* head;
     Node* tail;
-    size_t size;
+    std::size_t size;
 
   public:
     class Iterator {
@@ -52,6 +53,20 @@ namespace Panov {
     };
 
     List() : head(nullptr), tail(nullptr), size(0) {}
+
+    List(const List& other) : head(nullptr), tail(nullptr), size(0) {
+      for (auto it = other.begin(); it != other.end(); ++it)
+        push_back(*it);
+    }
+
+    List& operator=(const List& other) {
+      if (this != &other) {
+        clear();
+        for (auto it = other.begin(); it != other.end(); ++it)
+          push_back(*it);
+      }
+      return *this;
+    }
 
     ~List() {
       clear();
