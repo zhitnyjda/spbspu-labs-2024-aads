@@ -13,7 +13,7 @@ namespace nikiforov
   public:
     List();
     List(size_t count, const T& value);
-    List(Iterator< T > begin, Iterator< T > end, int value);
+    List(Iterator<T> begin, Iterator<T> end, int value);
     List(const List& other);
     ~List();
 
@@ -21,7 +21,7 @@ namespace nikiforov
     T& back();
 
     void assign(size_t count, const T& value);
-    void assign(Iterator< T > first, Iterator< T > last);
+    void assign(Iterator<T> first, Iterator<T> last);
     void assign(std::initializer_list<T> ilist);
 
     bool is_empty();
@@ -31,16 +31,21 @@ namespace nikiforov
     void push_back(T data);
     void pop_front();
     void pop_back();
+    Iterator<T> insert(Iterator<T> pos, const T& value);
+    Iterator<T> insert(Iterator<T> pos, size_t count, const T& value);
+    Iterator<T> erase(Iterator<T> pos);
+    Iterator<T> erase(Iterator<T> first, Iterator<T> last);
+    void splice(Iterator<T> pos, List<T>& other);
     void reverse();
-    void swap(List< T >& other);
+    void swap(List<T>& other);
     void clear();
 
     void remove(T value);
     template<class UnaryPredicate>
     void remove_if(UnaryPredicate p);
 
-    Iterator< T > begin();
-    Iterator< T > end();
+    Iterator<T> begin();
+    Iterator<T> end();
     void advance(Iterator<T>& pos, size_t count);
     void advance(Iterator<T>& first, Iterator<T> last);
 
@@ -238,6 +243,123 @@ void nikiforov::List<T>::pop_back()
 }
 
 template<typename T>
+nikiforov::Iterator<T> nikiforov::List<T>::insert(Iterator<T> pos, const T& value)
+{
+  Iterator<T> newPos = begin();
+  if (pos == begin())
+  {
+    push_front(value);
+    newPos = begin();
+  }
+  else
+  {
+    Node<T>* nData = new Node<T>(value);
+    Node<T>* actual = head;
+    Node<T>* before_actial = head;
+    size_t count = 0;
+    for (Iterator<T> iter = begin(); iter != pos; ++iter)
+    {
+      before_actial = actual;
+      actual = actual->pNext;
+      count++;
+    }
+    before_actial->pNext = nData;
+    nData->pNext = actual;
+    size_l++;
+    advance(newPos, count);
+  }
+  return Iterator<T>(newPos);
+}
+
+template<typename T>
+nikiforov::Iterator<T> nikiforov::List<T>::insert(Iterator<T> pos, size_t count, const T& value)
+{
+  Iterator<T> newPos = begin();
+  for (size_t i = 0; i < count; i++)
+  {
+    newPos = insert(pos, value);
+  }
+  return Iterator<T>(newPos);
+}
+
+template<typename T>
+nikiforov::Iterator<T> nikiforov::List<T>::erase(Iterator<T> pos)
+{
+  Iterator<T> newPos = begin();
+  if (pos == end())
+  {
+    newPos = end();
+  }
+  else if (pos == begin())
+  {
+    pop_front();
+    newPos = begin();
+  }
+  else
+  {
+    Node<T>* todel = head;
+    Node<T>* before_todel = head;
+    size_t count = 0;
+    for (Iterator<T> iter = begin(); iter != pos; ++iter)
+    {
+      before_todel = todel;
+      todel = todel->pNext;
+      count++;
+    }
+    before_todel->pNext = todel->pNext;
+    delete todel;
+    size_l--;
+    newPos = begin();
+    advance(newPos, count);
+  }
+  return Iterator<T>(newPos);
+}
+
+template<typename T>
+nikiforov::Iterator<T> nikiforov::List<T>::erase(Iterator<T> first, Iterator<T> last)
+{
+  Iterator<T> newPos = begin();
+  if (first == last)
+  {
+    newPos = last;
+  }
+  else
+  {
+    for (first; first != last; ++first)
+    {
+      first = erase(first);
+    }
+    newPos = first;
+  }
+  return Iterator<T>(newPos);
+}
+
+template<typename T>
+void nikiforov::List<T>::splice(Iterator<T> pos, List<T>& other)
+{
+  if (other.is_empty())
+  {
+    throw std::logic_error("Empty list!");
+  }
+
+  Node<T>* actual = head;
+  for (Iterator<T> iter = begin(); iter != pos; ++iter)
+  {
+    actual = actual->pNext;
+  }
+
+  Node<T>* other_end = other.head;
+  for (size_t i = 0; i < (other.size() - 1); i++)
+  {
+    other_end = other_end->pNext;
+  }
+
+  Node<T>* subhead = actual->pNext;
+  actual->pNext = other.head;
+  other_end->pNext = subhead;
+}
+
+template<typename T>
 void nikiforov::List<T>::reverse()
 {
   Iterator<T> iter = begin();
@@ -368,12 +490,13 @@ void nikiforov::List<T>::advance(Iterator<T>& pos, size_t count)
 {
   if (count < 0)
   {
-    throw std::logic_error("Wrong count!");
+    throw std::logic_error("Wrong input count!");
   }
-  for (size_t i = 0; i < (count - 1); i++)
+  for (size_t i = 0; i < count; i++)
   {
     if (pos == end())
     {
+      pos = end();
       break;
     }
     pos++;
@@ -387,6 +510,7 @@ void nikiforov::List<T>::advance(Iterator<T>& first, Iterator<T> last)
   {
     if (iter == end())
     {
+      first = end();
       break;
     }
     first++;
