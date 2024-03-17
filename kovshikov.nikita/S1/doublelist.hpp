@@ -12,14 +12,16 @@ namespace kovshikov
   class DoubleList
   {
   public:
-//сделать параматры по умолчанию и убрать первый конструктор??
     DoubleList(): head_(nullptr), tail_(nullptr) {};
-    DoubleList(Node<T>* head, Node<T>* tail);
+    //конструкторы с параметрами:
+    //..................
+    //..................
+    //..................
     DoubleList(const DoubleList& dl);
     DoubleList<T>& operator=(const DoubleList& dl);
     DoubleList<T>& operator=(DoubleList&& dl); //???
     DoubleList(DoubleList&& dl) = default; //???
-    ~DoubleList(); //используется динамическая память, нужно прописать деструктор
+    ~DoubleList();
 
     T& front() const;
     T& back() const;
@@ -38,13 +40,6 @@ namespace kovshikov
     Node<T>* tail_;
   };
 
-
-  template<typename T>
-  DoubleList<T>::DoubleList(Node<T>* head, Node<T>* tail):
-  head_(head),
-  tail_(tail)
-  {};
-
   template <typename T>
   DoubleList<T>::~DoubleList()
   {
@@ -55,8 +50,15 @@ namespace kovshikov
   template <typename T>
   DoubleList<T>::DoubleList(const DoubleList& dl)
   {
-    this->head_ = dl.head_;
-    this->tail_ = dl.tail_;
+    this->head_ = nullptr;
+    this->tail_ = nullptr;
+    Node<T> *temp = dl.head_;
+    while(temp != nullptr)
+    {
+      this->pushBack(temp->data);
+      temp = temp->next;
+    }
+    std::cout << "DoubleList(const DoubleList& dl)" << "\n"; //brrr
   }
 
   template <typename T>
@@ -153,49 +155,13 @@ namespace kovshikov
       {
         head_->prev = nullptr;
       }
-      std::cout << "popFront" << "\n"; //brrr
+      std::cout << "popFront\n"; //brrrr
     }
   }
-
-
-  /*template< typename T >
-  void DoubleList<T>::popFront()
-  {
-    if (head_ == tail_)
-    {
-      delete tail_;
-      head_ = tail_ = nullptr;
-    }
-    if (head_ != nullptr)
-    {
-      Node<T>* node = head_;
-      head_ = node->next;
-      delete node;
-    }
-    std::cout << "popFront" << "\n";
-  }*/
-
-  /*template <typename T>
-  void DoubleList<T>::popBack()
-  {
-    if(head_ == tail_)
-    {
-      delete tail_;
-      head_ = tail_ = nullptr;
-    }
-    if(head_ != nullptr)
-    {
-      Node<T>* node = tail_;
-      tail_ = node->prev;
-      delete node;
-    }
-    std::cout << "popBack" << "\n";
-  }*/
 
   template <typename T>
   void DoubleList<T>::popBack()
   {
-   // std::cout << "qwerty"; // brrr
     if(head_ != nullptr && tail_ != nullptr)
     {
       Node<T>* temp = tail_->prev;
@@ -209,7 +175,7 @@ namespace kovshikov
       {
         tail_->next = nullptr;
       }
-      std::cout << "popBack" << "\n"; //brrr
+      std::cout << "popBack\n"; //brrr
     }
   }
 
@@ -222,8 +188,6 @@ namespace kovshikov
     }
   }
 
-
-//а получится ли обратится к приватному полю в методе?
   template <typename T>
   void DoubleList<T>::swap(DoubleList& dl)
   {
@@ -234,9 +198,6 @@ namespace kovshikov
     dl.tail_ = this->tail_;
     this->tail_ = tempTail;
   }
-
-
-
 }
 
 #endif
