@@ -1,6 +1,7 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 #include <cstddef>
+#include <iostream>
 #include "listIterator.hpp"
 #include "node.hpp"
 
@@ -14,8 +15,8 @@ namespace doroshenko
     Node<T>* tail_;
 
     List();
-    List(const List< T >& otherList) = default;
-    List(List< T >&& otherList) = default;
+    List(const List< T >& otherList);
+    List(List< T >&& otherList);
     ~List();
 
     void pushFront(const T& data);
@@ -25,8 +26,9 @@ namespace doroshenko
     void clear();
     void swap(List<T>& otherList);
     void assign(size_t n, const T& value);
-    //void remove(const T& value);
-    //void removeIf();
+    void remove(const T& value);
+    template<typename P>
+    void removeIf(P p);
     size_t getSize();
 
     Node<T>* operator[](const int index);
@@ -44,6 +46,28 @@ doroshenko::List<T>::List() :
   head_(nullptr),
   tail_(nullptr)
 {}
+
+template< typename T >
+doroshenko::List<T>::List(const List< T >& otherList)
+{
+  head_ = nullptr;
+  tail_ = nullptr;
+  Node< T >* head = otherList.head_;
+  while (head)
+  {
+    pushBack(head->data);
+    head = head->next;
+  }
+}
+
+template< typename T >
+doroshenko::List<T>::List(List&& otherList)
+{
+  head_ = otherList.head_;
+  tail_ = otherList.tail_;
+  otherList.head_ = nullptr;
+  otherList.tail_ = nullptr;
+}
 
 template< typename T >
 doroshenko::List<T>::~List()
@@ -151,6 +175,95 @@ void doroshenko::List< T >::assign(size_t n, const T& value)
   for (size_t i = 0; i < n; i++)
   {
     push_back(value);
+  }
+}
+
+template< typename T >
+void doroshenko::List< T >::remove(const T& value)
+{
+  if (isEmpty())
+  {
+    std::cout << "the list is empty";
+    return;
+  }
+  Node<T>* head = head_;
+  Node<T>* postHead = head_->next;
+  Node<T>* toRemove = nullptr;
+  if (head->data == value)
+  {
+    popFront();
+    head = head_;
+    postHead = head->next;
+  }
+  while (postHead)
+  {
+    if (postHead->data == value)
+    {
+      if (postHead->next == nullptr)
+      {
+        delete postHead;
+        postHead = nullptr;
+        head->next = nullptr;
+        tail_ = head;
+      }
+      else
+      {
+        toRemove = postHead;
+        head->next = postHead->next;
+        postHead = head->next;
+        delete toRemove;
+      }
+    }
+    else
+    {
+      head = head->next;
+      postHead = head->next;
+    }
+  }
+}
+
+template<typename T>
+template<typename P>
+void doroshenko::List<T>::removeIf(P p)
+{
+  if (isEmpty())
+  {
+    std::cout << "the list is empty";
+    return;
+  }
+  Node<T>* head = head_;
+  Node<T>* postHead = head_->next;
+  Node<T>* toRemove = nullptr;
+  if (p(head->data))
+  {
+    popFront();
+    head = head_;
+    postHead = head->next;
+  }
+  while (postHead)
+  {
+    if (p(postHead->data))
+    {
+      if (postHead->next == nullptr)
+      {
+        delete postHead;
+        postHead = nullptr;
+        head->next = nullptr;
+        tail_ = head;
+      }
+      else
+      {
+        toRemove = postHead;
+        head->next = postHead->next;
+        postHead = head->next;
+        delete toRemove;
+      }
+    }
+    else
+    {
+      head = head->next;
+      postHead = head->next;
+    }
   }
 }
 
