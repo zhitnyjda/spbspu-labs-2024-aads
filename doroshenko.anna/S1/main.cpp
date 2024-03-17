@@ -12,7 +12,11 @@ int main()
   size_t sum = 0;
   while(iterator.node)
   {
-    std::cout << iterator.node->data.first << " ";
+    if (iterator.node != list.head_)
+    {
+      std::cout << " ";
+    }
+    std::cout << iterator.node->data.first;
     iterator++;
   }
   std::cout << "\n";
@@ -23,7 +27,11 @@ int main()
     {
       if (iterator.node->data.second[index]!= nullptr)
       {
-        std::cout << iterator.node->data.second[index]->data << " ";
+        if (sum > 0)
+        {
+          std::cout << " ";
+        }
+        std::cout << iterator.node->data.second[index]->data;
         sum = sum + iterator.node->data.second[index]->data;
       }
       iterator++;
@@ -34,15 +42,24 @@ int main()
   }
 
   iteratorForSums = sums.begin();
-  while (iteratorForSums.node)
+  if (sums.isEmpty())
   {
-    if (iteratorForSums.node != nullptr)
-    {
-      std::cout << iteratorForSums.node->data << " ";
-    }
-    iteratorForSums++;
+    std::cout << 0;
   }
-  std::cout << "\n";
-
+  else
+  {
+    while (iteratorForSums.node)
+    {
+      if (iteratorForSums.node != nullptr)
+      {
+        if (iteratorForSums.node != sums.head_)
+        {
+          std::cout << " ";
+        }
+        std::cout << iteratorForSums.node->data;
+      }
+      iteratorForSums++;
+    }
+  }
   return 0;
 }
