@@ -33,6 +33,8 @@ namespace kovshikov
     void clear();
     void swap(DoubleList& dl);
     void remove(const T &value);
+    template<class Predicate>
+    void remove_if(Predicate pred);
 
     Iterator<T> begin() const;
     Iterator<T> end() const;
@@ -232,6 +234,38 @@ namespace kovshikov
     while(iterator != this->end())
     {
       if(iterator.node->data == value)
+      {
+        Node<T>* tempPrev = iterator.node->prev;
+        Node<T>* tempNext = iterator.node->next;
+        Iterator<T> iteratorToDelete = iterator;
+        if(head_ == tail_)
+        {
+          head_ = tail_ = nullptr;
+        }
+        else if(iterator.node == head_)
+        {
+          head_ = tempNext;
+          tempNext->prev = nullptr;
+        }
+        else
+        {
+          tempPrev->next = tempNext;
+          tempNext->prev = tempPrev;
+        }
+        delete iteratorToDelete.node;
+      }
+      iterator++;
+     }
+  }
+
+  template<typename T>
+  template<class Predicate>
+  void DoubleList<T>::remove_if(Predicate pred)
+  {
+    Iterator<T> iterator = this->begin();
+    while(iterator != this->end())
+    {
+      if(pred(iterator.node->data))
       {
         Node<T>* tempPrev = iterator.node->prev;
         Node<T>* tempNext = iterator.node->next;
