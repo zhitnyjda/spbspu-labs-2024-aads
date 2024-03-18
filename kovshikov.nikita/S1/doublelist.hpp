@@ -4,7 +4,7 @@
 #include <cstddef>
 #include <iostream> //brrr
 //для копирующего перемещения
-//#include <utility>
+#include <utility>
 
 namespace kovshikov
 {
@@ -18,9 +18,9 @@ namespace kovshikov
     //..................
     //..................
     DoubleList(const DoubleList& dl);
-    DoubleList<T>& operator=(const DoubleList& dl);
+    DoubleList<T>& operator=(const DoubleList<T>& dl);
     DoubleList<T>& operator=(DoubleList&& dl); //???
-    DoubleList(DoubleList&& dl) = default; //???
+    DoubleList(DoubleList&& dl); //???
     ~DoubleList();
 
     T& front() const;
@@ -46,7 +46,6 @@ namespace kovshikov
     clear();
   }
 
-//смогу ли я обратиться к приватным полям в методе?
   template <typename T>
   DoubleList<T>::DoubleList(const DoubleList& dl)
   {
@@ -58,30 +57,43 @@ namespace kovshikov
       this->pushBack(temp->data);
       temp = temp->next;
     }
-    std::cout << "DoubleList(const DoubleList& dl)" << "\n"; //brrr
   }
 
   template <typename T>
   DoubleList<T>& DoubleList<T>::operator=(const DoubleList& dl)
   {
     DoubleList<T> newDl(dl);
-    return newDl;
+    this->swap(newDl);
+    return *this;
   }
 
-//реализация конструктора перемещения
-/*  template <typename T>
+  template <typename T>
   DoubleList<T>::DoubleList(DoubleList&& dl)
   {
-    this->head_ = dl.head_;
-    this->tail_ = dl.tail_;
-  }*/
+    this->head_ = nullptr;
+    this->tail_ = nullptr;
+    Node<T> *temp = std::move(dl.head_);
+    while(temp != nullptr)
+    {
+      this->pushBack(std::move(temp->data));
+      temp = temp->next;
+    }
+    std::cout << "DoubleList<T>::DoubleList(DoubleList&& dl)" << "\n";
+  }
 
-//реализация оператора перемещения
-/*  template<typename T>
+
+  template<typename T>
   DoubleList<T>& DoubleList<T>::operator=(DoubleList&& dl)
   {
-
-  }*/
+    this->clear();
+    Node<T> *temp = std::move(dl.head_);
+    while(temp != nullptr)
+    {
+      this->pushBack(std::move(temp->data));
+      temp = temp->next;
+    }
+    return *this;
+  }
 
   template <typename T>
   T& DoubleList<T>::front() const
@@ -201,4 +213,3 @@ namespace kovshikov
 }
 
 #endif
-
