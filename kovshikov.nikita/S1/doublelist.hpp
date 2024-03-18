@@ -32,6 +32,7 @@ namespace kovshikov
     void popBack();
     void clear();
     void swap(DoubleList& dl);
+    void remove(const T &value);
 
     Iterator<T> begin() const;
     Iterator<T> end() const;
@@ -222,6 +223,37 @@ namespace kovshikov
     this->head_ = tempHead;
     dl.tail_ = this->tail_;
     this->tail_ = tempTail;
+  }
+
+  template<typename T>
+  void DoubleList<T>::remove(const T &value)
+  {
+    Iterator<T> iterator = this->begin();
+    while(iterator != this->end())
+    {
+      if((iterator->node).data == value)
+      {
+        Node<T>* tempPrev = iterator->prev;
+        Node<T>* tempNext = iterator->next;
+        Iterator<T> iteratorToDelete = iterator;
+        if(head_ == tail_)
+        {
+          head_ = tail_ = nullptr;
+        }
+        else if(iterator == head_)
+        {
+          head_ = tempNext;
+          tempNext->prev = nullptr;
+        }
+        else
+        {
+          tempPrev->next = tempNext;
+          tempNext->prev = tempPrev;
+        }
+        delete iteratorToDelete;
+      }
+      iterator++;
+     }
   }
 
   template<typename T>
