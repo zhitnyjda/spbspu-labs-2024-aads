@@ -12,9 +12,11 @@ namespace nikiforov
   {
   public:
     List();
+    List(size_t count);
     List(size_t count, const T& value);
     List(Iterator<T> begin, Iterator<T> end, int value);
     List(const List& other);
+    List(std::initializer_list<T> ilist);
     ~List();
 
     T& front();
@@ -64,6 +66,15 @@ nikiforov::List<T>::List()
 }
 
 template<typename T>
+nikiforov::List<T>::List(size_t count)
+{
+  for (size_t i = 0; i < count; i++)
+  {
+    push_back(count);
+  }
+}
+
+template<typename T>
 nikiforov::List<T>::List(size_t count, const T& value)
 {
   for (size_t i = 0; i < count; i++)
@@ -93,6 +104,12 @@ nikiforov::List<T>::List(const nikiforov::List<T>& other)
     head = new Node<T>(*other.head);
   }
   size_l = other.size_l;
+}
+
+template<typename T>
+nikiforov::List<T>::List(std::initializer_list<T> ilist)
+{
+  assign(ilist);
 }
 
 template<typename T>
