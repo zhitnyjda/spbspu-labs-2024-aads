@@ -1,12 +1,15 @@
+#include "list.hpp"
 #include <iostream>
 #include <sstream>
 #include <string>
-#include "list.hpp"
+#include <vector>
+#include <algorithm>
 
 int main()
 {
-  List<std::pair<std::string, List<int>>> sequences;
   std::string line;
+  std::vector<std::pair<std::string, List<int>>> sequences;
+  size_t maxLen = 0;
   while (std::getline(std::cin, line))
   {
     std::istringstream iss(line);
