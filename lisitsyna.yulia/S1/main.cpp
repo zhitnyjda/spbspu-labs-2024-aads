@@ -38,4 +38,34 @@ int main()
   }
   std::cout << "\n";
   std::vector<int> sums(maxLen, 0);
+  for (size_t i = 0; i < maxLen; ++i)
+  {
+    for (size_t j = 0; j < sequences.size(); ++j)
+    {
+      const auto& sequence = sequences[j].second;
+      if (i < sequence.size)
+      {
+        auto it = sequence.begin();
+        std::advance(it, i);
+        std::cout << *it << " ";
+        sums[i] += *it;
+      }
+      else
+      {
+        std::cout << "0 ";
+      }
+    }
+    std::cout << "\n";
+  }
+  bool startedOutput = false;
+  for (size_t i = 0; i < sums.size(); ++i)
+  {
+    if (startedOutput || sums[i] != 0)
+    {
+      std::cout << sums[i] << " ";
+      startedOutput = true;
+    }
+  }
+  std::cout << "\n";
+  return 0;
 }
