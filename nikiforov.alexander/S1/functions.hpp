@@ -22,10 +22,9 @@ namespace nikiforov
     bool overflow = false;
   };
 }
-using namespace nikiforov;
 
 template<typename T>
-void Funcs<T>::input_(std::istream& input, List< std::pair< std::string, List< T > > >& seqsPair)
+void nikiforov::Funcs<T>::input_(std::istream& input, List< std::pair< std::string, List< T > > >& seqsPair)
 {
   Iterator< std::pair< std::string, List< unsigned long long > > > iterSeqsPair = seqsPair.begin();
   std::string nameSeq;
@@ -64,7 +63,7 @@ void Funcs<T>::input_(std::istream& input, List< std::pair< std::string, List< T
 }
 
 template<typename T>
-void Funcs<T>::outputName_(List<std::pair<std::string, List<T>>>& seqsPair)
+void nikiforov::Funcs<T>::outputName_(List<std::pair<std::string, List<T>>>& seqsPair)
 {
   Iterator< std::pair< std::string, List< unsigned long long > > > iterSeqsPair = seqsPair.begin();
   size_t countNames = seqsPair.size();
@@ -85,7 +84,7 @@ void Funcs<T>::outputName_(List<std::pair<std::string, List<T>>>& seqsPair)
 }
 
 template<typename T>
-void Funcs<T>::outputSeqs_(List<std::pair<std::string, List<T>>>& seqsPair, List<T>& listSumm)
+void nikiforov::Funcs<T>::outputSeqs_(List<std::pair<std::string, List<T>>>& seqsPair, List<T>& listSumm)
 {
   if (maxSize != 0)
   {
