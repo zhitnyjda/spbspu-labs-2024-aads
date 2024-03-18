@@ -9,14 +9,14 @@ int main()
 {
   using namespace taskaev;
   List< std::pair< std::string, List < size_t > > > list;
-  std::string name = "";
-  std::cin >> name;
+  std::string line = "";
+  std::cin >> line;
   while(std::cin)
   {
-    list.pushFront({name, List<size_t>()});
-    while (std::cin >> name && std::isalpha(name[0]))
+    list.pushFront({ line, List<size_t>()});
+    while(std::cin >> line && !std::isalpha(line[0]))
     {
-      list.front().second.pushBack(std::stoull(name));
+      list.front().second.pushBack(std::stoull(line));
     }
   }
   if(list.empty())
@@ -68,7 +68,7 @@ int main()
           std::cout << " ";
         }
         std::cout << i->second.front();
-        if (maxLimit - sum <= i->second.front())
+        if (maxLimit - sum >= i->second.front())
         {
           sum += i->second.front();
         }
@@ -99,5 +99,6 @@ int main()
       std::cout << " ";
     }
   }
+  std::cout << "\n";
   return 0;
 }
