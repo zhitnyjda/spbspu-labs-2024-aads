@@ -18,10 +18,11 @@ namespace kovshikov
     //..................
     //..................
     DoubleList(const DoubleList& dl);
-    DoubleList<T>& operator=(const DoubleList<T>& dl);
-    DoubleList<T>& operator=(DoubleList&& dl); //???
     DoubleList(DoubleList&& dl); //???
     ~DoubleList();
+
+    DoubleList<T>& operator=(const DoubleList<T>& dl);
+    DoubleList<T>& operator=(DoubleList&& dl); //???
 
     T& front() const;
     T& back() const;
@@ -78,7 +79,6 @@ namespace kovshikov
       this->pushBack(std::move(temp->data));
       temp = temp->next;
     }
-    std::cout << "DoubleList<T>::DoubleList(DoubleList&& dl)" << "\n";
   }
 
 
