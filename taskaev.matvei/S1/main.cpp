@@ -8,13 +8,13 @@
 int main()
 {
   using namespace taskaev;
-  List< int > sums;
-  List< std::pair< std::string, List < int > > > list;
+  List< size_t > sums;
+  List< std::pair< std::string, List < size_t > > > list;
   std::string name;
   std::cin >> name;
   while(std::cin)
   {
-    list.pushFront({name, List<int>()});
+    list.pushFront({name, List<size_t>()});
     while (std::cin >> name && std::isalpha(name[0]))
     {
       list.front().second.pushBack(std::stoull(name));
@@ -26,7 +26,7 @@ int main()
     return 0;
   }
   list.reverse();
-  typename List<std::pair<std::string, List<int>>>::ListIterator< std::pair< std::string, List<int>>> i = list.begin();
+  typename List<std::pair<std::string, List<size_t>>>::ListIterator< std::pair< std::string, List<size_t>>> i = list.begin();
   while(i != list.end())
   {
     std::cout << i->first;
@@ -36,11 +36,11 @@ int main()
     }
   }
   std::cout << "\n";
-  int maxNum = 1;
+  size_t maxNum = 1;
   i = list.begin();
   while (i != list.end())
   {
-    int j = 0;
+    size_t j = 0;
     auto it = i->second.begin();
     while (it != i->second.end())
     {
@@ -51,9 +51,9 @@ int main()
     i++;
   }
   bool bools = false;
-  int j = 0;
-  int sum;
-  const int maxLimit = std::numeric_limits< int >::max();
+  size_t j = 0;
+  size_t sum;
+  const size_t maxLimit = std::numeric_limits< size_t >::max();
   while (j < maxNum)
   {
     j++;
@@ -90,7 +90,7 @@ int main()
     sums.pushFront(sum);
   }
   sums.reverse();
-  typename List<int>::ListIterator<int> is = sums.begin();
+  typename List<size_t>::ListIterator<size_t> is = sums.begin();
   while(is != sums.end())
   {
     std::cout << *is;
