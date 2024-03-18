@@ -3,8 +3,8 @@
 #include "node.hpp"
 #include <cstddef>
 #include <iostream> //brrr
-//для копирующего перемещения
 #include <utility>
+#include "iterator.hpp"
 
 namespace kovshikov
 {
@@ -32,6 +32,11 @@ namespace kovshikov
     void popBack();
     void clear();
     void swap(DoubleList& dl);
+
+    Iterator<T> begin() const;
+    Iterator<T> end() const;
+    Iterator<const T> cbegin() const;
+    Iterator<const T> cend() const;
 
   private:
     Node<T>* head_;
@@ -217,6 +222,46 @@ namespace kovshikov
     this->head_ = tempHead;
     dl.tail_ = this->tail_;
     this->tail_ = tempTail;
+  }
+
+  template<typename T>
+  Iterator<T> DoubleList<T>::begin() const
+  {
+    return Iterator<T>(head_);
+  }
+
+  template<typename T>
+  Iterator<T> DoubleList<T>::end() const
+  {
+    if(this->empty())
+    {
+      return this->begin();
+    }
+    else
+    {
+      Node<T>* pastTheEnd = tail_->next;
+      return Iterator<T>(pastTheEnd);
+    }
+  }
+
+  template<typename T>
+  Iterator<const T> DoubleList<T>::cbegin() const
+  {
+    return Iterator<const T>(head_);
+  }
+
+  template<typename T>
+  Iterator<const T> DoubleList<T>::cend() const
+  {
+    if(this->empty)
+    {
+      return this->cbegin();
+    }
+    else
+    {
+      Node<T>* pastTheEnd = tail_->next;
+      return Iterator<const T>(pastTheEnd);
+    }
   }
 }
 
