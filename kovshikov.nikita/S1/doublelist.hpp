@@ -35,6 +35,7 @@ namespace kovshikov
     void remove(const T &value);
     template<class Predicate>
     void remove_if(Predicate pred);
+    void assign(size_t size, const T &value);
 
     Iterator<T> begin() const;
     Iterator<T> end() const;
@@ -288,6 +289,16 @@ namespace kovshikov
       }
       iterator++;
      }
+  }
+
+  template<typename T>
+  void DoubleList<T>::assign(size_t size, const T &value)
+  {
+    this->clear();
+    for(size_t i = 0; i < size; i++)
+    {
+      this->pushBack(value);
+    }
   }
 
   template<typename T>
