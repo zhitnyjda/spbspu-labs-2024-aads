@@ -131,7 +131,7 @@ public:
   {
     return const_iterator(head);
   }
-  const_iterator end() const 
+  const_iterator end() const
   {
     return const_iterator(nullptr);
   }
