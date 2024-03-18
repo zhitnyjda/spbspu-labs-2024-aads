@@ -108,7 +108,7 @@ namespace taskaev
   }
 
   template <typename T>
-  void remove(const T& value)
+  void List<T>::remove(const T& value)
   {
     Node<T>* node = head;
     Node<T>* temp = nullptr;
