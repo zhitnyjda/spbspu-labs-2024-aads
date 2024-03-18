@@ -102,5 +102,38 @@ public:
       return iterator(nullptr);
     }
   }
+  class const_iterator
+  {
+    const ListNode<T>* ptr;
+  public:
+    using difference_type = std::ptrdiff_t;
+    using value_type = T;
+    using pointer = const T*;
+    using reference = const T&;
+    using iterator_category = std::forward_iterator_tag;
+    const_iterator(const ListNode<T>* p = nullptr) : ptr(p) {}
+    const_iterator& operator++()
+    {
+      if (ptr == nullptr) throw std::out_of_range("Const iterator cannot be incremented past the end");
+      ptr = ptr->next; return *this;
+    }
+    bool operator!=(const const_iterator& other) const
+    {
+      return ptr != other.ptr;
+    }
+    reference operator*() const
+    {
+      if (ptr == nullptr) throw std::out_of_range("Const iterator cannot be dereferenced");
+      return ptr->value;
+    }
+  };
+  const_iterator begin() const
+  {
+    return const_iterator(head);
+  }
+  const_iterator end() const 
+  {
+    return const_iterator(nullptr);
+  }
 };
 #endif
