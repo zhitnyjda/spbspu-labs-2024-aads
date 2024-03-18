@@ -21,6 +21,7 @@ namespace taskaev
     void clean();
     bool empty();
     void swap(List<T>& other);
+    void remove(const T& value);
     void reverse();
     Node<T>* head;
   public:
@@ -104,6 +105,28 @@ namespace taskaev
     head = other->head;
     other->temp = head;
     delete temp;
+  }
+
+  template <typename T>
+  void remove(const T& value)
+  {
+    Node<T>* node = head;
+    Node<T>* temp = nullptr;
+    while(node != nullptr)
+    {
+      if(node->data == value)
+      {
+        if(temp == value) {head = node->next;}
+        else {temp->next = node->next;}
+        delete node;
+        node = (temp == nullptr)? head : temp->next;
+      }
+      else
+      {
+        temp = node;
+        node = node->next;
+      }
+    }
   }
 
   template <typename T>

@@ -2,7 +2,6 @@
 #include <limits>
 #include <utility>
 #include <string>
-#include <cstring>
 #include "List.hpp"
 
 
@@ -16,9 +15,9 @@ int main()
   while(std::cin)
   {
     list.pushFront({name, List<int>()});
-    while (std::cin >> name && std::isdigit(name[0]))
+    while (std::cin >> name && std::isalpha(name[0]))
     {
-      list.front().second.pushBack(std::stoll(name));
+      list.front().second.pushBack(std::stoull(name));
     }
   }
   if(list.empty())
@@ -30,8 +29,11 @@ int main()
   typename List<std::pair<std::string, List<int>>>::ListIterator< std::pair< std::string, List<int>>> i = list.begin();
   while(i != list.end())
   {
-   std::cout << i->first;
-   if(i++ != list.end()) { std::cout << " "; }
+    std::cout << i->first;
+    if(i++ != list.end())
+    {
+      std::cout << " ";
+    }
   }
   std::cout << "\n";
   int maxNum = 1;
@@ -91,7 +93,10 @@ int main()
   while(is != sums.end())
   {
     std::cout << *is;
-    if(is++ != sums.end()) { std::cout << " "; }
+    if(is++ != sums.end())
+    {
+      std::cout << " ";
+    }
   }
   return 0;
 }
