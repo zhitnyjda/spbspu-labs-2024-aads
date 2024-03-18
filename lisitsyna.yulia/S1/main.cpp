@@ -37,7 +37,6 @@ int main()
     std::cout << seq.first << " ";
   }
   std::cout << "\n";
-  std::vector<int> sums(maxLen, 0);
   for (size_t i = 0; i < maxLen; ++i)
   {
     for (size_t j = 0; j < sequences.size(); ++j)
