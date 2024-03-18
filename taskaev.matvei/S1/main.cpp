@@ -67,7 +67,7 @@ int main()
           std::cout << " ";
         }
         std::cout << i->second.front();
-        if (sum < (std::numeric_limits< int >::max() - i->second.front()))
+        if (std::numeric_limits< int >::max() - sum > i->second.front())
         {
           sum += i->second.front();
         }
