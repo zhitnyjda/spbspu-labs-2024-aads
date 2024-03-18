@@ -50,5 +50,16 @@ public:
         ++size;
   }
   bool empty() const { return size == 0; }
+  void clear()
+  {
+    while (head)
+    {
+        ListNode<T>* temp = head;
+        head = head->next;
+        delete temp;
+    }
+    head = tail = nullptr;
+    size = 0;
+  }
 }
 #endif
