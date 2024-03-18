@@ -9,10 +9,11 @@ namespace kovshikov
     T data;
     Node* prev;
     Node* next;
-    Node(T data_ = 0, Node* prev_ = nullptr, Node* next_ = nullptr) :
+    Node(): data(0), prev(nullptr), next(nullptr) {};
+    Node(T data_) :
     data(data_),
-    prev(prev_),
-    next(next_)
+    prev(nullptr),
+    next(nullptr)
     {};
     ~Node() = default;
   };

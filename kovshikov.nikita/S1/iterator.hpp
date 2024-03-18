@@ -3,7 +3,6 @@
 #include "node.hpp"
 #include <cassert>
 #include <memory>
-#include "node.hpp"
 
 namespace kovshikov
 {
@@ -14,7 +13,7 @@ namespace kovshikov
     using this_t = Iterator<T>;
 
     Iterator(): node(nullptr) {};
-    Iterator(Node<T> ptr): node(ptr) {};
+    Iterator(Node<T>* ptr): node(ptr) {};
     Iterator(const this_t &) = default;
     ~Iterator() = default;
     this_t & operator=(const this_t &) = default;

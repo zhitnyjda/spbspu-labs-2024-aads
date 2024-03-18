@@ -231,16 +231,16 @@ namespace kovshikov
     Iterator<T> iterator = this->begin();
     while(iterator != this->end())
     {
-      if((iterator->node).data == value)
+      if(iterator.node->data == value)
       {
-        Node<T>* tempPrev = iterator->prev;
-        Node<T>* tempNext = iterator->next;
+        Node<T>* tempPrev = iterator.node->prev;
+        Node<T>* tempNext = iterator.node->next;
         Iterator<T> iteratorToDelete = iterator;
         if(head_ == tail_)
         {
           head_ = tail_ = nullptr;
         }
-        else if(iterator == head_)
+        else if(iterator.node == head_)
         {
           head_ = tempNext;
           tempNext->prev = nullptr;
@@ -250,7 +250,7 @@ namespace kovshikov
           tempPrev->next = tempNext;
           tempNext->prev = tempPrev;
         }
-        delete iteratorToDelete;
+        delete iteratorToDelete.node;
       }
       iterator++;
      }
