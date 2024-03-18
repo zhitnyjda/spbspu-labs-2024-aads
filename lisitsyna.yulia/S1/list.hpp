@@ -61,5 +61,46 @@ public:
     head = tail = nullptr;
     size = 0;
   }
-}
+  class iterator
+  {
+    ListNode<T>* ptr;
+  public:
+    using difference_type = std::ptrdiff_t;
+    using value_type = T;
+    using pointer = T*;
+    using reference = T&;
+    using iterator_category = std::forward_iterator_tag;
+    iterator(ListNode<T>* p = nullptr) : ptr(p) {}
+    iterator& operator++()
+    {
+      if (ptr == nullptr) throw std::out_of_range("Iterator cannot be incremented past the end");
+      ptr = ptr->next;
+      return *this;
+    }
+    bool operator!=(const iterator& other) const
+    {
+      return ptr != other.ptr;
+    }
+    reference operator*()
+    {
+      if (ptr == nullptr) throw std::out_of_range("Iterator cannot be dereferenced");
+      return ptr->value;
+    }
+  };
+  iterator begin() 
+  {
+    return iterator(head);
+  }
+  iterator end() 
+  {
+    if (nullptr) 
+    {
+      return nullptr;
+    }
+    else
+    {
+      return iterator(nullptr);
+    }
+  }
+};
 #endif
