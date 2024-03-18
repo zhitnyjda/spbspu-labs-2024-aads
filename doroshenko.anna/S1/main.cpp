@@ -10,55 +10,58 @@ int main()
   List< size_t > sums;
   ListIterator< size_t > iteratorForSums;
   size_t sum = 0;
-  while(iterator.node)
+  if (!list.isEmpty())
   {
-    if (iterator.node != list.head_)
-    {
-      std::cout << " ";
-    }
-    std::cout << iterator.node->data.first;
-    iterator++;
-  }
-  std::cout << "\n";
-  for (size_t index = 0; index < maxSize; index++)
-  {
-    iterator = list.begin();
     while (iterator.node)
     {
-      if (iterator.node->data.second[index]!= nullptr)
+      if (iterator.node != list.head_)
       {
-        if (sum > 0)
-        {
-          std::cout << " ";
-        }
-        std::cout << iterator.node->data.second[index]->data;
-        sum = sum + iterator.node->data.second[index]->data;
+        std::cout << " ";
       }
+      std::cout << iterator.node->data.first;
       iterator++;
     }
-    sums.pushBack(sum);
-    sum = 0;
     std::cout << "\n";
-  }
-
-  iteratorForSums = sums.begin();
-  if (sums.isEmpty())
-  {
-    std::cout << 0;
-  }
-  else
-  {
-    while (iteratorForSums.node)
+    for (size_t index = 0; index < maxSize; index++)
     {
-      if (iteratorForSums.node != nullptr)
+      iterator = list.begin();
+      while (iterator.node)
       {
-        if (iteratorForSums.node != sums.head_)
+        if (iterator.node->data.second[index] != nullptr)
         {
-          std::cout << " ";
+          if (sum > 0)
+          {
+            std::cout << " ";
+          }
+          std::cout << iterator.node->data.second[index]->data;
+          sum = sum + iterator.node->data.second[index]->data;
         }
-        std::cout << iteratorForSums.node->data;
+        iterator++;
       }
-      iteratorForSums++;
+      sums.pushBack(sum);
+      sum = 0;
+      std::cout << "\n";
+    }
+
+    iteratorForSums = sums.begin();
+    if (sums.isEmpty())
+    {
+      std::cout << 0;
+    }
+    else
+    {
+      while (iteratorForSums.node)
+      {
+        if (iteratorForSums.node != nullptr)
+        {
+          if (iteratorForSums.node != sums.head_)
+          {
+            std::cout << " ";
+          }
+          std::cout << iteratorForSums.node->data;
+        }
+        iteratorForSums++;
+      }
     }
   }
   return 0;
