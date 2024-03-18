@@ -87,13 +87,13 @@ public:
       return ptr->value;
     }
   };
-  iterator begin() 
+  iterator begin()
   {
     return iterator(head);
   }
-  iterator end() 
+  iterator end()
   {
-    if (nullptr) 
+    if (nullptr)
     {
       return nullptr;
     }
