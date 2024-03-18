@@ -3,6 +3,7 @@
 #include "node.hpp"
 #include <cassert>
 #include <memory>
+#include "node.hpp"
 
 namespace kovshikov
 {

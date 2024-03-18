@@ -13,10 +13,7 @@ namespace kovshikov
   {
   public:
     DoubleList(): head_(nullptr), tail_(nullptr) {};
-    //конструкторы с параметрами:
-    //..................
-    //..................
-    //..................
+    DoubleList(size_t size, const T &value);
     DoubleList(const DoubleList& dl);
     DoubleList(DoubleList&& dl); //???
     ~DoubleList();
@@ -40,6 +37,17 @@ namespace kovshikov
     Node<T>* head_;
     Node<T>* tail_;
   };
+
+  template<typename T>
+  DoubleList<T>::DoubleList(size_t size, const T &value)
+  {
+    head_ = nullptr;
+    tail_ = nullptr;
+    for(size_t i = 0; i < size; i++)
+    {
+      this->pushBack(value);
+    }
+  }
 
   template <typename T>
   DoubleList<T>::~DoubleList()
