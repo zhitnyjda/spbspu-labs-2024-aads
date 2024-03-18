@@ -29,4 +29,10 @@ int main()
   }
   std::cout << "\n";
   std::vector<int> sums(maxLen, 0);
+  for (const auto& seq : sequences)
+  {
+    std::cout << seq.first << " ";
+  }
+  std::cout << "\n";
+  std::vector<int> sums(maxLen, 0);
 }
