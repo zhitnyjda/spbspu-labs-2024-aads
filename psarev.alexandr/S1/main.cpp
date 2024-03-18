@@ -6,6 +6,15 @@ int main()
 {
   using namespace psarev;
 
+  List< int > testList;
+  testList.pushBack(10);
+  testList.pushBack(10);
+  testList.pushBack(11);
+  testList.pushBack(10);
+  std::cout << testList.getSize() << '\n';
+  testList.remove(11);
+  std::cout << testList.getSize() << '\n';
+
   List< std::pair< std::string, List< unsigned long long > > > lines;
   Iterator< std::pair< std::string, List< unsigned long long > > > iterLine;
   std::string line = "";

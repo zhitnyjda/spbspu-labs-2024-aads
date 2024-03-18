@@ -20,7 +20,10 @@ namespace psarev
     void pushFront(T data);
     void pushBack(T data);
     void insert(T data, size_t index);
-    void remove(size_t index);
+    void remove(const T& value);
+
+    T& front();
+    T& back();
 
     void swap(List< T >& other);
     void clear();
@@ -133,26 +136,40 @@ void psarev::List<T>::insert(T data, size_t index)
 }
 
 template<typename T>
-void psarev::List<T>::remove(size_t index)
+void psarev::List<T>::remove(const T& value)
 {
-  if (index == 0)
+  Unit<T>* tempo = this->head;
+  for (size_t i = 0; i < size; i++)
   {
-    popFront();
-  }
-  else
-  {
-    Unit<T>* previous = this->head;
-    for (size_t i = 0; i < (index - 1); i++)
+    if (tempo->data == value)
     {
-      previous = previous->next;
+      Unit<T>* removable = tempo;
+      tempo = tempo->prev;
+      tempo->next = removable->next;
+      removable->next->prev = tempo;
+      delete removable;
+      i--;
+      --size;
     }
-
-    Unit<T>* removable = previous->next;
-    previous->next = removable->next;
-    removable->next->prev = previous;
-    delete removable;
-    size--;
+    tempo = tempo->next;
   }
+}
+
+template<typename T>
+T& psarev::List<T>::front()
+{
+  return head->data;
+}
+
+template<typename T>
+T& psarev::List<T>::back()
+{
+  Unit<T>* tempo = this->head;
+  for (size_t i = 0; i < (size - 1); i++)
+  {
+    tempo = tempo->next;
+  }
+  return tempo->data;
 }
 
 template<typename T>
