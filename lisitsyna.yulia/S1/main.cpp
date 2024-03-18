@@ -7,43 +7,26 @@ int main()
 {
   List<std::pair<std::string, List<int>>> sequences;
   std::string line;
-  while (getline(std::cin, line))
+  while (std::getline(std::cin, line))
   {
     std::istringstream iss(line);
     std::string name;
     iss >> name;
-    List<int> nums;
+    List<int> list;
     int num;
+    size_t count = 0;
     while (iss >> num)
     {
-      nums.push_back(num);
+      list.push_back(num);
+      ++count;
     }
-    sequences.push_back(std::make_pair(name, nums));
+    maxLen = std::max(maxLen, count);
+    sequences.emplace_back(name, std::move(list));
   }
-  for (size_t i = 0; i < sequences.GetSize(); ++i)
+  for (const auto& seq : sequences)
   {
-    std::cout << sequences[i].first << " ";
+    std::cout << seq.first << " ";
   }
-  std::cout << std::endl;
-  size_t maxLen = 0;
-  for (size_t i = 0; i < sequences.GetSize(); ++i)
-  {
-    if (sequences[i].second.GetSize() > maxLen)
-    {
-        maxLen = sequences[i].second.GetSize();
-    }
-  }
-  for (size_t j = 0; j < maxLen; ++j)
-  {
-    for (size_t i = 0; i < sequences.GetSize(); ++i)
-    {
-      if (j < sequences[i].second.GetSize())
-      {
-            std::cout << sequences[i].second[j] << " ";
-      }
-    }
-    std::cout << std::endl;
-  }
-  return 0;
+  std::cout << "\n";
+  std::vector<int> sums(maxLen, 0);
 }
-
