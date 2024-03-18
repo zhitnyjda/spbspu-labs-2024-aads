@@ -41,7 +41,6 @@ public:
     return *this;
   }
   ~List() { clear(); }
-
   void push_back(T val)
   {
         ListNode<T>* newNode = new ListNode<T>(val);
@@ -50,5 +49,6 @@ public:
         tail = newNode;
         ++size;
   }
+  bool empty() const { return size == 0; }
 }
 #endif
