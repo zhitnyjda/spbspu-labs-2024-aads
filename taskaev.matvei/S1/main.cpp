@@ -8,9 +8,8 @@
 int main()
 {
   using namespace taskaev;
-  List< size_t > sums;
   List< std::pair< std::string, List < size_t > > > list;
-  std::string name;
+  std::string name = "";
   std::cin >> name;
   while(std::cin)
   {
@@ -30,12 +29,13 @@ int main()
   while(i != list.end())
   {
     std::cout << i->first;
-    if(i++ != list.end())
+    if(++i != list.end())
     {
       std::cout << " ";
     }
   }
   std::cout << "\n";
+  List<size_t> sums;
   size_t maxNum = 1;
   i = list.begin();
   while (i != list.end())
@@ -94,7 +94,7 @@ int main()
   while(is != sums.end())
   {
     std::cout << *is;
-    if(is++ != sums.end())
+    if(++is != sums.end())
     {
       std::cout << " ";
     }
