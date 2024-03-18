@@ -1,5 +1,6 @@
 #ifndef NODE_HPP
 #define NODE_HPP
+#include <cstddef>
 
 template <typename T>
 struct Node
