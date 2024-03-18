@@ -53,6 +53,7 @@ int main()
   bool bools = false;
   int j = 0;
   int sum;
+  const int maxLimit = std::numeric_limits< int >::max();
   while (j < maxNum)
   {
     j++;
@@ -67,7 +68,7 @@ int main()
           std::cout << " ";
         }
         std::cout << i->second.front();
-        if (std::numeric_limits< int >::max() - sum > i->second.front())
+        if (maxLimit - sum <= i->second.front())
         {
           sum += i->second.front();
         }
