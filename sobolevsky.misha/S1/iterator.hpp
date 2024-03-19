@@ -25,7 +25,9 @@ namespace sobolevsky
     Iterator< T > & operator=(const Iterator< T > &) = default;
 
     Iterator& operator++();
+    Iterator operator++(int);
     Iterator& operator--();
+    Iterator operator--(int);
 
     bool operator!=(const Iterator& other) const;
     bool operator==(const Iterator& other) const;
@@ -53,6 +55,14 @@ sobolevsky::Iterator< T >& sobolevsky::Iterator< T >::operator++()
   return *this;
 }
 
+template<typename T>
+sobolevsky::Iterator<T> sobolevsky::Iterator< T >::operator++(int)
+{
+  sobolevsky::Iterator< T > temp(*this);
+  operator++();
+  return temp;
+}
+
 template< typename T >
 sobolevsky::Iterator< T >& sobolevsky::Iterator< T >::operator--()
 {
@@ -61,6 +71,14 @@ sobolevsky::Iterator< T >& sobolevsky::Iterator< T >::operator--()
     currNode = currNode->prev;
   }
   return *this;
+}
+
+template<typename T>
+sobolevsky::Iterator<T> sobolevsky::Iterator< T >::operator--(int)
+{
+  sobolevsky::Iterator< T > temp(*this);
+  operator--();
+  return temp;
 }
 
 template< typename T >
