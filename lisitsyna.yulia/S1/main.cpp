@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <limits>
 #include <algorithm>
 
 int main()
@@ -10,7 +11,7 @@ int main()
   std::string line;
   std::vector<std::pair<std::string, List<int>>> sequences;
   size_t maxLen = 0;
-  while (std::getline(std::cin, line))
+  while (std::getline(std::cin, line) && !line.empty())
   {
     std::istringstream iss(line);
     std::string name;
@@ -27,44 +28,55 @@ int main()
     sequences.emplace_back(name, std::move(list));
   }
   for (const auto& seq : sequences)
-  {
-    std::cout << seq.first << " ";
-  }
-  std::cout << "\n";
-  std::vector<int> sums(maxLen, 0);
-  for (const auto& seq : sequences)
-  {
-    std::cout << seq.first << " ";
-  }
-  std::cout << "\n";
+    {
+      std::cout << seq.first << " ";
+    }
+  std::cout << std::endl;
   for (size_t i = 0; i < maxLen; ++i)
   {
-    for (size_t j = 0; j < sequences.size(); ++j)
+    for (const auto& seq : sequences)
     {
-      const auto& sequence = sequences[j].second;
-      if (i < sequence.size)
+      const auto& list = seq.second;
+      auto it = list.begin();
+      std::advance(it, i);
+      if (it != list.end())
       {
-        auto it = sequence.begin();
-        std::advance(it, i);
         std::cout << *it << " ";
-        sums[i] += *it;
       }
       else
       {
         std::cout << "0 ";
       }
     }
-    std::cout << "\n";
+    std::cout << std::endl;
   }
-  bool startedOutput = false;
-  for (size_t i = 0; i < sums.size(); ++i)
+  std::vector<long long> sums(maxLen, 0);
+  for (size_t i = 0; i < maxLen; ++i)
   {
-    if (startedOutput || sums[i] != 0)
+    for (const auto& seq : sequences)
     {
-      std::cout << sums[i] << " ";
-      startedOutput = true;
+      const auto& list = seq.second;
+      auto it = list.begin();
+      std::advance(it, i);
+      if (it != list.end())
+      {
+        sums[i] += *it;
+      }
     }
   }
-  std::cout << "\n";
+  bool foundNonZero = false;
+  for (auto sum : sums)
+  {
+    if (sum != 0)
+    {
+      foundNonZero = true;
+    }
+    if (foundNonZero)
+    {
+      std::cout << sum << " ";
+    }
+  }
+  std::cout << std::endl;
   return 0;
+  }
 }
