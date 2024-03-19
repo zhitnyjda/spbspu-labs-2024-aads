@@ -13,8 +13,8 @@ int main()
   std::cin >> name;
   while(std::cin)
   {
-    list.pushFront({ line, List<size_t>()});
-    while(std::cin >> line && !std::isalpha(name[0]))
+    list.pushFront({ name, List<size_t>()});
+    while(std::cin >> name && !std::isalpha(name[0]))
     {
       list.front().second.pushBack(std::stoull(name));
     }
