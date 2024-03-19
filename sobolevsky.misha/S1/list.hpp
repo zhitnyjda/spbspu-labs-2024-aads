@@ -26,6 +26,8 @@ namespace sobolevsky
     void clear();
     void swap(List * list1, List * list2);
     void remove(T val);
+    template< typename Predicate >
+    void remove_if(Predicate pred);
     bool empty();
     size_t getSize();
     Node< T > * getAt(size_t index);
@@ -189,6 +191,40 @@ void sobolevsky::List< T >::remove(T val)
       }
     }
     ptr = tempPtr;
+    size--;
+  }
+}
+
+template< typename T >
+template< typename Predicate >
+void sobolevsky::List< T >::remove_if(Predicate pred)
+{
+  Node< T > * ptr = head;
+  Node< T > * tempPtr = nullptr;
+  while (ptr != nullptr)
+  {
+    tempPtr = ptr.next;
+    if (pred(ptr))
+    {
+      if (ptr->prev == nullptr)
+      {
+        ptr->next.prev = ptr->prev;
+        delete ptr;
+      }
+      else if (ptr->next == nullptr)
+      {
+        ptr->prev.next = ptr->next;
+        delete ptr;
+      }
+      else
+      {
+        ptr->prev.next = ptr->next;
+        ptr->next.prev = ptr->prev;
+        delete ptr;
+      }
+    }
+    ptr = tempPtr;
+    size--;
   }
 }
 
