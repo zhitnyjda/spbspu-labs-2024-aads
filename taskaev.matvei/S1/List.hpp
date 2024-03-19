@@ -132,17 +132,16 @@ namespace taskaev
   template <typename T>
   void List<T>::reverse()
   {
-    if(!head){ return; }
     Node<T>* node = head;
     Node<T>* temp = head->next;
     node->next = nullptr;
-    do
+    while(temp)
     {
       Node<T>* am = temp->next;
       temp->next = node;
       node = temp;
       temp = am;
-    } while (temp);
+    }
     head = node;
   }
 

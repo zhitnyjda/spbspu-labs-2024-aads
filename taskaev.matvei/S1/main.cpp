@@ -34,13 +34,13 @@ int main()
       std::cout << " ";
     }
   }
-  std::cout << "\n";
   List<size_t> sums;
   size_t maxNum = 1;
   i = list.begin();
+  size_t j = 0;
   while (i != list.end())
   {
-    size_t j = 0;
+    j = 0;
     auto it = i->second.begin();
     while (it != i->second.end())
     {
@@ -50,14 +50,16 @@ int main()
     }
     i++;
   }
+  if (maxNum != 1)
+  {
+    std::cout << "\n";
+  }
   bool bools = false;
-  size_t j = 0;
-  size_t sum;
+  size_t sum = 0;
   const size_t maxLimit = std::numeric_limits< size_t >::max();
   while (j < maxNum)
   {
     j++;
-    sum = 0;
     i = list.begin();
     while (i != list.end())
     {
@@ -82,6 +84,7 @@ int main()
     }
     std::cout << "\n";
     sums.pushFront(sum);
+    sum = 0;
     if (bools)
     {
       std::cerr << " Stack Overflow error!\n";
@@ -90,13 +93,20 @@ int main()
   }
   sums.reverse();
   typename List<size_t>::ListIterator<size_t> is = sums.begin();
-  while(is != sums.end())
+  if(!sums.empty())
   {
-    std::cout << *is;
-    if(++is != sums.end())
+    while(is != sums.end())
     {
-      std::cout << " ";
+      std::cout << *is;
+      if(++is != sums.end())
+      {
+        std::cout << " ";
+      }
     }
+  }
+  else
+  {
+    std::cout << "0\n";
   }
   std::cout << "\n";
   return 0;
