@@ -3,9 +3,9 @@
 
 namespace miheev
 {
-  int readInt(std::istream& stream)
+  size_t readInt(std::istream& stream)
   {
-    int number = 0;
+    size_t number = 0;
     if (!(stream >> number))
     {
       throw std::logic_error("Cant process number on input\n");
@@ -13,14 +13,14 @@ namespace miheev
     return number;
   }
 
-  List< int > readNumbers(std::istream& stream)
+  List< size_t > readNumbers(std::istream& stream)
   {
     if ((stream >> std::ws).eof())
     {
-      List< int > list;
+      List< size_t > list;
       return list;
     }
-    List< int > list(readInt(stream));
+    List< size_t > list(readInt(stream));
 
     while(!(stream >> std::ws).eof())
     {
@@ -47,22 +47,22 @@ namespace miheev
     return iters;
   }
 
-  List< int >* getLists(SI_pair* pairs, size_t size)
+  List< size_t >* getLists(SI_pair* pairs, size_t size)
   {
-    List< int >* lists = new List< int > [size];
+    List< size_t >* lists = new List< size_t > [size];
     for (size_t i = 0; i < size; i++)
     {
       lists[i] = pairs[i].second;
     }
     return lists;
   }
-  size_t maxListSize(List< int >* lists, size_t size)
+  size_t maxListSize(List< size_t >* lists, size_t size)
   {
-    int max = lists[0].size();
+    size_t max = lists[0].size();
     for (size_t i = 0; i < size; i++)
     {
-      List< int > list = lists[i];
-      int size = list.size();
+      List< size_t > list = lists[i];
+      size_t size = list.size();
       if (size > max)
       {
         max = size;

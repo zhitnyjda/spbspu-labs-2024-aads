@@ -1,10 +1,10 @@
 #include <iostream>
 #include <sstream>
 #include <utility>
+#include <limits>
 #include <string>
 #include "list.hpp"
 #include "mainUtils.hpp"
-
 
 int main()
 {
@@ -13,7 +13,6 @@ int main()
   size_t pairsSize = 5;
   SI_pair* pairs = new SI_pair[pairsSize];
   size_t unusedIndex = 0;
-  bool isOverflow = false;
 
   while (1)
   {
@@ -38,16 +37,8 @@ int main()
       delete [] pairs;
       pairs = copy;
     }
-    try
-    {
-      pairs[unusedIndex++] = getSIPair(stream);
-    }
-    catch (const std::logic_error&)
-    {
-      isOverflow = true;
-    }
+    pairs[unusedIndex++] = getSIPair(stream);
   }
-
   for (size_t i = 0; i < unusedIndex; i++)
   {
     std::cout << pairs[i].first << ' ';
@@ -55,12 +46,14 @@ int main()
   std::cout << '\n';
 
   ListIter* iters = getIters(pairs, unusedIndex);
-  List< int >* lists = getLists(pairs, unusedIndex);
 
+  List< size_t >* lists = getLists(pairs, unusedIndex);
   size_t maxSize = maxListSize(lists, unusedIndex);
   delete[] lists;
-  int* sumArr = new int[maxSize]{};
+
+  size_t* sumArr = new size_t[maxSize]{};
   size_t index = 0;
+  bool isOverflow = false;
 
   bool flag = false;
   do
@@ -71,7 +64,14 @@ int main()
       ListIter iter = iters[i];
       if (iter != nullptr and !iter.isEmptyObject())
       {
-        sumArr[index] += *iter;
+        if (!isOverflow and std::numeric_limits<size_t>::max() - *iter >= sumArr[index])
+        {
+          sumArr[index] += *iter;
+        }
+        else
+        {
+          isOverflow = true;
+        }
         std::cout << *iter << ' ';
         if (iter)
         {
@@ -95,14 +95,11 @@ int main()
     }
     std::cout << '\n';
   }
-  if (index == 0)
-  {
-    std::cout << 0 << '\n';
-  }
   delete[] sumArr;
+
   if (isOverflow)
   {
-    return 1;
+    std::cerr << "sum is bigger than size_t can contain\n";
   }
   return 0;
 }
