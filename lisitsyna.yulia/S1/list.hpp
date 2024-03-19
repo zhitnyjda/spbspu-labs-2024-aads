@@ -59,7 +59,7 @@ public:
   ~List() { clear(); }
   void push_back(T val)
   {
-        ListNode<T>* newNode = new ListNode<T>(val);
+        Node<T>* newNode = new Node<T>(val);
         if (tail) tail->next = newNode;
         else head = newNode;
         tail = newNode;
@@ -70,7 +70,7 @@ public:
   {
     while (head)
     {
-        ListNode<T>* temp = head;
+        Node<T>* temp = head;
         head = head->next;
         delete temp;
     }
@@ -79,14 +79,14 @@ public:
   }
   class iterator
   {
-    ListNode<T>* ptr;
+    Node<T>* ptr;
   public:
     using difference_type = std::ptrdiff_t;
     using value_type = T;
     using pointer = T*;
     using reference = T&;
     using iterator_category = std::forward_iterator_tag;
-    iterator(ListNode<T>* p = nullptr) : ptr(p) {}
+    iterator(Node<T>* p = nullptr) : ptr(p) {}
     iterator& operator++()
     {
       if (ptr == nullptr) throw std::out_of_range("Iterator cannot be incremented past the end");
@@ -120,14 +120,14 @@ public:
   }
   class const_iterator
   {
-    const ListNode<T>* ptr;
+    const Node<T>* ptr;
   public:
     using difference_type = std::ptrdiff_t;
     using value_type = T;
     using pointer = const T*;
     using reference = const T&;
     using iterator_category = std::forward_iterator_tag;
-    const_iterator(const ListNode<T>* p = nullptr) : ptr(p) {}
+    const_iterator(const Node<T>* p = nullptr) : ptr(p) {}
     const_iterator& operator++()
     {
       if (ptr == nullptr) throw std::out_of_range("Const iterator cannot be incremented past the end");
