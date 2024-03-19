@@ -9,14 +9,14 @@ int main()
 {
   using namespace taskaev;
   List< std::pair< std::string, List < size_t > > > list;
-  std::string line = "";
-  std::cin >> line;
+  std::string name = "";
+  std::cin >> name;
   while(std::cin)
   {
     list.pushFront({ line, List<size_t>()});
-    while(std::cin >> line && !std::isalpha(line[0]))
+    while(std::cin >> line && !std::isalpha(name[0]))
     {
-      list.front().second.pushBack(std::stoull(line));
+      list.front().second.pushBack(std::stoull(name));
     }
   }
   if(list.empty())
@@ -67,7 +67,6 @@ int main()
         {
           std::cout << " ";
         }
-        std::cout << i->second.front();
         if (maxLimit - sum >= i->second.front())
         {
           sum += i->second.front();
@@ -76,18 +75,18 @@ int main()
         {
           bools = true;
         }
+        std::cout << i->second.front();
         i->second.popFront();
       }
       i++;
     }
     std::cout << "\n";
-
+    sums.pushFront(sum);
     if (bools)
     {
       std::cerr << " Stack Overflow error!\n";
       return 1;
     }
-    sums.pushFront(sum);
   }
   sums.reverse();
   typename List<size_t>::ListIterator<size_t> is = sums.begin();
