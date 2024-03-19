@@ -21,7 +21,12 @@ int main()
   while (true) {
     line = "";
     std::getline(std::cin, line);
-    if (std::cin.eof()) { break; }
+    if (std::cin.eof()) {
+       break;
+    }
+    if (line == "") {
+      continue;
+    }
     List< std::string > inputList = split(line);
     list numbers;
     inputName = inputList.pop(0);
