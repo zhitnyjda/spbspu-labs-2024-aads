@@ -25,10 +25,11 @@ namespace sobolevsky
     void popBack();
     void clear();
     void swap(List * list1, List * list2);
+    void remove(T val);
     bool empty();
     size_t getSize();
-    Node< T > * getAt(int index);
-    Node< T > * operator [] (int index);
+    Node< T > * getAt(size_t index);
+    Node< T > * operator [] (size_t index);
   };
 }
 
@@ -161,6 +162,37 @@ void sobolevsky::List< T >::swap(List * list1, List * list2)
 }
 
 template< typename T >
+void sobolevsky::List< T >::remove(T val)
+{
+  Node< T > * ptr = head;
+  Node< T > * tempPtr = nullptr;
+  while (ptr != nullptr)
+  {
+    tempPtr = ptr.next;
+    if (ptr->data == val)
+    {
+      if (ptr->prev == nullptr)
+      {
+        ptr->next.prev = ptr->prev;
+        delete ptr;
+      }
+      else if (ptr->next == nullptr)
+      {
+        ptr->prev.next = ptr->next;
+        delete ptr;
+      }
+      else
+      {
+        ptr->prev.next = ptr->next;
+        ptr->next.prev = ptr->prev;
+        delete ptr;
+      }
+    }
+    ptr = tempPtr;
+  }
+}
+
+template< typename T >
 bool sobolevsky::List< T >::empty()
 {
   return (size == 0);
@@ -173,10 +205,10 @@ size_t sobolevsky::List< T >::getSize()
 }
 
 template< typename T >
-sobolevsky::Node< T > * sobolevsky::List< T >::getAt(int index)
+sobolevsky::Node< T > * sobolevsky::List< T >::getAt(size_t index)
 {
   sobolevsky::Node< T > * ptr = head;
-  int n = 0;
+  size_t n = 0;
 
   while(n != index)
   {
@@ -192,7 +224,7 @@ sobolevsky::Node< T > * sobolevsky::List< T >::getAt(int index)
 }
 
 template< typename T >
-sobolevsky::Node< T > * sobolevsky::List< T >::operator [] (int index)
+sobolevsky::Node< T > * sobolevsky::List< T >::operator [] (size_t index)
 {
   return getAt(index);
 }
