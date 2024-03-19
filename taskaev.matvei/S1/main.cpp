@@ -37,10 +37,9 @@ int main()
   List<size_t> sums;
   size_t maxNum = 1;
   i = list.begin();
-  size_t j = 0;
   while (i != list.end())
   {
-    j = 0;
+    size_t j = 0;
     auto it = i->second.begin();
     while (it != i->second.end())
     {
@@ -55,11 +54,13 @@ int main()
     std::cout << "\n";
   }
   bool bools = false;
-  size_t sum = 0;
+  size_t sum;
+  size_t j = 0;
   const size_t maxLimit = std::numeric_limits< size_t >::max();
   while (j < maxNum)
   {
     j++;
+    sum = 0;
     i = list.begin();
     while (i != list.end())
     {
@@ -84,7 +85,6 @@ int main()
     }
     std::cout << "\n";
     sums.pushFront(sum);
-    sum = 0;
     if (bools)
     {
       std::cerr << " Stack Overflow error!\n";
