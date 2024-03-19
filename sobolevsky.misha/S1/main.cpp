@@ -6,7 +6,7 @@
 
 int main()
 {
-  sobolevsky::List< std::vector< unsigned long long > > list;
+  sobolevsky::List< sobolevsky::List< unsigned long long > > list;
 
   size_t maxlen = 0;
   size_t currlen = 0;
@@ -15,23 +15,19 @@ int main()
   bool isOverflow = false;
   while (std::cin >> elem)
   {
-    if (elem == "penis")
-    {
-      break;
-    }
     if (isalpha(elem[0]))
     {
       maxlen = std::max(maxlen, currlen);
-      std::vector< unsigned long long > vec;
+      sobolevsky::List< unsigned long long > subList;
       currlen = 0;
-      list.pushBack(vec, elem);
+      list.pushBack(subList, elem);
       length++;
     }
     else
     {
       unsigned long long i = stoull(elem);
       currlen++;
-      list.tail->data.push_back(i);
+      list.tail->data.pushBack(i, " ");
     }
   }
 
@@ -41,7 +37,7 @@ int main()
     return 0;
   }
 
-  sobolevsky::Iterator< std::vector< unsigned long long > > iter(list.head);
+  sobolevsky::Iterator< sobolevsky::List< unsigned long long > > iter(list.head);
   for (size_t i = 0; i < length; i++)
   {
     std::cout << iter.name();
@@ -55,39 +51,39 @@ int main()
 
   if (maxlen > 0)
   {
-    std::vector< unsigned long long > lastList;
+    sobolevsky::List< unsigned long long > lastList;
     size_t sumInts = 0;
     for (size_t i = 0; i < maxlen; i++)
     {
       sumInts = 0;
       bool first = true;
-      sobolevsky::Iterator< std::vector< unsigned long long > > iter2(list.head);
+      sobolevsky::Iterator< sobolevsky::List< unsigned long long > > iter2(list.head);
       for (size_t j = 0; j < length; j++)
       {
-        if (i < iter2.currNode->data.size())
+        if (i < iter2.currNode->data.size)
         {
           if (first)
           {
-            std::cout << iter2.currNode->data[i];
+            std::cout << iter2.currNode->data[i]->data;
             first = false;
           }
           else
           {
-            std::cout << " " << iter2.currNode->data[i];
+            std::cout << " " << iter2.currNode->data[i]->data;
           }
 
-          if (iter2.currNode->data[i] > (std::numeric_limits< unsigned long long >::max() - sumInts))
+          if (iter2.currNode->data[i]->data > (std::numeric_limits< unsigned long long >::max() - sumInts))
           {
             isOverflow = true;
           }
           else
           {
-            sumInts += iter2.currNode->data[i];
+            sumInts += iter2.currNode->data[i]->data;
           }
         }
         ++iter2;
       }
-      lastList.push_back(sumInts);
+      lastList.pushBack(sumInts, " ");
       std::cout << "\n";
     }
 
@@ -97,10 +93,10 @@ int main()
       return 1;
     }
 
-    for (size_t i = 0; i < lastList.size(); i++)
+    for (size_t i = 0; i < lastList.size; i++)
     {
-      std::cout << lastList[i];
-      if (i != (lastList.size() - 1))
+      std::cout << lastList[i]->data;
+      if (i != (lastList.size - 1))
       {
         std::cout << " ";
       }

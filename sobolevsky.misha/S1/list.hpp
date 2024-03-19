@@ -26,6 +26,8 @@ namespace sobolevsky
     void clear();
     void swap(List * list1, List * list2);
     size_t getSize();
+    Node< T > * getAt(int index);
+    Node< T > * operator [] (int index);
   };
 }
 
@@ -161,6 +163,31 @@ template< typename T >
 size_t sobolevsky::List< T >::getSize()
 {
   return size;
+}
+
+template< typename T >
+sobolevsky::Node< T > * sobolevsky::List< T >::getAt(int index)
+{
+  sobolevsky::Node< T > * ptr = head;
+  int n = 0;
+
+  while(n != index)
+  {
+    if (ptr == nullptr)
+    {
+      return ptr;
+    }
+    ptr = ptr->next;
+    n++;
+  }
+
+  return ptr;
+}
+
+template< typename T >
+sobolevsky::Node< T > * sobolevsky::List< T >::operator [] (int index)
+{
+  return getAt(index);
 }
 
 #endif
