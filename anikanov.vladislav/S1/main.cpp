@@ -4,40 +4,35 @@
 #include <limits>
 #include "list.hpp"
 
+anikanov::List< std::string > split(const std::string &str);
 
 int main()
 {
   using namespace anikanov;
 
-  std::unique_ptr< List< std::pair< std::string, List< unsigned long long > > > > lists(
-      new List< std::pair< std::string, List< unsigned long long > > >
-  );
-  std::string input_name;
-  unsigned long long number;
+
+  using list = List< unsigned long long >;
+  using mainList = List< std::pair< std::string, list > >;
+
+  std::unique_ptr< mainList > lists(new mainList );
+  std::string inputName;
+  std::string line;
 
   while (true) {
-
-    if (!(std::cin >> input_name)) {
-      break;
-    }
-
-    List< unsigned long long > numbers;
-    while (std::cin.peek() != '\n') {
-      if (std::cin >> number) {
-        numbers.push_back(number);
-      } else {
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
-        break;
-      }
+    line = "";
+    std::getline(std::cin, line);
+    if (std::cin.eof()) { break; }
+    List< std::string > inputList = split(line);
+    list numbers;
+    inputName = inputList.pop(0);
+    for (auto &i : inputList) {
+      numbers.push_back(std::stoull(i));
     }
 
     std::pair< std::string, List< unsigned long long > > list_pair;
-    list_pair.first = input_name;
+    list_pair.first = inputName;
     list_pair.second = numbers;
     lists->push_back(list_pair);
-
-    if (std::cin.eof()) { break; }
   }
 
 
@@ -110,4 +105,22 @@ int main()
 
   std::cout << "\n";
   return 0;
+}
+
+anikanov::List< std::string > split(const std::string &str)
+{
+  anikanov::List< std::string > list;
+  std::string cur = "";
+  for (size_t pos = 0; pos != str.size(); ++pos) {
+    if (str[pos] != ' ') {
+      cur += str[pos];
+    } else if (cur != "") {
+      list.push_back(cur);
+      cur = "";
+    }
+  }
+  if (cur != "") {
+    list.push_back(cur);
+  }
+  return list;
 }
