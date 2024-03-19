@@ -6,25 +6,23 @@
 #include <stdexcept>
 
 template<typename T>
-class ListNode
-{
-public:
-  T value;
-  ListNode* next;
-  ListNode(T val) : value(val), next(nullptr) {}
-};
-template<typename T>
 class List
 {
-public:
-  ListNode<T>* head;
-  ListNode<T>* tail;
+private:
+  struct Node
+  {
+    T value;
+    Node* next;
+    Node(T val, Node* next = nullptr) : value(val), next(next) {}
+  };
+  Node* head;
+  Node* tail;
   size_t size;
-
+public:
   List() : head(nullptr), tail(nullptr), size(0) {}
   List(const List& other) : head(nullptr), tail(nullptr), size(0)
   {
-    ListNode<T>* current = other.head;
+    Node<T>* current = other.head;
     while (current != nullptr)
     {
       push_back(current->value);
@@ -36,9 +34,26 @@ public:
     other.head = other.tail = nullptr;
     other.size = 0;
   }
-  List& operator=(List other)
+  List& operator=(const List& other)
   {
-    swap(*this, other);
+    if (this != &other)
+    {
+      List tmp(other);
+      swap(tmp);
+    }
+    return *this;
+  }
+  List& operator=(List&& other) noexcept
+  {
+    if (this != &other)
+    {
+      clear();
+      head = other.head;
+      tail = other.tail;
+      size = other.size;
+      other.head = other.tail = nullptr;
+      other.size = 0;
+    }
     return *this;
   }
   ~List() { clear(); }
