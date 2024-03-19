@@ -26,19 +26,18 @@ template<typename T>
 void nikiforov::input_(std::istream& input, List< std::pair< std::string, List< T > > >& seqsPair)
 {
   Iterator< std::pair< std::string, List< unsigned long long > > > iterSeqsPair = seqsPair.begin();
-  std::string nameSeq;
-  unsigned long long num = 0;
+  std::string elemSeq;
   bool firstLine = false;
 
-  while (input >> nameSeq)
+  while (input >> elemSeq)
   {
-    if (isdigit(nameSeq[0]))
+    if (isdigit(elemSeq[0]))
     {
-      (*iterSeqsPair).second.push_back(std::stoull(nameSeq));
+      (*iterSeqsPair).second.push_back(std::stoull(elemSeq));
     }
     else
     {
-      seqsPair.push_back({ nameSeq,{} });
+      seqsPair.push_back({ elemSeq,{} });
       if (!firstLine)
       {
         iterSeqsPair = seqsPair.begin();
