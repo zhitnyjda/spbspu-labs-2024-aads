@@ -1,30 +1,29 @@
 #ifndef FUNCTION_HPP
 #define FUNCTION_HPP
-#include "list.hpp"
 #include <iostream>
 #include <string>
 #include <limits>
+#include "list.hpp"
 
 namespace nikiforov
 {
   template <typename T>
-  class Funcs
-  {
-  public:
-    void input_(std::istream& input, List< std::pair< std::string, List< T > > >& seqsPair);
-    void outputName_(List< std::pair< std::string, List< T > > >& seqsPair);
-    void outputSeqs_(List< std::pair< std::string, List< T > > >& seqsPair, List<T>& listSumm);
-    void outputSumm_(List<T>& listSumm);
-    size_t max(const size_t first_param, const size_t second_param);
+  void input_(std::istream& input, List< std::pair< std::string, List< T > > >& seqsPair);
 
-  private:
-    size_t maxSize = 0;
-    bool overflow = false;
-  };
+  template <typename T>
+  void outputName_(List< std::pair< std::string, List< T > > >& seqsPair, size_t& maxSize);
+
+  template <typename T>
+  void outputSeqs_(List< std::pair< std::string, List< T > > >& seqsPair, List<T>& listSumm, size_t maxSize);
+
+  template <typename T>
+  void outputSumm_(List<T>& listSumm, size_t maxSize);
+
+  size_t max(const size_t first_param, const size_t second_param);
 }
 
 template<typename T>
-void nikiforov::Funcs<T>::input_(std::istream& input, List< std::pair< std::string, List< T > > >& seqsPair)
+void nikiforov::input_(std::istream& input, List< std::pair< std::string, List< T > > >& seqsPair)
 {
   Iterator< std::pair< std::string, List< unsigned long long > > > iterSeqsPair = seqsPair.begin();
   std::string nameSeq;
@@ -33,37 +32,28 @@ void nikiforov::Funcs<T>::input_(std::istream& input, List< std::pair< std::stri
 
   while (input >> nameSeq)
   {
-    if (!firstLine)
+    if (isdigit(nameSeq[0]))
     {
-      seqsPair.push_back({ nameSeq, {} });
-      iterSeqsPair = seqsPair.begin();
-      firstLine = true;
+      (*iterSeqsPair).second.push_back(std::stoull(nameSeq));
     }
     else
     {
-      seqsPair.push_back({ nameSeq, {} });
-      iterSeqsPair++;
-    }
-
-    if (input.peek() == '\n')
-    {
-      continue;
-    }
-
-    while (input >> num)
-    {
-      if (input.peek() == '\n')
+      seqsPair.push_back({ nameSeq,{} });
+      if (!firstLine)
       {
-        (*iterSeqsPair).second.push_back(num);
-        break;
+        iterSeqsPair = seqsPair.begin();
+        firstLine = true;
       }
-      (*iterSeqsPair).second.push_back(num);
+      else
+      {
+        iterSeqsPair++;
+      }
     }
   }
 }
 
 template<typename T>
-void nikiforov::Funcs<T>::outputName_(List<std::pair<std::string, List<T>>>& seqsPair)
+void nikiforov::outputName_(List<std::pair<std::string, List<T>>>& seqsPair, size_t& maxSize)
 {
   Iterator< std::pair< std::string, List< unsigned long long > > > iterSeqsPair = seqsPair.begin();
   size_t countNames = seqsPair.size();
@@ -84,7 +74,7 @@ void nikiforov::Funcs<T>::outputName_(List<std::pair<std::string, List<T>>>& seq
 }
 
 template<typename T>
-void nikiforov::Funcs<T>::outputSeqs_(List<std::pair<std::string, List<T>>>& seqsPair, List<T>& listSumm)
+void nikiforov::outputSeqs_(List<std::pair<std::string, List<T>>>& seqsPair, List<T>& listSumm, size_t maxSize)
 {
   if (maxSize != 0)
   {
@@ -93,6 +83,7 @@ void nikiforov::Funcs<T>::outputSeqs_(List<std::pair<std::string, List<T>>>& seq
     size_t countInSeq = 0;
     unsigned long long summ = 0;
     bool firstElem = false;
+    bool overflow = false;
 
     while (countInSeq < maxSize)
     {
@@ -134,7 +125,7 @@ void nikiforov::Funcs<T>::outputSeqs_(List<std::pair<std::string, List<T>>>& seq
 }
 
 template<typename T>
-void nikiforov::Funcs<T>::outputSumm_(List<T>& listSumm)
+void nikiforov::outputSumm_(List<T>& listSumm, size_t maxSize)
 {
   if (maxSize != 0)
   {
@@ -153,8 +144,7 @@ void nikiforov::Funcs<T>::outputSumm_(List<T>& listSumm)
   }
 }
 
-template<typename T>
-size_t nikiforov::Funcs<T>::max(const size_t first_param, const size_t second_param)
+size_t nikiforov::max(const size_t first_param, const size_t second_param)
 {
   return first_param > second_param ? first_param : second_param;
 }

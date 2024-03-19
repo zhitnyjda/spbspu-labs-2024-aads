@@ -6,13 +6,13 @@ int main()
 
   List< std::pair< std::string, List< unsigned long long > > > seqsPair;
   List< unsigned long long > listSumm;
-  Funcs< unsigned long long > func;
+  size_t maxSize = 0;
   try
   {
-    func.input_(std::cin, seqsPair);
-    func.outputName_(seqsPair);
-    func.outputSeqs_(seqsPair, listSumm);
-    func.outputSumm_(listSumm);
+    input_(std::cin, seqsPair);
+    outputName_(seqsPair, maxSize);
+    outputSeqs_(seqsPair, listSumm, maxSize);
+    outputSumm_(listSumm, maxSize);
   }
   catch (const std::overflow_error& e)
   {
