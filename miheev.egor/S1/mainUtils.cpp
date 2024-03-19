@@ -26,7 +26,6 @@ namespace miheev
     {
       list.pushBack(readInt(stream));
     }
-    list.print();
     return list;
   }
 

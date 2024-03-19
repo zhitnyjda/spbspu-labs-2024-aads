@@ -58,6 +58,7 @@ int main()
   List< int >* lists = getLists(pairs, unusedIndex);
 
   size_t maxSize = maxListSize(lists, unusedIndex);
+  delete[] lists;
   int* sumArr = new int[maxSize]{};
   size_t index = 0;
 
@@ -83,22 +84,25 @@ int main()
     std::cout << '\n';
   } while (flag);
 
-  if (!isOverflow and index > 0)
+  delete[] iters;
+  delete[] pairs;
+
+  if (!isOverflow)
   {
     for (size_t i = 0; i < maxSize; i++)
     {
       std::cout << sumArr[i] << ' ';
     }
+    std::cout << '\n';
   }
-  else if (!isOverflow)
+  if (index == 0)
   {
-    std::cout << 0;
+    std::cout << 0 << '\n';
   }
-  std::cout << '\n';
-
-  delete[] lists;
-  delete[] iters;
   delete[] sumArr;
-  delete[] pairs;
+  if (isOverflow)
+  {
+    return 1;
+  }
   return 0;
 }
