@@ -6,7 +6,7 @@
 #include <stdexcept>
 
 template<typename T>
-class Node
+class List
 {
 private:
   struct Node
