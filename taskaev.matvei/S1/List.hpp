@@ -53,8 +53,6 @@ namespace taskaev
   List<T>::~List<T>()
   {
     clear();
-    delete head;
-    delete tail;
   }
   template <typename T>
   T& List<T>::front() const
