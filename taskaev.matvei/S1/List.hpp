@@ -18,7 +18,7 @@ namespace taskaev
     void pushFront(const T& data);
     void pushBack(const T& data);
     void popFront();
-    void clean();
+    void clear();
     bool empty();
     void swap(List<T>& other);
     void remove(const T& value);
@@ -83,12 +83,12 @@ namespace taskaev
   void List<T>::popFront()
   {
     Node<T>* node = head;
-    head = node->next;
+    head = head->next;
     delete node;
   }
 
   template <typename T>
-  void List<T>::clean()
+  void List<T>::clear()
   {
     while (head) { popFront(); }
   }
