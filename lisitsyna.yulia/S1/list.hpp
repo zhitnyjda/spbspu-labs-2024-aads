@@ -22,7 +22,7 @@ public:
   List() : head(nullptr), tail(nullptr), size(0) {}
   List(const List& other) : head(nullptr), tail(nullptr), size(0)
   {
-    Node<T>* current = other.head;
+    List<T>::Node* current = other.head;
     while (current != nullptr)
     {
       push_back(current->value);
@@ -59,7 +59,7 @@ public:
   ~List() { clear(); }
   void push_back(T val)
   {
-        Node<T>* newNode = new Node<T>(val);
+        List<T>::Node* newNode = new List<T>::Node(val);
         if (tail) tail->next = newNode;
         else head = newNode;
         tail = newNode;
@@ -70,7 +70,7 @@ public:
   {
     while (head)
     {
-        Node<T>* temp = head;
+        List<T>::Node* temp = head;
         head = head->next;
         delete temp;
     }
@@ -127,7 +127,7 @@ public:
     using pointer = const T*;
     using reference = const T&;
     using iterator_category = std::forward_iterator_tag;
-    const_iterator(const Node<T>* p = nullptr) : ptr(p) {}
+    const_iterator(const List<T>::Node* p = nullptr) : ptr(p) {}
     const_iterator& operator++()
     {
       if (ptr == nullptr) throw std::out_of_range("Const iterator cannot be incremented past the end");
