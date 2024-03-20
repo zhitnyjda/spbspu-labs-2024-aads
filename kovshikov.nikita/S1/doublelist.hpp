@@ -163,9 +163,12 @@ namespace kovshikov
       head_ = newNode;
       tail_ = newNode;
     }
-    newNode->prev = tail_;
-    tail_->next = newNode;
-    tail_ = newNode;
+    else
+    {
+      newNode->prev = tail_;
+      tail_->next = newNode;
+      tail_ = newNode;
+    }
   }
 
   template <typename T>
