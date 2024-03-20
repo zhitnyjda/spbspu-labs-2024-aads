@@ -11,10 +11,11 @@ namespace taskaev
   {
   public:
     List();
-    ~List() = default;
+    ~List();
     List(const List&) = default;
     List(List&&) = default;
     T& front() const;
+    T& back() const;
     void pushFront(const T& data);
     void pushBack(const T& data);
     void popFront();
@@ -49,8 +50,22 @@ namespace taskaev
   List<T>::List():head(nullptr){}
 
   template <typename T>
-  T& List<T>::front() const {
+  List<T>::~List<T>()
+  {
+    clear();
+    delete head;
+    delete tail;
+  }
+  template <typename T>
+  T& List<T>::front() const
+  {
     return head->data;
+  }
+
+  template <typename T>
+  T& List<T>::back() const
+  {
+    return tail->data;
   }
 
   template <typename T>
