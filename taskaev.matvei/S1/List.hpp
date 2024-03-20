@@ -25,7 +25,6 @@ namespace taskaev
     void remove(const T& value);
     void reverse();
     Node<T>* head;
-    Node<T>* tail;
   public:
   template< typename U >
   class ListIterator
@@ -69,32 +68,27 @@ namespace taskaev
   template <typename T>
   void List<T>::pushFront(const T& data)
   {
-    Node<T>* newNode = new Node<T>(data);
-    if(empty())
-    {
-      head = newNode;
-      tail = newNode;
-    }
-    else
-    {
-      newNode->next = head;
-      head = newNode;
-    }
+    Node<T>* node = new Node<T>(data);
+    node -> next = head;
+    head = node;
   }
 
   template <typename T>
   void List<T>::pushBack(const T& data)
   {
-    Node<T>* newNode = new Node<T>(data);
-    if(empty())
+    Node<T>* node = new Node<T>(data);
+    if(empty()
     {
-      head = newNode;
-      tail = newNode;
+      head = node;
     }
     else
     {
-      tail->next = newNode;
-      tail = newNode;
+      Node<T>* temp = head;
+      while(temp->next)
+      {
+        temp = temp->next;
+      }
+      temp->next = node;
     }
   }
 
