@@ -86,7 +86,7 @@ public:
     using pointer = T*;
     using reference = T&;
     using iterator_category = std::forward_iterator_tag;
-    iterator(Node<T>* p = nullptr) : ptr(p) {}
+    iterator(List<T>::Node* p = nullptr) : ptr(p) {}
     iterator& operator++()
     {
       if (ptr == nullptr) throw std::out_of_range("Iterator cannot be incremented past the end");
@@ -120,7 +120,7 @@ public:
   }
   class const_iterator
   {
-    const Node<T>* ptr;
+    const List<T>::Node* ptr;
   public:
     using difference_type = std::ptrdiff_t;
     using value_type = T;
