@@ -8,7 +8,7 @@ namespace taskaev
   {
     T data;
     Node<T>* next;
-    Node(const T& value) : data(value), next(nullptr) {}
+    Node(T value) : data(value), next(nullptr) {}
   };
 }
 #endif
