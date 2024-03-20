@@ -79,7 +79,7 @@ public:
   }
   class iterator
   {
-    Node<T>* ptr;
+    List<T>::Node* ptr;
   public:
     using difference_type = std::ptrdiff_t;
     using value_type = T;
