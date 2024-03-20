@@ -15,7 +15,6 @@ namespace taskaev
     List(const List&) = default;
     List(List&&) = default;
     T& front() const;
-    T& back() const;
     void pushFront(const T& data);
     void pushBack(const T& data);
     void popFront();
@@ -60,12 +59,6 @@ namespace taskaev
   }
 
   template <typename T>
-  T& List<T>::back() const
-  {
-    return tail->data;
-  }
-
-  template <typename T>
   void List<T>::pushFront(const T& data)
   {
     Node<T>* node = new Node<T>(data);
@@ -77,7 +70,7 @@ namespace taskaev
   void List<T>::pushBack(const T& data)
   {
     Node<T>* node = new Node<T>(data);
-    if(empty()
+    if(empty())
     {
       head = node;
     }
