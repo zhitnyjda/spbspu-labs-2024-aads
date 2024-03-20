@@ -84,14 +84,14 @@ int main()
       i++;
     }
     std::cout << "\n";
-    sums.pushBack(sum);
+    sums.pushFront(sum);
     if (bools)
     {
       std::cerr << " Stack Overflow error!\n";
       return 1;
     }
   }
-  //sums.reverse();
+  sums.reverse();
   typename List<size_t>::ListIterator<size_t> is = sums.begin();
   if(!sums.empty())
   {
