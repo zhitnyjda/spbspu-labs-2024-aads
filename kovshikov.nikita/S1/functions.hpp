@@ -6,13 +6,12 @@
 
 namespace kovshikov
 {
-  void inputPairs(DoubleList<std::pair<std::string, DoubleList<int>>> &allPairs) //нужно ли принимать поток???
+  void inputPairs(DoubleList<std::pair<std::string, DoubleList<int>>> &allPairs)
   {
     int i = 0;
     while(!std::cin.eof())
     {
       i++;
-      std::cout << "pair number: " << i << "\n";
       DoubleList<int> list;
       std::string listName;
       std::string integerString;

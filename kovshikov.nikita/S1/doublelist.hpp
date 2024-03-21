@@ -2,7 +2,6 @@
 #define DOUBLELIST_HPP
 #include "node.hpp"
 #include <cstddef>
-//#include <iostream> //brrr
 #include <utility>
 #include "iterator.hpp"
 
@@ -15,11 +14,11 @@ namespace kovshikov
     DoubleList(): head_(nullptr), tail_(nullptr) {};
     DoubleList(size_t size, const T &value);
     DoubleList(const DoubleList& dl);
-    DoubleList(DoubleList&& dl); //???
+    DoubleList(DoubleList&& dl);
     ~DoubleList();
 
     DoubleList<T>& operator=(const DoubleList<T>& dl);
-    DoubleList<T>& operator=(DoubleList&& dl); //???
+    DoubleList<T>& operator=(DoubleList&& dl);
 
     T& front() const;
     T& back() const;
@@ -140,7 +139,7 @@ namespace kovshikov
   template <typename T>
   void DoubleList<T>::pushFront(const T &value)
   {
-    Node<T>* newNode = new Node<T>(value); // генерация исключения?
+    Node<T>* newNode = new Node<T>(value);
     if (this->empty() == true)
     {
       head_ = newNode;
@@ -157,7 +156,7 @@ namespace kovshikov
   template <typename T>
   void DoubleList<T>::pushBack(const T& value)
   {
-    Node<T>* newNode = new Node<T>(value); //генерация исключения??
+    Node<T>* newNode = new Node<T>(value);
     if (this->empty() == true)
     {
       head_ = newNode;
@@ -187,7 +186,6 @@ namespace kovshikov
       {
         head_->prev = nullptr;
       }
-     // std::cout << "popFront\n"; //brrrr
     }
   }
 
@@ -207,7 +205,6 @@ namespace kovshikov
       {
         tail_->next = nullptr;
       }
-    //  std::cout << "popBack\n"; //brrr
     }
   }
 

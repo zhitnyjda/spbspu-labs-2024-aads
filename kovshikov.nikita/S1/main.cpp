@@ -8,13 +8,13 @@ int main()
   inputPairs(allPairs);
   outputListName(allPairs);
 
-  DoubleList<DoubleList<int>> resultList; //список из результирующих последовательностей
+  DoubleList<DoubleList<int>> resultList;
   Iterator<std::pair<std::string, DoubleList<int>>> iteratorAllPairs = allPairs.begin();
   bool flag = true;
-  while(flag == true) // проходимся по всем int и записываем все последовательности
+  while(flag == true)
   {
     DoubleList<int> list;
-    while(iteratorAllPairs != allPairs.end()) // проходимся по одному int из списков хранящегося в std::pair в allPairs и записываем данные в одну последовательность
+    while(iteratorAllPairs != allPairs.end())
     {
       if(!iteratorAllPairs->second.empty())
       {
