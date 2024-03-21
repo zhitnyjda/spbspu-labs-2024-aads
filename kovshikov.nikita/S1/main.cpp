@@ -33,6 +33,21 @@ int main()
       flag = false;
     }
   }
+  while(!resultList.empty())
+  {
+    DoubleList<int> list = resultList.front();
+    while(!list.empty())
+    {
+      std::cout << list.front();
+      list.popFront();
+      if(!list.empty())
+      {
+        std::cout << " ";
+      }
+    }
+    resultList.popFront();
+    std::cout << "\n";
+  }
   return 0;
 }
 
