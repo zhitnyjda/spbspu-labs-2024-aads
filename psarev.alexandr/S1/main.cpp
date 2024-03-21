@@ -4,9 +4,20 @@
 
 int main()
 {
-  using namespace psarev;
+  //using namespace psarev;
 
-  List< std::pair< std::string, List< unsigned long long > > > lines;
+  //List< int > testList;
+  //testList.pushBack(1);
+  //testList.pushBack(2);
+  //testList.pushBack(2);
+  //testList.pushBack(1);
+  //List< int >::ConstIterator it = List< int >::ConstIterator(testList.begin());
+  //for (size_t i = 0; i < testList.getSize(); i++)
+  //{
+  //  std::cout << *it << '\n';
+  //  it++;
+  //}
+  /*List< std::pair< std::string, List< unsigned long long > > > lines;
   Iterator< std::pair< std::string, List< unsigned long long > > > iterLine;
   std::string line = "";
   size_t maxDigits = 0;
@@ -40,6 +51,6 @@ int main()
     std::cerr << "Error: Value overflow during counting the sum!\n";
     return 1;
   }
-  outSums< unsigned long long >(sums);
+  outSums< unsigned long long >(sums);*/
   return 0;
 }
