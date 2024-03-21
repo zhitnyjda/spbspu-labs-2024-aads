@@ -2,7 +2,7 @@
 #define DOUBLELIST_HPP
 #include "node.hpp"
 #include <cstddef>
-#include <iostream> //brrr
+//#include <iostream> //brrr
 #include <utility>
 #include "iterator.hpp"
 
@@ -187,7 +187,7 @@ namespace kovshikov
       {
         head_->prev = nullptr;
       }
-      std::cout << "popFront\n"; //brrrr
+     // std::cout << "popFront\n"; //brrrr
     }
   }
 
@@ -207,7 +207,7 @@ namespace kovshikov
       {
         tail_->next = nullptr;
       }
-      std::cout << "popBack\n"; //brrr
+    //  std::cout << "popBack\n"; //brrr
     }
   }
 
