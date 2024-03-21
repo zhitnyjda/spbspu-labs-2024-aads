@@ -21,7 +21,7 @@ int main()
       std::cout << iterator.node->data.first;
       iterator++;
     }
-    std::cout << '\n';
+    std::cout << "\n";
     for (size_t index = 0; index < maxSize; index++)
     {
       iterator = list.begin();
@@ -40,7 +40,7 @@ int main()
       }
       sums.pushBack(sum);
       sum = 0;
-      std::cout << '\n';
+      std::cout << "\n";
     }
 
     iteratorForSums = sums.begin();
@@ -63,10 +63,11 @@ int main()
         iteratorForSums++;
       }
     }
+    std::cout << "\n";
   }
   else
   {
-    std::cout << 0 << '\n';
+    std::cout << 0 << "\n";
   }
   return 0;
 }
