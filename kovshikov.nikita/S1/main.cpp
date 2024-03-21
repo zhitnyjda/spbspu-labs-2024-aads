@@ -1,45 +1,35 @@
-#include <iostream>
 #include "doublelist.hpp"
-#include <utility>
-#include <string>
+#include "input_pairs.hpp"
 
 using namespace kovshikov;
 int main()
 {
- /* std::string string = " 2 52 2 2 32";
-  std::cout << string[0] << "\n";
-  std::cout << string.length() << "\n";
-  std::string tempString = "";
-  for(size_t i = 0; i < string.length(); i++)
+  DoubleList<std::pair<std::string, DoubleList<int>>> allPairs;
+  inputPairs(allPairs);
+  std::cout << allPairs.back().first << "\n";
+  Iterator<int> backIterator = allPairs.back().second.begin();
+  while(backIterator != nullptr)
   {
-    if(string[i] != ' ')
-    {
-      tempString.append(1, string[i]);
-    }
-    else
-    {
-      if(!tempString.empty())
-      {
-        int integer = std::stoi(tempString, nullptr, 10);
-        std::cout << integer << "\n";
-        tempString.clear();
-      }
-    }
+    std::cout << *backIterator << " ";
+    backIterator++;
   }
-  int integer = std::stoi(tempString, nullptr, 10);
-  std::cout << integer << "\n";*/
-
-  DoubleList<std::pair<std::string, DoubleList<int>>> allPairs; //список всех пар
-  int i = 0;
-  while(!std::cin.eof()) // производится ввод, до момента ctrl + D
+  std::cout << allPairs.front().first << "\n";
+  Iterator<int> frontIterator = allPairs.front().second.begin();
+  while(frontIterator != nullptr)
+  {
+    std::cout << *frontIterator << " ";
+    frontIterator++;
+  }
+ /* int i = 0;
+  while(!std::cin.eof())
   {
     i++;
     std::cout << "pair number: " << i << "\n";
     DoubleList<int> list;
     std::string listName;
     std::string integerString;
-    std::cin >> listName; //запишется наименование последовательности
-    std::getline(std::cin, integerString); //вводятся числа в качестве строки
+    std::cin >> listName;
+    std::getline(std::cin, integerString);
     if(!listName.empty())
     {
       std::string tempString;
@@ -60,28 +50,11 @@ int main()
           }
         }
       }
-      integer = std::stoi(tempString, nullptr, 10); //проверка на пустоту строки
+      integer = std::stoi(tempString, nullptr, 10);
       list.pushBack(integer);
       allPairs.pushBack(std::pair<std::string, DoubleList<int>> {listName, list});
-
-
-
-    /*  std::cout << allPairs.back().first << "\n";
-      Iterator<int> iterator = allPairs.back().second.begin();
-      while(iterator != nullptr)
-      {
-        std::cout << *iterator << " ";
-        iterator++;
-      }*/
     }
-  }
-  std::cout << allPairs.back().first << "\n";
-  Iterator<int> iterator = allPairs.back().second.begin();
-  while(iterator != nullptr)
-  {
-    std::cout << *iterator << " ";
-    iterator++;
-  }
+  }*/
   return 0;
 }
 
