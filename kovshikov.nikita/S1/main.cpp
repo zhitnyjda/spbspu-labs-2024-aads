@@ -62,9 +62,26 @@ int main()
       }
       integer = std::stoi(tempString, nullptr, 10); //проверка на пустоту строки
       list.pushBack(integer);
-      std::pair<std::string, DoubleList<int>> element = {listName, list};
-      allPairs.pushBack(element);
+      allPairs.pushBack(std::pair<std::string, DoubleList<int>> {listName, list});
+
+
+
+    /*  std::cout << allPairs.back().first << "\n";
+      Iterator<int> iterator = allPairs.back().second.begin();
+      while(iterator != nullptr)
+      {
+        std::cout << *iterator << " ";
+        iterator++;
+      }*/
     }
+  }
+  std::cout << allPairs.back().first << "\n";
+  Iterator<int> iterator = allPairs.back().second.begin();
+  while(iterator != nullptr)
+  {
+    std::cout << *iterator << " ";
+    iterator++;
   }
   return 0;
 }
+
