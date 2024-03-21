@@ -4,11 +4,13 @@ doroshenko::List<std::pair<std::string, doroshenko::List<size_t>>> doroshenko::l
 {
   std::string inputString = "";
   doroshenko::List<std::pair<std::string, doroshenko::List<size_t>>> inputList;
-  input >> inputString;
-  while (input)
+  while(input >> inputString)
   {
-    inputList.pushBack({ inputString, doroshenko::List<size_t>() });
-    while (input >> inputString && !std::isalpha(inputString[0]))
+    if (std::isalpha(inputString[0]))
+    {
+      inputList.pushBack({ inputString, doroshenko::List<size_t>() });
+    }
+    else
     {
       inputList.tail_->data.second.pushBack(std::stoull(inputString));
     }
