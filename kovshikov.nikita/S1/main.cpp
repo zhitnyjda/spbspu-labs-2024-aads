@@ -7,20 +7,32 @@ int main()
   DoubleList<std::pair<std::string, DoubleList<int>>> allPairs;
   inputPairs(allPairs);
   outputListName(allPairs);
- /* Iterator<std::pair<std::string, DoubleList<int>>> iterator = allPairs.begin();
-  while(iterator != nullptr)
+
+  DoubleList<DoubleList<int>> resultList; //список из результирующих последовательностей
+  Iterator<std::pair<std::string, DoubleList<int>>> iteratorAllPairs = allPairs.begin();
+  bool flag = true;
+  while(flag == true) // проходимся по всем int и записываем все последовательности
   {
-    std::cout << iterator->first;
-    iterator++;
-    if(iterator != nullptr)
+    DoubleList<int> list;
+    while(iteratorAllPairs != allPairs.end()) // проходимся по одному int из списков хранящегося в std::pair в allPairs и записываем данные в одну последовательность
     {
-      std::cout << " ";
+      if(!iteratorAllPairs->second.empty())
+      {
+        list.pushBack(iteratorAllPairs->second.front());
+        iteratorAllPairs->second.popFront();
+      }
+      iteratorAllPairs++;
+    }
+    if(!list.empty())
+    {
+      resultList.pushBack(list);
+      iteratorAllPairs = allPairs.begin();
     }
     else
     {
-      std::cout << "\n";
+      flag = false;
     }
-  }*/
+  }
   return 0;
 }
 
