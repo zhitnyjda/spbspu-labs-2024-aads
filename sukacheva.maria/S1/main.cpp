@@ -23,7 +23,7 @@ int main() {
       if (it.node->data.second[i])
       {
         std::cout << it.node->data.second[i]->data;
-        if (it.node->data.second[i]->next) {
+        if (it.node->data.second[i + 1]) {
           std::cout << " ";
         }
         sum += it.node->data.second[i]->data;
@@ -35,5 +35,6 @@ int main() {
     sum = 0;
   }
   sumOfArgs.printList();
+  std::cout << "\n";
   return 0;
 }
