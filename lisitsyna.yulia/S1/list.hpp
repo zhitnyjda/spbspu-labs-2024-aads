@@ -109,7 +109,7 @@ public:
   }
   iterator end()
   {
-    if (nullptr)
+    if (this == nullptr)
     {
       return nullptr;
     }
