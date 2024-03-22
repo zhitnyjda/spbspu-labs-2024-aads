@@ -33,7 +33,7 @@ int main()
     }
   if (!List.empty())
   {
-    output << "\n";
+    std::cout << "\n";
   }
   for (size_t i = 0; i < maxLen; ++i)
   {
@@ -53,7 +53,7 @@ int main()
     }
     if (!List.empty())
     {
-      output << "\n";
+      std::cout << "\n";
     }
   }
   std::vector<long long> sums(maxLen, 0);
@@ -84,7 +84,7 @@ int main()
   }
   if (!List.empty())
   {
-    output << "\n";
+    std::cout << "\n";
   }
   return 0;
 }
