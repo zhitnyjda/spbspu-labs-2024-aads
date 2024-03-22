@@ -3,6 +3,7 @@
 
 #include "ListIterator.hpp"
 #include <iostream>
+#include <initializer_list>
 
 namespace sukacheva {
   template <class T>
@@ -16,6 +17,10 @@ namespace sukacheva {
     using const_iterator = Iterator< const T >;
 
     List() : head(nullptr), tail(nullptr), listSize(0){}
+    List(size_t count, const T& value);
+    List(std::initializer_list<T> init);
+    template< class InputIt >
+    List(InputIt first, InputIt last);
     ~List();
     List(const List&);
     List(List&& other);
@@ -31,6 +36,9 @@ namespace sukacheva {
     void printList();
     T& front();
     void reverse();
+    void remove(const T& value);
+    template< class UnaryPredicate >
+    void remove_if(UnaryPredicate p);
 
     iterator begin() { return iterator(head); }
     iterator end() { return iterator(nullptr); }
@@ -40,8 +48,80 @@ namespace sukacheva {
   };
 
   template<class T>
-  void sukacheva::List<T>::reverse()
+  template<class UnaryPredicate>
+  void List<T>::remove_if(UnaryPredicate p)
   {
+    size_t index = 0;
+    Iterator< T > it = begin();
+    while (it.node)
+    {
+      if (p(it.node->data)) {
+        if (it.node == head) {
+          popFront();
+        }
+        else if (it.node == tail) {
+          tail = this->operator[](index);
+          this->operator[](index)->next = nullptr;
+          it.node = this->operator[](index + 2);
+          listSize--;
+        }
+        else {
+          this->operator[](index)->next = this->operator[](index + 2);
+          this->operator[](index + 1)->next = nullptr;
+          it.node = this->operator[](index + 2);
+          listSize--;
+        }
+      }
+      else {
+        index++;
+        it.node = this->operator[](index + 1);
+      }
+    }
+  }
+
+  template<class T>
+  void List<T>::remove(const T& value)
+  {
+    size_t index = 0;
+    Iterator< T > it = begin();
+    while (it.node)
+    {
+      if (it.node->data == value) {
+        if (it.node == head) {
+          popFront();
+        }
+        else if (it.node == tail) {
+          tail = this->operator[](index);
+          this->operator[](index)->next = nullptr;
+          it.node = this->operator[](index + 2);
+          listSize--;
+        }
+        else {
+          this->operator[](index)->next = this->operator[](index + 2);
+          this->operator[](index + 1)->next = nullptr;
+          it.node = this->operator[](index + 2);
+          listSize--;
+        }
+      }
+      else {
+        index++;
+        it.node = this->operator[](index + 1);
+      }
+    }
+  }
+
+  template<class T>
+  void List<T>::reverse()
+  {
+    size_t tempSize = listSize;
+    for (size_t i = tempSize - 1; i != -1; i--)
+    {
+      pushBack(this->operator[](i)->data);
+    }
+    for (size_t i = 0; i != tempSize; i++)
+    {
+      popFront();
+    }
   }
 
   template<class T>
@@ -64,7 +144,7 @@ namespace sukacheva {
   }
 
   template<class T>
-  Node<T>* sukacheva::List<T>::operator[](size_t index)
+  Node<T>* List<T>::operator[](size_t index)
   {
     Iterator< T > it = begin();
     for (size_t i = 0; i != index; i++) {
@@ -77,7 +157,7 @@ namespace sukacheva {
   }
 
   template<class T>
-  void sukacheva::List<T>::pushBack(const T& data)
+  void List<T>::pushBack(const T& data)
   {
     Node< T >* newNode = new Node< T >(data);
     if (empty()) {
@@ -174,6 +254,34 @@ namespace sukacheva {
     other.head = nullptr;
     other.tail = nullptr;
     other.listSize = 0;
+  }
+
+  template<class T>
+  List<T>::List(size_t count, const T& value) : List()
+  {
+    for (size_t i = 0; i != count; ++i) {
+      pushBack(value);
+    }
+  }
+
+  template<class T>
+  List<T>::List(std::initializer_list<T> init) : List()
+  {
+    Iterator< T > it = init.begin();
+    while (it) {
+      pushBack(it.node->data);
+      it++;
+    }
+  }
+
+  template<class T>
+  template<class InputIt>
+  List<T>::List(InputIt first, InputIt last) : List()
+  {
+    while (first != last) {
+      pushBack(first);
+      first++;
+    }
   }
 }
 
