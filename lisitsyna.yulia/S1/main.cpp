@@ -33,7 +33,7 @@ int main()
     }
   if (!sequences.empty())
   {
-    std::cout << "\n";
+    std::cout << 0 << "\n";
   }
   for (size_t i = 0; i < maxLen; ++i)
   {
@@ -53,7 +53,7 @@ int main()
     }
     if (!sequences.empty())
     {
-      std::cout << "\n";
+      std::cout << 0 << "\n";
     }
   }
   std::vector<long long> sums(maxLen, 0);
@@ -84,7 +84,7 @@ int main()
   }
   if (!sequences.empty())
   {
-    std::cout << "\n";
+    std::cout << 0 << "\n";
   }
   return 0;
 }
