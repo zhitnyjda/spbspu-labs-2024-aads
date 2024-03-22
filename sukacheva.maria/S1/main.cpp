@@ -23,7 +23,7 @@ int main() {
       if (it.node->data.second[i])
       {
         std::cout << it.node->data.second[i]->data;
-        if (it.node->data.second[i + 1]) {
+        if (it != newList.end()) {
           std::cout << " ";
         }
         sum += it.node->data.second[i]->data;
