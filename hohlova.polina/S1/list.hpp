@@ -8,60 +8,116 @@
 
 namespace hohlova
 {
-  template < typename T >
+  template <typename T>
   struct List
   {
   public:
     List();
     ~List();
     void pop_front();
-    void push_back(const std::vector<T>& nums);
+    void push_back(const T& value);
     void clear();
     size_t size() const;
 
-    const std::vector<T>& operator[](size_t index) const { return data[index]; }
-    std::vector<T>& operator[](size_t index) { return data[index]; }
-
-    void push_front(std::vector<std::vector<T>> data);
-    void insert(std::vector<std::vector<T>> data, int index);
+    void push_front(const T& value);
+    void insert(const T& value, int index);
     void removeAt(int index);
     void pop_back();
+
+    class Iterator
+    {
+    public:
+      Iterator(Node<T>* ptr) : ptr(ptr) {}
+      void operator++() { ptr = ptr->nextPoint; }
+      T& operator*() { return ptr->data; }
+      bool operator!=(const Iterator& other) { return ptr != other.ptr; }
+
+    private:
+      Node<T>* ptr;
+    };
+
+    friend std::ostream& operator<<(std::ostream& os, const List<T>& list)
+    {
+      std::vector<std::string> names;
+      std::vector<std::vector<int>> values;
+
+      for (auto it = list.begin(); it != list.end(); ++it)
+      {
+        names.push_back((*it).first);
+        values.push_back((*it).second);
+      }
+
+      size_t max_size = 0;
+      for (const auto& v : values)
+      {
+        max_size = std::max(max_size, v.size());
+      }
+      for (size_t i = 0; i < max_size; ++i)
+      {
+        for (size_t j = 0; j < names.size(); ++j)
+        {
+          if (i < values[j].size())
+            os << values[j][i] << " ";
+        }
+        os << std::endl;
+      }
+
+      return os;
+    }
+
+    Iterator begin() const { return Iterator(head); }
+    Iterator end() const { return Iterator(nullptr); }
+
   private:
-    std::vector<std::vector<T>> data;
-    int Size = 0;
     Node<T>* head;
+    int Size = 0;
   };
 }
 
-template< typename T >
+template <typename T>
 hohlova::List<T>::List()
 {
   Size = 0;
   head = nullptr;
 }
 
-template< typename T >
+template <typename T>
 hohlova::List<T>::~List()
 {
   clear();
 }
 
-template< typename T >
+template <typename T>
 void hohlova::List<T>::pop_front()
 {
+  if (Size == 0)
+    return;
   Node<T>* temp = head;
   head = head->nextPoint;
   delete temp;
   Size--;
 }
 
-template< typename T >
-void hohlova::List<T>::push_back(const std::vector<T>& nums)
+template <typename T>
+void hohlova::List<T>::push_back(const T& value)
 {
-  data.push_back(nums);
+  if (head == nullptr)
+  {
+    head = new Node<T>(value);
+  }
+  else
+  {
+    Node<T>* current = head;
+    while (current->nextPoint != nullptr)
+    {
+      current = current->nextPoint;
+    }
+    current->nextPoint = new Node<T>(value);
+  }
+  Size++;
 }
 
-template< typename T >
+template <typename T>
 void hohlova::List<T>::clear()
 {
   while (Size)
@@ -70,25 +126,25 @@ void hohlova::List<T>::clear()
   }
 }
 
-template < typename T >
+template <typename T>
 size_t hohlova::List<T>::size() const
 {
-  return data.size();
+  return Size;
 }
 
-template< typename T >
-void hohlova::List<T>::push_front(std::vector<std::vector<T>> data)
+template <typename T>
+void hohlova::List<T>::push_front(const T& value)
 {
-  head = new Node<T>(data, head);
+  head = new Node<T>(value, head);
   Size++;
 }
 
-template< typename T >
-void hohlova::List<T>::insert(std::vector<std::vector<T>> data, int index)
+template <typename T>
+void hohlova::List<T>::insert(const T& value, int index)
 {
   if (index == 0)
   {
-    push_front(data);
+    push_front(value);
   }
   else
   {
@@ -97,13 +153,13 @@ void hohlova::List<T>::insert(std::vector<std::vector<T>> data, int index)
     {
       prevPoint = prevPoint->nextPoint;
     }
-    Node<T>* newNode = new Node<T>(data, prevPoint->nextPoint);
+    Node<T>* newNode = new Node<T>(value, prevPoint->nextPoint);
     prevPoint->nextPoint = newNode;
     Size++;
   }
 }
 
-template< typename T >
+template <typename T>
 void hohlova::List<T>::removeAt(int index)
 {
   if (index == 0)
@@ -124,7 +180,7 @@ void hohlova::List<T>::removeAt(int index)
   }
 }
 
-template< typename T >
+template <typename T>
 void hohlova::List<T>::pop_back()
 {
   removeAt(Size - 1);
