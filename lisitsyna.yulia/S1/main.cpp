@@ -56,7 +56,7 @@ int main()
       std::cout << 0 << "\n";
     }
   }
-  std::vector<long long> sums(maxLen, 0);
+  std::vector<unsigned long long> sums(maxLen, 0);
   for (size_t i = 0; i < maxLen; ++i)
   {
     for (const auto& seq : sequences)
