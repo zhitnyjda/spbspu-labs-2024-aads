@@ -136,7 +136,7 @@ namespace sukacheva {
     Iterator< T > it = begin();
     do {
       std::cout << it.node->data;
-      if (it != end()) {
+      if (it.node->next) {
         std::cout << " ";
       }
       it++;
