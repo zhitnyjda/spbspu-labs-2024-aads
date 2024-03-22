@@ -9,14 +9,14 @@
 int main()
 {
   std::string line;
-  std::vector<std::pair<std::string, List<int>>> sequences;
+  std::vector<std::pair<std::string, List<long long>>> sequences;
   size_t maxLen = 0;
   while (std::getline(std::cin, line) && !line.empty())
   {
     std::istringstream iss(line);
     std::string name;
     iss >> name;
-    List<int> list;
+    List<long long> list;
     int num;
     size_t count = 0;
     while (iss >> num)
