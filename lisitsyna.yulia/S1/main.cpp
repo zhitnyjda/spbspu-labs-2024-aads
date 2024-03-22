@@ -82,9 +82,5 @@ int main()
       std::cout << sum << " ";
     }
   }
-  if (sequences.empty())
-  {
-    std::cout << 0 << "\n";
-  }
   return 0;
 }
