@@ -31,7 +31,10 @@ int main()
     {
       std::cout << seq.first << " ";
     }
-  std::cout << std::endl;
+  if (!list.empty())
+  {
+    output << "\n";
+  }
   for (size_t i = 0; i < maxLen; ++i)
   {
     for (const auto& seq : sequences)
@@ -48,7 +51,10 @@ int main()
         std::cout << "0 ";
       }
     }
-    std::cout << std::endl;
+    if (!list.empty())
+    {
+      output << "\n";
+    }
   }
   std::vector<long long> sums(maxLen, 0);
   for (size_t i = 0; i < maxLen; ++i)
@@ -76,6 +82,9 @@ int main()
       std::cout << sum << " ";
     }
   }
-  std::cout << std::endl;
+  if (!list.empty())
+  {
+    output << "\n";
+  }
   return 0;
 }
