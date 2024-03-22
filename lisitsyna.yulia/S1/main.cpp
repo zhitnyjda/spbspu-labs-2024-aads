@@ -31,7 +31,7 @@ int main()
     {
       std::cout << seq.first << " ";
     }
-  if (!list.empty())
+  if (!List.empty())
   {
     output << "\n";
   }
@@ -51,7 +51,7 @@ int main()
         std::cout << "0 ";
       }
     }
-    if (!list.empty())
+    if (!List.empty())
     {
       output << "\n";
     }
@@ -82,7 +82,7 @@ int main()
       std::cout << sum << " ";
     }
   }
-  if (!list.empty())
+  if (!List.empty())
   {
     output << "\n";
   }
