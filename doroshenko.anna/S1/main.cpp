@@ -4,70 +4,97 @@
 int main()
 {
   using namespace doroshenko;
-  List< std::pair< std::string, List< size_t > > > list = listInput(std::cin);
-  ListIterator<std::pair< std::string, List< size_t > > > iterator = list.begin();
-  size_t maxSize = getMaxSize(list);
-  List< size_t > sums;
-  ListIterator< size_t > iteratorForSums;
-  size_t sum = 0;
-  if (!list.isEmpty())
+  try
   {
-    while (iterator.node)
+    List< std::pair< std::string, List< size_t > > > list = listInput(std::cin);
+    ListIterator<std::pair< std::string, List< size_t > > > iterator = list.begin();
+    size_t maxSize = getMaxSize(list);
+    List< size_t > sums;
+    ListIterator< size_t > iteratorForSums;
+    constexpr size_t maximum = std::numeric_limits< size_t >::max();
+    size_t sum = 0;
+    bool overflowError = false;
+    bool error = false;
+    if (!list.isEmpty())
     {
-      if (iterator.node != list.head_)
-      {
-        std::cout << " ";
-      }
-      std::cout << iterator.node->data.first;
-      iterator++;
-    }
-    std::cout << "\n";
-    for (size_t index = 0; index < maxSize; index++)
-    {
-      iterator = list.begin();
       while (iterator.node)
       {
-        if (iterator.node->data.second[index] != nullptr)
+        if (iterator.node != list.head_)
         {
-          if (sum > 0)
-          {
-            std::cout << " ";
-          }
-          std::cout << iterator.node->data.second[index]->data;
-          sum = sum + iterator.node->data.second[index]->data;
+          std::cout << " ";
         }
+        std::cout << iterator.node->data.first;
         iterator++;
       }
-      sums.pushBack(sum);
-      sum = 0;
       std::cout << "\n";
-    }
+      for (size_t index = 0; index < maxSize; index++)
+      {
+        iterator = list.begin();
+        while (iterator.node)
+        {
+          if (iterator.node->data.second[index] != nullptr)
+          {
+            if (sum > 0)
+            {
+              std::cout << " ";
+            }
+            std::cout << iterator.node->data.second[index]->data;
+            if (maximum - sum <  iterator.node->data.second[index]->data)
+            {
+              overflowError = true;
+              error = true;
+            }
+            else
+            {
+              sum = sum + iterator.node->data.second[index]->data;
+            }
+          }
+          iterator++;
+        }
+        if (!overflowError)
+        {
+          sums.pushBack(sum);
+        }
+        sum = 0;
+        overflowError = false;
+        std::cout << "\n";
+      }
 
-    iteratorForSums = sums.begin();
-    if (sums.isEmpty())
-    {
-      std::cout << 0;
+      iteratorForSums = sums.begin();
+      if (sums.isEmpty())
+      {
+        std::cout << 0;
+      }
+      else
+      {
+        while (iteratorForSums.node)
+        {
+          if (iteratorForSums.node != nullptr)
+          {
+            if (iteratorForSums.node != sums.head_)
+            {
+              std::cout << " ";
+            }
+            std::cout << iteratorForSums.node->data;
+          }
+          iteratorForSums++;
+        }
+      }
+      std::cout << "\n";
+      if (error)
+      {
+        throw std::overflow_error("overflow error");
+      }
     }
     else
     {
-      while (iteratorForSums.node)
-      {
-        if (iteratorForSums.node != nullptr)
-        {
-          if (iteratorForSums.node != sums.head_)
-          {
-            std::cout << " ";
-          }
-          std::cout << iteratorForSums.node->data;
-        }
-        iteratorForSums++;
-      }
+      std::cout << 0 << "\n";
     }
-    std::cout << "\n";
+    return 0;
   }
-  else
+  catch (std::overflow_error& e)
   {
-    std::cout << 0 << "\n";
+    std::cerr << e.what();
+    return 1;
   }
-  return 0;
 }
