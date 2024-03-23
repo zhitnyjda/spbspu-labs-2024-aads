@@ -193,43 +193,41 @@ void doroshenko::List< T >::assign(size_t n, const T& value)
 template< typename T >
 void doroshenko::List< T >::remove(const T& value)
 {
-  if (isEmpty())
+  if (!isEmpty())
   {
-    std::cout << "the list is empty";
-    return;
-  }
-  Node< T >* head = head_;
-  Node< T >* postHead = head_->next;
-  Node< T >* toRemove = nullptr;
-  if (head->data == value)
-  {
-    popFront();
-    head = head_;
-    postHead = head->next;
-  }
-  while (postHead)
-  {
-    if (postHead->data == value)
+    Node< T >* head = head_;
+    Node< T >* postHead = head_->next;
+    Node< T >* toRemove = nullptr;
+    if (head->data == value)
     {
-      if (postHead->next == nullptr)
+      popFront();
+      head = head_;
+      postHead = head->next;
+    }
+    while (postHead)
+    {
+      if (postHead->data == value)
       {
-        delete postHead;
-        postHead = nullptr;
-        head->next = nullptr;
-        tail_ = head;
+        if (postHead->next == nullptr)
+        {
+          delete postHead;
+          postHead = nullptr;
+          head->next = nullptr;
+          tail_ = head;
+        }
+        else
+        {
+          toRemove = postHead;
+          head->next = postHead->next;
+          postHead = head->next;
+          delete toRemove;
+        }
       }
       else
       {
-        toRemove = postHead;
-        head->next = postHead->next;
+        head = head->next;
         postHead = head->next;
-        delete toRemove;
       }
-    }
-    else
-    {
-      head = head->next;
-      postHead = head->next;
     }
   }
 }
@@ -238,43 +236,41 @@ template< typename T >
 template< typename P >
 void doroshenko::List< T >::removeIf(P p)
 {
-  if (isEmpty())
+  if (!isEmpty())
   {
-    std::cout << "the list is empty";
-    return;
-  }
-  Node< T >* head = head_;
-  Node< T >* postHead = head_->next;
-  Node<T>* toRemove = nullptr;
-  if (p(head->data))
-  {
-    popFront();
-    head = head_;
-    postHead = head->next;
-  }
-  while (postHead)
-  {
-    if (p(postHead->data))
+    Node< T >* head = head_;
+    Node< T >* postHead = head_->next;
+    Node<T>* toRemove = nullptr;
+    if (p(head->data))
     {
-      if (postHead->next == nullptr)
+      popFront();
+      head = head_;
+      postHead = head->next;
+    }
+    while (postHead)
+    {
+      if (p(postHead->data))
       {
-        delete postHead;
-        postHead = nullptr;
-        head->next = nullptr;
-        tail_ = head;
+        if (postHead->next == nullptr)
+        {
+          delete postHead;
+          postHead = nullptr;
+          head->next = nullptr;
+          tail_ = head;
+        }
+        else
+        {
+          toRemove = postHead;
+          head->next = postHead->next;
+          postHead = head->next;
+          delete toRemove;
+        }
       }
       else
       {
-        toRemove = postHead;
-        head->next = postHead->next;
+        head = head->next;
         postHead = head->next;
-        delete toRemove;
       }
-    }
-    else
-    {
-      head = head->next;
-      postHead = head->next;
     }
   }
 }
