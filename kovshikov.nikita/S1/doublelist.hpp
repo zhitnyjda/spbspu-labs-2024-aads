@@ -1,9 +1,9 @@
 #ifndef DOUBLELIST_HPP
 #define DOUBLELIST_HPP
-#include "node.hpp"
 #include <cstddef>
 #include <utility>
 #include <limits>
+#include "node.hpp"
 #include "iterator.hpp"
 
 namespace kovshikov
