@@ -41,14 +41,10 @@ int main() {
 
   for (size_t i = 0; i < maxLength; ++i) {
     for (const auto& seq : sequences) {
-      if (i < seq.second.size()) {
-        std::cout << seq.second[i];
-        if (&seq != &sequences.back() || i != seq.second.size() - 1)
-          std::cout << ' ';
-      }
+      if (i < seq.second.size())
+        std::cout << seq.second[i] << ' ';
     }
-    if (i != maxLength - 1)
-      std::cout << std::endl;
+    std::cout << std::endl;
   }
 
   for (size_t i = 0; i < maxLength; ++i) {
