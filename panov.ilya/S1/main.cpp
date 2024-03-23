@@ -4,7 +4,6 @@
 #include <sstream>
 #include "list.hpp"
 
-
 int main() {
   Panov::List<std::pair<std::string, std::vector<int>>> sequences;
 
@@ -40,9 +39,15 @@ int main() {
     maxLength = std::max(maxLength, seq.second.size());
 
   for (size_t i = 0; i < maxLength; ++i) {
+    bool firstElement = true;
     for (const auto& seq : sequences) {
-      if (i < seq.second.size())
-        std::cout << seq.second[i] << ' ';
+      if (i < seq.second.size()) {
+        if (!firstElement)
+          std::cout << ' ';
+        else
+          firstElement = false;
+        std::cout << seq.second[i];
+      }
     }
     std::cout << std::endl;
   }
