@@ -15,7 +15,6 @@ int main()
     const size_t maximum = std::numeric_limits< size_t >::max();
     size_t sum = 0;
     bool overflowError = false;
-    bool error = false;
     if (!list.isEmpty())
     {
       while (iterator.node)
@@ -40,10 +39,11 @@ int main()
               std::cout << " ";
             }
             std::cout << iterator.node->data.second[index]->data;
-            if (maximum - sum <  iterator.node->data.second[index]->data)
+            if (maximum - sum < iterator.node->data.second[index]->data)
             {
               overflowError = true;
-              error = true;
+              std::cout << "\n";
+              throw std::overflow_error("overflow error");
             }
             else
             {
@@ -80,11 +80,6 @@ int main()
           }
           iteratorForSums++;
         }
-      }
-      std::cout << "\n";
-      if (error)
-      {
-        throw std::overflow_error("overflow error");
       }
     }
     else
