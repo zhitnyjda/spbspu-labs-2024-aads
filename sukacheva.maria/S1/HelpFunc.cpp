@@ -32,3 +32,8 @@ size_t sukacheva::maxListSize(List< std::pair< std::string, List< size_t > > >& 
   }
   return maxSize;
 }
+
+template<class T>
+void sukacheva::printList(List<T> list)
+{
+}

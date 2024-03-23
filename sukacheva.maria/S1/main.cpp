@@ -2,39 +2,57 @@
 #include "List.hpp"
 #include <string>
 #include "HelpFunc.hpp"
+#include <exception>
 
 int main() {
   using namespace sukacheva;
-  List< std::pair< std::string, List< size_t > > > newList = listInput(std::cin);
-  Iterator<std::pair< std::string, List< size_t > >> it = newList.begin();
-  do {
-    std::cout << it.node->data.first;
-    if (it.node->next) {
-      std::cout << " ";
+  try {
+    List< std::pair< std::string, List< size_t > > > newList = listInput(std::cin);
+    Iterator<std::pair< std::string, List< size_t > >> it = newList.begin();
+    if (maxListSize(newList) == 0) {
+      std::cout << "0\n";
     }
-    it++;
-  } while (it.node);
-  std::cout << "\n";
-  List<size_t> sumOfArgs;
-  size_t sum = 0;
-  for (size_t i = 0; i < maxListSize(newList); i++) {
-    it = newList.begin();
-    while (it.node) {
-      if (it.node->data.second[i])
-      {
-        std::cout << it.node->data.second[i]->data;
-        if (i != newList.listSize - 1) {
+    else {
+      do {
+        std::cout << it.node->data.first;
+        if (it.node->next) {
           std::cout << " ";
         }
-        sum += it.node->data.second[i]->data;
+        it++;
+      } while (it.node);
+      std::cout << "\n";
+      List<size_t> sumOfArgs;
+      for (size_t i = 0; i < maxListSize(newList); i++) {
+        it = newList.begin();
+        size_t sum = 0;
+        while (it.node) {
+          if (it.node->data.second[i])
+          {
+            std::cout << it.node->data.second[i]->data;
+            if (it.node->next) {
+              std::cout << " ";
+            }
+            sum += it.node->data.second[i]->data;
+          }
+          it++;
+        }
+        std::cout << "\n";
+        sumOfArgs.pushBack(sum);
       }
-      it++;
+      Iterator<size_t> itSum = sumOfArgs.begin();
+      do {
+        std::cout << itSum.node->data;
+        if (itSum.node->next) {
+          std::cout << " ";
+        }
+        itSum++;
+      } while (itSum.node);
+      std::cout << "\n";
     }
-    std::cout << "\n";
-    sumOfArgs.pushBack(sum);
-    sum = 0;
   }
-  sumOfArgs.printList();
-  std::cout << "\n";
+  catch (const std::exception& e) {
+    std::cerr << e.what() << "\n";
+    return 1;
+  }
   return 0;
 }
