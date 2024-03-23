@@ -9,6 +9,11 @@ int main()
   inputPairs(allPairs, isBigNumber);
   outputListName(allPairs);
   outputResult(allPairs, isBigNumber);
+  if(isBigNumber == true)
+  {
+    std::cerr << "too many numbers were entered\n";
+    return 1;
+  }
   return 0;
 }
 
