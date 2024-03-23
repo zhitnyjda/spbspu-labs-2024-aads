@@ -6,7 +6,7 @@ doroshenko::List< std::pair< std::string, doroshenko::List< size_t > > > doroshe
   std::string inputString = "";
   doroshenko::List< std::pair< std::string, doroshenko::List< size_t > > > inputList;
   unsigned long long readNumber = 0;
-  constexpr size_t maximum = std::numeric_limits< size_t >::max();
+  const size_t maximum = std::numeric_limits< size_t >::max();
   while(input >> inputString)
   {
     if (std::isalpha(inputString[0]))

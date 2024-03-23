@@ -11,7 +11,7 @@ int main()
     size_t maxSize = getMaxSize(list);
     List< size_t > sums;
     ListIterator< size_t > iteratorForSums;
-    constexpr size_t maximum = std::numeric_limits< size_t >::max();
+    const size_t maximum = std::numeric_limits< size_t >::max();
     size_t sum = 0;
     bool overflowError = false;
     bool error = false;
