@@ -121,6 +121,10 @@ namespace kovshikov
     }
     if(isBigNumber == false)
     {
+      if(summaList.empty())
+      {
+        std::cout << 0 << "\n";
+      }
       while(!summaList.empty())
       {
         std::cout << summaList.front();
