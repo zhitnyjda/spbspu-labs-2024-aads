@@ -8,9 +8,11 @@ int main() {
   Panov::List<std::pair<std::string, std::vector<int>>> sequences;
 
   std::string line;
+  bool isEmpty = true;
   while (std::getline(std::cin, line)) {
     if (line.empty()) break;
 
+    isEmpty = false;
     std::istringstream iss(line);
     std::string name;
     iss >> name;
@@ -23,8 +25,8 @@ int main() {
     sequences.push_back({ name, sequence });
   }
 
-  if (sequences.empty()) {
-    std::cout << "Zero exit code without error message in standard error and 0 on separate line as output" << std::endl;
+  if (isEmpty) {
+    std::cout << std::endl;
     return 0;
   }
 
@@ -45,10 +47,16 @@ int main() {
   }
 
   for (size_t i = 0; i < maxLength; ++i) {
-    int sum = 0;
+    long long sum = 0;
+    bool overflow = false;
     for (const auto& seq : sequences) {
-      if (i < seq.second.size())
+      if (i < seq.second.size()) {
+        if (static_cast<long long>(sum) + seq.second[i] > std::numeric_limits<int>::max()) {
+          std::cerr << "Formed lists with exit code 1 and error message in standard error because of overflow" << std::endl;
+          return 1;
+        }
         sum += seq.second[i];
+      }
     }
     std::cout << sum << ' ';
   }

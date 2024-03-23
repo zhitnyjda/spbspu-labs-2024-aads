@@ -33,6 +33,10 @@ namespace Panov {
         return current->data;
       }
 
+      T* operator->() const {
+        return &(current->data);
+      }
+
       Iterator& operator++() {
         current = current->next;
         return *this;
@@ -75,31 +79,15 @@ namespace Panov {
 
     void push_back(const T& value) {
       Node* newNode = new Node(value);
-      try {
-        if (empty()) {
-          head = newNode;
-        }
-        else {
-          tail->next = newNode;
-          newNode->prev = tail;
-        }
-        tail = newNode;
-        ++size;
+      if (empty()) {
+        head = newNode;
       }
-      catch (const std::bad_alloc& e) {
-        std::cerr << "Formed lists with exit code 1 and error message in standard error because of overflow" << std::endl;
-        exit(1);
+      else {
+        tail->next = newNode;
+        newNode->prev = tail;
       }
-    }
-
-    void clear() {
-      while (!empty()) {
-        pop_back();
-      }
-    }
-
-    bool empty() const {
-      return size == 0;
+      tail = newNode;
+      ++size;
     }
 
     void pop_back() {
@@ -117,6 +105,16 @@ namespace Panov {
       --size;
     }
 
+    void clear() {
+      while (!empty()) {
+        pop_back();
+      }
+    }
+
+    bool empty() const {
+      return size == 0;
+    }
+
     Iterator begin() const {
       return Iterator(head);
     }
@@ -124,6 +122,13 @@ namespace Panov {
     Iterator end() const {
       return Iterator(nullptr);
     }
+
+    void swap(List& other) {
+      std::swap(head, other.head);
+      std::swap(tail, other.tail);
+      std::swap(size, other.size);
+    }
   };
 }
+
 #endif
