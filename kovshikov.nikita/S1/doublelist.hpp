@@ -3,6 +3,7 @@
 #include "node.hpp"
 #include <cstddef>
 #include <utility>
+#include <limits>
 #include "iterator.hpp"
 
 namespace kovshikov

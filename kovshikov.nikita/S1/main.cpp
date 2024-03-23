@@ -4,10 +4,11 @@
 using namespace kovshikov;
 int main()
 {
-  DoubleList<std::pair<std::string, DoubleList<int>>> allPairs;
-  inputPairs(allPairs);
+  DoubleList<std::pair<std::string, DoubleList<size_t>>> allPairs;
+  bool isBigNumber = false;
+  inputPairs(allPairs, isBigNumber);
   outputListName(allPairs);
-  outputResult(allPairs);
+  outputResult(allPairs, isBigNumber);
   return 0;
 }
 

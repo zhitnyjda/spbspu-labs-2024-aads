@@ -6,13 +6,13 @@
 
 namespace kovshikov
 {
-  void inputPairs(DoubleList<std::pair<std::string, DoubleList<int>>> &allPairs)
+  void inputPairs(DoubleList<std::pair<std::string, DoubleList<size_t>>> &allPairs, bool &isBigNumber)
   {
     int i = 0;
     while(!std::cin.eof())
     {
       i++;
-      DoubleList<int> list;
+      DoubleList<size_t> list;
       std::string listName;
       std::string integerString;
       std::cin >> listName;
@@ -20,7 +20,7 @@ namespace kovshikov
       if(!listName.empty())
       {
         std::string tempString;
-        int integer;
+        size_t integer;
         for(size_t i = 0; i < integerString.length(); i++)
         {
           if(integerString[i] != ' ')
@@ -31,7 +31,11 @@ namespace kovshikov
           {
             if(!tempString.empty())
             {
-              integer = std::stoi(tempString, nullptr, 10);
+              integer = std::stoull(tempString);
+              if(integer == std::numeric_limits<size_t>::max())
+              {
+                isBigNumber = true;
+              }
               list.pushBack(integer);
               tempString.clear();
             }
@@ -39,17 +43,21 @@ namespace kovshikov
         }
         if(!tempString.empty())
         {
-          integer = std::stoi(tempString, nullptr, 10);
+          integer = std::stoull(tempString);
+          if(integer == std::numeric_limits<size_t>::max())
+          {
+            isBigNumber = true;
+          }
           list.pushBack(integer);
         }
-        allPairs.pushBack(std::pair<std::string, DoubleList<int>> {listName, list});
+        allPairs.pushBack(std::pair<std::string, DoubleList<size_t>> {listName, list});
       }
     }
   }
 
-  void outputListName(const DoubleList<std::pair<std::string, DoubleList<int>>> &allPairs)
+  void outputListName(const DoubleList<std::pair<std::string, DoubleList<size_t>>> &allPairs)
   {
-    Iterator<std::pair<std::string, DoubleList<int>>> iterator = allPairs.begin();
+    Iterator<std::pair<std::string, DoubleList<size_t>>> iterator = allPairs.begin();
     while(iterator != nullptr)
     {
       std::cout << iterator->first;
@@ -65,16 +73,16 @@ namespace kovshikov
     }
   }
 
-  void outputResult(const DoubleList<std::pair<std::string, DoubleList<int>>> &allPairs)
+  void outputResult(const DoubleList<std::pair<std::string, DoubleList<size_t>>> &allPairs, const  bool &isBigNumber)
   {
-    DoubleList<int> summaList;
-    DoubleList<DoubleList<int>> resultList;
-    Iterator<std::pair<std::string, DoubleList<int>>> iteratorAllPairs = allPairs.begin();
+    DoubleList<size_t> summaList;
+    DoubleList<DoubleList<size_t>> resultList;
+    Iterator<std::pair<std::string, DoubleList<size_t>>> iteratorAllPairs = allPairs.begin();
     bool flag = true;
     while(flag == true)
     {
-      int summa = 0;
-      DoubleList<int> list;
+      size_t summa = 0;
+      DoubleList<size_t> list;
       while(iteratorAllPairs != allPairs.end())
       {
         if(!iteratorAllPairs->second.empty())
@@ -98,7 +106,7 @@ namespace kovshikov
     }
     while(!resultList.empty())
     {
-      DoubleList<int> list = resultList.front();
+      DoubleList<size_t> list = resultList.front();
       while(!list.empty())
       {
         std::cout << list.front();
@@ -111,17 +119,20 @@ namespace kovshikov
       resultList.popFront();
       std::cout << "\n";
     }
-    while(!summaList.empty())
+    if(isBigNumber == false)
     {
-      std::cout << summaList.front();
-      summaList.popFront();
-      if(!summaList.empty())
+      while(!summaList.empty())
       {
-        std::cout << " ";
-      }
-      else
-      {
-        std::cout << "\n";
+        std::cout << summaList.front();
+        summaList.popFront();
+        if(!summaList.empty())
+        {
+          std::cout << " ";
+        }
+        else
+        {
+          std::cout << "\n";
+        }
       }
     }
   }
