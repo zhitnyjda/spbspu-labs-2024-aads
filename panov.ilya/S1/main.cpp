@@ -63,7 +63,9 @@ int main() {
         sum += seq.second[i];
       }
     }
-    std::cout << sum << ' ';
+    std::cout << sum;
+    if (i != maxLength - 1)
+      std::cout << ' ';
   }
   std::cout << std::endl;
 
