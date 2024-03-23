@@ -4,6 +4,7 @@
 #include <sstream>
 #include "list.hpp"
 
+
 int main() {
   Panov::List<std::pair<std::string, std::vector<int>>> sequences;
 
@@ -46,11 +47,13 @@ int main() {
           std::cout << ' ';
       }
     }
-    std::cout << std::endl;
+    if (i != maxLength - 1)
+      std::cout << std::endl;
   }
 
   for (size_t i = 0; i < maxLength; ++i) {
     long long sum = 0;
+    bool overflow = false;
     for (const auto& seq : sequences) {
       if (i < seq.second.size()) {
         if (static_cast<long long>(sum) + seq.second[i] > std::numeric_limits<int>::max()) {
