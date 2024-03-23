@@ -48,7 +48,6 @@ int main() {
 
   for (size_t i = 0; i < maxLength; ++i) {
     long long sum = 0;
-    bool overflow = false;
     for (const auto& seq : sequences) {
       if (i < seq.second.size()) {
         if (static_cast<long long>(sum) + seq.second[i] > std::numeric_limits<int>::max()) {
