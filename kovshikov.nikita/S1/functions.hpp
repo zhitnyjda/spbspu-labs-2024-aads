@@ -37,8 +37,11 @@ namespace kovshikov
             }
           }
         }
-        integer = std::stoi(tempString, nullptr, 10);
-        list.pushBack(integer);
+        if(!tempString.empty())
+        {
+          integer = std::stoi(tempString, nullptr, 10);
+          list.pushBack(integer);
+        }
         allPairs.pushBack(std::pair<std::string, DoubleList<int>> {listName, list});
       }
     }
