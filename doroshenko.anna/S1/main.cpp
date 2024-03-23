@@ -81,6 +81,7 @@ int main()
           iteratorForSums++;
         }
       }
+      std::cout << "\n";
     }
     else
     {
