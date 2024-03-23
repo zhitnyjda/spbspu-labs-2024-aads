@@ -4,7 +4,10 @@
 #include <cstddef>
 #include <utility>
 #include <iostream>
+#include <vector>
+#include <string>
 #include <limits>
+#include <sstream>
 
 namespace Panov {
 
@@ -128,6 +131,20 @@ namespace Panov {
       std::swap(head, other.head);
       std::swap(tail, other.tail);
       std::swap(size, other.size);
+    }
+
+    T& back() {
+      if (tail != nullptr)
+        return tail->data;
+      else
+        throw std::out_of_range("List is empty");
+    }
+
+    const T& back() const {
+      if (tail != nullptr)
+        return tail->data;
+      else
+        throw std::out_of_range("List is empty");
     }
   };
 }
