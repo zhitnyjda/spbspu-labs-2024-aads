@@ -61,6 +61,67 @@ namespace kovshikov
       }
     }
   }
+
+  void outputResult(const DoubleList<std::pair<std::string, DoubleList<int>>> &allPairs)
+  {
+    DoubleList<int> summaList;
+    DoubleList<DoubleList<int>> resultList;
+    Iterator<std::pair<std::string, DoubleList<int>>> iteratorAllPairs = allPairs.begin();
+    bool flag = true;
+    while(flag == true)
+    {
+      int summa = 0;
+      DoubleList<int> list;
+      while(iteratorAllPairs != allPairs.end())
+      {
+        if(!iteratorAllPairs->second.empty())
+        {
+          summa += iteratorAllPairs->second.front();
+          list.pushBack(iteratorAllPairs->second.front());
+          iteratorAllPairs->second.popFront();
+        }
+        iteratorAllPairs++;
+      }
+      if(!list.empty())
+      {
+        summaList.pushBack(summa);
+        resultList.pushBack(list);
+        iteratorAllPairs = allPairs.begin();
+      }
+      else
+      {
+        flag = false;
+      }
+    }
+    while(!resultList.empty())
+    {
+      DoubleList<int> list = resultList.front();
+      while(!list.empty())
+      {
+        std::cout << list.front();
+        list.popFront();
+        if(!list.empty())
+        {
+          std::cout << " ";
+        }
+      }
+      resultList.popFront();
+      std::cout << "\n";
+    }
+    while(!summaList.empty())
+    {
+      std::cout << summaList.front();
+      summaList.popFront();
+      if(!summaList.empty())
+      {
+        std::cout << " ";
+      }
+      else
+      {
+        std::cout << "\n";
+      }
+    }
+  }
 }
 
 #endif
