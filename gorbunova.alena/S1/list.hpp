@@ -112,7 +112,7 @@ gorbunova::List<T>::List(InputIterator first, InputIterator last) : head(nullptr
 {
   while(first != last)
   {
-    push_back(*fisrt);
+    push_back(*first);
     ++first;
   }
 }
