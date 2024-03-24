@@ -336,13 +336,13 @@ typename doroshenko::List< T >::Iterator doroshenko::List< T >::end() const
 }
 
 template< typename T >
-typename const doroshenko::List< T >::Iterator doroshenko::List< T >::cbegin() const
+const typename doroshenko::List< T >::Iterator doroshenko::List< T >::cbegin() const
 {
   return Iterator(head_);
 }
 
 template< typename T >
-typename const doroshenko::List< T >::Iterator doroshenko::List< T >::cend() const
+const typename doroshenko::List< T >::Iterator doroshenko::List< T >::cend() const
 {
   return Iterator(tail_->next);
 }
