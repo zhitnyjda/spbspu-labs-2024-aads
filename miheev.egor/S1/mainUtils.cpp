@@ -56,6 +56,7 @@ namespace miheev
     }
     return lists;
   }
+
   size_t maxListSize(List< size_t >* lists, size_t size)
   {
     size_t max = lists[0].size();

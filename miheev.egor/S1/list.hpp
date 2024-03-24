@@ -126,7 +126,6 @@ namespace miheev
     struct Iterator
     {
       List<T>* cur;
-
       using this_t = List< T >::Iterator;
       Iterator():
         cur(nullptr)
@@ -144,37 +143,45 @@ namespace miheev
         }
         return cur;
       }
+
       T& operator*()
       {
         return cur->data_;
       }
+
       T* operator->() const
       {
         return std::addressof(cur->data_);
       }
+
       explicit operator bool() const
       {
         return cur->next_ != nullptr;
       }
+
       bool isEmptyObject() const
       {
         return cur->isEmpty_;
       }
+
       this_t& operator++()
       {
         cur = cur->next_;
         return *this;
       }
+
       this_t operator++(int)
       {
         this_t copy(*this);
         cur = cur->next_;
         return *copy;
       }
+
       bool operator!=(const this_t & rhs) const
       {
         return cur != rhs.cur;
       }
+
       bool operator==(const this_t & rhs) const
       {
         return cur == rhs.cur;
@@ -184,4 +191,3 @@ namespace miheev
 }
 
 #endif
-

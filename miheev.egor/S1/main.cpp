@@ -37,16 +37,28 @@ int main()
       delete [] pairs;
       pairs = copy;
     }
-    pairs[unusedIndex++] = getSIPair(stream);
+    SI_pair pair = getSIPair(stream);
+    if (pair.first != "")
+    {
+      pairs[unusedIndex++] = pair;
+    }
   }
+
+  if (unusedIndex <= 0)
+  {
+    std::cout << "0\n";
+    return 0;
+  }
+
   for (size_t i = 0; i < unusedIndex; i++)
   {
-    std::cout << pairs[i].first << ' ';
+    std::cout << pairs[i].first;
+    if (i < unusedIndex - 1)
+    {
+      std::cout << ' ';
+    }
   }
-  if (unusedIndex > 0)
-  {
-    std::cout << '\n';
-  }
+  std::cout << '\n';
 
   ListIter* iters = getIters(pairs, unusedIndex);
 
@@ -75,10 +87,14 @@ int main()
         {
           isOverflow = true;
         }
-        std::cout << *iter << ' ';
         if (iter)
         {
           flag = true;
+        }
+        std::cout << *iter;
+        if (i < unusedIndex - 1 and !iters[i + 1].isEmptyObject())
+        {
+          std::cout << ' ';
         }
         iters[i] = ++iter;
       }
@@ -92,15 +108,7 @@ int main()
 
   if (!isOverflow)
   {
-    for (size_t i = 0; i < maxSize; i++)
-    {
-      std::cout << sumArr[i];
-      if (i < maxSize - 1)
-      {
-        std::cout << ' ';
-      }
-    }
-    std::cout << '\n';
+    pPrint(sumArr, maxSize);
   }
   delete[] sumArr;
 
