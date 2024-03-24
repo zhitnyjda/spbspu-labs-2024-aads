@@ -48,6 +48,7 @@ namespace gorbunova
     void splice(Iterator pos, List &other);
     void reverse();
     void insert(Iterator pos, const T& value);
+    void erase(Iterator pos);
 
     friend std::ostream &operator<<(std::ostream &os, const List<T> &list)
     {
@@ -203,6 +204,14 @@ void gorbunova::List<T>::insert(Iterator pos, const T &value)
   Node<T> *newNode = new Node<T>(value)
   newNode->next = pos.current->next;
   pos.current->next = newNode;
+}
+
+template <typename T>
+void gorbunova::List<T>::erase(Iterator pos)
+{
+  Node<T> *toDelete = pos.current;
+  pos.current = pos.current->next;
+  delete toDelete;
 }
 
 template <typename T>
