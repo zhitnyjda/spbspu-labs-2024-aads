@@ -39,17 +39,28 @@ int main()
     if (!nums.empty())
       hasData = true;
   }
-  if (!hasData)
+  if (!hasData && numbers.size() != 0)
   {
     std::cout << temp << std::endl
       << "0";
     return 0;
   }
-
+  if (numbers.size() == 0)
+  {
+    std::cout << "0" << std::endl;
+    return 0;
+  }
   for (auto it = numbers.begin(); it != numbers.end(); ++it)
   {
-    std::cout << (*it).first << " ";
+    std::cout << (*it).first;
+    auto nextIt = it;
+    ++nextIt;
+    if (nextIt != numbers.end())
+    {
+      std::cout << " ";
+    }
   }
+
   std::cout << std::endl
     << numbers;
 
