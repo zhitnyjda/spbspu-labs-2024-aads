@@ -76,18 +76,18 @@ void sukacheva::printArgs(List<std::pair<std::string, List<size_t>>>& newList)
       it++;
     }
     std::cout << "\n";
-    if (!overflowFlag)
-    {
-      sumOfArgs.pushBack(sum);
-    }
+    sumOfArgs.pushBack(sum);
   }
-  Iterator<size_t> itSum = sumOfArgs.begin();
-  do {
-    std::cout << itSum.node->data;
-    if (itSum.node->next) {
-      std::cout << " ";
-    }
-    itSum++;
-  } while (itSum.node);
-  std::cout << "\n";
+  if (!overflowFlag)
+  {
+    Iterator<size_t> itSum = sumOfArgs.begin();
+    do {
+      std::cout << itSum.node->data;
+      if (itSum.node->next) {
+        std::cout << " ";
+      }
+      itSum++;
+    } while (itSum.node);
+    std::cout << "\n";
+  }
 }
