@@ -6,14 +6,15 @@ namespace zheleznyakov
   class ListItem
   {
   public:
-    ListItem(T value);
+    ListItem(T value, ListItem<T> *next = nullptr, ListItem<T> *prev = nullptr);
     T value;
     ListItem<T> *next;
     ListItem<T> *prev;
   };
 }
+
 template <typename T>
-zheleznyakov::ListItem<T>::ListItem(T value) : value(value)
+zheleznyakov::ListItem<T>::ListItem(T value, ListItem<T> *next, ListItem<T> *prev) : value(value), next(next), prev(prev)
 {
 }
 #endif

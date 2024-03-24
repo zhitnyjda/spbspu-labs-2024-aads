@@ -6,12 +6,10 @@
 
 namespace zheleznyakov
 {
-  void processTask(std::ostream &, List<std::pair<std::string, List<unsigned long long>>>);
-  template <typename T>
-  List<T> sum(zheleznyakov::List<zheleznyakov::List<unsigned long long>> rows);
+  void processTask(std::ostream&, List<std::pair<std::string, List<unsigned long long>>>&);
 }
 
-void zheleznyakov::processTask(std::ostream &out, List<std::pair<std::string, List<unsigned long long>>> pairs)
+void zheleznyakov::processTask(std::ostream& out, List<std::pair<std::string, List<unsigned long long>>>& pairs)
 {
   if (pairs.isEmpty())
   {
@@ -32,33 +30,25 @@ void zheleznyakov::processTask(std::ostream &out, List<std::pair<std::string, Li
   {
     maxSequenceLength = std::max(maxSequenceLength, pairs[i].second.getSize());
   }
-  zheleznyakov::List<zheleznyakov::List<unsigned long long>> rows;
+  zheleznyakov::List<unsigned long long> sums;
+  unsigned long long currentSum = 0;
   for (size_t i = 0; i < maxSequenceLength; i++)
   {
-    zheleznyakov::List<unsigned long long> iterationElements;
+    currentSum = 0;
     for (size_t j = 0; j < pairs.getSize(); j++)
     {
-      try
+      if (pairs[j].second.getSize() > i)
       {
-        iterationElements.pushBack(pairs[j].second[i]);
+        if (currentSum != 0)
+        {
+          std::cout << ' ';
+        }
+        std::cout << pairs[j].second[i];
+        currentSum += pairs[j].second[i];
       }
-      catch (const std::out_of_range &e)
-      {
-      }
-    }
-    rows.pushBack(iterationElements);
-  }
-
-  zheleznyakov::List<unsigned long long> sums;
-  for (size_t i = 0; i < rows.getSize(); i++)
-  {
-    unsigned long long currentSum = 0;
-    for (size_t j = 0; j < rows[i].getSize(); j++)
-    {
-      currentSum += rows[i][j];
-      out << rows[i][j] << (j == rows[i].getSize() - 1 ? '\n' : ' ');
     }
     sums.pushBack(currentSum);
+    std::cout << '\n';
   }
 
   for (size_t i = 0; i < sums.getSize(); i++)

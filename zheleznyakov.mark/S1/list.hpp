@@ -13,6 +13,7 @@ namespace zheleznyakov
   {
   public:
     List();
+    ~List();
     void pushFront(T value);
     void pushBack(T value);
     size_t getSize();
@@ -33,6 +34,12 @@ namespace zheleznyakov
 template <typename T>
 zheleznyakov::List<T>::List() : size(0), head(nullptr), tail(nullptr)
 {
+}
+
+template<typename T>
+zheleznyakov::List<T>::~List()
+{
+  clear();
 }
 
 template <typename T>
