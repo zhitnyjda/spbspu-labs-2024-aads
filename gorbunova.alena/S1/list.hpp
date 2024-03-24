@@ -163,6 +163,7 @@ void gorbunova::List<T>::assign(std::initializer_list<T> ilist)
   {
     push_back(value);
   }
+}
 
 template <typename T>
 void gorbunova::List<T>::splice(Iterator pos, List &other)
