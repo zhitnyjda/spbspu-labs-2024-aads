@@ -23,12 +23,12 @@ int main()
         int num = std::stoi(numStr);
         nums.push_back(num);
       }
-      catch (const std::exception& ia)
+      catch (const std::invalid_argument& ia)
       {
         std::cerr << ia.what() << "\n";
         return 1;
       }
-      catch (const std::overflow_error& oor)
+      catch (const std::out_of_range& oor)
       {
         std::cerr << oor.what() << "\n";
         return 1;
