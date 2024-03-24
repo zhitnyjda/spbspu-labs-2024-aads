@@ -100,6 +100,7 @@ int main()
   if (isOverflow)
   {
     std::cerr << "sum is bigger than size_t can contain\n";
+    return 1;
   }
   return 0;
 }
