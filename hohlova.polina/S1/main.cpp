@@ -23,11 +23,6 @@ int main()
         int num = std::stoi(numStr);
         nums.push_back(num);
       }
-      catch (const std::invalid_argument &fia)
-      {
-        std::cerr << "Invalid input: " << numStr << std::endl;
-        return 1;
-      }
       catch (const std::out_of_range &oor)
       {
         std::cerr << "Out of range input: " << numStr << std::endl;
@@ -57,7 +52,7 @@ int main()
     ++nextIt;
     if (nextIt != numbers.end())
     {
-      std::cout << " ";
+      std::cout << ' ';
     }
   }
 
@@ -82,6 +77,7 @@ int main()
     if (i < max_length - 1)
       std::cout << " ";
   }
+  std::cout << std::endl;
   return 0;
 }
 
