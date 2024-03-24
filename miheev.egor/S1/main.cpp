@@ -91,7 +91,11 @@ int main()
   {
     for (size_t i = 0; i < maxSize; i++)
     {
-      std::cout << sumArr[i] << ' ';
+      std::cout << sumArr[i];
+      if (i < maxSize - 1)
+      {
+        std::cout << ' ';
+      }
     }
     std::cout << '\n';
   }
