@@ -4,25 +4,45 @@ int main()
 {
   hohlova::List<std::pair<std::string, std::vector<int>>> numbers;
   std::string line;
+  bool hasData = false;
+  std::string temp;
 
   while (std::getline(std::cin, line) && !line.empty())
   {
     std::istringstream iss(line);
     std::string word;
     iss >> word;
+    temp = word;
 
     std::vector<int> nums;
-    int num;
-    while (iss >> num)
+    std::string numStr;
+    while (iss >> numStr)
     {
-      nums.push_back(num);
+      try
+      {
+        int num = std::stoi(numStr);
+        nums.push_back(num);
+      }
+      catch (const std::invalid_argument& ia)
+      {
+        std::cerr << "Invalid input: " << numStr << std::endl;
+        return 1;
+      }
+      catch (const std::out_of_range& oor)
+      {
+        std::cerr << "Out of range input: " << numStr << std::endl;
+        return 1;
+      }
     }
-    numbers.push_back(std::make_pair(word, nums));
-  }
 
-  if (numbers.size() == 0)
+  numbers.push_back(std::make_pair(word, nums));
+  if (!nums.empty())
+    hasData = true;
+  }
+  if (!hasData)
   {
-    std::cout << "0" << std::endl;
+    std::cout << temp << std::endl
+      << "0";
     return 0;
   }
 
@@ -49,6 +69,7 @@ int main()
     }
     std::cout << sum << " ";
   }
-  std::cout << std::endl;
+
   return 0;
 }
+
