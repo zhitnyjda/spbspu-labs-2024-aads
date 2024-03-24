@@ -44,6 +44,7 @@ namespace gorbunova
     ~List();
     void push_back(const T &value);
     void clear();
+    void assign(std::initializer_list<T> ilist);
 
     friend std::ostream &operator<<(std::ostream &os, const List<T> &list)
     {
@@ -152,6 +153,15 @@ void gorbunova::List<T>::clear()
     delete tmp;
   }
 }
+
+template <typename T>
+void gorbunova::List<T>::assign(std::initializer_list<T> ilist)
+{
+  clear();
+  for (const auto &value : ilist)
+  {
+    push_back(value);
+  }
 
 template <typename T>
 typename gorbunova::List<T>::Iterator gorbunova::List<T>::begin() const
