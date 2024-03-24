@@ -8,8 +8,8 @@ namespace sukacheva {
 
   List< std::pair< std::string, List< size_t > > > listInput(std::istream& in);
   size_t maxListSize(List< std::pair< std::string, List< size_t > > >& newList);
-  template< class T >
-  void printList(List<T> list);
+  void printNameList(List< std::pair< std::string, List< size_t > > >& newList);
+  void printArgs(List< std::pair< std::string, List< size_t > > >& newList);
 }
 
 #endif
