@@ -47,6 +47,7 @@ namespace gorbunova
     void assign(std::initializer_list<T> ilist);
     void splice(Iterator pos, List &other);
     void reverse();
+    void insert(Iterator pos, const T& value);
 
     friend std::ostream &operator<<(std::ostream &os, const List<T> &list)
     {
@@ -194,6 +195,14 @@ void gorbunova::List<T>::reverse()
     current = next;
   }
   head = prev;
+}
+
+template <typename T>
+void gorbunova::List<T>::insert(Iterator pos, const T &value)
+{
+  Node<T> *newNode = new Node<T>(value)
+  newNode->next = pos.current->next;
+  pos.current->next = newNode;
 }
 
 template <typename T>
