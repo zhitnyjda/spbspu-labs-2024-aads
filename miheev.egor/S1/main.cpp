@@ -70,6 +70,8 @@ int main()
   if (maxSize <= 0)
   {
     std::cout << "0\n";
+    delete[] pairs;
+    delete[] iters;
     return 0;
   }
 
