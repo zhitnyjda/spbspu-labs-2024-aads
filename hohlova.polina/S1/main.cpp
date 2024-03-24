@@ -23,14 +23,14 @@ int main()
         int num = std::stoi(numStr);
         nums.push_back(num);
       }
-      catch (const std::invalid_argument& ia)
+      catch (const std::exception& ia)
       {
-        std::cerr << "Invalid input" << std::endl;
+        std::cerr << ia.what() << "\n";
         return 1;
       }
-      catch (const std::out_of_range& oor)
+      catch (const std::overflow_error& oor)
       {
-        std::cerr << "Out of range input" << std::endl;
+        std::cerr << oor.what() << "\n";
         return 1;
       }
     }
