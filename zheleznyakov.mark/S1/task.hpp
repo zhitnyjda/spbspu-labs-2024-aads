@@ -1,6 +1,7 @@
 #ifndef TASK_HPP
 #define TASK_HPP
 #include <iostream>
+#include <limits>
 #include <string>
 #include "list.hpp"
 
@@ -42,6 +43,10 @@ void zheleznyakov::processTask(std::ostream& out, List<std::pair<std::string, Li
         if (currentSum != 0)
         {
           std::cout << ' ';
+        }
+        if (pairs[j].second[i] > (std::numeric_limits<unsigned long long>::max() - currentSum))
+        {
+          throw std::overflow_error("Got too big number");
         }
         std::cout << pairs[j].second[i];
         currentSum += pairs[j].second[i];
