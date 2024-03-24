@@ -31,10 +31,10 @@ doroshenko::List< std::pair< std::string, doroshenko::List< size_t > > > doroshe
 
 void doroshenko::listOutput(doroshenko::List< std::pair< std::string, doroshenko::List< size_t > > > list, std::ostream& output)
 {
-  ListIterator<std::pair< std::string, List< size_t > > > iterator = list.begin();
+  List< std::pair< std::string, doroshenko::List< size_t > > >::Iterator iterator = list.begin();
   size_t maxSize = getMaxSize(list);
   List< size_t > sums;
-  ListIterator< size_t > iteratorForSums;
+  List< size_t >::Iterator iteratorForSums;
   const size_t maximum = std::numeric_limits< size_t >::max();
   size_t sum = 0;
   bool overflowError = false;
@@ -116,7 +116,7 @@ size_t doroshenko::getMaxSize(doroshenko::List< std::pair< std::string, doroshen
 {
   size_t size = 0;
   size_t maxSize = 0;
-  doroshenko::ListIterator< std::pair< std::string, doroshenko::List< size_t > > > iterator = list.begin();
+  List< std::pair< std::string, doroshenko::List< size_t > > >::Iterator iterator = list.begin();
   while (iterator.node)
   {
     size = iterator.node->data.second.getSize();
