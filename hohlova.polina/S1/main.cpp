@@ -23,21 +23,21 @@ int main()
         int num = std::stoi(numStr);
         nums.push_back(num);
       }
-      catch (const std::invalid_argument& ia)
+      catch (const std::invalid_argument &fia)
       {
-        std::cerr << ia.what() << "\n";
+        std::cerr << "Invalid input: " << numStr << std::endl;
         return 1;
       }
-      catch (const std::out_of_range& oor)
+      catch (const std::out_of_range &oor)
       {
-        std::cerr << oor.what() << "\n";
+        std::cerr << "Out of range input: " << numStr << std::endl;
         return 1;
       }
     }
 
-  numbers.push_back(std::make_pair(word, nums));
-  if (!nums.empty())
-    hasData = true;
+    numbers.push_back(std::make_pair(word, nums));
+    if (!nums.empty())
+      hasData = true;
   }
   if (!hasData)
   {
@@ -67,9 +67,10 @@ int main()
       if (i < (*it).second.size())
         sum += (*it).second[i];
     }
-    std::cout << sum << " ";
+    std::cout << sum;
+    if (i < max_length - 1)
+      std::cout << " ";
   }
-
   return 0;
 }
 
