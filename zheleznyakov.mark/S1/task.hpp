@@ -1,7 +1,6 @@
 #ifndef TASK_HPP
 #define TASK_HPP
 #include <iostream>
-#include <limits>
 #include <string>
 #include "list.hpp"
 
@@ -12,15 +11,6 @@ namespace zheleznyakov
 
 void zheleznyakov::processTask(std::ostream& out, List<std::pair<std::string, List<unsigned long long>>>& pairs)
 {
-  if (pairs.isEmpty())
-  {
-    throw std::logic_error("List is empty");
-  }
-  if (pairs[0].second.isEmpty())
-  {
-    throw std::logic_error("List is empty");
-  }
-
   for (size_t i = 0; i < pairs.getSize(); i++)
   {
     out << pairs[i].first << (i < pairs.getSize() - 1 ? " " : "\n");
@@ -44,10 +34,6 @@ void zheleznyakov::processTask(std::ostream& out, List<std::pair<std::string, Li
         {
           std::cout << ' ';
         }
-        if (pairs[j].second[i] > (std::numeric_limits<unsigned long long>::max() - currentSum))
-        {
-          throw std::overflow_error("Got too big number");
-        }
         std::cout << pairs[j].second[i];
         currentSum += pairs[j].second[i];
       }
@@ -55,10 +41,16 @@ void zheleznyakov::processTask(std::ostream& out, List<std::pair<std::string, Li
     sums.pushBack(currentSum);
     std::cout << '\n';
   }
-
-  for (size_t i = 0; i < sums.getSize(); i++)
+  if (sums.getSize() == 0)
   {
-    out << sums[i] << (i == sums.getSize() - 1 ? '\n' : ' ');
+    std::cout << 0 << '\n';
+  }
+  else
+  {
+    for (size_t i = 0; i < sums.getSize(); i++)
+    {
+      out << sums[i] << (i == sums.getSize() - 1 ? '\n' : ' ');
+    }
   }
 }
 #endif

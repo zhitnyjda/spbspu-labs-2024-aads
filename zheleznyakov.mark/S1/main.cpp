@@ -17,28 +17,10 @@ int main()
     }
     else
     {
-      pairs.pushBack({input, {}});
+      pairs.pushBack({ input, {} });
       pairsIndex++;
     }
   }
-  try
-  {
-    zheleznyakov::processTask(std::cout, pairs);
-  }
-  catch (const std::logic_error &e)
-  {
-    std::cout << 0 << '\n';
-    return 0;
-  }
-  catch (const std::overflow_error & e)
-  {
-    std::cerr << e.what() << '\n';
-    return 1;
-  }
-  catch (const std::exception &e)
-  {
-    std::cerr << e.what() << '\n';
-    return 2;
-  }
+  zheleznyakov::processTask(std::cout, pairs);
   return 0;
 }
