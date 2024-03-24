@@ -43,7 +43,10 @@ int main()
   {
     std::cout << pairs[i].first << ' ';
   }
-  std::cout << '\n';
+  if (unusedIndex > 0)
+  {
+    std::cout << '\n';
+  }
 
   ListIter* iters = getIters(pairs, unusedIndex);
 
