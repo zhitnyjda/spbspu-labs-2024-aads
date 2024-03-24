@@ -74,6 +74,7 @@ int main()
   do
   {
     flag = false;
+    bool isFirstToPrint = true;
     for (size_t i = 0; i < unusedIndex; i++)
     {
       ListIter iter = iters[i];
@@ -91,11 +92,12 @@ int main()
         {
           flag = true;
         }
-        std::cout << *iter;
-        if (i < unusedIndex - 1 and !iters[i + 1].isEmptyObject())
+        if (!isFirstToPrint)
         {
           std::cout << ' ';
         }
+        std::cout << *iter;
+        isFirstToPrint = false;
         iters[i] = ++iter;
       }
     }
