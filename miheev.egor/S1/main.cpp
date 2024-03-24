@@ -46,6 +46,7 @@ int main()
 
   if (unusedIndex <= 0)
   {
+    delete[] pairs;
     std::cout << "0\n";
     return 0;
   }
