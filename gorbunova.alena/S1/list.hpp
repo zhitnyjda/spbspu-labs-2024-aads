@@ -45,6 +45,7 @@ namespace gorbunova
     void push_back(const T &value);
     void clear();
     void assign(std::initializer_list<T> ilist);
+    void splice(Iterator pos, List &other);
 
     friend std::ostream &operator<<(std::ostream &os, const List<T> &list)
     {
@@ -162,6 +163,22 @@ void gorbunova::List<T>::assign(std::initializer_list<T> ilist)
   {
     push_back(value);
   }
+
+template <typename T>
+void gorbunova::List<T>::splice(Iterator pos, List &other)
+{
+  if (other.head != nullptr)
+  {
+    Node<T> *otherTail = other.head;
+    while (otherTail->next != nullptr)
+    {
+      otherTail = otherTail->next;
+    }
+    otherTail->next = pos.current;
+    pos.current = other.head;
+    other.head == nullptr;
+  }
+}
 
 template <typename T>
 typename gorbunova::List<T>::Iterator gorbunova::List<T>::begin() const
