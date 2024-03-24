@@ -40,10 +40,10 @@ int main() {
           if (it.node->data.second[i])
           {
             std::cout << it.node->data.second[i]->data;
-            if (it.node->next) {
+            sum += it.node->data.second[i]->data;
+            if (sum > 0) {
               std::cout << " ";
             }
-            sum += it.node->data.second[i]->data;
           }
           it++;
         }
