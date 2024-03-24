@@ -89,6 +89,40 @@ namespace miheev
       return 1 + next_->size();
     }
 
+    T& front()
+    {
+      return data_;
+    }
+
+    void pushFront(T data)
+    {
+      if (!isEmpty_)
+      {
+        List< T >* temp = next_;
+        next_ = new List< T >(data_);
+        next_->next_ = temp;
+      }
+      data_ = data;
+    }
+
+    void popFront()
+    {
+      if (!next_)
+      {
+        data_ = 0;
+        isEmpty_ = true;
+      }
+      if (isEmpty_)
+      {
+        return;
+      }
+      List< T >* temp = next_;
+      data_ = next_->data_;
+      next_ = next_->next_;
+      temp->next_ = nullptr;
+      delete temp;
+    }
+
     void pushBack(T data)
     {
       if (next_ == nullptr)
@@ -122,6 +156,11 @@ namespace miheev
     {
       return nullptr;
     }
+
+    struct ConstIterator
+    {
+
+    };
 
     struct Iterator
     {
@@ -159,7 +198,7 @@ namespace miheev
         return cur->next_ != nullptr;
       }
 
-      bool isEmptyObject() const
+      bool empty() const
       {
         return cur->isEmpty_;
       }

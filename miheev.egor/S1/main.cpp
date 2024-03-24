@@ -87,7 +87,7 @@ int main()
     for (size_t i = 0; i < unusedIndex; i++)
     {
       ListIter iter = iters[i];
-      if (iter != nullptr and !iter.isEmptyObject())
+      if (iter != nullptr and !iter.empty())
       {
         if (!isOverflow and std::numeric_limits<size_t>::max() - *iter >= sumArr[index])
         {
