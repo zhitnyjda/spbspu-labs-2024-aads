@@ -85,7 +85,7 @@ void zheleznyakov::List<T>::popFront()
 {
   ListItem<T> *current = head;
   head = head->next;
-  delete[] current;
+  delete current;
   size--;
 }
 
@@ -94,7 +94,7 @@ void zheleznyakov::List<T>::popBack()
 {
   ListItem<T> *current = tail;
   tail = tail->prev;
-  delete[] current;
+  delete current;
   size--;
 }
 
