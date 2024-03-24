@@ -66,6 +66,12 @@ int main()
   size_t maxSize = maxListSize(lists, unusedIndex);
   delete[] lists;
 
+  if (maxSize <= 0)
+  {
+    std::cout << "0\n";
+    return 0;
+  }
+
   size_t* sumArr = new size_t[maxSize]{};
   size_t index = 0;
   bool isOverflow = false;
