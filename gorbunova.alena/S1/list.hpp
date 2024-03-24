@@ -1,110 +1,167 @@
 #ifndef LIST_HPP
 #define LIST_HPP
-#include "node.hpp"
+#define LIST_HPP
+
+#include <iostream>
+#include <initializer_list>
+#include <vector>
+#include <sstream>
 
 namespace gorbunova
 {
-  template<typename T>
+  template <typename T>
+  struct Node
+  {
+    T data;
+    Node<T> *next;
+    Node(const T &value) : data(value), next(nullptr) {}
+  };
+
+  template <typename T>
   class List
   {
-  public:
-    List();
-    ~List();
+  private:
+    Node<T> *head;
 
-    void pushFront(T data);
-    void pushBack(T data);
-    void popFront();
-    void removeAt(int index);
-    void popBack();
+  public:
+    class Iterator
+    {
+    private:
+      Node<T> *current;
+      friend class List<T>;
+
+    public:
+      Iterator(Node<T> *node) : current(node) {}
+      T &operator*() const;
+      Iterator &operator++();
+      bool operator!=(const Iterator &other) const;
+    };
+    List();
+    List(std::initializer_list<std::pair<std::string, std::vector<int>>> ilist);
+
+    template <typename InputIterator>
+    List(InputIterator first, InputIterator last);
+    ~List();
+    void push_back(const T &value);
     void clear();
 
-  private:
-    int count;
-    Node<T>* head;
+    friend std::ostream &operator<<(std::ostream &os, const List<T> &list)
+    {
+      std::vector<std::string> names;
+      std::vector<std::vector<int>> values;
+      for (auto it = list.begin(); it != list.end(); ++it)
+      {
+        names.push_back((*it).first);
+        values.push_back((*it).second);
+      }
+      size_t max_size = 0;
+      for (const auto &v : values)
+      {
+          max_size = std::max(max_size, v.size());
+      }
+      for (size_t i = 0; i < max_size; ++i)
+      {
+          for (size_t j = 0; j < names.size(); ++j)
+          {
+              if (i < values[j].size())
+                  os << values[j][i] << " ";
+          }
+          os << std::endl;
+      }
+      return os;
+    }
+    Iterator begin() const;
+    Iterator end() const;
   };
 }
 
-template<typename T>
-gorbunova::List<T>::List()
+template <typename T>
+T &gorbunova::List<T>::Iterator::operator*() const
 {
-  count = 0;
-  head = nullptr;
+  return current->data;
 }
 
-template<typename T>
+template <typename T>
+typename gorbunova::List<T>::Iterator & gorbunova::List<T>::Iterator::operator++()
+{
+  current = current->next;
+  return *this;
+}
+
+template <typename T>
+bool gorbunova::List<T>::Iterator::operator!=(const Iterator &other) const
+{
+  return current != other.current;
+}
+
+template <typename T>
+gorbunova::List<T>::List() : head(nullptr) {}
+
+template <typename T>
+gorbunova::List<T>::List(std::initializer_list<std::pair<std::string, std::vector<int>>> ilist) : head(nullptr)
+{
+  for (const auto &pair : ilist)
+  {
+    push_back(pair);
+  }
+}
+
+template <typename T>
+template <typename InputIterator>
+gorbunova::List<T>::List(InputIterator first, InputIterator last) : head(nullptr)
+{
+  while(first != last)
+  {
+    push_back(*fisrt);
+    ++first;
+  }
+}
+
+template <typename T>
 gorbunova::List<T>::~List()
 {
   clear();
 }
 
-template<typename T>
-void gorbunova::List<T>::pushFront(T data)
+template <typename T>
+void gorbunova::List<T>::push_back(const T &value)
 {
-  head = new Node<T>(data, head);
-  count++;
-}
-
-template<typename T>
-void gorbunova::List<T>::pushBack(T data)
-{
+  Node<T> *tmp = new Node<T>(value);
   if (head == nullptr)
   {
-    head = new Node<T>(data);
+    head = tmp;
   }
   else
   {
-    Node<T>* curr = this->head;
+    Node<T> *curr = head;
     while (curr->next != nullptr)
     {
       curr = curr->next;
     }
-    curr->next = new Node<T>(data);
-  }
-  count++;
-}
-
-template<typename T>
-void gorbunova::List<T>::popFront()
-{
-  Node<T>* temp = head;
-  head = head->next;
-  delete temp;
-  count--;
-}
-
-void gorbunova::List<T>::removeAt(int index)
-{
-  if (index == 0)
-  {
-    popFront();
-  }
-  else
-  {
-    Node<T>* prev = this->head;
-    for (int i = 0; i < index - 1; i++)
-    {
-      prev = prev->next;
-    }
-    Node<T>* toDelete = prev->next;
-    prev->next = toDelete->next;
-    delete toDelete;
-    count--;
+    curr->next = tmp;
   }
 }
 
-template<typename T>
-void gorbunova::List<T>::popBack()
-{
-  removeAt(count - 1);
-}
-
-template<typename T>
+template <typename T>
 void gorbunova::List<T>::clear()
 {
-  while (count)
+  while (head != nullptr)
   {
-    popFront();
+    Node<T> *tmp = head;
+    head = head ->next;
+    delete tmp;
   }
 }
 
+template <typename T>
+typename gorbunova::List<T>::Iterator gorbunova::List<T>::begin() const
+{
+  return Iterator(head);
+}
+
+template <typename T>
+typename gorbunova::List<T>::Iterator gorbunova::List<T>::end() const
+{
+  return Iterator(nullptr);
+}
 #endif
