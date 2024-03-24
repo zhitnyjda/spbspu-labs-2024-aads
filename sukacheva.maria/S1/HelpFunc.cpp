@@ -66,6 +66,7 @@ void sukacheva::printArgs(List<std::pair<std::string, List<size_t>>>& newList)
         if (sum > maxSum - it.node->data.second[i]->data)
         {
           overflowFlag = true;
+          std::cout << "\n";
           throw std::overflow_error("overflow!!");
         }
         else
