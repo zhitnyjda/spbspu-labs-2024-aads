@@ -201,7 +201,7 @@ void gorbunova::List<T>::reverse()
 template <typename T>
 void gorbunova::List<T>::insert(Iterator pos, const T &value)
 {
-  Node<T> *newNode = new Node<T>(value)
+  Node<T> *newNode = new Node<T>(value);
   newNode->next = pos.current->next;
   pos.current->next = newNode;
 }
