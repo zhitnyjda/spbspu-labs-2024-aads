@@ -1,58 +1,56 @@
 #include <iostream>
 #include <vector>
+#include <sstream>
 #include <string>
-#include <iterator>
+#include <algorithm>
 #include "list.hpp"
 
 int main() {
-  jirkov::List<std::pair<std::string, std::vector<int>>> sequences;
-  std::string name;
-  while (std::cin >> name) {
-    std::vector<int> sequence;
-    int num;
-    while (std::cin >> num) {
-      sequence.push_back(num);
+    jirkov::List<std::pair<std::string, std::vector<int>>> sequences;
+
+    std::string name;
+    while (std::cin >> name) {
+        std::string input;
+        std::getline(std::cin, input);
+
+        std::vector<int> sequence;
+        std::istringstream iss(input);
+        int num;
+        while (iss >> num) {
+            sequence.push_back(num);
+        }
+        sequences.push_back({name, sequence});
     }
-    sequences.push_back({name, sequence});
-  }
-  std::cout << "Список названий списков:\n";
-  for (const auto& pair : sequences) {
-    std::cout << pair.first << " ";
-  }
-  std::cout << std::endl;
-  std::vector<std::vector<int>> mergedSequences;
-  size_t maxLength = 0;
-
-  for (const auto& pair : sequences) {
-    const auto& sequence = pair.second;
-    maxLength = std::max(maxLength, sequence.size());
-  }
-  mergedSequences.resize(maxLength);
-
-  for (size_t i = 0; i < maxLength; i++) {
+    std::cout << "\n";
     for (const auto& pair : sequences) {
-      const auto& sequence = pair.second;
-      if (i < sequence.size()) {
-        mergedSequences[i].push_back(sequence[i]);
-      }
-    }
-  }
-
-  std::cout << "\nОбъединенные последовательности:\n";
-  for (const auto& seq : mergedSequences) {
-    for (const auto& num : seq) {
-      std::cout << num << " ";
+        std::cout << pair.first << " ";
     }
     std::cout << std::endl;
-  }
 
-  int sum = 0;
-  for (const auto& seq : mergedSequences) {
-    for (const auto& num : seq) {
-      sum += num;
+    std::vector<std::vector<int>> mergedSequences;
+    for (const auto& pair : sequences) {
+        const auto& sequence = pair.second;
+        for (size_t i = 0; i < sequence.size(); i++) {
+            if (i >= mergedSequences.size()) {
+                mergedSequences.resize(i+1);
+            }
+            mergedSequences[i].push_back(sequence[i]);
+        }
     }
-  }
-
-  std::cout << "Сумма значений составленных списков:\n " << sum << std::endl;
-  return 0;
+    for (const auto& seq : mergedSequences) {
+        for (const auto& num : seq) {
+            std::cout << num << " ";
+        }
+        std::cout << std::endl;
+    }
+    for (const auto& seq: sequences) {
+        if (!seq.second.empty()) {
+            int sum = 0;
+            for (int num: seq.second) {
+                sum += num;
+            }
+            std::cout << sum << " ";
+        }
+    }
+    return 0;
 }
