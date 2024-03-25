@@ -50,7 +50,7 @@ int main()
       {
         nums.push_back(std::stoi(numStr));
       }
-      catch (const std::out_of_range& oor)
+      catch (const std::exception& oor)
       {
         std::cerr << "Out of range input: " << numStr << std::endl;
         err = true;
