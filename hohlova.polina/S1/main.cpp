@@ -37,7 +37,7 @@ int main()
 
   if (tempData.empty())
   {
-    std::cout << "0\n" << std::endl;
+    std::cout << "0" << std::endl;
     return 0;
   }
 
