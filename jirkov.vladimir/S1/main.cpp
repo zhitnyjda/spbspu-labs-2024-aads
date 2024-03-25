@@ -20,6 +20,10 @@ int main() {
         sequences.push_back({name, sequence});
     }
     std::cout << "\n";
+    for (const auto& pair : sequences) {
+        std::cout << pair.first << " ";
+    }
+    std::cout << std::endl;
     std::vector<int> sums;
     int maxlen = 0;
     for (const auto& pair : sequences) {
