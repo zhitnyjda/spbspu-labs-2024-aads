@@ -30,7 +30,7 @@ int main()
   if (!hasData && !tempData.empty())
   {
     std::cout << temp << std::endl
-      << "0";
+      << "0\n";
     return 0;
   }
 
