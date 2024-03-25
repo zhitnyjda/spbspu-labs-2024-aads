@@ -72,18 +72,19 @@ namespace miheev
       return isEmpty_;
     }
 
-    void swap(List& aList)
+    void swap(List< T >& aList)
     {
       List< T > temp = *this;
       clear();
       while (!aList.empty())
       {
-        pushFront(aList.front());
+        pushBack(aList.front());
         aList.popFront();
       }
+      aList.clear();
       while (!temp.empty())
       {
-        pushFront(temp.front());
+        aList.pushBack(temp.front());
         temp.popFront();
       }
     }
@@ -127,6 +128,7 @@ namespace miheev
         next_->next_ = temp;
       }
       data_ = data;
+      isEmpty_ = false;
     }
 
     void popFront()
@@ -149,14 +151,22 @@ namespace miheev
 
     void pushBack(T data)
     {
-      if (next_ == nullptr)
+      if (isEmpty_)
       {
-        next_ = new List< T >(data);
+        data_ = data;
       }
       else
       {
-        next_->pushBack(data);
+        if (next_ == nullptr)
+        {
+          next_ = new List< T >(data);
+        }
+        else
+        {
+          next_->pushBack(data);
+        }
       }
+      isEmpty_ = false;
     }
 
     void print(std::ostream& stream = std::cout, const char& splitter = ' ') const
