@@ -52,9 +52,9 @@ int main()
       }
       catch (const std::out_of_range& oor)
       {
+        continue;
         std::cerr << "Out of range input: " << numStr << std::endl;
         err = true;
-        continue;
       }
     }
     numbers.push_back(std::make_pair(entry.first, nums));
