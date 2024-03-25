@@ -7,6 +7,7 @@ int main()
   std::string line;
   bool hasData = false;
   std::string temp;
+  bool err = false;
 
   while (std::getline(std::cin, line) && !line.empty())
   {
@@ -31,28 +32,29 @@ int main()
   {
     std::cout << temp << std::endl
       << "0\n";
-    return 0;
+    return 1;
   }
 
   if (tempData.empty())
   {
-    std::cout << "0" << std::endl;
+    std::cout << "0/n" << std::endl;
     return 0;
   }
 
-  for (const auto &entry : tempData)
+  for (const auto& entry : tempData)
   {
     std::vector<int> nums;
-    for (const auto &numStr : entry.second)
+    for (const auto& numStr : entry.second)
     {
       try
       {
         nums.push_back(std::stoi(numStr));
       }
-      catch (const std::out_of_range &oor)
+      catch (const std::out_of_range& oor)
       {
-        std::cerr << "Out of range input" << std::endl;
-        return 1;
+        std::cerr << "Out of range input: " << numStr << std::endl;
+        err = true;
+        continue;
       }
     }
     numbers.push_back(std::make_pair(entry.first, nums));
@@ -89,6 +91,8 @@ int main()
     if (i < max_length - 1)
       std::cout << " ";
   }
+  if (err)
+    return 1;
   std::cout << std::endl;
   return 0;
 }
