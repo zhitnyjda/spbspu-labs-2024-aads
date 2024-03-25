@@ -51,7 +51,7 @@ int main()
       }
       catch (const std::out_of_range &oor)
       {
-        std::cerr << "Out of range input: " << numStr << std::endl;
+        std::cerr << "Out of range input" << std::endl;
         return 1;
       }
     }
