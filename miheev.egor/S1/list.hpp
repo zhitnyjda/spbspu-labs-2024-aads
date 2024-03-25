@@ -67,13 +67,37 @@ namespace miheev
       }
     }
 
+    bool empty()
+    {
+      return isEmpty_;
+    }
+
+    void swap(List& aList)
+    {
+      List< T > temp = *this;
+      clear();
+      while (!aList.empty())
+      {
+        pushFront(aList.front());
+        aList.popFront();
+      }
+      while (!temp.empty())
+      {
+        pushFront(temp.front());
+        temp.popFront();
+      }
+    }
+
     void clear()
     {
       if (next_ != nullptr)
       {
-        delete next_;
+        List< T >* temp = next_;
+        next_ = nullptr;
+        delete temp;
       }
-      delete this;
+      isEmpty_ = true;
+      data_ = 0;
     }
 
     size_t size() const
