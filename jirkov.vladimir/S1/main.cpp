@@ -26,23 +26,21 @@ int main() {
         maxlen = std::max(maxlen, static_cast<int>(pair.second.size()));
     }
 
-    std::cout << "Объединенные последовательности:\n";
+    std::cout << "\n";
     for (int i = 0; i < maxlen; i++) {
         for (const auto& pair : sequences) {
             if (i < pair.second.size()) {
-                std::cout << pair.second[i] << " ";
+            std::cout << pair.second[i] << " ";
                 if (i >= sums.size()) {
-                    sums.push_back(pair.second[i]);
-                } else {
-                    sums[i] += pair.second[i];
+                    sums.resize(i + 1);
                 }
+                sums[i] += pair.second[i];
             }
         }
         std::cout << std::endl;
     }
 
-    std::cout << std::endl;
-    std::cout << "Суммы элементов:\n";
+    std::cout << "\n";
     for (int sum : sums) {
         std::cout << sum << " ";
     }
