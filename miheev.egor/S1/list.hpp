@@ -42,6 +42,21 @@ namespace miheev
       }
     }
 
+    List(List&& rhs) noexcept
+    {
+      data_ = rhs.data_;
+    }
+
+    explicit List(size_t count, T value):
+      next_(nullptr),
+      isEmpty_(true)
+    {
+      for (size_t i = 0; i < count; i++)
+      {
+        pushBack(value);
+      }
+    }
+
     List& operator= (const List& list)
     {
       data_ = list.data_;
