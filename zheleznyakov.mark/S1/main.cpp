@@ -21,6 +21,14 @@ int main()
       pairsIndex++;
     }
   }
-  zheleznyakov::processTask(std::cout, pairs);
+  try
+  {
+    zheleznyakov::processTask(std::cout, pairs);
+  }
+  catch(const std::overflow_error& e)
+  {
+    std::cerr << e.what() << '\n';
+    return 1;
+  }
   return 0;
 }

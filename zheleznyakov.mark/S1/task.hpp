@@ -2,6 +2,7 @@
 #define TASK_HPP
 #include <iostream>
 #include <string>
+#include <limits>
 #include "list.hpp"
 
 namespace zheleznyakov
@@ -23,6 +24,7 @@ void zheleznyakov::processTask(std::ostream& out, List<std::pair<std::string, Li
   }
   zheleznyakov::List<unsigned long long> sums;
   unsigned long long currentSum = 0;
+  bool overflowFlag = false;
   for (size_t i = 0; i < maxSequenceLength; i++)
   {
     currentSum = 0;
@@ -35,11 +37,22 @@ void zheleznyakov::processTask(std::ostream& out, List<std::pair<std::string, Li
           std::cout << ' ';
         }
         std::cout << pairs[j].second[i];
-        currentSum += pairs[j].second[i];
+        if (currentSum > (std::numeric_limits<unsigned long long>::max() - pairs[j].second[i]))
+        {
+          overflowFlag = true;
+        }
+        else
+        {
+          currentSum += pairs[j].second[i];
+        }
       }
     }
     sums.pushBack(currentSum);
     std::cout << '\n';
+  }
+  if (overflowFlag)
+  {
+    throw std::overflow_error("Got overflow while calculating sums");
   }
   if (sums.getSize() == 0)
   {
