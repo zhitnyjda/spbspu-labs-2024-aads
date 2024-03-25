@@ -51,7 +51,7 @@ void kovshikov::inputPairs(DoubleList<std::pair<std::string, DoubleList<size_t>>
 
 void kovshikov::outputListName(const DoubleList<std::pair<std::string, DoubleList<size_t>>> &allPairs)
 {
-  Iterator<std::pair<std::string, DoubleList<size_t>>> iterator = allPairs.begin();
+  DoubleList<std::pair<std::string, DoubleList<size_t>>>::Iterator iterator = allPairs.begin();
   while(iterator != nullptr)
   {
     std::cout << iterator->first;
@@ -71,7 +71,7 @@ void kovshikov::outputResult(const DoubleList<std::pair<std::string, DoubleList<
 {
   DoubleList<size_t> summaList;
   DoubleList<DoubleList<size_t>> resultList;
-  Iterator<std::pair<std::string, DoubleList<size_t>>> iteratorAllPairs = allPairs.begin();
+  DoubleList<std::pair<std::string, DoubleList<size_t>>>::Iterator iteratorAllPairs = allPairs.begin();
   bool flag = true;
   while(flag == true)
   {
@@ -134,4 +134,3 @@ void kovshikov::outputResult(const DoubleList<std::pair<std::string, DoubleList<
     }
   }
 }
-
