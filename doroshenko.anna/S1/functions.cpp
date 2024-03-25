@@ -7,7 +7,7 @@ doroshenko::List< std::pair< std::string, doroshenko::List< size_t > > > doroshe
   doroshenko::List< std::pair< std::string, doroshenko::List< size_t > > > inputList;
   unsigned long long readNumber = 0;
   const size_t maximum = std::numeric_limits< size_t >::max();
-  while(input >> inputString)
+  while (input >> inputString)
   {
     if (std::isalpha(inputString[0]))
     {
@@ -22,7 +22,7 @@ doroshenko::List< std::pair< std::string, doroshenko::List< size_t > > > doroshe
       }
       else
       {
-        inputList.tail_->data.second.pushBack(readNumber);
+        inputList.back().second.pushBack(readNumber);
       }
     }
   }
@@ -33,6 +33,7 @@ void doroshenko::listOutput(doroshenko::List< std::pair< std::string, doroshenko
 {
   List< std::pair< std::string, doroshenko::List< size_t > > >::Iterator iterator = list.begin();
   size_t maxSize = getMaxSize(list);
+  doroshenko::List< size_t >::Iterator localIterator = nullptr;
   List< size_t > sums;
   List< size_t >::Iterator iteratorForSums;
   const size_t maximum = std::numeric_limits< size_t >::max();
@@ -40,29 +41,30 @@ void doroshenko::listOutput(doroshenko::List< std::pair< std::string, doroshenko
   bool overflowError = false;
   if (!list.isEmpty())
   {
-    while (iterator.node)
+    while (iterator != list.end())
     {
-      if (iterator.node != list.head_)
+      if (iterator != list.begin())
       {
         output << " ";
       }
-      output << iterator.node->data.first;
+      output << iterator->first;
       iterator++;
     }
     output << "\n";
     for (size_t index = 0; index < maxSize; index++)
     {
       iterator = list.begin();
-      while (iterator.node)
+      while (iterator != list.end())
       {
-        if (iterator.node->data.second[index] != nullptr)
+        if (iterator->second[index] != nullptr)
         {
           if (sum > 0)
           {
             output << " ";
           }
-          std::cout << iterator.node->data.second[index]->data;
-          if (maximum - sum < iterator.node->data.second[index]->data)
+          localIterator = iterator->second[index];
+          std::cout << *localIterator;
+          if (maximum - sum < *localIterator)
           {
             overflowError = true;
             output << "\n";
@@ -70,7 +72,7 @@ void doroshenko::listOutput(doroshenko::List< std::pair< std::string, doroshenko
           }
           else
           {
-            sum = sum + iterator.node->data.second[index]->data;
+            sum = sum + *localIterator;
           }
         }
         iterator++;
@@ -91,15 +93,15 @@ void doroshenko::listOutput(doroshenko::List< std::pair< std::string, doroshenko
     }
     else
     {
-      while (iteratorForSums.node)
+      while (iteratorForSums != sums.end())
       {
-        if (iteratorForSums.node != nullptr)
+        if (iteratorForSums != nullptr)
         {
-          if (iteratorForSums.node != sums.head_)
+          if (iteratorForSums != sums.begin())
           {
             output << " ";
           }
-          output << iteratorForSums.node->data;
+          output << *iteratorForSums;
         }
         iteratorForSums++;
       }
@@ -117,9 +119,9 @@ size_t doroshenko::getMaxSize(doroshenko::List< std::pair< std::string, doroshen
   size_t size = 0;
   size_t maxSize = 0;
   List< std::pair< std::string, doroshenko::List< size_t > > >::Iterator iterator = list.begin();
-  while (iterator.node)
+  while (iterator != list.end())
   {
-    size = iterator.node->data.second.getSize();
+    size = iterator->second.getSize();
     maxSize = size > maxSize ? size : maxSize;
     iterator++;
   }

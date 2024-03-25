@@ -13,18 +13,22 @@ namespace doroshenko
   public:
     struct Node
     {
-      T data;
-      Node* next;
+    public:
+      friend class List< T >;
+      friend class Iterator;
       Node(T value) :
         data(value),
         next(nullptr)
       {}
+    private:
+      T data;
+      Node* next;
     };
 
-    struct Iterator
+    class Iterator
     {
-      Node* node;
-
+    public:
+      friend class List< T >;
       Iterator();
       ~Iterator() = default;
       Iterator(const Iterator&) = default;
@@ -38,10 +42,10 @@ namespace doroshenko
 
       bool operator!=(const Iterator& rhs) const;
       bool operator==(const Iterator& rhs) const;
-    };
 
-    Node* head_;
-    Node* tail_;
+    private:
+      Node* node;
+    };
 
     List();
     List(size_t n, const T& value);
@@ -60,6 +64,8 @@ namespace doroshenko
     template< typename P >
     void removeIf(P p);
     size_t getSize();
+    T& front();
+    T& back();
 
     Node* operator[](const int index);
 
@@ -68,6 +74,10 @@ namespace doroshenko
 
     const Iterator cbegin() const;
     const Iterator cend() const;
+
+  private:
+    Node* head_;
+    Node* tail_;
   };
 }
 
@@ -200,14 +210,12 @@ void doroshenko::List< T >::clear()
 template< typename T >
 void doroshenko::List< T >::swap(List< T >& otherList)
 {
-  Node* head = head_;
-  head_ = otherList.head_;
-  otherList.head_ = head;
-  delete head;
-  Node* tail = tail_;
-  tail_ = otherList.tail_;
-  otherList.tail_ = tail;
-  delete tail;
+  Node* head = otherList.head_;
+  Node* tail = otherList.tail_;
+  otherList.head_ = head_;
+  head_ = head;
+  otherList.tail_ = tail_;
+  tail_ = tail;
 }
 
 template< typename T >
@@ -305,6 +313,18 @@ void doroshenko::List< T >::removeIf(P p)
 }
 
 template< typename T >
+T& doroshenko::List< T >::front()
+{
+  return head_->data;
+}
+
+template< typename T >
+T& doroshenko::List< T >::back()
+{
+  return tail_->data;
+}
+
+template< typename T >
 typename doroshenko::List< T >::Node* doroshenko::List< T >::operator[](const int index)
 {
   if (isEmpty() == true)
@@ -391,13 +411,13 @@ T* doroshenko::List< T >::Iterator::operator->()
 template< typename T >
 bool doroshenko::List< T >::Iterator::operator!=(const Iterator& rhs) const
 {
-  return node == rhs.node;
+  return !(rhs == *this);
 }
 
 template< typename T >
 bool doroshenko::List< T >::Iterator::operator==(const Iterator& rhs) const
 {
-  return !(rhs == *this);
+  return node == rhs.node;
 }
 
 #endif
