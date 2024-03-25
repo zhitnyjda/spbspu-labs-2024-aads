@@ -34,9 +34,10 @@ namespace kovshikov
       using this_t = Iterator;
 
       Iterator(): node(nullptr) {};
-      Iterator(Node* ptr): node(ptr) {};
       Iterator(const this_t &) = default;
+      Iterator(Node* ptr): node(ptr) {};
       ~Iterator() = default;
+
       this_t & operator=(const this_t &) = default;
 
       this_t & operator++();
@@ -55,9 +56,9 @@ namespace kovshikov
     };
 
     DoubleList(): head_(nullptr), tail_(nullptr) {};
-    DoubleList(size_t size, const T &value);
     DoubleList(const DoubleList& dl);
     DoubleList(DoubleList&& dl);
+    DoubleList(size_t size, const T &value);
     ~DoubleList();
 
     DoubleList<T>& operator=(const DoubleList<T>& dl);
