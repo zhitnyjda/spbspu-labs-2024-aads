@@ -14,9 +14,7 @@ namespace kovshikov
   public:
     struct Node
     {
-      T data;
-      Node* prev;
-      Node* next;
+      friend class DoubleList<T>;
       Node(): data(0), prev(nullptr), next(nullptr) {};
       Node(T data_) :
       data(data_),
@@ -24,11 +22,15 @@ namespace kovshikov
       next(nullptr)
       {};
       ~Node() = default;
+    private:
+      T data;
+      Node* prev;
+      Node* next;
     };
 
     struct Iterator
     {
-      Node* node;
+      friend class DoubleList<T>;
       using this_t = Iterator;
 
       Iterator(): node(nullptr) {};
@@ -48,6 +50,8 @@ namespace kovshikov
 
       T & operator*();
       T * operator->();
+    private:
+      Node* node;
     };
 
     DoubleList(): head_(nullptr), tail_(nullptr) {};
@@ -268,7 +272,7 @@ void kovshikov::DoubleList<T>::swap(DoubleList& dl)
 }
 
 template<typename T>
-void kovshikov::DoubleList<T>::remove(const T &value)  //use Iterator
+void kovshikov::DoubleList<T>::remove(const T &value)
 {
   Iterator iterator = this->begin();
   while(iterator != this->end())
@@ -300,7 +304,7 @@ void kovshikov::DoubleList<T>::remove(const T &value)  //use Iterator
 
 template<typename T>
 template<class Predicate>
-void kovshikov::DoubleList<T>::remove_if(Predicate pred)  //use Iterator
+void kovshikov::DoubleList<T>::remove_if(Predicate pred)
 {
   Iterator iterator = this->begin();
   while(iterator != this->end())
