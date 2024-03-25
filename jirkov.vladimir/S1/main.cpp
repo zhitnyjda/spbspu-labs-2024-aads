@@ -2,12 +2,10 @@
 #include <vector>
 #include <sstream>
 #include <string>
-#include <algorithm>
 #include "list.hpp"
 
 int main() {
     jirkov::List<std::pair<std::string, std::vector<int>>> sequences;
-
     std::string name;
     while (std::cin >> name) {
         std::string input;
@@ -22,35 +20,33 @@ int main() {
         sequences.push_back({name, sequence});
     }
     std::cout << "\n";
+    std::vector<int> sums;
+    int maxlen = 0;
     for (const auto& pair : sequences) {
-        std::cout << pair.first << " ";
+        maxlen = std::max(maxlen, static_cast<int>(pair.second.size()));
     }
-    std::cout << std::endl;
 
-    std::vector<std::vector<int>> mergedSequences;
-    for (const auto& pair : sequences) {
-        const auto& sequence = pair.second;
-        for (size_t i = 0; i < sequence.size(); i++) {
-            if (i >= mergedSequences.size()) {
-                mergedSequences.resize(i+1);
+    std::cout << "Объединенные последовательности:\n";
+    for (int i = 0; i < maxlen; i++) {
+        for (const auto& pair : sequences) {
+            if (i < pair.second.size()) {
+                std::cout << pair.second[i] << " ";
+                if (i >= sums.size()) {
+                    sums.push_back(pair.second[i]);
+                } else {
+                    sums[i] += pair.second[i];
+                }
             }
-            mergedSequences[i].push_back(sequence[i]);
-        }
-    }
-    for (const auto& seq : mergedSequences) {
-        for (const auto& num : seq) {
-            std::cout << num << " ";
         }
         std::cout << std::endl;
     }
-    for (const auto& seq: sequences) {
-        if (!seq.second.empty()) {
-            int sum = 0;
-            for (int num: seq.second) {
-                sum += num;
-            }
-            std::cout << sum << " ";
-        }
+
+    std::cout << std::endl;
+    std::cout << "Суммы элементов:\n";
+    for (int sum : sums) {
+        std::cout << sum << " ";
     }
+    std::cout << std::endl;
+
     return 0;
 }
