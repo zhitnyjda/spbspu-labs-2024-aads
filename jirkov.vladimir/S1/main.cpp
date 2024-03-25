@@ -20,27 +20,30 @@ int main() {
         sequences.push_back({name, sequence});
     }
     std::cout << "\n";
-    std::vector<int> sums;
+    std::vector<int> sums; // Вектор для хранения сумм элементов
     int maxlen = 0;
     for (const auto& pair : sequences) {
         maxlen = std::max(maxlen, static_cast<int>(pair.second.size()));
     }
 
-    std::cout << "\n";
+    std::cout << "Объединенные последовательности:\n";
     for (int i = 0; i < maxlen; i++) {
         for (const auto& pair : sequences) {
-            if (i < pair.second.size()) {
-            std::cout << pair.second[i] << " ";
-                if (i >= sums.size()) {
-                    sums.resize(i + 1);
+            if (i < static_cast<int>(pair.second.size())) {
+                std::cout << pair.second[i] << " ";
+                if (static_cast<int>(i) >= static_cast<int>(sums.size())) {
+                    sums.push_back(pair.second[i]);
+                } else {
+                    sums[static_cast<int>(i)] += pair.second[i];
                 }
-                sums[i] += pair.second[i];
             }
         }
         std::cout << std::endl;
     }
 
-    std::cout << "\n";
+    // Вывод сумм в последней строке
+    std::cout << std::endl;
+    std::cout << "Суммы элементов:\n";
     for (int sum : sums) {
         std::cout << sum << " ";
     }
