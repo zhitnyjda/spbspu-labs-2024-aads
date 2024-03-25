@@ -3,6 +3,7 @@
 int main()
 {
   hohlova::List<std::pair<std::string, std::vector<int>>> numbers;
+  std::vector<std::pair<std::string, std::vector<std::string>>> tempData;
   std::string line;
   bool hasData = false;
   std::string temp;
@@ -14,14 +15,39 @@ int main()
     iss >> word;
     temp = word;
 
-    std::vector<int> nums;
+    std::vector<std::string> nums;
     std::string numStr;
     while (iss >> numStr)
     {
+      nums.push_back(numStr);
+    }
+
+    tempData.push_back(std::make_pair(word, nums));
+    if (!nums.empty())
+      hasData = true;
+  }
+
+  if (!hasData && !tempData.empty())
+  {
+    std::cout << temp << std::endl
+      << "0";
+    return 0;
+  }
+
+  if (tempData.empty())
+  {
+    std::cout << "0" << std::endl;
+    return 0;
+  }
+
+  for (const auto &entry : tempData)
+  {
+    std::vector<int> nums;
+    for (const auto &numStr : entry.second)
+    {
       try
       {
-        int num = std::stoi(numStr);
-        nums.push_back(num);
+        nums.push_back(std::stoi(numStr));
       }
       catch (const std::out_of_range &oor)
       {
@@ -29,22 +55,9 @@ int main()
         return 1;
       }
     }
+    numbers.push_back(std::make_pair(entry.first, nums));
+  }
 
-    numbers.push_back(std::make_pair(word, nums));
-    if (!nums.empty())
-      hasData = true;
-  }
-  if (!hasData && numbers.size() != 0)
-  {
-    std::cout << temp << std::endl
-      << "0";
-    return 0;
-  }
-  if (numbers.size() == 0)
-  {
-    std::cout << "0" << std::endl;
-    return 0;
-  }
   for (auto it = numbers.begin(); it != numbers.end(); ++it)
   {
     std::cout << (*it).first;
@@ -52,12 +65,11 @@ int main()
     ++nextIt;
     if (nextIt != numbers.end())
     {
-      std::cout << ' ';
+      std::cout << " ";
     }
   }
-
-  std::cout << std::endl
-    << numbers;
+  std::cout << std::endl;
+  std::cout << numbers;
 
   size_t max_length = 0;
   for (auto it = numbers.begin(); it != numbers.end(); ++it)
