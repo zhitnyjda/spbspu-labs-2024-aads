@@ -32,7 +32,7 @@ int main()
   {
     std::cout << temp << std::endl
       << "0\n";
-    return 1;
+    return 0;
   }
 
   if (tempData.empty())
