@@ -97,7 +97,7 @@ int main()
     if (i < max_length - 1)
       std::cout << " ";
   }
-
+  std::cout << "\n";
   if (err)
     return 1;
   return 0;
