@@ -73,7 +73,7 @@ int main()
 
   for (size_t i = 0; i < max_length; ++i)
   {
-    long long sum = 0;
+    unsigned long long sum = 0;
     for (auto it = numbers.begin(); it != numbers.end(); ++it)
     {
       if (i < (*it).second.size())
