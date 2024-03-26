@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <vector>
 #include <limits>
 #include <algorithm>
 #include <stdexcept>
@@ -20,7 +21,7 @@ namespace
 int main()
 {
   std::string line;
-  List< std::pair< std::string, List< unsigned long long > > > sequences;
+  std::vector< std::pair< std::string, List< unsigned long long > > > sequences;
   size_t maxLen = 0;
   while (std::getline(std::cin, line) && !line.empty())
   {
@@ -93,7 +94,7 @@ int main()
       std::cout << 0;
     }
   }
-  List< unsigned long long > sums(maxLen, 0);
+  std::vector< unsigned long long > sums(maxLen, 0);
   try
   {
     for (size_t i = 0; i < maxLen; ++i)
