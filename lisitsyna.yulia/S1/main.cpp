@@ -50,7 +50,7 @@ int main()
     {
       const auto & list = seq.second;
       auto it = list.begin();
-      for (int j = 0; j < i && it != list.end(); ++j)
+      for (size_t j = 0; j < i && it != list.end(); ++j)
       {
         ++it;
       }
@@ -80,7 +80,7 @@ int main()
     {
       const auto & list = seq.second;
       auto it = list.begin();
-      for (int j = 0; j < i && it != list.end(); ++j)
+      for (size_t j = 0; j < i && it != list.end(); ++j)
       {
         ++it;
       }
