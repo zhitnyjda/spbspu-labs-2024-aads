@@ -1,8 +1,9 @@
 #include "list.hpp"
+#include <limits>
 
 int main()
 {
-  hohlova::List<std::pair<std::string, std::vector<int>>> numbers;
+  hohlova::List<std::pair<std::string, std::vector<unsigned long long>>> numbers;
   std::vector<std::pair<std::string, std::vector<std::string>>> tempData;
   std::string line;
   bool hasData = false;
@@ -41,21 +42,12 @@ int main()
     return 0;
   }
 
-  for (const auto& entry : tempData)
+  for (const auto &entry : tempData)
   {
-    std::vector<int> nums;
-    for (const auto& numStr : entry.second)
+    std::vector<unsigned long long> nums;
+    for (const auto &numStr : entry.second)
     {
-      try
-      {
-        nums.push_back(std::stoi(numStr));
-      }
-      catch (const std::exception& oor)
-      {
-        std::cerr << "Out of range input: " << numStr << std::endl;
-        err = true;
-        continue;
-      }
+      nums.push_back(std::stoull(numStr));
     }
     numbers.push_back(std::make_pair(entry.first, nums));
   }
@@ -81,19 +73,32 @@ int main()
 
   for (size_t i = 0; i < max_length; ++i)
   {
-    int sum = 0;
+    long long sum = 0;
     for (auto it = numbers.begin(); it != numbers.end(); ++it)
     {
       if (i < (*it).second.size())
-        sum += (*it).second[i];
+      {
+        try
+        {
+          if (sum > std::numeric_limits<unsigned long long>::max() - (*it).second[i])
+          {
+            throw std::overflow_error("Overflow");
+          }
+          sum += (*it).second[i];
+        }
+        catch (const std::overflow_error &e)
+        {
+          std::cerr << e.what() << '\n';
+          return 1;
+        }
+      }
     }
     std::cout << sum;
     if (i < max_length - 1)
       std::cout << " ";
   }
+
   if (err)
     return 1;
-  std::cout << std::endl;
   return 0;
 }
-

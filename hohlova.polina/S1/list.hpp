@@ -40,7 +40,7 @@ namespace hohlova
     friend std::ostream &operator<<(std::ostream &os, const List<T> &list)
     {
       std::vector<std::string> names;
-      std::vector<std::vector<int>> values;
+      std::vector<std::vector<unsigned long long>> values;
 
       for (auto it = list.begin(); it != list.end(); ++it)
       {
