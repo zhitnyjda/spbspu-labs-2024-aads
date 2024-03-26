@@ -80,7 +80,7 @@ int main()
       {
         try
         {
-          if (sum > std::numeric_limits<unsigned long long>::max() - (*it).second[i])
+          if (sum > std::numeric_limits<long long>::max() - (*it).second[i])
           {
             throw std::overflow_error("Overflow");
           }
