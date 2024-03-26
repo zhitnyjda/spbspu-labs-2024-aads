@@ -19,8 +19,14 @@ int main()
     List<long long> list;
     int num;
     size_t count = 0;
-    while (iss >> num)
+    while (!iss.fail() && !iss.eof())
     {
+      iss >> num;
+      if (iss.fail())
+      {
+        std::cerr << "Input error\n";
+        return 1;
+      }
       list.push_back(num);
       ++count;
     }
@@ -28,50 +34,65 @@ int main()
     sequences.emplace_back(name, std::move(list));
   }
   for (const auto& seq : sequences)
-    {
-      std::cout << seq.first << " ";
-    }
+  {
+    std::cout << seq.first << " ";
+  }
   if (sequences.empty())
   {
-    std::cout << 0 << "\n";
+    std::cout << 0;
+    return 0;
   }
-  for (size_t i = 0; i < maxLen; ++i)
+  std::cout << '\n';
+   for (size_t i = 0; i < maxLen; ++i)
   {
-    for (const auto& seq : sequences)
+    bool first = true;
+    for (const auto & seq: sequences)
     {
-      const auto& list = seq.second;
+      const auto & list = seq.second;
       auto it = list.begin();
-      std::advance(it, i);
+      for (int j = 0; j < i && it != list.end(); ++j)
+      {
+        ++it;
+      }
       if (it != list.end())
       {
-        std::cout << *it << " ";
-      }
-      else
-      {
-        std::cout << "0 ";
+        if (first)
+        {
+          first = false;
+        }
+        else
+        {
+          std::cout << ' ';
+        }
+        std::cout << *it;
       }
     }
+    std::cout << '\n';
     if (sequences.empty())
     {
-      std::cout << 0 << "\n";
+      std::cout << 0;
     }
   }
-  std::vector<unsigned long long> sums(maxLen, 0);
+  std::vector< unsigned long long > sums(maxLen, 0);
   for (size_t i = 0; i < maxLen; ++i)
   {
-    for (const auto& seq : sequences)
+    for (const auto & seq: sequences)
     {
-      const auto& list = seq.second;
+      const auto & list = seq.second;
       auto it = list.begin();
-      std::advance(it, i);
+      for (int j = 0; j < i && it != list.end(); ++j)
+      {
+        ++it;
+      }
       if (it != list.end())
       {
         sums[i] += *it;
       }
     }
   }
+  bool first = true;
   bool foundNonZero = false;
-  for (auto sum : sums)
+  for (auto sum: sums)
   {
     if (sum != 0)
     {
@@ -79,8 +100,21 @@ int main()
     }
     if (foundNonZero)
     {
-      std::cout << sum << " ";
+      if (first)
+      {
+        first = false;
+      }
+      else
+      {
+        std::cout << ' ';
+      }
+      std::cout << sum;
     }
   }
+  if (sums.empty())
+  {
+    std::cout << '0';
+  }
+  std::cout << '\n';
   return 0;
 }
