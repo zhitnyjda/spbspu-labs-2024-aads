@@ -15,7 +15,7 @@ namespace kaseev {
     int size() const;
     void pop_front();
     void clear();
-    const T& operator[](size_t index) const;
+    const T& operator[](int index) const;
 
   private:
     size_t ArrSize;
@@ -75,12 +75,12 @@ namespace kaseev {
   }
 
   template<class T>
-  const T& List<T>::operator[](size_t index) const {
+  const T& List<T>::operator[](int index) const {
     if (index >= ArrSize) {
       throw std::out_of_range("Index out of range");
     }
     Node<T>* current = head;
-    for (size_t i = 0; i < index; ++i) {
+    for (int i = 0; i < index; ++i) {
       current = current->next;
     }
     return current->data;
