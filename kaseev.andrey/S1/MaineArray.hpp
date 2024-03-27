@@ -68,7 +68,7 @@ namespace kaseev {
 
   template<class T>
   void List<T>::clear() {
-    while (!empty()) {
+    while (head != nullptr) {
       pop_front();
     }
   }
