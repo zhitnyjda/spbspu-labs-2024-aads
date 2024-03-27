@@ -53,8 +53,8 @@ namespace doroshenko
     Iterator begin() const;
     Iterator end() const;
 
-    const Iterator cbegin() const;
-    const Iterator cend() const;
+    ConstIterator cbegin() const;
+    ConstIterator cend() const;
   };
 }
 
@@ -487,13 +487,13 @@ typename doroshenko::List< T >::Iterator doroshenko::List< T >::end() const
 }
 
 template< typename T >
-const typename doroshenko::List< T >::Iterator doroshenko::List< T >::cbegin() const
+typename doroshenko::List< T >::ConstIterator doroshenko::List< T >::cbegin() const
 {
   return ConstIterator(head_);
 }
 
 template< typename T >
-const typename doroshenko::List< T >::Iterator doroshenko::List< T >::cend() const
+typename doroshenko::List< T >::ConstIterator doroshenko::List< T >::cend() const
 {
   return ConstIterator(tail_->next);
 }
