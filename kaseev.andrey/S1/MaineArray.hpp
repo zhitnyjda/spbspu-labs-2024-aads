@@ -12,7 +12,9 @@ namespace kaseev {
     ~List();
     void pushBack(const T& value);
     bool empty() const;
-    int size() const; //
+    int size() const;
+    void pop_front();
+    void clear();
     const T& operator[](size_t index) const;
 
   private:
@@ -22,12 +24,7 @@ namespace kaseev {
 
   template<class T>
   List<T>::~List() {
-    while (head != nullptr) {
-      Node<T>* temp = head;
-      head = head->next;
-      delete temp->data;
-      delete temp;
-    }
+    clear();
   }
 
   template<class T>
@@ -55,6 +52,25 @@ namespace kaseev {
   template<class T>
   int List<T>::size() const {
     return ArrSize;
+  }
+
+  template<class T>
+  void List<T>::pop_front() {
+    if (head == nullptr) {
+      throw std::logic_error("empty list");
+    }
+
+    Node<T>* temp = head;
+    head = head->next;
+    delete temp;
+    ArrSize--;
+  }
+
+  template<class T>
+  void List<T>::clear() {
+    while (!empty()) {
+      pop_front();
+    }
   }
 
   template<class T>
