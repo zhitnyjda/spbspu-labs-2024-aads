@@ -33,10 +33,10 @@ int main() {
     finished = true;
     std::string currentString;
     for (int i = 0; i < arr.size(); ++i) {
-      const std::pair<std::string, kaseev::List<int>>& list = arr[i];
-      if (index < list.second.size()) {
-        std::cout << list.second[index] << " ";
-        currentString += std::to_string(list.second[index]) + " ";
+      const kaseev::List<int>& sublist = arr[i].second;
+      if (index < sublist.size()) {
+        std::cout << sublist[index] << " ";
+        currentString += std::to_string(sublist[index]) + " ";
         finished = false;
       }
     }
