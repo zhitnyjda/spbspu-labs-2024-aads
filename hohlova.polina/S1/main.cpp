@@ -30,11 +30,6 @@ int main()
     if (!nums.empty())
       hasData = true;
   }
-  if (line.empty())
-  {
-    std::cout << "0\n";
-    return 0;
-  }
   if (!hasData)
   {
     std::cout << temp << std::endl
