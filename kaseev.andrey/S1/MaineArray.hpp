@@ -18,7 +18,7 @@ namespace kaseev {
     const T& operator[](int index) const;
 
   private:
-    size_t ArrSize;
+    int ArrSize;
     Node<T>* head;
   };
 
