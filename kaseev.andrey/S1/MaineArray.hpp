@@ -25,6 +25,7 @@ namespace kaseev {
     while (head != nullptr) {
       Node<T>* temp = head;
       head = head->next;
+      delete temp->data.secoond;
       delete temp;
     }
   }

@@ -35,8 +35,8 @@ int main() {
     for (int i = 0; i < arr.size(); ++i) {
       const std::pair<std::string, kaseev::List<int>>& list = arr[i];
       if (index < list.second.size()) {
-        std::cout << list.second[index] << " ";
-        currentString += std::to_string(list.second[index]) + " ";
+        std::cout << list.second[i] << " ";
+        currentString += std::to_string(list.second[i]) + " ";
         finished = false;
       }
     }
