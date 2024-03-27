@@ -33,7 +33,7 @@ void doroshenko::listOutput(doroshenko::List< std::pair< std::string, doroshenko
 {
   List< std::pair< std::string, doroshenko::List< size_t > > >::Iterator iterator = list.begin();
   size_t maxSize = getMaxSize(list);
-  doroshenko::List< size_t >::Iterator localIterator = nullptr;
+  doroshenko::List< size_t >::Iterator localIterator = doroshenko::List< size_t >::ConstIterator();
   List< size_t > sums;
   List< size_t >::Iterator iteratorForSums;
   const size_t maximum = std::numeric_limits< size_t >::max();
@@ -62,7 +62,7 @@ void doroshenko::listOutput(doroshenko::List< std::pair< std::string, doroshenko
           {
             output << " ";
           }
-          localIterator = iterator->second[index];
+          localIterator = List< size_t >::ConstIterator(iterator->second[index]);
           std::cout << *localIterator;
           if (maximum - sum < *localIterator)
           {
@@ -95,7 +95,7 @@ void doroshenko::listOutput(doroshenko::List< std::pair< std::string, doroshenko
     {
       while (iteratorForSums != sums.end())
       {
-        if (iteratorForSums != nullptr)
+        if (iteratorForSums != List< size_t >::ConstIterator())
         {
           if (iteratorForSums != sums.begin())
           {
@@ -119,7 +119,7 @@ size_t doroshenko::getMaxSize(doroshenko::List< std::pair< std::string, doroshen
   size_t size = 0;
   size_t maxSize = 0;
   List< std::pair< std::string, doroshenko::List< size_t > > >::Iterator iterator = list.begin();
-  while (iterator != nullptr)
+  while (iterator != List< std::pair< std::string, doroshenko::List< size_t > > >::ConstIterator())
   {
     size = iterator->second.getSize();
     maxSize = size > maxSize ? size : maxSize;

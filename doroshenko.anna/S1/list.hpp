@@ -25,6 +25,7 @@ namespace doroshenko
     Node* tail_;
 
   public:
+    class ConstIterator;
     class Iterator;
 
     List();
@@ -58,40 +59,42 @@ namespace doroshenko
 }
 
 template< typename T >
-class doroshenko::List< T >::Iterator
+class doroshenko::List< T >::ConstIterator
 {
 public:
   friend class List< T >;
-  Iterator();
-  ~Iterator() = default;
-  Iterator(const Iterator&) = default;
-  Iterator& operator= (const Iterator&) = default;
-  Iterator(Node* pointer);
 
-  Iterator& operator++();
-  Iterator operator++(int);
-  T& operator*();
-  T* operator->();
+  ConstIterator();
+  ConstIterator(Node* pointer);
+  ConstIterator(const ConstIterator&) = default;
+  ~ConstIterator() = default;
 
-  bool operator!=(const Iterator& rhs) const;
-  bool operator==(const Iterator& rhs) const;
+  ConstIterator& operator=(const ConstIterator&) = default;
+  ConstIterator& operator++();
+  ConstIterator operator++(int);
+
+  const T& operator*() const;
+  const T* operator->() const;
+
+  bool operator!=(const ConstIterator& rhs) const;
+  bool operator==(const ConstIterator& rhs) const;
 
 private:
   Node* node;
 };
 
 template< typename T >
-doroshenko::List< T >::Iterator::Iterator() :
+doroshenko::List< T >::ConstIterator::ConstIterator() :
   node(nullptr)
 {}
 
 template< typename T >
-doroshenko::List< T >::Iterator::Iterator(Node* pointer) :
+doroshenko::List< T >::ConstIterator::ConstIterator(Node* pointer) :
   node(pointer)
 {}
 
 template< typename T >
-typename doroshenko::List< T >::Iterator& doroshenko::List< T >::Iterator::operator++()
+typename doroshenko::List< T >::ConstIterator& doroshenko::List< T >::ConstIterator::operator++()
 {
   assert(node != nullptr);
   node = node->next;
@@ -99,38 +102,114 @@ typename doroshenko::List< T >::Iterator& doroshenko::List< T >::Iterator::opera
 }
 
 template< typename T >
-typename doroshenko::List< T >::Iterator doroshenko::List< T >::Iterator::operator++(int)
+typename doroshenko::List< T >::ConstIterator doroshenko::List< T >::ConstIterator::operator++(int)
 {
   assert(node != nullptr);
-  Iterator result(*this);
+  ConstIterator result(*this);
   ++(*this);
   return result;
 }
 
 template< typename T >
-T& doroshenko::List< T >::Iterator::operator*()
+const T& doroshenko::List< T >::ConstIterator::operator*() const
 {
   assert(node != nullptr);
   return node->data;
 }
 
 template< typename T >
-T* doroshenko::List< T >::Iterator::operator->()
+const T* doroshenko::List< T >::ConstIterator::operator->() const
 {
   assert(node != nullptr);
   return std::addressof(node->data);
 }
 
 template< typename T >
-bool doroshenko::List< T >::Iterator::operator!=(const Iterator& rhs) const
+bool doroshenko::List< T >::ConstIterator::operator!=(const ConstIterator& rhs) const
 {
   return !(rhs == *this);
 }
 
 template< typename T >
-bool doroshenko::List< T >::Iterator::operator==(const Iterator& rhs) const
+bool doroshenko::List< T >::ConstIterator::operator==(const ConstIterator& rhs) const
 {
   return node == rhs.node;
+}
+
+template< typename T >
+class doroshenko::List< T >::Iterator
+{
+public:
+  friend class List< T >;
+  Iterator();
+  Iterator(ConstIterator someIterator);
+  ~Iterator() = default;
+  Iterator(const Iterator&) = default;
+  Iterator& operator=(const Iterator&) = default;
+
+  Iterator& operator++();
+  Iterator operator++(int);
+
+  T& operator*();
+  T* operator->();
+
+  bool operator!=(const Iterator& rhs) const;
+  bool operator==(const Iterator& rhs) const;
+
+private:
+  ConstIterator iterator;
+};
+
+template< typename T >
+doroshenko::List< T >::Iterator::Iterator() :
+  iterator(nullptr)
+{}
+
+template< typename T >
+doroshenko::List< T >::Iterator::Iterator(ConstIterator someIterator) :
+  iterator(someIterator)
+{}
+
+template< typename T >
+typename doroshenko::List< T >::Iterator& doroshenko::List< T >::Iterator::operator++()
+{
+  assert(iterator != nullptr);
+  iterator++;
+  return iterator;
+}
+
+template< typename T >
+typename doroshenko::List< T >::Iterator doroshenko::List< T >::Iterator::operator++(int)
+{
+  assert(iterator != nullptr);
+  ++iterator;
+  return iterator;
+}
+
+template< typename T >
+T& doroshenko::List< T >::Iterator::operator*()
+{
+  assert(iterator != nullptr);
+  return iterator.node->data;
+}
+
+template< typename T >
+T* doroshenko::List< T >::Iterator::operator->()
+{
+  assert(iterator != nullptr);
+  return std::addressof(iterator.node->data);
+}
+
+template< typename T >
+bool doroshenko::List< T >::Iterator::operator!=(const Iterator& rhs) const
+{
+  return !(rhs.iterator == iterator);
+}
+
+template< typename T >
+bool doroshenko::List< T >::Iterator::operator==(const Iterator& rhs) const
+{
+  return iterator == rhs.iterator;
 }
 
 template< typename T >
@@ -405,18 +484,18 @@ template< typename T >
 typename doroshenko::List< T >::Iterator doroshenko::List< T >::end() const
 {
   return Iterator(tail_->next);
-} 
+}
 
 template< typename T >
 const typename doroshenko::List< T >::Iterator doroshenko::List< T >::cbegin() const
 {
-  return Iterator(head_);
+  return ConstIterator(head_);
 }
 
 template< typename T >
 const typename doroshenko::List< T >::Iterator doroshenko::List< T >::cend() const
 {
-  return Iterator(tail_->next);
+  return ConstIterator(tail_->next);
 }
 
 #endif
