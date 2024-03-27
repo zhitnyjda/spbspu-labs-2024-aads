@@ -57,6 +57,7 @@ namespace kaseev {
   template<class T>
   void List<T>::pop_front() {
     if (head == nullptr) {
+      ArrSize = 0;
       throw std::logic_error("empty list");
     }
 
