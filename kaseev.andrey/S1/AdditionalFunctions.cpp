@@ -32,7 +32,6 @@ namespace kaseev {
     return 0;
   }
 
-
   int sumNumbersInString(const std::string &line)
   {
     std::istringstream iss(line);
@@ -57,35 +56,42 @@ namespace kaseev {
     }
     std::cout << "\n";
   }
-}
 
-void printListNames(const kaseev::List<std::pair<std::string, kaseev::List<int>>>& arr) {
-  for (int i = 0; i < arr.size(); ++i) {
-    std::pair<std::string, kaseev::List<int>> list = arr[i];
-    std::cout << list.first << " ";
+  void printListNames(const kaseev::List<std::pair<std::string, kaseev::List<int>>> &arr)
+  {
+    for (int i = 0; i < arr.size(); ++i)
+    {
+      std::pair<std::string, kaseev::List<int>> list = arr[i];
+      std::cout << list.first << " ";
+    }
+    std::cout << "\n";
   }
-  std::cout << "\n";
-}
 
-kaseev::List<std::pair<std::string, kaseev::List<int>>>
-    calculateSumList(const kaseev::List<std::pair<std::string, kaseev::List<int>>>& arr) {
-  bool finished = false;
-  int index = 0;
-  kaseev::List<std::pair<std::string, kaseev::List<int>>> sum;
-  while (!finished) {
-    finished = true;
-    std::string currentString;
-    for (int i = 0; i < arr.size(); ++i) {
-      const kaseev::List<int>& sublist = arr[i].second;
-      if (index < sublist.size()) {
-        currentString += std::to_string(sublist[index]) + " ";
-        finished = false;
+  kaseev::List<std::pair<std::string, kaseev::List<int>>>
+  calculateSumList(const kaseev::List<std::pair<std::string, kaseev::List<int>>> &arr)
+  {
+    bool finished = false;
+    int index = 0;
+    kaseev::List<std::pair<std::string, kaseev::List<int>>> sum;
+    while (!finished)
+    {
+      finished = true;
+      std::string currentString;
+      for (int i = 0; i < arr.size(); ++i)
+      {
+        const kaseev::List<int> &sublist = arr[i].second;
+        if (index < sublist.size())
+        {
+          currentString += std::to_string(sublist[index]) + " ";
+          finished = false;
+        }
       }
+      if (!finished)
+      {
+        sum.pushBack({currentString, kaseev::List<int>()});
+      }
+      index++;
     }
-    if (!finished) {
-      sum.pushBack({currentString, kaseev::List<int>()});
-    }
-    index++;
+    return sum;
   }
-  return sum;
 }
