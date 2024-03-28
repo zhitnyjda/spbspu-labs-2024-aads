@@ -82,12 +82,14 @@ namespace kaseev {
         const kaseev::List<int> &sublist = arr[i].second;
         if (index < sublist.size())
         {
+          std::cout << sublist[index] << " ";
           currentString += std::to_string(sublist[index]) + " ";
           finished = false;
         }
       }
       if (!finished)
       {
+        std::cout << "\n";
         sum.pushBack({currentString, kaseev::List<int>()});
       }
       index++;
