@@ -14,7 +14,7 @@ namespace miheev
     T data_;
     List< T >* next_;
     bool isEmpty_;
-    class Iterator;
+    struct Iterator;
 
     List():
       data_(0),
