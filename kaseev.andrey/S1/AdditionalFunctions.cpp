@@ -64,5 +64,26 @@ void printListNames(const kaseev::List<std::pair<std::string, kaseev::List<int>>
     std::pair<std::string, kaseev::List<int>> list = arr[i];
     std::cout << list.first << " ";
   }
+  std::cout << "\n";
 }
 
+void calculateSumList(kaseev::List<std::pair<std::string, kaseev::List<int>>>& sum, const kaseev::List<std::pair<std::string, kaseev::List<int>>>& arr) {
+  bool finished = false;
+  int index = 0;
+
+  while (!finished) {
+    finished = true;
+    std::string currentString;
+    for (int i = 0; i < arr.size(); ++i) {
+      const kaseev::List<int>& sublist = arr[i].second;
+      if (index < sublist.size()) {
+        currentString += std::to_string(sublist[index]) + " ";
+        finished = false;
+      }
+    }
+    if (!finished) {
+      sum.pushBack({currentString, kaseev::List<int>()});
+    }
+    index++;
+  }
+}
