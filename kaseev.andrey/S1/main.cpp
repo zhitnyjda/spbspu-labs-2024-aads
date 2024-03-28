@@ -21,10 +21,7 @@ int main() {
     std::cout << "0\n";
     return 0;
   }
-  for (int i = 0; i < arr.size(); ++i) {
-    std::pair<std::string, kaseev::List<int>> list = arr[i];
-    std::cout << list.first << " ";
-  }
+  kaseev::printListNames(arr);
   std::cout << "\n";
   bool finished = false;
   int index = 0;

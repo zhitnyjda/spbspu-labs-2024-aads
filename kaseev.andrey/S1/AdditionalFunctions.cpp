@@ -58,3 +58,11 @@ namespace kaseev {
     std::cout << "\n";
   }
 }
+
+void printListNames(const kaseev::List<std::pair<std::string, kaseev::List<int>>>& arr) {
+  for (int i = 0; i < arr.size(); ++i) {
+    std::pair<std::string, kaseev::List<int>> list = arr[i];
+    std::cout << list.first << " ";
+  }
+}
+
