@@ -1,6 +1,7 @@
 #include <utility>
 #include <cmath>
-#include "utilityFuncs.hpp"
+#include "divideFuncs.hpp"
+#include "outFuncs.hpp"
 
 int main()
 {

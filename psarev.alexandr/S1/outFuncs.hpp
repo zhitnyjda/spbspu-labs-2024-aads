@@ -1,17 +1,13 @@
-#ifndef UTILITY_FUNCS
-#define UTILITY_FUNCS
+#ifndef OUT_FUNCS
+#define OUT_FUNCS
 #include "list.hpp"
 #include <iostream>
-#include <string>
 #include <limits>
 
 using depot_t = psarev::List< std::pair< std::string, psarev::List< unsigned long long > > >;
 
 namespace psarev
 {
-  std::string getOrd(std::string& line);
-  unsigned long long getDigit(std::string& line);
-
   template< typename T >
   void outOrds(depot_t& lines);
 
