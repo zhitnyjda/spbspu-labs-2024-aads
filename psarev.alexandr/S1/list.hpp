@@ -89,68 +89,68 @@ private:
   Unit* unit;
 };
 
-template<typename T>
-psarev::List<T>::ConstIterator::ConstIterator() :
+template< typename T >
+psarev::List< T >::ConstIterator::ConstIterator() :
   unit(nullptr)
 {}
 
-template<typename T>
-psarev::List<T>::ConstIterator::ConstIterator(Unit* ptr) :
+template< typename T >
+psarev::List< T >::ConstIterator::ConstIterator(Unit* ptr) :
   unit(ptr)
 {}
 
-template <typename T>
-typename psarev::List<T>::ConstIterator& psarev::List<T>::ConstIterator::operator++()
+template < typename T >
+typename psarev::List< T >::ConstIterator& psarev::List< T >::ConstIterator::operator++()
 {
   assert(unit != nullptr);
   unit = unit->next;
   return *this;
 };
 
-template <typename T>
-typename psarev::List<T>::ConstIterator psarev::List<T>::ConstIterator::operator++(int)
+template < typename T >
+typename psarev::List< T >::ConstIterator psarev::List< T >::ConstIterator::operator++(int)
 {
   ConstIterator tempo(*this);
   ++(*this);
   return tempo;
 }
 
-template <typename T>
-typename psarev::List<T>::ConstIterator& psarev::List<T>::ConstIterator::operator--()
+template < typename T >
+typename psarev::List< T >::ConstIterator& psarev::List< T >::ConstIterator::operator--()
 {
   assert(unit != nullptr);
   unit = unit->prev;
   return *this;
 }
 
-template <typename T>
-typename psarev::List<T>::ConstIterator psarev::List<T>::ConstIterator::operator--(int)
+template < typename T >
+typename psarev::List< T >::ConstIterator psarev::List< T >::ConstIterator::operator--(int)
 {
   ConstIterator tempo(*this);
   --(*this);
   return tempo;
 }
 
-template<typename T>
-const T& psarev::List<T>::ConstIterator::operator*() const
+template< typename T >
+const T& psarev::List< T >::ConstIterator::operator*() const
 {
   return unit->data;
 }
 
-template<typename T>
-const T* psarev::List<T>::ConstIterator::operator->() const
+template< typename T >
+const T* psarev::List< T >::ConstIterator::operator->() const
 {
   return &(unit->data);
 }
 
-template<typename T>
-bool psarev::List<T>::ConstIterator::operator==(const this_t& that) const
+template< typename T >
+bool psarev::List< T >::ConstIterator::operator==(const this_t& that) const
 {
   return unit == that.unit;
 }
 
-template<typename T>
-bool psarev::List<T>::ConstIterator::operator!=(const this_t& that) const
+template< typename T >
+bool psarev::List< T >::ConstIterator::operator!=(const this_t& that) const
 {
   return !(that == *this);
 }
@@ -185,104 +185,104 @@ private:
   ConstIterator iter;
 };
 
-template<typename T>
-psarev::List<T>::Iterator::Iterator() :
+template< typename T >
+psarev::List< T >::Iterator::Iterator() :
   iter(ConstIterator())
 {}
 
-template<typename T>
-psarev::List<T>::Iterator::Iterator(Unit* ptr) :
+template< typename T >
+psarev::List< T >::Iterator::Iterator(Unit* ptr) :
   iter(ConstIterator(ptr))
 {}
 
-template<typename T>
-psarev::List<T>::Iterator::Iterator(ConstIterator constIter) :
+template< typename T >
+psarev::List< T >::Iterator::Iterator(ConstIterator constIter) :
   iter(constIter)
 {}
 
-template <typename T>
-typename psarev::List<T>::Iterator& psarev::List<T>::Iterator::operator++()
+template < typename T >
+typename psarev::List< T >::Iterator& psarev::List< T >::Iterator::operator++()
 {
   assert(iter != nullptr);
   iter++;
   return iter;
 };
 
-template <typename T>
-typename psarev::List<T>::Iterator psarev::List<T>::Iterator::operator++(int)
+template < typename T >
+typename psarev::List< T >::Iterator psarev::List< T >::Iterator::operator++(int)
 {
   ++iter;
   return iter;
 }
 
-template <typename T>
-typename psarev::List<T>::Iterator& psarev::List<T>::Iterator::operator--()
+template < typename T >
+typename psarev::List< T >::Iterator& psarev::List< T >::Iterator::operator--()
 {
   assert(iter != nullptr);
   iter--;
   return iter;
 }
 
-template <typename T>
-typename psarev::List<T>::Iterator psarev::List<T>::Iterator::operator--(int)
+template < typename T >
+typename psarev::List< T >::Iterator psarev::List< T >::Iterator::operator--(int)
 {
   --iter;
   return iter;
 }
 
-template<typename T>
-T& psarev::List<T>::Iterator::operator*()
+template< typename T >
+T& psarev::List< T >::Iterator::operator*()
 {
   return iter.unit->data;
 }
 
-template<typename T>
-T* psarev::List<T>::Iterator::operator->()
+template< typename T >
+T* psarev::List< T >::Iterator::operator->()
 {
-  return &(iter.unit.data);
+  return &(iter.unit->data);
 }
 
-template<typename T>
-const T& psarev::List<T>::Iterator::operator*() const
+template< typename T >
+const T& psarev::List< T >::Iterator::operator*() const
 {
   return iter.unit->data;
 }
 
-template<typename T>
-const T* psarev::List<T>::Iterator::operator->() const
+template< typename T >
+const T* psarev::List< T >::Iterator::operator->() const
 {
-  return &(iter.unit.data);
+  return &(iter.unit->data);
 }
 
-template<typename T>
-bool psarev::List<T>::Iterator::operator==(const this_t& that) const
+template< typename T >
+bool psarev::List< T >::Iterator::operator==(const this_t& that) const
 {
   return iter == that.iter;
 }
 
-template<typename T>
-bool psarev::List<T>::Iterator::operator!=(const this_t& that) const
+template< typename T >
+bool psarev::List< T >::Iterator::operator!=(const this_t& that) const
 {
   return !(that == *this);
 }
 //----------------------------------------------
 
-template<typename T>
-psarev::List<T>::List()
+template< typename T >
+psarev::List< T >::List()
 {
   head = nullptr;
   tail = nullptr;
   size = 0;
 }
 
-template<typename T>
-psarev::List<T>::~List()
+template< typename T >
+psarev::List< T >::~List()
 {
   clear();
 }
 
-template<typename T>
-void psarev::List<T>::popFront()
+template< typename T >
+void psarev::List< T >::popFront()
 {
   Unit* tempo = head;
   head = head->next;
@@ -291,8 +291,8 @@ void psarev::List<T>::popFront()
   size--;
 }
 
-template<typename T>
-void psarev::List<T>::popBack()
+template< typename T >
+void psarev::List< T >::popBack()
 {
   Unit* delUnit = tail;
   tail = tail->prev;
@@ -300,8 +300,8 @@ void psarev::List<T>::popBack()
   size--;
 }
 
-template<typename T>
-void psarev::List<T>::pushFront(T& data)
+template< typename T >
+void psarev::List< T >::pushFront(T& data)
 {
   head = new Unit(data, head);
   if (size != 0)
@@ -311,8 +311,8 @@ void psarev::List<T>::pushFront(T& data)
   size++;
 }
 
-template<typename T>
-void psarev::List<T>::pushBack(T& data)
+template< typename T >
+void psarev::List< T >::pushBack(T& data)
 {
   if (head == nullptr)
   {
@@ -328,8 +328,8 @@ void psarev::List<T>::pushBack(T& data)
   size++;
 }
 
-template<typename T>
-void psarev::List<T>::remove(const T& value)
+template< typename T >
+void psarev::List< T >::remove(const T& value)
 {
   Unit* tempo = this->head;
   for (size_t i = 0; i < size; i++)
@@ -348,20 +348,20 @@ void psarev::List<T>::remove(const T& value)
   }
 }
 
-template<typename T>
-T& psarev::List<T>::getFront() const
+template< typename T >
+T& psarev::List< T >::getFront() const
 {
   return head->data;
 }
 
-template<typename T>
-T& psarev::List<T>::getBack() const
+template< typename T >
+T& psarev::List< T >::getBack() const
 {
   return tail->data;
 }
 
-template<typename T>
-void psarev::List<T>::swap(List<T>& targetList) noexcept
+template< typename T >
+void psarev::List< T >::swap(List< T >& targetList) noexcept
 {
   Unit tempoH = targetList.head;
   targetList.head = head;
@@ -371,8 +371,8 @@ void psarev::List<T>::swap(List<T>& targetList) noexcept
   size = tempoS;
 }
 
-template<typename T>
-void psarev::List<T>::clear()
+template< typename T >
+void psarev::List< T >::clear()
 {
   while (size > 0)
   {
@@ -380,50 +380,50 @@ void psarev::List<T>::clear()
   }
 }
 
-template<typename T>
-bool psarev::List<T>::empty() const noexcept
+template< typename T >
+bool psarev::List< T >::empty() const noexcept
 {
   return this->getSize() == 0;
 }
 
-template<typename T>
-size_t psarev::List<T>::getSize() const noexcept
+template< typename T >
+size_t psarev::List< T >::getSize() const noexcept
 {
   return size;
 }
 
-template <typename T>
-typename psarev::List<T>::ConstIterator psarev::List<T>::cbegin() const noexcept
+template < typename T >
+typename psarev::List< T >::ConstIterator psarev::List< T >::cbegin() const noexcept
 {
   return ConstIterator(head);
 }
 
-template<typename T>
-typename psarev::List<T>::ConstIterator psarev::List<T>::cend() const noexcept
+template< typename T >
+typename psarev::List< T >::ConstIterator psarev::List< T >::cend() const noexcept
 {
   return ConstIterator(tail->next);
 }
 
-template <typename T>
-typename psarev::List<T>::ConstIterator psarev::List<T>::begin() const noexcept
+template < typename T >
+typename psarev::List< T >::ConstIterator psarev::List< T >::begin() const noexcept
 {
   return ConstIterator(head);
 }
 
-template<typename T>
-typename psarev::List<T>::ConstIterator psarev::List<T>::end() const noexcept
+template< typename T >
+typename psarev::List< T >::ConstIterator psarev::List< T >::end() const noexcept
 {
   return ConstIterator(tail->next);
 }
 
-template <typename T>
-typename psarev::List<T>::Iterator psarev::List<T>::begin() noexcept
+template < typename T >
+typename psarev::List< T >::Iterator psarev::List< T >::begin() noexcept
 {
   return Iterator(head);
 }
 
-template<typename T>
-typename psarev::List<T>::Iterator psarev::List<T>::end() noexcept
+template< typename T >
+typename psarev::List< T >::Iterator psarev::List< T >::end() noexcept
 {
   return Iterator(tail->next);
 }

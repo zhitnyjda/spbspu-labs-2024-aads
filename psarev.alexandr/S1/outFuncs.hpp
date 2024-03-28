@@ -1,8 +1,8 @@
 #ifndef OUT_FUNCS
 #define OUT_FUNCS
-#include "list.hpp"
 #include <iostream>
 #include <limits>
+#include "list.hpp"
 
 using depot_t = psarev::List< std::pair< std::string, psarev::List< unsigned long long > > >;
 
