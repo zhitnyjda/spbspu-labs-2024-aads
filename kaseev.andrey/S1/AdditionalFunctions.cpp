@@ -67,7 +67,8 @@ void printListNames(const kaseev::List<std::pair<std::string, kaseev::List<int>>
   std::cout << "\n";
 }
 
-kaseev::List<std::pair<std::string, kaseev::List<int>>> calculateSumList(const kaseev::List<std::pair<std::string, kaseev::List<int>>>& arr) {
+kaseev::List<std::pair<std::string, kaseev::List<int>>>
+    calculateSumList(const kaseev::List<std::pair<std::string, kaseev::List<int>>>& arr) {
   bool finished = false;
   int index = 0;
   kaseev::List<std::pair<std::string, kaseev::List<int>>> sum;
