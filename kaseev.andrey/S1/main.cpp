@@ -22,8 +22,7 @@ int main() {
     return 0;
   }
   kaseev::printListNames(arr);
-  kaseev::List<std::pair<std::string, kaseev::List<int>>> sum;
-  kaseev::calculateSumList(sum, arr);
+  kaseev::List<std::pair<std::string, kaseev::List<int>>> sum = kaseev::calculateSumList(arr);
   kaseev::sumNumbersInArray(sum);
   return 0;
 }
