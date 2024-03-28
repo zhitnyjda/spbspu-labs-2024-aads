@@ -70,7 +70,10 @@ namespace kaseev {
   template<class T>
   void List<T>::clear() {
     while (head != nullptr) {
-      pop_front();
+      Node<T>* temp = head;
+      head = head->next;
+      delete temp;
+      ArrSize--;
     }
   }
 
