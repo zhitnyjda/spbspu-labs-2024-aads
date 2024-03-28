@@ -4,21 +4,10 @@
 
 int main()
 {
-  //using namespace psarev;
+  using depot_t = psarev::List< std::pair< std::string, psarev::List< unsigned long long > > >;
 
-  //List< int > testList;
-  //testList.pushBack(1);
-  //testList.pushBack(2);
-  //testList.pushBack(2);
-  //testList.pushBack(1);
-  //List< int >::ConstIterator it = List< int >::ConstIterator(testList.begin());
-  //for (size_t i = 0; i < testList.getSize(); i++)
-  //{
-  //  std::cout << *it << '\n';
-  //  it++;
-  //}
-  /*List< std::pair< std::string, List< unsigned long long > > > lines;
-  Iterator< std::pair< std::string, List< unsigned long long > > > iterLine;
+  depot_t lines;
+  depot_t::Iterator iterLine;
   std::string line = "";
   size_t maxDigits = 0;
   while (std::getline(std::cin, line))
@@ -26,7 +15,8 @@ int main()
     if (line.size() != 0)
     {
       std::string ord = psarev::getOrd(line);
-      lines.pushBack({ ord, {} });
+      std::pair< std::string, psarev::List< unsigned long long > > pair = { ord, {} };
+      lines.pushBack(pair);
       iterLine = lines.begin();
       for (size_t i = 0; i < (lines.getSize() - 1); i++)
       {
@@ -43,14 +33,14 @@ int main()
     }
   }
 
-  outOrds< unsigned long long >(lines);
+  psarev::outOrds< unsigned long long >(lines);
   bool isOverflow = false;
-  List< unsigned long long > sums = outDigits(lines, maxDigits, isOverflow);
+  psarev::List< unsigned long long > sums = psarev::outDigits < unsigned long long >(lines, maxDigits, isOverflow);
   if (isOverflow)
   {
     std::cerr << "Error: Value overflow during counting the sum!\n";
     return 1;
   }
-  outSums< unsigned long long >(sums);*/
+  psarev::outSums< unsigned long long >(sums);
   return 0;
 }
