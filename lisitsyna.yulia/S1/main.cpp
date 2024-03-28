@@ -20,7 +20,7 @@ namespace
 int main()
 {
   std::string line;
-  static_cast List< std::pair< std::string, List< unsigned long long > > > sequences;
+  static_cast<List< std::pair< std::string, List< unsigned long long > > > sequences;
   size_t maxLen = 0;
   while (std::getline(std::cin, line) && !line.empty())
   {
