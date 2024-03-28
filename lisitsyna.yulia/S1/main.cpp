@@ -93,7 +93,8 @@ int main()
       std::cout << 0;
     }
   }
-  List< unsigned long long > sums(maxLen, 0);
+  static_cast<size_t> (maxLen);
+  List < unsigned long long > sums(maxLen, 0)
   try
   {
     for (size_t i = 0; i < maxLen; ++i)
