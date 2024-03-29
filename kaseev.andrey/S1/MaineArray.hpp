@@ -60,10 +60,10 @@ namespace kaseev {
       ArrSize = 0;
       throw std::logic_error("empty list");
     }
-
     Node<T>* temp = head;
     head = head->next;
-    delete temp;
+    temp->next = nullptr;
+    delete[] temp;
     ArrSize--;
   }
 
