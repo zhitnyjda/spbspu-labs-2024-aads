@@ -9,15 +9,15 @@
 namespace khoroshkin
 {
   template < typename T >
-  void printResult(std::ostream & out, List< std::pair< std::string, List< T > > > & allPairs, int maxLength);
+  void printResult(std::ostream & out, List< std::pair< std::string, List< T > > > & allPairs, size_t maxLength);
   template < typename T >
-  bool checkAllNext(int index, iterator< T > it, List< T > & allPairs);
+  bool checkAllNext(size_t index, typename List< T >::iterator it, List< T > & allPairs);
 }
 
 using namespace khoroshkin;
 
 template < typename T >
-void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, List< T > > > & allPairs, int maxLength)
+void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, List< T > > > & allPairs, size_t maxLength)
 {
   using type = std::pair<std::string, khoroshkin::List< T > >;
   if (allPairs.getSize() == 0)
@@ -36,7 +36,7 @@ void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, L
     throw std::logic_error("Empty list");
   }
 
-  for (int i = 0; i < maxLength; i++)
+  for (size_t i = 0; i < maxLength; i++)
   {
     for (auto it = allPairs.begin(); it != allPairs.end(); it++)
     {
@@ -49,7 +49,7 @@ void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, L
   }
 
   List< unsigned long long > sumList;
-  for (int i = 0; i < maxLength; i++)
+  for (size_t i = 0; i < maxLength; i++)
   {
     unsigned long long sum = 0;
     for (auto it = allPairs.begin(); it != allPairs.end(); it++)
@@ -73,11 +73,11 @@ void khoroshkin::printResult(std::ostream & out, List< std::pair< std::string, L
 }
 
 template < typename T>
-bool khoroshkin::checkAllNext(int index, iterator< T > it, List< T > & allPairs)
+bool khoroshkin::checkAllNext(size_t index, typename List< T >::iterator it, List< T > & allPairs)
 {
   while (allPairs.next(it) != allPairs.end())
   {
-    if ((*allPairs.next(it)).second.getSize() - 1 >= index)
+    if (static_cast< long long >((*allPairs.next(it)).second.getSize()) - 1 >= static_cast< long long>(index))
     {
       return true;
     }
