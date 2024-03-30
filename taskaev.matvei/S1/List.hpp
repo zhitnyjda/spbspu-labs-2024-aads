@@ -2,13 +2,19 @@
 #define LIST_H
 #include <cassert>
 #include <memory>
-#include "Node.hpp"
 
 namespace taskaev
 {
   template< typename T>
   class List
   {
+  private:
+  struct Node
+  {
+    T data;
+    Node* next;
+    Node(T value) : data(value), next(nullptr) {}
+  };
   public:
     List();
     ~List();
@@ -23,14 +29,14 @@ namespace taskaev
     void swap(List<T>& other);
     void remove(const T& value);
     void reverse();
-    Node<T>* head;
+    Node* head;
   public:
   template< typename U >
   class ListIterator
   {
   public:
     ListIterator() : node(nullptr) {}
-    ListIterator(Node<T>* value) : node(value) {}
+    ListIterator(Node* value) : node(value) {}
     ~ListIterator() = default;
     ListIterator<T>& operator++();
     ListIterator<T> operator++(int);
@@ -38,7 +44,7 @@ namespace taskaev
     T* operator->();
     bool operator==(const List<T>::ListIterator<T>& rhs) const;
     bool operator!=(const List<T>::ListIterator<T>& rhs) const;
-    Node<T>* node;
+    Node* node;
   };
   public:
     ListIterator<T> begin() {return ListIterator<T>(head); };
@@ -61,7 +67,7 @@ namespace taskaev
   template <typename T>
   void List<T>::pushFront(const T& data)
   {
-    Node<T>* node = new Node<T>(data);
+    Node* node = new Node(data);
     node -> next = head;
     head = node;
   }
@@ -69,14 +75,14 @@ namespace taskaev
   template <typename T>
   void List<T>::pushBack(const T& data)
   {
-    Node<T>* node = new Node<T>(data);
+    Node* node = new Node(data);
     if(empty())
     {
       head = node;
     }
     else
     {
-      Node<T>* temp = head;
+      Node* temp = head;
       while(temp->next)
       {
         temp = temp->next;
@@ -88,7 +94,7 @@ namespace taskaev
   template <typename T>
   void List<T>::popFront()
   {
-    Node<T>* newNode = head;
+    Node* newNode = head;
     head = head->next;
     delete newNode;
   }
@@ -107,7 +113,7 @@ namespace taskaev
   template <typename T>
   void List<T>::swap(List<T>& other)
   {
-    Node<T>* temp = head;
+    Node* temp = head;
     head = other->head;
     other->temp = head;
     delete temp;
@@ -116,8 +122,8 @@ namespace taskaev
   template <typename T>
   void List<T>::remove(const T& value)
   {
-    Node<T>* node = head;
-    Node<T>* temp = nullptr;
+    Node* node = head;
+    Node* temp = nullptr;
     while(node != nullptr)
     {
       if(node->data == value)
@@ -138,12 +144,12 @@ namespace taskaev
   template <typename T>
   void List<T>::reverse()
   {
-    Node<T>* newNode = head;
-    Node<T>* temp = head->next;
+    Node* newNode = head;
+    Node* temp = head->next;
     newNode->next = nullptr;
     while(temp)
     {
-      Node<T>* am = temp->next;
+      Node* am = temp->next;
       temp->next = newNode;
       newNode = temp;
       temp = am;
