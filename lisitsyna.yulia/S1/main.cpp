@@ -23,7 +23,7 @@ int main()
   while (!std::cin.eof() && !std::cin.fail())
   {
     std::string name, numbers;
-    std::string name;
+    std::cin >> name;
     if (name.empty())
     {
       continue;
@@ -35,7 +35,7 @@ int main()
       sequences.push_back({ name, std::move(list) });
       continue;
     }
-    size_t count = 0, i = 0;
+    size_t count = 0;
     std::string number;
     for (size_t i = 0; i < numbers.length(); ++i)
     {
