@@ -23,7 +23,7 @@ std::ostream& redko::printElementsInOrder(std::ostream& out, const List< std::pa
         out << *currElem;
         List< std::pair< std::string, List< unsigned long long > > >::const_iterator nextSeq = currSeq;
         bool isNext = false;
-        while (nextSeq != nullptr && ++nextSeq != nullptr && !isNext)
+        while (nextSeq != list.end() && ++nextSeq != list.end() && !isNext)
         {
           size_t i = 0;
           List< unsigned long long >::const_iterator nextElem = nextSeq->second.begin();
