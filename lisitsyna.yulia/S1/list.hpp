@@ -43,7 +43,7 @@ public:
     }
     return *this;
   }
-  List& operator=(List&& other) noexcept
+  List& operator=(List&& other)
   {
     if (this != &other)
     {
@@ -57,22 +57,42 @@ public:
     return *this;
   }
   ~List() { clear(); }
+  T& front()
+  {
+    if (empty())
+    {
+      throw std::logic_error("Empty");
+    }
+    return head->value;
+  }
+  T& back()
+  {
+    if (empty())
+    {
+      throw std::logic_error("Empty");
+    }
+    return tail->value;
+  }
+  size_t get_size() const
+  {
+      return size;
+  }
   void push_back(T val)
   {
-        List<T>::Node* newNode = new List<T>::Node(val);
-        if (tail) tail->next = newNode;
-        else head = newNode;
-        tail = newNode;
-        ++size;
+    List<T>::Node* newNode = new List<T>::Node(val);
+    if (tail) tail->next = newNode;
+    else head = newNode;
+    tail = newNode;
+    ++size;
   }
   bool empty() const { return size == 0; }
   void clear()
   {
     while (head)
     {
-        List<T>::Node* temp = head;
-        head = head->next;
-        delete temp;
+      List<T>::Node* temp = head;
+      head = head->next;
+      delete temp;
     }
     head = tail = nullptr;
     size = 0;
