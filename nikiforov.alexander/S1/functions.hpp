@@ -7,25 +7,25 @@
 
 namespace nikiforov
 {
-  template <typename T>
+  template < typename T >
   void input_(std::istream& input, List< std::pair< std::string, List< T > > >& seqsPair);
 
-  template <typename T>
+  template < typename T >
   void outputName_(List< std::pair< std::string, List< T > > >& seqsPair, size_t& maxSize);
 
-  template <typename T>
-  void outputSeqs_(List< std::pair< std::string, List< T > > >& seqsPair, List<T>& listSumm, size_t maxSize);
+  template < typename T >
+  void outputSeqs_(List< std::pair< std::string, List< T > > >& seqsPair, List< T >& listSumm, size_t maxSize);
 
-  template <typename T>
-  void outputSumm_(List<T>& listSumm, size_t maxSize);
+  template < typename T >
+  void outputSumm_(List< T >& listSumm, size_t maxSize);
 
   size_t max(const size_t first_param, const size_t second_param);
 }
 
-template<typename T>
+template< typename T >
 void nikiforov::input_(std::istream& input, List< std::pair< std::string, List< T > > >& seqsPair)
 {
-  Iterator< std::pair< std::string, List< unsigned long long > > > iterSeqsPair = seqsPair.begin();
+  List< std::pair< std::string, List< unsigned long long > > >::Iterator iterSeqsPair = seqsPair.begin();
   std::string elemSeq;
   bool firstLine = false;
 
@@ -51,10 +51,10 @@ void nikiforov::input_(std::istream& input, List< std::pair< std::string, List< 
   }
 }
 
-template<typename T>
-void nikiforov::outputName_(List<std::pair<std::string, List<T>>>& seqsPair, size_t& maxSize)
+template< typename T >
+void nikiforov::outputName_(List< std::pair< std::string, List< T > > >& seqsPair, size_t& maxSize)
 {
-  Iterator< std::pair< std::string, List< unsigned long long > > > iterSeqsPair = seqsPair.begin();
+  List< std::pair< std::string, List< unsigned long long > > >::Iterator iterSeqsPair = seqsPair.begin();
   size_t countNames = seqsPair.size();
 
   for (iterSeqsPair = seqsPair.begin(); iterSeqsPair != seqsPair.end(); ++iterSeqsPair)
@@ -72,13 +72,14 @@ void nikiforov::outputName_(List<std::pair<std::string, List<T>>>& seqsPair, siz
   }
 }
 
-template<typename T>
-void nikiforov::outputSeqs_(List<std::pair<std::string, List<T>>>& seqsPair, List<T>& listSumm, size_t maxSize)
+template< typename T >
+void nikiforov::outputSeqs_(List< std::pair< std::string, List< T > > >& seqsPair, List< T >& listSumm, size_t maxSize)
 {
   if (maxSize != 0)
   {
-    Iterator< std::pair< std::string, List< unsigned long long > > > iterSeqsPair = seqsPair.begin();
-    Iterator< unsigned long long > iterList = (*iterSeqsPair).second.begin();
+    List< std::pair< std::string, List< unsigned long long > > >::Iterator iterSeqsPair = seqsPair.begin();
+    List< unsigned long long >::Iterator iterList = (*iterSeqsPair).second.begin();
+    List< unsigned long long >::Iterator iterListEnd = (*iterSeqsPair).second.end();
     size_t countInSeq = 0;
     unsigned long long summ = 0;
     bool firstElem = false;
@@ -92,12 +93,12 @@ void nikiforov::outputSeqs_(List<std::pair<std::string, List<T>>>& seqsPair, Lis
         iterList = (*iterSeqsPair).second.begin();
         for (size_t i = 0; i < countInSeq; i++)
         {
-          if (iterList != nullptr)
+          if (iterList != iterListEnd)
           {
             iterList++;
           }
         }
-        if (iterList != nullptr)
+        if (iterList != iterListEnd)
         {
           firstElem ? std::cout << " " << *iterList : std::cout << *iterList;
           firstElem = true;
@@ -123,14 +124,14 @@ void nikiforov::outputSeqs_(List<std::pair<std::string, List<T>>>& seqsPair, Lis
   }
 }
 
-template<typename T>
-void nikiforov::outputSumm_(List<T>& listSumm, size_t maxSize)
+template< typename T >
+void nikiforov::outputSumm_(List< T >& listSumm, size_t maxSize)
 {
   if (maxSize != 0)
   {
-    Iterator< unsigned long long > iterListSummEnd = listSumm.end();
+    List< unsigned long long >::Iterator iterListSummEnd = listSumm.end();
     size_t count = 0;
-    for (Iterator< unsigned long long > iterListSumm = listSumm.begin(); iterListSumm != iterListSummEnd; ++iterListSumm)
+    for (List< unsigned long long >::Iterator iterListSumm = listSumm.begin(); iterListSumm != iterListSummEnd; ++iterListSumm)
     {
       count++;
       listSumm.size() == count ? std::cout << *iterListSumm : std::cout << *iterListSumm << " ";

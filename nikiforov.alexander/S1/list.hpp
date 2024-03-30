@@ -3,7 +3,6 @@
 #include <stdexcept>
 #include <initializer_list>
 #include <cstddef>
-#include "iterator.hpp"
 
 namespace nikiforov
 {
@@ -11,22 +10,22 @@ namespace nikiforov
   class List
   {
   public:
-    using Iterator_t = Iterator< T >;
-    using Node_t = Node< T >;
+    class Iterator;
+    class ConstIterator;
 
     List();
     List(size_t count);
     List(size_t count, const T& value);
-    List(Iterator_t begin, Iterator_t end, int value);
+    List(Iterator begin, Iterator end, int value);
     List(const List& other);
-    List(std::initializer_list<T> ilist);
+    List(std::initializer_list< T > ilist);
     ~List();
 
     T& front();
     T& back();
 
     void assign(size_t count, const T& value);
-    void assign(Iterator_t first, Iterator_t last);
+    void assign(Iterator first, Iterator last);
     void assign(std::initializer_list<T> ilist);
 
     bool is_empty() noexcept;
@@ -36,29 +35,216 @@ namespace nikiforov
     void push_back(const T& data);
     void pop_front();
     void pop_back();
-    Iterator_t insert(Iterator_t pos, const T& value);
-    Iterator_t insert(Iterator_t pos, size_t count, const T& value);
-    Iterator_t erase(Iterator_t pos);
-    Iterator_t erase(Iterator_t first, Iterator_t last);
-    void splice(Iterator_t pos, List<T>& other);
+    Iterator insert(Iterator pos, const T& value);
+    Iterator insert(Iterator pos, size_t count, const T& value);
+    Iterator erase(Iterator pos);
+    Iterator erase(Iterator first, Iterator last);
+    void splice(Iterator pos, List< T >& other);
     void reverse();
-    void swap(List<T>& other) noexcept;
+    void swap(List< T >& other) noexcept;
     void clear();
 
     void remove(T value);
-    template<class UnaryPredicate>
+    template< class UnaryPredicate >
     void remove_if(UnaryPredicate p);
 
-    Iterator_t begin();
-    Iterator_t end();
-    void advance(Iterator_t& pos, size_t count);
-    void advance(Iterator_t& first, Iterator_t last);
+    Iterator begin() const noexcept;
+    Iterator end() const noexcept;
+    ConstIterator cbegin() const noexcept;
+    ConstIterator cend() const noexcept;
+
+    void advance(Iterator& pos, size_t count);
+    void advance(Iterator& first, Iterator last);
 
   private:
 
-    Node_t* head;
+    struct Node
+    {
+      T data;
+      Node* pNext;
+      Node(T data, Node* pNext = nullptr)
+      {
+        this->data = data;
+        this->pNext = pNext;
+      }
+    };
+    Node* head;
     size_t size_l;
   };
+}
+
+namespace nikiforov
+{
+  template< typename T >
+  class List< T >::ConstIterator
+  {
+  public:
+    friend class List< T >;
+    using this_t = ConstIterator;
+
+    ConstIterator();
+    ConstIterator(const this_t&) = default;
+    ~ConstIterator() = default;
+
+    this_t& operator=(const this_t&) = default;
+    this_t& operator++();
+    this_t operator++(int);
+
+    const T& operator*() const;
+    const T* operator->() const;
+
+    bool operator!=(const this_t&) const;
+    bool operator==(const this_t&) const;
+
+  private:
+    Node* pNode;
+    ConstIterator(Node*);
+  };
+}
+
+template< typename T >
+nikiforov::List< T >::ConstIterator::ConstIterator()
+{
+  this->pNode = nullptr;
+}
+
+template< typename T >
+nikiforov::List< T >::ConstIterator::ConstIterator(Node* pNode)
+{
+  this->pNode = pNode;
+}
+
+template< typename T >
+typename nikiforov::List< T >::ConstIterator& nikiforov::List< T >::ConstIterator::operator++()
+{
+  pNode = pNode->pNext;
+  return *this;
+}
+
+template< typename T >
+typename nikiforov::List< T >::ConstIterator nikiforov::List< T >::ConstIterator::operator++(int)
+{
+  ConstIterator iter = *this;
+  ++(*this);
+  return iter;
+}
+
+template< typename T >
+typename const T& nikiforov::List< T >::ConstIterator::operator*() const
+{
+  return pNode->data;
+}
+
+template< typename T >
+typename const T* nikiforov::List< T >::ConstIterator::operator->() const
+{
+  return &(pNode->data);
+}
+
+template< typename T >
+bool nikiforov::List< T >::ConstIterator::operator!=(const this_t& lhs) const
+{
+  return !(*this == lhs);
+}
+
+template< typename T >
+bool nikiforov::List< T >::ConstIterator::operator==(const this_t& lhs) const
+{
+  return pNode == lhs.pNode;
+}
+
+namespace nikiforov
+{
+  template< typename T >
+  class List< T >::Iterator
+  {
+  public:
+    friend class List< T >;
+    using this_t = Iterator;
+
+    Iterator();
+    Iterator(ConstIterator);
+    Iterator(const this_t&) = default;
+    ~Iterator() = default;
+
+    this_t& operator=(const this_t&) = default;
+    this_t& operator++();
+    this_t operator++(int);
+
+    T& operator*();
+    T* operator->();
+    const T& operator*() const;
+    const T* operator->() const;
+
+    bool operator!=(const this_t&) const;
+    bool operator==(const this_t&) const;
+
+  private:
+    ConstIterator iter_;
+  };
+}
+
+template< typename T >
+nikiforov::List< T >::Iterator::Iterator()
+{
+  this->iter_ = nullptr;
+}
+
+template< typename T >
+nikiforov::List< T >::Iterator::Iterator(ConstIterator constIterator)
+{
+  this->iter_ = constIterator;
+}
+
+template< typename T >
+typename nikiforov::List< T >::Iterator& nikiforov::List< T >::Iterator::operator++()
+{
+  ++iter_;
+  return *this;
+}
+
+template< typename T >
+typename nikiforov::List< T >::Iterator nikiforov::List< T >::Iterator::operator++(int)
+{
+  this_t iter = iter_;
+  ++iter_;
+  return iter;
+}
+
+template< typename T >
+typename T& nikiforov::List< T >::Iterator::operator*()
+{
+  return iter_.pNode->data;
+}
+
+template< typename T >
+typename T* nikiforov::List< T >::Iterator::operator->()
+{
+  return &(iter_.pNode->data);
+}
+
+template< typename T >
+typename const T& nikiforov::List< T >::Iterator::operator*() const
+{
+  return iter_.pNode->data;
+}
+
+template< typename T >
+typename const T* nikiforov::List< T >::Iterator::operator->() const
+{
+  return &(iter_.pNode->data);
+}
+
+template< typename T >
+bool nikiforov::List< T >::Iterator::operator!=(const this_t& lhs) const
+{
+  return !(*this == lhs.iter_);
+}
+
+template< typename T >
+bool nikiforov::List< T >::Iterator::operator==(const this_t& lhs) const
+{
+  return iter_ == lhs.iter_;
 }
 
 template< typename T >
@@ -87,7 +273,7 @@ nikiforov::List< T >::List(size_t count, const T& value)
 }
 
 template< typename T >
-nikiforov::List< T >::List(Iterator_t begin, Iterator_t end, int value)
+nikiforov::List< T >::List(Iterator begin, Iterator end, int value)
 {
   for (begin; begin != end; ++begin)
   {
@@ -104,7 +290,7 @@ nikiforov::List< T >::List(const nikiforov::List< T >& other)
   }
   else
   {
-    head = new Node_t(*other.head);
+    head = new Node(*other.head);
   }
   size_l = other.size_l;
 }
@@ -138,7 +324,7 @@ T& nikiforov::List< T >::back()
   {
     throw std::logic_error("Empty list!");
   }
-  Node_t* actual = head;
+  Node* actual = head;
   for (size_t i = 0; i < (size_l - 1); i++)
   {
     actual = actual->pNext;
@@ -157,7 +343,7 @@ void nikiforov::List< T >::assign(size_t count, const T& value)
 }
 
 template< typename T >
-void nikiforov::List< T >::assign(Iterator_t first, Iterator_t last)
+void nikiforov::List< T >::assign(Iterator first, Iterator last)
 {
   clear();
   while (first != last)
@@ -196,14 +382,14 @@ size_t nikiforov::List< T >::size()
 template< typename T >
 void nikiforov::List< T >::push_front(const T& data)
 {
-  Node_t* nData = new Node_t(data);
+  Node* nData = new Node(data);
   if (head == nullptr)
   {
     head = nData;
   }
   else
   {
-    Node_t* actual = head;
+    Node* actual = head;
     nData->pNext = actual;
     head = nData;
   }
@@ -213,14 +399,14 @@ void nikiforov::List< T >::push_front(const T& data)
 template< typename T >
 void nikiforov::List< T >::push_back(const T& data)
 {
-  Node_t* nData = new Node_t(data);
+  Node* nData = new Node(data);
   if (head == nullptr)
   {
     head = nData;
   }
   else
   {
-    Node_t* actual = head;
+    Node* actual = head;
     while (actual->pNext != nullptr)
     {
       actual = actual->pNext;
@@ -237,7 +423,7 @@ void nikiforov::List< T >::pop_front()
   {
     throw std::logic_error("Empty list!");
   }
-  Node_t* actual = head;
+  Node* actual = head;
   head = head->pNext;
   delete actual;
   size_l--;
@@ -250,8 +436,8 @@ void nikiforov::List< T >::pop_back()
   {
     throw std::logic_error("Empty list!");
   }
-  Node_t* actual = head;
-  Node_t* todel = head;
+  Node* actual = head;
+  Node* todel = head;
   for (size_t i = 0; i < (size_l - 1); i++)
   {
     actual = todel;
@@ -263,9 +449,9 @@ void nikiforov::List< T >::pop_back()
 }
 
 template< typename T >
-nikiforov::Iterator< T > nikiforov::List< T >::insert(Iterator_t pos, const T& value)
+typename nikiforov::List< T >::Iterator nikiforov::List< T >::insert(Iterator pos, const T& value)
 {
-  Iterator_t newPos = begin();
+  Iterator newPos = begin();
   if (pos == begin())
   {
     push_front(value);
@@ -273,11 +459,11 @@ nikiforov::Iterator< T > nikiforov::List< T >::insert(Iterator_t pos, const T& v
   }
   else
   {
-    Node_t* nData = new Node_t(value);
-    Node_t* actual = head;
-    Node_t* before_actial = head;
+    Node* nData = new Node(value);
+    Node* actual = head;
+    Node* before_actial = head;
     size_t count = 0;
-    for (Iterator_t iter = begin(); iter != pos; ++iter)
+    for (Iterator iter = begin(); iter != pos; ++iter)
     {
       before_actial = actual;
       actual = actual->pNext;
@@ -288,24 +474,24 @@ nikiforov::Iterator< T > nikiforov::List< T >::insert(Iterator_t pos, const T& v
     size_l++;
     advance(newPos, count);
   }
-  return Iterator_t(newPos);
+  return Iterator(newPos);
 }
 
 template< typename T >
-nikiforov::Iterator< T > nikiforov::List< T >::insert(Iterator_t pos, size_t count, const T& value)
+typename nikiforov::List< T >::Iterator nikiforov::List< T >::insert(Iterator pos, size_t count, const T& value)
 {
-  Iterator_t newPos = begin();
+  Iterator newPos = begin();
   for (size_t i = 0; i < count; i++)
   {
     newPos = insert(pos, value);
   }
-  return Iterator_t(newPos);
+  return Iterator(newPos);
 }
 
 template< typename T >
-nikiforov::Iterator< T > nikiforov::List< T >::erase(Iterator_t pos)
+typename nikiforov::List< T >::Iterator nikiforov::List< T >::erase(Iterator pos)
 {
-  Iterator_t newPos = begin();
+  Iterator newPos = begin();
   if (pos == end())
   {
     newPos = end();
@@ -317,10 +503,10 @@ nikiforov::Iterator< T > nikiforov::List< T >::erase(Iterator_t pos)
   }
   else
   {
-    Node_t* todel = head;
-    Node_t* before_todel = head;
+    Node* todel = head;
+    Node* before_todel = head;
     size_t count = 0;
-    for (Iterator_t iter = begin(); iter != pos; ++iter)
+    for (Iterator iter = begin(); iter != pos; ++iter)
     {
       before_todel = todel;
       todel = todel->pNext;
@@ -332,13 +518,13 @@ nikiforov::Iterator< T > nikiforov::List< T >::erase(Iterator_t pos)
     newPos = begin();
     advance(newPos, count);
   }
-  return Iterator_t(newPos);
+  return Iterator(newPos);
 }
 
 template< typename T >
-nikiforov::Iterator< T > nikiforov::List< T >::erase(Iterator_t first, Iterator_t last)
+typename nikiforov::List< T >::Iterator nikiforov::List< T >::erase(Iterator first, Iterator last)
 {
-  Iterator_t newPos = begin();
+  Iterator newPos = begin();
   if (first == last)
   {
     newPos = last;
@@ -351,30 +537,30 @@ nikiforov::Iterator< T > nikiforov::List< T >::erase(Iterator_t first, Iterator_
     }
     newPos = first;
   }
-  return Iterator_t(newPos);
+  return Iterator(newPos);
 }
 
 template< typename T >
-void nikiforov::List< T >::splice(Iterator_t pos, List< T >& other)
+void nikiforov::List< T >::splice(Iterator pos, List< T >& other)
 {
   if (other.is_empty())
   {
     throw std::logic_error("Empty list!");
   }
 
-  Node_t* actual = head;
-  for (Iterator_t iter = begin(); iter != pos; ++iter)
+  Node* actual = head;
+  for (Iterator iter = begin(); iter != pos; ++iter)
   {
     actual = actual->pNext;
   }
 
-  Node_t* other_end = other.head;
+  Node* other_end = other.head;
   for (size_t i = 0; i < (other.size() - 1); i++)
   {
     other_end = other_end->pNext;
   }
 
-  Node_t* subhead = actual->pNext;
+  Node* subhead = actual->pNext;
   actual->pNext = other.head;
   other_end->pNext = subhead;
 }
@@ -382,7 +568,7 @@ void nikiforov::List< T >::splice(Iterator_t pos, List< T >& other)
 template< typename T >
 void nikiforov::List< T >::reverse()
 {
-  Iterator_t iter = begin();
+  Iterator iter = begin();
   size_t count = size();
   size_t count_iter = size();
   for (size_t i = 0; i < count; i++)
@@ -401,7 +587,7 @@ void nikiforov::List< T >::reverse()
 template< typename T >
 void nikiforov::List< T >::swap(List< T >& other) noexcept
 {
-  Node_t* short_termH = this->head;
+  Node* short_termH = this->head;
   head = other.head;
   other.head = short_termH;
 
@@ -425,9 +611,9 @@ void nikiforov::List< T >::remove(T value)
 {
   size_t size = size_l;
   size_t count = 0;
-  Node_t* actual = head;
-  Node_t* todel = head;
-  Iterator_t iter = begin();
+  Node* actual = head;
+  Node* todel = head;
+  Iterator iter = begin();
   for (size_t i = 0; i < size; i++)
   {
     actual = head;
@@ -465,8 +651,8 @@ template< typename T >
 template< class UnaryPredicate >
 void nikiforov::List< T >::remove_if(UnaryPredicate p)
 {
-  Node_t* actial = head;
-  Node_t* before_actial = head;
+  Node* actial = head;
+  Node* before_actial = head;
   while (actial)
   {
     if ((p(actial->data)) && (actial == head))
@@ -494,19 +680,31 @@ void nikiforov::List< T >::remove_if(UnaryPredicate p)
 }
 
 template< typename T >
-nikiforov::Iterator< T > nikiforov::List< T >::begin()
+typename nikiforov::List< T >::Iterator nikiforov::List< T >::begin() const noexcept
 {
-  return Iterator_t(head);
+  return ConstIterator(head);
 }
 
 template< typename T >
-nikiforov::Iterator< T > nikiforov::List< T >::end()
+typename nikiforov::List< T >::Iterator nikiforov::List< T >::end() const noexcept
 {
-  return Iterator_t(nullptr);
+  return ConstIterator(nullptr);
 }
 
 template< typename T >
-void nikiforov::List< T >::advance(Iterator_t& pos, size_t count)
+typename nikiforov::List< T >::ConstIterator nikiforov::List< T >::cbegin() const noexcept
+{
+  return ConstIterator(head);
+}
+
+template< typename T >
+typename nikiforov::List< T >::ConstIterator nikiforov::List< T >::cend() const noexcept
+{
+  return ConstIterator(nullptr);
+}
+
+template< typename T >
+void nikiforov::List< T >::advance(Iterator& pos, size_t count)
 {
   if (count < 0)
   {
@@ -524,9 +722,9 @@ void nikiforov::List< T >::advance(Iterator_t& pos, size_t count)
 }
 
 template< typename T >
-void nikiforov::List<T>::advance(Iterator_t& first, Iterator_t last)
+void nikiforov::List<T>::advance(Iterator& first, Iterator last)
 {
-  for (Iterator_t iter = first; iter != last; ++iter)
+  for (T iter = first; iter != last; ++iter)
   {
     if (iter == end())
     {
