@@ -83,7 +83,10 @@ namespace redko
   private:
     struct ListElem
     {
-      ListElem() = default;
+      ListElem():
+        data(),
+        next(nullptr)
+      {}
       explicit ListElem(const T & d):
         data(d),
         next(nullptr)
