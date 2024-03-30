@@ -129,14 +129,7 @@ public:
   }
   iterator end()
   {
-    if (this == nullptr)
-    {
-      return nullptr;
-    }
-    else
-    {
-      return iterator(nullptr);
-    }
+    return iterator(nullptr);
   }
   class const_iterator
   {
