@@ -130,13 +130,13 @@ typename nikiforov::List< T >::ConstIterator nikiforov::List< T >::ConstIterator
 }
 
 template< typename T >
-typename const T& nikiforov::List< T >::ConstIterator::operator*() const
+const T& nikiforov::List< T >::ConstIterator::operator*() const
 {
   return pNode->data;
 }
 
 template< typename T >
-typename const T* nikiforov::List< T >::ConstIterator::operator->() const
+const T* nikiforov::List< T >::ConstIterator::operator->() const
 {
   return &(pNode->data);
 }
@@ -212,25 +212,25 @@ typename nikiforov::List< T >::Iterator nikiforov::List< T >::Iterator::operator
 }
 
 template< typename T >
-typename T& nikiforov::List< T >::Iterator::operator*()
+T& nikiforov::List< T >::Iterator::operator*()
 {
   return iter_.pNode->data;
 }
 
 template< typename T >
-typename T* nikiforov::List< T >::Iterator::operator->()
+T* nikiforov::List< T >::Iterator::operator->()
 {
   return &(iter_.pNode->data);
 }
 
 template< typename T >
-typename const T& nikiforov::List< T >::Iterator::operator*() const
+const T& nikiforov::List< T >::Iterator::operator*() const
 {
   return iter_.pNode->data;
 }
 
 template< typename T >
-typename const T* nikiforov::List< T >::Iterator::operator->() const
+const T* nikiforov::List< T >::Iterator::operator->() const
 {
   return &(iter_.pNode->data);
 }
