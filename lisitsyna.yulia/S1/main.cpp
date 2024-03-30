@@ -1,6 +1,5 @@
 #include "list.hpp"
 #include <iostream>
-#include <sstream>
 #include <string>
 #include <limits>
 #include <algorithm>
@@ -19,30 +18,47 @@ namespace
 }
 int main()
 {
-  std::string line;
-  static_cast<List< std::pair< std::string, List< unsigned long long > > > sequences;
+  List< std::pair< std::string, List< unsigned long long > > > sequences;
   size_t maxLen = 0;
-  while (std::getline(std::cin, line) && !line.empty())
+  while (!std::cin.eof() && !std::cin.fail())
   {
-    std::istringstream iss(line);
+    std::string name, numbers;
     std::string name;
-    iss >> name;
-    List< unsigned long long > list;
-    unsigned long long num;
-    size_t count = 0;
-    while (!iss.fail() && !iss.eof())
+    if (name.empty())
     {
-      iss >> num;
-      if (iss.fail())
+      continue;
+    }
+    std::getline(std::cin, numbers);
+    List< unsigned long long > list;
+    if (numbers.empty())
+    {
+      sequences.push_back({ name, std::move(list) });
+      continue;
+    }
+    size_t count = 0, i = 0;
+    std::string number;
+    for (size_t i = 0; i < numbers.length(); ++i)
+    {
+      if (std::isdigit(numbers[i]))
       {
-        std::cerr << "Input error\n";
-        return 1;
+        number += numbers[i];
       }
+      else if (!number.empty())
+      {
+        unsigned long long num = std::stoull(number);
+        list.push_back(num);
+        number.clear();
+        ++count;
+      }
+    }
+    if (!number.empty())
+    {
+      unsigned long long num = std::stoull(number);
       list.push_back(num);
       ++count;
     }
     maxLen = std::max(maxLen, count);
-    sequences.emplace_back(name, std::move(list));
+    sequences.push_back({ name, std::move(list) });
   }
   bool first = true;
   for (const auto & seq: sequences)
@@ -93,12 +109,12 @@ int main()
       std::cout << 0;
     }
   }
-  static_cast<size_t> (maxLen);
-  List < unsigned long long > sums(maxLen, 0)
+  List < unsigned long long > sums;
   try
   {
     for (size_t i = 0; i < maxLen; ++i)
     {
+      sums.push_back(0);
       for (const auto & seq: sequences)
       {
         const auto & list = seq.second;
@@ -109,7 +125,7 @@ int main()
         }
         if (it != list.end())
         {
-          sums[i] = sum(sums[i], *it);
+          sums.back() = sum(sums.back(), *it);
         }
       }
     }
