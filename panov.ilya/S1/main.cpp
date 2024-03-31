@@ -23,7 +23,9 @@ int main() {
 
     std::vector<unsigned long long> sequence;
     unsigned long long num;
+    bool onlyName = true;
     while (iss >> num) {
+      onlyName = false;
       if (num == std::numeric_limits<unsigned long long>::max()) {
         hasOverflow = true;
         break;
@@ -36,6 +38,10 @@ int main() {
     if (hasOverflow) {
       std::cerr << "Formed lists with exit code 1 and error message in standard error because of overflow" << std::endl;
       return 1;
+    }
+
+    if (onlyName) {
+      std::cout << name << std::endl << "0" << std::endl;
     }
   }
 
