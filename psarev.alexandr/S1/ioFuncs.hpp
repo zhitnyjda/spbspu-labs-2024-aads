@@ -5,6 +5,7 @@
 #include <utility>
 #include <cmath>
 #include "list.hpp"
+#include "divideFuncs.hpp"
 
 using depot_t = psarev::List< std::pair< std::string, psarev::List< unsigned long long > > >;
 
