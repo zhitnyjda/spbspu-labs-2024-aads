@@ -5,49 +5,53 @@
 #include <limits>
 #include "list.hpp"
 
+bool hasOverflow(unsigned long long num) {
+  const unsigned long long threshold = std::numeric_limits<unsigned long long>::max() - 5;
+  return (num >= threshold);
+}
+
 int main() {
   Panov::List<std::pair<std::string, std::vector<unsigned long long>>> sequences;
   Panov::List<unsigned long long> sums;
 
   std::string line;
-  bool hasData = false;
-  std::string temp;
+  bool has_data = false;
+  std::string sequence_name;
 
   while (std::getline(std::cin, line) && !line.empty()) {
     std::istringstream iss(line);
     std::string word;
     iss >> word;
-    temp = word;
+    sequence_name = word;
 
-    std::vector<unsigned long long> nums;
+    std::vector<unsigned long long> numbers;
     unsigned long long num;
-    bool hasOverflow = false;
+    bool overflow_flag = false;
     while (iss >> num) {
-      const unsigned long long overflowThreshold = std::numeric_limits<unsigned long long>::max() - 5;
-      if (num >= overflowThreshold) {
-        hasOverflow = true;
+      if (hasOverflow(num)) {
+        overflow_flag = true;
         break;
       }
-      nums.push_back(num);
+      numbers.push_back(num);
     }
 
-    if (hasOverflow) {
-      std::cerr << "Formed lists with exit code 1 and error message in standard error because of overflow in sequence: " << word << std::endl;
+    if (overflow_flag) {
+      std::cerr << "Formed lists with exit code 1 and error message in standard error because of overflow in sequence: " << sequence_name << std::endl;
       return 1;
     }
 
-    sequences.push_back({ word, nums });
+    sequences.push_back({ sequence_name, numbers });
 
-    if (!nums.empty())
-      hasData = true;
+    if (!numbers.empty())
+      has_data = true;
   }
 
   if (sequences.empty()) {
     std::cout << 0 << '\n';
   }
   else {
-    if (!hasData) {
-      std::cout << temp << "\n" << 0 << "\n";
+    if (!has_data) {
+      std::cout << sequence_name << "\n" << 0 << "\n";
       return 0;
     }
     size_t max_length = 0;
@@ -57,9 +61,9 @@ int main() {
 
     for (auto it = sequences.begin(); it != sequences.end(); ++it) {
       std::cout << it->first;
-      auto nextIt = it;
-      ++nextIt;
-      if (nextIt != sequences.end()) {
+      auto next_it = it;
+      ++next_it;
+      if (next_it != sequences.end()) {
         std::cout << " ";
       }
     }
@@ -72,15 +76,15 @@ int main() {
     }
 
     for (size_t i = 0; i < max_size; ++i) {
-      bool firstElement = true;
+      bool first_element = true;
       for (const auto& pair : sequences) {
         const auto& sequence = pair.second;
         if (i < sequence.size()) {
-          if (!firstElement) {
+          if (!first_element) {
             std::cout << " ";
           }
           std::cout << sequence[i];
-          firstElement = false;
+          first_element = false;
         }
       }
       std::cout << std::endl;
@@ -88,16 +92,16 @@ int main() {
 
     try {
       for (size_t i = 0; i < max_length; ++i) {
-        unsigned long long sum = 0;
+        unsigned long long total_sum = 0;
         for (auto it = sequences.begin(); it != sequences.end(); ++it) {
           if (i < it->second.size()) {
-            if (sum > std::numeric_limits<unsigned long long>::max() - it->second[i]) {
+            if (total_sum > std::numeric_limits<unsigned long long>::max() - it->second[i]) {
               throw std::overflow_error("Overflow");
             }
-            sum += it->second[i];
+            total_sum += it->second[i];
           }
         }
-        sums.push_back(sum);
+        sums.push_back(total_sum);
       }
     }
     catch (const std::overflow_error& e) {
@@ -106,9 +110,9 @@ int main() {
     }
     for (auto it = sums.begin(); it != sums.end(); ++it) {
       std::cout << (*it);
-      auto nextIt = it;
-      ++nextIt;
-      if (nextIt != sums.end()) {
+      auto next_it = it;
+      ++next_it;
+      if (next_it != sums.end()) {
         std::cout << " ";
       }
     }
