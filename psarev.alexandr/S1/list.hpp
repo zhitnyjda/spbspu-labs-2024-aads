@@ -14,6 +14,10 @@ namespace psarev
     using cIter = ConstIterator;
     using iter = Iterator;
     List();
+    List(size_t amount);
+    List(size_t amount, const T& data);
+    List(iter othHead, iter othTail);
+    List(std::initializer_list< T > ilThat);
     ~List();
 
     void popFront();
@@ -273,6 +277,53 @@ psarev::List< T >::List()
   head = nullptr;
   tail = nullptr;
   size = 0;
+}
+
+template< typename T >
+psarev::List< T >::List(size_t amount)
+{
+  head = new Unit();
+  tail = head;
+  Unit* curr = head->next;
+  size = 1;
+  for (int i = 1; i < amount; i++)
+  {
+    curr = new Unit();
+    tail = curr;
+    size++;
+    curr = curr->next;
+  }
+}
+
+template< typename T >
+psarev::List< T >::List(size_t amount, const T& data)
+{
+  size = 0;
+  for (int i = 0; i < amount; i++)
+  {
+    pushBack(data);
+  }
+}
+
+template< typename T >
+psarev::List< T >::List(iter othHead, iter othTail)
+{
+  size = 0;
+  while (othHead != othTail)
+  {
+    pushBack(*othHead);
+    othHead++;
+  }
+}
+
+template<typename T>
+psarev::List<T>::List(std::initializer_list<T> ilThat)
+{
+  size = 0;
+  for (T data : ilThat)
+  {
+    pushBack(data);
+  }
 }
 
 template< typename T >
