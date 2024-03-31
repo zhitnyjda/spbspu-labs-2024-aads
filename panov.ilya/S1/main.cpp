@@ -44,8 +44,13 @@ int main() {
     return 0;
   }
 
-  for (const auto& seq : sequences)
-    std::cout << seq.first << ' ';
+  for (size_t i = 0; i < inputLines.size(); ++i) {
+    if (i != 0) std::cout << ' ';
+    std::istringstream iss(inputLines[i]);
+    std::string name;
+    iss >> name;
+    std::cout << name;
+  }
   std::cout << std::endl;
 
   size_t maxLength = 0;
