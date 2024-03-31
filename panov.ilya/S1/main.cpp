@@ -10,10 +10,12 @@ int main() {
 
   std::vector<std::string> inputLines;
   std::string line;
-  while (std::getline(std::cin, line)) {
-    if (line.empty()) break;
+  while (true) {
+    std::getline(std::cin, line);
+    if (std::cin.eof()) break;
+    if (line.empty()) continue;
     if (line.size() == 1 && std::isalpha(line[0])) {
-      std::cout << line[0] << std::endl << 0 << std::endl;
+      std::cout << line << std::endl << 0 << std::endl;
       continue;
     }
     inputLines.push_back(line);
@@ -36,12 +38,12 @@ int main() {
       sequence.push_back(num);
     }
 
-    sequences.push_back({ name, sequence });
-
     if (hasOverflow) {
-      std::cerr << "Formed lists with exit code 1 and error message in standard error because of overflow" << std::endl;
+      std::cout << "Formed lists with exit code 1 and error message in standard error because of overflow" << std::endl;
       return 1;
     }
+
+    sequences.push_back({ name, sequence });
   }
 
   if (inputLines.empty()) {
