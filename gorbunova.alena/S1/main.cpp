@@ -99,7 +99,7 @@ int main()
     }
     catch (const std::overflow_error &e)
     {
-      std::cerr << e.what() << "\n";
+      std::cerr << e.what() << '\n';
       return 1;
     }
     for (auto it = sums.begin(); it != sums.end(); ++it)
