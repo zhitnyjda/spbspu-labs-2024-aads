@@ -21,7 +21,7 @@ namespace gorbunova
   {
   private:
     Node<T> *head;
-
+    int size = 0;
   public:
     class Iterator
     {
@@ -48,6 +48,7 @@ namespace gorbunova
     void reverse();
     void insert(Iterator pos, const T& value);
     void erase(Iterator pos);
+    int getSize();
     Iterator begin() const;
     Iterator end() const;
   };
@@ -99,6 +100,12 @@ template <typename T>
 gorbunova::List<T>::~List()
 {
   clear();
+}
+
+template <typename T>
+int gorbunova::List<T>::getSize()
+{
+  return size;
 }
 
 template <typename T>

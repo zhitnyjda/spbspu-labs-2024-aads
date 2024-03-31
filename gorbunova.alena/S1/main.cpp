@@ -38,7 +38,7 @@ int main()
   }
   else
   {
-    if (flag)
+    if (flag && sequences.getSize() == 1)
     {
       std::cout << tempWord << "\n"
                 << 0 << "\n";
