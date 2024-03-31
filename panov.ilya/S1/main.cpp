@@ -2,10 +2,12 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <cerrno>
+#include <climits>
 #include "list.hpp"
 
 int main() {
-  Panov::List<std::pair<std::string, std::vector<int>>> sequences;
+  Panov::List<std::pair<std::string, std::vector<unsigned long long>>> sequences;
 
   std::string line;
   bool isEmpty = true;
@@ -17,10 +19,15 @@ int main() {
     std::string name;
     iss >> name;
 
-    std::vector<int> sequence;
-    int num;
-    while (iss >> num)
+    std::vector<unsigned long long> sequence;
+    unsigned long long num;
+    while (iss >> num) {
+      if (num == ULLONG_MAX) {
+        std::cerr << "Formed lists with exit code 1 and error message in standard error because of overflow" << std::endl;
+        return 1;
+      }
       sequence.push_back(num);
+    }
 
     sequences.push_back({ name, sequence });
   }
@@ -53,13 +60,9 @@ int main() {
   }
 
   for (size_t i = 0; i < maxLength; ++i) {
-    long long sum = 0;
+    unsigned long long sum = 0;
     for (const auto& seq : sequences) {
       if (i < seq.second.size()) {
-        if (static_cast<long long>(sum) + seq.second[i] > std::numeric_limits<int>::max()) {
-          std::cerr << "Formed lists with exit code 1 and error message in standard error because of overflow" << std::endl;
-          return 1;
-        }
         sum += seq.second[i];
       }
     }
