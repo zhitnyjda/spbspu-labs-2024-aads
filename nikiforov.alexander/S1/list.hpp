@@ -48,8 +48,10 @@ namespace nikiforov
     template< class UnaryPredicate >
     void remove_if(UnaryPredicate p);
 
-    Iterator begin() const noexcept;
-    Iterator end() const noexcept;
+    Iterator begin() noexcept;
+    Iterator end() noexcept;
+    ConstIterator begin() const noexcept;
+    ConstIterator end() const noexcept;
     ConstIterator cbegin() const noexcept;
     ConstIterator cend() const noexcept;
 
@@ -680,13 +682,25 @@ void nikiforov::List< T >::remove_if(UnaryPredicate p)
 }
 
 template< typename T >
-typename nikiforov::List< T >::Iterator nikiforov::List< T >::begin() const noexcept
+typename nikiforov::List< T >::Iterator nikiforov::List< T >::begin() noexcept
+{
+  return Iterator(head);
+}
+
+template< typename T >
+typename nikiforov::List< T >::Iterator nikiforov::List< T >::end() noexcept
+{
+  return Iterator(nullptr);
+}
+
+template< typename T >
+typename nikiforov::List< T >::ConstIterator nikiforov::List< T >::begin() const noexcept
 {
   return ConstIterator(head);
 }
 
 template< typename T >
-typename nikiforov::List< T >::Iterator nikiforov::List< T >::end() const noexcept
+typename nikiforov::List< T >::ConstIterator nikiforov::List< T >::end() const noexcept
 {
   return ConstIterator(nullptr);
 }

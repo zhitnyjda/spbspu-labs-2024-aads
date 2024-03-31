@@ -77,9 +77,9 @@ void nikiforov::outputSeqs_(List< std::pair< std::string, List< T > > >& seqsPai
 {
   if (maxSize != 0)
   {
-    List< std::pair< std::string, List< unsigned long long > > >::Iterator iterSeqsPair = seqsPair.begin();
-    List< unsigned long long >::Iterator iterList = (*iterSeqsPair).second.begin();
-    List< unsigned long long >::Iterator iterListEnd = (*iterSeqsPair).second.end();
+    List< std::pair< std::string, List< unsigned long long > > >::ConstIterator iterSeqsPair = seqsPair.cbegin();
+    List< unsigned long long >::ConstIterator iterList = (*iterSeqsPair).second.cbegin();
+    List< unsigned long long >::ConstIterator iterListEnd = (*iterSeqsPair).second.cend();
     size_t countInSeq = 0;
     unsigned long long summ = 0;
     bool firstElem = false;
@@ -88,7 +88,7 @@ void nikiforov::outputSeqs_(List< std::pair< std::string, List< T > > >& seqsPai
     while (countInSeq < maxSize)
     {
       firstElem = false;
-      for (iterSeqsPair = seqsPair.begin(); iterSeqsPair != seqsPair.end(); ++iterSeqsPair)
+      for (iterSeqsPair = seqsPair.cbegin(); iterSeqsPair != seqsPair.cend(); ++iterSeqsPair)
       {
         iterList = (*iterSeqsPair).second.begin();
         for (size_t i = 0; i < countInSeq; i++)
