@@ -36,7 +36,7 @@ int main() {
     }
 
     if (hasOverflowFlag) {
-      std::cerr << "Formed lists with exit code 1 and error message in standard error because of overflow in sequence: " << word << std::endl;
+      std::cerr << "Formed lists with exit code 1 and error message in standard error because of overflow in sequence" << std::endl;
       return 1;
     }
 
@@ -90,24 +90,20 @@ int main() {
       std::cout << std::endl;
     }
 
-    try {
-      for (size_t i = 0; i < max_length; ++i) {
-        unsigned long long sum = 0;
-        for (auto it = sequences.begin(); it != sequences.end(); ++it) {
-          if (i < it->second.size()) {
-            if (sum > std::numeric_limits<unsigned long long>::max() - it->second[i]) {
-              throw std::overflow_error("Overflow");
-            }
-            sum += it->second[i];
+    for (size_t i = 0; i < max_length; ++i) {
+      unsigned long long sum = 0;
+      for (auto it = sequences.begin(); it != sequences.end(); ++it) {
+        if (i < it->second.size()) {
+          if (sum > std::numeric_limits<unsigned long long>::max() - it->second[i]) {
+            std::cerr << "Formed lists with exit code 1 and error message in standard error because of overflow in sequence" << std::endl;
+            return 1;
           }
+          sum += it->second[i];
         }
-        sums.push_back(sum);
       }
+      sums.push_back(sum);
     }
-    catch (const std::overflow_error& e) {
-      std::cerr << "Formed lists with exit code 1 and error message in standard error because of overflow in sequence: " << temp << std::endl;
-      return 1;
-    }
+
     for (auto it = sums.begin(); it != sums.end(); ++it) {
       std::cout << (*it);
       auto nextIt = it;
