@@ -28,7 +28,7 @@ void psarev::inputData(depot_t& lines, size_t& maxDigits)
 {
   depot_t::Iterator iterLine;
   std::string line = "";
-  
+
   while (std::getline(std::cin, line))
   {
     if (line.size() != 0)

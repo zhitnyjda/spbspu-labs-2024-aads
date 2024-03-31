@@ -25,12 +25,22 @@ namespace psarev
     void popBack();
     void pushFront(T& data);
     void pushBack(T& data);
+    void pushFront(T&& data);
+    void pushBack(T&& data);
 
-    void assign(size_t amount, const T& data);
+    void assign(size_t amount, T& data);
     void assign(iter begbeginThatin, iter endThat);
     void assign(std::initializer_list<T> ilThat);
 
+    iter insert(iter& pos, T& data);
+    iter insert(iter& pos, T&& data);
+    iter insert(iter& pos, size_t& amount, T& data);
+    iter insert(iter& pos, size_t& amount, T&& data);
+
     void remove(const T& value);
+
+    template< class Func >
+    void remove_if(Func p);
 
     T& getFront() const;
     T& getBack() const;
@@ -191,82 +201,82 @@ public:
   bool operator!=(const this_t&) const;
 
 private:
-  ConstIterator iter;
+  ConstIterator iter_;
 };
 
 template< typename T >
 psarev::List< T >::Iterator::Iterator() :
-  iter(ConstIterator())
+  iter_(ConstIterator())
 {}
 
 template< typename T >
 psarev::List< T >::Iterator::Iterator(Unit* ptr) :
-  iter(ConstIterator(ptr))
+  iter_(ConstIterator(ptr))
 {}
 
 template< typename T >
 psarev::List< T >::Iterator::Iterator(ConstIterator constIter) :
-  iter(constIter)
+  iter_(constIter)
 {}
 
 template < typename T >
 typename psarev::List< T >::Iterator& psarev::List< T >::Iterator::operator++()
 {
-  assert(iter != nullptr);
-  iter++;
-  return iter;
+  assert(iter_ != nullptr);
+  iter_++;
+  return iter_;
 };
 
 template < typename T >
 typename psarev::List< T >::Iterator psarev::List< T >::Iterator::operator++(int)
 {
-  ++iter;
-  return iter;
+  ++iter_;
+  return iter_;
 }
 
 template < typename T >
 typename psarev::List< T >::Iterator& psarev::List< T >::Iterator::operator--()
 {
-  assert(iter != nullptr);
-  iter--;
-  return iter;
+  assert(iter_ != nullptr);
+  iter_--;
+  return iter_;
 }
 
 template < typename T >
 typename psarev::List< T >::Iterator psarev::List< T >::Iterator::operator--(int)
 {
-  --iter;
-  return iter;
+  --iter_;
+  return iter_;
 }
 
 template< typename T >
 T& psarev::List< T >::Iterator::operator*()
 {
-  return iter.unit->data;
+  return iter_.unit->data;
 }
 
 template< typename T >
 T* psarev::List< T >::Iterator::operator->()
 {
-  return &(iter.unit->data);
+  return &(iter_.unit->data);
 }
 
 template< typename T >
 const T& psarev::List< T >::Iterator::operator*() const
 {
-  return iter.unit->data;
+  return iter_.unit->data;
 }
 
 template< typename T >
 const T* psarev::List< T >::Iterator::operator->() const
 {
-  return &(iter.unit->data);
+  return &(iter_.unit->data);
 }
 
 template< typename T >
 bool psarev::List< T >::Iterator::operator==(const this_t& that) const
 {
-  return iter == that.iter;
+  return iter_ == that.iter_;
 }
 
 template< typename T >
@@ -385,7 +395,35 @@ void psarev::List< T >::pushBack(T& data)
 }
 
 template<typename T>
-void psarev::List<T>::assign(size_t amount, const T& data)
+void psarev::List<T>::pushFront(T&& data)
+{
+  head = new Unit(data, head);
+  if (size != 0)
+  {
+    head->next->prev = head;
+  }
+  size++;
+}
+
+template<typename T>
+void psarev::List<T>::pushBack(T&& data)
+{
+  if (head == nullptr)
+  {
+    head = new Unit(data);
+    tail = head;
+  }
+  else
+  {
+    Unit* adUnit = new Unit(data, nullptr, tail);
+    tail->next = adUnit;
+    tail = adUnit;
+  }
+  size++;
+}
+
+template<typename T>
+void psarev::List<T>::assign(size_t amount, T& data)
 {
   clear();
   for (int i = 0; i < amount; i++)
@@ -415,23 +453,148 @@ void psarev::List<T>::assign(std::initializer_list<T> ilThat)
   }
 }
 
+template<typename T>
+typename psarev::List< T >::Iterator psarev::List<T>::insert(iter& pos, T& data)
+{
+  if (pos == begin())
+  {
+    pushFront(data);
+    return pos--;
+  }
+  Unit* insertable = new Unit(data);
+  insertable->next = pos.iter_.unit;
+  insertable->prev = pos.iter_.unit->prev;
+  (pos--).iter_.unit->prev = insertable;
+  pos.iter_.unit->next = insertable;
+  size++;
+  return pos++;
+}
+
+template<typename T>
+typename psarev::List< T >::Iterator psarev::List<T>::insert(iter& pos, T&& data)
+{
+  if (pos == begin())
+  {
+    pushFront(data);
+    return pos--;
+  }
+  Unit* insertable = new Unit(data);
+  insertable->next = pos.iter_.unit;
+  insertable->prev = pos.iter_.unit->prev;
+  (pos--).iter_.unit->prev = insertable;
+  pos.iter_.unit->next = insertable;
+  size++;
+  return pos++;
+}
+
+template<typename T>
+typename psarev::List< T >::Iterator psarev::List<T>::insert(iter& pos, size_t& amount, T& data)
+{
+  if (amount == 0)
+  {
+    return pos;
+  }
+  iter firstPos;
+  for (size_t i = 0; i < amount; i++)
+  {
+    pos = insert(pos, data);
+    if (i == 0)
+    {
+      firstPos = pos;
+    }
+  }
+  return firstPos;
+}
+
+template<typename T>
+typename psarev::List< T >::Iterator psarev::List<T>::insert(iter& pos, size_t& amount, T&& data)
+{
+  if (amount == 0)
+  {
+    return pos;
+  }
+  iter firstPos;
+  for (size_t i = 0; i < amount; i++)
+  {
+    pos = insert(pos, data);
+    if (i == 0)
+    {
+      firstPos = pos;
+    }
+  }
+  return firstPos;
+}
+
 template< typename T >
 void psarev::List< T >::remove(const T& value)
 {
   Unit* tempo = this->head;
-  for (size_t i = 0; i < size; i++)
+  for (size_t i = 0; i < (size + 1); i++)
   {
     if (tempo->data == value)
     {
-      Unit* removable = tempo;
-      tempo = tempo->prev;
-      tempo->next = removable->next;
-      removable->next->prev = tempo;
-      delete removable;
-      i--;
-      --size;
+      if (tempo == head)
+      {
+        tempo = tempo->next;
+        popFront();
+      }
+      else if (tempo == tail)
+      {
+        popBack();
+      }
+      else
+      {
+        Unit* removable = tempo;
+        tempo = tempo->prev;
+        tempo->next = removable->next;
+        removable->next->prev = tempo;
+        delete removable;
+        i--;
+        --size;
+        tempo = tempo->next;
+      }
     }
-    tempo = tempo->next;
+    else
+    {
+      tempo = tempo->next;
+    }
+  }
+}
+
+template< typename T >
+template< class Func >
+void psarev::List< T >::remove_if(Func p)
+{
+  Unit* tempo = this->head;
+  for (size_t i = 0; i < (size + 1); i++)
+  {
+    if (p(tempo->data))
+    {
+      if (tempo == head)
+      {
+        tempo = tempo->next;
+        popFront();
+      }
+      else if (tempo == tail)
+      {
+        popBack();
+      }
+      else
+      {
+        Unit* removable = tempo;
+        tempo = tempo->prev;
+        tempo->next = removable->next;
+        removable->next->prev = tempo;
+        delete removable;
+        i--;
+        --size;
+        tempo = tempo->next;
+      }
+    }
+    else
+    {
+      tempo = tempo->next;
+    }
   }
 }
 
