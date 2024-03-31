@@ -112,6 +112,7 @@ template <typename T>
 void gorbunova::List<T>::push_back(const T &value)
 {
   Node<T> *tmp = new Node<T>(value);
+  size++;
   if (head == nullptr)
   {
     head = tmp;
