@@ -1,6 +1,5 @@
 #ifndef LIST_HPP
 #define LIST_HPP
-#define LIST_HPP
 
 #include <iostream>
 #include <initializer_list>
@@ -49,32 +48,6 @@ namespace gorbunova
     void reverse();
     void insert(Iterator pos, const T& value);
     void erase(Iterator pos);
-
-    friend std::ostream &operator<<(std::ostream &os, const List<T> &list)
-    {
-      std::vector<std::string> names;
-      std::vector<std::vector<int>> values;
-      for (auto it = list.begin(); it != list.end(); ++it)
-      {
-        names.push_back((*it).first);
-        values.push_back((*it).second);
-      }
-      size_t max_size = 0;
-      for (const auto &v : values)
-      {
-          max_size = std::max(max_size, v.size());
-      }
-      for (size_t i = 0; i < max_size; ++i)
-      {
-          for (size_t j = 0; j < names.size(); ++j)
-          {
-              if (i < values[j].size())
-                  os << values[j][i] << " ";
-          }
-          os << std::endl;
-      }
-      return os;
-    }
     Iterator begin() const;
     Iterator end() const;
   };
