@@ -51,6 +51,7 @@ int main() {
   }
   else {
     if (!hasData) {
+      std::cerr << "Formed lists with exit code 1 and error message in standard error because of overflow" << std::endl;
       std::cout << temp << "\n" << 0 << "\n";
       return 0;
     }
@@ -105,7 +106,7 @@ int main() {
       }
     }
     catch (const std::overflow_error& e) {
-      std::cerr << e.what() << '\n';
+      std::cerr << "Formed lists with exit code 1 and error message in standard error because of overflow" << std::endl;
       return 1;
     }
     for (auto it = sums.begin(); it != sums.end(); ++it) {
