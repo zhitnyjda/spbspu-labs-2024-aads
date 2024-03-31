@@ -72,7 +72,7 @@ int main()
           {
             std::cout << " ";
           }
-          std:cout << sequence[i];
+          std::cout << sequence[i];
           firstElement = false;
         }
       }
