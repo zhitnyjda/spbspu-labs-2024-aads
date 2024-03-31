@@ -6,18 +6,15 @@
 #include "list.hpp"
 
 int main() {
-  Panov::List<std::pair<std::string, std::vector<unsigned long long>>> sequences;
+  Panov::List<std::pair<std::string, std::vector<unsigned long long int>>> sequences;
 
   bool hasOverflow = false;
   std::string line;
-  bool firstLine = true;
+  bool isEmpty = true;
   while (std::getline(std::cin, line)) {
     if (line.empty()) break;
-    if (line.size() == 1 && std::isalpha(line[0]) && firstLine) {
-      std::cout << line << std::endl << 0 << std::endl;
-      continue;
-    }
-    firstLine = false;
+    isEmpty = false;
+
     std::vector<std::string> inputLines;
     inputLines.push_back(line);
 
@@ -26,10 +23,10 @@ int main() {
       std::string name;
       iss >> name;
 
-      std::vector<unsigned long long> sequence;
-      unsigned long long num;
+      std::vector<unsigned long long int> sequence;
+      unsigned long long int num;
       while (iss >> num) {
-        const unsigned long long overflowThreshold = std::numeric_limits<unsigned long long>::max() - 5;
+        const unsigned long long int overflowThreshold = std::numeric_limits<unsigned long long int>::max() - 5;
         if (num >= overflowThreshold) {
           hasOverflow = true;
           break;
@@ -44,54 +41,43 @@ int main() {
         return 1;
       }
     }
-
-    if (inputLines.empty()) {
-      std::cout << "Zero exit code without error message in standard error and 0 on separate line as output" << std::endl;
-      return 0;
-    }
-
-    for (size_t i = 0; i < inputLines.size(); ++i) {
-      if (i != 0) std::cout << ' ';
-      std::istringstream iss(inputLines[i]);
-      std::string name;
-      iss >> name;
-      std::cout << name;
-    }
-    std::cout << std::endl;
-
-    size_t maxLength = 0;
-    for (const auto& seq : sequences)
-      maxLength = std::max(maxLength, seq.second.size());
-
-    for (size_t i = 0; i < maxLength; ++i) {
-      bool firstElement = true;
-      for (const auto& seq : sequences) {
-        if (i < seq.second.size()) {
-          if (!firstElement)
-            std::cout << ' ';
-          else
-            firstElement = false;
-          std::cout << seq.second[i];
-        }
-      }
-      std::cout << std::endl;
-    }
-
-    for (size_t i = 0; i < maxLength; ++i) {
-      unsigned long long sum = 0;
-      for (const auto& seq : sequences) {
-        if (i < seq.second.size()) {
-          sum += seq.second[i];
-        }
-      }
-      std::cout << sum;
-      if (i != maxLength - 1)
-        std::cout << ' ';
-    }
-    std::cout << std::endl;
-
-    sequences.clear();
   }
+
+  if (isEmpty) {
+    char symbol;
+    std::cin >> symbol;
+    std::cout << symbol << std::endl;
+    std::cout << 0 << std::endl;
+  }
+
+  for (const auto& seq : sequences) {
+    std::cout << seq.first << " ";
+  }
+  std::cout << std::endl;
+
+  size_t maxLength = 0;
+  for (const auto& seq : sequences)
+    maxLength = std::max(maxLength, seq.second.size());
+
+  for (size_t i = 0; i < maxLength; ++i) {
+    for (const auto& seq : sequences) {
+      if (i < seq.second.size()) {
+        std::cout << seq.second[i] << " ";
+      }
+    }
+    std::cout << std::endl;
+  }
+
+  for (size_t i = 0; i < maxLength; ++i) {
+    unsigned long long int sum = 0;
+    for (const auto& seq : sequences) {
+      if (i < seq.second.size()) {
+        sum += seq.second[i];
+      }
+    }
+    std::cout << sum << " ";
+  }
+  std::cout << std::endl;
 
   return 0;
 }
