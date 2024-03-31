@@ -1,13 +1,18 @@
-#ifndef OUT_FUNCS
-#define OUT_FUNCS
+#ifndef IO_FUNCS
+#define IO_FUNCS
 #include <iostream>
 #include <limits>
+#include <utility>
+#include <cmath>
 #include "list.hpp"
 
 using depot_t = psarev::List< std::pair< std::string, psarev::List< unsigned long long > > >;
 
 namespace psarev
 {
+  template< typename T >
+  void inputData(depot_t& lines, size_t& maxDigits);
+
   template< typename T >
   void outOrds(depot_t& lines);
 
@@ -16,6 +21,36 @@ namespace psarev
 
   template< typename T >
   void outSums(List< T >& sums);
+}
+
+template<typename T>
+void psarev::inputData(depot_t& lines, size_t& maxDigits)
+{
+  depot_t::Iterator iterLine;
+  std::string line = "";
+  
+  while (std::getline(std::cin, line))
+  {
+    if (line.size() != 0)
+    {
+      std::string ord = psarev::getOrd(line);
+      std::pair< std::string, psarev::List< unsigned long long > > pair = { ord, {} };
+      lines.pushBack(pair);
+      iterLine = lines.begin();
+      for (size_t i = 0; i < (lines.getSize() - 1); i++)
+      {
+        iterLine++;
+      }
+      size_t cntDigits = 0;
+      while (line.size() != 0)
+      {
+        unsigned long long digit = psarev::getDigit(line);
+        (*iterLine).second.pushBack(digit);
+        cntDigits++;
+      }
+      maxDigits = fmax(maxDigits, cntDigits);
+    }
+  }
 }
 
 template< typename T >

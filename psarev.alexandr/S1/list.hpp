@@ -17,7 +17,7 @@ namespace psarev
     List();
     List(size_t amount);
     List(size_t amount, const T& data);
-    List(iter othHead, iter othTail);
+    List(iter beginThat, iter endThat);
     List(std::initializer_list< T > ilThat);
     ~List();
 
@@ -25,6 +25,10 @@ namespace psarev
     void popBack();
     void pushFront(T& data);
     void pushBack(T& data);
+
+    void assign(size_t amount, const T& data);
+    void assign(iter begbeginThatin, iter endThat);
+    void assign(std::initializer_list<T> ilThat);
 
     void remove(const T& value);
 
@@ -307,13 +311,13 @@ psarev::List< T >::List(size_t amount, const T& data)
 }
 
 template< typename T >
-psarev::List< T >::List(iter othHead, iter othTail)
+psarev::List< T >::List(iter beginThat, iter endThat)
 {
   size = 0;
-  while (othHead != othTail)
+  while (beginThat != endThat)
   {
-    pushBack(*othHead);
-    othHead++;
+    pushBack(*beginThat);
+    beginThat++;
   }
 }
 
@@ -378,6 +382,37 @@ void psarev::List< T >::pushBack(T& data)
     tail = adUnit;
   }
   size++;
+}
+
+template<typename T>
+void psarev::List<T>::assign(size_t amount, const T& data)
+{
+  clear();
+  for (int i = 0; i < amount; i++)
+  {
+    pushBack(data);
+  }
+}
+
+template<typename T>
+void psarev::List<T>::assign(iter beginThat, iter endThat)
+{
+  clear();
+  while (beginThat != endThat)
+  {
+    pushBack(*beginThat);
+    beginThat++;
+  }
+}
+
+template<typename T>
+void psarev::List<T>::assign(std::initializer_list<T> ilThat)
+{
+  clear();
+  for (T data : ilThat)
+  {
+    pushBack(data);
+  }
 }
 
 template< typename T >
