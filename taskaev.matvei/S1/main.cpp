@@ -25,7 +25,7 @@ int main()
     return 0;
   }
   list.reverse();
-  typename List<std::pair<std::string, List<size_t>>>::ListIterator< std::pair< std::string, List<size_t>>> i = list.begin();
+  List<std::pair<std::string, List<size_t>>>::Iterator i = list.begin();
   while(i != list.end())
   {
     std::cout << i->first;
@@ -64,22 +64,23 @@ int main()
     i = list.begin();
     while (i != list.end())
     {
-      if (!i->second.empty())
+      List<size_t>& twoList =  const_cast<List<size_t>&>(i->second);
+      if (!twoList.empty())
       {
         if (sum > 0 || bools)
         {
           std::cout << " ";
         }
-        if (maxLimit - sum >= i->second.front())
+        if (maxLimit - sum >= twoList.front())
         {
-          sum += i->second.front();
+          sum += twoList.front();
         }
         else
         {
           bools = true;
         }
-        std::cout << i->second.front();
-        i->second.popFront();
+        std::cout << twoList.front();
+        twoList.popFront();
       }
       i++;
     }
@@ -92,7 +93,7 @@ int main()
     }
   }
   sums.reverse();
-  typename List<size_t>::ListIterator<size_t> is = sums.begin();
+  List<size_t>::Iterator is = sums.begin();
   if(!sums.empty())
   {
     while(is != sums.end())
