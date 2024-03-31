@@ -2,38 +2,45 @@
 #include <vector>
 #include <string>
 #include <sstream>
-#include <cerrno>
-#include <climits>
+#include <limits>
 #include "list.hpp"
 
 int main() {
   Panov::List<std::pair<std::string, std::vector<unsigned long long>>> sequences;
 
+  std::vector<std::string> inputLines;
   std::string line;
-  bool isEmpty = true;
   while (std::getline(std::cin, line)) {
     if (line.empty()) break;
+    inputLines.push_back(line);
+  }
 
-    isEmpty = false;
-    std::istringstream iss(line);
+  bool hasOverflow = false;
+  for (const auto& input : inputLines) {
+    std::istringstream iss(input);
     std::string name;
     iss >> name;
 
     std::vector<unsigned long long> sequence;
     unsigned long long num;
     while (iss >> num) {
-      if (num == ULLONG_MAX) {
-        std::cerr << "Formed lists with exit code 1 and error message in standard error because of overflow" << std::endl;
-        return 1;
+      if (num == std::numeric_limits<unsigned long long>::max()) {
+        hasOverflow = true;
+        break;
       }
       sequence.push_back(num);
     }
 
     sequences.push_back({ name, sequence });
+
+    if (hasOverflow) {
+      std::cerr << "Formed lists with exit code 1 and error message in standard error because of overflow" << std::endl;
+      return 1;
+    }
   }
 
-  if (isEmpty) {
-    std::cout << std::endl;
+  if (inputLines.empty()) {
+    std::cout << "Zero exit code without error message in standard error and 0 on separate line as output" << std::endl;
     return 0;
   }
 
