@@ -4,7 +4,7 @@
 int main()
 {
   gorbunova::List<std::pair<std::string, std::vector<unsigned long long>> sequences;
-  gorbunova::list<unsigned long long> sums;
+  gorbunova::List<unsigned long long> sums;
   std::string input;
   std::string tempWord;
   bool isEmpty = true;
