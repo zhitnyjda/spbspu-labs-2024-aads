@@ -12,8 +12,8 @@ int main() {
   std::string line;
   while (std::getline(std::cin, line)) {
     if (line.empty()) break;
-    if (line.size() == 1 && std::isalpha(line[0])) { // Check if input is a single letter
-      std::cout << line[0] << std::endl << 0 << std::endl; // Print the letter and 0
+    if (line.size() == 1 && std::isalpha(line[0])) {
+      std::cout << line[0] << std::endl << 0 << std::endl;
       continue;
     }
     inputLines.push_back(line);
@@ -28,7 +28,8 @@ int main() {
     std::vector<unsigned long long> sequence;
     unsigned long long num;
     while (iss >> num) {
-      if (num == std::numeric_limits<unsigned long long>::max()) {
+      const unsigned long long overflowThreshold = std::numeric_limits<unsigned long long>::max() - 5;
+      if (num >= overflowThreshold) {
         hasOverflow = true;
         break;
       }
