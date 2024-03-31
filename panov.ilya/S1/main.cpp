@@ -12,7 +12,6 @@ int main() {
   std::string line;
   bool hasData = false;
   std::string temp;
-  bool hasOverflow = false;
 
   while (std::getline(std::cin, line) && !line.empty()) {
     std::istringstream iss(line);
@@ -22,6 +21,7 @@ int main() {
 
     std::vector<unsigned long long> nums;
     unsigned long long num;
+    bool hasOverflow = false;
     while (iss >> num) {
       const unsigned long long overflowThreshold = std::numeric_limits<unsigned long long>::max() - 5;
       if (num >= overflowThreshold) {
@@ -40,8 +40,6 @@ int main() {
 
     if (!nums.empty())
       hasData = true;
-
-    hasOverflow = false;
   }
 
   if (sequences.empty()) {
