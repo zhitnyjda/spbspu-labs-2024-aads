@@ -84,29 +84,31 @@ int main() {
       std::cout << std::endl;
     }
 
-    for (size_t i = 0; i < max_length; ++i) {
+    Panov::List<unsigned long long> sum_list;
+    for (size_t i = 0; i < max_length; i++) {
       unsigned long long sum = 0;
-      for (auto it = sequences.begin(); it != sequences.end(); ++it) {
-        if (i < it->second.size()) {
-          if (sum > std::numeric_limits<unsigned long long>::max() - it->second[i]) {
-            std::cerr << "Overflow detected." << std::endl;
-            return 1;
+      for (auto it = sequences.begin(); it != sequences.end(); it++) {
+        if ((*it).second.size() > i) {
+          if (std::numeric_limits<unsigned long long>::max() - sum < (*it).second[i]) {
+            throw std::overflow_error("Formed lists with exit code 1 and error message in standard error because of overflow");
           }
-          sum += it->second[i];
+          sum += (*it).second[i];
         }
       }
-      sums.push_back(sum);
+      sum_list.push_back(sum);
     }
 
-    for (auto it = sums.begin(); it != sums.end(); ++it) {
+    for (auto it = sum_list.begin(); it != sum_list.end(); ++it) {
       std::cout << (*it);
       auto next_it = it;
       ++next_it;
-      if (next_it != sums.end()) {
+      if (next_it != sum_list.end()) {
         std::cout << " ";
       }
+      else {
+        std::cout << "\n";
+      }
     }
-    std::cout << "\n";
   }
 
   return 0;
