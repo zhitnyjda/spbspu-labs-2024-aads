@@ -3,7 +3,7 @@
 
 int main()
 {
-  gorbunova::List<std::pair<std::string, std::vector<unsigned long long>> sequences;
+  gorbunova::List<std::pair<std::string, std::vector<unsigned long long>>> sequences;
   gorbunova::List<unsigned long long> sums;
   std::string input;
   std::string tempWord;
