@@ -9,7 +9,6 @@ bool hasOverflow(unsigned long long num) {
   const unsigned long long threshold = std::numeric_limits<unsigned long long>::max() - 5;
   return (num >= threshold);
 }
-
 int main() {
   Panov::List<std::pair<std::string, std::vector<unsigned long long>>> sequences;
   Panov::List<unsigned long long> sums;
@@ -68,7 +67,6 @@ int main() {
       }
     }
     std::cout << std::endl;
-
     size_t max_size = 0;
     for (const auto& pair : sequences) {
       const auto& sequence = pair.second;
@@ -89,7 +87,6 @@ int main() {
       }
       std::cout << std::endl;
     }
-
     try {
       for (size_t i = 0; i < max_length; ++i) {
         unsigned long long total_sum = 0;
@@ -118,6 +115,5 @@ int main() {
     }
     std::cout << "\n";
   }
-
   return 0;
 }
