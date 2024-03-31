@@ -8,86 +8,90 @@
 int main() {
   Panov::List<std::pair<std::string, std::vector<unsigned long long>>> sequences;
 
-  std::vector<std::string> inputLines;
+  bool hasOverflow = false;
   std::string line;
+  bool firstLine = true;
   while (std::getline(std::cin, line)) {
     if (line.empty()) break;
-    if (line.size() == 1 && std::isalpha(line[0])) {
-      std::cout << line[0] << std::endl << 0 << std::endl;
+    if (line.size() == 1 && std::isalpha(line[0]) && firstLine) {
+      std::cout << line << std::endl << 0 << std::endl;
       continue;
     }
+    firstLine = false;
+    std::vector<std::string> inputLines;
     inputLines.push_back(line);
-  }
 
-  bool hasOverflow = false;
-  for (const auto& input : inputLines) {
-    std::istringstream iss(input);
-    std::string name;
-    iss >> name;
+    for (const auto& input : inputLines) {
+      std::istringstream iss(input);
+      std::string name;
+      iss >> name;
 
-    std::vector<unsigned long long> sequence;
-    unsigned long long num;
-    while (iss >> num) {
-      const unsigned long long overflowThreshold = std::numeric_limits<unsigned long long>::max() - 5;
-      if (num >= overflowThreshold) {
-        hasOverflow = true;
-        break;
+      std::vector<unsigned long long> sequence;
+      unsigned long long num;
+      while (iss >> num) {
+        const unsigned long long overflowThreshold = std::numeric_limits<unsigned long long>::max() - 5;
+        if (num >= overflowThreshold) {
+          hasOverflow = true;
+          break;
+        }
+        sequence.push_back(num);
       }
-      sequence.push_back(num);
+
+      sequences.push_back({ name, sequence });
+
+      if (hasOverflow) {
+        std::cerr << "Formed lists with exit code 1 and error message in standard error because of overflow" << std::endl;
+        return 1;
+      }
     }
 
-    sequences.push_back({ name, sequence });
-
-    if (hasOverflow) {
-      std::cerr << "Formed lists with exit code 1 and error message in standard error because of overflow" << std::endl;
-      return 1;
+    if (inputLines.empty()) {
+      std::cout << "Zero exit code without error message in standard error and 0 on separate line as output" << std::endl;
+      return 0;
     }
-  }
 
-  if (inputLines.empty()) {
-    std::cout << "Zero exit code without error message in standard error and 0 on separate line as output" << std::endl;
-    return 0;
-  }
-
-  for (size_t i = 0; i < inputLines.size(); ++i) {
-    if (i != 0) std::cout << ' ';
-    std::istringstream iss(inputLines[i]);
-    std::string name;
-    iss >> name;
-    std::cout << name;
-  }
-  std::cout << std::endl;
-
-  size_t maxLength = 0;
-  for (const auto& seq : sequences)
-    maxLength = std::max(maxLength, seq.second.size());
-
-  for (size_t i = 0; i < maxLength; ++i) {
-    bool firstElement = true;
-    for (const auto& seq : sequences) {
-      if (i < seq.second.size()) {
-        if (!firstElement)
-          std::cout << ' ';
-        else
-          firstElement = false;
-        std::cout << seq.second[i];
-      }
+    for (size_t i = 0; i < inputLines.size(); ++i) {
+      if (i != 0) std::cout << ' ';
+      std::istringstream iss(inputLines[i]);
+      std::string name;
+      iss >> name;
+      std::cout << name;
     }
     std::cout << std::endl;
-  }
 
-  for (size_t i = 0; i < maxLength; ++i) {
-    unsigned long long sum = 0;
-    for (const auto& seq : sequences) {
-      if (i < seq.second.size()) {
-        sum += seq.second[i];
+    size_t maxLength = 0;
+    for (const auto& seq : sequences)
+      maxLength = std::max(maxLength, seq.second.size());
+
+    for (size_t i = 0; i < maxLength; ++i) {
+      bool firstElement = true;
+      for (const auto& seq : sequences) {
+        if (i < seq.second.size()) {
+          if (!firstElement)
+            std::cout << ' ';
+          else
+            firstElement = false;
+          std::cout << seq.second[i];
+        }
       }
+      std::cout << std::endl;
     }
-    std::cout << sum;
-    if (i != maxLength - 1)
-      std::cout << ' ';
+
+    for (size_t i = 0; i < maxLength; ++i) {
+      unsigned long long sum = 0;
+      for (const auto& seq : sequences) {
+        if (i < seq.second.size()) {
+          sum += seq.second[i];
+        }
+      }
+      std::cout << sum;
+      if (i != maxLength - 1)
+        std::cout << ' ';
+    }
+    std::cout << std::endl;
+
+    sequences.clear();
   }
-  std::cout << std::endl;
 
   return 0;
 }
