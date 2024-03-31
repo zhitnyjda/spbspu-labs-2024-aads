@@ -59,7 +59,7 @@ void sukacheva::printArgs(List<std::pair<std::string, List<size_t>>>& newList)
     while (it.node) {
       if (it.node->data.second[i])
       {
-        if (sum > 0) {
+        if (sum != 0) {
           std::cout << " ";
         }
         std::cout << it.node->data.second[i]->data;

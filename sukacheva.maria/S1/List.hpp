@@ -38,6 +38,13 @@ namespace sukacheva {
     void remove(const T& value);
     template< class UnaryPredicate >
     void remove_if(UnaryPredicate p);
+    void assign(size_t count, const T& value);
+    template< class InputIt >
+    void assign(InputIt first, InputIt last);
+    void assign(std::initializer_list<T> ilist);
+    void splice(Iterator<T> position, List& fwdlst);
+    ConstIterator<T> insert(ConstIterator<T> position, const T& val);
+    Iterator<T> erase_after(ConstIterator<T> pos);
 
     iterator begin() { return iterator(head); }
     iterator end() { return iterator(nullptr); }
@@ -45,6 +52,66 @@ namespace sukacheva {
     const_iterator cbegin() const { return head; }
     const_iterator cend() const { return nullptr; }
   };
+
+  template<class T>
+  Iterator<T> List<T>::erase_after(ConstIterator<T> pos)
+  {
+    Node<T>* node = pos.node->next;
+    Iterator<T> it = node->next;
+    pos.node->next = node->next;
+    node->next = nullptr;
+    return it;
+  }
+
+  template<class T>
+  ConstIterator<T> List<T>::insert(ConstIterator<T> position, const T& val)
+  {
+    Node<T> * node = new Node<T>(val);
+    ConstIterator<T> constIt = node;
+    node->next = position.node->next;
+    position.node->next = node;
+    return constIt++;
+  }
+
+  template<class T>
+  void List<T>::splice(Iterator<T> position, List& fwdlst)
+  {
+    while (position.node)
+    {
+      insert(position, position.node->data);
+    }
+  }
+
+  template<class T>
+  void List<T>::assign(std::initializer_list<T> ilist)
+  {
+    clean();
+    Iterator< T > it = ilist.begin();
+    while (it) {
+      pushBack(it.node->data);
+      it++;
+    }
+  }
+
+  template<class T>
+  template<class InputIt>
+  void List<T>::assign(InputIt first, InputIt last)
+  {
+    clean();
+    while (first != last) {
+      pushBack(first);
+      first++;
+    }
+  }
+
+  template<class T>
+  void List<T>::assign(size_t count, const T& value)
+  {
+    clean();
+    for (size_t i = 0; i != count; ++i) {
+      pushBack(value);
+    }
+  }
 
   template<class T>
   template<class UnaryPredicate>
