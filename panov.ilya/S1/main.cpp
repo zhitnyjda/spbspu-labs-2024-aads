@@ -21,7 +21,6 @@ int main() {
 
   bool hasOverflow = false;
   for (const auto& input : inputLines) {
-    hasOverflow = false;
     std::istringstream iss(input);
     std::string name;
     iss >> name;
@@ -46,8 +45,8 @@ int main() {
   }
 
   if (inputLines.empty()) {
-    std::cerr << "Zero exit code without error message in standard error and 0 on separate line as output" << std::endl;
-    return 1;
+    std::cout << "Zero exit code without error message in standard error and 0 on separate line as output" << std::endl;
+    return 0;
   }
 
   for (size_t i = 0; i < inputLines.size(); ++i) {
