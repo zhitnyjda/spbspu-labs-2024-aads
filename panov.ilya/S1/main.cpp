@@ -12,6 +12,10 @@ int main() {
   std::string line;
   while (std::getline(std::cin, line)) {
     if (line.empty()) break;
+    if (line.size() == 1 && std::isalpha(line[0])) { // Check if input is a single letter
+      std::cout << line[0] << std::endl << 0 << std::endl; // Print the letter and 0
+      continue;
+    }
     inputLines.push_back(line);
   }
 
@@ -23,9 +27,7 @@ int main() {
 
     std::vector<unsigned long long> sequence;
     unsigned long long num;
-    bool onlyName = true;
     while (iss >> num) {
-      onlyName = false;
       if (num == std::numeric_limits<unsigned long long>::max()) {
         hasOverflow = true;
         break;
@@ -38,10 +40,6 @@ int main() {
     if (hasOverflow) {
       std::cerr << "Formed lists with exit code 1 and error message in standard error because of overflow" << std::endl;
       return 1;
-    }
-
-    if (onlyName) {
-      std::cout << name << std::endl << "0" << std::endl;
     }
   }
 
