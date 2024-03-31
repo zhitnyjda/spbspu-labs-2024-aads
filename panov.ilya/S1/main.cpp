@@ -40,6 +40,8 @@ int main() {
 
     if (!nums.empty())
       hasData = true;
+
+    hasOverflow = false;
   }
 
   if (sequences.empty()) {
