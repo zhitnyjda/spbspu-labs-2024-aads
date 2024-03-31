@@ -1,7 +1,7 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 #include <cstddef>
-#include <assert.h>
+#include <cassert>
 
 namespace psarev
 {
