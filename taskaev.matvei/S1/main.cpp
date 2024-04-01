@@ -25,29 +25,29 @@ int main()
     return 0;
   }
   list.reverse();
-  List<std::pair<std::string, List<size_t>>>::Iterator i = list.begin();
-  while(i != list.end())
+  List<std::pair<std::string, List<size_t>>>::Iterator iterator = list.begin();
+  while(iterator != list.end())
   {
-    std::cout << i->first;
-    if(++i != list.end())
+    std::cout << iterator->first;
+    if(++iterator != list.end())
     {
       std::cout << " ";
     }
   }
   List<size_t> sums;
   size_t maxNum = 1;
-  i = list.begin();
-  while (i != list.end())
+  iterator = list.begin();
+  while (iterator != list.end())
   {
     size_t j = 0;
-    auto it = i->second.begin();
-    while (it != i->second.end())
+    auto it = iterator->second.begin();
+    while (it != iterator->second.end())
     {
       j++;
       maxNum = (maxNum > j) ? maxNum : j;
       it++;
     }
-    i++;
+    iterator++;
   }
   if (maxNum != 1)
   {
@@ -61,10 +61,10 @@ int main()
   {
     j++;
     sum = 0;
-    i = list.begin();
-    while (i != list.end())
+    iterator = list.begin();
+    while (iterator != list.end())
     {
-      List<size_t>& twoList =  const_cast<List<size_t>&>(i->second);
+      List<size_t>& twoList =  const_cast<List<size_t>&>(iterator->second);
       if (!twoList.empty())
       {
         if (sum > 0 || bools)
@@ -82,7 +82,7 @@ int main()
         std::cout << twoList.front();
         twoList.popFront();
       }
-      i++;
+      iterator++;
     }
     std::cout << "\n";
     sums.pushFront(sum);
@@ -93,13 +93,13 @@ int main()
     }
   }
   sums.reverse();
-  List<size_t>::Iterator is = sums.begin();
+  List<size_t>::Iterator iteratorSums = sums.begin();
   if(!sums.empty())
   {
-    while(is != sums.end())
+    while(iteratorSums != sums.end())
     {
-      std::cout << *is;
-      if(++is != sums.end())
+      std::cout << *iteratorSums;
+      if(++iteratorSums != sums.end())
       {
         std::cout << " ";
       }
