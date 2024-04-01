@@ -10,6 +10,9 @@ namespace kaseev {
   public:
     List() : ArrSize(0), head(nullptr) {}
     ~List();
+    List(size_t count);
+    List(size_t count, const T& value);
+    List(std::initializer_list<T> ilist);
     List(const List& other);
     void pushBack(const T &value);
     bool empty() const;
@@ -75,7 +78,7 @@ namespace kaseev {
     Node<T> *temp = head;
     head = head->next;
     temp->next = nullptr;
-    delete[] temp;
+    delete temp;
     ArrSize--;
   }
 
@@ -123,6 +126,27 @@ namespace kaseev {
       }
     }
     return *this;
+  }
+
+  template<class T>
+  List<T>::List(size_t count) : ArrSize(0), head(nullptr) {
+    for (size_t i = 0; i < count; ++i) {
+      pushBack(T());
+    }
+  }
+
+  template<class T>
+  List<T>::List(size_t count, const T& value) : ArrSize(0), head(nullptr) {
+    for (size_t i = 0; i < count; ++i) {
+      pushBack(value);
+    }
+  }
+
+  template<class T>
+  List<T>::List(std::initializer_list<T> ilist) : ArrSize(0), head(nullptr) {
+    for (const auto& elem : ilist) {
+      pushBack(elem);
+    }
   }
 }
 
