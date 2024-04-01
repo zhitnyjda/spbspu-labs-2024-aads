@@ -89,7 +89,7 @@ namespace kaseev {
         if (index < sublist.size())
         {
           std::cout << sublist[index];
-          currentString += std::to_string(sublist[index]);
+          currentString += std::to_string(sublist[index])+" ";
           finished = false;
           if (i < arr.size() - 1) {
             std::cout << " ";
