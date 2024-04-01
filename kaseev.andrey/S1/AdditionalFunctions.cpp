@@ -91,6 +91,9 @@ namespace kaseev {
           std::cout << sublist[index];
           currentString += std::to_string(sublist[index]);
           finished = false;
+          if (i < arr.size() - 1) {
+            std::cout << " ";
+          }
         }
       }
       if (!finished)
