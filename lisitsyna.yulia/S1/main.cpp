@@ -125,7 +125,7 @@ int main()
         }
         if (it != list.end())
         {
-          sums.back() = sum(sums.back(), *it);
+          sums.back() = lisitsyna::sum(sums.back(), *it);
         }
       }
     }
