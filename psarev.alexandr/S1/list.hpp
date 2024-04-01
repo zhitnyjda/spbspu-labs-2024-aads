@@ -175,7 +175,7 @@ bool psarev::List< T >::ConstIterator::operator!=(const this_t& that) const
 {
   return !(that == *this);
 }
-//-----------------------------------
+
 template< typename T >
 class psarev::List< T >::Iterator
 {
@@ -286,7 +286,6 @@ bool psarev::List< T >::Iterator::operator!=(const this_t& that) const
 {
   return !(that == *this);
 }
-//----------------------------------------------
 
 template< typename T >
 psarev::List< T >::List()
