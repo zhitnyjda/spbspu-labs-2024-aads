@@ -3,7 +3,7 @@
 #include <iostream>
 #include <limits>
 #include <utility>
-#include <cmath>
+#include <algorithm>
 #include "list.hpp"
 #include "divideFuncs.hpp"
 
@@ -18,7 +18,7 @@ namespace psarev
   void outOrds(depot_t& lines);
 
   template< typename T >
-  List< T > outDigits(depot_t& lines, size_t maxDigits, bool& isOF);
+  List< T > outDigits(depot_t& lines, size_t& maxDigits, bool& isOF);
 
   template< typename T >
   void outSums(List< T >& sums);
@@ -49,7 +49,7 @@ void psarev::inputData(depot_t& lines, size_t& maxDigits)
         (*iterLine).second.pushBack(digit);
         cntDigits++;
       }
-      maxDigits = fmax(maxDigits, cntDigits);
+      maxDigits = std::max(maxDigits, cntDigits);
     }
   }
 }
@@ -74,7 +74,7 @@ void psarev::outOrds(depot_t& lines)
 }
 
 template< typename T >
-psarev::List< T > psarev::outDigits(depot_t& lines, size_t maxDigits, bool& isOF)
+psarev::List< T > psarev::outDigits(depot_t& lines, size_t& maxDigits, bool& isOF)
 {
   depot_t::Iterator iterLine = lines.begin();
   typename List< T >::Iterator iterDig;

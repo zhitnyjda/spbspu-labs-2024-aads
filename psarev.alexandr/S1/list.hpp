@@ -29,13 +29,15 @@ namespace psarev
     void pushBack(T&& data);
 
     void assign(size_t amount, T& data);
-    void assign(iter begbeginThatin, iter endThat);
+    void assign(iter beginThat, iter endThat);
     void assign(std::initializer_list<T> ilThat);
 
     iter insert(iter& pos, T& data);
     iter insert(iter& pos, T&& data);
     iter insert(iter& pos, size_t& amount, T& data);
     iter insert(iter& pos, size_t& amount, T&& data);
+    iter erase(iter& pos);
+    iter erase(iter& first, iter& last);
 
     void remove(const T& value);
 
@@ -222,7 +224,7 @@ psarev::List< T >::Iterator::Iterator(ConstIterator constIter) :
 template < typename T >
 typename psarev::List< T >::Iterator& psarev::List< T >::Iterator::operator++()
 {
-  assert(iter_ != nullptr);
+  assert(iter_ != ConstIterator());
   iter_++;
   return iter_;
 };
@@ -523,6 +525,44 @@ typename psarev::List< T >::Iterator psarev::List<T>::insert(iter& pos, size_t& 
     }
   }
   return firstPos;
+}
+
+template<typename T>
+typename psarev::List< T >::Iterator psarev::List<T>::erase(iter& pos)
+{
+  if (pos.iter_.unit == head)
+  {
+    popFront();
+    return(begin());
+  }
+  if (pos.iter_.unit == tail)
+  {
+    iter cpEnd = end();
+    popBack();
+    return(cpEnd);
+  }
+  Unit* del = pos.iter_.unit;
+  Unit* foll = del->next;
+  del->prev->next = del->next;
+  del->next->prev = del->prev;
+  delete del;
+  size--;
+  iter toFollow(foll);
+  return(toFollow);
+}
+
+template<typename T>
+typename psarev::List< T >::Iterator psarev::List<T>::erase(iter& first, iter& last)
+{
+  if (first == last)
+  {
+    return(last);
+  }
+  for (first; first != last; )
+  {
+    first = erase(first);
+  }
+  return(first);
 }
 
 template< typename T >
