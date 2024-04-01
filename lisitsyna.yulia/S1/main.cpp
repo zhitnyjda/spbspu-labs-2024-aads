@@ -29,7 +29,7 @@ int main()
       continue;
     }
     std::getline(std::cin, numbers);
-    lisitsyna::List< unsigned long long > list;
+    List< unsigned long long > list;
     if (numbers.empty())
     {
       sequences.push_back({ name, std::move(list) });
@@ -109,7 +109,7 @@ int main()
       std::cout << 0;
     }
   }
-  lisitsyna::List < unsigned long long > sums;
+  List < unsigned long long > sums;
   try
   {
     for (size_t i = 0; i < maxLen; ++i)
