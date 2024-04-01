@@ -52,7 +52,10 @@ namespace kaseev {
       const std::string &line = pair.first;
       int sum = 0;
       sum = sumNumbersInString(line);
-      std::cout << sum << " ";
+      std::cout << sum;
+      if (i < sums.size() - 1) {
+        std::cout << " ";
+      }
     }
     std::cout << "\n";
   }
@@ -62,7 +65,10 @@ namespace kaseev {
     for (int i = 0; i < arr.size(); ++i)
     {
       std::pair<std::string, kaseev::List<int>> list = arr[i];
-      std::cout << list.first << " ";
+      std::cout << list.first;
+      if (i < arr.size() - 1) {
+        std::cout << " ";
+      }
     }
     std::cout << "\n";
   }
@@ -82,8 +88,8 @@ namespace kaseev {
         const kaseev::List<int> &sublist = arr[i].second;
         if (index < sublist.size())
         {
-          std::cout << sublist[index] << " ";
-          currentString += std::to_string(sublist[index]) + " ";
+          std::cout << sublist[index];
+          currentString += std::to_string(sublist[index]);
           finished = false;
         }
       }
