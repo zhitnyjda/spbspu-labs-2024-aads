@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <stdexcept>
 
-namespace
+namespace lisitsyna
 {
   unsigned long long sum(unsigned long long a, unsigned long long b)
   {
