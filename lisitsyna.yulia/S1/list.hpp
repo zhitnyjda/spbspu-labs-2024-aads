@@ -5,11 +5,9 @@
 #include <iterator>
 #include <stdexcept>
 
-namespace lisitsyna
+template<typename T>
+class List
 {
-  template<typename T>
-  class List
-  {
   private:
     struct Node
     {
@@ -172,7 +170,5 @@ namespace lisitsyna
     {
       return const_iterator(nullptr);
     }
-  };
-}
+};
 #endif
-

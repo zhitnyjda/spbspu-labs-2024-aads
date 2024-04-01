@@ -18,7 +18,7 @@ namespace
 }
 int main()
 {
-  lisitsyna::List< std::pair< std::string, List< unsigned long long > > > sequences;
+  List< std::pair< std::string, List< unsigned long long > > > sequences;
   size_t maxLen = 0;
   while (!std::cin.eof() && !std::cin.fail())
   {
