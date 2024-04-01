@@ -27,7 +27,7 @@ namespace kaseev {
     }
     std::pair<std::string, kaseev::List<int>> list_pair;
     list_pair.first = ListName;
-    list_pair.second = tempList;
+    list_pair.second = kaseev::List<int>(tempList);
     arr.pushBack(list_pair);
     return 0;
   }

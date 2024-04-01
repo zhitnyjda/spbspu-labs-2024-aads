@@ -8,24 +8,17 @@ namespace kaseev {
   template< class T >
   class List {
   public:
-    List() : ArrSize(0), head(nullptr)
-    {}
-
+    List() : ArrSize(0), head(nullptr) {}
     ~List();
-
     List(const List& other);
-
     void pushBack(const T &value);
-
     bool empty() const;
-
     int size() const;
-
     void pop_front();
-
     void clear();
-
     const T &operator[](int index) const;
+    List<T>& operator=(const List<T>& other);
+
 
   private:
     int ArrSize;
@@ -117,6 +110,19 @@ namespace kaseev {
       pushBack(current->data);
       current = current->next;
     }
+  }
+
+  template<class T>
+  List<T>& List<T>::operator=(const List<T>& other) {
+    if (this != &other) {
+      clear();
+      Node<T>* current = other.head;
+      while (current != nullptr) {
+        pushBack(current->data);
+        current = current->next;
+      }
+    }
+    return *this;
   }
 }
 
