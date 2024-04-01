@@ -5,37 +5,52 @@
 #include "Node.hpp"
 
 namespace kaseev {
-  template<class T>
+  template< class T >
   class List {
   public:
-    List() : ArrSize(0), head(nullptr) {}
+    List() : ArrSize(0), head(nullptr)
+    {}
+
     ~List();
-    void pushBack(const T& value);
+
+    List(const List& other);
+
+    void pushBack(const T &value);
+
     bool empty() const;
+
     int size() const;
+
     void pop_front();
+
     void clear();
-    const T& operator[](int index) const;
+
+    const T &operator[](int index) const;
 
   private:
     int ArrSize;
-    Node<T>* head;
+    Node<T> *head;
   };
 
-  template<class T>
-  List<T>::~List() {
+  template< class T >
+  List<T>::~List()
+  {
     clear();
   }
 
-  template<class T>
-  void List<T>::pushBack(const T& value) {
-    Node<T>* newNode = new Node<T>(value);
+  template< class T >
+  void List<T>::pushBack(const T &value)
+  {
+    Node<T> *newNode = new Node<T>(value);
 
-    if (head == nullptr) {
+    if (head == nullptr)
+    {
       head = newNode;
-    } else {
-      Node<T>* current = head;
-      while (current->next != nullptr) {
+    } else
+    {
+      Node<T> *current = head;
+      while (current->next != nullptr)
+      {
         current = current->next;
       }
       current->next = newNode;
@@ -44,46 +59,64 @@ namespace kaseev {
     ArrSize++;
   }
 
-  template<class T>
-  bool List<T>::empty() const {
+  template< class T >
+  bool List<T>::empty() const
+  {
     return head == nullptr;
   }
 
-  template<class T>
-  int List<T>::size() const {
+  template< class T >
+  int List<T>::size() const
+  {
     return ArrSize;
   }
 
-  template<class T>
-  void List<T>::pop_front() {
-    if (head == nullptr) {
+  template< class T >
+  void List<T>::pop_front()
+  {
+    if (head == nullptr)
+    {
       ArrSize = 0;
       throw std::logic_error("empty list");
     }
-    Node<T>* temp = head;
+    Node<T> *temp = head;
     head = head->next;
     temp->next = nullptr;
     delete[] temp;
     ArrSize--;
   }
 
-  template<class T>
-  void List<T>::clear() {
-    while (head != nullptr) {
+  template< class T >
+  void List<T>::clear()
+  {
+    while (head != nullptr)
+    {
       pop_front();
     }
   }
 
-  template<class T>
-  const T& List<T>::operator[](int index) const {
-    if (index >= ArrSize) {
+  template< class T >
+  const T &List<T>::operator[](int index) const
+  {
+    if (index >= ArrSize)
+    {
       throw std::out_of_range("Index out of range");
     }
-    Node<T>* current = head;
-    for (int i = 0; i < index; ++i) {
+    Node<T> *current = head;
+    for (int i = 0; i < index; ++i)
+    {
       current = current->next;
     }
     return current->data;
+  }
+
+  template<class T>
+  List<T>::List(const List& other) : ArrSize(0), head(nullptr) {
+    Node<T>* current = other.head;
+    while (current != nullptr) {
+      pushBack(current->data);
+      current = current->next;
+    }
   }
 }
 
