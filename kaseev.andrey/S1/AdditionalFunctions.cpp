@@ -83,15 +83,17 @@ namespace kaseev {
     {
       finished = true;
       std::string currentString;
+      int currentSum = 0;
       for (int i = 0; i < arr.size(); ++i)
       {
         const kaseev::List<int> &sublist = arr[i].second;
         if (index < sublist.size())
         {
           std::cout << sublist[index];
-          currentString += std::to_string(sublist[index])+" ";
+          currentSum += sublist[index];
           finished = false;
-          if (i < arr.size() - 1) {
+          if (i < arr.size() - 1)
+          {
             std::cout << " ";
           }
         }
@@ -99,6 +101,7 @@ namespace kaseev {
       if (!finished)
       {
         std::cout << "\n";
+        currentString = std::to_string(currentSum);
         sum.pushBack({currentString, kaseev::List<int>()});
       }
       index++;
