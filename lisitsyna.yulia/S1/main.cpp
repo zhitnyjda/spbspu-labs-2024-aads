@@ -18,7 +18,7 @@ namespace
 }
 int main()
 {
-  List< std::pair< std::string, List< unsigned long long > > > sequences;
+  lisitsyna::List< std::pair< std::string, List< unsigned long long > > > sequences;
   size_t maxLen = 0;
   while (!std::cin.eof() && !std::cin.fail())
   {
@@ -29,7 +29,7 @@ int main()
       continue;
     }
     std::getline(std::cin, numbers);
-    List< unsigned long long > list;
+    lisitsyna::List< unsigned long long > list;
     if (numbers.empty())
     {
       sequences.push_back({ name, std::move(list) });
@@ -109,7 +109,7 @@ int main()
       std::cout << 0;
     }
   }
-  List < unsigned long long > sums;
+  lisitsyna::List < unsigned long long > sums;
   try
   {
     for (size_t i = 0; i < maxLen; ++i)
