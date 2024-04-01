@@ -17,13 +17,18 @@ namespace kaseev {
     {
       while (iss >> num)
       {
+        if (num < 0)
+        {
+          std::cerr << "Negative number is not allowed! \n";
+          return 1;
+        }
         tempList.pushBack(num);
       }
     }
     catch (const std::bad_alloc &)
     {
       std::cerr << "List size exceeds maximum limit";
-      return 0;
+      return 1;
     }
     std::pair<std::string, kaseev::List<int>> list_pair;
     list_pair.first = ListName;
@@ -53,7 +58,12 @@ namespace kaseev {
       int sum = 0;
       sum = sumNumbersInString(line);
       std::cout << sum;
-      if (i < sums.size() - 1) {
+      if (pair.second.empty())
+      {
+        std::cout << "\n0";
+      }
+      if (i < sums.size() - 1)
+      {
         std::cout << " ";
       }
     }
