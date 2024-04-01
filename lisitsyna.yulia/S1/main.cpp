@@ -1,4 +1,4 @@
-#include "list.hpp"
+lisitsyna::#include "list.hpp"
 #include <iostream>
 #include <string>
 #include <limits>
@@ -18,7 +18,7 @@ namespace
 }
 int main()
 {
-  lisitsyna::List< std::pair< std::string, List< unsigned long long > > > sequences;
+  lisitsyna::List< std::pair< std::string, lisitsyna::List< unsigned long long > > > sequences;
   size_t maxLen = 0;
   while (!std::cin.eof() && !std::cin.fail())
   {
