@@ -17,12 +17,13 @@ namespace taskaev
     };
     Node* head;
   public:
+    class ConstIterator;
     class Iterator;
 
     List();
     ~List();
-    List(const List&) = default;
-    List(List&&) = default;
+    List(const List<T> &other);
+    List(List<T> && other);
 
     T& front() const;
     void pushFront(const T& data);
@@ -33,10 +34,77 @@ namespace taskaev
     void swap(List<T>& other);
     void remove(const T& value);
     void reverse();
+    void assign(const T& value);
+    template <typename predicate>
+    void remove_if(predicate p);
 
     Iterator begin() const {return Iterator(head); };
-    Iterator end() const  { return Iterator(); };
+    Iterator end() const {return Iterator(); };
+
+    ConstIterator cbegin() const {return ConstIterator(head); };
+    ConstIterator cend() const {return ConstIterator(); };
   };
+
+  template< typename T >
+  class List<T>::ConstIterator
+  {
+  public:
+    friend class List<T>;
+    ConstIterator() : node(nullptr) {}
+    ConstIterator(Node* value) : node(value) {}
+    ~ConstIterator() = default;
+    ConstIterator& operator++();
+    ConstIterator operator++(int);
+    const T& operator*() const;
+    const T* operator->() const;
+    bool operator==(const ConstIterator& rhs) const;
+    bool operator!=(const ConstIterator& rhs) const;
+  private:
+    Node* node;
+  };
+
+  template<typename T>
+  typename List<T>::ConstIterator& List<T>::ConstIterator::operator++()
+  {
+    assert(node != nullptr);
+    node = node->next;
+    return *this;
+  }
+
+  template<typename T>
+  typename List<T>::ConstIterator List<T>::ConstIterator::operator++(int)
+  {
+    assert(node != nullptr);
+    ConstIterator result(*this);
+    ++(*this);
+    return result;
+  }
+
+  template<typename T>
+  const T& List<T>::ConstIterator::operator*() const
+  {
+    assert(node != nullptr);
+    return node->data;
+  }
+
+  template<typename T>
+  const T* List<T>::ConstIterator::operator->() const
+  {
+    assert(node != nullptr);
+    return std::addressof(node->data);
+  }
+
+  template<typename T>
+  bool List<T>::ConstIterator::operator==(const ConstIterator& rhs) const
+  {
+    return node == rhs.node;
+  }
+
+  template<typename T>
+  bool List<T>::ConstIterator::operator!=(const ConstIterator& rhs) const
+  {
+    return !(rhs == *this);
+  }
 
   template< typename T >
   class List<T>::Iterator
@@ -107,6 +175,24 @@ namespace taskaev
   {
     clear();
   }
+
+  template <typename T>
+  List<T>::List(const List<T> &other):
+    head(nullptr)
+  {
+    for (auto it : other)
+    {
+      pushBack(it);
+    }
+  }
+
+  template <typename T>
+  List<T>::List(List<T> &&other):
+    head(other.head)
+  {
+    other.head = nullptr;
+  }
+
   template <typename T>
   T& List<T>::front() const
   {
@@ -214,6 +300,48 @@ namespace taskaev
       temp = am;
     }
     head = newNode;
+  }
+
+  template <typename T>
+  void List<T>::assign(const T& value)
+  {
+    Node* newNode = head;
+    while(newNode != nullptr)
+    {
+      newNode->data = value;
+      newNode = newNode->next;
+    }
+  }
+
+  template <typename T>
+  template<typename predicate>
+  void List<T>::remove_if(predicate p)
+  {
+    Node* newNode = head;
+    Node* temp = nullptr;
+    while(newNode != nullptr)
+    {
+      if(p(newNode->data))
+      {
+        if(newNode == head)
+        {
+          head = newNode->next;
+          delete newNode;
+          newNode = head;
+        }
+        else
+        {
+          temp->next = newNode ->next;
+          delete newNode;
+          newNode = temp->next;
+        }
+      }
+      else
+      {
+        temp = newNode;
+        newNode = newNode->next;
+      }
+    }
   }
 
 }
