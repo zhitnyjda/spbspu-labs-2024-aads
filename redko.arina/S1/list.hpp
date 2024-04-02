@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <memory>
 #include <cassert>
+#include <iterator>
 
 namespace redko
 {
@@ -99,7 +100,7 @@ namespace redko
 }
 
 template< typename T >
-class redko::List< T >::Iterator
+class redko::List< T >::Iterator: public std::iterator< std::forward_iterator_tag, T >
 {
 public:
   friend class List< T >;
@@ -185,7 +186,7 @@ bool redko::List< T >::Iterator::operator!=(const this_t & rhs) const
 }
 
 template< typename T >
-class redko::List< T >::ConstIterator
+class redko::List< T >::ConstIterator: public std::iterator< std::forward_iterator_tag, T >
 {
 public:
   friend class List< T >;
