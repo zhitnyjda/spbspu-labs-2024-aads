@@ -6,6 +6,7 @@
 #include <initializer_list>
 #include <limits>
 #include <memory>
+#include <iterator>
 
 namespace khoroshkin
 {
@@ -29,7 +30,7 @@ namespace khoroshkin
     List< T > & operator=(const List & obj);
     List< T > & operator=(List && obj);
 
-    void push_back(T data);
+    void push_back(const T & data);
     void pop_front();
     void clear();
     void swap(List< T > & other);
@@ -87,7 +88,7 @@ namespace khoroshkin
 }
 
 template< typename T >
-class khoroshkin::List< T >::ConstIterator
+class khoroshkin::List< T >::ConstIterator : public std::iterator<std::forward_iterator_tag, T>
 {
   public:
     friend class List< T >;
@@ -162,7 +163,7 @@ bool khoroshkin::List< T >::ConstIterator::operator==(const this_t & rhs) const
 }
 
 template< typename T >
-class khoroshkin::List< T >::Iterator
+class khoroshkin::List< T >::Iterator : public std::iterator<std::forward_iterator_tag, T>
 {
   public:
     friend class List< T >;
@@ -359,7 +360,7 @@ void khoroshkin::List< T >::assign(std::initializer_list< T > ilist)
 }
 
 template< typename T >
-void khoroshkin::List< T >::push_back(T data)
+void khoroshkin::List< T >::push_back(const T & data)
 {
   if (head == nullptr)
   {
