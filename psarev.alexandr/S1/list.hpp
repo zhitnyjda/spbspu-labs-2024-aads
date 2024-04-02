@@ -15,7 +15,7 @@ namespace psarev
     using cIter = ConstIterator;
     using iter = Iterator;
     List();
-    List(size_t amount);
+    explicit List(size_t amount);
     List(size_t amount, const T& data);
     List(iter beginThat, iter endThat);
     List(std::initializer_list< T > ilThat);
@@ -63,7 +63,7 @@ namespace psarev
   private:
     class Unit
     {
-    public:
+      friend class List< T >;
       T data;
       Unit* next;
       Unit* prev;
@@ -82,7 +82,7 @@ namespace psarev
 }
 
 template< typename T >
-class psarev::List< T >::ConstIterator
+class psarev::List< T >::ConstIterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
 public:
   friend class List< T >;
@@ -177,7 +177,7 @@ bool psarev::List< T >::ConstIterator::operator!=(const this_t& that) const
 }
 
 template< typename T >
-class psarev::List< T >::Iterator
+class psarev::List< T >::Iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
 public:
   friend class List< T >;
@@ -354,7 +354,6 @@ void psarev::List< T >::popFront()
   Unit* tempo = head;
   head = head->next;
   delete tempo;
-
   size--;
 }
 
