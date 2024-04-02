@@ -42,12 +42,18 @@ namespace miheev
       }
     }
 
-    List(List&& rhs) noexcept
+    List(List&& rhs) noexcept:
+      next_{nullptr},
+      isEmpty_{true}
     {
-      data_ = rhs.data_;
+
+      for (size_t i = 0; i < rhs.size(); i++)
+      {
+        pushBack(rhs[i]);
+      }
     }
 
-    explicit List(size_t count, T value):
+    explicit List(size_t count, const T& value):
       next_(nullptr),
       isEmpty_(true)
     {
@@ -102,6 +108,20 @@ namespace miheev
         aList.pushBack(temp.front());
         temp.popFront();
       }
+    }
+
+    T& operator[](size_t i)
+    {
+      List < T >* node = this;
+      while (i > 0)
+      {
+        if (node->next_)
+        {
+          node = node->next_;
+        }
+        i--;
+      }
+      return node->data_;
     }
 
     void clear()
