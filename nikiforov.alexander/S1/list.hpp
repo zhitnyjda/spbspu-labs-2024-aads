@@ -15,7 +15,6 @@ namespace nikiforov
     class ConstIterator;
 
     List();
-    List(size_t count);
     List(size_t count, const T& value);
     List(Iterator begin, Iterator end, int value);
     List(const List& other);
@@ -255,15 +254,6 @@ nikiforov::List< T >::List()
 {
   head = nullptr;
   size_l = 0;
-}
-
-template< typename T >
-nikiforov::List< T >::List(size_t count)
-{
-  for (size_t i = 0; i < count; i++)
-  {
-    push_back(count);
-  }
 }
 
 template< typename T >
