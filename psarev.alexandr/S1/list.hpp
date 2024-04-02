@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <assert.h>
 #include <initializer_list>
+#include <iterator>
 
 namespace psarev
 {
