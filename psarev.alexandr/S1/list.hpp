@@ -299,6 +299,10 @@ psarev::List< T >::List()
 template< typename T >
 psarev::List< T >::List(size_t amount)
 {
+  if (amount < 1)
+  {
+    throw std::logic_error("Error: Amount parameter should be positive!");
+  }
   head = new Unit();
   tail = head;
   Unit* curr = head->next;
@@ -315,6 +319,10 @@ psarev::List< T >::List(size_t amount)
 template< typename T >
 psarev::List< T >::List(size_t amount, const T& data)
 {
+  if (amount < 1)
+  {
+    throw std::logic_error("Error: Amount parameter should be positive!");
+  }
   size = 0;
   for (int i = 0; i < amount; i++)
   {
@@ -567,35 +575,34 @@ typename psarev::List< T >::Iterator psarev::List<T>::erase(iter& first, iter& l
 template< typename T >
 void psarev::List< T >::remove(const T& value)
 {
-  Unit* tempo = this->head;
-  for (size_t i = 0; i < (size + 1); i++)
+  iter it = begin();
+  while (it != end())
   {
-    if (tempo->data == value)
+    if (*it == value)
     {
-      if (tempo == head)
+      if (it == begin())
       {
-        tempo = tempo->next;
+        it++;
         popFront();
       }
-      else if (tempo == tail)
+      else if (it.iter_.unit == tail)
       {
+        it++;
         popBack();
       }
       else
       {
-        Unit* removable = tempo;
-        tempo = tempo->prev;
-        tempo->next = removable->next;
-        removable->next->prev = tempo;
-        delete removable;
-        i--;
-        --size;
-        tempo = tempo->next;
+        Unit* tempo = it.iter_.unit;
+        it++;
+        tempo->next->prev = tempo->prev;
+        tempo->prev->next = tempo->next;
+        delete tempo;
+        size--;
       }
     }
     else
     {
-      tempo = tempo->next;
+      it++;
     }
   }
 }
@@ -604,35 +611,34 @@ template< typename T >
 template< class Func >
 void psarev::List< T >::remove_if(Func p)
 {
-  Unit* tempo = this->head;
-  for (size_t i = 0; i < (size + 1); i++)
+  iter it = begin();
+  while (it != end())
   {
-    if (p(tempo->data))
+    if (p(*it))
     {
-      if (tempo == head)
+      if (it == begin())
       {
-        tempo = tempo->next;
+        it++;
         popFront();
       }
-      else if (tempo == tail)
+      else if (it.iter_.unit == tail)
       {
+        it++;
         popBack();
       }
       else
       {
-        Unit* removable = tempo;
-        tempo = tempo->prev;
-        tempo->next = removable->next;
-        removable->next->prev = tempo;
-        delete removable;
-        i--;
-        --size;
-        tempo = tempo->next;
+        Unit* tempo = it.iter_.unit;
+        it++;
+        tempo->next->prev = tempo->prev;
+        tempo->prev->next = tempo->next;
+        delete tempo;
+        size--;
       }
     }
     else
     {
-      tempo = tempo->next;
+      it++;
     }
   }
 }
