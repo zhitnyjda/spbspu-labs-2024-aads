@@ -55,7 +55,7 @@ template< typename T >
 void nikiforov::outputName_(List< std::pair< std::string, List< T > > >& seqsPair, size_t& maxSize)
 {
   List< std::pair< std::string, List< unsigned long long > > >::Iterator iterSeqsPair = seqsPair.begin();
-  size_t countNames = seqsPair.size();
+  size_t countNames = seqsPair.getSize();
 
   for (iterSeqsPair = seqsPair.begin(); iterSeqsPair != seqsPair.end(); ++iterSeqsPair)
   {
@@ -67,7 +67,7 @@ void nikiforov::outputName_(List< std::pair< std::string, List< T > > >& seqsPai
     {
       std::cout << iterSeqsPair->first << " ";
     }
-    maxSize = max(maxSize, iterSeqsPair->second.size());
+    maxSize = max(maxSize, iterSeqsPair->second.getSize());
     countNames--;
   }
 }
@@ -134,7 +134,7 @@ void nikiforov::outputSumm_(List< T >& listSumm, size_t maxSize)
     for (List< unsigned long long >::Iterator iterListSumm = listSumm.begin(); iterListSumm != iterListSummEnd; ++iterListSumm)
     {
       count++;
-      listSumm.size() == count ? std::cout << *iterListSumm : std::cout << *iterListSumm << " ";
+      listSumm.getSize() == count ? std::cout << *iterListSumm : std::cout << *iterListSumm << " ";
     }
     std::cout << "\n";
   }

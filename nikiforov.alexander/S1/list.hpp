@@ -29,7 +29,7 @@ namespace nikiforov
     void assign(std::initializer_list<T> ilist);
 
     bool is_empty() noexcept;
-    size_t size();
+    size_t getSize();
 
     void push_front(const T& data);
     void push_back(const T& data);
@@ -368,15 +368,11 @@ void nikiforov::List< T >::assign(std::initializer_list< T > ilist)
 template< typename T >
 bool nikiforov::List< T >::is_empty() noexcept
 {
-  if (head == nullptr)
-  {
-    return true;
-  }
-  return false;
+  return (head == nullptr) ? true : false;
 }
 
 template< typename T >
-size_t nikiforov::List< T >::size()
+size_t nikiforov::List< T >::getSize()
 {
   return size_l;
 }
@@ -571,8 +567,8 @@ template< typename T >
 void nikiforov::List< T >::reverse()
 {
   Iterator iter = begin();
-  size_t count = size();
-  size_t count_iter = size();
+  size_t count = getSize();
+  size_t count_iter = getSize();
   for (size_t i = 0; i < count; i++)
   {
     advance(iter, count_iter);
