@@ -19,7 +19,6 @@ int main() {
         }
         sequences.push_back({name, sequence});
     }
-    std::cout << "\n";
     bool first =true;
     for (const auto& pair : sequences) {
         if (first) {
@@ -39,7 +38,6 @@ int main() {
     for (const auto& pair : sequences) {
         maxlen = std::max(maxlen, static_cast<int>(pair.second.size()));
     }
-    std::cout << "\n";
     for (int i = 0; i < maxlen; ++i)
     {
         bool first = true;
@@ -98,7 +96,6 @@ int main() {
         std::cerr << e.what() << '\n';
         return 1;
     }
-    std::cout << std::endl;
     for (int i = 0; static_cast<int>(i) < static_cast<int>(sums.size()); i++) {
         std::cout << sums[i];
         if (static_cast<int>(i) != static_cast<int>(sums.size()) - 1) {
