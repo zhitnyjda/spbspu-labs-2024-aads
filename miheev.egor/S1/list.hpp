@@ -16,241 +16,30 @@ namespace miheev
     bool isEmpty_;
     struct Iterator;
 
-    List():
-      data_(0),
-      next_(nullptr),
-      isEmpty_(true)
-    {}
+    List();
+    List(T data);
+    List(const List& toCopy);
+    List(List&& rhs) noexcept;
+    explicit List(size_t count, const T& value);
+    ~List();
 
-    List(T data):
-      data_(data),
-      next_(nullptr),
-      isEmpty_(false)
-    {}
+    List& operator=(const List& list);
+    T& operator[](size_t i);
 
-    List(const List& toCopy)
-    {
-      data_ = toCopy.data_;
-      isEmpty_ = toCopy.isEmpty_;
-      if (toCopy.next_)
-      {
-        next_ = new List< T >(*toCopy.next_);
-      }
-      else
-      {
-        next_ = nullptr;
-      }
-    }
-
-    List(List&& rhs) noexcept:
-      next_{nullptr},
-      isEmpty_{true}
-    {
-
-      for (size_t i = 0; i < rhs.size(); i++)
-      {
-        pushBack(rhs[i]);
-      }
-    }
-
-    explicit List(size_t count, const T& value):
-      next_(nullptr),
-      isEmpty_(true)
-    {
-      for (size_t i = 0; i < count; i++)
-      {
-        pushBack(value);
-      }
-    }
-
-    List& operator= (const List& list)
-    {
-      data_ = list.data_;
-      isEmpty_ = list.isEmpty_;
-      if (next_)
-      {
-        List< T >* old = next_;
-        next_ = nullptr;
-        delete old;
-      }
-      if (list.next_)
-      {
-        next_ = new List< T >(*(list.next_));
-      }
-      return *this;
-    }
-
-    ~List()
-    {
-      if (next_)
-      {
-        delete next_;
-      }
-    }
-
-    bool empty()
-    {
-      return isEmpty_;
-    }
-
-    void swap(List< T >& aList)
-    {
-      List< T > temp = *this;
-      clear();
-      while (!aList.empty())
-      {
-        pushBack(aList.front());
-        aList.popFront();
-      }
-      aList.clear();
-      while (!temp.empty())
-      {
-        aList.pushBack(temp.front());
-        temp.popFront();
-      }
-    }
-
-    T& operator[](size_t i)
-    {
-      List < T >* node = this;
-      while (i > 0)
-      {
-        if (node->next_)
-        {
-          node = node->next_;
-        }
-        i--;
-      }
-      return node->data_;
-    }
-
-    void clear()
-    {
-      if (next_ != nullptr)
-      {
-        List< T >* temp = next_;
-        next_ = nullptr;
-        delete temp;
-      }
-      isEmpty_ = true;
-      data_ = 0;
-    }
-
-    size_t size() const
-    {
-      if (isEmpty_)
-      {
-        return 0;
-      }
-      if (!next_)
-      {
-        return 1;
-      }
-      return 1 + next_->size();
-    }
-
-    T& front()
-    {
-      return data_;
-    }
-
-    void pushFront(T data)
-    {
-      if (!isEmpty_)
-      {
-        List< T >* temp = next_;
-        next_ = new List< T >(data_);
-        next_->next_ = temp;
-      }
-      data_ = data;
-      isEmpty_ = false;
-    }
-
-    void popFront()
-    {
-      if (!next_)
-      {
-        data_ = 0;
-        isEmpty_ = true;
-      }
-      if (isEmpty_)
-      {
-        return;
-      }
-      List< T >* temp = next_;
-      data_ = next_->data_;
-      next_ = next_->next_;
-      temp->next_ = nullptr;
-      delete temp;
-    }
-
-    void pushBack(T data)
-    {
-      if (isEmpty_)
-      {
-        data_ = data;
-      }
-      else
-      {
-        if (next_ == nullptr)
-        {
-          next_ = new List< T >(data);
-        }
-        else
-        {
-          next_->pushBack(data);
-        }
-      }
-      isEmpty_ = false;
-    }
-    void eraseAfter(Iterator& iter)
-    {
-      iter.eraseAfter();
-    }
-
-    void remove(T data)
-    {
-      Iterator iter(begin());
-      while(iter)
-      {
-        if (*(iter.next()) == data)
-        {
-          iter.eraseAfter();
-        }
-        iter++;
-      }
-      if (data_ == data)
-      {
-        popFront();
-      }
-    }
+    bool empty() const;
+    void swap(List< T >& aList);
+    void clear();
+    size_t size() const;
+    T& front();
+    void pushFront(T data);
+    void popFront();
+    void pushBack(T data);
+    void eraseAfter(Iterator iter);
+    void remove(T data);
+    void print(std::ostream& stream = std::cout, const char& splitter = ' ') const;
 
     template < class P >
-    void removeIf(P functor)
-    {
-      Iterator iter(begin());
-      while (iter)
-      {
-        if (functor(*(iter.next())))
-        {
-          iter.eraseAfter();
-        }
-        iter++;
-      }
-    }
-
-    void print(std::ostream& stream = std::cout, const char& splitter = ' ') const
-    {
-      stream << data_ << splitter;
-      if (next_)
-      {
-        next_->print(stream, splitter);
-      }
-      else
-      {
-        std::cout << '\n';
-      }
-    }
+    void removeIf(P functor);
 
     Iterator begin()
     {
@@ -341,6 +130,263 @@ namespace miheev
       }
     };
   };
+}
+
+template< typename T >
+miheev::List< T >::List():
+  data_(0),
+  next_(nullptr),
+  isEmpty_(true)
+{}
+
+template< typename T >
+miheev::List< T >::List(T data):
+  data_(data),
+  next_(nullptr),
+  isEmpty_(false)
+{}
+
+template< typename T >
+miheev::List< T >::List(const List& toCopy)
+{
+  data_ = toCopy.data_;
+  isEmpty_ = toCopy.isEmpty_;
+  if (toCopy.next_)
+  {
+    next_ = new List< T >(*toCopy.next_);
+  }
+  else
+  {
+    next_ = nullptr;
+  }
+}
+
+template< typename T >
+miheev::List< T >::List(List&& rhs) noexcept:
+  next_{nullptr},
+  isEmpty_{true}
+{
+
+  for (size_t i = 0; i < rhs.size(); i++)
+  {
+    pushBack(rhs[i]);
+  }
+}
+
+template< typename T >
+miheev::List< T >::List(size_t count, const T& value):
+  next_(nullptr),
+  isEmpty_(true)
+{
+  for (size_t i = 0; i < count; i++)
+  {
+    pushBack(value);
+  }
+}
+
+template< typename T >
+miheev::List< T >& miheev::List< T >::operator=(const miheev::List< T >& list)
+{
+  data_ = list.data_;
+  isEmpty_ = list.isEmpty_;
+  if (next_)
+  {
+    List< T >* old = next_;
+    next_ = nullptr;
+    delete old;
+  }
+  if (list.next_)
+  {
+    next_ = new List< T >(*(list.next_));
+  }
+  return *this;
+}
+
+template< typename T >
+miheev::List< T >::~List()
+{
+  if (next_)
+  {
+    delete next_;
+  }
+}
+
+template< typename T >
+bool miheev::List< T >::empty() const
+{
+  return isEmpty_;
+}
+
+template < typename T >
+void miheev::List< T >::swap(List< T >& aList)
+{
+  List< T > temp = *this;
+  clear();
+  while (!aList.empty())
+  {
+    pushBack(aList.front());
+    aList.popFront();
+  }
+  aList.clear();
+  while (!temp.empty())
+  {
+    aList.pushBack(temp.front());
+    temp.popFront();
+  }
+}
+
+template < typename T >
+T& miheev::List< T >::operator[](size_t i)
+{
+  List < T >* node = this;
+  while (i > 0)
+  {
+    if (node->next_)
+    {
+      node = node->next_;
+    }
+    i--;
+  }
+  return node->data_;
+}
+
+template < typename T >
+void miheev::List< T >::clear()
+{
+  if (next_ != nullptr)
+  {
+    List< T >* temp = next_;
+    next_ = nullptr;
+    delete temp;
+  }
+  isEmpty_ = true;
+  data_ = 0;
+}
+
+template < typename T >
+size_t miheev::List< T >::size() const
+{
+  if (isEmpty_)
+  {
+    return 0;
+  }
+  if (!next_)
+  {
+    return 1;
+  }
+  return 1 + next_->size();
+}
+
+template < typename T >
+T& miheev::List< T >::front()
+{
+  return data_;
+}
+
+template < typename T >
+void miheev::List< T >::pushFront(T data)
+{
+  if (!isEmpty_)
+  {
+    List< T >* temp = next_;
+    next_ = new List< T >(data_);
+    next_->next_ = temp;
+  }
+  data_ = data;
+  isEmpty_ = false;
+}
+
+template < typename T >
+void miheev::List< T >::popFront()
+{
+  if (!next_)
+  {
+    data_ = 0;
+    isEmpty_ = true;
+  }
+  if (isEmpty_)
+  {
+    return;
+  }
+  List< T >* temp = next_;
+  data_ = next_->data_;
+  next_ = next_->next_;
+  temp->next_ = nullptr;
+  delete temp;
+}
+
+template < typename T >
+void miheev::List< T >::pushBack(T data)
+{
+  if (isEmpty_)
+  {
+    data_ = data;
+  }
+  else
+  {
+    if (next_ == nullptr)
+    {
+      next_ = new List< T >(data);
+    }
+    else
+    {
+      next_->pushBack(data);
+    }
+  }
+  isEmpty_ = false;
+}
+
+template < typename T >
+void miheev::List< T >::eraseAfter(miheev::List< T >::Iterator iter)
+{
+  iter.eraseAfter();
+}
+
+template < typename T >
+void miheev::List< T >::remove(T data)
+{
+  Iterator iter(begin());
+  while(iter)
+  {
+    if (*(iter.next()) == data)
+    {
+      iter.eraseAfter();
+    }
+    iter++;
+  }
+  if (data_ == data)
+  {
+    popFront();
+  }
+}
+
+template < typename T >
+void miheev::List< T >::print(std::ostream& stream = std::cout, const char& splitter = ' ') const;
+{
+  stream << data_ << splitter;
+  if (next_)
+  {
+    next_->print(stream, splitter);
+  }
+  else
+  {
+    std::cout << '\n';
+  }
+}
+
+template < typename T >
+template < typename P >
+void miheev::List< T >::removeIf(P functor)
+{
+  Iterator iter(begin());
+  while (iter)
+  {
+    if (functor(*(iter.next())))
+    {
+      iter.eraseAfter();
+    }
+    iter++;
+  }
 }
 
 #endif
