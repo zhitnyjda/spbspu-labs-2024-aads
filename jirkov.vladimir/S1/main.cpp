@@ -2,7 +2,6 @@
 #include <vector>
 #include <sstream>
 #include <string>
-#include <limits>
 #include "list.hpp"
 
 int main() {
@@ -31,11 +30,10 @@ int main() {
         std::cout << pair.first;
     }
     if (sequences.empty()) {
-        std::cout << '\n';
-        std::cout << '0' << '\n';
+        std::cout << 0 << '\n';
         return 0;
     }
-    std::cout << '\n';
+    std::cout << std::endl;
     int maxlen = 0;
     for (const auto& pair : sequences) {
         maxlen = std::max(maxlen, static_cast<int>(pair.second.size()));
@@ -105,9 +103,6 @@ int main() {
         }
     }
     std::cout << std::endl;
-    if (sums.empty()) {
-        std::cout << '0';
-    }
-    std::cout << '\n';
+
     return 0;
 }
