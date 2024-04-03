@@ -62,7 +62,7 @@ namespace kaseev {
       {
         std::cout << " 0";
       }
-      if (i < sums.size() - 1)
+      if ((i > 0) || (i < sums.size()))
       {
         std::cout << " ";
       }
