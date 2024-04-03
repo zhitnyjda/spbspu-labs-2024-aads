@@ -45,8 +45,8 @@ namespace kaseev {
   int sumNumbersInString(const std::string &line)
   {
     std::istringstream iss(line);
-    int sum = 0;
-    int num;
+    unsigned long long sum = 0;
+    unsigned long long num;
     while (iss >> num)
     {
       if (sum + num < std::max(sum, num)) {
@@ -55,7 +55,7 @@ namespace kaseev {
       }
       sum += num;
     }
-    return sum;
+    return static_cast<int>(sum);
   }
 
   void sumNumbersInArray(const kaseev::List<std::pair<std::string, kaseev::List<int>>> &sums)
