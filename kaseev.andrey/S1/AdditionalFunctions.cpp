@@ -7,6 +7,7 @@ namespace kaseev {
   {
     std::istringstream iss(line);
     std::string ListName;
+    bool MarkerOverflow = false;
     if (!(iss >> ListName))
     {
       std::cerr << "Empty line! \n";
@@ -14,26 +15,31 @@ namespace kaseev {
     }
     kaseev::List<int> tempList;
     unsigned long long num;
-    try
+    while (iss >> num)
     {
-      while (iss >> num)
+      try
       {
-        if (num > std::numeric_limits<int>::max()){
-          return 1;
+        if (num > std::numeric_limits<int>::max())
+        {
+          MarkerOverflow = true;
         }
         tempList.pushBack(static_cast<int>(num));
       }
-    }
-    catch (const std::bad_alloc &)
-    {
-      std::cerr << "List size exceeds maximum limit";
-      return 1;
+      catch (const std::exception &ex)
+      {
+
+      }
     }
 
     std::pair<std::string, kaseev::List<int>> list_pair;
     list_pair.first = ListName;
     list_pair.second = kaseev::List<int>(tempList);
     arr.pushBack(list_pair);
+
+    if (MarkerOverflow)
+    {
+      return 1;
+    }
     return 0;
   }
 
