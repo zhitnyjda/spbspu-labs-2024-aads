@@ -40,10 +40,14 @@ namespace kaseev {
   int sumNumbersInString(const std::string &line)
   {
     std::istringstream iss(line);
-    unsigned long long sum = 0;
-    unsigned long long num;
+    long long sum = 0;
+    long long num;
     while (iss >> num)
     {
+      if (sum > std::numeric_limits<int>::max() - num) {
+        std::cerr << "overflow\n";
+        exit(1);
+      }
       sum += num;
     }
     return static_cast<int>(sum);
