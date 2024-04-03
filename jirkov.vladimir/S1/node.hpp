@@ -3,13 +3,14 @@
 
 namespace jirkov {
 
-  template<typename T>
-  struct Node {
-    T value;
-    Node* next;
+    template<typename T>
+    struct Node {
+        T value;
+        Node* next;
 
-    Node(const T& value) : value(value), next(nullptr) {}
-  };
-}
+        Node(const T& value) : value(value), next(nullptr) {}
+    };
 
-#endif
+} // namespace jirkov
+
+#endif // NODE_HPP

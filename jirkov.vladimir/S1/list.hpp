@@ -28,8 +28,7 @@ namespace jirkov {
         head = newNode;
         tail = newNode;
       }
-      else
-      {
+      else {
         tail->next = newNode;
         tail = newNode;
       }
@@ -45,8 +44,7 @@ namespace jirkov {
         head = nullptr;
         tail = nullptr;
       }
-      else
-      {
+      else {
         Node<T>* secondLastNode = head;
         while (secondLastNode->next != tail) {
           secondLastNode = secondLastNode->next;
@@ -55,7 +53,7 @@ namespace jirkov {
         tail = secondLastNode;
         tail->next = nullptr;
       }
-        size_--;
+      size_--;
     }
 
     void clear() {

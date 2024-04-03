@@ -20,33 +20,90 @@ int main() {
         sequences.push_back({name, sequence});
     }
     std::cout << "\n";
+    bool first =true;
     for (const auto& pair : sequences) {
-        std::cout << pair.first << " ";
+        if (first) {
+            first = false;
+        }
+        else {
+            std::cout << ' ';
+        }
+        std::cout << pair.first;
+    }
+    if (sequences.empty()) {
+        std::cout << 0 << '\n';
+        return 0;
     }
     std::cout << std::endl;
-    std::vector<int> sums;
     int maxlen = 0;
     for (const auto& pair : sequences) {
         maxlen = std::max(maxlen, static_cast<int>(pair.second.size()));
     }
-
     std::cout << "\n";
-    for (int i = 0; i < maxlen; i++) {
-        for (const auto& pair : sequences) {
-            if (i < static_cast<int>(pair.second.size())) {
-                std::cout << pair.second[i] << " ";
-                if (static_cast<int>(i) >= static_cast<int>(sums.size())) {
-                    sums.push_back(pair.second[i]);
-                } else {
-                    sums[static_cast<int>(i)] += pair.second[i];
+    for (size_t i = 0; i < maxlen; ++i)
+    {
+        bool first = true;
+        for (const auto & pair: sequences)
+        {
+            const auto & list = pair.second;
+            auto it = list.begin();
+            for (size_t j = 0; j < i && it != list.end(); ++j)
+            {
+                ++it;
+            }
+            if (it != list.end())
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    std::cout << ' ';
+                }
+                std::cout << *it;
+            }
+        }
+        std::cout << '\n';
+        if (sequences.empty())
+        {
+            std::cout << 0;
+        }
+    }
+    std::vector<int> sums;
+    try
+    {
+        for (size_t i = 0; i < maxlen; i++)
+        {
+            for (const auto & pair : sequences)
+            {
+                if (i < static_cast<int>(pair.second.size())) {
+                    const auto & list = pair.second;
+                    auto it = list.begin();
+                    for (size_t j = 0; j < i && it != list.end(); ++j)
+                    {
+                        ++it;
+                    }
+                    if (static_cast<int>(i) >= static_cast<int>(sums.size())) {
+                        sums.push_back(pair.second[i]);
+                    } else {
+                        sums[static_cast<int>(i)] += pair.second[i];
+                    }
                 }
             }
         }
-        std::cout << std::endl;
+    }
+    catch (const std::overflow_error & e)
+    {
+        std::cerr << e.what() << '\n';
+        return 1;
     }
     std::cout << std::endl;
-    for (int sum : sums) {
-        std::cout << sum << " ";
+    for (size_t i = 0; i < sums.size(); i++) {
+        std::cout << sums[i];
+        if (i != sums.size() - 1) {
+            std::cout << " ";
+        }
     }
     std::cout << std::endl;
 
