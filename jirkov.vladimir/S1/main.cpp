@@ -40,14 +40,14 @@ int main() {
         maxlen = std::max(maxlen, static_cast<int>(pair.second.size()));
     }
     std::cout << "\n";
-    for (size_t i = 0; i < maxlen; ++i)
+    for (int i = 0; i < maxlen; ++i)
     {
         bool first = true;
         for (const auto & pair: sequences)
         {
             const auto & list = pair.second;
             auto it = list.begin();
-            for (size_t j = 0; j < i && it != list.end(); ++j)
+            for (int j = 0; j < i && it != list.end(); ++j)
             {
                 ++it;
             }
@@ -73,14 +73,14 @@ int main() {
     std::vector<int> sums;
     try
     {
-        for (size_t i = 0; i < maxlen; i++)
+        for (int i = 0; i < maxlen; i++)
         {
             for (const auto & pair : sequences)
             {
                 if (i < static_cast<int>(pair.second.size())) {
                     const auto & list = pair.second;
                     auto it = list.begin();
-                    for (size_t j = 0; j < i && it != list.end(); ++j)
+                    for (int j = 0; j < i && it != list.end(); ++j)
                     {
                         ++it;
                     }
@@ -99,7 +99,7 @@ int main() {
         return 1;
     }
     std::cout << std::endl;
-    for (size_t i = 0; i < sums.size(); i++) {
+    for (int i = 0; i < sums.size(); i++) {
         std::cout << sums[i];
         if (i != sums.size() - 1) {
             std::cout << " ";
