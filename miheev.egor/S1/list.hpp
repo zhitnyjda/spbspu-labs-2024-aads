@@ -88,38 +88,6 @@ namespace miheev
       }
     }
 
-    // void remove(T val)
-    // {
-    //   if (data_ == val)
-    //   {
-    //     data_ = next_->data_;
-    //     List< T >* temp = next_;
-    //     next_ = next_->next_;
-    //     next_->next_ = nullptr;
-    //     delete temp;
-    //   }
-    //   List< T >* node = this;
-    //   while (node->next_)
-    //   {
-    //     if (node->next_->data_ = val)
-    //     {
-    //       if (node->next_->next_)
-    //       {
-    //         List< T >* temp = node->next_;
-    //         node->next_ = node->next_->next_;
-    //         temp->next_ = nullptr;
-    //         delete temp;
-    //       }
-    //       else
-    //       {
-    //         delete node->next_;
-    //         node->next_ = nullptr;
-    //       }
-    //     }
-    //     node = node->next_;
-    //   }
-    // }
-
     bool empty()
     {
       return isEmpty_;
@@ -251,6 +219,10 @@ namespace miheev
         }
         iter++;
       }
+      if (data_ == data)
+      {
+        popFront();
+      }
     }
 
     template < class P >
@@ -289,10 +261,7 @@ namespace miheev
       return nullptr;
     }
 
-    struct ConstIterator
-    {
-
-    };
+    struct ConstIterator;
 
     struct Iterator
     {
@@ -345,7 +314,7 @@ namespace miheev
       {
         this_t copy(*this);
         cur = cur->next_;
-        return *copy;
+        return copy;
       }
 
       this_t next()
