@@ -30,6 +30,11 @@ namespace kaseev {
       std::cerr << "List size exceeds maximum limit";
       return 1;
     }
+    if (tempList.empty())
+    {
+      tempList.pushBack(0);
+    }
+
     std::pair<std::string, kaseev::List<int>> list_pair;
     list_pair.first = ListName;
     list_pair.second = kaseev::List<int>(tempList);
@@ -44,6 +49,10 @@ namespace kaseev {
     int num;
     while (iss >> num)
     {
+      if (sum + num < std::max(sum, num)) {
+        std::cerr << "overflow\n";
+        exit(1);
+      }
       sum += num;
     }
     return sum;
