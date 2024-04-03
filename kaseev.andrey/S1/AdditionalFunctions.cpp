@@ -19,7 +19,6 @@ namespace kaseev {
       while (iss >> num)
       {
         if (num > std::numeric_limits<int>::max()){
-          std::cerr << "overflow\n";
           return 1;
         }
         tempList.pushBack(static_cast<int>(num));
@@ -69,15 +68,21 @@ namespace kaseev {
 
   void printListNames(const kaseev::List<std::pair<std::string, kaseev::List<int>>> &arr)
   {
+    bool marker = false;
     for (int i = 0; i < arr.size(); ++i)
     {
       std::pair<std::string, kaseev::List<int>> list = arr[i];
       std::cout << list.first;
-      if (i < arr.size() - 1) {
+      if (i < arr.size() - 1)
+      {
         std::cout << " ";
+        marker = true;
       }
     }
-    std::cout << "\n";
+    if (marker || !(arr.empty()))
+    {
+      std::cout << "\n";
+    }
   }
 
   kaseev::List<std::pair<std::string, kaseev::List<int>>>
@@ -115,7 +120,7 @@ namespace kaseev {
 
       index++;
     }
-    if (sum.empty() && !(arr.empty()))
+    if (sum.empty())
     {
       sum.pushBack({"", List<int>{IfSumEmpty}});
     }

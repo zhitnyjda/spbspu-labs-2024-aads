@@ -14,6 +14,7 @@ int main() {
     int marker = kaseev::readList(line, arr);
     if (marker == 1)
     {
+      std::cerr << "overflow\n";
       return 1;
     }
   }
