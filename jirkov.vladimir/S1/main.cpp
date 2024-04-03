@@ -99,9 +99,9 @@ int main() {
         return 1;
     }
     std::cout << std::endl;
-    for (int i = 0; i < sums.size(); i++) {
+    for (int i = 0; static_cast<int>(i) < static_cast<int>(sums.size()); i++) {
         std::cout << sums[i];
-        if (i != sums.size() - 1) {
+        if (static_cast<int>(i) != static_cast<int>(sums.size()) - 1) {
             std::cout << " ";
         }
     }
