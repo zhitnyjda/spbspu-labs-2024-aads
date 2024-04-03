@@ -35,7 +35,7 @@ namespace kaseev {
     return 0;
   }
 
-  int sumNumbersInString(const std::string &line)
+  unsigned long long sumNumbersInString(const std::string &line)
   {
     std::istringstream iss(line);
     long long sum = 0;
@@ -48,7 +48,7 @@ namespace kaseev {
       }
       sum += num;
     }
-    return static_cast<int>(sum);
+    return sum;
   }
 
   void sumNumbersInArray(const kaseev::List<std::pair<std::string, kaseev::List<int>>> &sums, bool &marker)
