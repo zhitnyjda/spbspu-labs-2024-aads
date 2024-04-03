@@ -80,42 +80,48 @@ namespace kaseev {
         std::cout << " ";
       }
     }
-    std::cout << "\n";
+    std::cout << "\0";
   }
 
   kaseev::List<std::pair<std::string, kaseev::List<int>>>
   calculateSumList(const kaseev::List<std::pair<std::string, kaseev::List<int>>> &arr)
   {
     bool finished = false;
-    int index = 0;
+    size_t index = 0;
     kaseev::List<std::pair<std::string, kaseev::List<int>>> sum;
+
     while (!finished)
     {
       finished = true;
       std::string currentString;
       int currentSum = 0;
-      for (int i = 0; i < arr.size(); ++i)
+
+      for (size_t i = 0; i < arr.size(); ++i)
       {
         const kaseev::List<int> &sublist = arr[i].second;
+
         if (index < sublist.size())
         {
-          std::cout << sublist[index];
+          if (!currentString.empty())
+          {
+            currentString += " ";
+          }
+
+          currentString += std::to_string(sublist[index]);
           currentSum += sublist[index];
           finished = false;
-          if (i < arr.size() - 1)
-          {
-            std::cout << " ";
-          }
         }
       }
+
       if (!finished)
       {
-        std::cout << "\n";
-        currentString = std::to_string(currentSum);
+        std::cout << currentString << "\n";
         sum.pushBack({currentString, kaseev::List<int>()});
       }
+
       index++;
     }
+
     return sum;
   }
 }

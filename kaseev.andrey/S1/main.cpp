@@ -17,11 +17,15 @@ int main() {
       return 1;
     }
   }
+
+  kaseev::printListNames(arr);
   if (arr.empty()) {
     std::cout << "0\n";
     return 0;
+  } else {
+    std::cout << "\n";
   }
-  kaseev::printListNames(arr);
+
   kaseev::List<std::pair<std::string, kaseev::List<int>>> sum = kaseev::calculateSumList(arr);
   kaseev::sumNumbersInArray(sum);
   return 0;
