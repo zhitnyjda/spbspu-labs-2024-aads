@@ -29,11 +29,14 @@ int main() {
         }
         std::cout << pair.first;
     }
-    if (sequences.empty()) {
-        std::cout << 0 << '\n';
-        return 0;
+    for (const auto& pair : sequences) {
+        if (pair.second.size() == 0) {
+            std::cout << '\n';
+            std::cout << '0' << '\n';
+            return 0;
+        }
     }
-    std::cout << std::endl;
+    std::cout << '\n';
     int maxlen = 0;
     for (const auto& pair : sequences) {
         maxlen = std::max(maxlen, static_cast<int>(pair.second.size()));
@@ -106,5 +109,6 @@ int main() {
     if (sums.empty()) {
         std::cout << '0';
     }
+    std::cout << '\n';
     return 0;
 }
