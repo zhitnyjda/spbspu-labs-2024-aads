@@ -3,11 +3,10 @@
 #include <limits>
 
 namespace kaseev {
-  int readList(const std::string &line, kaseev::List<std::pair<std::string, kaseev::List<int>>> &arr)
+  int readList(const std::string &line, kaseev::List<std::pair<std::string, kaseev::List<int>>> &arr, bool &marker)
   {
     std::istringstream iss(line);
     std::string ListName;
-    bool MarkerOverflow = false;
     if (!(iss >> ListName))
     {
       std::cerr << "Empty line! \n";
@@ -21,7 +20,8 @@ namespace kaseev {
       {
         if (num > std::numeric_limits<int>::max())
         {
-          MarkerOverflow = true;
+          marker = true;
+          num = 333;
         }
         tempList.pushBack(static_cast<int>(num));
       }
@@ -36,7 +36,7 @@ namespace kaseev {
     list_pair.second = kaseev::List<int>(tempList);
     arr.pushBack(list_pair);
 
-    if (MarkerOverflow)
+    if (marker)
     {
       return 1;
     }
@@ -59,21 +59,24 @@ namespace kaseev {
     return static_cast<int>(sum);
   }
 
-  void sumNumbersInArray(const kaseev::List<std::pair<std::string, kaseev::List<int>>> &sums)
+  void sumNumbersInArray(const kaseev::List<std::pair<std::string, kaseev::List<int>>> &sums, bool &marker)
   {
-    for (int i = 0; i < sums.size(); ++i)
+    if (!marker)
     {
-      const auto &pair = sums[i];
-      const std::string &line = pair.first;
-      int sum = 0;
-      sum = sumNumbersInString(line);
-      std::cout << sum;
-      if (i < sums.size() - 1)
+      for (int i = 0; i < sums.size(); ++i)
       {
-        std::cout << " ";
+        const auto &pair = sums[i];
+        const std::string &line = pair.first;
+        int sum = 0;
+        sum = sumNumbersInString(line);
+        std::cout << sum;
+        if (i < sums.size() - 1)
+        {
+          std::cout << " ";
+        }
       }
+      std::cout << "\n";
     }
-    std::cout << "\n";
   }
 
   void printListNames(const kaseev::List<std::pair<std::string, kaseev::List<int>>> &arr)
