@@ -20,7 +20,7 @@ namespace kaseev {
       {
         if (num > std::numeric_limits<int>::max()){
           std::cerr << "overflow\n";
-          exit(1);
+          return 1;
         }
         tempList.pushBack(static_cast<int>(num));
       }
@@ -115,7 +115,7 @@ namespace kaseev {
 
       index++;
     }
-    if (sum.empty())
+    if (sum.empty() && !(arr.empty()))
     {
       sum.pushBack({"", List<int>{IfSumEmpty}});
     }
