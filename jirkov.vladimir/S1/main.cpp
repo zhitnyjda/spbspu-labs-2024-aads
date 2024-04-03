@@ -103,6 +103,8 @@ int main() {
         }
     }
     std::cout << std::endl;
-
+    if (sums.empty()) {
+        std::cout << '0';
+    }
     return 0;
 }
