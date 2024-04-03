@@ -235,6 +235,37 @@ namespace miheev
       }
       isEmpty_ = false;
     }
+    void eraseAfter(Iterator& iter)
+    {
+      iter.eraseAfter();
+    }
+
+    void remove(T data)
+    {
+      Iterator iter(begin());
+      while(iter)
+      {
+        if (*(iter.next()) == data)
+        {
+          iter.eraseAfter();
+        }
+        iter++;
+      }
+    }
+
+    template < class P >
+    void removeIf(P functor)
+    {
+      Iterator iter(begin());
+      while (iter)
+      {
+        if (functor(*(iter.next())))
+        {
+          iter.eraseAfter();
+        }
+        iter++;
+      }
+    }
 
     void print(std::ostream& stream = std::cout, const char& splitter = ' ') const
     {
@@ -335,8 +366,8 @@ namespace miheev
       void eraseAfter()
       {
         List< T >* temp = cur->next_;
-        cur->next_ = temp->next;
-        temp->next = nullptr;
+        cur->next_ = temp->next_;
+        temp->next_ = nullptr;
         delete temp;
       }
     };
