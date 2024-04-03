@@ -88,13 +88,6 @@ namespace miheev
       }
     }
 
-    void erase_after(Iterator iter)
-    {
-      if (iter)
-      {
-      }
-    }
-
     // void remove(T val)
     // {
     //   if (data_ == val)
@@ -282,7 +275,7 @@ namespace miheev
       {}
       Iterator(const this_t&) = default;
       this_t& operator=(const this_t&) = default;
-      List<T>& operator+(size_t n)
+      List<T>& operator+=(size_t n)
       {
         for (; n > 0; n--)
         {
@@ -324,6 +317,11 @@ namespace miheev
         return *copy;
       }
 
+      this_t next()
+      {
+        return this_t(this->cur->next_);
+      }
+
       bool operator!=(const this_t & rhs) const
       {
         return cur != rhs.cur;
@@ -332,6 +330,14 @@ namespace miheev
       bool operator==(const this_t & rhs) const
       {
         return cur == rhs.cur;
+      }
+
+      void eraseAfter()
+      {
+        List< T >* temp = cur->next_;
+        cur->next_ = temp->next;
+        temp->next = nullptr;
+        delete temp;
       }
     };
   };
