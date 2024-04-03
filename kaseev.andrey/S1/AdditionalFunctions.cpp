@@ -58,9 +58,9 @@ namespace kaseev {
       int sum = 0;
       sum = sumNumbersInString(line);
       std::cout << sum;
-      if (pair.second.empty())
+      if (!pair.second.empty() && i < sums.size() - 1)
       {
-        std::cout << "\n0";
+        std::cout << " 0";
       }
       if (i < sums.size() - 1)
       {
