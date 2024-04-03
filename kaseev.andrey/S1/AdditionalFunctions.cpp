@@ -1,5 +1,6 @@
 #include "AdditionalFunctions.hpp"
-#include "sstream"
+#include <sstream>
+#include <limits>
 
 namespace kaseev {
   int readList(const std::string &line, kaseev::List<std::pair<std::string, kaseev::List<int>>> &arr)
@@ -12,7 +13,7 @@ namespace kaseev {
       return 1;
     }
     kaseev::List<int> tempList;
-    int num;
+    unsigned long long num;
     try
     {
       while (iss >> num)
@@ -22,17 +23,17 @@ namespace kaseev {
           std::cerr << "Negative number is not allowed! \n";
           return 1;
         }
-        tempList.pushBack(num);
+        if (num > std::numeric_limits<int>::max()){
+          std::cerr << "overflow\n";
+          exit(1);
+        }
+        tempList.pushBack(static_cast<int>(num));
       }
     }
     catch (const std::bad_alloc &)
     {
       std::cerr << "List size exceeds maximum limit";
       return 1;
-    }
-    if (tempList.empty())
-    {
-      tempList.pushBack(0);
     }
 
     std::pair<std::string, kaseev::List<int>> list_pair;
@@ -49,10 +50,6 @@ namespace kaseev {
     unsigned long long num;
     while (iss >> num)
     {
-      if (sum + num < std::max(sum, num)) {
-        std::cerr << "overflow\n";
-        exit(1);
-      }
       sum += num;
     }
     return static_cast<int>(sum);
@@ -85,7 +82,7 @@ namespace kaseev {
         std::cout << " ";
       }
     }
-    std::cout << "\0";
+    std::cout << "\n";
   }
 
   kaseev::List<std::pair<std::string, kaseev::List<int>>>
@@ -94,13 +91,11 @@ namespace kaseev {
     bool finished = false;
     int index = 0;
     kaseev::List<std::pair<std::string, kaseev::List<int>>> sum;
-
+    int IfSumEmpty = 0;
     while (!finished)
     {
       finished = true;
       std::string currentString;
-      int currentSum = 0;
-
       for (int i = 0; i < arr.size(); ++i)
       {
         const kaseev::List<int> &sublist = arr[i].second;
@@ -113,7 +108,6 @@ namespace kaseev {
           }
 
           currentString += std::to_string(sublist[index]);
-          currentSum += sublist[index];
           finished = false;
         }
       }
@@ -126,7 +120,10 @@ namespace kaseev {
 
       index++;
     }
-
+    if (sum.empty())
+    {
+      sum.pushBack({"", List<int>{IfSumEmpty}});
+    }
     return sum;
   }
 }
