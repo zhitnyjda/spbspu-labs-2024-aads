@@ -3,7 +3,7 @@
 #include <limits>
 
 namespace kaseev {
-  int readList(const std::string &line, kaseev::List<std::pair<std::string, kaseev::List<int>>> &arr, bool &marker)
+  int readList(const std::string &line, kaseev::List<std::pair<std::string, kaseev::List<unsigned long long>>> &arr, bool &marker)
   {
     std::istringstream iss(line);
     std::string ListName;
@@ -12,28 +12,20 @@ namespace kaseev {
       std::cerr << "Empty line! \n";
       return 1;
     }
-    kaseev::List<int> tempList;
+    kaseev::List<unsigned long long> tempList;
     unsigned long long num;
     while (iss >> num)
     {
-      try
-      {
         if (num > std::numeric_limits<int>::max())
         {
           marker = true;
-          num = 333;
         }
-        tempList.pushBack(static_cast<int>(num));
-      }
-      catch (const std::exception &ex)
-      {
-
-      }
+        tempList.pushBack(num);
     }
 
-    std::pair<std::string, kaseev::List<int>> list_pair;
+    std::pair<std::string, kaseev::List<unsigned long long>> list_pair;
     list_pair.first = ListName;
-    list_pair.second = kaseev::List<int>(tempList);
+    list_pair.second = kaseev::List<unsigned long long>(tempList);
     arr.pushBack(list_pair);
 
     if (marker)
@@ -79,12 +71,12 @@ namespace kaseev {
     }
   }
 
-  void printListNames(const kaseev::List<std::pair<std::string, kaseev::List<int>>> &arr)
+  void printListNames(const kaseev::List<std::pair<std::string, kaseev::List<unsigned long long>>> &arr)
   {
     bool marker = false;
     for (int i = 0; i < arr.size(); ++i)
     {
-      std::pair<std::string, kaseev::List<int>> list = arr[i];
+      std::pair<std::string, kaseev::List<unsigned long long>> list = arr[i];
       std::cout << list.first;
       if (i < arr.size() - 1)
       {
@@ -99,7 +91,7 @@ namespace kaseev {
   }
 
   kaseev::List<std::pair<std::string, kaseev::List<int>>>
-  calculateSumList(const kaseev::List<std::pair<std::string, kaseev::List<int>>> &arr)
+  calculateSumList(const kaseev::List<std::pair<std::string, kaseev::List<unsigned long long>>> &arr)
   {
     bool finished = false;
     int index = 0;
@@ -111,7 +103,7 @@ namespace kaseev {
       std::string currentString;
       for (int i = 0; i < arr.size(); ++i)
       {
-        const kaseev::List<int> &sublist = arr[i].second;
+        const kaseev::List<unsigned long long> &sublist = arr[i].second;
 
         if (index < sublist.size())
         {

@@ -4,7 +4,7 @@
 #include "AdditionalFunctions.hpp"
 
 int main() {
-  kaseev::List<std::pair<std::string, kaseev::List<int>>> arr;
+  kaseev::List<std::pair<std::string, kaseev::List<unsigned long long>>> arr;
   std::string line;
   bool marker = false;
   while (std::getline(std::cin, line)) {
