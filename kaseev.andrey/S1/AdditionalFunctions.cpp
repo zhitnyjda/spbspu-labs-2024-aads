@@ -18,11 +18,6 @@ namespace kaseev {
     {
       while (iss >> num)
       {
-        if (num < 0)
-        {
-          std::cerr << "Negative number is not allowed! \n";
-          return 1;
-        }
         if (num > std::numeric_limits<int>::max()){
           std::cerr << "overflow\n";
           exit(1);
