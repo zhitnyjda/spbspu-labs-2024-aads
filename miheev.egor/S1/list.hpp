@@ -133,6 +133,28 @@ namespace miheev
 }
 
 template< typename T >
+struct miheev::List< T >::ConstIterator
+{
+private:
+  List< T >* cur;
+public:
+  friend class List< T >;
+  ConstIterator(const List< T >*);
+  ~ConstIterator() = default;
+  ConstIterator& operator=(const ConstIterator&)
+
+  ConstIterator& operator++();
+  ConstIterator operator++(int);
+
+  const T& operator*();
+  const T* operator->();
+
+  bool operator!=(const ConstIterator& rhs) const;
+  bool operator==(const ConstIterator& rhs) const;
+};
+
+
+template< typename T >
 miheev::List< T >::List():
   data_(0),
   next_(nullptr),
@@ -361,7 +383,7 @@ void miheev::List< T >::remove(T data)
 }
 
 template < typename T >
-void miheev::List< T >::print(std::ostream& stream = std::cout, const char& splitter = ' ') const;
+void miheev::List< T >::print(std::ostream& stream, const char& splitter) const
 {
   stream << data_ << splitter;
   if (next_)
