@@ -79,46 +79,62 @@ template< typename T >
 struct miheev::List< T >::Iterator
 {
   List<T>* cur;
+
   using this_t = List< T >::Iterator;
-  Iterator():
-    cur(nullptr)
-  {}
-  Iterator(List< T >* head):
-    cur(head)
-  {}
+
+  Iterator();
+  Iterator(List< T >* head);
   Iterator(const this_t&) = default;
   this_t& operator=(const this_t&) = default;
-  List<T>& operator+=(size_t n)
-  {
-    for (; n > 0; n--)
-    {
-      cur++;
-    }
-    return cur;
-  }
-
-  T& operator*()
-  {
-    return cur->data_;
-  }
-
-  T* operator->() const
-  {
-    return std::addressof(cur->data_);
-  }
-
+  List<T>& operator+(size_t n);
+  T& operator*();
+  T* operator->() const;
   explicit operator bool() const;
-  bool empty() const;
   this_t& operator++();
   this_t operator++(int);
-  this_t next();
   bool operator!=(const this_t & rhs) const;
   bool operator==(const this_t & rhs) const;
+
   void eraseAfter();
+  bool empty() const;
+  this_t next();
 };
 
 template< typename T >
 using iterator = typename miheev::List< T >::Iterator;
+
+template< typename T >
+miheev::List< T >::Iterator::Iterator():
+  cur(nullptr)
+{}
+
+template< typename T >
+miheev::List< T >::Iterator::Iterator(List < T >* head):
+  cur(head)
+{}
+
+template< typename T >
+miheev::List< T >& miheev::List< T >::Iterator::operator+(size_t n)
+{
+  List< T >* temp = cur;
+  for (; n > 0; n--)
+  {
+    temp++;
+  }
+  return *temp;
+}
+
+template< typename T >
+T& miheev::List< T >::Iterator::operator*()
+{
+  return cur->data_;
+}
+
+template< typename T >
+T* miheev::List< T >::Iterator::operator->() const
+{
+  return std::addressof(cur->data_);
+}
 
 template< typename T >
 miheev::List< T >::Iterator::operator bool() const
