@@ -14,7 +14,7 @@ namespace nikiforov
     class ConstIterator;
 
     List();
-    List(size_t count);
+    explicit List(size_t count);
     List(size_t count, const T& value);
     List(Iterator begin, Iterator end, int value);
     List(const List& other);
