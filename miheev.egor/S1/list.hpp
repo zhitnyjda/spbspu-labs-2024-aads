@@ -14,6 +14,7 @@ namespace miheev
     T data_;
     List< T >* next_;
     bool isEmpty_;
+    struct ConstIterator;
     struct Iterator;
 
     List();
@@ -50,85 +51,6 @@ namespace miheev
       return nullptr;
     }
 
-    struct ConstIterator;
-
-    struct Iterator
-    {
-      List<T>* cur;
-      using this_t = List< T >::Iterator;
-      Iterator():
-        cur(nullptr)
-      {}
-      Iterator(List< T >* head):
-        cur(head)
-      {}
-      Iterator(const this_t&) = default;
-      this_t& operator=(const this_t&) = default;
-      List<T>& operator+=(size_t n)
-      {
-        for (; n > 0; n--)
-        {
-          cur++;
-        }
-        return cur;
-      }
-
-      T& operator*()
-      {
-        return cur->data_;
-      }
-
-      T* operator->() const
-      {
-        return std::addressof(cur->data_);
-      }
-
-      explicit operator bool() const
-      {
-        return cur->next_ != nullptr;
-      }
-
-      bool empty() const
-      {
-        return cur->isEmpty_;
-      }
-
-      this_t& operator++()
-      {
-        cur = cur->next_;
-        return *this;
-      }
-
-      this_t operator++(int)
-      {
-        this_t copy(*this);
-        cur = cur->next_;
-        return copy;
-      }
-
-      this_t next()
-      {
-        return this_t(this->cur->next_);
-      }
-
-      bool operator!=(const this_t & rhs) const
-      {
-        return cur != rhs.cur;
-      }
-
-      bool operator==(const this_t & rhs) const
-      {
-        return cur == rhs.cur;
-      }
-
-      void eraseAfter()
-      {
-        List< T >* temp = cur->next_;
-        cur->next_ = temp->next_;
-        temp->next_ = nullptr;
-        delete temp;
-      }
-    };
   };
 }
 
@@ -141,7 +63,7 @@ public:
   friend class List< T >;
   ConstIterator(const List< T >*);
   ~ConstIterator() = default;
-  ConstIterator& operator=(const ConstIterator&)
+  ConstIterator& operator=(const ConstIterator&);
 
   ConstIterator& operator++();
   ConstIterator operator++(int);
@@ -153,6 +75,104 @@ public:
   bool operator==(const ConstIterator& rhs) const;
 };
 
+template< typename T >
+struct miheev::List< T >::Iterator
+{
+  List<T>* cur;
+  using this_t = List< T >::Iterator;
+  Iterator():
+    cur(nullptr)
+  {}
+  Iterator(List< T >* head):
+    cur(head)
+  {}
+  Iterator(const this_t&) = default;
+  this_t& operator=(const this_t&) = default;
+  List<T>& operator+=(size_t n)
+  {
+    for (; n > 0; n--)
+    {
+      cur++;
+    }
+    return cur;
+  }
+
+  T& operator*()
+  {
+    return cur->data_;
+  }
+
+  T* operator->() const
+  {
+    return std::addressof(cur->data_);
+  }
+
+  explicit operator bool() const;
+  bool empty() const;
+  this_t& operator++();
+  this_t operator++(int);
+  this_t next();
+  bool operator!=(const this_t & rhs) const;
+  bool operator==(const this_t & rhs) const;
+  void eraseAfter();
+};
+
+template< typename T >
+using iterator = typename miheev::List< T >::Iterator;
+
+template< typename T >
+miheev::List< T >::Iterator::operator bool() const
+{
+  return cur->next_ != nullptr;
+}
+
+template< typename T >
+bool miheev::List< T >::Iterator::empty() const
+{
+  return cur->isEmpty_;
+}
+
+template< typename T >
+iterator< T >& miheev::List< T >::Iterator::operator++()
+{
+  cur = cur->next_;
+  return *this;
+}
+
+template< typename T >
+iterator< T > miheev::List< T >::Iterator::operator++(int)
+{
+  this_t copy(*this);
+  cur = cur->next_;
+  return copy;
+}
+
+template< typename T >
+iterator< T > miheev::List< T >::Iterator::next()
+{
+  return this_t(this->cur->next_);
+}
+
+template< typename T >
+bool miheev::List< T >::Iterator::operator!=(const this_t & rhs) const
+{
+  return cur != rhs.cur;
+}
+
+template< typename T >
+bool miheev::List< T >::Iterator::operator==(const this_t & rhs) const
+{
+return cur == rhs.cur;
+}
+
+template< typename T >
+void miheev::List< T >::Iterator::eraseAfter()
+{
+  List< T >* temp = cur->next_;
+  cur->next_ = temp->next_;
+  temp->next_ = nullptr;
+  delete temp;
+}
 
 template< typename T >
 miheev::List< T >::List():
