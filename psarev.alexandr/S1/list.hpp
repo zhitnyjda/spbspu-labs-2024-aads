@@ -299,32 +299,18 @@ psarev::List< T >::List()
 template< typename T >
 psarev::List< T >::List(size_t amount)
 {
-  if (amount < 1)
+  size = 0;
+  for (int i = 1; i <= amount; i++)
   {
-    throw std::logic_error("Error: Amount parameter should be positive!");
-  }
-  head = new Unit();
-  tail = head;
-  Unit* curr = head->next;
-  size = 1;
-  for (int i = 1; i < amount; i++)
-  {
-    curr = new Unit();
-    tail = curr;
-    size++;
-    curr = curr->next;
+    pushBack(T());
   }
 }
 
 template< typename T >
 psarev::List< T >::List(size_t amount, const T& data)
 {
-  if (amount < 1)
-  {
-    throw std::logic_error("Error: Amount parameter should be positive!");
-  }
   size = 0;
-  for (int i = 0; i < amount; i++)
+  for (int i = 0; i <= amount; i++)
   {
     pushBack(data);
   }
