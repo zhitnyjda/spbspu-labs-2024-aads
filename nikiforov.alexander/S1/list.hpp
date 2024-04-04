@@ -78,7 +78,7 @@ namespace nikiforov
 namespace nikiforov
 {
   template< typename T >
-  class List< T >::ConstIterator
+  class List< T >::ConstIterator : public std::iterator< std::forward_iterator_tag, T >
   {
   public:
     friend class List< T >;
@@ -158,7 +158,7 @@ bool nikiforov::List< T >::ConstIterator::operator==(const this_t& lhs) const
 namespace nikiforov
 {
   template< typename T >
-  class List< T >::Iterator
+  class List< T >::Iterator : public std::iterator< std::forward_iterator_tag, T >
   {
   public:
     friend class List< T >;
@@ -607,12 +607,11 @@ void nikiforov::List< T >::clear()
 template< typename T >
 void nikiforov::List< T >::remove(T value)
 {
-  size_t size = size_l;
   size_t count = 0;
   Node* actual = head;
   Node* todel = head;
   Iterator iter = begin();
-  for (size_t i = 0; i < size; i++)
+  while (iter != end())
   {
     actual = head;
     todel = head;
