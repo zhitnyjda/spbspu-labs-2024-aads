@@ -3,7 +3,6 @@
 #include <stdexcept>
 #include <initializer_list>
 #include <cstddef>
-#include <iterator>
 
 namespace nikiforov
 {
@@ -78,7 +77,7 @@ namespace nikiforov
 namespace nikiforov
 {
   template< typename T >
-  class List< T >::ConstIterator : public std::iterator< std::forward_iterator_tag, T >
+  class List< T >::ConstIterator
   {
   public:
     friend class List< T >;
@@ -158,7 +157,7 @@ bool nikiforov::List< T >::ConstIterator::operator==(const this_t& lhs) const
 namespace nikiforov
 {
   template< typename T >
-  class List< T >::Iterator : public std::iterator< std::forward_iterator_tag, T >
+  class List< T >::Iterator
   {
   public:
     friend class List< T >;
@@ -598,11 +597,12 @@ void nikiforov::List< T >::clear()
 template< typename T >
 void nikiforov::List< T >::remove(T value)
 {
+  size_t size = size_l;
   size_t count = 0;
   Node* actual = head;
   Node* todel = head;
   Iterator iter = begin();
-  while (iter != end())
+  for (size_t i = 0; i < size; i++)
   {
     actual = head;
     todel = head;
