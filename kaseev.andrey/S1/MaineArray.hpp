@@ -26,6 +26,7 @@ namespace kaseev {
     void remove_if(UnaryPredicate p);
     T& front();
     void swap(List &other);
+    void push_front(const T& data);
 
     const T &operator[](int index) const;
     List<T>& operator=(const List<T>& other);
@@ -177,6 +178,13 @@ namespace kaseev {
     other.ArrSize = tempSize;
   }
 
+  template<class T>
+  void List<T>::push_front(const T& data) {
+    pushBack(data);
+    for (int i = size() - 1; i > 0; --i) {
+      std::swap((*this)[i], (*this)[i - 1]);
+    }
+  }
 
   template< class T >
   const T &List<T>::operator[](int index) const
