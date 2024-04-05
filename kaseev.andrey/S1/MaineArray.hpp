@@ -25,6 +25,7 @@ namespace kaseev {
     template< class UnaryPredicate >
     void remove_if(UnaryPredicate p);
     T& front();
+    void swap(List &other);
 
     const T &operator[](int index) const;
     List<T>& operator=(const List<T>& other);
@@ -166,6 +167,15 @@ namespace kaseev {
     }
   }
 
+  template<class T>
+  void List<T>::swap(List &other) {
+    Node<T>* temp = head;
+    head = other.head;
+    other.head = temp;
+    int tempSize = ArrSize;
+    ArrSize = other.ArrSize;
+    other.ArrSize = tempSize;
+  }
 
 
   template< class T >
