@@ -22,6 +22,8 @@ namespace kaseev {
     void clear();
     void pop(int index);
     void remove(const T &value);
+    template< class UnaryPredicate >
+    void remove_if(UnaryPredicate p);
     T& front();
 
     const T &operator[](int index) const;
@@ -135,6 +137,35 @@ namespace kaseev {
     }
     return head->data;
   }
+
+  template<class T>
+  template<class UnaryPredicate>
+  void List<T>::remove_if(UnaryPredicate p) {
+    while (!empty() && p(front())) {
+      pop_front();
+    }
+
+    Node<T>* prev = nullptr;
+    Node<T>* current = head;
+
+    while (current != nullptr) {
+      if (p(current->data)) {
+        if (prev == nullptr) {
+          pop_front();
+          current = head;
+        } else {
+          prev->next = current->next;
+          delete current;
+          current = prev->next;
+          ArrSize--;
+        }
+      } else {
+        prev = current;
+        current = current->next;
+      }
+    }
+  }
+
 
 
   template< class T >
