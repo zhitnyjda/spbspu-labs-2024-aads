@@ -76,6 +76,7 @@ void psarev::outOrds(depot_t& lines)
 template< typename T >
 psarev::List< T > psarev::outDigits(depot_t& lines, size_t& maxDigits, bool& isOF)
 {
+  unsigned long long maxUll = std::numeric_limits< unsigned long long >::max();
   depot_t::Iterator iterLine = lines.begin();
   typename List< T >::Iterator iterDig;
   List< T > sums;
@@ -84,30 +85,15 @@ psarev::List< T > psarev::outDigits(depot_t& lines, size_t& maxDigits, bool& isO
   {
     curSum = 0;
     iterLine = lines.begin();
-    for (size_t j = 0; j < lines.getSize(); j++)
+    for (iterLine = lines.begin(); iterLine != lines.end(); iterLine++)
     {
       iterDig = (*iterLine).second.begin();
       if ((*iterLine).second.getSize() > i)
       {
-        for (size_t k = 0; k < i; k++)
-        {
-          iterDig++;
-        }
-        if (curSum != 0)
-        {
-          std::cout << ' ';
-        }
-        std::cout << *iterDig;
-        if (*iterDig > std::numeric_limits< unsigned long long >::max() - curSum)
-        {
-          isOF = true;
-        }
-        else
-        {
-          curSum += *iterDig;
-        }
+        iterDig = i != 0 ? (iterDig + i) : iterDig;
+        curSum != 0 ? std::cout << ' ' << *iterDig : std::cout << *iterDig;
+        *iterDig > (maxUll - curSum) ? isOF = true : curSum += *iterDig;
       }
-      iterLine++;
     }
     sums.pushBack(curSum);
     std::cout << '\n';

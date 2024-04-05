@@ -83,7 +83,7 @@ namespace psarev
 }
 
 template< typename T >
-class psarev::List< T >::ConstIterator : public std::iterator<std::bidirectional_iterator_tag, T>
+class psarev::List< T >::ConstIterator : public std::iterator< std::bidirectional_iterator_tag, T >
 {
 public:
   friend class List< T >;
@@ -100,6 +100,7 @@ public:
   this_t operator++(int);
   this_t& operator--();
   this_t operator--(int);
+  this_t operator+(size_t index);
 
   const T& operator*() const;
   const T* operator->() const;
@@ -154,6 +155,16 @@ typename psarev::List< T >::ConstIterator psarev::List< T >::ConstIterator::oper
 }
 
 template< typename T >
+typename psarev::List< T >::ConstIterator psarev::List< T >::ConstIterator::operator+(size_t index)
+{
+  for (size_t i = 0; i < index; i++)
+  {
+    (*this)++;
+  }
+  return *this;
+}
+
+template< typename T >
 const T& psarev::List< T >::ConstIterator::operator*() const
 {
   return unit->data;
@@ -178,7 +189,7 @@ bool psarev::List< T >::ConstIterator::operator!=(const this_t& that) const
 }
 
 template< typename T >
-class psarev::List< T >::Iterator : public std::iterator<std::bidirectional_iterator_tag, T>
+class psarev::List< T >::Iterator : public std::iterator< std::bidirectional_iterator_tag, T >
 {
 public:
   friend class List< T >;
@@ -194,6 +205,7 @@ public:
   this_t operator++(int);
   this_t& operator--();
   this_t operator--(int);
+  this_t operator+(size_t index);
 
   T& operator*();
   T* operator->();
@@ -250,6 +262,16 @@ typename psarev::List< T >::Iterator psarev::List< T >::Iterator::operator--(int
 {
   --iter_;
   return iter_;
+}
+
+template< typename T >
+typename psarev::List< T >::Iterator psarev::List< T >::Iterator::operator+(size_t index)
+{
+  for (size_t i = 0; i < index; i++)
+  {
+    (*this)++;
+  }
+  return *this;
 }
 
 template< typename T >
