@@ -113,6 +113,19 @@ namespace kaseev {
     ArrSize--;
   }
 
+  template<class T>
+  void List<T>::remove(const T &value) {
+    int index = 0;
+    while (index < ArrSize) {
+      if ((*this)[index] == value) {
+        pop(index);
+      } else {
+        index++;
+      }
+    }
+  }
+
+
 
   template< class T >
   const T &List<T>::operator[](int index) const
