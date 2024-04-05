@@ -48,6 +48,8 @@ namespace psarev
     T& getFront() const;
     T& getBack() const;
 
+    void splice(iter pos, List< T >& other);
+    void splice(iter pos, List< T >&& other);
     void swap(List< T >& other) noexcept;
     void clear();
 
@@ -672,6 +674,38 @@ void psarev::List< T >::swap(List< T >& targetList) noexcept
   size_t tempoS = targetList.size;
   targetList.size = size;
   size = tempoS;
+}
+
+template< typename T >
+void psarev::List< T >::splice(iter pos, List< T >& other)
+{
+  if(!(other.empty()))
+  {
+    iter thatIt = other.begin();
+    while (thatIt != other.end())
+    {
+      insert(pos, *thatIt);
+      thatIt++;
+      pos++;
+    }
+    other.clear();
+  }
+}
+
+template< typename T >
+void psarev::List< T >::splice(iter pos, List< T >&& other)
+{
+  if (!(other.empty()))
+  {
+    iter thatIt = other.begin();
+    while (thatIt != other.end())
+    {
+      insert(pos, std::move(*thatIt));
+      thatIt++;
+      pos++;
+    }
+    other.clear();
+  }
 }
 
 template< typename T >
