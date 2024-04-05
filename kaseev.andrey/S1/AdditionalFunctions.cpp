@@ -1,26 +1,36 @@
 #include "AdditionalFunctions.hpp"
-#include <sstream>
+#include <iostream>
 #include <limits>
 
 namespace kaseev {
   int readList(const std::string &line, kaseev::List<std::pair<std::string, kaseev::List<unsigned long long>>> &arr, bool &marker)
   {
-    std::istringstream iss(line);
     std::string ListName;
-    if (!(iss >> ListName))
-    {
+    size_t space_pos = line.find(' ');
+    if (space_pos == std::string::npos) {
       std::cerr << "Empty line! \n";
       return 1;
     }
+    ListName = line.substr(0, space_pos);
     kaseev::List<unsigned long long> tempList;
-    unsigned long long num;
-    while (iss >> num)
-    {
-        if (num > std::numeric_limits<int>::max())
-        {
+    size_t start_pos = space_pos + 1;
+    while (start_pos < line.size()) {
+      size_t next_space_pos = line.find(' ', start_pos);
+      if (next_space_pos == std::string::npos) {
+        next_space_pos = line.size();
+      }
+      std::string num_str = line.substr(start_pos, next_space_pos - start_pos);
+      unsigned long long num;
+      try {
+        num = std::stoull(num_str);
+        if (num > std::numeric_limits<int>::max()) {
           marker = true;
         }
         tempList.pushBack(num);
+      } catch (const std::exception &e) {
+
+      }
+      start_pos = next_space_pos + 1;
     }
 
     std::pair<std::string, kaseev::List<unsigned long long>> list_pair;
@@ -28,8 +38,7 @@ namespace kaseev {
     list_pair.second = kaseev::List<unsigned long long>(tempList);
     arr.pushBack(list_pair);
 
-    if (marker)
-    {
+    if (marker) {
       return 1;
     }
     return 0;
@@ -37,19 +46,30 @@ namespace kaseev {
 
   unsigned long long sumNumbersInString(const std::string &line)
   {
-    std::istringstream iss(line);
-    long long sum = 0;
-    long long num;
-    while (iss >> num)
-    {
-      if (sum > std::numeric_limits<int>::max() - num) {
-        std::cerr << "overflow\n";
-        exit(1);
+    unsigned long long sum = 0;
+    size_t start_pos = 0;
+    while (start_pos < line.size()) {
+      size_t next_space_pos = line.find(' ', start_pos);
+      if (next_space_pos == std::string::npos) {
+        next_space_pos = line.size();
       }
-      sum += num;
+      std::string num_str = line.substr(start_pos, next_space_pos - start_pos);
+      long long num;
+      try {
+        num = std::stoll(num_str);
+        if (sum > std::numeric_limits<unsigned long long>::max() - num) {
+          std::cerr << "overflow\n";
+          exit(1);
+        }
+        sum += num;
+      } catch (const std::exception &e) {
+
+      }
+      start_pos = next_space_pos + 1;
     }
     return sum;
   }
+
 
   void sumNumbersInArray(const kaseev::List<std::pair<std::string, kaseev::List<int>>> &sums, bool &marker)
   {
