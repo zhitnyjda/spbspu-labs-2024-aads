@@ -27,6 +27,7 @@ namespace kaseev {
     T& front();
     void swap(List &other);
     void push_front(const T& data);
+    void pop_back();
 
     const T &operator[](int index) const;
     List<T>& operator=(const List<T>& other);
@@ -184,6 +185,14 @@ namespace kaseev {
     for (int i = size() - 1; i > 0; --i) {
       std::swap((*this)[i], (*this)[i - 1]);
     }
+  }
+
+  template<class T>
+  void List<T>::pop_back() {
+    if (empty()) {
+      throw std::logic_error("empty list");
+    }
+    pop(size() - 1);
   }
 
   template< class T >
