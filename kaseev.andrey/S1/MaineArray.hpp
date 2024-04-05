@@ -14,6 +14,7 @@ namespace kaseev {
     List(size_t count, const T& value);
     List(std::initializer_list<T> ilist);
     List(const List& other);
+
     void pushBack(const T &value);
     bool empty() const;
     int size() const;
@@ -21,6 +22,8 @@ namespace kaseev {
     void clear();
     void pop(int index);
     void remove(const T &value);
+    T& front();
+
     const T &operator[](int index) const;
     List<T>& operator=(const List<T>& other);
 
@@ -125,6 +128,13 @@ namespace kaseev {
     }
   }
 
+  template<class T>
+  T& List<T>::front() {
+    if (empty()) {
+      throw std::logic_error("List is empty");
+    }
+    return head->data;
+  }
 
 
   template< class T >
