@@ -92,7 +92,7 @@ void redko::processExpressions(std::istream & input, Stack< long long > & res)
             {
               throw std::overflow_error("Error: unable to calculate due to overflow");
             }
-            else if (rOperand < 0 && lOperand < 0 && (rOperand < std::numeric_limits< long long >::min() - lOperand))
+            if (rOperand < 0 && lOperand < 0 && (rOperand < std::numeric_limits< long long >::min() - lOperand))
             {
               throw std::underflow_error("Error: unable to calculate due to underflow");
             }
@@ -104,7 +104,7 @@ void redko::processExpressions(std::istream & input, Stack< long long > & res)
             {
               throw std::overflow_error("Error: unable to calculate due to overflow");
             }
-            else if (lOperand < 0 && rOperand > 0 && (lOperand < std::numeric_limits< long long >::min() + rOperand))
+            if (lOperand < 0 && rOperand > 0 && (lOperand < std::numeric_limits< long long >::min() + rOperand))
             {
               throw std::underflow_error("Error: unable to calculate due to underflow");
             }
@@ -116,7 +116,7 @@ void redko::processExpressions(std::istream & input, Stack< long long > & res)
             {
               throw std::overflow_error("Error: unable to calculate due to overflow");
             }
-            else if (((lOperand > 0 && rOperand < 0) || (lOperand < 0 && rOperand > 0)) && (rOperand < std::numeric_limits< long long >::min() / lOperand))
+            if (((lOperand > 0 && rOperand < 0) || (lOperand < 0 && rOperand > 0)) && (rOperand < std::numeric_limits< long long >::min() / lOperand))
             {
               throw std::underflow_error("Error: unable to calculate due to underflow");
             }
