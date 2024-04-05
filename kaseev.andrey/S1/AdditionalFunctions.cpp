@@ -17,15 +17,11 @@ namespace kaseev {
       }
       std::string num_str = line.substr(start_pos, next_space_pos - start_pos);
       unsigned long long num;
-      try {
-        num = std::stoull(num_str);
-        if (num > std::numeric_limits<int>::max()) {
-          marker = true;
-        }
-        tempList.pushBack(num);
-      } catch (const std::exception &e) {
-
+      num = std::stoull(num_str);
+      if (num > std::numeric_limits<int>::max()) {
+        marker = true;
       }
+      tempList.pushBack(num);
       start_pos = next_space_pos + 1;
     }
 
@@ -51,21 +47,15 @@ namespace kaseev {
       }
       std::string num_str = line.substr(start_pos, next_space_pos - start_pos);
       long long num;
-      try {
-        num = std::stoll(num_str);
-        if (sum > std::numeric_limits<unsigned long long>::max() - num) {
-          std::cerr << "overflow\n";
-          exit(1);
-        }
-        sum += num;
-      } catch (const std::exception &e) {
-
+      num = std::stoll(num_str);
+      if (sum > std::numeric_limits<unsigned long long>::max() - num) {
+        std::cerr << "overflow\n";
       }
+      sum += num;
       start_pos = next_space_pos + 1;
     }
     return sum;
   }
-
 
   void sumNumbersInArray(const kaseev::List<std::pair<std::string, kaseev::List<int>>> &sums, bool &marker)
   {
