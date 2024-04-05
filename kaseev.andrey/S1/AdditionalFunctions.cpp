@@ -7,10 +7,6 @@ namespace kaseev {
   {
     std::string ListName;
     size_t space_pos = line.find(' ');
-    if (space_pos == std::string::npos) {
-      std::cerr << "Empty line! \n";
-      return 1;
-    }
     ListName = line.substr(0, space_pos);
     kaseev::List<unsigned long long> tempList;
     size_t start_pos = space_pos + 1;
