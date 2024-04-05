@@ -6,11 +6,11 @@
 #include "inputFunctions.hpp"
 
 bool isNumeric(const std::string & str);
-void processExpressions(std::istream & input, redko::Stack< unsigned long long > & res);
+void processExpressions(std::istream & input, redko::Stack< long long > & res);
 
 int main(int argc, char ** argv)
 {
-  redko::Stack< unsigned long long > results{};
+  redko::Stack< long long > results{};
   try
   {
     if (argc == 2)
@@ -53,7 +53,7 @@ bool isNumeric(const std::string & str)
   return str.find_first_not_of("0123456789") == std::string::npos && str.size() != 0;
 }
 
-void processExpressions(std::istream & input, redko::Stack< unsigned long long > & res)
+void processExpressions(std::istream & input, redko::Stack< long long > & res)
 {
   std::string expression = "";
   std::string value = "";
@@ -116,8 +116,8 @@ void processExpressions(std::istream & input, redko::Stack< unsigned long long >
     if (!postfix.empty())
     {
       redko::Stack< long long > calc{};
-      unsigned long long first = 0;
-      unsigned long long second = 0;
+      long long first = 0;
+      long long second = 0;
 
       while (!postfix.empty())
       {
@@ -172,4 +172,3 @@ void processExpressions(std::istream & input, redko::Stack< unsigned long long >
     }
   }
 }
-
