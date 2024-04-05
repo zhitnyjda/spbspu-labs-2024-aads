@@ -19,6 +19,8 @@ namespace kaseev {
     int size() const;
     void pop_front();
     void clear();
+    void pop(int index);
+    void remove(const T &value);
     const T &operator[](int index) const;
     List<T>& operator=(const List<T>& other);
 
@@ -90,6 +92,27 @@ namespace kaseev {
       pop_front();
     }
   }
+
+  template<class T>
+  void List<T>::pop(int index) {
+    if (index < 0 || index >= ArrSize) {
+      throw std::out_of_range("Index out of range");
+    }
+    Node<T> *current = head;
+    Node<T> *prev = nullptr;
+    for (int i = 0; i < index; ++i) {
+      prev = current;
+      current = current->next;
+    }
+    if (prev != nullptr) {
+      prev->next = current->next;
+    } else {
+      head = current->next;
+    }
+    delete current;
+    ArrSize--;
+  }
+
 
   template< class T >
   const T &List<T>::operator[](int index) const
