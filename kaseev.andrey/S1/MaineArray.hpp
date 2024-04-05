@@ -8,7 +8,7 @@ namespace kaseev {
   template< class T >
   class List {
   public:
-    List() : ArrSize(0), head(nullptr) {}
+    List();
     ~List();
     List(size_t count);
     List(size_t count, const T& value);
@@ -42,6 +42,13 @@ namespace kaseev {
   List<T>::~List()
   {
     clear();
+  }
+
+  template< class T >
+  List<T>::List()
+  {
+    ArrSize = 0;
+    head = nullptr;
   }
 
   template< class T >
