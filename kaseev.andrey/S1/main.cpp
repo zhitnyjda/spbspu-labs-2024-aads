@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include "MaineArray.hpp"
-#include "AdditionalFunctions.hpp"
+#include "AdditionalFunctions.cpp"
 
 
 int main()
@@ -12,7 +12,7 @@ int main()
   bool marker = false;
   while (std::getline(std::cin, line) && !line.empty())
   {
-    marker = readList(line, arr, marker);
+    readList(line, arr, marker);
   }
 
   printListNames(arr);

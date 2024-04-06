@@ -2,9 +2,8 @@
 #include <iostream>
 #include <limits>
 
-namespace kaseev
-{
-  int readList(const std::string &line, kaseev::List<ULL_ListPair> &arr, bool &marker)
+namespace kaseev {
+  void readList(const std::string &line, kaseev::List<ULL_ListPair> &arr, bool &marker)
   {
     std::string ListName;
     size_t space_pos = line.find(' ');
@@ -20,12 +19,16 @@ namespace kaseev
       }
       std::string num_str = line.substr(start_pos, next_space_pos - start_pos);
       unsigned long long num;
-      num = std::stoull(num_str);
+      bool NoNumbers = false;
+      num = convertToULL(num_str, NoNumbers);
       if (num > std::numeric_limits<int>::max())
       {
         marker = true;
       }
-      tempList.pushBack(num);
+      if (!NoNumbers)
+      {
+        tempList.pushBack(num);
+      }
       start_pos = next_space_pos + 1;
     }
 
@@ -33,19 +36,14 @@ namespace kaseev
     list_pair.first = ListName;
     list_pair.second = kaseev::List<unsigned long long>(tempList);
     arr.pushBack(list_pair);
-
-    if (marker)
-    {
-      return 1;
-    }
-    return 0;
   }
 
   unsigned long long sumNumbersInString(const std::string &line)
   {
     unsigned long long sum = 0;
     size_t start_pos = 0;
-    while (start_pos < line.size()) {
+    while (start_pos < line.size())
+    {
       size_t next_space_pos = line.find(' ', start_pos);
       if (next_space_pos == std::string::npos)
       {
@@ -116,14 +114,12 @@ namespace kaseev
       for (int i = 0; i < arr.size(); ++i)
       {
         const kaseev::List<unsigned long long> &sublist = arr[i].second;
-
         if (index < sublist.size())
         {
           if (!currentString.empty())
           {
             currentString += " ";
           }
-
           currentString += std::to_string(sublist[index]);
           finished = false;
         }
@@ -134,7 +130,6 @@ namespace kaseev
         std::cout << currentString << "\n";
         sum.pushBack({currentString, kaseev::List<int>()});
       }
-
       index++;
     }
     if (sum.empty())
@@ -142,5 +137,15 @@ namespace kaseev
       sum.pushBack({"", List<int>{IfSumEmpty}});
     }
     return sum;
+  }
+
+  unsigned long long convertToULL(const std::string &str, bool &NoNumbers) noexcept
+  {
+    if (str.empty() || str.find_first_not_of("0123456789") != std::string::npos)
+    {
+      NoNumbers = true;
+      return 0;
+    }
+    return std::stoull(str);
   }
 }
