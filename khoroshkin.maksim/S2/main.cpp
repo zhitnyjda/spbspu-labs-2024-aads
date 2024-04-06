@@ -31,10 +31,7 @@ int main(int argc, char * argv[])
       if (expressions.top().length() > 0)
       {
         std::cout << calc(expressions.pop());
-        if (expressions.size() != 0)
-        {
-          std::cout << " ";
-        }
+        (expressions.size() != 0) ? std::cout << " " : std::cout << "\n";
       }
       else
       {
