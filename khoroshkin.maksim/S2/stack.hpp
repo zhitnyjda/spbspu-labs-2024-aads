@@ -15,7 +15,7 @@ namespace khoroshkin
     T & top();
     bool empty();
     size_t size();
-    
+
     void push(const T & value);
     T pop();
   private:

@@ -20,7 +20,7 @@ void khoroshkin::Postfix::popOperation()
 {
   Operand secondOperand = operands.pop();
   Operand firstOperand = operands.pop();
-  
+
   if (operations.top() == '+')
   {
     operands.push(firstOperand + secondOperand);

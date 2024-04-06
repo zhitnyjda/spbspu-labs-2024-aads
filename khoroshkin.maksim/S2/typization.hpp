@@ -4,7 +4,7 @@
 #include "stack.hpp"
 
 namespace khoroshkin
-{ 
+{
   struct Operand
   {
     Operand();
