@@ -2,7 +2,8 @@
 #include <iostream>
 #include <limits>
 
-namespace kaseev {
+namespace kaseev
+{
   int readList(const std::string &line, kaseev::List<ULL_ListPair> &arr, bool &marker)
   {
     std::string ListName;

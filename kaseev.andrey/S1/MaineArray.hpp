@@ -4,7 +4,8 @@
 #include <iostream>
 #include "Node.hpp"
 
-namespace kaseev {
+namespace kaseev
+{
   template< class T >
   class List {
   public:
