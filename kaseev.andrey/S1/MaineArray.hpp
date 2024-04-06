@@ -2,7 +2,6 @@
 #define MAINEARRAY_HPP
 
 #include <iostream>
-#include "Node.hpp"
 
 namespace kaseev
 {
@@ -39,6 +38,14 @@ namespace kaseev
 
   private:
     int ArrSize;
+    template <class N>
+    class Node {
+    public:
+      N data;
+      Node<N>* next;
+
+      explicit Node(const N& value) : data(value), next(nullptr) {}
+    };
     Node<T> *head;
   };
 
