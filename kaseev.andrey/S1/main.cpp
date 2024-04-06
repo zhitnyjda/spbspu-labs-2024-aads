@@ -3,8 +3,11 @@
 #include "MaineArray.hpp"
 #include "AdditionalFunctions.hpp"
 
-int main() {
-  kaseev::List<std::pair<std::string, kaseev::List<unsigned long long>>> arr;
+
+int main()
+{
+  using namespace kaseev;
+  List<kaseev::ULL_ListPair> arr;
   std::string line;
   bool marker = false;
   while (std::getline(std::cin, line)) {
@@ -12,16 +15,16 @@ int main() {
     {
       break;
     }
-    marker = kaseev::readList(line, arr, marker);
+    marker = readList(line, arr, marker);
   }
 
-  kaseev::printListNames(arr);
-  kaseev::List<std::pair<std::string, kaseev::List<int>>> sum = kaseev::calculateSumList(arr);
+  printListNames(arr);
+  List<IntListPair> sum = calculateSumList(arr);
   if (marker)
   {
     std::cerr << "overflow\n";
     return 1;
   }
-  kaseev::sumNumbersInArray(sum, marker);
+  sumNumbersInArray(sum, marker);
   return 0;
 }

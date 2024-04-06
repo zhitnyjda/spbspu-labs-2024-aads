@@ -3,7 +3,7 @@
 #include <limits>
 
 namespace kaseev {
-  int readList(const std::string &line, kaseev::List<std::pair<std::string, kaseev::List<unsigned long long>>> &arr, bool &marker)
+  int readList(const std::string &line, kaseev::List<ULL_ListPair> &arr, bool &marker)
   {
     std::string ListName;
     size_t space_pos = line.find(' ');
@@ -57,7 +57,7 @@ namespace kaseev {
     return sum;
   }
 
-  void sumNumbersInArray(const kaseev::List<std::pair<std::string, kaseev::List<int>>> &sums, bool &marker)
+  void sumNumbersInArray(const kaseev::List<IntListPair> &sums, bool &marker)
   {
     if (!marker)
     {
@@ -65,7 +65,7 @@ namespace kaseev {
       {
         const auto &pair = sums[i];
         const std::string &line = pair.first;
-        int sum = 0;
+        unsigned long long sum = 0;
         sum = sumNumbersInString(line);
         std::cout << sum;
         if (i < sums.size() - 1)
@@ -77,12 +77,12 @@ namespace kaseev {
     }
   }
 
-  void printListNames(const kaseev::List<std::pair<std::string, kaseev::List<unsigned long long>>> &arr)
+  void printListNames(const kaseev::List<ULL_ListPair> &arr)
   {
     bool marker = false;
     for (int i = 0; i < arr.size(); ++i)
     {
-      std::pair<std::string, kaseev::List<unsigned long long>> list = arr[i];
+      ULL_ListPair list = arr[i];
       std::cout << list.first;
       if (i < arr.size() - 1)
       {
@@ -96,12 +96,11 @@ namespace kaseev {
     }
   }
 
-  kaseev::List<std::pair<std::string, kaseev::List<int>>>
-  calculateSumList(const kaseev::List<std::pair<std::string, kaseev::List<unsigned long long>>> &arr)
+  kaseev::List<IntListPair> calculateSumList(const kaseev::List<ULL_ListPair> &arr)
   {
     bool finished = false;
     int index = 0;
-    kaseev::List<std::pair<std::string, kaseev::List<int>>> sum;
+    kaseev::List<IntListPair> sum;
     int IfSumEmpty = 0;
     while (!finished)
     {
