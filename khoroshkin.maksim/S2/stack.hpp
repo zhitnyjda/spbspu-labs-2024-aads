@@ -57,17 +57,24 @@ void khoroshkin::Stack< T >::push(const T & value)
 template< typename T >
 T khoroshkin::Stack< T >::pop()
 {
-  T result;
+  if (stack.isEmpty())
+  {
+    throw std::logic_error("stack is empty");
+  }
   auto it_before = stack.begin();
-  for (auto it = stack.begin(); it != stack.end(); it++)
+  auto it = stack.begin();
+  while (it != stack.end())
   {
     if (next(it) == stack.end())
     {
-      result = *it;
-      stack.erase_after(it_before);
+      break;
     }
     it_before = it;
+    ++it;
   }
+  T result = *it;
+  stack.erase_after(it_before);
+
   return result;
 }
 
