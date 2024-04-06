@@ -7,7 +7,6 @@
 #include <limits>
 #include <memory>
 #include <iterator>
-#include "stack.hpp"
 
 namespace khoroshkin
 {
