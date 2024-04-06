@@ -58,11 +58,11 @@ namespace kaseev {
   void List<T>::pushBack(const T &value)
   {
     Node<T> *newNode = new Node<T>(value);
-
     if (head == nullptr)
     {
       head = newNode;
-    } else
+    }
+    else
     {
       Node<T> *current = head;
       while (current->next != nullptr)
@@ -71,7 +71,6 @@ namespace kaseev {
       }
       current->next = newNode;
     }
-
     ArrSize++;
   }
 
@@ -112,19 +111,25 @@ namespace kaseev {
   }
 
   template<class T>
-  void List<T>::pop(int index) {
-    if (index < 0 || index >= ArrSize) {
+  void List<T>::pop(int index)
+  {
+    if (index < 0 || index >= ArrSize)
+    {
       throw std::out_of_range("Index out of range");
     }
     Node<T> *current = head;
     Node<T> *prev = nullptr;
-    for (int i = 0; i < index; ++i) {
+    for (int i = 0; i < index; ++i)
+    {
       prev = current;
       current = current->next;
     }
-    if (prev != nullptr) {
+    if (prev != nullptr)
+    {
       prev->next = current->next;
-    } else {
+    }
+    else
+    {
       head = current->next;
     }
     delete current;
@@ -132,10 +137,13 @@ namespace kaseev {
   }
 
   template<class T>
-  void List<T>::remove(const T &value) {
+  void List<T>::remove(const T &value)
+  {
     int index = 0;
-    while (index < ArrSize) {
-      if ((*this)[index] == value) {
+    while (index < ArrSize)
+    {
+      if ((*this)[index] == value)
+      {
         pop(index);
       } else {
         index++;
@@ -144,8 +152,10 @@ namespace kaseev {
   }
 
   template<class T>
-  T& List<T>::front() {
-    if (empty()) {
+  T& List<T>::front()
+  {
+    if (empty())
+    {
       throw std::logic_error("List is empty");
     }
     return head->data;
@@ -153,26 +163,33 @@ namespace kaseev {
 
   template<class T>
   template<class UnaryPredicate>
-  void List<T>::remove_if(UnaryPredicate p) {
-    while (!empty() && p(front())) {
+  void List<T>::remove_if(UnaryPredicate p)
+  {
+    while (!empty() && p(front()))
+    {
       pop_front();
     }
-
     Node<T>* prev = nullptr;
     Node<T>* current = head;
-
-    while (current != nullptr) {
-      if (p(current->data)) {
-        if (prev == nullptr) {
+    while (current != nullptr)
+    {
+      if (p(current->data))
+      {
+        if (prev == nullptr)
+        {
           pop_front();
           current = head;
-        } else {
+        }
+        else
+        {
           prev->next = current->next;
           delete current;
           current = prev->next;
           ArrSize--;
         }
-      } else {
+      }
+      else
+      {
         prev = current;
         current = current->next;
       }
@@ -180,7 +197,8 @@ namespace kaseev {
   }
 
   template<class T>
-  void List<T>::swap(List &other) noexcept{
+  void List<T>::swap(List &other) noexcept
+  {
     Node<T>* temp = head;
     head = other.head;
     other.head = temp;
@@ -190,16 +208,20 @@ namespace kaseev {
   }
 
   template<class T>
-  void List<T>::push_front(const T& data) {
+  void List<T>::push_front(const T& data)
+  {
     pushBack(data);
-    for (int i = size() - 1; i > 0; --i) {
+    for (int i = size() - 1; i > 0; --i)
+    {
       std::swap((*this)[i], (*this)[i - 1]);
     }
   }
 
   template<class T>
-  void List<T>::pop_back() {
-    if (empty()) {
+  void List<T>::pop_back()
+  {
+    if (empty())
+    {
       throw std::logic_error("empty list");
     }
     pop(size() - 1);
@@ -221,20 +243,25 @@ namespace kaseev {
   }
 
   template<class T>
-  List<T>::List(const List& other) : ArrSize(0), head(nullptr) {
+  List<T>::List(const List& other) : ArrSize(0), head(nullptr)
+  {
     Node<T>* current = other.head;
-    while (current != nullptr) {
+    while (current != nullptr)
+    {
       pushBack(current->data);
       current = current->next;
     }
   }
 
   template<class T>
-  List<T>& List<T>::operator=(const List<T>& other) {
-    if (this != &other) {
+  List<T>& List<T>::operator=(const List<T>& other)
+      {
+    if (this != &other)
+    {
       clear();
       Node<T>* current = other.head;
-      while (current != nullptr) {
+      while (current != nullptr)
+      {
         pushBack(current->data);
         current = current->next;
       }
@@ -243,21 +270,26 @@ namespace kaseev {
   }
 
   template<class T>
-  List<T>::List(size_t count) : ArrSize(0), head(nullptr) {
-    for (size_t i = 0; i < count; ++i) {
+  List<T>::List(size_t count) : ArrSize(0), head(nullptr)
+  {
+    for (size_t i = 0; i < count; ++i)
+    {
       pushBack(T());
     }
   }
 
   template<class T>
-  List<T>::List(size_t count, const T& value) : ArrSize(0), head(nullptr) {
-    for (size_t i = 0; i < count; ++i) {
+  List<T>::List(size_t count, const T& value) : ArrSize(0), head(nullptr)
+  {
+    for (size_t i = 0; i < count; ++i)
+    {
       pushBack(value);
     }
   }
 
   template<class T>
-  List<T>::List(std::initializer_list<T> ilist) : ArrSize(0), head(nullptr) {
+  List<T>::List(std::initializer_list<T> ilist) : ArrSize(0), head(nullptr)
+  {
     for (const auto& elem : ilist) {
       pushBack(elem);
     }

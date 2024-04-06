@@ -10,11 +10,8 @@ int main()
   List<kaseev::ULL_ListPair> arr;
   std::string line;
   bool marker = false;
-  while (std::getline(std::cin, line)) {
-    if (line.empty())
-    {
-      break;
-    }
+  while (std::getline(std::cin, line) && !line.empty())
+  {
     marker = readList(line, arr, marker);
   }
 

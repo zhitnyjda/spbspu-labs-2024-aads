@@ -10,15 +10,18 @@ namespace kaseev {
     ListName = line.substr(0, space_pos);
     kaseev::List<unsigned long long> tempList;
     size_t start_pos = space_pos + 1;
-    while (start_pos < line.size()) {
+    while (start_pos < line.size())
+    {
       size_t next_space_pos = line.find(' ', start_pos);
-      if (next_space_pos == std::string::npos) {
+      if (next_space_pos == std::string::npos)
+      {
         next_space_pos = line.size();
       }
       std::string num_str = line.substr(start_pos, next_space_pos - start_pos);
       unsigned long long num;
       num = std::stoull(num_str);
-      if (num > std::numeric_limits<int>::max()) {
+      if (num > std::numeric_limits<int>::max())
+      {
         marker = true;
       }
       tempList.pushBack(num);
@@ -30,7 +33,8 @@ namespace kaseev {
     list_pair.second = kaseev::List<unsigned long long>(tempList);
     arr.pushBack(list_pair);
 
-    if (marker) {
+    if (marker)
+    {
       return 1;
     }
     return 0;
@@ -42,13 +46,15 @@ namespace kaseev {
     size_t start_pos = 0;
     while (start_pos < line.size()) {
       size_t next_space_pos = line.find(' ', start_pos);
-      if (next_space_pos == std::string::npos) {
+      if (next_space_pos == std::string::npos)
+      {
         next_space_pos = line.size();
       }
       std::string num_str = line.substr(start_pos, next_space_pos - start_pos);
       long long num;
       num = std::stoll(num_str);
-      if (sum > std::numeric_limits<unsigned long long>::max() - num) {
+      if (sum > std::numeric_limits<unsigned long long>::max() - num)
+      {
         std::cerr << "overflow\n";
       }
       sum += num;

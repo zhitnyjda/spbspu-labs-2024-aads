@@ -3,8 +3,7 @@
 
 namespace kaseev {
   template <class T>
-  class Node
-  {
+  class Node {
   public:
     T data;
     Node<T>* next;
