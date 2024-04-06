@@ -101,9 +101,6 @@ struct miheev::List< T >::Iterator
 };
 
 template< typename T >
-using iterator = typename miheev::List< T >::Iterator;
-
-template< typename T >
 miheev::List< T >::Iterator::Iterator():
   cur(nullptr)
 {}
@@ -149,14 +146,14 @@ bool miheev::List< T >::Iterator::empty() const
 }
 
 template< typename T >
-iterator< T >& miheev::List< T >::Iterator::operator++()
+typename miheev::List< T >::Iterator::this_t& miheev::List< T >::Iterator::operator++()
 {
   cur = cur->next_;
   return *this;
 }
 
 template< typename T >
-iterator< T > miheev::List< T >::Iterator::operator++(int)
+typename miheev::List< T >::Iterator::this_t miheev::List< T >::Iterator::operator++(int)
 {
   this_t copy(*this);
   cur = cur->next_;
@@ -164,7 +161,7 @@ iterator< T > miheev::List< T >::Iterator::operator++(int)
 }
 
 template< typename T >
-iterator< T > miheev::List< T >::Iterator::next()
+typename miheev::List< T >::Iterator::this_t miheev::List< T >::Iterator::next()
 {
   return this_t(this->cur->next_);
 }
