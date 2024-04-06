@@ -1,7 +1,7 @@
 #ifndef NODE_HPP
 #define NODE_HPP
 
-namespace kaseev{
+namespace kaseev {
   template <class T>
   class Node
   {
@@ -9,7 +9,7 @@ namespace kaseev{
     T data;
     Node<T>* next;
 
-    Node(const T& value) : data(value), next(nullptr) {}
+    explicit Node(const T& value) : data(value), next(nullptr) {}
   };
 }
 #endif

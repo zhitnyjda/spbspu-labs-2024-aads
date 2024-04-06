@@ -10,24 +10,27 @@ namespace kaseev {
   public:
     List();
     ~List();
-    List(size_t count);
+    explicit List(size_t count);
     List(size_t count, const T& value);
     List(std::initializer_list<T> ilist);
     List(const List& other);
 
+    T& front();
+
     void pushBack(const T &value);
-    bool empty() const;
-    int size() const;
+    void push_front(const T& data);
     void pop_front();
-    void clear();
+    void pop_back();
     void pop(int index);
+    void clear();
+    void swap(List &other) noexcept;
+
+    bool empty() const noexcept;
+    int size() const;
+
     void remove(const T &value);
     template< class UnaryPredicate >
     void remove_if(UnaryPredicate p);
-    T& front();
-    void swap(List &other);
-    void push_front(const T& data);
-    void pop_back();
 
     const T &operator[](int index) const;
     List<T>& operator=(const List<T>& other);
@@ -73,7 +76,7 @@ namespace kaseev {
   }
 
   template< class T >
-  bool List<T>::empty() const
+  bool List<T>::empty() const noexcept
   {
     return head == nullptr;
   }
@@ -177,7 +180,7 @@ namespace kaseev {
   }
 
   template<class T>
-  void List<T>::swap(List &other) {
+  void List<T>::swap(List &other) noexcept{
     Node<T>* temp = head;
     head = other.head;
     other.head = temp;
