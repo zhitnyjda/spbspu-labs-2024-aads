@@ -4,15 +4,37 @@ int main()
 {
   using namespace nikiforov;
 
-  List< std::pair< std::string, List< unsigned long long > > > seqsPair;
-  List< unsigned long long > listSumm;
-  size_t maxSize = 0;
+  using list_ull = List< std::pair< std::string, List< unsigned long long > > >;
   try
   {
-    input_(std::cin, seqsPair);
-    outputName_(seqsPair, maxSize);
-    outputSeqs_(seqsPair, listSumm, maxSize);
-    outputSumm_(listSumm, maxSize);
+    list_ull seqsPair;
+    list_ull::Iterator iterSeqsPair = seqsPair.begin();
+    std::string elemSeq = "";
+    while (std::cin >> elemSeq)
+    {
+      if (isdigit(elemSeq[0]))
+      {
+        (*iterSeqsPair).second.push_back(std::stoull(elemSeq));
+      }
+      else
+      {
+        seqsPair.push_back({ elemSeq,{} });
+        seqsPair.getSize() == 1 ? iterSeqsPair = seqsPair.begin() : iterSeqsPair++;
+      }
+    }
+
+    size_t maxSize = 0;
+    maxSize = outputName_(seqsPair);
+    if (maxSize != 0)
+    {
+      List< unsigned long long > listSumm;
+      outputSeqs_(seqsPair, listSumm, maxSize);
+      outputSumm_(listSumm);
+    }
+    else
+    {
+      std::cout << 0 << "\n";
+    }
   }
   catch (const std::overflow_error& e)
   {
