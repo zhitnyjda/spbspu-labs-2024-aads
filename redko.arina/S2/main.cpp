@@ -10,6 +10,11 @@ int main(int argc, char ** argv)
     if (argc == 2)
     {
       std::ifstream input(argv[1]);
+      if (!input)
+      {
+        std::cerr << "Error: unable to open the file\n";
+        return 2;
+      }
       processExpressions(input, results);
     }
     else
@@ -27,7 +32,11 @@ int main(int argc, char ** argv)
   {
     std::cout << results.top();
     results.pop();
-    std::cout << (results.empty() ? '\n' : ' ');
+    if (!results.empty())
+    {
+      std::cout << ' ';
+    }
   }
+  std::cout << '\n';
   return 0;
 }
