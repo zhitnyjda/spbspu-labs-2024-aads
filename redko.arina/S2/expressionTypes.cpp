@@ -47,11 +47,13 @@ redko::Operand redko::Operand::operator-(const Operand & rhs)
 
 redko::Operand redko::Operand::operator*(const Operand & rhs)
 {
-  if (((value > 0 && rhs.value > 0) || (value < 0 && rhs.value < 0)) && (abs(rhs.value) > abs(std::numeric_limits< long long >::max() / value)))
+  const long long maxLimit = std::numeric_limits< long long >::max();
+  const long long minLimit = std::numeric_limits< long long >::min();
+  if (((value > 0 && rhs.value > 0) || (value < 0 && rhs.value < 0)) && (abs(rhs.value) > abs(maxLimit / value)))
   {
     throw std::overflow_error("Error: unable to calculate due to overflow");
   }
-  if (((value > 0 && rhs.value < 0) || (value < 0 && rhs.value > 0)) && (abs(rhs.value) > abs(std::numeric_limits< long long >::min() / value)))
+  if (((value > 0 && rhs.value < 0) || (value < 0 && rhs.value > 0)) && (abs(rhs.value) > abs(minLimit / value)))
   {
     throw std::underflow_error("Error: unable to calculate due to underflow");
   }
