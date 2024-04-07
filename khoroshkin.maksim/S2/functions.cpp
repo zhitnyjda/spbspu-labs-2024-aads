@@ -33,7 +33,14 @@ long long khoroshkin::calc(std::string str)
     token = getToken(str, pos);
     if (khoroshkin::isdigit(token))
     {
-      expression.operands.push(std::stoi(token));
+      try
+      {
+        expression.operands.push(std::stoll(token));
+      }
+      catch (const std::exception & e)
+      {
+        throw std::logic_error("Error: overflow or underflow number!");
+      }
     }
     else if (token.size() == 1)
     {
@@ -57,7 +64,7 @@ long long khoroshkin::calc(std::string str)
   }
   while (!token.empty());
 
-  if (expression.operands.size() > 1 && !expression.operations.empty())
+  if (expression.operands.size() > 1 || !expression.operations.empty())
   {
     throw std::logic_error("Error: wrong expression");
   }

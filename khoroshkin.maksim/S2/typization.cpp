@@ -1,4 +1,6 @@
 #include "typization.hpp"
+#include <limits>
+#include <cmath>
 
 khoroshkin::Operator::Operator() :
   operation('0')
@@ -20,26 +22,51 @@ void khoroshkin::Postfix::popOperation()
 {
   Operand secondOperand = operands.pop();
   Operand firstOperand = operands.pop();
+  Operand limitTop = std::numeric_limits< long long >::max();
+  Operand limitBottom = std::numeric_limits< long long >::min();
 
   if (operations.top() == '+')
   {
+    if ((limitTop - firstOperand) < secondOperand)
+    {
+      throw std::logic_error("Error: overflow!");
+    }
     operands.push(firstOperand + secondOperand);
   }
   else if (operations.top() == '-')
   {
+    if ((limitBottom + secondOperand) > firstOperand)
+    {
+      throw std::logic_error("Error: overflow!");
+    }
     operands.push(firstOperand - secondOperand);
   }
   else if (operations.top() == '*')
   {
+    if ((limitTop / secondOperand) < firstOperand || ((limitBottom / secondOperand) > firstOperand))
+    {
+      throw std::logic_error("Error: overflow!");
+    }
     operands.push(firstOperand * secondOperand);
   }
   else if (operations.top() == '/')
   {
+    if ((limitBottom * secondOperand) > firstOperand)
+    {
+      throw std::logic_error("Error: overflow!");
+    }
     operands.push(firstOperand / secondOperand);
   }
   else if (operations.top() == '%')
   {
-    operands.push(firstOperand % secondOperand);
+    if (firstOperand < 0)
+    {
+      operands.push(secondOperand + (firstOperand % secondOperand));
+    }
+    else
+    {
+      operands.push(firstOperand % secondOperand);
+    }
   }
   operations.pop();
 }
@@ -87,6 +114,16 @@ khoroshkin::Operand khoroshkin::Operand::operator%(const Operand & rhs)
   Operand result;
   result.value = value % rhs.value;
   return result;
+}
+
+bool khoroshkin::Operand::operator<(const Operand & rhs)
+{
+  return this->value < rhs.value;
+}
+
+bool khoroshkin::Operand::operator>(const Operand & rhs)
+{
+  return this->value > rhs.value;
 }
 
 bool khoroshkin::Postfix::canPop(Operator oper)

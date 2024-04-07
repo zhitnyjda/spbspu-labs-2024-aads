@@ -15,6 +15,9 @@ namespace khoroshkin
     Operand operator*(const Operand & rhs);
     Operand operator/(const Operand & rhs);
     Operand operator%(const Operand & rhs);
+    
+    bool operator<(const Operand & rhs);
+    bool operator>(const Operand & rhs);
 
     long long value;
   };
