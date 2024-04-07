@@ -29,7 +29,10 @@ int main(int argc, char * argv[])
     try
     {
       std::cout << calc(expressions.pop());
-      (expressions.empty()) ? std::cout << '\n' : std::cout << ' ';
+      if (!expressions.empty())
+      {
+        std::cout << ' ';
+      }
     }
     catch (const std::exception& e)
     {
@@ -37,5 +40,6 @@ int main(int argc, char * argv[])
       return 1;
     }
   }
+  std::cout << '\n';
   return 0;
 }

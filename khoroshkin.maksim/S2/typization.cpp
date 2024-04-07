@@ -51,7 +51,7 @@ void khoroshkin::Postfix::popOperation()
   }
   else if (operations.top() == '/')
   {
-    if ((limitBottom * secondOperand) > firstOperand)
+    if ((limitBottom / secondOperand) > firstOperand)
     {
       throw std::logic_error("Error: overflow!");
     }
