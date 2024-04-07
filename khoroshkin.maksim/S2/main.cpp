@@ -28,15 +28,8 @@ int main(int argc, char * argv[])
   {
     try
     {
-      if (expressions.top().length() > 0)
-      {
-        std::cout << calc(expressions.pop());
-        (expressions.size() != 0) ? std::cout << " " : std::cout << "\n";
-      }
-      else
-      {
-        expressions.pop();
-      }
+      std::cout << calc(expressions.pop());
+      (expressions.empty()) ? std::cout << '\n' : std::cout << ' ';
     }
     catch (const std::exception& e)
     {

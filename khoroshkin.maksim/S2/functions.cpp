@@ -6,7 +6,10 @@ void khoroshkin::inputInfix(std::istream & in, Stack< std::string > & expression
   std::string expression;
   while (getline(in, expression))
   {
-    expressions.push(expression);
+    if (expression.length() > 0)
+    {
+      expressions.push(expression);
+    }
   }
 }
 
