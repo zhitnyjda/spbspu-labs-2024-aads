@@ -440,6 +440,12 @@ template < typename P >
 void miheev::List< T >::removeIf(P functor)
 {
   Iterator iter(begin());
+
+  while (functor(*iter))
+  {
+    popFront();
+  }
+
   while (iter)
   {
     if (functor(*(iter.next())))
