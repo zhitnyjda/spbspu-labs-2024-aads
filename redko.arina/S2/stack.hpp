@@ -20,6 +20,7 @@ namespace redko
     const T & top() const;
 
     bool empty() const;
+    size_t size() const;
 
     void push(const T & value);
     void push(T && value);
@@ -74,6 +75,19 @@ template < typename T >
 bool redko::Stack< T >::empty() const
 {
   return container_.isEmpty();
+}
+
+template < typename T >
+size_t redko::Stack< T >::size() const
+{
+  size_t size = 0;
+  typename List< T >::iterator curr = container_.begin();
+  while (curr != container_.end())
+  {
+    ++size;
+    ++curr;
+  }
+  return size;
 }
 
 template < typename T >
