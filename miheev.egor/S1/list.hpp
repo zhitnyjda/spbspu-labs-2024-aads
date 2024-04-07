@@ -42,16 +42,22 @@ namespace miheev
     template < class P >
     void removeIf(P functor);
 
-    Iterator begin()
-    {
-      return this;
-    }
-    Iterator end()
-    {
-      return nullptr;
-    }
+    Iterator begin();
+    Iterator end();
 
   };
+}
+
+template< typename T >
+typename miheev::List< T >::Iterator miheev::List< T >::begin()
+{
+  return this;
+}
+
+template< typename T >
+typename miheev::List< T >::Iterator miheev::List< T >::end()
+{
+  return nullptr;
 }
 
 template< typename T >
@@ -440,7 +446,10 @@ void miheev::List< T >::removeIf(P functor)
     {
       iter.eraseAfter();
     }
-    iter++;
+    if (iter)
+    {
+      iter++;
+    }
   }
 }
 
