@@ -44,8 +44,22 @@ namespace miheev
 
     Iterator begin();
     Iterator end();
+    ConstIterator cBegin();
+    ConstIterator cEnd();
 
   };
+}
+
+template< typename T >
+typename miheev::List< T >::ConstIterator miheev::List< T >::cBegin()
+{
+  return this;
+}
+
+template< typename T >
+typename miheev::List< T >::ConstIterator miheev::List< T >::cEnd()
+{
+  return nullptr;
 }
 
 template< typename T >
@@ -64,22 +78,67 @@ template< typename T >
 struct miheev::List< T >::ConstIterator
 {
 private:
-  List< T >* cur;
+  List< T >* cur_;
 public:
   friend class List< T >;
   ConstIterator(const List< T >*);
+  ConstIterator(const ConstIterator&) = default;
   ~ConstIterator() = default;
-  ConstIterator& operator=(const ConstIterator&);
+  ConstIterator& operator=(const ConstIterator&) = default;
 
   ConstIterator& operator++();
   ConstIterator operator++(int);
 
-  const T& operator*();
-  const T* operator->();
+  const T& operator*() const;
+  const T* operator->() const;
 
   bool operator!=(const ConstIterator& rhs) const;
   bool operator==(const ConstIterator& rhs) const;
 };
+
+template< typename T >
+miheev::List< T >::ConstIterator::ConstIterator(const miheev::List< T >* ptr):
+  cur_(ptr)
+{}
+
+template< typename T >
+typename miheev::List< T >::ConstIterator& miheev::List< T >::ConstIterator::operator++()
+{
+  cur_ = cur_->next_;
+  return *this;
+}
+
+template< typename T >
+typename miheev::List< T >::ConstIterator miheev::List< T >::ConstIterator::operator++(int)
+{
+  ConstIterator temp(*this);
+  ++(*this);
+  return temp;
+}
+
+template< typename T >
+const T& miheev::List< T >::ConstIterator::operator*() const
+{
+  return cur_->data_;
+}
+
+template< typename T >
+const T* miheev::List< T >::ConstIterator::operator->() const
+{
+  return std::addressof(cur_->data);
+}
+
+template< typename T >
+bool miheev::List< T >::ConstIterator::operator!=(const miheev::List< T >::ConstIterator& rhs) const
+{
+  return *this != rhs;
+}
+
+template< typename T >
+bool miheev::List< T >::ConstIterator::operator==(const miheev::List< T >::ConstIterator& rhs) const
+{
+  return rhs == *this;
+}
 
 template< typename T >
 struct miheev::List< T >::Iterator
@@ -94,7 +153,7 @@ struct miheev::List< T >::Iterator
   this_t& operator=(const this_t&) = default;
   List<T>& operator+(size_t n);
   T& operator*();
-  T* operator->() const;
+  T* operator->();
   explicit operator bool() const;
   this_t& operator++();
   this_t operator++(int);
@@ -134,7 +193,7 @@ T& miheev::List< T >::Iterator::operator*()
 }
 
 template< typename T >
-T* miheev::List< T >::Iterator::operator->() const
+T* miheev::List< T >::Iterator::operator->()
 {
   return std::addressof(cur->data_);
 }
