@@ -72,7 +72,7 @@ size_t nikiforov::outputName_(List< std::pair< std::string, List< T > > >& seqsP
       std::cout << iterSeqsPair->first << " ";
     }
     countNames--;
-    maxSize = (maxSize, (*iterSeqsPair).second.getSize());
+    maxSize = max(maxSize, (*iterSeqsPair).second.getSize());
   }
   return maxSize;
 }
