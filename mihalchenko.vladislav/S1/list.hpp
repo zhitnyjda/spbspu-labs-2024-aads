@@ -102,6 +102,8 @@ namespace mihalchenko
     Iterator<T> begin() noexcept;
     Iterator<T> end() noexcept;
 
+    void erase_after(Iterator<T> iterator);
+
     void remove(const T &iterValue);
 
     template <typename F>
@@ -462,18 +464,24 @@ bool mihalchenko::List<T>::empty()
 }
 
 template <typename T>
+void mihalchenko::List<T>::erase_after(Iterator<T> iterator)
+{
+  Iterator<T> *valueBegin = iterator.data_;
+  Iterator<T> *valueDel = valueBegin->pNext_;
+  valueBegin->pNext_ = valueDel->pNext_;
+  delete valueDel;
+  this->size--;
+  iterator = this->begin_;
+}
+
+template <typename T>
 void mihalchenko::List<T>::remove(const T &iterValue)
 {
   for (Iterator<T> iterator = this->begin_; iterator != this->end_; ++iterator)
   {
     if (iterator->pNext_ == iterValue && iterator->pNext_ != this->end_)
     {
-      Iterator<T> *valueBegin = iterator.data_;
-      Iterator<T> *valueDel = valueBegin->pNext_;
-      valueBegin->pNext_ = valueDel->pNext_;
-      delete valueDel;
-      this.size--;
-      iterator = this->begin_;
+      erase_after(iterator);
     }
     else if (*iterator == iterValue && *iterator == *this->begin_)
     {
