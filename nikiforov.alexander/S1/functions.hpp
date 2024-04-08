@@ -10,10 +10,6 @@ namespace nikiforov
   template < typename T >
   using list_t = List< std::pair< std::string, List< T > > >;
 
-
-  template < typename T >
-  void input_(std::istream& input, list_t< T >& seqsPair);
-
   template < typename T >
   size_t outputName_(List< std::pair< std::string, List< T > > >& seqsPair);
 
@@ -24,35 +20,6 @@ namespace nikiforov
   void outputSumm_(List< T >& listSumm);
 
   size_t max(const size_t first_param, const size_t second_param);
-}
-
-template< typename T >
-void nikiforov::input_(std::istream& input, list_t< T >& seqsPair)
-{
-  List< std::pair< std::string, List< unsigned long long > > >::Iterator iterSeqsPair = seqsPair.begin();
-  std::string elemSeq;
-  bool firstLine = false;
-
-  while (input >> elemSeq)
-  {
-    if (isdigit(elemSeq[0]))
-    {
-      (*iterSeqsPair).second.push_back(std::stoull(elemSeq));
-    }
-    else
-    {
-      seqsPair.push_back({ elemSeq,{} });
-      if (!firstLine)
-      {
-        iterSeqsPair = seqsPair.begin();
-        firstLine = true;
-      }
-      else
-      {
-        iterSeqsPair++;
-      }
-    }
-  }
 }
 
 template< typename T >
