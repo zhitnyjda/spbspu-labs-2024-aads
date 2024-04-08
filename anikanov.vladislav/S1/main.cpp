@@ -36,7 +36,9 @@ int main()
 
     std::pair< std::string, List< unsigned long long > > listPair;
     listPair.first = inputName;
-    listPair.second = numbers;
+    for (auto num: numbers) {
+      listPair.second.push_back(num);
+    }
     lists->push_back(listPair);
   }
 

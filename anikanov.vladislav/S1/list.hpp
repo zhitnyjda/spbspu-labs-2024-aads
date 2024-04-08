@@ -26,7 +26,7 @@ namespace anikanov {
     bool empty();
     [[nodiscard]] size_t size() const;
     void clear();
-    void swap(List &other) noexcept;
+    void swap(const List &other) noexcept;
     void remove(const T &value);
     void remove_if(bool(*pred)(T));
     void reverse();
@@ -389,7 +389,7 @@ void anikanov::List< T >::clear()
 }
 
 template< typename T >
-void anikanov::List< T >::swap(List &other) noexcept
+void anikanov::List< T >::swap(const List &other) noexcept
 {
   std::swap(head, other.head);
   std::swap(tail, other.tail);
