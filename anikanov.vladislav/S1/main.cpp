@@ -14,7 +14,7 @@ int main()
   using list = List< unsigned long long >;
   using mainList = List< std::pair< std::string, list > >;
 
-  std::unique_ptr< mainList > lists(new mainList );
+  std::unique_ptr< mainList > lists(new mainList);
   std::string inputName;
   std::string line;
 
@@ -22,15 +22,16 @@ int main()
     line = "";
     std::getline(std::cin, line);
     if (std::cin.eof()) {
-       break;
+      break;
     }
     if (line == "") {
       continue;
     }
     List< std::string > inputList = split(line);
     list numbers;
-    inputName = inputList.pop(0);
-    for (auto &i : inputList) {
+    inputName = inputList[0];
+    inputList.pop(0);
+    for (auto &i: inputList) {
       numbers.push_back(std::stoull(i));
     }
 
