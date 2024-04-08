@@ -30,7 +30,7 @@ namespace sobolevsky
     void remove(T val);
     template< typename Predicate >
     void remove_if(Predicate pred);
-    bool empty();
+    bool empty() noexcept;
     void assign(size_t n, const T & val);
     size_t getSize();
     Node< T > * getAt(size_t index);
@@ -68,8 +68,8 @@ sobolevsky::List< T >::List(const List & copy)
   }
   else
   {
-    head = new Node(*copy.head);
-    tail = new Node(*copy.tail);
+    head = new sobolevsky::Node(*copy.head);
+    tail = new sobolevsky::Node(*copy.tail);
   }
   size = copy.size;
 }
@@ -261,7 +261,7 @@ void sobolevsky::List< T >::remove_if(Predicate pred)
 }
 
 template< typename T >
-bool sobolevsky::List< T >::empty()
+bool sobolevsky::List< T >::empty() noexcept
 {
   return (size == 0);
 }

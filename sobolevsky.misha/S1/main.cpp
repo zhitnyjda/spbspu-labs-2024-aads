@@ -48,7 +48,7 @@ int main()
   }
   std::cout << "\n";
 
-  if (maxlen = 0)
+  if (maxlen == 0)
   {
     std::cout << "0\n";
   }
