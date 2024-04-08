@@ -29,9 +29,7 @@ namespace anikanov {
     void clear();
     void swap(List &other);
     void remove(const T &value);
-
-    template< typename Predicate >
-    void remove_if(Predicate pred);
+    void remove_if(bool(*pred)(T));
     void reverse();
     void splice(Iterator position, List< T > &other, Iterator first, Iterator last);
     Iterator insert(Iterator pos, const T &value);
@@ -80,10 +78,10 @@ public:
   explicit Iterator(std::shared_ptr< node_t > node_ptr) : node(node_ptr)
   {
   }
-  ~Iterator() = default;
   Iterator(const this_t &other) : node(other.node)
   {
   }
+  ~Iterator() = default;
 
   std::shared_ptr< Node > get_node() const;
   this_t &operator=(const this_t &);
@@ -407,8 +405,7 @@ void anikanov::List< T >::remove(const T &value)
 }
 
 template< typename T >
-template< typename Predicate >
-void anikanov::List< T >::remove_if(Predicate pred)
+void anikanov::List< T >::remove_if(bool(*pred)(T))
 {
   auto current = head;
   while (current != nullptr) {

@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <memory>
-#include <limits>
 #include "list.hpp"
 
 anikanov::List< std::string > split(const std::string &str);
@@ -24,7 +23,7 @@ int main()
     if (std::cin.eof()) {
       break;
     }
-    if (line == "") {
+    if (line.empty()) {
       continue;
     }
     List< std::string > inputList = split(line);
@@ -35,10 +34,10 @@ int main()
       numbers.push_back(std::stoull(i));
     }
 
-    std::pair< std::string, List< unsigned long long > > list_pair;
-    list_pair.first = inputName;
-    list_pair.second = numbers;
-    lists->push_back(list_pair);
+    std::pair< std::string, List< unsigned long long > > listPair;
+    listPair.first = inputName;
+    listPair.second = numbers;
+    lists->push_back(listPair);
   }
 
 
@@ -57,50 +56,50 @@ int main()
   }
 
   bool finished = false;
-  bool start_print = false;
+  bool startPrint = false;
   size_t idx = 0;
   List< unsigned long long > sums;
-  bool bad_sum = false;
+  bool badSum = false;
 
   while (!finished) {
     finished = true;
-    start_print = true;
-    for (auto list_it = lists->begin(); list_it != lists->end(); ++list_it) {
-      const auto &list = *list_it;
+    startPrint = true;
+    for (auto listIter = lists->begin(); listIter != lists->end(); ++listIter) {
+      const auto &list = *listIter;
       if (idx < list.second.size()) {
         if (finished) {
           sums.push_back(0);
           finished = false;
         }
-        auto num_it = list.second.begin();
+        auto numIter = list.second.begin();
         for (size_t i = 0; i < idx; ++i) {
-          num_it++;
+          numIter++;
         }
-        if (start_print) {
-          std::cout << *num_it;
-          start_print = false;
+        if (startPrint) {
+          std::cout << *numIter;
+          startPrint = false;
         } else {
-          std::cout << " " << *num_it;
+          std::cout << " " << *numIter;
         }
-        if (*sums.back() + *num_it < std::max(*sums.back(), *num_it)) {
+        if (*sums.back() + *numIter < std::max(*sums.back(), *numIter)) {
           std::cerr << "overflow\n";
-          bad_sum = true;
+          badSum = true;
         }
-        *sums.back() += *num_it;
+        *sums.back() += *numIter;
       }
     }
     std::cout << (finished ? "" : "\n");
     idx++;
   }
 
-  if (bad_sum) {
+  if (badSum) {
     std::cerr << "overflow\n";
     return 1;
   }
 
-  for (auto sum_it = sums.begin(); sum_it != sums.end();) {
-    std::cout << *sum_it;
-    if (++sum_it != sums.end()) {
+  for (auto sumIter = sums.begin(); sumIter != sums.end();) {
+    std::cout << *sumIter;
+    if (++sumIter != sums.end()) {
       std::cout << " ";
     }
   }
@@ -117,15 +116,15 @@ anikanov::List< std::string > split(const std::string &str)
 {
   anikanov::List< std::string > list;
   std::string cur = "";
-  for (size_t pos = 0; pos != str.size(); ++pos) {
-    if (str[pos] != ' ') {
-      cur += str[pos];
-    } else if (cur != "") {
+  for (char pos : str) {
+    if (pos != ' ') {
+      cur += pos;
+    } else if (!cur.empty()) {
       list.push_back(cur);
       cur = "";
     }
   }
-  if (cur != "") {
+  if (!cur.empty()) {
     list.push_back(cur);
   }
   return list;
