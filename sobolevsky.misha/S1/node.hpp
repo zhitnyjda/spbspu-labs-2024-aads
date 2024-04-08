@@ -10,7 +10,7 @@ namespace sobolevsky
   public:
     Node * next;
     Node * prev;
-    T data;
+    T data = T();
     std::string name;
 
     Node(T dataIn, std::string nameIn);
