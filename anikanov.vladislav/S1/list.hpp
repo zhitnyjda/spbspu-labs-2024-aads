@@ -104,14 +104,146 @@ private:
 };
 
 template< typename T >
+class anikanov::List< T >::ConstIterator {
+public:
+  using node_t = Node;
+  using this_t = ConstIterator;
+  using iterator_t = typename anikanov::List< T >::Iterator;
+
+  ConstIterator();
+  explicit ConstIterator(const iterator_t &itr) : itr(itr)
+  {
+  }
+  ConstIterator(const this_t &other) : itr(other.itr)
+  {
+  }
+  ~ConstIterator() = default;
+
+  std::shared_ptr< Node > get_node() const;
+  this_t &operator=(const this_t &other);
+  ConstIterator operator+(int n) const;
+  ConstIterator operator-(int n) const;
+  ConstIterator &operator+=(int n);
+  ConstIterator &operator-=(int n);
+  this_t &operator++();
+  this_t operator++(int);
+  this_t &operator--();
+  this_t operator--(int);
+  const T &operator*() const;
+  const T *operator->() const;
+  bool operator!=(const this_t &other) const;
+  bool operator==(const this_t &other) const;
+private:
+  iterator_t itr;
+};
+template< typename T >
+bool anikanov::List< T >::ConstIterator::operator==(const anikanov::List< T >::ConstIterator &other) const
+{
+  return itr == other.itr;
+}
+
+template< typename T >
+bool anikanov::List< T >::ConstIterator::operator!=(const anikanov::List< T >::ConstIterator &other) const
+{
+  return itr != other.itr;
+}
+
+template< typename T >
+const T *anikanov::List< T >::ConstIterator::operator->() const
+{
+  return itr.operator->();
+}
+
+template< typename T >
+const T &anikanov::List< T >::ConstIterator::operator*() const
+{
+  return *itr;
+}
+
+template< typename T >
+typename anikanov::List< T >::ConstIterator anikanov::List< T >::ConstIterator::operator--(int)
+{
+  auto tmp = *this;
+  itr--;
+  return tmp;
+}
+
+template< typename T >
+typename anikanov::List< T >::ConstIterator &anikanov::List< T >::ConstIterator::operator--()
+{
+  --itr;
+  return *this;
+}
+
+template< typename T >
+typename anikanov::List< T >::ConstIterator anikanov::List< T >::ConstIterator::operator++(int)
+{
+  auto tmp = *this;
+  itr++;
+  return tmp;
+}
+
+template< typename T >
+typename anikanov::List< T >::ConstIterator &anikanov::List< T >::ConstIterator::operator++()
+{
+  ++itr;
+  return *this;
+}
+
+template< typename T >
+typename anikanov::List< T >::ConstIterator &anikanov::List< T >::ConstIterator::operator-=(int n)
+{
+  itr -= n;
+  return *this;
+}
+
+template< typename T >
+typename anikanov::List< T >::ConstIterator &anikanov::List< T >::ConstIterator::operator+=(int n)
+{
+  itr += n;
+  return *this;
+}
+
+template< typename T >
+typename anikanov::List< T >::ConstIterator anikanov::List< T >::ConstIterator::operator-(int n) const
+{
+  return itr - n;
+}
+
+template< typename T >
+typename anikanov::List< T >::ConstIterator anikanov::List< T >::ConstIterator::operator+(int n) const
+{
+  return itr + n;
+}
+
+template< typename T >
+typename anikanov::List< T >::ConstIterator
+&anikanov::List< T >::ConstIterator::operator=(const anikanov::List< T >::ConstIterator &other)
+{
+  itr = other.itr;
+  return *this;
+}
+
+template< typename T >
+std::shared_ptr< typename anikanov::List< T >::Node > anikanov::List< T >::ConstIterator::get_node() const
+{
+  return itr.get_node();
+}
+
+template< typename T >
+anikanov::List< T >::ConstIterator::ConstIterator()
+{
+  itr = nullptr;
+}
+
+template< typename T >
 anikanov::List< T >::Iterator::Iterator()
 {
   node = nullptr;
 }
 
 template< typename T >
-std::shared_ptr< typename anikanov::List< T >::Node >
-anikanov::List< T >::Iterator::get_node() const
+std::shared_ptr< typename anikanov::List< T >::Node > anikanov::List< T >::Iterator::get_node() const
 {
   return node;
 }
