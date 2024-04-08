@@ -6,7 +6,6 @@
 #include <stdexcept>
 
 namespace anikanov {
-
   template< typename T >
   class List {
   public:
@@ -27,7 +26,7 @@ namespace anikanov {
     bool empty();
     [[nodiscard]] size_t size() const;
     void clear();
-    void swap(List &other);
+    void swap(List &other) noexcept;
     void remove(const T &value);
     void remove_if(bool(*pred)(T));
     void reverse();
@@ -41,11 +40,11 @@ namespace anikanov {
 
     T &operator[](size_t index);
     List< T > &operator=(List< T > &&other) noexcept;
-    List< T > &operator=(List< T > other);
+    List< T > &operator=(const List< T > &other);
 
     Iterator back();
     Iterator begin() const;
-    Iterator end() const;
+    Iterator end() const noexcept;
 
   private:
     std::shared_ptr< List::Node > head, tail;
@@ -235,7 +234,7 @@ bool anikanov::List< T >::Iterator::operator==(const this_t &other) const
 
 
 template< typename T >
-anikanov::List< T > &anikanov::List< T >::operator=(List< T > other)
+anikanov::List< T > &anikanov::List< T >::operator=(const List< T > &other)
 {
   swap(other);
   return *this;
@@ -390,7 +389,7 @@ void anikanov::List< T >::clear()
 }
 
 template< typename T >
-void anikanov::List< T >::swap(List &other)
+void anikanov::List< T >::swap(List &other) noexcept
 {
   std::swap(head, other.head);
   std::swap(tail, other.tail);
@@ -576,7 +575,7 @@ typename anikanov::List< T >::Iterator anikanov::List< T >::begin() const
 }
 
 template< typename T >
-typename anikanov::List< T >::Iterator anikanov::List< T >::end() const
+typename anikanov::List< T >::Iterator anikanov::List< T >::end() const noexcept
 {
   return Iterator(nullptr);
 }
