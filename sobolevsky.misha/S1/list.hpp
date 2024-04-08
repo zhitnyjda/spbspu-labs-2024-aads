@@ -68,8 +68,8 @@ sobolevsky::List< T >::List(const List & copy)
   }
   else
   {
-    head = new sobolevsky::Node(*copy.head);
-    tail = new sobolevsky::Node(*copy.tail);
+    head = copy.head;
+    tail = copy.tail;
   }
   size = copy.size;
 }
