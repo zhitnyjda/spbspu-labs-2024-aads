@@ -8,6 +8,8 @@ namespace kaseev
   template< class T >
   class List {
   public:
+    class Iterator;
+
     List();
     ~List();
     explicit List(size_t count);
@@ -302,6 +304,70 @@ namespace kaseev
       pushBack(elem);
     }
   }
-}
 
+  template< typename T >
+  class kaseev::List< T >::Iterator
+  {
+  public:
+    List< T > * Node;
+    using this_t = Iterator;
+
+    Iterator();
+    ~Iterator() = default;
+    Iterator(const this_t &) = default;
+    this_t& operator=(const this_t &) = default;
+
+    this_t& operator++();
+    this_t operator++(int);
+
+    T& operator*();
+    T* operator->();
+
+    bool operator!=(const this_t&) const;
+    bool operator==(const this_t&) const;
+  };
+
+  template<typename T>
+  kaseev::List<T>::Iterator::Iterator() : Node(nullptr) {}
+
+  template<typename T>
+  typename kaseev::List<T>::Iterator& List<T>::Iterator::operator++() {
+    if (Node != nullptr) {
+      Node = Node->next;
+    }
+    return *this;
+  }
+
+  template<typename T>
+  typename kaseev::List<T>::Iterator List<T>::Iterator::operator++(int) {
+    Iterator temp = *this;
+    ++(*this);
+    return temp;
+  }
+
+  template<typename T>
+  T& kaseev::List<T>::Iterator::operator*() {
+    if (Node != nullptr) {
+      return Node->data;
+    } else {
+      throw std::logic_error("Iterator is not pointing to a valid node");
+    }
+  }
+
+  template<typename T>
+  T* kaseev::List<T>::Iterator::operator->() {
+    return &(*(*this));
+  }
+
+  template<typename T>
+  bool List<T>::Iterator::operator!=(const Iterator& other) const {
+    return Node != other.Node;
+  }
+
+  template<typename T>
+  bool List<T>::Iterator::operator==(const Iterator& other) const {
+    return Node == other.Node;
+  }
+
+}
 #endif
