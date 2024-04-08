@@ -1,41 +1,43 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 
-#include "node.hpp"
-#include "iterator.hpp"
 #include <memory>
 #include <limits>
 #include <stdexcept>
 
 namespace anikanov {
 
-  template<typename T>
+  template< typename T >
   class List {
   public:
+    class Node;
+    class Iterator;
+    class ConstIterator;
+
     List();
     List(const List &other);
     List(List &&other) noexcept;
     List(const T &value, size_t count);
     List(std::initializer_list< T > init);
-    List(Iterator< T > first, Iterator< T > last);
+    List(Iterator first, Iterator last);
     ~List();
 
     void push_back(const T &value);
-    T pop(size_t n = std::numeric_limits< size_t >::max());
+    void pop(size_t n = std::numeric_limits< size_t >::max());
     bool empty();
-    size_t size() const;
+    [[nodiscard]] size_t size() const;
     void clear();
     void swap(List &other);
     void remove(const T &value);
 
-    template<typename Predicate>
+    template< typename Predicate >
     void remove_if(Predicate pred);
     void reverse();
-    void splice(Iterator< T > position, List< T > &other, Iterator< T > first, Iterator< T > last);
-    Iterator< T > insert(Iterator< T > pos, const T &value);
-    Iterator< T > erase(Iterator< T > pos);
+    void splice(Iterator position, List< T > &other, Iterator first, Iterator last);
+    Iterator insert(Iterator pos, const T &value);
+    Iterator erase(Iterator pos);
     void assign(size_t count, const T &value);
-    void assign(Iterator< T > first, Iterator< T > last);
+    void assign(Iterator first, Iterator last);
     void assign(std::initializer_list< T > ilist);
     List< T > copy();
 
@@ -43,363 +45,543 @@ namespace anikanov {
     List< T > &operator=(List< T > &&other) noexcept;
     List< T > &operator=(List< T > other);
 
-    Iterator< T > back();
-    Iterator< T > begin() const;
-    Iterator< T > end() const;
+    Iterator back();
+    Iterator begin() const;
+    Iterator end() const;
 
   private:
-    std::shared_ptr< Node< T > > head, tail;
+    std::shared_ptr< List::Node > head, tail;
     size_t list_size;
   };
+}
 
-  template<typename T>
-  List< T > &List< T >::operator=(List< T > other)
-  {
-    swap(other);
-    return *this;
-  }
+template< typename T >
+class anikanov::List< T >::Node {
+public:
+  T data;
+  std::shared_ptr< List::Node > prev, next;
 
-  template<typename T>
-  List< T > &List< T >::operator=(List< T > &&other) noexcept
-  {
-    if (this != &other) {
-      clear(); // Освободим существующие ресурсы
-
-      head = other.head;
-      tail = other.tail;
-
-      other.head = nullptr;
-      other.tail = nullptr;
-    }
-    return *this;
-  }
-
-  template<typename T>
-  List< T >::List() : head(nullptr), tail(nullptr), list_size(0)
+  explicit Node(T val) : data(val), prev(nullptr), next(nullptr)
   {
   }
 
-  template<typename T>
-  List< T >::List(const List &other): head(nullptr), tail(nullptr), list_size(0)
+  Node(const Node &other) : data(other.data), prev(other.prev), next(other.next)
   {
-    auto current = other.head;
-    while (current != nullptr) {
-      (*this).push_back(current->data);
-      current = current->next;
-    }
+  }
+};
+
+template< typename T >
+class anikanov::List< T >::Iterator {
+public:
+  using node_t = Node;
+  using this_t = Iterator;
+
+  Iterator();
+  explicit Iterator(std::shared_ptr< node_t > node_ptr) : node(node_ptr)
+  {
+  }
+  ~Iterator() = default;
+  Iterator(const this_t &other) : node(other.node)
+  {
   }
 
-  template<typename T>
-  List< T >::List(List &&other) noexcept: head(std::move(other.head)), tail(std::move(other.tail)),
-                                          list_size(other.list_size)
-  {
+  std::shared_ptr< Node > get_node() const;
+  this_t &operator=(const this_t &);
+  Iterator operator+(int n) const;
+  Iterator operator-(int n) const;
+  Iterator &operator+=(int n);
+  Iterator &operator-=(int n);
+  this_t &operator++();
+  this_t operator++(int);
+  this_t &operator--();
+  this_t operator--(int);
+  T &operator*();
+  const T &operator*() const;
+  T *operator->();
+  const T *operator->() const;
+  bool operator!=(const this_t &other) const;
+  bool operator==(const this_t &other) const;
+
+private:
+  std::shared_ptr< node_t > node;
+};
+
+template< typename T >
+anikanov::List< T >::Iterator::Iterator()
+{
+  node = nullptr;
+}
+
+template< typename T >
+std::shared_ptr< typename anikanov::List< T >::Node >
+anikanov::List< T >::Iterator::get_node() const
+{
+  return node;
+}
+
+template< typename T >
+typename anikanov::List< T >::Iterator &anikanov::List< T >::Iterator::operator=(const typename Iterator::this_t &other)
+{
+  node = other.node;
+  return *this;
+}
+
+template< typename T >
+typename anikanov::List< T >::Iterator anikanov::List< T >::Iterator::operator+(int n) const
+{
+  anikanov::List< T >::Iterator tmp = *this;
+  for (int i = 0; i < n && tmp.node != nullptr; ++i) {
+    ++tmp;
+  }
+  return tmp;
+}
+
+template< typename T >
+typename anikanov::List< T >::Iterator anikanov::List< T >::Iterator::operator-(int n) const
+{
+  anikanov::List< T >::Iterator tmp = *this;
+  for (int i = 0; i < n && tmp.node != nullptr; ++i) {
+    --tmp;
+  }
+  return tmp;
+}
+
+template< typename T >
+typename anikanov::List< T >::Iterator &anikanov::List< T >::Iterator::operator+=(int n)
+{
+  for (int i = 0; i < n && this->node != nullptr; ++i) {
+    ++(*this);
+  }
+  return *this;
+}
+
+template< typename T >
+typename anikanov::List< T >::Iterator &anikanov::List< T >::Iterator::operator-=(int n)
+{
+  for (int i = 0; i < n && this->node != nullptr; ++i) {
+    --(*this);
+  }
+  return *this;
+}
+
+template< typename T >
+typename anikanov::List< T >::Iterator::this_t &anikanov::List< T >::Iterator::operator++()
+{
+  if (node) {
+    node = node->next;
+  }
+  return *this;
+}
+
+
+template< typename T >
+typename anikanov::List< T >::Iterator::this_t anikanov::List< T >::Iterator::operator++(int)
+{
+  this_t tmp = *this;
+  ++(*this);
+  return tmp;
+}
+
+template< typename T >
+typename anikanov::List< T >::Iterator::this_t &anikanov::List< T >::Iterator::operator--()
+{
+  if (node) {
+    node = node->prev;
+  }
+  return *this;
+}
+
+template< typename T >
+typename anikanov::List< T >::Iterator::this_t anikanov::List< T >::Iterator::operator--(int)
+{
+  this_t tmp = *this;
+  --(*this);
+  return tmp;
+}
+
+template< typename T >
+T &anikanov::List< T >::Iterator::operator*()
+{
+  return node->data;
+}
+
+template< typename T >
+const T &anikanov::List< T >::Iterator::operator*() const
+{
+  return node->data;
+}
+
+template< typename T >
+T *anikanov::List< T >::Iterator::operator->()
+{
+  return &(node->data);
+}
+
+template< typename T >
+const T *anikanov::List< T >::Iterator::operator->() const
+{
+  return &(node->data);
+}
+
+template< typename T >
+bool anikanov::List< T >::Iterator::operator!=(const this_t &other) const
+{
+  return node != other.node;
+}
+
+template< typename T >
+bool anikanov::List< T >::Iterator::operator==(const this_t &other) const
+{
+  return node == other.node;
+}
+
+
+template< typename T >
+anikanov::List< T > &anikanov::List< T >::operator=(List< T > other)
+{
+  swap(other);
+  return *this;
+}
+
+template< typename T >
+anikanov::List< T > &anikanov::List< T >::operator=(List< T > &&other) noexcept
+{
+  if (this != &other) {
+    clear();
+
+    head = other.head;
+    tail = other.tail;
+
     other.head = nullptr;
     other.tail = nullptr;
-    other.list_size = 0;
+  }
+  return *this;
+}
+
+template< typename T >
+anikanov::List< T >::List() : head(nullptr), tail(nullptr), list_size(0)
+{
+}
+
+template< typename T >
+anikanov::List< T >::List(const List &other): head(nullptr), tail(nullptr), list_size(0)
+{
+  auto current = other.head;
+  while (current != nullptr) {
+    (*this).push_back(current->data);
+    current = current->next;
+  }
+}
+
+template< typename T >
+anikanov::List< T >::List(List &&other) noexcept: head(std::move(other.head)), tail(std::move(other.tail)),
+                                                  list_size(other.list_size)
+{
+  other.head = nullptr;
+  other.tail = nullptr;
+  other.list_size = 0;
+}
+
+template< typename T >
+anikanov::List< T >::List(const T &value, size_t count): head(nullptr), tail(nullptr), list_size(0)
+{
+  for (size_t i = 0; i < count; ++i) {
+    push_back(value);
+  }
+}
+
+template< typename T >
+anikanov::List< T >::List(std::initializer_list< T > init): head(nullptr), tail(nullptr), list_size(0)
+{
+  for (auto &element: init) {
+    push_back(element);
+  }
+}
+
+template< typename T >
+anikanov::List< T >::List(List::Iterator first, List::Iterator last): head(nullptr), tail(nullptr), list_size(0)
+{
+  for (; first != last; ++first) {
+    push_back(*first);
+  }
+}
+
+template< typename T >
+anikanov::List< T >::~List()
+{
+  this->clear();
+}
+
+template< typename T >
+void anikanov::List< T >::push_back(const T &value)
+{
+  auto newNode = std::make_shared< List::Node >(value);
+  if (head == nullptr) {
+    head = newNode;
+    tail = newNode;
+  } else {
+    tail->next = newNode;
+    newNode->prev = tail;
+    tail = newNode;
+  }
+  list_size++;
+}
+
+template< typename T >
+void anikanov::List< T >::pop(size_t n)
+{
+  if (list_size == 0) {
+    throw std::out_of_range("List is empty");
   }
 
-  template<typename T>
-  List< T >::List(const T &value, size_t count): head(nullptr), tail(nullptr), list_size(0)
-  {
-    for (size_t i = 0; i < count; ++i) {
-      push_back(value);
-    }
+  if (n == std::numeric_limits< size_t >::max()) {
+    n = list_size - 1;
   }
 
-  template<typename T>
-  List< T >::List(std::initializer_list< T > init): head(nullptr), tail(nullptr), list_size(0)
-  {
-    for (auto &element: init) {
-      push_back(element);
-    }
+  if (n >= list_size) {
+    throw std::out_of_range("Index out of range");
+  }
+  auto current = head;
+  for (size_t i = 0; i < n; ++i) {
+    current = current->next;
   }
 
-  template<typename T>
-  List< T >::List(Iterator< T > first, Iterator< T > last): head(nullptr), tail(nullptr), list_size(0)
-  {
-    for (; first != last; ++first) {
-      push_back(*first);
-    }
+  if (current->prev != nullptr) {
+    current->prev->next = current->next;
+  } else {
+    head = current->next;
   }
 
-  template<typename T>
-  List< T >::~List()
-  {
-    this->clear();
+  if (current->next != nullptr) {
+    current->next->prev = current->prev;
+  } else {
+    tail = current->prev;
   }
 
-  template<typename T>
-  void List< T >::push_back(const T &value)
-  {
-    auto newNode = std::make_shared< Node< T > >(value);
-    if (head == nullptr) {
-      head = newNode;
-      tail = newNode;
-    } else {
-      tail->next = newNode;
-      newNode->prev = tail;
-      tail = newNode;
-    }
-    list_size++;
+  --list_size;
+}
+
+template< typename T >
+bool anikanov::List< T >::empty()
+{
+  if (head == nullptr) {
+    return true;
   }
+  return false;
+}
 
-  template<typename T>
-  T List< T >::pop(size_t n)
-  {
-    if (list_size == 0) {
-      throw std::out_of_range("List is empty");
-    }
+template< typename T >
+size_t anikanov::List< T >::size() const
+{
+  return list_size;
+}
 
-    if (n == std::numeric_limits< size_t >::max()) {
-      n = list_size - 1;
-    }
-
-    if (n >= list_size) {
-      throw std::out_of_range("Index out of range");
-    }
-    auto current = head;
-    for (size_t i = 0; i < n; ++i) {
-      current = current->next;
-    }
-
-    if (current->prev != nullptr) {
-      current->prev->next = current->next;
-    } else {
-      head = current->next;
-    }
-
-    if (current->next != nullptr) {
-      current->next->prev = current->prev;
-    } else {
-      tail = current->prev;
-    }
-
-    T value = current->data;
-    --list_size;
-
-    return value;
+template< typename T >
+void anikanov::List< T >::clear()
+{
+  auto current = tail;
+  while (current != nullptr) {
+    auto prev = current->prev;
+    current->next = nullptr;
+    current->prev = nullptr;
+    current = prev;
+    list_size--;
   }
+  head = nullptr;
+  tail = nullptr;
+}
 
-  template<typename T>
-  bool List< T >::empty()
-  {
-    if (head == nullptr) {
-      return true;
-    }
-    return false;
-  }
+template< typename T >
+void anikanov::List< T >::swap(List &other)
+{
+  std::swap(head, other.head);
+  std::swap(tail, other.tail);
+}
 
-  template<typename T>
-  size_t List< T >::size() const
-  {
-    return list_size;
-  }
+template< typename T >
+void anikanov::List< T >::remove(const T &value)
+{
+  remove_if([value](T &other) {
+    return value == other;
+  });
+}
 
-  template<typename T>
-  void List< T >::clear()
-  {
-    auto current = tail;
-    while (current != nullptr) {
-      auto prev = current->prev;
-      current->next = nullptr;
-      current->prev = nullptr;
-      current = prev;
-      list_size--;
-    }
-    head = nullptr;
-    tail = nullptr;
-  }
-
-  template<typename T>
-  void List< T >::swap(List &other)
-  {
-    std::swap(head, other.head);
-    std::swap(tail, other.tail);
-  }
-
-  template<typename T>
-  void List< T >::remove(const T &value)
-  {
-    remove_if([value](T &other) {
-      return value == other;
-    });
-  }
-
-  template<typename T>
-  template<typename Predicate>
-  void List< T >::remove_if(Predicate pred)
-  {
-    auto current = head;
-    while (current != nullptr) {
-      if (pred(current->data)) {
-        auto toDelete = current;
-        if (current->prev != nullptr) {
-          current->prev->next = current->next;
-        } else {
-          head = current->next;
-        }
-        if (current->next != nullptr) {
-          current->next->prev = current->prev;
-        } else {
-          tail = current->prev;
-        }
-        current = current->next;
-        delete toDelete;
-        --list_size;
+template< typename T >
+template< typename Predicate >
+void anikanov::List< T >::remove_if(Predicate pred)
+{
+  auto current = head;
+  while (current != nullptr) {
+    if (pred(current->data)) {
+      auto toDelete = current;
+      if (current->prev != nullptr) {
+        current->prev->next = current->next;
       } else {
-        current = current->next;
+        head = current->next;
       }
-    }
-  }
-
-  template<typename T>
-  void List< T >::reverse()
-  {
-    List< T > new_list;
-    for (int i = list_size - 1; i > -1; --i) {
-      new_list.push_back((*this)[i]);
-    }
-    (*this).clear();
-    for (int i = 0; i < new_list.size(); ++i) {
-      (*this).push_back(new_list[i]);
-    }
-  }
-
-  template<typename T>
-  void List< T >::splice(Iterator< T > position, List< T > &other, Iterator< T > first, Iterator< T > last)
-  {
-    if (first == last || &other == this) {
-      return;
-    }
-
-    auto current = first;
-    bool extra = false;
-    if (list_size == 0) {
-      (*this).push_back(0);
-      extra = true;
-      position = (*this).begin();
-    }
-
-    while (current != last) {
-      position = insert(position, *current);
-      position++;
-      current = other.erase(current);
-    }
-    if (extra) {
-      (*this).pop();
-    }
-  }
-
-  template<typename T>
-  Iterator< T > List< T >::insert(Iterator< T > pos, const T &value)
-  {
-    auto newNode = std::make_shared< Node< T > >(value);
-    auto posNode = pos.get_node();
-    if (pos == (*this).begin()) {
-      newNode->next = head;
-      if (head) {
-        head->prev = newNode;
+      if (current->next != nullptr) {
+        current->next->prev = current->prev;
       } else {
-        tail = newNode;
+        tail = current->prev;
       }
-      head = newNode;
+      current = current->next;
+      delete toDelete;
+      --list_size;
     } else {
-      auto prevNode = posNode->prev;
-      newNode->next = posNode;
-      newNode->prev = prevNode;
-      posNode->prev = newNode;
-      if (prevNode) {
-        prevNode->next = newNode;
-      }
-    }
-    ++list_size;
-    return Iterator< T >(newNode);
-  }
-  template<typename T>
-  Iterator< T > List< T >::erase(Iterator< T > pos)
-  {
-    auto posNode = pos.get_node();
-    if (posNode->prev) {
-      posNode->prev->next = posNode->next;
-    }
-    if (posNode->next) {
-      posNode->next->prev = posNode->prev;
-    }
-    return Iterator< T >(posNode->next);
-  }
-
-  template<typename T>
-  void List< T >::assign(size_t count, const T &value)
-  {
-    clear();
-    for (size_t i = 0; i < count; ++i) {
-      push_back(value);
-    }
-  }
-
-  template<typename T>
-  void List< T >::assign(std::initializer_list< T > ilist)
-  {
-    for (auto &element: ilist) {
-      push_back(element);
-    }
-  }
-
-  template<typename T>
-  void List< T >::assign(Iterator< T > first, Iterator< T > last)
-  {
-    (*this).clear();
-    for (auto cur = first; cur != last; ++cur) {
-      (*this).push_back(*cur);
-    }
-  }
-
-  template<typename T>
-  List< T > List< T >::copy()
-  {
-    List< T > newList;
-
-    std::shared_ptr< Node< T>> current = head;
-    while (current != nullptr) {
-      newList.push_back(current->data);
       current = current->next;
     }
+  }
+}
 
-    return newList;
+template< typename T >
+void anikanov::List< T >::reverse()
+{
+  List< T > new_list;
+  for (int i = list_size - 1; i > -1; --i) {
+    new_list.push_back((*this)[i]);
+  }
+  (*this).clear();
+  for (int i = 0; i < new_list.size(); ++i) {
+    (*this).push_back(new_list[i]);
+  }
+}
+
+template< typename T >
+void anikanov::List< T >::splice(List::Iterator position, List< T > &other, List::Iterator first, List::Iterator last)
+{
+  if (first == last || &other == this) {
+    return;
   }
 
-  template<typename T>
-  T &List< T >::operator[](size_t index)
-  {
-    if (index >= list_size) {
-      throw std::out_of_range("Index out of range");
+  auto current = first;
+  bool extra = false;
+  if (list_size == 0) {
+    (*this).push_back(0);
+    extra = true;
+    position = (*this).begin();
+  }
+
+  while (current != last) {
+    position = insert(position, *current);
+    position++;
+    current = other.erase(current);
+  }
+  if (extra) {
+    (*this).pop();
+  }
+}
+
+template< typename T >
+typename anikanov::List< T >::Iterator anikanov::List< T >::insert(List::Iterator pos, const T &value)
+{
+  auto newNode = std::make_shared< Node >(value);
+  auto posNode = pos.get_node();
+  if (pos == (*this).begin()) {
+    newNode->next = head;
+    if (head) {
+      head->prev = newNode;
+    } else {
+      tail = newNode;
     }
-
-    auto current = head;
-    for (size_t i = 0; i < index; ++i) {
-      current = current->next;
+    head = newNode;
+  } else {
+    auto prevNode = posNode->prev;
+    newNode->next = posNode;
+    newNode->prev = prevNode;
+    posNode->prev = newNode;
+    if (prevNode) {
+      prevNode->next = newNode;
     }
+  }
+  ++list_size;
+  return Iterator(newNode);
+}
 
-    return current->data;
+template< typename T >
+typename anikanov::List< T >::Iterator anikanov::List< T >::erase(List::Iterator pos)
+{
+  auto posNode = pos.get_node();
+  if (posNode->prev) {
+    posNode->prev->next = posNode->next;
+  }
+  if (posNode->next) {
+    posNode->next->prev = posNode->prev;
+  }
+  return Iterator(posNode->next);
+}
+
+template< typename T >
+void anikanov::List< T >::assign(size_t count, const T &value)
+{
+  clear();
+  for (size_t i = 0; i < count; ++i) {
+    push_back(value);
+  }
+}
+
+template< typename T >
+void anikanov::List< T >::assign(std::initializer_list< T > ilist)
+{
+  for (auto &element: ilist) {
+    push_back(element);
+  }
+}
+
+template< typename T >
+void anikanov::List< T >::assign(List::Iterator first, List::Iterator last)
+{
+  (*this).clear();
+  for (auto cur = first; cur != last; ++cur) {
+    (*this).push_back(*cur);
+  }
+}
+
+template< typename T >
+anikanov::List< T > anikanov::List< T >::copy()
+{
+  List< T > newList;
+
+  std::shared_ptr< Node >
+      current = head;
+  while (current != nullptr) {
+    newList.push_back(current->data);
+    current = current->next;
   }
 
-  template<typename T>
-  Iterator< T > List< T >::back()
-  {
-    return Iterator< T >(tail);
+  return newList;
+}
+
+template< typename T >
+T &anikanov::List< T >::operator[](size_t index)
+{
+  if (index >= list_size) {
+    throw std::out_of_range("Index out of range");
   }
 
-  template<typename T>
-  Iterator< T > List< T >::begin() const
-  {
-    return Iterator< T >(head);
+  auto current = head;
+  for (size_t i = 0; i < index; ++i) {
+    current = current->next;
   }
 
-  template<typename T>
-  Iterator< T > List< T >::end() const
-  {
-    return Iterator< T >(nullptr);
-  }
+  return current->data;
+}
+
+template< typename T >
+typename anikanov::List< T >::Iterator anikanov::List< T >::back()
+{
+  return Iterator(tail);
+}
+
+template< typename T >
+typename anikanov::List< T >::Iterator anikanov::List< T >::begin() const
+{
+  return Iterator(head);
+}
+
+template< typename T >
+typename anikanov::List< T >::Iterator anikanov::List< T >::end() const
+{
+  return Iterator(nullptr);
 }
 
 #endif
