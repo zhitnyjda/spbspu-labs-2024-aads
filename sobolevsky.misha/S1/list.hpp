@@ -2,6 +2,7 @@
 #define LIST_HPP
 #include "node.hpp"
 #include "iterator.hpp"
+#include <memory>
 #include <cstddef>
 #include <string>
 
@@ -12,11 +13,12 @@ namespace sobolevsky
   class List
   {
   public:
-    Node< T > * head = nullptr;
-    Node< T > * tail = nullptr;
-    size_t size = 0;
+    class Iterator;
+    class ConstIterator;
 
     List();
+    List(size_t n, const T & val);
+    List(const List & copy);
     ~List();
 
     void pushFront(T data, std::string nameIn);
@@ -29,9 +31,14 @@ namespace sobolevsky
     template< typename Predicate >
     void remove_if(Predicate pred);
     bool empty();
+    void assign(size_t n, const T & val);
     size_t getSize();
     Node< T > * getAt(size_t index);
     Node< T > * operator [] (size_t index);
+
+    Node< T > * head;
+    Node< T > * tail;
+    size_t size;
   };
 }
 
@@ -40,6 +47,31 @@ sobolevsky::List< T >::List()
 {
   head = nullptr;
   tail = nullptr;
+}
+
+template< typename T >
+sobolevsky::List< T >::List(size_t n, const T & val)
+{
+  for (size_t i = 0; i < n; i++)
+  {
+    pushBack(val);
+  }
+}
+
+template< typename T >
+sobolevsky::List< T >::List(const List & copy)
+{
+  if (copy.head == nullptr && copy.tail == nullptr)
+  {
+    head = nullptr;
+    tail = nullptr;
+  }
+  else
+  {
+    head = new Node(*copy.head);
+    tail = new Node(*copy.tail);
+  }
+  size = copy.size;
 }
 
 template< typename T >
@@ -232,6 +264,16 @@ template< typename T >
 bool sobolevsky::List< T >::empty()
 {
   return (size == 0);
+}
+
+template< typename T >
+void sobolevsky::List< T >::assign(size_t n, const T & val)
+{
+  clear();
+  for (size_t i = 0; i < n; i++)
+  {
+    pushBack(val);
+  }
 }
 
 template< typename T >
