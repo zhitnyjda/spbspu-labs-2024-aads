@@ -121,7 +121,7 @@ namespace doroshenko
     }
   }
 
-  void sumsOutput(this_t& list, std::ostream& output, List< size_t >& sums)
+  void sumsOutput(std::ostream& output, List< size_t >& sums)
   {
     List< size_t >::Iterator iteratorForSums = sums.begin();
     if (sums.isEmpty())
