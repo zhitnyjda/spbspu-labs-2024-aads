@@ -11,10 +11,9 @@ namespace doroshenko
   class List
   {
   private:
-
     struct Node
     {
-      Node(T value) :
+      Node(T value):
         data(value),
         next(nullptr)
       {}
@@ -37,9 +36,9 @@ namespace doroshenko
     void pushFront(const T& data);
     void pushBack(const T& data);
     void popFront();
-    bool isEmpty();
+    bool isEmpty() noexcept;
     void clear();
-    void swap(List< T >& otherList);
+    void swap(List< T >& otherList) noexcept;
     void assign(size_t n, const T& value);
     void remove(const T& value);
     template< typename P >
@@ -59,7 +58,7 @@ namespace doroshenko
 }
 
 template< typename T >
-class doroshenko::List< T >::ConstIterator
+class doroshenko::List< T >::ConstIterator : public std::iterator< std::forward_iterator_tag, T >
 {
 public:
   friend class List< T >;
@@ -84,12 +83,12 @@ private:
 };
 
 template< typename T >
-doroshenko::List< T >::ConstIterator::ConstIterator() :
+doroshenko::List< T >::ConstIterator::ConstIterator():
   node(nullptr)
 {}
 
 template< typename T >
-doroshenko::List< T >::ConstIterator::ConstIterator(Node* pointer) :
+doroshenko::List< T >::ConstIterator::ConstIterator(Node* pointer):
   node(pointer)
 {}
 
@@ -137,7 +136,7 @@ bool doroshenko::List< T >::ConstIterator::operator==(const ConstIterator& rhs) 
 }
 
 template< typename T >
-class doroshenko::List< T >::Iterator
+class doroshenko::List< T >::Iterator : public std::iterator< std::forward_iterator_tag, T >
 {
 public:
   friend class List< T >;
@@ -161,12 +160,12 @@ private:
 };
 
 template< typename T >
-doroshenko::List< T >::Iterator::Iterator() :
+doroshenko::List< T >::Iterator::Iterator():
   iterator(nullptr)
 {}
 
 template< typename T >
-doroshenko::List< T >::Iterator::Iterator(ConstIterator someIterator) :
+doroshenko::List< T >::Iterator::Iterator(ConstIterator someIterator):
   iterator(someIterator)
 {}
 
@@ -213,7 +212,7 @@ bool doroshenko::List< T >::Iterator::operator==(const Iterator& rhs) const
 }
 
 template< typename T >
-doroshenko::List< T >::List() :
+doroshenko::List< T >::List():
   head_(nullptr),
   tail_(nullptr)
 {}
@@ -255,8 +254,6 @@ template< typename T >
 doroshenko::List< T >::~List()
 {
   clear();
-  delete head_;
-  delete tail_;
 }
 
 template< typename T >
@@ -320,13 +317,9 @@ void doroshenko::List< T >::popFront()
 }
 
 template< typename T >
-bool doroshenko::List< T >::isEmpty()
+bool doroshenko::List< T >::isEmpty() noexcept
 {
-  if (head_ == nullptr)
-  {
-    return true;
-  }
-  return false;
+  return head_ == nullptr ? true : false;
 }
 
 template< typename T >
@@ -339,14 +332,10 @@ void doroshenko::List< T >::clear()
 }
 
 template< typename T >
-void doroshenko::List< T >::swap(List< T >& otherList)
+void doroshenko::List< T >::swap(List< T >& otherList) noexcept
 {
-  Node* head = otherList.head_;
-  Node* tail = otherList.tail_;
-  otherList.head_ = head_;
-  head_ = head;
-  otherList.tail_ = tail_;
-  tail_ = tail;
+  std::swap(head_, otherList.head_);
+  std::swap(tail_, otherList.tail_);
 }
 
 template< typename T >

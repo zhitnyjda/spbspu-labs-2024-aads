@@ -8,7 +8,10 @@ int main()
   try
   {
     List< std::pair< std::string, List< size_t > > > list = listInput(std::cin);
-    listOutput(list, std::cout);
+    List< size_t > sums;
+    namesOutput(list, std::cout);
+    listOutput(list, std::cout, sums);
+    sumsOutput(list, std::cout, sums);
     return 0;
   }
   catch (std::overflow_error& e)

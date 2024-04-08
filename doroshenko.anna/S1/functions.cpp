@@ -29,16 +29,9 @@ doroshenko::List< std::pair< std::string, doroshenko::List< size_t > > > doroshe
   return inputList;
 }
 
-void doroshenko::listOutput(doroshenko::List< std::pair< std::string, doroshenko::List< size_t > > > list, std::ostream& output)
+void doroshenko::namesOutput(doroshenko::List< std::pair< std::string, doroshenko::List< size_t > > > list, std::ostream& output)
 {
   List< std::pair< std::string, doroshenko::List< size_t > > >::Iterator iterator = list.begin();
-  size_t maxSize = getMaxSize(list);
-  doroshenko::List< size_t >::Iterator localIterator = doroshenko::List< size_t >::ConstIterator();
-  List< size_t > sums;
-  List< size_t >::Iterator iteratorForSums;
-  const size_t maximum = std::numeric_limits< size_t >::max();
-  size_t sum = 0;
-  bool overflowError = false;
   if (!list.isEmpty())
   {
     while (iterator != list.end())
@@ -51,6 +44,23 @@ void doroshenko::listOutput(doroshenko::List< std::pair< std::string, doroshenko
       iterator++;
     }
     output << "\n";
+  }
+  else
+  {
+    output << 0 << "\n";
+  }
+}
+
+void doroshenko::listOutput(doroshenko::List< std::pair< std::string, doroshenko::List< size_t > > > list, std::ostream& output, doroshenko::List< size_t >& sums)
+{
+  List< std::pair< std::string, doroshenko::List< size_t > > >::Iterator iterator;
+  size_t maxSize = getMaxSize(list);
+  doroshenko::List< size_t >::Iterator localIterator = doroshenko::List< size_t >::ConstIterator();
+  const size_t maximum = std::numeric_limits< size_t >::max();
+  size_t sum = 0;
+  bool overflowError = false;
+  if (!list.isEmpty())
+  {
     for (size_t index = 0; index < maxSize; index++)
     {
       iterator = list.begin();
@@ -85,33 +95,32 @@ void doroshenko::listOutput(doroshenko::List< std::pair< std::string, doroshenko
       overflowError = false;
       output << "\n";
     }
+  }
+}
 
-    iteratorForSums = sums.begin();
-    if (sums.isEmpty())
-    {
-      output << 0;
-    }
-    else
-    {
-      while (iteratorForSums != sums.end())
-      {
-        if (iteratorForSums != List< size_t >::ConstIterator())
-        {
-          if (iteratorForSums != sums.begin())
-          {
-            output << " ";
-          }
-          output << *iteratorForSums;
-        }
-        iteratorForSums++;
-      }
-    }
-    output << "\n";
+void doroshenko::sumsOutput(doroshenko::List< std::pair< std::string, doroshenko::List< size_t > > > list, std::ostream& output, doroshenko::List< size_t >& sums)
+{
+  List< size_t >::Iterator iteratorForSums = sums.begin();
+  if (sums.isEmpty())
+  {
+    output << 0;
   }
   else
   {
-    output << 0 << "\n";
+    while (iteratorForSums != sums.end())
+    {
+      if (iteratorForSums != List< size_t >::ConstIterator())
+      {
+        if (iteratorForSums != sums.begin())
+        {
+          output << " ";
+        }
+        output << *iteratorForSums;
+      }
+      iteratorForSums++;
+    }
   }
+  output << "\n";
 }
 
 size_t doroshenko::getMaxSize(doroshenko::List< std::pair< std::string, doroshenko::List< size_t > > >& list)
