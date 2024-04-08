@@ -102,6 +102,11 @@ namespace mihalchenko
     Iterator<T> begin() noexcept;
     Iterator<T> end() noexcept;
 
+    void remove(const T &iterValue);
+
+    template <typename F>
+    void remove_if(F functor);
+
     // private:
     Iterator<T> *begin_;
     Iterator<T> *end_;
@@ -454,6 +459,42 @@ template <typename T>
 bool mihalchenko::List<T>::empty()
 {
   return (this->begin_ == nullptr);
+}
+
+template <typename T>
+void mihalchenko::List<T>::remove(const T &iterValue)
+{
+  for (Iterator<T> iterator = this->begin_; iterator != this->end_; ++iterator)
+  {
+    if (iterator->pNext_ == iterValue && iterator->pNext_ != this->end_)
+    {
+      Iterator<T> *valueBegin = iterator.data_;
+      Iterator<T> *valueDel = valueBegin->pNext_;
+      valueBegin->pNext_ = valueDel->pNext_;
+      delete valueDel;
+      this.size--;
+      iterator = this->begin_;
+    }
+    else if (*iterator == iterValue && *iterator == *this->begin_)
+    {
+      this->pop_front();
+      iterator = this->begin_;
+    }
+  }
+}
+
+template <typename T>
+template <typename F>
+void mihalchenko::List<T>::remove_if(F functor)
+{
+  for (Iterator<T> iterator = this->begin_; iterator != this->end_; ++iterator)
+  {
+    if (functor(*(iterator)))
+    {
+      remove(*iterator);
+      iterator = this->begin_;
+    }
+  }
 }
 
 #endif
