@@ -68,10 +68,6 @@ namespace doroshenko
       }
       output << "\n";
     }
-    else
-    {
-      output << 0 << "\n";
-    }
   }
 
   void listOutput(this_t& list, std::ostream& output, List< size_t >& sums)
