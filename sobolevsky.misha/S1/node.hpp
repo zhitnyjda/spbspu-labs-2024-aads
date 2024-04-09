@@ -10,10 +10,10 @@ namespace sobolevsky
   public:
     Node * next = nullptr;
     Node * prev = nullptr;
-    T data;
-    std::string name;
+    T data = T();
+    std::string name = "";
 
-    Node(T dataIn = T(), std::string nameIn = "")
+    Node(T dataIn, std::string nameIn)
     : name(nameIn)
     , data(dataIn)
     {}
