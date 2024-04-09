@@ -38,6 +38,8 @@ namespace kaseev
 
     Iterator begin() noexcept;
     Iterator end() noexcept;
+    ConstIterator begin() const noexcept;
+
 
     const T &operator[](int index) const;
     List<T>& operator=(const List<T>& other);
@@ -459,6 +461,13 @@ namespace kaseev
   typename List<T>::Iterator List<T>::end() noexcept {
     Iterator it;
     it.Node = nullptr;
+    return it;
+  }
+
+  template<typename T>
+  typename List<T>::ConstIterator List<T>::begin() const noexcept {
+    ConstIterator it;
+    it.Node = head;
     return it;
   }
 
