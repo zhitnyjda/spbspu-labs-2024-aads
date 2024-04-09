@@ -8,16 +8,22 @@ namespace sobolevsky
   class Node
   {
   public:
-    Node * next = nullptr;
-    Node * prev = nullptr;
-    T data = T();
-    std::string name = "";
+    Node * next;
+    Node * prev;
+    T data;
+    std::string name;
 
-    Node(T dataIn, std::string nameIn)
-    : name(nameIn)
-    , data(dataIn)
-    {}
+    Node(T dataIn, std::string nameIn);
   };
+}
+
+template< typename T >
+sobolevsky::Node< T >::Node(T dataIn, std::string nameIn)
+{
+  data = dataIn;
+  name = nameIn;
+  prev = nullptr;
+  next = nullptr;
 }
 
 #endif
