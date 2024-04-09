@@ -10,22 +10,22 @@ namespace doroshenko
   template < typename T >
   class List
   {
-  private:
-    struct Node
-    {
-      Node(T value):
-        data(value),
-        next(nullptr)
-      {}
-      T data;
-      Node* next;
-    };
-    Node* head_;
-    Node* tail_;
-
   public:
     class ConstIterator;
     class Iterator;
+
+    struct Node
+    {
+    public:
+      friend class List;
+      Node(T value) :
+        data(value),
+        next(nullptr)
+      {}
+    private:
+      T data;
+      Node* next;
+    };
 
     List();
     List(size_t n, const T& value);
@@ -54,6 +54,10 @@ namespace doroshenko
 
     ConstIterator cbegin() const;
     ConstIterator cend() const;
+
+  private:
+    Node* head_;
+    Node* tail_;
   };
 }
 
@@ -341,6 +345,7 @@ void doroshenko::List< T >::swap(List< T >& otherList) noexcept
 template< typename T >
 void doroshenko::List< T >::assign(size_t n, const T& value)
 {
+  clear();
   for (size_t i = 0; i < n; i++)
   {
     push_back(value);
@@ -350,40 +355,41 @@ void doroshenko::List< T >::assign(size_t n, const T& value)
 template< typename T >
 void doroshenko::List< T >::remove(const T& value)
 {
+  ConstIterator iterator = cbegin();
+  Node* nextNode = iterator.node->next;
+  Node* toRemove = nullptr;
   if (!isEmpty())
   {
-    Node* head = head_;
-    Node* postHead = head_->next;
-    Node* toRemove = nullptr;
-    if (head->data == value)
+    while (*iterator == value)
     {
       popFront();
-      head = head_;
-      postHead = head->next;
+      iterator = cbegin();
+      nextNode = iterator.node->next;
     }
-    while (postHead)
+    while (nextNode)
     {
-      if (postHead->data == value)
+      if (nextNode->data == value)
       {
-        if (postHead->next == nullptr)
+        if (nextNode->next == nullptr)
         {
-          delete postHead;
-          postHead = nullptr;
-          head->next = nullptr;
-          tail_ = head;
+          toRemove = nextNode;
+          nextNode = nullptr;
+          iterator.node->next = nullptr;
+          tail_ = iterator.node;
+          delete toRemove;
         }
         else
         {
-          toRemove = postHead;
-          head->next = postHead->next;
-          postHead = head->next;
+          toRemove = nextNode;
+          iterator.node->next = nextNode->next;
+          nextNode = iterator.node->next;
           delete toRemove;
         }
       }
       else
       {
-        head = head->next;
-        postHead = head->next;
+        iterator++;
+        nextNode = iterator.node->next;
       }
     }
   }
@@ -393,42 +399,14 @@ template< typename T >
 template< typename P >
 void doroshenko::List< T >::removeIf(P p)
 {
-  if (!isEmpty())
+  ConstIterator iterator = cbegin();
+  while (iterator.node)
   {
-    Node* head = head_;
-    Node* postHead = head_->next;
-    Node* toRemove = nullptr;
-    if (p(head->data))
+    if (p(*iterator))
     {
-      popFront();
-      head = head_;
-      postHead = head->next;
+      remove(*iterator);
     }
-    while (postHead)
-    {
-      if (p(postHead->data))
-      {
-        if (postHead->next == nullptr)
-        {
-          delete postHead;
-          postHead = nullptr;
-          head->next = nullptr;
-          tail_ = head;
-        }
-        else
-        {
-          toRemove = postHead;
-          head->next = postHead->next;
-          postHead = head->next;
-          delete toRemove;
-        }
-      }
-      else
-      {
-        head = head->next;
-        postHead = head->next;
-      }
-    }
+    iterator++;
   }
 }
 

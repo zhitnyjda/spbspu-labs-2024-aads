@@ -5,7 +5,6 @@
 #include <limits>
 #include "list.hpp"
 
-
 namespace doroshenko
 {
   using this_t = List< std::pair< std::string, List< size_t > > >;
