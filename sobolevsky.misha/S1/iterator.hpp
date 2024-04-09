@@ -12,10 +12,10 @@ namespace sobolevsky
     Node< T > * currNode = nullptr;
 
     BidirectionalIterator(Node< T > * node);
-    ~BidirectionalIterator() = default;
     BidirectionalIterator(const BidirectionalIterator< T > &) = default;
-    BidirectionalIterator< T > & operator=(const BidirectionalIterator< T > &) = default;
+    ~BidirectionalIterator() = default;
 
+    BidirectionalIterator< T > & operator=(const BidirectionalIterator< T > &) = default;
     BidirectionalIterator& operator++();
     BidirectionalIterator operator++(int);
     BidirectionalIterator& operator--();
