@@ -52,7 +52,8 @@ int main()
   {
     sobolevsky::List< unsigned long long > lastList;
     size_t sumInts = 0;
-    for (size_t i = 0; i < maxlen; i++)
+    size_t i = 0;
+    for (i; i < maxlen; i++)
     {
       sumInts = 0;
       bool first = true;
@@ -92,8 +93,9 @@ int main()
       std::cerr << "Number is too big\n";
       return 1;
     }
+    size_t i = 0;
     size_t size_ = lastList.getSize();
-    for (size_t i = 0; i < size_; i++)
+    for (i; i < size_; i++)
     {
       std::cout << lastList[i]->data;
       if (i != (size_ - 1))
