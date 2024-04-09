@@ -2,7 +2,6 @@
 #define LIST_HPP
 #include "node.hpp"
 #include "iterator.hpp"
-#include <memory>
 #include <cstddef>
 #include <string>
 
@@ -13,8 +12,11 @@ namespace sobolevsky
   class List
   {
   public:
+    Node< T > * head = nullptr;
+    Node< T > * tail = nullptr;
+    size_t size = 0;
+
     List();
-    List(size_t n, const T & val);
     ~List();
 
     void pushFront(T data, std::string nameIn);
@@ -26,15 +28,10 @@ namespace sobolevsky
     void remove(T val);
     template< typename Predicate >
     void remove_if(Predicate pred);
-    bool empty() noexcept;
-    void assign(size_t n, const T & val);
+    bool empty();
     size_t getSize();
     Node< T > * getAt(size_t index);
     Node< T > * operator [] (size_t index);
-
-    Node< T > * head;
-    Node< T > * tail;
-    size_t size;
   };
 }
 
@@ -43,15 +40,6 @@ sobolevsky::List< T >::List()
 {
   head = nullptr;
   tail = nullptr;
-}
-
-template< typename T >
-sobolevsky::List< T >::List(size_t n, const T & val)
-{
-  for (size_t i = 0; i < n; i++)
-  {
-    pushBack(val);
-  }
 }
 
 template< typename T >
@@ -241,19 +229,9 @@ void sobolevsky::List< T >::remove_if(Predicate pred)
 }
 
 template< typename T >
-bool sobolevsky::List< T >::empty() noexcept
+bool sobolevsky::List< T >::empty()
 {
   return (size == 0);
-}
-
-template< typename T >
-void sobolevsky::List< T >::assign(size_t n, const T & val)
-{
-  clear();
-  for (size_t i = 0; i < n; i++)
-  {
-    pushBack(val);
-  }
 }
 
 template< typename T >

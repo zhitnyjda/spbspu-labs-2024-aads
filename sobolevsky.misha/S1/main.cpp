@@ -36,7 +36,7 @@ int main()
     return 0;
   }
 
-  sobolevsky::BidirectionalIterator< sobolevsky::List< unsigned long long > > iter(list.head);
+  sobolevsky::Iterator< sobolevsky::List< unsigned long long > > iter(list.head);
   for (size_t i = 0; i < length; i++)
   {
     std::cout << iter.name();
@@ -52,17 +52,14 @@ int main()
   {
     sobolevsky::List< unsigned long long > lastList;
     size_t sumInts = 0;
-    size_t i = 0;
-    for (i = 0; i < maxlen; i++)
+    for (size_t i = 0; i < maxlen; i++)
     {
       sumInts = 0;
       bool first = true;
-      sobolevsky::BidirectionalIterator< sobolevsky::List< unsigned long long > > iter2(list.head);
-      size_t sizeList_;
+      sobolevsky::Iterator< sobolevsky::List< unsigned long long > > iter2(list.head);
       for (size_t j = 0; j < length; j++)
       {
-        sizeList_ = iter2.currNode->data.getSize();
-        if (i < sizeList_)
+        if (i < iter2.currNode->data.size)
         {
           if (first)
           {
@@ -94,12 +91,11 @@ int main()
       std::cerr << "Number is too big\n";
       return 1;
     }
-    size_t size_ = lastList.getSize();
-    i = 0;
-    for (i = 0; i < size_; i++)
+
+    for (size_t i = 0; i < lastList.size; i++)
     {
       std::cout << lastList[i]->data;
-      if (i != (size_ - 1))
+      if (i != (lastList.size - 1))
       {
         std::cout << " ";
       }
