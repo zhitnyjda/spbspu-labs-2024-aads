@@ -14,6 +14,7 @@ namespace sobolevsky
     BidirectionalIterator(Node< T > * node);
     BidirectionalIterator(const BidirectionalIterator< T > &) = default;
     ~BidirectionalIterator() = default;
+    std::string name();
 
     BidirectionalIterator< T > & operator=(const BidirectionalIterator< T > &) = default;
     BidirectionalIterator& operator++();
@@ -26,8 +27,6 @@ namespace sobolevsky
 
     T & operator * ();
     T * operator->();
-
-    std::string name();
   };
 }
 
