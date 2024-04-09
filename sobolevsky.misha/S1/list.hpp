@@ -14,7 +14,6 @@ namespace sobolevsky
   public:
     Node< T > * head = nullptr;
     Node< T > * tail = nullptr;
-    size_t size = 0;
 
     List();
     ~List();
@@ -33,6 +32,8 @@ namespace sobolevsky
     size_t getSize();
     Node< T > * getAt(size_t index);
     Node< T > * operator [] (size_t index);
+  private:
+    size_t size = 0;
   };
 }
 

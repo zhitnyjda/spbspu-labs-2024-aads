@@ -59,7 +59,7 @@ int main()
       sobolevsky::BidirectionalIterator< sobolevsky::List< unsigned long long > > iter2(list.head);
       for (size_t j = 0; j < length; j++)
       {
-        if (i < iter2.currNode->data.size)
+        if (i < iter2.currNode->data.getSize())
         {
           if (first)
           {
@@ -92,10 +92,10 @@ int main()
       return 1;
     }
 
-    for (size_t i = 0; i < lastList.size; i++)
+    for (size_t i = 0; i < lastList.getSize(); i++)
     {
       std::cout << lastList[i]->data;
-      if (i != (lastList.size - 1))
+      if (i != (lastList.getSize() - 1))
       {
         std::cout << " ";
       }
