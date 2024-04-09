@@ -6,9 +6,11 @@
 namespace kaseev
 {
   template< class T >
-  class List {
+  class List
+      {
   public:
     class Iterator;
+    class ConstIterator;
 
     List();
     ~List();
@@ -331,43 +333,118 @@ namespace kaseev
   kaseev::List<T>::Iterator::Iterator() : Node(nullptr) {}
 
   template<typename T>
-  typename kaseev::List<T>::Iterator& List<T>::Iterator::operator++() {
-    if (Node != nullptr) {
+  typename kaseev::List<T>::Iterator& List<T>::Iterator::operator++()
+  {
+    if (Node != nullptr)
+    {
       Node = Node->next;
     }
     return *this;
   }
 
   template<typename T>
-  typename kaseev::List<T>::Iterator List<T>::Iterator::operator++(int) {
+  typename kaseev::List<T>::Iterator List<T>::Iterator::operator++(int)
+  {
     Iterator temp = *this;
     ++(*this);
     return temp;
   }
 
   template<typename T>
-  T& kaseev::List<T>::Iterator::operator*() {
-    if (Node != nullptr) {
+  T& kaseev::List<T>::Iterator::operator*()
+  {
+    if (Node != nullptr)
+    {
       return Node->data;
-    } else {
+    }
+    else
+    {
       throw std::logic_error("Iterator is not pointing to a valid node");
     }
   }
 
   template<typename T>
-  T* kaseev::List<T>::Iterator::operator->() {
+  T* kaseev::List<T>::Iterator::operator->()
+  {
     return &(*(*this));
   }
 
   template<typename T>
-  bool List<T>::Iterator::operator!=(const Iterator& other) const {
+  bool List<T>::Iterator::operator!=(const Iterator& other) const
+  {
     return Node != other.Node;
   }
 
   template<typename T>
-  bool List<T>::Iterator::operator==(const Iterator& other) const {
+  bool List<T>::Iterator::operator==(const Iterator& other) const
+  {
+    return Node == other.Node;
+  }
+
+  template<typename T>
+  class List<T>::ConstIterator
+      {
+  public:
+    const List<T> *Node;
+    using this_t = ConstIterator;
+
+    ConstIterator();
+    ~ConstIterator() = default;
+    ConstIterator(const this_t &) = default;
+    this_t& operator=(const this_t &) = default;
+
+    this_t& operator++();
+    this_t operator++(int);
+
+    const T& operator*() const;
+    const T* operator->() const;
+
+    bool operator!=(const this_t&) const;
+    bool operator==(const this_t&) const;
+  };
+
+  template<typename T>
+  List<T>::ConstIterator::ConstIterator() : Node(nullptr) {}
+
+  template<typename T>
+  typename List<T>::ConstIterator& List<T>::ConstIterator::operator++()
+  {
+    Node = Node->next;
+    return *this;
+  }
+
+  template<typename T>
+  typename List<T>::ConstIterator List<T>::ConstIterator::operator++(int)
+  {
+    ConstIterator temp(*this);
+    ++(*this);
+    return temp;
+  }
+
+  template<typename T>
+  const T& List<T>::ConstIterator::operator*() const
+  {
+    return *(Node->data);
+  }
+
+  template<typename T>
+  const T* List<T>::ConstIterator::operator->() const
+  {
+    return &(Node->data);
+  }
+
+  template<typename T>
+  bool List<T>::ConstIterator::operator!=(const ConstIterator& other) const
+  {
+    return Node != other.Node;
+  }
+
+  template<typename T>
+  bool List<T>::ConstIterator::operator==(const ConstIterator& other) const
+  {
     return Node == other.Node;
   }
 
 }
+
 #endif
