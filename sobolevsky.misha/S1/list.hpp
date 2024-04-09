@@ -16,6 +16,7 @@ namespace sobolevsky
     Node< T > * tail = nullptr;
 
     List();
+    List(size_t n, const T & val);
     ~List();
 
     void pushFront(T data, std::string nameIn);
@@ -42,6 +43,15 @@ sobolevsky::List< T >::List()
 {
   head = nullptr;
   tail = nullptr;
+}
+
+template< typename T >
+sobolevsky::List< T >::List(size_t n, const T & val)
+{
+  for (size_t i = 0; i < n; i++)
+  {
+    pushBack(val);
+  }
 }
 
 template< typename T >
