@@ -36,7 +36,7 @@ int main()
     return 0;
   }
 
-  sobolevsky::Iterator< sobolevsky::List< unsigned long long > > iter(list.head);
+  sobolevsky::BidirectionalIterator< sobolevsky::List< unsigned long long > > iter(list.head);
   for (size_t i = 0; i < length; i++)
   {
     std::cout << iter.name();
@@ -56,7 +56,7 @@ int main()
     {
       sumInts = 0;
       bool first = true;
-      sobolevsky::Iterator< sobolevsky::List< unsigned long long > > iter2(list.head);
+      sobolevsky::BidirectionalIterator< sobolevsky::List< unsigned long long > > iter2(list.head);
       for (size_t j = 0; j < length; j++)
       {
         if (i < iter2.currNode->data.size)

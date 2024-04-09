@@ -6,22 +6,22 @@
 namespace sobolevsky
 {
   template< typename T >
-  class Iterator
+  class BidirectionalIterator
   {
   public:
-    Iterator(Node< T > * node);
-    Iterator(const Iterator< T > &) = default;
-    ~Iterator() = default;
+    BidirectionalIterator(Node< T > * node);
+    BidirectionalIterator(const BidirectionalIterator< T > &) = default;
+    ~BidirectionalIterator() = default;
 
-    Iterator< T > & operator=(const Iterator< T > &) = default;
+    BidirectionalIterator< T > & operator=(const BidirectionalIterator< T > &) = default;
 
-    Iterator& operator++();
-    Iterator operator++(int);
-    Iterator& operator--();
-    Iterator operator--(int);
+    BidirectionalIterator& operator++();
+    BidirectionalIterator operator++(int);
+    BidirectionalIterator& operator--();
+    BidirectionalIterator operator--(int);
 
-    bool operator!=(const Iterator& other) const;
-    bool operator==(const Iterator& other) const;
+    bool operator!=(const BidirectionalIterator& other) const;
+    bool operator==(const BidirectionalIterator& other) const;
 
     T & operator * ();
     T * operator->();
@@ -33,13 +33,13 @@ namespace sobolevsky
 }
 
 template< typename T >
-sobolevsky::Iterator< T >::Iterator(Node< T > * node)
+sobolevsky::BidirectionalIterator< T >::BidirectionalIterator(Node< T > * node)
 {
   currNode = node;
 }
 
 template< typename T >
-sobolevsky::Iterator< T >& sobolevsky::Iterator< T >::operator++()
+sobolevsky::BidirectionalIterator< T >& sobolevsky::BidirectionalIterator< T >::operator++()
 {
   if (currNode)
   {
@@ -49,15 +49,15 @@ sobolevsky::Iterator< T >& sobolevsky::Iterator< T >::operator++()
 }
 
 template<typename T>
-sobolevsky::Iterator<T> sobolevsky::Iterator< T >::operator++(int)
+sobolevsky::BidirectionalIterator<T> sobolevsky::BidirectionalIterator< T >::operator++(int)
 {
-  sobolevsky::Iterator< T > temp(*this);
+  sobolevsky::BidirectionalIterator< T > temp(*this);
   operator++();
   return temp;
 }
 
 template< typename T >
-sobolevsky::Iterator< T >& sobolevsky::Iterator< T >::operator--()
+sobolevsky::BidirectionalIterator< T >& sobolevsky::BidirectionalIterator< T >::operator--()
 {
   if (currNode)
   {
@@ -67,39 +67,39 @@ sobolevsky::Iterator< T >& sobolevsky::Iterator< T >::operator--()
 }
 
 template<typename T>
-sobolevsky::Iterator<T> sobolevsky::Iterator< T >::operator--(int)
+sobolevsky::BidirectionalIterator<T> sobolevsky::BidirectionalIterator< T >::operator--(int)
 {
-  sobolevsky::Iterator< T > temp(*this);
+  sobolevsky::BidirectionalIterator< T > temp(*this);
   operator--();
   return temp;
 }
 
 template< typename T >
-bool sobolevsky::Iterator< T >::operator!=(const Iterator& other) const
+bool sobolevsky::BidirectionalIterator< T >::operator!=(const BidirectionalIterator& other) const
 {
   return currNode != other.currNode;
 }
 
 template< typename T >
-bool sobolevsky::Iterator< T >::operator==(const Iterator& other) const
+bool sobolevsky::BidirectionalIterator< T >::operator==(const BidirectionalIterator& other) const
 {
   return currNode == other.currNode;
 }
 
 template< typename T >
-T & sobolevsky::Iterator< T >::operator * ()
+T & sobolevsky::BidirectionalIterator< T >::operator * ()
 {
   return currNode->data;
 }
 
 template< typename T >
-T * sobolevsky::Iterator< T >::operator->()
+T * sobolevsky::BidirectionalIterator< T >::operator->()
 {
   return std::addressof(currNode->data);
 }
 
 template< typename T >
-std::string sobolevsky::Iterator< T >::name()
+std::string sobolevsky::BidirectionalIterator< T >::name()
 {
   return currNode->name;
 }
@@ -107,22 +107,22 @@ std::string sobolevsky::Iterator< T >::name()
 namespace sobolevsky
 {
   template< typename T >
-  class ConstIterator
+  class ConstBidirectionalIterator
   {
   public:
-    ConstIterator(Node< T > * node);
-    ConstIterator(const ConstIterator< T > &) = default;
-    ~ConstIterator() = default;
+    ConstBidirectionalIterator(Node< T > * node);
+    ConstBidirectionalIterator(const ConstBidirectionalIterator< T > &) = default;
+    ~ConstBidirectionalIterator() = default;
 
-    ConstIterator< T > & operator=(const ConstIterator< T > &) = default;
+    ConstBidirectionalIterator< T > & operator=(const ConstBidirectionalIterator< T > &) = default;
 
-    ConstIterator& operator++();
-    ConstIterator operator++(int);
-    ConstIterator& operator--();
-    ConstIterator operator--(int);
+    ConstBidirectionalIterator& operator++();
+    ConstBidirectionalIterator operator++(int);
+    ConstBidirectionalIterator& operator--();
+    ConstBidirectionalIterator operator--(int);
 
-    bool operator!=(const ConstIterator& other) const;
-    bool operator==(const ConstIterator& other) const;
+    bool operator!=(const ConstBidirectionalIterator& other) const;
+    bool operator==(const ConstBidirectionalIterator& other) const;
 
     T & operator * ();
     T * operator->();
@@ -134,13 +134,13 @@ namespace sobolevsky
 }
 
 template< typename T >
-sobolevsky::ConstIterator< T >::ConstIterator(Node< T > * node)
+sobolevsky::ConstBidirectionalIterator< T >::ConstBidirectionalIterator(Node< T > * node)
 {
   currNode = node;
 }
 
 template< typename T >
-sobolevsky::ConstIterator< T >& sobolevsky::ConstIterator< T >::operator++()
+sobolevsky::ConstBidirectionalIterator< T >& sobolevsky::ConstBidirectionalIterator< T >::operator++()
 {
   if (currNode)
   {
@@ -150,15 +150,15 @@ sobolevsky::ConstIterator< T >& sobolevsky::ConstIterator< T >::operator++()
 }
 
 template<typename T>
-sobolevsky::ConstIterator<T> sobolevsky::ConstIterator< T >::operator++(int)
+sobolevsky::ConstBidirectionalIterator<T> sobolevsky::ConstBidirectionalIterator< T >::operator++(int)
 {
-  sobolevsky::ConstIterator< T > temp(*this);
+  sobolevsky::ConstBidirectionalIterator< T > temp(*this);
   operator++();
   return temp;
 }
 
 template< typename T >
-sobolevsky::ConstIterator< T >& sobolevsky::ConstIterator< T >::operator--()
+sobolevsky::ConstBidirectionalIterator< T >& sobolevsky::ConstBidirectionalIterator< T >::operator--()
 {
   if (currNode)
   {
@@ -168,39 +168,39 @@ sobolevsky::ConstIterator< T >& sobolevsky::ConstIterator< T >::operator--()
 }
 
 template<typename T>
-sobolevsky::ConstIterator<T> sobolevsky::ConstIterator< T >::operator--(int)
+sobolevsky::ConstBidirectionalIterator<T> sobolevsky::ConstBidirectionalIterator< T >::operator--(int)
 {
-  sobolevsky::ConstIterator< T > temp(*this);
+  sobolevsky::ConstBidirectionalIterator< T > temp(*this);
   operator--();
   return temp;
 }
 
 template< typename T >
-bool sobolevsky::ConstIterator< T >::operator!=(const ConstIterator& other) const
+bool sobolevsky::ConstBidirectionalIterator< T >::operator!=(const ConstBidirectionalIterator& other) const
 {
   return currNode != other.currNode;
 }
 
 template< typename T >
-bool sobolevsky::ConstIterator< T >::operator==(const ConstIterator& other) const
+bool sobolevsky::ConstBidirectionalIterator< T >::operator==(const ConstBidirectionalIterator& other) const
 {
   return currNode == other.currNode;
 }
 
 template< typename T >
-T & sobolevsky::ConstIterator< T >::operator * ()
+T & sobolevsky::ConstBidirectionalIterator< T >::operator * ()
 {
   return currNode->data;
 }
 
 template< typename T >
-T * sobolevsky::ConstIterator< T >::operator->()
+T * sobolevsky::ConstBidirectionalIterator< T >::operator->()
 {
   return std::addressof(currNode->data);
 }
 
 template< typename T >
-std::string sobolevsky::ConstIterator< T >::name()
+std::string sobolevsky::ConstBidirectionalIterator< T >::name()
 {
   return currNode->name;
 }
