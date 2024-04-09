@@ -28,6 +28,7 @@ namespace sobolevsky
     void remove(T val);
     template< typename Predicate >
     void remove_if(Predicate pred);
+    void assign(size_t n, const T & val);
     bool empty();
     size_t getSize();
     Node< T > * getAt(size_t index);
@@ -225,6 +226,16 @@ void sobolevsky::List< T >::remove_if(Predicate pred)
     }
     ptr = tempPtr;
     size--;
+  }
+}
+
+template< typename T >
+void sobolevsky::List< T >::assign(size_t n, const T & val)
+{
+  clear();
+  for (size_t i = 0; i < n; i++)
+  {
+    pushBack(val);
   }
 }
 
