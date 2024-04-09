@@ -11,6 +11,7 @@ int main()
   size_t currlen = 0;
   size_t length = 0;
   std::string elem;
+  bool isOverflow = false;
   while (std::cin >> elem)
   {
     if (isalpha(elem[0]))
@@ -47,50 +48,47 @@ int main()
   }
   std::cout << "\n";
 
-  if (maxlen == 0)
+  if (maxlen > 0)
   {
-    std::cout << "0\n";
-  }
-
-  bool isOverflow = false;
-  sobolevsky::List< unsigned long long > lastList;
-  size_t sumInts = 0;
-  for (size_t i = 0; i < maxlen; i++)
-  {
-    sumInts = 0;
-    bool first = true;
-    sobolevsky::Iterator< sobolevsky::List< unsigned long long > > iter2(list.head);
-    for (size_t j = 0; j < length; j++)
+    sobolevsky::List< unsigned long long > lastList;
+    size_t sumInts = 0;
+    for (size_t i = 0; i < maxlen; i++)
     {
-      if (i < iter2.currNode->data.size)
+      sumInts = 0;
+      bool first = true;
+      sobolevsky::Iterator< sobolevsky::List< unsigned long long > > iter2(list.head);
+      for (size_t j = 0; j < length; j++)
       {
-        if (first)
+        if (i < iter2.currNode->data.size)
         {
-          std::cout << iter2.currNode->data[i]->data;
-          first = false;
-        }
-        else
-        {
-          std::cout << " " << iter2.currNode->data[i]->data;
-        }
+          if (first)
+          {
+            std::cout << iter2.currNode->data[i]->data;
+            first = false;
+          }
+          else
+          {
+            std::cout << " " << iter2.currNode->data[i]->data;
+          }
 
-        if (iter2.currNode->data[i]->data > (std::numeric_limits< unsigned long long >::max() - sumInts))
-        {
-          isOverflow = true;
+          if (iter2.currNode->data[i]->data > (std::numeric_limits< unsigned long long >::max() - sumInts))
+          {
+            isOverflow = true;
+          }
+          else
+          {
+            sumInts += iter2.currNode->data[i]->data;
+          }
         }
-        else
-        {
-          sumInts += iter2.currNode->data[i]->data;
-        }
+        ++iter2;
       }
-      ++iter2;
+      lastList.pushBack(sumInts, " ");
+      std::cout << "\n";
     }
-    lastList.pushBack(sumInts, " ");
-    std::cout << "\n";
 
     if (isOverflow)
     {
-      std::cerr << "overflow\n";
+      std::cerr << "Number is too big\n";
       return 1;
     }
 
@@ -104,5 +102,10 @@ int main()
     }
     std::cout << "\n";
   }
+  else
+  {
+    std::cout << "0\n";
+  }
+
   return 0;
 }

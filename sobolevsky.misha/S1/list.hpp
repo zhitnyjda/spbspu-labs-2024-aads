@@ -13,9 +13,6 @@ namespace sobolevsky
   class List
   {
   public:
-    class Iterator;
-    class ConstIterator;
-
     List();
     List(size_t n, const T & val);
     ~List();
