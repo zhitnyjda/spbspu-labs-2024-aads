@@ -58,9 +58,10 @@ int main()
       sumInts = 0;
       bool first = true;
       sobolevsky::BidirectionalIterator< sobolevsky::List< unsigned long long > > iter2(list.head);
+      size_t sizeList_;
       for (size_t j = 0; j < length; j++)
       {
-        size_t sizeList_ = iter2.currNode->data.getSize();
+        sizeList_ = iter2.currNode->data.getSize();
         if (i < sizeList_)
         {
           if (first)
