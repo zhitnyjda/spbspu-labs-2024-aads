@@ -17,6 +17,7 @@ namespace sobolevsky
 
     List();
     List(size_t n, const T & val);
+    List(const List & copy);
     ~List();
 
     void pushFront(T data, std::string nameIn);
@@ -52,6 +53,22 @@ sobolevsky::List< T >::List(size_t n, const T & val)
   {
     pushBack(val);
   }
+}
+
+template< typename T >
+sobolevsky::List< T >::List(const List & copy)
+{
+  if (copy.head == nullptr && copy.tail == nullptr)
+  {
+    head = nullptr;
+    tail = nullptr;
+  }
+  else
+  {
+    head = copy.head;
+    tail = copy.tail;
+  }
+  size = copy.size;
 }
 
 template< typename T >
