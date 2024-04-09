@@ -2,7 +2,6 @@
 #include <string>
 #include <limits>
 #include "list.hpp"
-#include "funcs.hpp"
 
 int main()
 {
@@ -53,15 +52,57 @@ int main()
     std::cout << "0\n";
   }
 
-  try
+  bool isOverflow = false;
+  sobolevsky::List< unsigned long long > lastList;
+  size_t sumInts = 0;
+  for (size_t i = 0; i < maxlen; i++)
   {
-    sobolevsky::output(list, maxlen, length);
-  }
-  catch(const std::overflow_error & e)
-  {
-    std::cerr << e.what();
-    return 1;
-  }
+    sumInts = 0;
+    bool first = true;
+    sobolevsky::Iterator< sobolevsky::List< unsigned long long > > iter2(list.head);
+    for (size_t j = 0; j < length; j++)
+    {
+      if (i < iter2.currNode->data.size)
+      {
+        if (first)
+        {
+          std::cout << iter2.currNode->data[i]->data;
+          first = false;
+        }
+        else
+        {
+          std::cout << " " << iter2.currNode->data[i]->data;
+        }
 
+        if (iter2.currNode->data[i]->data > (std::numeric_limits< unsigned long long >::max() - sumInts))
+        {
+          isOverflow = true;
+        }
+        else
+        {
+          sumInts += iter2.currNode->data[i]->data;
+        }
+      }
+      ++iter2;
+    }
+    lastList.pushBack(sumInts, " ");
+    std::cout << "\n";
+
+    if (isOverflow)
+    {
+      std::cerr << "overflow\n";
+      return 1;
+    }
+
+    for (size_t i = 0; i < lastList.size; i++)
+    {
+      std::cout << lastList[i]->data;
+      if (i != (lastList.size - 1))
+      {
+        std::cout << " ";
+      }
+    }
+    std::cout << "\n";
+  }
   return 0;
 }
