@@ -52,7 +52,7 @@ int main()
   {
     sobolevsky::List< unsigned long long > lastList;
     size_t sumInts = 0;
-    size_t i;
+    size_t i = 0;
     for (i = 0; i < maxlen; i++)
     {
       sumInts = 0;
@@ -95,6 +95,7 @@ int main()
       return 1;
     }
     size_t size_ = lastList.getSize();
+    i = 0;
     for (i = 0; i < size_; i++)
     {
       std::cout << lastList[i]->data;
