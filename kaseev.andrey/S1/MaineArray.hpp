@@ -36,6 +36,8 @@ namespace kaseev
     template< class UnaryPredicate >
     void remove_if(UnaryPredicate p);
 
+    Iterator begin() noexcept;
+
     const T &operator[](int index) const;
     List<T>& operator=(const List<T>& other);
 
@@ -443,6 +445,13 @@ namespace kaseev
   bool List<T>::ConstIterator::operator==(const ConstIterator& other) const
   {
     return Node == other.Node;
+  }
+
+  template<typename T>
+  typename List<T>::Iterator List<T>::begin() noexcept {
+    Iterator it;
+    it.Node = head;
+    return it;
   }
 
 }
