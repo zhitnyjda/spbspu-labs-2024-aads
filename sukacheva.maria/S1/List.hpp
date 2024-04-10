@@ -16,7 +16,7 @@ namespace sukacheva {
     {
     public:
       friend class List;
-      Node(T data_) : data(data_), next(nullptr) {}
+      explicit Node(T data_) : data(data_), next(nullptr) {}
     private:
       T data;
       Node* next;
@@ -57,11 +57,11 @@ namespace sukacheva {
     ConstIterator insert(ConstIterator position, const T& val);
     Iterator erase_after(ConstIterator pos);
 
-    Iterator begin() { return Iterator(head); }
-    Iterator end() { return Iterator(nullptr); }
+    Iterator begin() const;
+    Iterator end() const;
 
-    ConstIterator cbegin() const { return head; }
-    ConstIterator cend() const { return nullptr; }
+    ConstIterator cbegin() const;
+    ConstIterator cend() const;
 
   private:
     Node* head;
@@ -70,7 +70,7 @@ namespace sukacheva {
   };
 
   template < typename T >
-  class List< T >::Iterator
+  class List< T >::Iterator : public std::iterator< std::forward_iterator_tag, T >
   {
   public:
     friend class List;
@@ -92,7 +92,8 @@ namespace sukacheva {
   };
 
   template <typename T>
-  class List< T >::ConstIterator {
+  class List< T >::ConstIterator : public std::iterator< std::forward_iterator_tag, T >
+  {
   public:
     friend class List;
     ConstIterator(Node* node_) : node(node_) {}
@@ -401,6 +402,30 @@ namespace sukacheva {
       pushBack(first);
       first++;
     }
+  }
+
+  template<typename T>
+  typename sukacheva::List<T>::Iterator sukacheva::List<T>::begin() const
+  {
+    return Iterator(head);
+  }
+
+  template<typename T>
+  typename sukacheva::List<T>::Iterator sukacheva::List<T>::end() const
+  {
+    return Iterator(nullptr);
+  }
+
+  template<typename T>
+  typename sukacheva::List<T>::ConstIterator sukacheva::List<T>::cbegin() const
+  {
+    return ConstIterator(head);
+  } 
+
+  template<typename T>
+  typename sukacheva::List<T>::ConstIterator sukacheva::List<T>::cend() const
+  {
+    return ConstIterator(nullptr);
   }
 
   template<typename T>
