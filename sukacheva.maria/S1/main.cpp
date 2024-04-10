@@ -1,10 +1,11 @@
 #include <iostream>
-#include "List.hpp"
 #include <string>
-#include "HelpFunc.hpp"
 #include <exception>
+#include "List.hpp"
+#include "DataProcessing.hpp"
 
-int main() {
+int main()
+{
   using namespace sukacheva;
   try {
     List< std::pair< std::string, List< size_t > > > newList = listInput(std::cin);
