@@ -39,10 +39,11 @@ namespace sukacheva {
   {
     itListOfPairs it = newList.begin();
     do {
-      std::cout << it->first;
-      if (it++ != newList.end()) {
+      if (it != newList.begin()) {
         std::cout << " ";
       }
+      std::cout << it->first;
+      it++;
     } while (it != nullptr);
     std::cout << "\n";
   }
@@ -57,14 +58,14 @@ namespace sukacheva {
       it = newList.begin();
       size_t sum = 0;
       while (it != nullptr) {
-        List< size_t >::Iterator argsIt = it.getData().second[i];
+        List< size_t >::Iterator argsIt = it->second[i];
         if (it->second[i])
         {
           if (sum != 0) {
             std::cout << " ";
           }
-          std::cout << argsIt.getData();
-          if (sum > maxSum - argsIt.getData())
+          std::cout << *argsIt;
+          if (sum > maxSum - *argsIt)
           {
             overflowFlag = true;
             std::cout << "\n";
@@ -72,7 +73,7 @@ namespace sukacheva {
           }
           else
           {
-            sum += argsIt.getData();
+            sum += *argsIt;
           }
         }
         it++;

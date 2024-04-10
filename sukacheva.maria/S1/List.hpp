@@ -87,17 +87,9 @@ namespace sukacheva {
 
     bool operator!=(const Iterator&) const;
     bool operator==(const Iterator&) const;
-
-    T& getData();
   private:
     Node* node;
   };
-
-  template <typename T>
-  T& sukacheva::List<T>::Iterator::getData()
-  {
-    return node->data;
-  }
 
   template <typename T>
   class List< T >::ConstIterator {
