@@ -190,26 +190,21 @@ namespace sukacheva {
     Iterator it = begin();
     while (it.node)
     {
-      if (p(it.node->data)) {
-        if (it.node == head) {
-          popFront();
-        }
-        else if (it.node == tail) {
-          tail = this->operator[](index);
-          this->operator[](index)->next = nullptr;
-          it.node = this->operator[](index + 2);
+      if (p) {
+        if (it == begin()) {
+          it++;
+          head = this->operator[](index + 1);
           listSize--;
         }
         else {
-          this->operator[](index)->next = this->operator[](index + 2);
-          this->operator[](index + 1)->next = nullptr;
-          it.node = this->operator[](index + 2);
+          it++;
+          this->operator[](index - 1)->next = this->operator[](index + 1);
           listSize--;
         }
       }
       else {
         index++;
-        it.node = this->operator[](index + 1);
+        it++;
       }
     }
   }
@@ -221,26 +216,21 @@ namespace sukacheva {
     Iterator it = begin();
     while (it.node)
     {
-      if (it.node->data == value) {
-        if (it.node == head) {
-          popFront();
-        }
-        else if (it.node == tail) {
-          tail = this->operator[](index);
-          this->operator[](index)->next = nullptr;
-          it.node = this->operator[](index + 2);
+      if (*it == value) {
+        if (it == begin()) {
+          it++;
+          head = this->operator[](index + 1);
           listSize--;
         }
         else {
-          this->operator[](index)->next = this->operator[](index + 2);
-          this->operator[](index + 1)->next = nullptr;
-          it.node = this->operator[](index + 2);
+          it++;
+          this->operator[](index - 1)->next = this->operator[](index + 1);
           listSize--;
         }
       }
       else {
         index++;
-        it.node = this->operator[](index + 1);
+        it++;
       }
     }
   }
@@ -375,7 +365,7 @@ namespace sukacheva {
   }
 
   template< typename T >
-  sukacheva::List<T>::List(List&& other) :
+  sukacheva::List<T>::List(List&& other):
     head(other.head),
     tail(other.tail),
     listSize(other.listSize)

@@ -48,6 +48,19 @@ namespace sukacheva {
     std::cout << "\n";
   }
 
+  void printSumsList(List<size_t>& sumOfArgs)
+  {
+    List<size_t>::Iterator itSum = sumOfArgs.begin();
+    do {
+      if (itSum != sumOfArgs.begin()) {
+        std::cout << " ";
+      }
+      std::cout << *itSum;
+      itSum++;
+    } while (itSum != nullptr);
+    std::cout << "\n";
+  }
+
   void printArgs(listOfPairs& newList)
   {
     itListOfPairs it = newList.begin();
@@ -83,14 +96,7 @@ namespace sukacheva {
     }
     if (!overflowFlag)
     {
-      List<size_t>::Iterator itSum = sumOfArgs.begin();
-      do {
-        std::cout << *itSum;
-        if (itSum++ != nullptr) {
-          std::cout << " ";
-        }
-      } while (itSum != nullptr);
-      std::cout << "\n";
+      printSumsList(sumOfArgs);
     }
   }
 }

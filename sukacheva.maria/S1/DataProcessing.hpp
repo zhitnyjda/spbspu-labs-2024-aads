@@ -10,6 +10,7 @@ namespace sukacheva {
   size_t maxListSize(listOfPairs& newList);
   void printNameList(listOfPairs& newList);
   void printArgs(listOfPairs& newList);
+  void printSumsList(List<size_t>& sumOfArgs);
 }
 
 #endif
