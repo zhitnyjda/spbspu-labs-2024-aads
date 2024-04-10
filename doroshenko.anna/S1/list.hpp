@@ -400,13 +400,42 @@ template< typename P >
 void doroshenko::List< T >::removeIf(P p)
 {
   ConstIterator iterator = cbegin();
-  while (iterator.node)
+  Node* nextNode = iterator.node->next;
+  Node* toRemove = nullptr;
+  if (!isEmpty())
   {
-    if (p(*iterator))
+    while (p(*iterator))
     {
-      remove(*iterator);
+      popFront();
+      iterator = cbegin();
+      nextNode = iterator.node->next;
     }
-    iterator++;
+    while (nextNode)
+    {
+      if (p(nextNode->data))
+      {
+        if (nextNode->next == nullptr)
+        {
+          toRemove = nextNode;
+          nextNode = nullptr;
+          iterator.node->next = nullptr;
+          tail_ = iterator.node;
+          delete toRemove;
+        }
+        else
+        {
+          toRemove = nextNode;
+          iterator.node->next = nextNode->next;
+          nextNode = iterator.node->next;
+          delete toRemove;
+        }
+      }
+      else
+      {
+        iterator++;
+        nextNode = iterator.node->next;
+      }
+    }
   }
 }
 
