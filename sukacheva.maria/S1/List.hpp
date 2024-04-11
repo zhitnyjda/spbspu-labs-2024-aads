@@ -448,7 +448,7 @@ namespace sukacheva {
   typename sukacheva::List<T>::ConstIterator sukacheva::List<T>::cbegin() const
   {
     return ConstIterator(head);
-  } 
+  }
 
   template< typename T >
   typename sukacheva::List<T>::ConstIterator sukacheva::List<T>::cend() const
