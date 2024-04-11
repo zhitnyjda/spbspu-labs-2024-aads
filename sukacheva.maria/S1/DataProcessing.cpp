@@ -72,7 +72,7 @@ namespace sukacheva {
       size_t sum = 0;
       while (it != nullptr) {
         List< size_t >::Iterator argsIt = it->second[i];
-        if (it->second[i])
+        if (it->second[i] != nullptr)
         {
           if (sum != 0) {
             std::cout << " ";
