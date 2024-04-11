@@ -58,7 +58,7 @@ namespace taskaev
     {
       output << "\n";
     }
-    bool bools = false;
+    bool flag = false;
     size_t sum;
     size_t j = 0;
     const size_t maxLimit = std::numeric_limits< size_t >::max();
@@ -71,7 +71,7 @@ namespace taskaev
       {
         if (!iterator->second.isEmpty())
         {
-          if (sum > 0 || bools)
+          if (sum > 0 || flag)
           {
             output << " ";
           }
@@ -81,7 +81,7 @@ namespace taskaev
           }
           else
           {
-            bools = true;
+            flag = true;
           }
           output << iterator->second.front();
           iterator->second.popFront();
@@ -90,7 +90,7 @@ namespace taskaev
       }
       output << "\n";
       sums.pushFront(sum);
-      if (bools)
+      if (flag)
       {
         throw std::overflow_error("Stack overflow SOS!!!");
       }

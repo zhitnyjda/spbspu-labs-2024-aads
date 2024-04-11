@@ -20,16 +20,16 @@ namespace taskaev
     List(List<T>&& other) noexcept;
     ~List();
 
+    void assign(const T& value);
     void pushFront(const T& value);
     void pushBack(const T& value);
     void popFront();
-    bool isEmpty() noexcept;
+    bool isEmpty() const noexcept;
     void clear();
     void reverse();
     void swap(List< T >& other) noexcept;
-    void assign(const T& value);
 
-    T& front();
+    T& front() const;
 
     Iterator begin() const;
     Iterator end() const;
@@ -245,16 +245,15 @@ taskaev::List< T >::~List()
   clear();
 }
 
-template< typename T >
-T& taskaev::List< T >::front()
+template<typename T>
+void taskaev::List< T >::assign(const T& value)
 {
-  return head_->data;
-}
-
-template< typename T >
-bool taskaev::List< T >::isEmpty() noexcept
-{
-  return head_ == nullptr ? true : false;
+  Node* newNode = head_;
+  while(newNode != nullptr)
+  {
+    newNode->data = value;
+    newNode = newNode->next;
+  }
 }
 
 template< typename T >
@@ -295,28 +294,17 @@ void taskaev::List< T >::popFront()
 }
 
 template< typename T >
+bool taskaev::List< T >::isEmpty() const noexcept
+{
+  return head_ == nullptr ? true : false;
+}
+
+template< typename T >
 void taskaev::List< T >::clear()
 {
   while (head_)
   {
     popFront();
-  }
-}
-
-template< typename T>
-void taskaev::List< T >::swap(List< T >& other) noexcept
-{
- std::swap(head_, other.head_);
-}
-
-template<typename T>
-void taskaev::List< T >::assign(const T& value)
-{
-  Node* newNode = head_;
-  while(newNode != nullptr)
-  {
-    newNode->data = value;
-    newNode = newNode->next;
   }
 }
 
@@ -334,6 +322,18 @@ void taskaev::List< T >::reverse()
     temp = am;
   }
   head_ = newNode;
+}
+
+template< typename T>
+void taskaev::List< T >::swap(List< T >& other) noexcept
+{
+ std::swap(head_, other.head_);
+}
+
+template< typename T >
+T& taskaev::List< T >::front() const
+{
+  return head_->data;
 }
 
 template< typename T >
