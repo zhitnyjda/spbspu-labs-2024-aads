@@ -240,7 +240,7 @@ taskaev::List< T >::~List()
   clear();
 }
 
-template<typename T>
+template< typename T>
 void taskaev::List< T >::assign(const T& value)
 {
   Node* newNode = head_;

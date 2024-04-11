@@ -8,8 +8,8 @@
 int main()
 {
   using namespace taskaev;
-  List< std::pair< std::string, List< size_t> > > list;
-  List<size_t> sums;
+  List< std::pair< std::string, List< size_t > > > list;
+  List< size_t > sums;
   try
   {
     inputList(std::cin, list);
