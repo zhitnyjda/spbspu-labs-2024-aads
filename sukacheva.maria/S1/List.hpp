@@ -25,7 +25,7 @@ namespace sukacheva {
     class Iterator;
     class ConstIterator;
 
-    List() : head(nullptr), tail(nullptr), listSize(0) {}
+    List();
     List(size_t count, const T& value);
     List(std::initializer_list<T> init);
     template< class InputIt >
@@ -74,7 +74,8 @@ namespace sukacheva {
   {
   public:
     friend class List;
-    Iterator(Node* node_) : node(node_) {}
+    Iterator();
+    Iterator(Node* node_);
     ~Iterator() = default;
     Iterator(const Iterator&) = default;
     Iterator& operator=(const Iterator&) = default;
@@ -91,12 +92,13 @@ namespace sukacheva {
     Node* node;
   };
 
-  template <typename T>
+  template < typename T >
   class List< T >::ConstIterator : public std::iterator< std::forward_iterator_tag, T >
   {
   public:
     friend class List;
-    ConstIterator(Node* node_) : node(node_) {}
+    ConstIterator();
+    ConstIterator(Node* node_);
     ~ConstIterator() = default;
     ConstIterator(const ConstIterator&) = default;
     ConstIterator& operator=(const ConstIterator&) = default;
@@ -134,6 +136,26 @@ namespace sukacheva {
   }
 
   template< typename T >
+  sukacheva::List<T>::Iterator::Iterator():
+    node(nullptr)
+  {}
+
+  template< typename T >
+  sukacheva::List<T>::Iterator::Iterator(Node* node_):
+    node(node_)
+  {}
+
+  template<typename T>
+  sukacheva::List<T>::ConstIterator::ConstIterator():
+    node(nullptr)
+  {}
+
+  template<typename T>
+  sukacheva::List<T>::ConstIterator::ConstIterator(Node* node_):
+    node(node_)
+  {}
+
+  template< typename T >
   typename sukacheva::List<T>::ConstIterator sukacheva::List<T>::insert(ConstIterator position, const T& val)
   {
     Node * node = new Node(val);
@@ -142,6 +164,12 @@ namespace sukacheva {
     position.node->next = node;
     return constIt++;
   }
+
+  template<typename T>
+  sukacheva::List<T>::List():
+    head(nullptr),
+    tail(nullptr),
+    listSize(0) {}
 
   template< typename T >
   void sukacheva::List<T>::splice(Iterator position, List& fwdlst)
@@ -384,7 +412,7 @@ namespace sukacheva {
     }
   }
 
-  template<class T>
+  template< typename T >
   sukacheva::List<T>::List(std::initializer_list<T> init) : List()
   {
     Iterator it = init.begin();
@@ -404,38 +432,38 @@ namespace sukacheva {
     }
   }
 
-  template<typename T>
+  template< typename T >
   typename sukacheva::List<T>::Iterator sukacheva::List<T>::begin() const
   {
     return Iterator(head);
   }
 
-  template<typename T>
+  template< typename T >
   typename sukacheva::List<T>::Iterator sukacheva::List<T>::end() const
   {
     return Iterator(nullptr);
   }
 
-  template<typename T>
+  template< typename T >
   typename sukacheva::List<T>::ConstIterator sukacheva::List<T>::cbegin() const
   {
     return ConstIterator(head);
-  }
+  } 
 
-  template<typename T>
+  template< typename T >
   typename sukacheva::List<T>::ConstIterator sukacheva::List<T>::cend() const
   {
     return ConstIterator(nullptr);
   }
 
-  template<typename T>
+  template< typename T >
   typename sukacheva::List<T>::ConstIterator& sukacheva::List<T>::ConstIterator::operator++()
   {
     node = node->next;
     return *this;
   }
 
-  template<typename T>
+  template< typename T >
   typename sukacheva::List<T>::ConstIterator sukacheva::List<T>::ConstIterator::operator++(int)
   {
     ConstIterator result(*this);
