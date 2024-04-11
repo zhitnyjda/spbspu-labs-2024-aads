@@ -1,10 +1,10 @@
 #ifndef FUNCTIONLIST_HPP
 #define FUNCTIONLIST_HPP
-#include "List.hpp"
 #include <limits>
 #include <iostream>
 #include <cstddef>
 #include <string>
+#include "List.hpp"
 
 namespace taskaev
 {
@@ -24,21 +24,21 @@ namespace taskaev
     }
     return list;
   }
-  void outputListName(list_t& list, std::ostream& output)
+  void outputListName(list_t& list)
   {
     list.reverse();
     list_t::Iterator iterator = list.begin();
     while (iterator != list.end())
     {
-      output << iterator->first;
+      std::cout << iterator->first;
       if (++iterator != list.end())
       {
-        output << " ";
+        std::cout << " ";
       }
     }
   }
 
-  void outputList(list_t& list, sums_t& sums, std::ostream& output)
+  void outputList(list_t& list, sums_t& sums)
   {
     size_t maxNum = 1;
     list_t::Iterator iterator = list.begin();
@@ -56,7 +56,7 @@ namespace taskaev
     }
     if (maxNum != 1)
     {
-      output << "\n";
+      std::cout << "\n";
     }
     bool flag = false;
     size_t sum;
@@ -73,7 +73,7 @@ namespace taskaev
         {
           if (sum > 0 || flag)
           {
-            output << " ";
+            std::cout << " ";
           }
           if (maxLimit - sum >= iterator->second.front())
           {
@@ -83,12 +83,12 @@ namespace taskaev
           {
             flag = true;
           }
-          output << iterator->second.front();
+          std::cout << iterator->second.front();
           iterator->second.popFront();
         }
         iterator++;
       }
-      output << "\n";
+      std::cout << "\n";
       sums.pushFront(sum);
       if (flag)
       {
@@ -97,7 +97,7 @@ namespace taskaev
     }
   }
 
-  void outputSum(sums_t& sums, std::ostream& output)
+  void outputSum(sums_t& sums)
   {
     sums.reverse();
     sums_t::Iterator iteratorSums = sums.begin();
@@ -105,17 +105,17 @@ namespace taskaev
     {
       while (iteratorSums != sums.end())
       {
-        output << *iteratorSums;
+        std::cout << *iteratorSums;
         if (++iteratorSums != sums.end())
         {
-          output << " ";
+          std::cout << " ";
         }
       }
-      output << "\n";
+      std::cout << "\n";
     }
     else
     {
-      output << "0\n";
+      std::cout << "0\n";
     }
   }
 }

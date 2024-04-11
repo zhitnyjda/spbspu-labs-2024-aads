@@ -3,7 +3,6 @@
 #include <cstddef>
 #include <memory>
 #include <cassert>
-#include <iostream>
 
 namespace taskaev
 {
@@ -11,8 +10,8 @@ namespace taskaev
   class List
   {
   public:
-    class Iterator;
     class ConstIterator;
+    class Iterator;
 
     List();
     List(size_t n, const T& value);
@@ -27,27 +26,24 @@ namespace taskaev
     bool isEmpty() const noexcept;
     void clear();
     void reverse();
-    void swap(List< T >& other) noexcept;
+    void swap(List< T >& other) const noexcept;
+    void remove(const T& value) noexcept;
+    template< typename predicate >
+    void remove_if(predicate p) noexcept;
 
     T& front() const;
 
-    Iterator begin() const;
-    Iterator end() const;
+    Iterator begin() noexcept;
+    Iterator end() noexcept;
 
-    ConstIterator cbegin() const;
-    ConstIterator cend() const;
+    ConstIterator cbegin() const noexcept ;
+    ConstIterator cend() const noexcept;
   private:
     struct Node
     {
-    public:
-      friend class List;
-      explicit Node( T value) :
-        data(value),
-        next(nullptr)
-      {}
-    private:
       T data;
       Node* next;
+      explicit Node(T value) : data(value), next(nullptr) {}
     };
     Node* head_;
   };
@@ -128,7 +124,6 @@ bool taskaev::List< T >::ConstIterator::operator!=(const this_t& rhs) const
 {
   return !(rhs == *this);
 }
-
 
 template< typename T >
 class taskaev::List< T >::Iterator: public std::iterator < std::forward_iterator_tag, T >
@@ -325,9 +320,68 @@ void taskaev::List< T >::reverse()
 }
 
 template< typename T>
-void taskaev::List< T >::swap(List< T >& other) noexcept
+void taskaev::List< T >::swap(List< T >& other) const noexcept
 {
- std::swap(head_, other.head_);
+  std::swap(head_, other.head_);
+}
+
+template< typename T >
+void taskaev::List< T >::remove(const T& value) noexcept
+{
+  ConstIterator newNode = cbegin();
+  ConstIterator temp = cend();
+  while (newNode != nullptr)
+  {
+    if (newNode->data == value)
+    {
+      if (temp == value)
+      {
+        head_ = newNode->next;
+      }
+      else
+      {
+        temp->next = newNode->next;
+      }
+      delete newNode;
+      newNode = (temp == nullptr) ? head_ : temp->next;
+    }
+    else
+    {
+      temp = newNode;
+      newNode = newNode->next;
+    }
+  }
+}
+template< typename T >
+template< typename predicate >
+void taskaev::List< T >::remove_if(predicate p) noexcept
+{
+  ConstIterator newNode = cbegin();
+  ConstIterator temp = cend();
+  while (newNode != nullptr)
+  {
+    if (p(newNode->data))
+    {
+      if (newNode == head_)
+      {
+        head_ = newNode->next;
+        delete newNode;
+        newNode = head_;
+      }
+      else
+      {
+        temp->next = newNode->next;
+        delete newNode;
+        newNode = temp->next;
+      }
+
+    }
+    else
+    {
+      temp = newNode;
+      newNode = newNode->next;
+    }
+  }
 }
 
 template< typename T >
@@ -337,25 +391,25 @@ T& taskaev::List< T >::front() const
 }
 
 template< typename T >
-typename taskaev::List< T >::Iterator taskaev::List< T >::begin() const
+typename taskaev::List< T >::Iterator taskaev::List< T >::begin() noexcept
 {
   return Iterator(head_);
 }
 
 template< typename T >
-typename taskaev::List< T >::Iterator taskaev::List< T >::end() const
+typename taskaev::List< T >::Iterator taskaev::List< T >::end() noexcept
 {
   return Iterator();
 }
 
 template< typename T >
-typename taskaev::List< T >::ConstIterator taskaev::List< T >::cbegin() const
+typename taskaev::List< T >::ConstIterator taskaev::List< T >::cbegin() const noexcept
 {
   return ConstIterator(head_);
 }
 
 template< typename T >
-typename taskaev::List< T >::ConstIterator taskaev::List< T >::cend() const
+typename taskaev::List< T >::ConstIterator taskaev::List< T >::cend() const noexcept
 {
   return ConstIterator();
 }

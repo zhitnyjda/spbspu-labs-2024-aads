@@ -20,9 +20,9 @@ int main()
     }
     else
     {
-      outputListName(list, std::cout);
-      outputList(list, sums, std::cout);
-      outputSum(sums, std::cout);
+      outputListName(list);
+      outputList(list, sums);
+      outputSum(sums);
     }
   }
   catch (const std::overflow_error& e)
