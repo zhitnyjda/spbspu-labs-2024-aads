@@ -236,15 +236,15 @@ void sukacheva::List<T>::remove_if(UnaryPredicate p)
   Iterator it = begin();
   while (it.node)
   {
-    if (p) {
+    if (p(*it)) {
       if (it == begin()) {
         it++;
-        head = this->operator[](index + 1);
+        head = this->operator[](index + 1).node;
         listSize--;
       }
       else {
         it++;
-        this->operator[](index - 1)->next = this->operator[](index + 1);
+        this->operator[](index - 1).node->next = this->operator[](index + 1).node;
         listSize--;
       }
     }
@@ -265,12 +265,12 @@ void sukacheva::List<T>::remove(const T& value)
     if (*it == value) {
       if (it == begin()) {
         it++;
-        head = this->operator[](index + 1);
+        head = this->operator[](index + 1).node;
         listSize--;
       }
       else {
         it++;
-        this->operator[](index - 1)->next = this->operator[](index + 1);
+        this->operator[](index - 1).node->next = this->operator[](index + 1).node;
         listSize--;
       }
     }
