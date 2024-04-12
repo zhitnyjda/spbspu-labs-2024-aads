@@ -25,8 +25,8 @@ namespace zasulsky
     Vector(const Vector& other)
     {
       data = new T[other.capacity];
-      capacity = other.capacity
-      size = other.size
+      capacity = other.capacity;
+      size = other.size;
       for (int i = 0; i < size; ++i)
       {
         data[i] = other.data[i];
