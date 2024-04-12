@@ -76,7 +76,6 @@ namespace zasulsky
 
     bool isRight(int index, int num)
     {
-      int value = data[index];
       bool res = false;
       for (int i = ++index; i < getSize(); i++)
       {

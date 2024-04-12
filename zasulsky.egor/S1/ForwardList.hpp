@@ -322,9 +322,9 @@ namespace zasulsky
       return fakeNode_->next;
     }
 
-    size_t size()
+    int size()
     {
-      size_t count = 0;
+      int count = 0;
       constIter it = cbegin();
       while (it != cend())
       {
