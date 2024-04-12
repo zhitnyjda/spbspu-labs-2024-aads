@@ -17,12 +17,8 @@ namespace redko
 
   struct Operand
   {
-    Operand():
-      value(0)
-    {}
-    explicit Operand(long long val):
-      value(val)
-    {}
+    Operand();
+    explicit Operand(long long val);
 
     Operand operator+(const Operand & rhs);
     Operand operator-(const Operand & rhs);
@@ -48,10 +44,8 @@ namespace redko
 
   struct ExprElem
   {
-    ExprElem():
-      elem(),
-      type(none)
-    {}
+    ExprElem();
+
     union expr_t
     {
       expr_t() {}
@@ -67,22 +61,9 @@ namespace redko
 
   struct PostfixElem
   {
-    PostfixElem():
-      elem(),
-      type(none)
-    {}
-    PostfixElem(ExprElem eElem):
-      type(eElem.type)
-    {
-      if (eElem.type == operand)
-      {
-        elem.operand = eElem.elem.operand;
-      }
-      else if (eElem.type == operation)
-      {
-        elem.operation = eElem.elem.operation;
-      }
-    }
+    PostfixElem();
+    PostfixElem(ExprElem eElem);
+
     union postfix_t
     {
       postfix_t() {}

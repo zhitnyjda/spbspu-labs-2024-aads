@@ -19,6 +19,13 @@ bool redko::Operation::operator<=(const Operation & rhs) const
   return !(*this > rhs);
 }
 
+redko::Operand::Operand():
+  value(0)
+{}
+redko::Operand::Operand(long long val):
+  value(val)
+{}
+
 redko::Operand redko::Operand::operator+(const Operand & rhs)
 {
   if (rhs.value > 0 && value > 0 && (rhs.value > std::numeric_limits< long long >::max() - value))
@@ -76,4 +83,26 @@ redko::Operand redko::Operand::operator%(const Operand & rhs)
     throw std::logic_error("Error: mod by 0");
   }
   return Operand((value % rhs.value + rhs.value) % rhs.value);
+}
+
+redko::ExprElem::ExprElem():
+  elem(),
+  type(none)
+{}
+redko::PostfixElem::PostfixElem():
+  elem(),
+  type(none)
+{}
+
+redko::PostfixElem::PostfixElem(ExprElem eElem):
+  type(eElem.type)
+{
+  if (eElem.type == operand)
+  {
+    elem.operand = eElem.elem.operand;
+  }
+  else if (eElem.type == operation)
+  {
+    elem.operation = eElem.elem.operation;
+  }
 }

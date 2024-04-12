@@ -95,6 +95,7 @@ void redko::Stack< T >::push(const T & value)
 {
   container_.pushFront(value);
 }
+
 template < typename T >
 void redko::Stack< T >::push(T && value)
 {

@@ -43,6 +43,7 @@ template < typename T >
 redko::Queue< T >::Queue(const Queue & other):
   container_(other.container_)
 {}
+
 template < typename T >
 redko::Queue< T >::Queue(Queue && other):
   container_(std::move(other.container_))
@@ -88,6 +89,7 @@ T & redko::Queue< T >::back()
   }
   return (*curr);
 }
+
 template < typename T >
 const T & redko::Queue< T >::back() const
 {
