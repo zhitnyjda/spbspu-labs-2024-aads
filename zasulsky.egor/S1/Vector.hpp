@@ -22,7 +22,7 @@ namespace zasulsky
       size(0)
     {}
 
-    Vector(const Vector& other) 
+    Vector(const Vector& other)
     {
       data = new T[other.capacity];
       capacity = other.capacity;
@@ -235,6 +235,7 @@ namespace zasulsky
       return data[0];
     }
 
+    private:
     class Iterator : public std::iterator < std::bidirectional_iterator_tag, T >
     {
     public:
