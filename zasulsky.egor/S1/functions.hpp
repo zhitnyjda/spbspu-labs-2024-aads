@@ -23,7 +23,7 @@ namespace zasulsky
       size_t num = str.find_first_of(' ');
       name = str.substr(0, num);
       numbers = str.substr(num + 1);
-      for (int position = 0; position < numbers.size(); position += 2)
+      for (size_t position = 0; position < numbers.size(); position += 2)
       {
         std::string n = numbers.substr(position, 1);
         int i = stoi(n);
