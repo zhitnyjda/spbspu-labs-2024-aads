@@ -92,7 +92,6 @@ namespace zasulsky
 
     bool isLeft(int index, int num)
     {
-      int value = data[index];
       bool res = false;
       for (int i = --index; i >= 0; i--)
       {
