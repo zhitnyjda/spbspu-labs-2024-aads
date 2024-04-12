@@ -8,12 +8,12 @@ void khoroshkin::inputInfix(std::istream & in, Stack< std::string > & expression
   {
     if (expression.length() > 0)
     {
-      expressions.push(expression);
+      expressions.push("( " + expression + " )");
     }
   }
 }
 
-bool khoroshkin::isdigit(const std::string & str)
+bool khoroshkin::isDigit(const std::string & str)
 {
   for (char c : str)
   {
@@ -27,31 +27,33 @@ bool khoroshkin::isdigit(const std::string & str)
 
 long long khoroshkin::calc(std::string str)
 {
-  str = "( " + str + " )";
   Postfix expression;
   size_t pos = 0;
   std::string token;
   do
   {
     token = getToken(str, pos);
-    if (khoroshkin::isdigit(token))
+    if (khoroshkin::isDigit(token))
     {
       try
       {
         expression.operands.push(std::stoll(token));
       }
-      catch (const std::exception & e)
+      catch (const std::out_of_range & e)
       {
-        throw std::logic_error("Error: overflow or underflow number!");
+        throw e;
       }
     }
     else if (token.size() == 1)
     {
-      if (token[0] == ')')
+      Bracket bracket(token[0]);
+      if (bracket.isBracket() && !bracket.isBracketOpen())
       {
-        while (!expression.operations.empty() && expression.operations.top() != '(')
+        bracket = expression.operations.top().operation;
+        while (!expression.operations.isEmpty() && !bracket.isBracketOpen())
         {
           expression.popOperation();
+          bracket = expression.operations.top().operation;
         }
         expression.operations.pop();
       }
@@ -67,7 +69,7 @@ long long khoroshkin::calc(std::string str)
   }
   while (!token.empty());
 
-  if (expression.operands.size() > 1 || !expression.operations.empty())
+  if (expression.operands.getSize() > 1 || !expression.operations.isEmpty())
   {
     throw std::logic_error("Error: wrong expression");
   }

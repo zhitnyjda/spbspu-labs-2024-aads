@@ -11,10 +11,12 @@ namespace khoroshkin
   public:
     Stack() = default;
     ~Stack() = default;
+    Stack(const Stack & rhs);
+    Stack(Stack && rhs);
 
-    T & top();
-    bool empty();
-    size_t size();
+    T & top() const noexcept;
+    bool isEmpty();
+    size_t getSize();
 
     void push(const T & value);
     T pop();
@@ -24,7 +26,19 @@ namespace khoroshkin
 }
 
 template< typename T >
-T & khoroshkin::Stack< T >::top()
+khoroshkin::Stack< T >::Stack(const Stack & rhs)
+{
+  stack = rhs.stack;
+}
+
+template< typename T >
+khoroshkin::Stack< T >::Stack(Stack && rhs)
+{
+  stack(std::move(rhs.stack));
+}
+
+template< typename T >
+T & khoroshkin::Stack< T >::top() const noexcept
 {
   for (auto it = stack.begin(); it != stack.end(); it++)
   {
@@ -33,17 +47,17 @@ T & khoroshkin::Stack< T >::top()
       return *it;
     }
   }
-  throw std::logic_error("stack is empty");
+  return *stack.begin();
 }
 
 template< typename T >
-bool khoroshkin::Stack< T >::empty()
+bool khoroshkin::Stack< T >::isEmpty()
 {
   return stack.isEmpty();
 }
 
 template< typename T >
-size_t khoroshkin::Stack< T >::size()
+size_t khoroshkin::Stack< T >::getSize()
 {
   return stack.getSize();
 }
@@ -51,7 +65,14 @@ size_t khoroshkin::Stack< T >::size()
 template< typename T >
 void khoroshkin::Stack< T >::push(const T & value)
 {
-  stack.push_back(value);
+  try
+  {
+    stack.push_back(value);
+  }
+  catch(const std::bad_alloc & e)
+  {
+    throw e;
+  }
 }
 
 template< typename T >

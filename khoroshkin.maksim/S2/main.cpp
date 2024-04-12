@@ -24,12 +24,12 @@ int main(int argc, char * argv[])
     std::cerr << "Error: wrong input!";
     return 1;
   }
-  while (!expressions.empty())
+  while (!expressions.isEmpty())
   {
     try
     {
       std::cout << calc(expressions.pop());
-      if (!expressions.empty())
+      if (!expressions.isEmpty())
       {
         std::cout << ' ';
       }

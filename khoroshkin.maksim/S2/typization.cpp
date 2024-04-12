@@ -126,9 +126,23 @@ bool khoroshkin::Operand::operator>(const Operand & rhs)
   return this->value > rhs.value;
 }
 
+khoroshkin::Bracket::Bracket(char brack) :
+  bracket(brack)
+{}
+
+bool khoroshkin::Bracket::isBracket()
+{
+  return bracket == '(' || bracket == ')';
+}
+
+bool khoroshkin::Bracket::isBracketOpen()
+{
+  return (bracket == '(') ? true : false;
+}
+
 bool khoroshkin::Postfix::canPop(Operator oper)
 {
-  if (operations.empty())
+  if (operations.isEmpty())
   {
     return false;
   }

@@ -11,11 +11,13 @@ namespace khoroshkin
   public:
     Queue() = default;
     ~Queue() = default;
+    Queue(const Queue & rhs);
+    Queue(Queue && rhs);
 
-    T & front();
-    T & back();
-    bool empty();
-    size_t size();
+    T & front() const noexcept;
+    T & back() const noexcept;
+    bool isEmpty();
+    size_t getSize();
 
     void push(const T & value);
     T pop();
@@ -25,13 +27,25 @@ namespace khoroshkin
 }
 
 template< typename T >
-T & khoroshkin::Queue< T >::front()
+khoroshkin::Queue< T >::Queue(const Queue & rhs)
+{
+  queue = rhs.queue;
+}
+
+template< typename T >
+khoroshkin::Queue< T >::Queue(Queue && rhs)
+{
+  queue(std::move(rhs.queue));
+}
+
+template< typename T >
+T & khoroshkin::Queue< T >::front() const noexcept
 {
   return queue.front();
 }
 
 template< typename T >
-T & khoroshkin::Queue< T >::back()
+T & khoroshkin::Queue< T >::back() const noexcept
 {
   for (auto it = queue.begin(); it != queue.end(); it++)
   {
@@ -40,17 +54,17 @@ T & khoroshkin::Queue< T >::back()
       return *it;
     }
   }
-  throw std::logic_error("queue is empty");
+  return *queue.begin();
 }
 
 template< typename T >
-bool khoroshkin::Queue< T >::empty()
+bool khoroshkin::Queue< T >::isEmpty()
 {
   return queue.isEmpty();
 }
 
 template< typename T >
-size_t khoroshkin::Queue< T >::size()
+size_t khoroshkin::Queue< T >::getSize()
 {
   return queue.getSize();
 }
@@ -58,7 +72,14 @@ size_t khoroshkin::Queue< T >::size()
 template< typename T >
 void khoroshkin::Queue< T >::push(const T & value)
 {
-  queue.push_back(value);
+  try
+  {
+    queue.push_back(value);
+  }
+  catch(const std::bad_alloc & e)
+  {
+    throw e;
+  }
 }
 
 template< typename T >

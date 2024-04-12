@@ -13,7 +13,7 @@ namespace khoroshkin
   std::string readOperand(std::string str, size_t & pos);
   char readOperation(std::string str, size_t & pos);
   void skipWhitespace(std::string str, size_t & pos);
-  bool isdigit(const std::string & str);
+  bool isDigit(const std::string & str);
 }
 
 #endif

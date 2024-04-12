@@ -35,6 +35,16 @@ namespace khoroshkin
     char operation;
   };
 
+  struct Bracket
+  {
+    Bracket(char brack);
+
+    bool isBracket();
+    bool isBracketOpen();
+
+    char bracket;
+  };
+
   struct Postfix
   {
     void popOperation();
