@@ -133,6 +133,7 @@ namespace zasulsky
     {
       if (num > max - 1)
       {
+        sumsa.insert_after(sumsa.beforeBegin(), 0);
         break;
       }
       int ind = 0;
