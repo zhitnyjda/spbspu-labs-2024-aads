@@ -102,7 +102,7 @@ namespace zasulsky
     }
     for (iterator<int> iter = res.begin(); iter != res.end(); iter++)
     {
-      if (iter == res.begin())
+      if (iter == res.begin() && std::next(iter) != res.end())
       {
         out << *iter;
       }
