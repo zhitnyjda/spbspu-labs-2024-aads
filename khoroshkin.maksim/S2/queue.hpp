@@ -78,6 +78,7 @@ void khoroshkin::Queue< T >::push(const T & value)
   }
   catch(const std::bad_alloc & e)
   {
+    queue.clear();
     throw e;
   }
 }

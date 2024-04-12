@@ -71,6 +71,7 @@ void khoroshkin::Stack< T >::push(const T & value)
   }
   catch(const std::bad_alloc & e)
   {
+    stack.clear();
     throw e;
   }
 }

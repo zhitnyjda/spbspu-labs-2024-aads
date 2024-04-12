@@ -25,7 +25,7 @@ bool khoroshkin::isDigit(const std::string & str)
   return !str.empty();
 }
 
-long long khoroshkin::calc(std::string str)
+long long khoroshkin::calc(const std::string & str)
 {
   Postfix expression;
   size_t pos = 0;
@@ -93,7 +93,7 @@ std::string khoroshkin::getToken(const std::string & str, size_t & pos)
   }
 }
 
-std::string khoroshkin::readOperand(std::string str, size_t & pos)
+std::string khoroshkin::readOperand(const std::string & str, size_t & pos)
 {
   std::string result = "";
   while (pos < str.length() && std::isdigit(str[pos]))
@@ -103,12 +103,12 @@ std::string khoroshkin::readOperand(std::string str, size_t & pos)
   return result;
 }
 
-char khoroshkin::readOperation(std::string str, size_t & pos)
+char khoroshkin::readOperation(const std::string & str, size_t & pos)
 {
   return str[pos++];
 }
 
-void khoroshkin::skipWhitespace(std::string str, size_t & pos)
+void khoroshkin::skipWhitespace(const std::string & str, size_t & pos)
 {
   if (pos < str.length() && str[pos] == ' ')
   {
