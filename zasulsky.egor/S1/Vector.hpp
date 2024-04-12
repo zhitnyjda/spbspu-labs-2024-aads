@@ -161,11 +161,11 @@ namespace zasulsky
       }
       --size;
     }
-    void erase(const iterator<T>& it)
+    void erase(const Iterator<T>& it)
     {
       if (it.ptr < data || it.ptr >= data + size)
       {
-        throw std::out_of_range("iterator is out of bounds");
+        throw std::out_of_range("Iterator is out of bounds");
       }
 
       int index = it.ptr - data;
@@ -206,14 +206,14 @@ namespace zasulsky
       delete[] data;
     }
 
-    iterator<T> begin()
+    Iterator<T> begin()
     {
-      return iterator(data);
+      return Iterator(data);
     }
 
-    iterator<T> end()
+    Iterator<T> end()
     {
-      return iterator(data + size);
+      return Iterator(data + size);
     }
     T& back()
     {
@@ -234,50 +234,50 @@ namespace zasulsky
     }
 
     private:
-    class iterator : public std::iterator < std::bidirectional_iterator_tag, T >
+    class Iterator : public std::iterator < std::bidirectional_iterator_tag, T >
     {
     public:
       friend class Vector<T>;
 
       T* ptr;
 
-      iterator(T* ptr) : ptr(ptr) {}
+      Iterator(T* ptr) : ptr(ptr) {}
 
       T& operator*() const
       {
         return *ptr;
       }
 
-      iterator& operator++()
+      Iterator& operator++()
       {
         ++ptr;
         return *this;
       }
-      iterator& operator--()
+      Iterator& operator--()
       {
         --ptr;
         return *this;
       }
 
-      iterator& operator++(int)
+      Iterator& operator++(int)
       {
-        iterator temp = *this;
+        Iterator temp = *this;
         ++ptr;
         return temp;
       }
-      iterator& operator--(int)
+      Iterator& operator--(int)
       {
-        iterator temp = *this;
+        Iterator temp = *this;
         --ptr;
         return temp;
       }
 
-      bool operator==(const iterator& other) const
+      bool operator==(const Iterator& other) const
       {
         return ptr == other.ptr;
       }
 
-      bool operator!=(const iterator& other) const
+      bool operator!=(const Iterator& other) const
       {
         return ptr != other.ptr;
       }

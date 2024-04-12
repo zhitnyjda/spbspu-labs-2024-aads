@@ -14,26 +14,26 @@ namespace zasulsky
   class constIterator;
 
   template < typename T >
-  class Iterator : public std::iterator < std::forward_iterator_tag, T >
+  class iterator : public std::iterator < std::forward_iterator_tag, T >
   {
   public:
     friend ForwardList<T>;
     friend constIterator<T>;
 
-    Iterator() :
+    iterator() :
       current_(nullptr)
     {}
 
-    Iterator(detail::Node<T>* start) :
+    iterator(detail::Node<T>* start) :
       current_(start)
     {}
 
-    bool operator==(const Iterator& other) const
+    bool operator==(const iterator& other) const
     {
       return current_ == other.current_;
     }
 
-    bool operator!=(const Iterator& other) const
+    bool operator!=(const iterator& other) const
     {
       return !(*this == other);
     }
@@ -52,7 +52,7 @@ namespace zasulsky
       return std::addressof(current_->data);
     }
 
-    Iterator& operator++()
+    iterator& operator++()
     {
       if (current_)
       {
@@ -60,16 +60,16 @@ namespace zasulsky
       }
       return *this;
     }
-    Iterator operator++(int)
+    iterator operator++(int)
     {
-      Iterator<T> temp = *this;
+      iterator<T> temp = *this;
       ++(*this);
       return temp;
     }
   private:
     detail::Node< T >* current_;
 
-    Iterator(const constIterator<T>& other) :
+    iterator(const constIterator<T>& other) :
       current_(const_cast<detail::Node <T>*> (other.current_))
     {}
   public:
@@ -84,7 +84,7 @@ namespace zasulsky
   {
   public:
     friend ForwardList < T >;
-    friend Iterator < T >;
+    friend iterator < T >;
 
     constIterator() :
       current_(nullptr)
@@ -93,7 +93,7 @@ namespace zasulsky
     constIterator(detail::Node< T >* start) :
       current_(start)
     {}
-    constIterator(const Iterator< T > other) noexcept :
+    constIterator(const iterator< T > other) noexcept :
       current_(other.current_)
     {}
     bool operator==(const constIterator& other) const
@@ -151,7 +151,7 @@ namespace zasulsky
   {
 
   public:
-    using iter = Iterator< T >;
+    using iter = iterator< T >;
     using constIter = constIterator< T >;
 
     ForwardList() :
