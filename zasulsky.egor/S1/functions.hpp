@@ -96,7 +96,7 @@ namespace zasulsky
     {
       res.insert_after(res.beforeBegin(), el);
     }
-    for (Iterator<int> iter = res.begin(); iter != res.end(); iter++)
+    for (iterator<int> iter = res.begin(); iter != res.end(); iter++)
     {
       if (iter == res.begin())
       {
@@ -133,7 +133,7 @@ namespace zasulsky
       }
       int ind = 0;
       int sum = 0;
-      for (Iterator < std::pair< std::string, Vector< int > > > it = list.begin(); it != list.end(); it++)
+      for (iterator < std::pair< std::string, Vector< int > > > it = list.begin(); it != list.end(); it++)
       {
         if (num < it->second.getSize())
         {
