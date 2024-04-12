@@ -48,7 +48,7 @@ namespace sukacheva {
     std::cout << "\n";
   }
 
-  void printSumsList(List<size_t>& sumOfArgs)
+  void getSumsList(List<size_t>& sumOfArgs)
   {
     List<size_t>::Iterator itSum = sumOfArgs.begin();
     do {
@@ -61,12 +61,10 @@ namespace sukacheva {
     std::cout << "\n";
   }
 
-  void printArgs(listOfPairs& newList)
+  void printArgs(listOfPairs& newList, bool& overflowFlag, List<size_t>& sumOfArgs)
   {
     itListOfPairs it = newList.begin();
-    List<size_t> sumOfArgs;
     const size_t maxSum = std::numeric_limits< size_t >::max();
-    bool overflowFlag = false;
     for (size_t i = 0; i < maxListSize(newList); i++) {
       it = newList.begin();
       size_t sum = 0;
@@ -93,10 +91,6 @@ namespace sukacheva {
       }
       std::cout << "\n";
       sumOfArgs.pushBack(sum);
-    }
-    if (!overflowFlag)
-    {
-      printSumsList(sumOfArgs);
     }
   }
 }

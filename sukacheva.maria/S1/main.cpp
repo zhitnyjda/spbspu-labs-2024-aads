@@ -9,16 +9,24 @@ int main()
   using namespace sukacheva;
   try {
     List< std::pair< std::string, List< size_t > > > newList = listInput(std::cin);
-    if (maxListSize(newList) == 0) {
+    if (maxListSize(newList) == 0)
+    {
       if (!newList.empty())
       {
         printNameList(newList);
       }
       std::cout << "0\n";
     }
-    else {
+    else
+    {
       printNameList(newList);
-      printArgs(newList);
+      bool overflowFlag = false;
+      List<size_t> sumOfArgs;
+      printArgs(newList, overflowFlag, sumOfArgs);
+      if (!overflowFlag)
+      {
+        getSumsList(sumOfArgs);
+      }
     }
   }
   catch (const std::exception& e) {

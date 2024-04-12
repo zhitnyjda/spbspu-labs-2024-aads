@@ -1,7 +1,7 @@
 #ifndef DATAPROCESSING_HPP
 #define DATAPROCESSING_HPP
 
-#include <iostream>
+#include <iosfwd>
 #include "List.hpp"
 
 namespace sukacheva {
@@ -9,8 +9,8 @@ namespace sukacheva {
   listOfPairs listInput(std::istream& in);
   size_t maxListSize(listOfPairs& newList);
   void printNameList(listOfPairs& newList);
-  void printArgs(listOfPairs& newList);
-  void printSumsList(List<size_t>& sumOfArgs);
+  void printArgs(listOfPairs& newList, bool& overflowFlag, List<size_t>& sumOfArgs);
+  void getSumsList(List<size_t>& sumOfArgs);
 }
 
 #endif

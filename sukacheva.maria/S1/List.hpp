@@ -7,22 +7,32 @@
 #include <initializer_list>
 
 namespace sukacheva {
+
+  namespace details {
+    template < typename T >
+    struct Node
+    {
+      explicit Node(T data_) : data(data_), next(nullptr) {}
+      T data;
+      Node< T >* next;
+    };
+  }
+
   template < typename  T >
   class List
   {
   public:
+    class Iterator;
+    class ConstIterator;
 
     List();
     List(size_t count, const T& value);
-    List(std::initializer_list<T> init);
+    List(std::initializer_list< T > init);
     template< class InputIt >
     List(InputIt first, InputIt last);
     List(const List&);
     List(List&& other);
     ~List();
-
-    class Iterator;
-    class ConstIterator;
 
     Iterator operator[](size_t index);
 
@@ -54,18 +64,9 @@ namespace sukacheva {
     ConstIterator cend() const;
 
   private:
-    struct Node
-    {
-    public:
-      friend class List;
-      explicit Node(T data_) : data(data_), next(nullptr) {}
-    private:
-      T data;
-      Node* next;
-    };
 
-    Node* head;
-    Node* tail;
+    details::Node< T >* head;
+    details::Node< T >* tail;
     size_t listSize;
   };
 
@@ -75,7 +76,7 @@ namespace sukacheva {
   public:
     friend class List;
     Iterator();
-    Iterator(Node* node_);
+    Iterator(sukacheva::details::Node< T >* node_);
     ~Iterator() = default;
     Iterator(const Iterator&) = default;
     Iterator& operator=(const Iterator&) = default;
@@ -89,7 +90,7 @@ namespace sukacheva {
     bool operator!=(const Iterator&) const;
     bool operator==(const Iterator&) const;
   private:
-    Node* node;
+    sukacheva::details::Node< T >* node;
   };
 
   template < typename T >
@@ -98,7 +99,7 @@ namespace sukacheva {
   public:
     friend class List;
     ConstIterator();
-    ConstIterator(Node* node_);
+    ConstIterator(sukacheva::details::Node< T >* node_);
     ~ConstIterator() = default;
     ConstIterator(const ConstIterator&) = default;
     ConstIterator& operator=(const ConstIterator&) = default;
@@ -112,7 +113,7 @@ namespace sukacheva {
     bool operator!=(const ConstIterator& rhs) const;
     bool operator==(const ConstIterator& rhs) const;
   private:
-    Node* node;
+    sukacheva::details::Node< T >* node;
   };
 }
 
@@ -145,7 +146,7 @@ T& sukacheva::List<T>::back() const noexcept
 template< typename T >
 typename sukacheva::List<T>::Iterator sukacheva::List<T>::erase_after(ConstIterator pos)
 {
-  Node* node = pos.node->next;
+  sukacheva::details::Node< T >* node = pos.node->next;
   Iterator it = node->next;
   pos.node->next = node->next;
   node->next = nullptr;
@@ -158,7 +159,7 @@ sukacheva::List<T>::Iterator::Iterator():
 {}
 
 template< typename T >
-sukacheva::List<T>::Iterator::Iterator(Node* node_):
+sukacheva::List<T>::Iterator::Iterator(sukacheva::details::Node<T>* node_):
   node(node_)
 {}
 
@@ -168,14 +169,14 @@ sukacheva::List<T>::ConstIterator::ConstIterator():
 {}
 
 template<typename T>
-sukacheva::List<T>::ConstIterator::ConstIterator(Node* node_):
+sukacheva::List<T>::ConstIterator::ConstIterator(sukacheva::details::Node<T>* node_):
   node(node_)
 {}
 
 template< typename T >
 typename sukacheva::List<T>::ConstIterator sukacheva::List<T>::insert(ConstIterator position, const T& val)
 {
-  Node * node = new Node(val);
+  sukacheva::details::Node< T >* node = new sukacheva::details::Node< T >(val);
   ConstIterator constIt = node;
   node->next = position.node->next;
   position.node->next = node;
@@ -317,7 +318,7 @@ typename sukacheva::List<T>::Iterator sukacheva::List<T>::operator[](size_t inde
 template< typename T >
 void sukacheva::List<T>::pushBack(const T& data)
 {
-  Node* newNode = new Node(data);
+  sukacheva::details::Node< T >* newNode = new sukacheva::details::Node< T >(data);
   if (empty()) {
     head = newNode;
     tail = newNode;
@@ -332,7 +333,7 @@ void sukacheva::List<T>::pushBack(const T& data)
 template< typename T >
 void sukacheva::List<T>::pushFront(const T& data)
 {
-  Node* newNode = new Node(data);
+  sukacheva::details::Node< T >* newNode = new sukacheva::details::Node< T >(data);
   if (empty()) {
     head = newNode;
     tail = newNode;
@@ -346,7 +347,7 @@ void sukacheva::List<T>::pushFront(const T& data)
 
 template< typename T >
 void sukacheva::List<T>::popFront() {
-  Node* front = head;
+  sukacheva::details::Node< T >* front = head;
   Iterator it = begin();
   if (it != nullptr)
   {
@@ -378,8 +379,8 @@ void sukacheva::List<T>::clean() noexcept
 template< typename T >
 void sukacheva::List<T>::swap(List& other) noexcept
 {
-  Node* temp_head = head;
-  Node* temp_tail = tail;
+  sukacheva::details::Node< T >* temp_head = head;
+  sukacheva::details::Node< T >* temp_tail = tail;
   size_t tempSize = other.listSize;
   other.listSize = listSize;
   listSize = tempSize;
