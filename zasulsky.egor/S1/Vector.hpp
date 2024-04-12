@@ -7,7 +7,6 @@
 
 namespace zasulsky
 {
-
   template <typename T>
   class Vector
   {
