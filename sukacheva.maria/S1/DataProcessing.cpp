@@ -48,9 +48,9 @@ namespace sukacheva {
     std::cout << "\n";
   }
 
-  void getSumsList(List<size_t>& sumOfArgs)
+  void getSumsList(List< size_t >& sumOfArgs)
   {
-    List<size_t>::Iterator itSum = sumOfArgs.begin();
+    List< size_t >::Iterator itSum = sumOfArgs.begin();
     do {
       if (itSum != sumOfArgs.begin()) {
         std::cout << " ";
@@ -61,7 +61,7 @@ namespace sukacheva {
     std::cout << "\n";
   }
 
-  void printArgs(listOfPairs& newList, bool& overflowFlag, List<size_t>& sumOfArgs)
+  void printArgs(listOfPairs& newList, bool& overflowFlag, List< size_t >& sumOfArgs)
   {
     itListOfPairs it = newList.begin();
     const size_t maxSum = std::numeric_limits< size_t >::max();

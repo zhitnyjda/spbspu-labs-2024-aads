@@ -21,7 +21,7 @@ int main()
     {
       printNameList(newList);
       bool overflowFlag = false;
-      List<size_t> sumOfArgs;
+      List< size_t > sumOfArgs;
       printArgs(newList, overflowFlag, sumOfArgs);
       if (!overflowFlag)
       {

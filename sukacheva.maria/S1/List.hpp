@@ -52,7 +52,7 @@ namespace sukacheva {
     void assign(size_t count, const T& value);
     template< class InputIt >
     void assign(InputIt first, InputIt last);
-    void assign(std::initializer_list<T> ilist);
+    void assign(std::initializer_list< T > ilist);
     void splice(Iterator position, List& fwdlst);
     ConstIterator insert(ConstIterator position, const T& val);
     Iterator erase_after(ConstIterator pos);
@@ -118,33 +118,33 @@ namespace sukacheva {
 }
 
 template< typename T >
-const T& sukacheva::List<T>::ConstIterator::operator*() const
+const T& sukacheva::List< T >::ConstIterator::operator*() const
 {
   assert(node != nullptr);
   return node->data;
 }
 
 template< typename T >
-const T* sukacheva::List<T>::ConstIterator::operator->() const
+const T* sukacheva::List< T >::ConstIterator::operator->() const
 {
   assert(node != nullptr);
   return std::addressof(node->data);
 }
 
 template< typename T >
-size_t sukacheva::List<T>::getSize() noexcept
+size_t sukacheva::List< T >::getSize() noexcept
 {
   return listSize;
 }
 
 template< typename T >
-T& sukacheva::List<T>::back() const noexcept
+T& sukacheva::List< T >::back() const noexcept
 {
   return tail->data;
 }
 
 template< typename T >
-typename sukacheva::List<T>::Iterator sukacheva::List<T>::erase_after(ConstIterator pos)
+typename sukacheva::List< T >::Iterator sukacheva::List< T >::erase_after(ConstIterator pos)
 {
   sukacheva::details::Node< T >* node = pos.node->next;
   Iterator it = node->next;
@@ -154,27 +154,27 @@ typename sukacheva::List<T>::Iterator sukacheva::List<T>::erase_after(ConstItera
 }
 
 template< typename T >
-sukacheva::List<T>::Iterator::Iterator():
+sukacheva::List< T >::Iterator::Iterator():
   node(nullptr)
 {}
 
 template< typename T >
-sukacheva::List<T>::Iterator::Iterator(sukacheva::details::Node<T>* node_):
-  node(node_)
-{}
-
-template<typename T>
-sukacheva::List<T>::ConstIterator::ConstIterator():
-  node(nullptr)
-{}
-
-template<typename T>
-sukacheva::List<T>::ConstIterator::ConstIterator(sukacheva::details::Node<T>* node_):
+sukacheva::List< T >::Iterator::Iterator(sukacheva::details::Node< T >* node_):
   node(node_)
 {}
 
 template< typename T >
-typename sukacheva::List<T>::ConstIterator sukacheva::List<T>::insert(ConstIterator position, const T& val)
+sukacheva::List< T >::ConstIterator::ConstIterator():
+  node(nullptr)
+{}
+
+template< typename T >
+sukacheva::List< T >::ConstIterator::ConstIterator(sukacheva::details::Node< T >* node_):
+  node(node_)
+{}
+
+template< typename T >
+typename sukacheva::List< T >::ConstIterator sukacheva::List< T >::insert(ConstIterator position, const T& val)
 {
   sukacheva::details::Node< T >* node = new sukacheva::details::Node< T >(val);
   ConstIterator constIt = node;
@@ -183,14 +183,14 @@ typename sukacheva::List<T>::ConstIterator sukacheva::List<T>::insert(ConstItera
   return constIt++;
 }
 
-template<typename T>
-sukacheva::List<T>::List():
+template< typename T >
+sukacheva::List< T >::List():
   head(nullptr),
   tail(nullptr),
   listSize(0) {}
 
 template< typename T >
-void sukacheva::List<T>::splice(Iterator position, List& fwdlst)
+void sukacheva::List< T >::splice(Iterator position, List& fwdlst)
 {
   while (position.node)
   {
@@ -199,7 +199,7 @@ void sukacheva::List<T>::splice(Iterator position, List& fwdlst)
 }
 
 template< typename T >
-void sukacheva::List<T>::assign(std::initializer_list<T> ilist)
+void sukacheva::List< T >::assign(std::initializer_list<T> ilist)
 {
   clean();
   Iterator it = ilist.begin();
@@ -211,7 +211,7 @@ void sukacheva::List<T>::assign(std::initializer_list<T> ilist)
 
 template< typename T >
 template< typename InputIt>
-void sukacheva::List<T>::assign(InputIt first, InputIt last)
+void sukacheva::List< T >::assign(InputIt first, InputIt last)
 {
   clean();
   while (first != last) {
@@ -221,7 +221,7 @@ void sukacheva::List<T>::assign(InputIt first, InputIt last)
 }
 
 template< typename T >
-void sukacheva::List<T>::assign(size_t count, const T& value)
+void sukacheva::List< T >::assign(size_t count, const T& value)
 {
   clean();
   for (size_t i = 0; i != count; ++i) {
@@ -231,7 +231,7 @@ void sukacheva::List<T>::assign(size_t count, const T& value)
 
 template< typename T >
 template< typename UnaryPredicate>
-void sukacheva::List<T>::remove_if(UnaryPredicate p)
+void sukacheva::List< T >::remove_if(UnaryPredicate p)
 {
   size_t index = 0;
   Iterator it = begin();
@@ -257,7 +257,7 @@ void sukacheva::List<T>::remove_if(UnaryPredicate p)
 }
 
 template< typename T >
-void sukacheva::List<T>::remove(const T& value)
+void sukacheva::List< T >::remove(const T& value)
 {
   size_t index = 0;
   Iterator it = begin();
@@ -283,7 +283,7 @@ void sukacheva::List<T>::remove(const T& value)
 }
 
 template< typename T >
-void sukacheva::List<T>::reverse()
+void sukacheva::List< T >::reverse()
 {
   size_t tempSize = listSize;
   for (size_t i = tempSize - 1; i != -1; i--)
@@ -297,13 +297,13 @@ void sukacheva::List<T>::reverse()
 }
 
 template< typename T >
-T& sukacheva::List<T>::front() const noexcept
+T& sukacheva::List< T >::front() const noexcept
 {
   return head->data;
 }
 
 template< typename T >
-typename sukacheva::List<T>::Iterator sukacheva::List<T>::operator[](size_t index)
+typename sukacheva::List< T >::Iterator sukacheva::List< T >::operator[](size_t index)
 {
   Iterator it = begin();
   for (size_t i = 0; i != index; i++) {
@@ -316,7 +316,7 @@ typename sukacheva::List<T>::Iterator sukacheva::List<T>::operator[](size_t inde
 }
 
 template< typename T >
-void sukacheva::List<T>::pushBack(const T& data)
+void sukacheva::List< T >::pushBack(const T& data)
 {
   sukacheva::details::Node< T >* newNode = new sukacheva::details::Node< T >(data);
   if (empty()) {
@@ -331,7 +331,7 @@ void sukacheva::List<T>::pushBack(const T& data)
 }
 
 template< typename T >
-void sukacheva::List<T>::pushFront(const T& data)
+void sukacheva::List< T >::pushFront(const T& data)
 {
   sukacheva::details::Node< T >* newNode = new sukacheva::details::Node< T >(data);
   if (empty()) {
@@ -346,7 +346,7 @@ void sukacheva::List<T>::pushFront(const T& data)
 }
 
 template< typename T >
-void sukacheva::List<T>::popFront() {
+void sukacheva::List< T >::popFront() {
   sukacheva::details::Node< T >* front = head;
   Iterator it = begin();
   if (it != nullptr)
@@ -362,13 +362,13 @@ void sukacheva::List<T>::popFront() {
 }
 
 template< typename T >
-bool sukacheva::List<T>::empty() const noexcept
+bool sukacheva::List< T >::empty() const noexcept
 {
   return (head == nullptr);
 }
 
 template< typename T >
-void sukacheva::List<T>::clean() noexcept
+void sukacheva::List< T >::clean() noexcept
 {
   while (head)
   {
@@ -377,7 +377,7 @@ void sukacheva::List<T>::clean() noexcept
 }
 
 template< typename T >
-void sukacheva::List<T>::swap(List& other) noexcept
+void sukacheva::List< T >::swap(List& other) noexcept
 {
   sukacheva::details::Node< T >* temp_head = head;
   sukacheva::details::Node< T >* temp_tail = tail;
@@ -393,13 +393,13 @@ void sukacheva::List<T>::swap(List& other) noexcept
 }
 
 template< typename T >
-sukacheva::List<T>::~List()
+sukacheva::List< T >::~List()
 {
   clean();
 }
 
 template< typename T >
-sukacheva::List<T>::List(const List&) :
+sukacheva::List< T >::List(const List&) :
   head(nullptr),
   tail(nullptr),
   listSize(0)
@@ -412,7 +412,7 @@ sukacheva::List<T>::List(const List&) :
 }
 
 template< typename T >
-sukacheva::List<T>::List(List&& other):
+sukacheva::List< T >::List(List&& other):
   head(other.head),
   tail(other.tail),
   listSize(other.listSize)
@@ -423,7 +423,7 @@ sukacheva::List<T>::List(List&& other):
 }
 
 template< typename T >
-sukacheva::List<T>::List(size_t count, const T& value) : List()
+sukacheva::List< T >::List(size_t count, const T& value) : List()
 {
   for (size_t i = 0; i != count; ++i) {
     pushBack(value);
@@ -431,7 +431,7 @@ sukacheva::List<T>::List(size_t count, const T& value) : List()
 }
 
 template< typename T >
-sukacheva::List<T>::List(std::initializer_list<T> init) : List()
+sukacheva::List< T >::List(std::initializer_list<T> init) : List()
 {
   Iterator it = init.begin();
   while (it) {
@@ -442,7 +442,7 @@ sukacheva::List<T>::List(std::initializer_list<T> init) : List()
 
 template< typename T >
 template< typename InputIt >
-sukacheva::List<T>::List(InputIt first, InputIt last) : List()
+sukacheva::List< T >::List(InputIt first, InputIt last) : List()
 {
   while (first != last) {
     pushBack(first);
@@ -451,38 +451,38 @@ sukacheva::List<T>::List(InputIt first, InputIt last) : List()
 }
 
 template< typename T >
-typename sukacheva::List<T>::Iterator sukacheva::List<T>::begin() const
+typename sukacheva::List< T >::Iterator sukacheva::List< T >::begin() const
 {
   return Iterator(head);
 }
 
 template< typename T >
-typename sukacheva::List<T>::Iterator sukacheva::List<T>::end() const
+typename sukacheva::List< T >::Iterator sukacheva::List< T >::end() const
 {
   return Iterator(nullptr);
 }
 
 template< typename T >
-typename sukacheva::List<T>::ConstIterator sukacheva::List<T>::cbegin() const
+typename sukacheva::List< T >::ConstIterator sukacheva::List< T >::cbegin() const
 {
   return ConstIterator(head);
 }
 
 template< typename T >
-typename sukacheva::List<T>::ConstIterator sukacheva::List<T>::cend() const
+typename sukacheva::List< T >::ConstIterator sukacheva::List< T >::cend() const
 {
   return ConstIterator(nullptr);
 }
 
 template< typename T >
-typename sukacheva::List<T>::ConstIterator& sukacheva::List<T>::ConstIterator::operator++()
+typename sukacheva::List< T >::ConstIterator& sukacheva::List< T >::ConstIterator::operator++()
 {
   node = node->next;
   return *this;
 }
 
 template< typename T >
-typename sukacheva::List<T>::ConstIterator sukacheva::List<T>::ConstIterator::operator++(int)
+typename sukacheva::List< T >::ConstIterator sukacheva::List< T >::ConstIterator::operator++(int)
 {
   ConstIterator result(*this);
   ++(*this);
@@ -490,48 +490,48 @@ typename sukacheva::List<T>::ConstIterator sukacheva::List<T>::ConstIterator::op
 }
 
 template< typename T >
-bool sukacheva::List<T>::ConstIterator::operator==(const ConstIterator& rhs) const {
+bool sukacheva::List< T >::ConstIterator::operator==(const ConstIterator& rhs) const {
   return node == rhs.node;
 }
 
 template< typename T >
-bool sukacheva::List<T>::ConstIterator::operator!=(const ConstIterator& rhs) const {
+bool sukacheva::List< T >::ConstIterator::operator!=(const ConstIterator& rhs) const {
   return !(rhs == *this);
 }
 
 template< typename T >
-typename sukacheva::List<T>::Iterator& sukacheva::List<T>::Iterator::operator++()
+typename sukacheva::List< T >::Iterator& sukacheva::List< T >::Iterator::operator++()
 {
   node = node->next;
   return *this;
 }
 
 template< typename T >
-typename sukacheva::List<T>::Iterator sukacheva::List<T>::Iterator::operator++(int) {
+typename sukacheva::List< T >::Iterator sukacheva::List< T >::Iterator::operator++(int) {
   Iterator result(*this);
   ++(*this);
   return result;
 }
 
 template< typename T >
-bool sukacheva::List<T>::Iterator::operator==(const Iterator& rhs) const {
+bool sukacheva::List< T >::Iterator::operator==(const Iterator& rhs) const {
   return node == rhs.node;
 }
 
 template< typename T >
-bool sukacheva::List<T>::Iterator::operator!=(const Iterator& rhs) const {
+bool sukacheva::List< T >::Iterator::operator!=(const Iterator& rhs) const {
   return !(rhs == *this);
 }
 
 template< typename T >
-T& sukacheva::List<T>::Iterator::operator*()
+T& sukacheva::List< T >::Iterator::operator*()
 {
   assert(node != nullptr);
   return node->data;
 }
 
 template< typename T >
-T* sukacheva::List<T>::Iterator::operator->() {
+T* sukacheva::List< T >::Iterator::operator->() {
   assert(node != nullptr);
   return std::addressof(node->data);
 }
