@@ -22,9 +22,11 @@ namespace zasulsky
       size(0)
     {}
 
-    Vector(const Vector& other) : size(other.size), capacity(other.capacity)
+    Vector(const Vector& other)
     {
-      data = new T[capacity];
+      data = new T[other.capacity];
+      capacity = other.capacity
+      size = other.size
       for (int i = 0; i < size; ++i)
       {
         data[i] = other.data[i];
@@ -121,7 +123,6 @@ namespace zasulsky
 
     bool isRight(int index, int num)
     {
-      int value = data[index];
       bool res = false;
       for (int i = ++index; i < getSize(); i++)
       {
@@ -137,7 +138,6 @@ namespace zasulsky
 
     bool isLeft(int index, int num)
     {
-      int value = data[index];
       bool res = false;
       for (int i = --index; i >= 0; i--)
       {
