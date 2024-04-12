@@ -28,7 +28,7 @@ namespace zasulsky
         std::string n = numbers.substr(position, 1);
         int i = stoi(n);
         vec.push_back(i);
-        if (position != 0 && numbers[position - 1])
+        if (position != 0 && numbers[position - 1] != ' ')
         {
           throw std::invalid_argument("too big data");
         }
