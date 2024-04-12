@@ -106,9 +106,13 @@ namespace zasulsky
       {
         out << *iter;
       }
-      else if (std::next(iter) == res.end())
+      else if (iter != res.begin() && std::next(iter) == res.end())
       {
         out << ' ' << *iter << '\n';
+      }
+      else if (iter == res.begin() && std::next(iter) == res.end())
+      {
+        out << *iter << '\n';
       }
       else
       {
