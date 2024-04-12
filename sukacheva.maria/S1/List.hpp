@@ -5,19 +5,9 @@
 #include <cassert>
 #include <memory>
 #include <initializer_list>
+#include "Node.hpp"
 
 namespace sukacheva {
-
-  namespace details {
-    template < typename T >
-    struct Node
-    {
-      explicit Node(T data_) : data(data_), next(nullptr) {}
-      T data;
-      Node< T >* next;
-    };
-  }
-
   template < typename  T >
   class List
   {
