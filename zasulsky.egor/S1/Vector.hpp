@@ -26,7 +26,7 @@ namespace zasulsky
       data = new T[other.capacity];
       capacity = other.capacity;
       size = other.size;
-      
+
       for (int i = 0; i < size; ++i)
       {
         data[i] = other.data[i];
@@ -138,7 +138,8 @@ namespace zasulsky
       data[size++] = value;
     }
 
-    T& operator[](int index) {
+    T& operator[](int index)
+    {
       if (index < 0 || index >= static_cast<int>(getSize()))
       {
         throw std::out_of_range("Index out of bounds");
