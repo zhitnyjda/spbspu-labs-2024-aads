@@ -8,7 +8,7 @@
 namespace khoroshkin
 {
   void inputInfix(std::istream & in, Stack< std::string > & expressions);
-  long long calc(const std::string & str);
+  long long calculateExpression(const std::string & str);
   std::string getToken(const std::string & str, size_t & pos);
   std::string readOperand(const std::string & str, size_t & pos);
   char readOperation(const std::string & str, size_t & pos);

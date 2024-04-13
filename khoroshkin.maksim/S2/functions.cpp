@@ -25,7 +25,7 @@ bool khoroshkin::isDigit(const std::string & str)
   return !str.empty();
 }
 
-long long khoroshkin::calc(const std::string & str)
+long long khoroshkin::calculateExpression(const std::string & str)
 {
   Postfix expression;
   size_t pos = 0;
