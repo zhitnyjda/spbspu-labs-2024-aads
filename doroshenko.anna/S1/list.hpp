@@ -278,7 +278,15 @@ void doroshenko::List< T >::pushFront(const T& data)
 template< typename T >
 void doroshenko::List< T >::pushBack(const T& data)
 {
-  Node* node = new Node(data);
+  Node* node = nullptr;
+  try
+  {
+    node = new Node(data);
+  }
+  catch(std::exception& e)
+  {
+    std::cerr << e.what() << "\n";
+  }
   if (head_ == nullptr)
   {
     head_ = tail_ = node;
