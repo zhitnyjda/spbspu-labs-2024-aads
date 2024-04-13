@@ -362,10 +362,6 @@ namespace kaseev
     {
       return Node->data;
     }
-    else
-    {
-      throw std::logic_error("Iterator is not pointing to a valid node");
-    }
   }
 
   template<typename T>
