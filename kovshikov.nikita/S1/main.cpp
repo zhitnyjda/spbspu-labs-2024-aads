@@ -3,7 +3,7 @@
 
 int main()
 {
-  kovshikov::DoubleList<std::pair<std::string, kovshikov::DoubleList<size_t>>> allPairs;
+  kovshikov::DoubleList< std::pair< std::string, kovshikov::DoubleList< size_t > > > allPairs;
   bool isBigNumber = false;
   kovshikov::inputPairs(allPairs, isBigNumber);
   kovshikov::outputListName(allPairs);

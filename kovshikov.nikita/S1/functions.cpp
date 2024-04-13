@@ -1,12 +1,12 @@
 #include "functions.hpp"
 
-void kovshikov::inputPairs(DoubleList<std::pair<std::string, DoubleList<size_t>>> &allPairs, bool &isBigNumber)
+void kovshikov::inputPairs(DoubleList< std::pair< std::string, DoubleList< size_t > > > &allPairs, bool &isBigNumber)
 {
   int i = 0;
   while(!std::cin.eof())
   {
     i++;
-    DoubleList<size_t> list;
+    DoubleList< size_t > list;
     std::string listName;
     std::string integerString;
     std::cin >> listName;
@@ -49,9 +49,9 @@ void kovshikov::inputPairs(DoubleList<std::pair<std::string, DoubleList<size_t>>
   }
 }
 
-void kovshikov::outputListName(const DoubleList<std::pair<std::string, DoubleList<size_t>>> &allPairs)
+void kovshikov::outputListName(const DoubleList< std::pair< std::string, DoubleList< size_t > > > &allPairs)
 {
-  DoubleList<std::pair<std::string, DoubleList<size_t>>>::Iterator iterator = allPairs.begin();
+  DoubleList< std::pair< std::string, DoubleList< size_t > > >::Iterator iterator = allPairs.begin();
   while(iterator != nullptr)
   {
     std::cout << iterator->first;
@@ -69,14 +69,14 @@ void kovshikov::outputListName(const DoubleList<std::pair<std::string, DoubleLis
 
 void kovshikov::outputResult(const DoubleList<std::pair<std::string, DoubleList<size_t>>> &allPairs, const  bool &isBigNumber)
 {
-  DoubleList<size_t> summaList;
-  DoubleList<DoubleList<size_t>> resultList;
-  DoubleList<std::pair<std::string, DoubleList<size_t>>>::Iterator iteratorAllPairs = allPairs.begin();
+  DoubleList< size_t > summaList;
+  DoubleList< DoubleList< size_t > > resultList;
+  DoubleList< std::pair< std::string, DoubleList< size_t > > >::Iterator iteratorAllPairs = allPairs.begin();
   bool flag = true;
   while(flag == true)
   {
     size_t summa = 0;
-    DoubleList<size_t> list;
+    DoubleList< size_t > list;
     while(iteratorAllPairs != allPairs.end())
     {
       if(!iteratorAllPairs->second.empty())
@@ -100,7 +100,7 @@ void kovshikov::outputResult(const DoubleList<std::pair<std::string, DoubleList<
   }
   while(!resultList.empty())
   {
-    DoubleList<size_t> list = resultList.front();
+    DoubleList< size_t > list = resultList.front();
     while(!list.empty())
     {
       std::cout << list.front();

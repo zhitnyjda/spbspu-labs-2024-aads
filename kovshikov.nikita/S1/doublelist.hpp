@@ -8,13 +8,13 @@
 
 namespace kovshikov
 {
-  template <typename T>
+  template < typename T >
   class DoubleList
   {
   public:
     struct Node
     {
-      friend class DoubleList<T>;
+      friend class DoubleList< T >;
       Node(): data(0), prev(nullptr), next(nullptr) {};
       Node(T data_) :
       data(data_),
@@ -30,7 +30,7 @@ namespace kovshikov
 
     struct Iterator
     {
-      friend class DoubleList<T>;
+      friend class DoubleList< T >;
       using this_t = Iterator;
 
       Iterator(): node(nullptr) {};
@@ -55,6 +55,34 @@ namespace kovshikov
       Node* node;
     };
 
+   /* struct ConstIterator
+    {
+      friend class DoubleList<T>;
+      using this_t = ConstIterator;
+
+      ConstIterator(): node(nullptr) {};
+      ConstIterator(const this_t&) = default;
+      //ConstIterator(Iterator);
+      ~ConstIterator() = default;
+
+      this_t & operator=(const this_t &) = default;
+
+      this_t & operator++();
+      this_t operator++(int);
+
+      this_t & operator--();
+      this_t operator--(int);
+
+      bool operator!=(const this_t & other) const;
+      bool operator==(const this_t & other) const;
+
+      const T & operator*() const;
+      const T * operator->() const;
+    private:
+      Node* node;
+      ConstIterator(Node*, const DoubleList<T>);
+    }*/
+
     DoubleList(): head_(nullptr), tail_(nullptr) {};
     DoubleList(const DoubleList& dl);
     DoubleList(DoubleList&& dl);
@@ -76,7 +104,7 @@ namespace kovshikov
     void clear();
     void swap(DoubleList& dl);
     void remove(const T &value);
-    template<class Predicate>
+    template< class Predicate >
     void remove_if(Predicate pred);
     void assign(size_t size, const T &value);
 
@@ -91,8 +119,8 @@ namespace kovshikov
   };
 }
 
-template<typename T>
-kovshikov::DoubleList<T>::DoubleList(size_t size, const T &value)
+template< typename T >
+kovshikov::DoubleList< T >::DoubleList(size_t size, const T &value)
 {
   head_ = nullptr;
   tail_ = nullptr;
@@ -102,14 +130,14 @@ kovshikov::DoubleList<T>::DoubleList(size_t size, const T &value)
   }
 }
 
-template <typename T>
-kovshikov::DoubleList<T>::~DoubleList()
+template < typename T >
+kovshikov::DoubleList< T >::~DoubleList()
 {
   clear();
 }
 
-template <typename T>
-kovshikov::DoubleList<T>::DoubleList(const DoubleList& dl)
+template < typename T >
+kovshikov::DoubleList< T >::DoubleList(const DoubleList& dl)
 {
   this->head_ = nullptr;
   this->tail_ = nullptr;
@@ -121,16 +149,16 @@ kovshikov::DoubleList<T>::DoubleList(const DoubleList& dl)
   }
 }
 
-template <typename T>
-kovshikov::DoubleList<T>& kovshikov::DoubleList<T>::operator=(const DoubleList& dl)
+template < typename T >
+kovshikov::DoubleList< T >& kovshikov::DoubleList< T >::operator=(const DoubleList& dl)
 {
-  DoubleList<T> newDl(dl);
+  DoubleList< T > newDl(dl);
   this->swap(newDl);
   return *this;
 }
 
-template <typename T>
-kovshikov::DoubleList<T>::DoubleList(DoubleList&& dl)
+template < typename T >
+kovshikov::DoubleList< T >::DoubleList(DoubleList&& dl)
 {
   this->head_ = nullptr;
   this->tail_ = nullptr;
@@ -142,8 +170,8 @@ kovshikov::DoubleList<T>::DoubleList(DoubleList&& dl)
   }
 }
 
-template<typename T>
-kovshikov::DoubleList<T>& kovshikov::DoubleList<T>::operator=(DoubleList&& dl)
+template< typename T >
+kovshikov::DoubleList< T >& kovshikov::DoubleList< T >::operator=(DoubleList&& dl)
 {
   this->clear();
   Node *temp = std::move(dl.head_);
@@ -155,20 +183,20 @@ kovshikov::DoubleList<T>& kovshikov::DoubleList<T>::operator=(DoubleList&& dl)
   return *this;
 }
 
-template <typename T>
-T& kovshikov::DoubleList<T>::front() const
+template < typename T >
+T& kovshikov::DoubleList< T >::front() const
 {
   return head_->data;
 }
 
-template <typename T>
-T& kovshikov::DoubleList<T>::back() const
+template < typename T >
+T& kovshikov::DoubleList< T >::back() const
 {
   return tail_->data;
 }
 
-template <typename T>
-bool kovshikov::DoubleList<T>::empty() const
+template < typename T >
+bool kovshikov::DoubleList< T >::empty() const
 {
   if (head_ == nullptr && tail_ == nullptr)
   {
@@ -180,8 +208,8 @@ bool kovshikov::DoubleList<T>::empty() const
   }
 }
 
-template <typename T>
-void kovshikov::DoubleList<T>::pushFront(const T &value)
+template < typename T >
+void kovshikov::DoubleList< T >::pushFront(const T &value)
 {
   Node* newNode = new Node(value);
   if (this->empty() == true)
@@ -197,8 +225,8 @@ void kovshikov::DoubleList<T>::pushFront(const T &value)
   }
 }
 
-template <typename T>
-void kovshikov::DoubleList<T>::pushBack(const T& value)
+template < typename T >
+void kovshikov::DoubleList< T >::pushBack(const T& value)
 {
   Node* newNode = new Node(value);
   if (this->empty() == true)
@@ -214,8 +242,8 @@ void kovshikov::DoubleList<T>::pushBack(const T& value)
   }
 }
 
-template <typename T>
-void kovshikov::DoubleList<T>::popFront()
+template < typename T >
+void kovshikov::DoubleList< T >::popFront()
 {
   if(head_ != nullptr && tail_ != nullptr)
   {
@@ -233,8 +261,8 @@ void kovshikov::DoubleList<T>::popFront()
   }
 }
 
-template <typename T>
-void kovshikov::DoubleList<T>::popBack()
+template < typename T >
+void kovshikov::DoubleList< T >::popBack()
 {
   if(head_ != nullptr && tail_ != nullptr)
   {
@@ -252,8 +280,8 @@ void kovshikov::DoubleList<T>::popBack()
   }
 }
 
-template <typename T>
-void kovshikov::DoubleList<T>::clear()
+template < typename T >
+void kovshikov::DoubleList< T >::clear()
 {
   while (head_ && tail_)
   {
@@ -261,8 +289,8 @@ void kovshikov::DoubleList<T>::clear()
   }
 }
 
-template <typename T>
-void kovshikov::DoubleList<T>::swap(DoubleList& dl)
+template < typename T >
+void kovshikov::DoubleList< T >::swap(DoubleList& dl)
 {
   Node* tempHead = dl.head_;
   Node* tempTail = dl.tail_;
@@ -272,8 +300,8 @@ void kovshikov::DoubleList<T>::swap(DoubleList& dl)
   this->tail_ = tempTail;
 }
 
-template<typename T>
-void kovshikov::DoubleList<T>::remove(const T &value)
+template< typename T >
+void kovshikov::DoubleList< T >::remove(const T &value)
 {
   Iterator iterator = this->begin();
   while(iterator != this->end())
@@ -303,9 +331,9 @@ void kovshikov::DoubleList<T>::remove(const T &value)
    }
 }
 
-template<typename T>
-template<class Predicate>
-void kovshikov::DoubleList<T>::remove_if(Predicate pred)
+template< typename T >
+template< class Predicate >
+void kovshikov::DoubleList< T >::remove_if(Predicate pred)
 {
   Iterator iterator = this->begin();
   while(iterator != this->end())
@@ -335,8 +363,8 @@ void kovshikov::DoubleList<T>::remove_if(Predicate pred)
    }
 }
 
-template<typename T>
-void kovshikov::DoubleList<T>::assign(size_t size, const T &value)
+template< typename T >
+void kovshikov::DoubleList< T >::assign(size_t size, const T &value)
 {
   this->clear();
   for(size_t i = 0; i < size; i++)
@@ -345,14 +373,14 @@ void kovshikov::DoubleList<T>::assign(size_t size, const T &value)
   }
 }
 
-template<typename T>
-typename kovshikov::DoubleList<T>::Iterator kovshikov::DoubleList<T>::begin() const
+template< typename T >
+typename kovshikov::DoubleList< T >::Iterator kovshikov::DoubleList< T >::begin() const
 {
   return Iterator(head_);
 }
 
-template<typename T>
-typename kovshikov::DoubleList<T>::Iterator kovshikov::DoubleList<T>::end() const
+template< typename T >
+typename kovshikov::DoubleList< T >::Iterator kovshikov::DoubleList< T >::end() const
 {
   if(this->empty())
   {
@@ -365,14 +393,14 @@ typename kovshikov::DoubleList<T>::Iterator kovshikov::DoubleList<T>::end() cons
   }
 }
 
-template<typename T>
-const typename kovshikov::DoubleList<T>::Iterator kovshikov::DoubleList<T>::cbegin() const
+template< typename T >
+const typename kovshikov::DoubleList< T >::Iterator kovshikov::DoubleList< T >::cbegin() const
 {
   return Iterator(head_);
 }
 
-template<typename T>
-const typename kovshikov::DoubleList<T>::Iterator kovshikov::DoubleList<T>::cend() const
+template< typename T >
+const typename kovshikov::DoubleList< T >::Iterator kovshikov::DoubleList< T >::cend() const
 {
   if(this->empty)
   {
@@ -385,16 +413,16 @@ const typename kovshikov::DoubleList<T>::Iterator kovshikov::DoubleList<T>::cend
   }
 }
 
-template<typename T>
-typename kovshikov::DoubleList<T>::Iterator::this_t & kovshikov::DoubleList<T>::Iterator::operator++()
+template< typename T >
+typename kovshikov::DoubleList< T >::Iterator::this_t & kovshikov::DoubleList< T >::Iterator::operator++()
 {
   assert(node != nullptr);
   node = node->next;
   return *this;
 }
 
-template<typename T>
-typename kovshikov::DoubleList<T>::Iterator::this_t kovshikov::DoubleList<T>::Iterator::operator++(int)
+template< typename T >
+typename kovshikov::DoubleList< T >::Iterator::this_t kovshikov::DoubleList< T >::Iterator::operator++(int)
 {
   assert(node != nullptr);
   this_t result(*this);
@@ -402,16 +430,16 @@ typename kovshikov::DoubleList<T>::Iterator::this_t kovshikov::DoubleList<T>::It
   return result;
 }
 
-template<typename T>
-typename kovshikov::DoubleList<T>::Iterator::this_t & kovshikov::DoubleList<T>::Iterator::operator--()
+template< typename T >
+typename kovshikov::DoubleList< T >::Iterator::this_t & kovshikov::DoubleList< T >::Iterator::operator--()
 {
   assert(node != nullptr);
   node = node->prev;
   return *this;
 }
 
-template<typename T>
-typename kovshikov::DoubleList<T>::Iterator::this_t kovshikov::DoubleList<T>::Iterator::operator--(int)
+template< typename T >
+typename kovshikov::DoubleList< T >::Iterator::this_t kovshikov::DoubleList< T >::Iterator::operator--(int)
 {
   assert(node != nullptr);
   this_t result(*this);
@@ -419,30 +447,66 @@ typename kovshikov::DoubleList<T>::Iterator::this_t kovshikov::DoubleList<T>::It
   return result;
 }
 
-template<typename T>
-bool kovshikov::DoubleList<T>::Iterator::operator==(const this_t & other) const
+template< typename T >
+bool kovshikov::DoubleList< T >::Iterator::operator==(const this_t & other) const
 {
   return node == other.node;
 }
 
-template<typename T>
-bool kovshikov::DoubleList<T>::Iterator::operator!=(const this_t & other) const
+template< typename T >
+bool kovshikov::DoubleList< T >::Iterator::operator!=(const this_t & other) const
 {
   return !(other == *this);
 }
 
-template<typename T>
-T & kovshikov::DoubleList<T>::Iterator::operator*()
+template< typename T >
+T & kovshikov::DoubleList< T >::Iterator::operator*()
 {
   assert(node != nullptr);
   return node->data;
 }
 
-template<typename T>
-T * kovshikov::DoubleList<T>::Iterator::operator->()
+template< typename T >
+T * kovshikov::DoubleList< T >::Iterator::operator->()
 {
   assert(node != nullptr);
   return std::addressof(node->data);
 }
+
+/*template<typename T>
+typename kovshikov::DoubleList<T>::ConstIterator::this_t & kovshikov::DoubleList<T>::ConstIterator::operator++()
+{
+  assert(node != nullptr);
+  node = node->next;
+  return *this; //const?
+}
+
+template<typename T>
+typename kovshikov::DoubleList<T>::ConstIterator::this_t kovshikov::DoubleList<T>::ConstIterator::operator++(int)
+{
+  assert(node != nullptr);
+  this_t result(*this);
+  ++(*this);
+  return result; // const??
+}
+
+template<typename T>
+typename kovshikov::DoubleList<T>::ConstIterator::this_t & kovshikov::DoubleList<T>::ConstIterator::operator--()
+{
+  assert(node != nullptr);
+  node = node->prev;
+  return *this;  //const??
+}
+
+template<typename T>
+typename kovshikov::DoubleList<T>::ConstIterator::this_t ko vshikov::DoubleList<T>::Iterator::operator--(int)
+{
+  assert(node != nullptr);
+  this_t result(*this);
+  --(*this);
+  return result;
+}*/
+
+
 
 #endif
