@@ -104,7 +104,7 @@ void kovshikov::processInput(DoubleList< size_t > &summaList, listOfList &result
   }
 }
 
-void kovshikov::outputResult(const  bool &isBigNumber, DoubleList< size_t > &summaList, listOfList &resultList)
+void kovshikov::outputLists(listOfList &resultList)
 {
   while(!resultList.empty())
   {
@@ -121,6 +121,10 @@ void kovshikov::outputResult(const  bool &isBigNumber, DoubleList< size_t > &sum
     resultList.popFront();
     std::cout << "\n";
   }
+}
+
+void kovshikov::outputSumma(const  bool &isBigNumber, DoubleList< size_t > &summaList)
+{
   if(isBigNumber == false)
   {
     if(summaList.empty())

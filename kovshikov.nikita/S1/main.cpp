@@ -11,7 +11,8 @@ int main()
   kovshikov::DoubleList< size_t > summaList;
   kovshikov::listOfList resultList;
   kovshikov::processInput(summaList, resultList, allPairs);
-  kovshikov::outputResult(isBigNumber, summaList, resultList);
+  kovshikov::outputLists(resultList);
+  kovshikov::outputSumma(isBigNumber, summaList);
   if(isBigNumber == true)
   {
     std::cerr << "too many numbers were entered\n";

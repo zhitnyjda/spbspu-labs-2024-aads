@@ -12,7 +12,8 @@ namespace kovshikov
   void processInput(DoubleList< size_t > &summaList, listOfList &resultList, listPair &allPairs);
   void inputPairs(listPair &allPairs, bool &isBigNumber);
   void outputListName(const listPair &allPairs);
-  void outputResult(const bool &isBigNumber, DoubleList< size_t > &summaList, listOfList &resultList);
+  void outputLists(listOfList &resultList);
+  void outputSumma(const bool &isBigNumber, DoubleList< size_t > &summaList);
 }
 
 #endif
