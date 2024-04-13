@@ -101,7 +101,7 @@ namespace kaseev {
     return ArrSize;
   }
 
-  template< class T >
+  template<class T>
   void List<T>::pop_front()
   {
     if (head == nullptr)
@@ -109,10 +109,9 @@ namespace kaseev {
       ArrSize = 0;
       throw std::logic_error("empty list");
     }
-    Node<T> *temp = head;
-    head = head->next;
-    temp->next = nullptr;
-    delete temp;
+    Iterator it = begin();
+    head = it.Node->next;
+    delete it.Node;
     ArrSize--;
   }
 
