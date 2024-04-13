@@ -455,7 +455,7 @@ template< typename T >
 typename doroshenko::List< T >::ConstIterator doroshenko::List< T >::operator[](const int index)
 {
   ConstIterator iterator = cbegin();
-  for (size_t i = 0; i < index; i++)
+  for (int i = 0; i < index; i++)
   {
     if (iterator == nullptr)
     {

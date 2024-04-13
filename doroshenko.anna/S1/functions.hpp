@@ -75,7 +75,6 @@ namespace doroshenko
     size_t maxSize = getMaxSize(mainList);
     List< size_t >::Iterator localIterator = List< size_t >::ConstIterator();
     const size_t maximum = std::numeric_limits< size_t >::max();
-    bool overflowError = false;
     List< size_t > curList;
     for (size_t index = 0; index < maxSize; index++)
     {
