@@ -159,50 +159,6 @@ namespace doroshenko
     }
   }
 
-  //void listOutput(this_t& list, std::ostream& output, List< size_t >& sums)
-  //{
-  //  this_t::Iterator iterator;
-  //  size_t maxSize = getMaxSize(list);
-  //  List< size_t >::Iterator localIterator = List< size_t >::ConstIterator();
-  //  const size_t maximum = std::numeric_limits< size_t >::max();
-  //  size_t sum = 0;
-  //  bool overflowError = false;
-  //  for (size_t index = 0; index < maxSize; index++)
-  //  {
-  //    iterator = list.begin();
-      /*while (iterator != list.end())
-      {
-        if (iterator->second[index] != nullptr)
-        {
-          if (sum > 0)
-          {
-            output << " ";
-          }
-          localIterator = List< size_t >::ConstIterator(iterator->second[index]);
-          output << *localIterator;
-          if (maximum - sum < *localIterator)
-          {
-            overflowError = true;
-            output << "\n";
-            throw std::overflow_error("overflow error");
-          }
-          else
-          {
-            sum = sum + *localIterator;
-          }
-        }*/
-  //      iterator++;
-  //    }
-  //    if (!overflowError)
-  //    {
-  //      sums.pushBack(sum);
-  //    }
-  //    sum = 0;
-  //    overflowError = false;
-  //    output << "\n";
-  //  }
-  //}
-
   void sumsOutput(std::ostream& output, List< size_t >& sums)
   {
     List< size_t >::Iterator iteratorForSums = sums.begin();

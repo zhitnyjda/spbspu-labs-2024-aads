@@ -14,10 +14,13 @@ int main()
     if (!list.isEmpty())
     {
       listFormation(list, lists);
+      if (!lists.isEmpty())
+      {
+        listsOutput(std::cout, lists);
+        sumsFormation(lists, sums);
+      }
+      sumsOutput(std::cout, sums);
     }
-    listsOutput(std::cout, lists);
-    sumsFormation(lists, sums);
-    sumsOutput(std::cout, sums);
     return 0;
   }
   catch (std::overflow_error& e)
