@@ -153,16 +153,29 @@ namespace kaseev {
   template< class T >
   void List<T>::remove(const T &value)
   {
-    int index = 0;
-    while (index < ArrSize)
+    Node<T> *prev = nullptr;
+    Node<T> *current = head;
+    while (current != nullptr)
     {
-      if ((*this)[index] == value)
+      if (current->data == value)
       {
-        pop(index);
+        if (prev == nullptr)
+        {
+          pop_front();
+          current = head;
+        }
+        else
+        {
+          prev->next = current->next;
+          delete current;
+          current = prev->next;
+          ArrSize--;
+        }
       }
       else
       {
-        index++;
+        prev = current;
+        current = current->next;
       }
     }
   }
