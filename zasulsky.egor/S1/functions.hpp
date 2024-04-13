@@ -49,16 +49,23 @@ namespace zasulsky
   {
     for (auto el : list)
     {
-      if (el != list.front())
+      if (el != list.front() && el != list.back())
       {
         out << ' ' << el.first;
       }
-      else
+      else if (el == list.back() && el == list.front())
+      {
+        out << el.first << '\n';
+      }
+      else if (el == list.back())
+      {
+        out << ' ' << el.first << '\n';
+      }
+      else if (el == list.front())
       {
         out << el.first;
       }
     }
-    out << '\n';
   }
 
   int getMaxSize(ForwardList < std::pair< std::string, Vector< int > > > list)
