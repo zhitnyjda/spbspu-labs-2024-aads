@@ -276,15 +276,15 @@ namespace zasulsky
         throw std::runtime_error("error");
       }
     }
-    T& back() 
+    T& back()
     {
-      if (fakeNode_ == nullptr) 
+      if (fakeNode_ == nullptr)
       {
         throw std::out_of_range("List is empty");
       }
-
       detail::Node<T>* current = fakeNode_->next;
-      while (current->next) {
+      while (current->next)
+      {
         current = current->next;
       }
 
