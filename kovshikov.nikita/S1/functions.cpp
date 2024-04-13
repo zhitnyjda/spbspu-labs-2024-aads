@@ -1,3 +1,4 @@
+#include <iostream>
 #include "functions.hpp"
 
 void kovshikov::inputPairs(DoubleList< std::pair< std::string, DoubleList< size_t > > > &allPairs, bool &isBigNumber)
