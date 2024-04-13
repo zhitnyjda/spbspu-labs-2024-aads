@@ -9,15 +9,30 @@ namespace mihalchenko
   template <typename T>
   class List
   {
+  private:
+    struct Node
+    {
+      T data;
+      Node *next;
+      explicit Node(T value) : data(value), next(nullptr) {}
+    };
+    Node *head_;
+
   public:
     List();
     ~List();
+
+    // List(size_t n, const T& value);
+
+    // void assign(const T& value);
+
     List(const List &copy);
     List<T> &operator=(const List &copy);
     List(List &&move);
     List<T> &operator=(List &&move);
-
     void swap(List<T> &other);
+
+    // void reverse();
 
     void push_front(T data);
     void push_back(T data);
@@ -28,15 +43,7 @@ namespace mihalchenko
     T &operator[](const size_t i);
     void clear();
     bool empty();
-
     size_t getSize() { return size_; };
-
-    // class Iterator;
-
-    // List(const List<T> &) = default;
-    // List<T> &operator=(const List<T> &);
-
-    // private:
 
     template <typename U>
     class ConstIterator
@@ -62,6 +69,9 @@ namespace mihalchenko
 
       ConstIterator<T> *pNext_;
       T data_;
+
+    private:
+      Node *node;
     };
 
     template <typename U>
@@ -73,7 +83,6 @@ namespace mihalchenko
         data_ = data;
         pNext_ = pNext;
       }
-
       ~Iterator() = default;
 
       Iterator<T> &operator++();
@@ -90,13 +99,14 @@ namespace mihalchenko
 
       Iterator<T> getPointerNext() { return pNext_; };
 
-      // private:
-
       Iterator<T> *pNext_;
       T data_;
+    private:
+      ConstIterator<U> iter;
     };
 
-  public:
+    T &front() const;
+
     ConstIterator<T> cbegin() const noexcept;
     ConstIterator<T> cend() const noexcept;
     Iterator<T> begin() noexcept;
@@ -109,7 +119,6 @@ namespace mihalchenko
     template <typename F>
     void remove_if(F functor);
 
-    // private:
     Iterator<T> *begin_;
     Iterator<T> *end_;
 
@@ -121,7 +130,7 @@ template <typename T>
 template <typename U>
 mihalchenko::List<T>::ConstIterator<T> &mihalchenko::List<T>::ConstIterator<U>::operator++()
 {
-  begin_ = begin_->pNext_;
+  node = node->next;
   return *this;
 }
 
@@ -129,6 +138,7 @@ template <typename T>
 template <typename U>
 mihalchenko::List<T>::ConstIterator<T> mihalchenko::List<T>::ConstIterator<U>::operator++(int)
 {
+  ++(*this);
   ConstIterator<T> result(*this);
   ++(*this);
   return result;
@@ -138,21 +148,21 @@ template <typename T>
 template <typename U>
 const T &mihalchenko::List<T>::ConstIterator<U>::operator*() const
 {
-  return begin_->data_;
+  return node->data;
 }
 
 template <typename T>
 template <typename U>
 const T *mihalchenko::List<T>::ConstIterator<U>::operator->() const
 {
-  return std::addressof(begin_->data_);
+  return std::addressof(node->data);
 }
 
 template <typename T>
 template <typename U>
 bool mihalchenko::List<T>::ConstIterator<U>::operator==(const ConstIterator<T> &rhs) const
 {
-  return begin_ == rhs.begin_;
+  return node == rhs.node;
 }
 
 template <typename T>
@@ -166,7 +176,7 @@ template <typename T>
 template <typename U>
 mihalchenko::List<T>::Iterator<T> &mihalchenko::List<T>::Iterator<U>::operator++()
 {
-  begin_ = begin_->pNext_;
+  iter++;
   return *this;
 }
 
@@ -174,37 +184,38 @@ template <typename T>
 template <typename U>
 mihalchenko::List<T>::Iterator<T> mihalchenko::List<T>::Iterator<U>::operator++(int)
 {
-  Iterator<T> result(*this);
-  ++(*this);
-  return result;
+  iter++;
+  return *this;
 }
 
 template <typename T>
 template <typename U>
 T &mihalchenko::List<T>::Iterator<U>::operator*()
 {
-  return begin_->data_;
+  assert(iter != nullptr);
+  return iter.node->data;
 }
 
 template <typename T>
 template <typename U>
 T *mihalchenko::List<T>::Iterator<U>::operator->()
 {
-  return std::addressof(begin_->data_);
+  assert(iter != nullptr);
+  return std::addressof(iter.node->data);
 }
 
 template <typename T>
 template <typename U>
 bool mihalchenko::List<T>::Iterator<U>::operator==(const Iterator<T> &rhs) const
 {
-  return begin_ == rhs.begin_;
+  return iter == rhs.iter;
 }
 
 template <typename T>
 template <typename U>
 bool mihalchenko::List<T>::Iterator<U>::operator!=(const Iterator<T> &rhs) const
 {
-  return !(rhs == *this);
+  return !(rhs.iter == iter);
 }
 
 template <typename T>
@@ -221,33 +232,37 @@ mihalchenko::List<T> &mihalchenko::List<T>::Iterator<U>::operator+(size_t num)
 template <typename T>
 mihalchenko::List<T>::ConstIterator<T> mihalchenko::List<T>::cbegin() const noexcept
 {
-  return begin_;
+  return *begin_;
 }
 
 template <typename T>
 mihalchenko::List<T>::ConstIterator<T> mihalchenko::List<T>::cend() const noexcept
 {
-  while (begin_->pNext_ != nullptr)
+  ConstIterator<T> *wremPointer = begin_;
+  while (wremPointer->pNext_ != nullptr)
   {
-    end_ = begin_->pNext_;
+    wremPointer = wremPointer->pNext_;
   }
-  return end_;
+  end_ = wremPointer;
+  return *end_;
 }
 
 template <typename T>
 mihalchenko::List<T>::Iterator<T> mihalchenko::List<T>::begin() noexcept
 {
-  return begin_;
+  return *begin_;
 }
 
 template <typename T>
 mihalchenko::List<T>::Iterator<T> mihalchenko::List<T>::end() noexcept
 {
-  while (begin_->pNext_ != nullptr)
+  Iterator<T> *wremPointer = begin_;
+  while (wremPointer->pNext_ != nullptr)
   {
-    end_ = begin_->pNext_;
+    wremPointer = wremPointer->pNext_;
   }
-  return end_;
+  end_ = wremPointer;
+  return *end_;
 }
 
 template <typename T>
@@ -274,14 +289,6 @@ mihalchenko::List<T>::List(const List<T> &copy)
   {
     this->begin_ = new Iterator<T>(*copy.begin_);
   }
-  /*if (copy.end_ == nullptr)
-  {
-    this->end_ = nullptr;
-  }
-  else
-  {
-    this->end_ = new Iterator<T>(*copy.end_);
-  }*/
   this->size_ = copy.size_;
 }
 
@@ -337,13 +344,6 @@ void mihalchenko::List<T>::swap(List<T> &other)
     push_back(other.begin_->data_);
     other.begin_ = other.begin_->pNext_;
   }
-  /*mihalchenko::List<T> *tempPointerBegin = this->begin_;
-  this->begin_ = other.begin_;
-  other.begin_ = tempPointerBegin;
-  mihalchenko::List<T> *tempPointerEnd = this->end_;
-  this->end_ = other.end_;
-  other.end_ = tempPointerEnd;*/
-
   size_t tempSize = this->size_;
   this->size_ = other.size_;
   other.size_ = tempSize;

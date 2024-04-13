@@ -1,8 +1,5 @@
-#include <iostream>
-#include <string>
 #include "list.hpp"
 #include <utility>
-#include <cstdio>
 #include <limits>
 
 using namespace mihalchenko;
@@ -80,7 +77,6 @@ int main()
       std::cout << " ";
     }
   }
-  // std::cout << "!";
 
   if (maxLenOfSecondList == 0)
   {
@@ -119,7 +115,6 @@ int main()
         }
       }
     }
-    // std::cout << "!";
     std::cout << std::endl;
     tempIntList.push_back(summa);
   }
@@ -137,6 +132,5 @@ int main()
     }
   }
   std::cout << std::endl;
-  // std::cout << "!";
   return 0;
 }
