@@ -11,13 +11,12 @@ int main()
     List< List < size_t > > lists;
     List< size_t > sums;
     namesOutput(list, std::cout);
-    //listProcess(list, sums, lists);
     if (!list.isEmpty())
     {
       listFormation(list, lists);
-      sumsFormation(lists, sums);
-      listsOutput(std::cout, lists);
     }
+    listsOutput(std::cout, lists);
+    sumsFormation(lists, sums);
     sumsOutput(std::cout, sums);
     return 0;
   }

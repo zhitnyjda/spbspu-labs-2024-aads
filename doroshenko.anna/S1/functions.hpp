@@ -74,7 +74,6 @@ namespace doroshenko
     this_t::Iterator iterator;
     size_t maxSize = getMaxSize(mainList);
     List< size_t >::Iterator localIterator = List< size_t >::ConstIterator();
-    const size_t maximum = std::numeric_limits< size_t >::max();
     List< size_t > curList;
     for (size_t index = 0; index < maxSize; index++)
     {
@@ -85,16 +84,9 @@ namespace doroshenko
         {
           localIterator = List< size_t >::ConstIterator(iterator->second[index]);
           curList.pushBack(*localIterator);
-          //std::cout << *localIterator << " ";
-          if (maximum < *localIterator)
-          {
-            //overflowError = true;
-            throw std::overflow_error("overflow error");
-          }
         }
         iterator++;
       }
-      //overflowError = false;
       lists.pushBack(curList);
       curList.clear();
     }
@@ -113,18 +105,21 @@ namespace doroshenko
         if (maximum - sum < *iterator)
         {
           overflowError = true;
-          throw std::overflow_error("overflow error");
         }
         else
         {
           sum = sum + *iterator;
         }
-        iterator++;
       }
+      iterator++;
     }
     if (!overflowError)
     {
       sums.pushBack(sum);
+    }
+    else
+    {
+      throw std::overflow_error("overflow error");
     }
   }
 
@@ -159,7 +154,7 @@ namespace doroshenko
     while (iterator != lists.end())
     {
       printList(output, *iterator);
-      std::cout << "\n";
+      output << "\n";
       iterator++;
     }
   }
