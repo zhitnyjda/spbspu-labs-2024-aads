@@ -1,6 +1,41 @@
 #include <iostream>
 #include "functions.hpp"
 
+void kovshikov::createIntList(DoubleList< size_t > &list, std::string &integerString, bool &isBigNumber)
+{
+  std::string tempString;
+  size_t integer;
+  for(size_t i = 0; i < integerString.length(); i++)
+  {
+    if(integerString[i] != ' ')
+    {
+      tempString.append(1, integerString[i]);
+    }
+    else
+    {
+      if(!tempString.empty())
+      {
+        integer = std::stoull(tempString);
+        if(integer == std::numeric_limits<size_t>::max())
+        {
+          isBigNumber = true;
+        }
+        list.pushBack(integer);
+        tempString.clear();
+      }
+    }
+  }
+  if(!tempString.empty())
+  {
+    integer = std::stoull(tempString);
+    if(integer == std::numeric_limits<size_t>::max())
+    {
+      isBigNumber = true;
+    }
+    list.pushBack(integer);
+  }
+}
+
 void kovshikov::inputPairs(DoubleList< std::pair< std::string, DoubleList< size_t > > > &allPairs, bool &isBigNumber)
 {
   int i = 0;
@@ -14,7 +49,7 @@ void kovshikov::inputPairs(DoubleList< std::pair< std::string, DoubleList< size_
     std::getline(std::cin, integerString);
     if(!listName.empty())
     {
-      std::string tempString;
+   /*   std::string tempString;  //start function
       size_t integer;
       for(size_t i = 0; i < integerString.length(); i++)
       {
@@ -44,7 +79,9 @@ void kovshikov::inputPairs(DoubleList< std::pair< std::string, DoubleList< size_
           isBigNumber = true;
         }
         list.pushBack(integer);
-      }
+      } // finish function
+*/
+      createIntList(list, integerString, isBigNumber);
       allPairs.pushBack(std::pair<std::string, DoubleList<size_t>> {listName, list});
     }
   }
