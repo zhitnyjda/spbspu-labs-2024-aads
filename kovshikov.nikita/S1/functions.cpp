@@ -36,7 +36,7 @@ void kovshikov::createIntList(DoubleList< size_t > &list, std::string &integerSt
   }
 }
 
-void kovshikov::inputPairs(DoubleList< std::pair< std::string, DoubleList< size_t > > > &allPairs, bool &isBigNumber)
+void kovshikov::inputPairs(listPair &allPairs, bool &isBigNumber)
 {
   int i = 0;
   while(!std::cin.eof())
@@ -49,47 +49,15 @@ void kovshikov::inputPairs(DoubleList< std::pair< std::string, DoubleList< size_
     std::getline(std::cin, integerString);
     if(!listName.empty())
     {
-   /*   std::string tempString;  //start function
-      size_t integer;
-      for(size_t i = 0; i < integerString.length(); i++)
-      {
-        if(integerString[i] != ' ')
-        {
-          tempString.append(1, integerString[i]);
-        }
-        else
-        {
-          if(!tempString.empty())
-          {
-            integer = std::stoull(tempString);
-            if(integer == std::numeric_limits<size_t>::max())
-            {
-              isBigNumber = true;
-            }
-            list.pushBack(integer);
-            tempString.clear();
-          }
-        }
-      }
-      if(!tempString.empty())
-      {
-        integer = std::stoull(tempString);
-        if(integer == std::numeric_limits<size_t>::max())
-        {
-          isBigNumber = true;
-        }
-        list.pushBack(integer);
-      } // finish function
-*/
       createIntList(list, integerString, isBigNumber);
-      allPairs.pushBack(std::pair<std::string, DoubleList<size_t>> {listName, list});
+      allPairs.pushBack(std::pair< std::string, DoubleList< size_t > > {listName, list});
     }
   }
 }
 
-void kovshikov::outputListName(const DoubleList< std::pair< std::string, DoubleList< size_t > > > &allPairs)
+void kovshikov::outputListName(const listPair &allPairs)
 {
-  DoubleList< std::pair< std::string, DoubleList< size_t > > >::Iterator iterator = allPairs.begin();
+  listPair::Iterator iterator = allPairs.begin();
   while(iterator != nullptr)
   {
     std::cout << iterator->first;
@@ -105,12 +73,12 @@ void kovshikov::outputListName(const DoubleList< std::pair< std::string, DoubleL
   }
 }
 
-void kovshikov::outputResult(const DoubleList<std::pair<std::string, DoubleList<size_t>>> &allPairs, const  bool &isBigNumber)
+void kovshikov::outputResult(const listPair &allPairs, const  bool &isBigNumber)
 {
   DoubleList< size_t > summaList;
   DoubleList< DoubleList< size_t > > resultList;
-  DoubleList< std::pair< std::string, DoubleList< size_t > > >::Iterator iteratorAllPairs = allPairs.begin();
-  bool flag = true;
+  listPair::Iterator iteratorAllPairs = allPairs.begin();
+  bool flag = true;  //start function
   while(flag == true)
   {
     size_t summa = 0;
@@ -135,7 +103,7 @@ void kovshikov::outputResult(const DoubleList<std::pair<std::string, DoubleList<
     {
       flag = false;
     }
-  }
+  } //end function
   while(!resultList.empty())
   {
     DoubleList< size_t > list = resultList.front();

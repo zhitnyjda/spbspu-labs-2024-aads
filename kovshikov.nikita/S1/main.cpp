@@ -8,6 +8,10 @@ int main()
   bool isBigNumber = false;
   kovshikov::inputPairs(allPairs, isBigNumber);
   kovshikov::outputListName(allPairs);
+ /* DoubleList< size_t > summaList;
+  DoubleList< DoubleList< size_t > > resultList;
+  DoubleList< std::pair< std::string, DoubleList< size_t > > >::Iterator iteratorAllPairs = allPairs.begin();
+  */
   kovshikov::outputResult(allPairs, isBigNumber);
   if(isBigNumber == true)
   {
