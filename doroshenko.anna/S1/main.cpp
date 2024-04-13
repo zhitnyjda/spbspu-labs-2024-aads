@@ -21,6 +21,10 @@ int main()
       }
       sumsOutput(std::cout, sums);
     }
+    else
+    {
+      std::cout << 0 << "\n";
+    }
     return 0;
   }
   catch (std::overflow_error& e)
