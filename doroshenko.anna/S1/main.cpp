@@ -8,9 +8,16 @@ int main()
   try
   {
     List< std::pair< std::string, List< size_t > > > list = listInput(std::cin);
+    List< List < size_t > > lists;
     List< size_t > sums;
     namesOutput(list, std::cout);
-    listOutput(list, std::cout, sums);
+    //listProcess(list, sums, lists);
+    if (!list.isEmpty())
+    {
+      listFormation(list, lists);
+      sumsFormation(lists, sums);
+      listsOutput(std::cout, lists);
+    }
     sumsOutput(std::cout, sums);
     return 0;
   }

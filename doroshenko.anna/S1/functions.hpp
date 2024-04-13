@@ -69,52 +69,145 @@ namespace doroshenko
     }
   }
 
-  void listOutput(this_t& list, std::ostream& output, List< size_t >& sums)
+  void listFormation(this_t& mainList, List< List < size_t > >& lists)
   {
     this_t::Iterator iterator;
-    size_t maxSize = getMaxSize(list);
+    size_t maxSize = getMaxSize(mainList);
     List< size_t >::Iterator localIterator = List< size_t >::ConstIterator();
     const size_t maximum = std::numeric_limits< size_t >::max();
-    size_t sum = 0;
     bool overflowError = false;
-    if (!list.isEmpty())
+    List< size_t > curList;
+    for (size_t index = 0; index < maxSize; index++)
     {
-      for (size_t index = 0; index < maxSize; index++)
+      iterator = mainList.begin();
+      while (iterator != mainList.end())
       {
-        iterator = list.begin();
-        while (iterator != list.end())
+        if (iterator->second[index] != nullptr)
         {
-          if (iterator->second[index] != nullptr)
+          localIterator = List< size_t >::ConstIterator(iterator->second[index]);
+          curList.pushBack(*localIterator);
+          //std::cout << *localIterator << " ";
+          if (maximum < *localIterator)
           {
-            if (sum > 0)
-            {
-              output << " ";
-            }
-            localIterator = List< size_t >::ConstIterator(iterator->second[index]);
-            std::cout << *localIterator;
-            if (maximum - sum < *localIterator)
-            {
-              overflowError = true;
-              output << "\n";
-              throw std::overflow_error("overflow error");
-            }
-            else
-            {
-              sum = sum + *localIterator;
-            }
+            //overflowError = true;
+            throw std::overflow_error("overflow error");
           }
-          iterator++;
         }
-        if (!overflowError)
-        {
-          sums.pushBack(sum);
-        }
-        sum = 0;
-        overflowError = false;
-        output << "\n";
+        iterator++;
       }
+      //overflowError = false;
+      lists.pushBack(curList);
+      curList.clear();
     }
   }
+
+  void getSum(List< size_t >& list, List< size_t >& sums)
+  {
+    List< size_t >::Iterator iterator = list.begin();
+    const size_t maximum = std::numeric_limits< size_t >::max();
+    bool overflowError = false;
+    size_t sum = 0;
+    while (iterator != list.end())
+    {
+      if (iterator != List< size_t >::ConstIterator())
+      {
+        if (maximum - sum < *iterator)
+        {
+          overflowError = true;
+          throw std::overflow_error("overflow error");
+        }
+        else
+        {
+          sum = sum + *iterator;
+        }
+        iterator++;
+      }
+    }
+    if (!overflowError)
+    {
+      sums.pushBack(sum);
+    }
+  }
+
+  void sumsFormation(List< List < size_t > >& lists, List< size_t >& sums)
+  {
+    List< List< size_t > >::Iterator iterator = lists.begin();
+    while (iterator != lists.end())
+    {
+      getSum(*iterator, sums);
+      iterator++;
+    }
+  }
+
+  void printList(std::ostream& output, List< size_t > list)
+  {
+    List< size_t >::Iterator iterator = list.begin();
+    size_t size = list.getSize();
+    for (size_t i = 0; i < size; i++)
+    {
+      output << *iterator;
+      if (i != size - 1)
+      {
+        output << " ";
+      }
+      iterator++;
+    }
+  }
+
+  void listsOutput(std::ostream& output, List< List< size_t > >& lists)
+  {
+    List< List< size_t > >::Iterator iterator = lists.begin();
+    while (iterator != lists.end())
+    {
+      printList(output, *iterator);
+      std::cout << "\n";
+      iterator++;
+    }
+  }
+
+  //void listOutput(this_t& list, std::ostream& output, List< size_t >& sums)
+  //{
+  //  this_t::Iterator iterator;
+  //  size_t maxSize = getMaxSize(list);
+  //  List< size_t >::Iterator localIterator = List< size_t >::ConstIterator();
+  //  const size_t maximum = std::numeric_limits< size_t >::max();
+  //  size_t sum = 0;
+  //  bool overflowError = false;
+  //  for (size_t index = 0; index < maxSize; index++)
+  //  {
+  //    iterator = list.begin();
+      /*while (iterator != list.end())
+      {
+        if (iterator->second[index] != nullptr)
+        {
+          if (sum > 0)
+          {
+            output << " ";
+          }
+          localIterator = List< size_t >::ConstIterator(iterator->second[index]);
+          output << *localIterator;
+          if (maximum - sum < *localIterator)
+          {
+            overflowError = true;
+            output << "\n";
+            throw std::overflow_error("overflow error");
+          }
+          else
+          {
+            sum = sum + *localIterator;
+          }
+        }*/
+  //      iterator++;
+  //    }
+  //    if (!overflowError)
+  //    {
+  //      sums.pushBack(sum);
+  //    }
+  //    sum = 0;
+  //    overflowError = false;
+  //    output << "\n";
+  //  }
+  //}
 
   void sumsOutput(std::ostream& output, List< size_t >& sums)
   {

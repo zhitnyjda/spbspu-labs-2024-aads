@@ -14,19 +14,6 @@ namespace doroshenko
     class ConstIterator;
     class Iterator;
 
-    struct Node
-    {
-    public:
-      friend class List;
-      Node(T value) :
-        data(value),
-        next(nullptr)
-      {}
-    private:
-      T data;
-      Node* next;
-    };
-
     List();
     List(size_t n, const T& value);
     List(const List< T >& otherList);
@@ -47,7 +34,7 @@ namespace doroshenko
     T& front();
     T& back();
 
-    Node* operator[](const int index);
+    ConstIterator operator[](const int index);
 
     Iterator begin() const;
     Iterator end() const;
@@ -56,6 +43,19 @@ namespace doroshenko
     ConstIterator cend() const;
 
   private:
+    struct Node
+    {
+    public:
+      friend class List;
+      Node(T value) :
+        data(value),
+        next(nullptr)
+      {}
+    private:
+      T data;
+      Node* next;
+    };
+
     Node* head_;
     Node* tail_;
   };
@@ -452,22 +452,18 @@ T& doroshenko::List< T >::back()
 }
 
 template< typename T >
-typename doroshenko::List< T >::Node* doroshenko::List< T >::operator[](const int index)
+typename doroshenko::List< T >::ConstIterator doroshenko::List< T >::operator[](const int index)
 {
-  if (isEmpty() == true)
+  ConstIterator iterator = cbegin();
+  for (size_t i = 0; i < index; i++)
   {
-    return nullptr;
-  }
-  Node* head = head_;
-  for (int i = 0; i < index; i++)
-  {
-    head = head->next;
-    if (!head)
+    if (iterator == nullptr)
     {
       return nullptr;
     }
+    iterator++;
   }
-  return head;
+  return iterator.node;
 }
 
 template< typename T >
@@ -495,3 +491,4 @@ typename doroshenko::List< T >::ConstIterator doroshenko::List< T >::cend() cons
 }
 
 #endif
+
