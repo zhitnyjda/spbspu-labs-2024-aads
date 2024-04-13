@@ -3,11 +3,9 @@
 
 #include <iostream>
 
-namespace kaseev
-{
+namespace kaseev {
   template< class T >
-  class List
-      {
+  class List {
   public:
     class Iterator;
     class ConstIterator;
@@ -44,7 +42,6 @@ namespace kaseev
     const T &operator[](int index) const;
     List<T>& operator=(const List<T>& other);
 
-
   private:
     int ArrSize;
     template <class N>
@@ -55,6 +52,7 @@ namespace kaseev
 
       explicit Node(const N& value) : data(value), next(nullptr) {}
     };
+
     Node<T> *head;
   };
 
@@ -127,7 +125,7 @@ namespace kaseev
     }
   }
 
-  template<class T>
+  template< class T >
   void List<T>::pop(int index)
   {
     if (index < 0 || index >= ArrSize)
@@ -153,7 +151,7 @@ namespace kaseev
     ArrSize--;
   }
 
-  template<class T>
+  template< class T >
   void List<T>::remove(const T &value)
   {
     int index = 0;
@@ -162,13 +160,15 @@ namespace kaseev
       if ((*this)[index] == value)
       {
         pop(index);
-      } else {
+      }
+      else
+      {
         index++;
       }
     }
   }
 
-  template<class T>
+  template< class T >
   T& List<T>::front()
   {
     if (empty())
@@ -178,8 +178,8 @@ namespace kaseev
     return head->data;
   }
 
-  template<class T>
-  template<class UnaryPredicate>
+  template< class T >
+  template< class UnaryPredicate >
   void List<T>::remove_if(UnaryPredicate p)
   {
     while (!empty() && p(front()))
@@ -213,14 +213,14 @@ namespace kaseev
     }
   }
 
-  template<class T>
+  template< class T >
   void List<T>::swap(List &other) noexcept
   {
     std::swap(head, other.head);
     std::swap(ArrSize, other.ArrSize);
   }
 
-  template<class T>
+  template< class T >
   void List<T>::push_front(const T& data)
   {
     pushBack(data);
@@ -230,7 +230,7 @@ namespace kaseev
     }
   }
 
-  template<class T>
+  template< class T >
   void List<T>::pop_back()
   {
     if (empty())
@@ -255,7 +255,7 @@ namespace kaseev
     return current->data;
   }
 
-  template<class T>
+  template< class T >
   List<T>::List(const List& other) : ArrSize(0), head(nullptr)
   {
     Node<T>* current = other.head;
@@ -266,9 +266,9 @@ namespace kaseev
     }
   }
 
-  template<class T>
+  template< class T >
   List<T>& List<T>::operator=(const List<T>& other)
-      {
+  {
     if (this != &other)
     {
       clear();
@@ -282,7 +282,7 @@ namespace kaseev
     return *this;
   }
 
-  template<class T>
+  template< class T >
   List<T>::List(size_t count) : ArrSize(0), head(nullptr)
   {
     for (size_t i = 0; i < count; ++i)
@@ -291,7 +291,7 @@ namespace kaseev
     }
   }
 
-  template<class T>
+  template< class T >
   List<T>::List(size_t count, const T& value) : ArrSize(0), head(nullptr)
   {
     for (size_t i = 0; i < count; ++i)
@@ -300,19 +300,19 @@ namespace kaseev
     }
   }
 
-  template<class T>
+  template< class T >
   List<T>::List(std::initializer_list<T> ilist) : ArrSize(0), head(nullptr)
   {
-    for (const auto& elem : ilist) {
+    for (const auto& elem: ilist)
+    {
       pushBack(elem);
     }
   }
 
   template< typename T >
-  class kaseev::List< T >::Iterator
-  {
+  class kaseev::List<T>::Iterator {
   public:
-    List< T > * Node;
+    List<T>* Node;
     using this_t = Iterator;
 
     Iterator();
@@ -330,10 +330,11 @@ namespace kaseev
     bool operator==(const this_t&) const;
   };
 
-  template<typename T>
-  kaseev::List<T>::Iterator::Iterator() : Node(nullptr) {}
+  template< typename T >
+  kaseev::List<T>::Iterator::Iterator() : Node(nullptr)
+  {}
 
-  template<typename T>
+  template< typename T >
   typename kaseev::List<T>::Iterator& List<T>::Iterator::operator++()
   {
     if (Node != nullptr)
@@ -343,7 +344,7 @@ namespace kaseev
     return *this;
   }
 
-  template<typename T>
+  template< typename T >
   typename kaseev::List<T>::Iterator List<T>::Iterator::operator++(int)
   {
     Iterator temp = *this;
@@ -351,7 +352,7 @@ namespace kaseev
     return temp;
   }
 
-  template<typename T>
+  template< typename T >
   T& kaseev::List<T>::Iterator::operator*()
   {
     if (Node != nullptr)
@@ -360,27 +361,26 @@ namespace kaseev
     }
   }
 
-  template<typename T>
+  template< typename T >
   T* kaseev::List<T>::Iterator::operator->()
   {
     return &(*(*this));
   }
 
-  template<typename T>
+  template< typename T >
   bool List<T>::Iterator::operator!=(const Iterator& other) const
   {
     return Node != other.Node;
   }
 
-  template<typename T>
+  template< typename T >
   bool List<T>::Iterator::operator==(const Iterator& other) const
   {
     return Node == other.Node;
   }
 
-  template<typename T>
-  class List<T>::ConstIterator
-      {
+  template< typename T >
+  class List<T>::ConstIterator {
   public:
     const List<T> *Node;
     using this_t = ConstIterator;
@@ -388,7 +388,7 @@ namespace kaseev
     ConstIterator();
     ~ConstIterator() = default;
     ConstIterator(const this_t &) = default;
-    this_t& operator=(const this_t &) = default;
+    this_t &operator=(const this_t &) = default;
 
     this_t& operator++();
     this_t operator++(int);
@@ -400,17 +400,18 @@ namespace kaseev
     bool operator==(const this_t&) const;
   };
 
-  template<typename T>
-  List<T>::ConstIterator::ConstIterator() : Node(nullptr) {}
+  template< typename T >
+  List<T>::ConstIterator::ConstIterator() : Node(nullptr)
+  {}
 
-  template<typename T>
+  template< typename T >
   typename List<T>::ConstIterator& List<T>::ConstIterator::operator++()
   {
     Node = Node->next;
     return *this;
   }
 
-  template<typename T>
+  template< typename T >
   typename List<T>::ConstIterator List<T>::ConstIterator::operator++(int)
   {
     ConstIterator temp(*this);
@@ -418,53 +419,57 @@ namespace kaseev
     return temp;
   }
 
-  template<typename T>
+  template< typename T >
   const T& List<T>::ConstIterator::operator*() const
   {
     return *(Node->data);
   }
 
-  template<typename T>
+  template< typename T >
   const T* List<T>::ConstIterator::operator->() const
   {
     return &(Node->data);
   }
 
-  template<typename T>
+  template< typename T >
   bool List<T>::ConstIterator::operator!=(const ConstIterator& other) const
   {
     return Node != other.Node;
   }
 
-  template<typename T>
+  template< typename T >
   bool List<T>::ConstIterator::operator==(const ConstIterator& other) const
   {
     return Node == other.Node;
   }
 
-  template<typename T>
-  typename List<T>::Iterator List<T>::begin() noexcept {
+  template< typename T >
+  typename List<T>::Iterator List<T>::begin() noexcept
+  {
     Iterator it;
     it.Node = head;
     return it;
   }
 
-  template<typename T>
-  typename List<T>::Iterator List<T>::end() noexcept {
+  template< typename T >
+  typename List<T>::Iterator List<T>::end() noexcept
+  {
     Iterator it;
     it.Node = nullptr;
     return it;
   }
 
-  template<typename T>
-  typename List<T>::ConstIterator List<T>::begin() const noexcept {
+  template< typename T >
+  typename List<T>::ConstIterator List<T>::begin() const noexcept
+  {
     ConstIterator it;
     it.Node = head;
     return it;
   }
 
-  template<typename T>
-  typename List<T>::ConstIterator List<T>::end() const noexcept {
+  template< typename T >
+  typename List<T>::ConstIterator List<T>::end() const noexcept
+  {
     ConstIterator it;
     it.Node = nullptr;
     return it;
