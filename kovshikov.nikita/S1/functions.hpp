@@ -1,8 +1,8 @@
 #ifndef FUNCTIONS_HPP
 #define FUNCTIONS_HPP
-#include "doublelist.hpp"
 #include <iostream>
 #include <string>
+#include "doublelist.hpp"
 
 namespace kovshikov
 {
