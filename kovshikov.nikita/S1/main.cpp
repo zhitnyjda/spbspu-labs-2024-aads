@@ -4,15 +4,14 @@
 
 int main()
 {
-  kovshikov::DoubleList< std::pair< std::string, kovshikov::DoubleList< size_t > > > allPairs;
+  kovshikov::listPair allPairs;
   bool isBigNumber = false;
   kovshikov::inputPairs(allPairs, isBigNumber);
   kovshikov::outputListName(allPairs);
- /* DoubleList< size_t > summaList;
-  DoubleList< DoubleList< size_t > > resultList;
-  DoubleList< std::pair< std::string, DoubleList< size_t > > >::Iterator iteratorAllPairs = allPairs.begin();
-  */
-  kovshikov::outputResult(allPairs, isBigNumber);
+  kovshikov::DoubleList< size_t > summaList;
+  kovshikov::listOfList resultList;
+  kovshikov::processInput(summaList, resultList, allPairs);
+  kovshikov::outputResult(isBigNumber, summaList, resultList);
   if(isBigNumber == true)
   {
     std::cerr << "too many numbers were entered\n";

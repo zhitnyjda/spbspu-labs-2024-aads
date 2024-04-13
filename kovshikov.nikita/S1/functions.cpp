@@ -73,12 +73,10 @@ void kovshikov::outputListName(const listPair &allPairs)
   }
 }
 
-void kovshikov::outputResult(const listPair &allPairs, const  bool &isBigNumber)
+void kovshikov::processInput(DoubleList< size_t > &summaList, listOfList &resultList, listPair &allPairs)
 {
-  DoubleList< size_t > summaList;
-  DoubleList< DoubleList< size_t > > resultList;
   listPair::Iterator iteratorAllPairs = allPairs.begin();
-  bool flag = true;  //start function
+  bool flag = true;
   while(flag == true)
   {
     size_t summa = 0;
@@ -103,7 +101,11 @@ void kovshikov::outputResult(const listPair &allPairs, const  bool &isBigNumber)
     {
       flag = false;
     }
-  } //end function
+  }
+}
+
+void kovshikov::outputResult(const  bool &isBigNumber, DoubleList< size_t > &summaList, listOfList &resultList)
+{
   while(!resultList.empty())
   {
     DoubleList< size_t > list = resultList.front();
