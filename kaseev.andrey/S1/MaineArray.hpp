@@ -216,12 +216,8 @@ namespace kaseev
   template<class T>
   void List<T>::swap(List &other) noexcept
   {
-    Node<T>* temp = head;
-    head = other.head;
-    other.head = temp;
-    int tempSize = ArrSize;
-    ArrSize = other.ArrSize;
-    other.ArrSize = tempSize;
+    std::swap(head, other.head);
+    std::swap(ArrSize, other.ArrSize);
   }
 
   template<class T>
