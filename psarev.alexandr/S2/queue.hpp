@@ -21,7 +21,7 @@ namespace psarev
     void push(T&& data);
     void pop();
 
-    size_t getSize();
+    size_t getSize() const noexcept;
     bool empty() const noexcept;
   private:
     List< T > depot;
@@ -83,7 +83,7 @@ void psarev::Queue< T >::pop()
 }
 
 template<typename T>
-size_t psarev::Queue<T>::getSize()
+size_t psarev::Queue<T>::getSize() const noexcept
 {
   return depot.getSize();
 }
