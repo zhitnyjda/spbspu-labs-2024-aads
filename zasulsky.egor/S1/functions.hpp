@@ -1,12 +1,11 @@
 #ifndef FUNCTIONS_HPP
 #define FUNCTIONS_HPP
 
-#include <string> 
+#include <string>
 #include "ForwardList.hpp"
 #include "Node.hpp"
 #include "Vector.hpp"
 #include "parser.hpp"
-#include <limits>
 
 namespace zasulsky
 {
