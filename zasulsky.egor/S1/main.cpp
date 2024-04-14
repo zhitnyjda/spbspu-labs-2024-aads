@@ -19,6 +19,10 @@ int main()
     }
     outputNames(list, std::cout);
     outputSequence(list, std::cout, isOver);
+    if (isOver)
+    {
+      return 1;
+    }
   }
   catch (...)
   {
