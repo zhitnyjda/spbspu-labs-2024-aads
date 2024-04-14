@@ -1,21 +1,24 @@
 #ifndef FUNCTIONS_HPP
 #define FUNCTIONS_HPP
 
-#include <string>
+#include <string> 
 #include "ForwardList.hpp"
 #include "Node.hpp"
 #include "Vector.hpp"
+#include "parser.hpp"
+#include <limits>
 
 namespace zasulsky
 {
-  void getSequence(ForwardList < std::pair< std::string, Vector< int > > >& list, std::string str)
+  void getSequence(ForwardList < std::pair< std::string, Vector< std::string > > >& list, std::string str, bool& isOver)
   {
     if (str == "")
     {
       return;
     }
-    ForwardList < std::pair< std::string, Vector< int > > > dub;
-    Vector< int > vec;
+
+    ForwardList < std::pair< std::string, Vector< std::string > > > dub;
+    Vector< std::string > vec;
     std::string name;
     std::string numbers;
     if (std::string::npos != str.find_first_of(' '))
@@ -23,15 +26,10 @@ namespace zasulsky
       size_t num = str.find_first_of(' ');
       name = str.substr(0, num);
       numbers = str.substr(num + 1);
-      for (size_t position = 0; position < numbers.size(); position += 2)
+      Parser pars(numbers);
+      for (auto i = pars(); !i.empty(); i = pars())
       {
-        std::string n = numbers.substr(position, 1);
-        int i = stoi(n);
-        vec.push_back(i);
-        if (position != 0 && numbers[position - 1] != ' ')
-        {
-          throw std::invalid_argument("too big data");
-        }
+        vec.push(i);
       }
     }
     else
@@ -45,7 +43,7 @@ namespace zasulsky
     }
   }
 
-  void outputNames(ForwardList < std::pair< std::string, Vector< int > > > list, std::ostream& out)
+  void outputNames(ForwardList < std::pair < std::string, Vector < std::string > > > list, std::ostream& out)
   {
     for (auto el : list)
     {
@@ -68,7 +66,7 @@ namespace zasulsky
     }
   }
 
-  int getMaxSize(ForwardList < std::pair< std::string, Vector< int > > > list)
+  int getMaxSize(ForwardList < std::pair< std::string, Vector< std::string > > > list)
   {
     ForwardList<int> ls;
     for (auto el : list)
@@ -87,7 +85,7 @@ namespace zasulsky
     }
     return max;
   }
-  Vector < int > getSizes(ForwardList < std::pair< std::string, Vector< int > > > list)
+  Vector < int > getSizes(ForwardList < std::pair< std::string, Vector< std::string > > > list)
   {
     Vector<int> res;
     for (auto el : list)
@@ -97,8 +95,13 @@ namespace zasulsky
     return res;
   }
 
-  void outputSumes(ForwardList<int>& res, ForwardList<int>& sums, ForwardList<int>& sumsa, std::ostream& out)
+  void outputSumes(ForwardList<int>& res, ForwardList<int>& sums, ForwardList<int>& sumsa, std::ostream& out, bool isOver)
   {
+    if (isOver)
+    {
+      out << "overflow\n";
+      return;
+    }
     for (auto el : sumsa)
     {
       sums.insert_after(sums.beforeBegin(), el);
@@ -127,10 +130,10 @@ namespace zasulsky
       }
     }
   }
-  void outputSequence(ForwardList < std::pair< std::string, Vector< int > > >& listo, std::ostream& out)
+  void outputSequence(ForwardList < std::pair< std::string, Vector< std::string > > >& listo, std::ostream& out, bool isOver)
   {
     Vector < int > sizes = getSizes(listo);
-    ForwardList < std::pair< std::string, Vector< int > > > list;
+    ForwardList < std::pair< std::string, Vector< std::string > > > list;
     for (auto el : listo)
     {
       list.pushFront(el);
@@ -152,7 +155,7 @@ namespace zasulsky
       }
       int ind = 0;
       int sum = 0;
-      for (iterator < std::pair< std::string, Vector< int > > > it = list.begin(); it != list.end(); it++)
+      for (iterator < std::pair< std::string, Vector< std::string > > > it = list.begin(); it != list.end(); it++)
       {
         if (num < it->second.getSize())
         {
@@ -172,7 +175,14 @@ namespace zasulsky
           {
             out << it->second.data[num];
           }
-          sum += it->second.data[num];
+          try
+          {
+            sum += stoi(it->second.data[num]);
+          }
+          catch (...)
+          {
+            isOver = true;
+          }
         }
         ind++;
       }
@@ -180,7 +190,7 @@ namespace zasulsky
 
       num++;
     }
-    outputSumes(res, sums, sumsa, std::cout);
+    outputSumes(res, sums, sumsa, std::cout, isOver);
   }
 }
 

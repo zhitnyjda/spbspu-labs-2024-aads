@@ -10,14 +10,15 @@ int main()
   try
   {
     std::string str;
-    zasulsky::ForwardList < std::pair< std::string, zasulsky::Vector< int > > > list;
+    bool isOver = false;
+    zasulsky::ForwardList < std::pair< std::string, zasulsky::Vector< std::string > > > list;
     while (!std::cin.eof())
     {
       std::getline(std::cin, str);
-      getSequence(list, str);
+      getSequence(list, str, isOver);
     }
     outputNames(list, std::cout);
-    outputSequence(list, std::cout);
+    outputSequence(list, std::cout, isOver);
   }
   catch (...)
   {
