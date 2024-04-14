@@ -98,7 +98,7 @@ namespace zasulsky
   {
     if (isOver)
     {
-      out << "overflow\n";
+      std::cerr << "overflow\n";
       return;
     }
     for (auto el : sumsa)
