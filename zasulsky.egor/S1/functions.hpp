@@ -9,6 +9,8 @@
 
 namespace zasulsky
 {
+  using fList = ForwardList < std::pair < std::string, Vector < std::string > > >;
+
   void getSequence(ForwardList < std::pair< std::string, Vector< std::string > > >& list, std::string str)
   {
     if (str == "")
@@ -16,7 +18,7 @@ namespace zasulsky
       return;
     }
 
-    ForwardList < std::pair< std::string, Vector< std::string > > > dub;
+    fList dub;
     Vector< std::string > vec;
     std::string name;
     std::string numbers;
@@ -42,7 +44,7 @@ namespace zasulsky
     }
   }
 
-  void outputNames(ForwardList < std::pair < std::string, Vector < std::string > > > list, std::ostream& out)
+  void outputNames(fList list, std::ostream& out)
   {
     for (auto el : list)
     {
@@ -65,7 +67,7 @@ namespace zasulsky
     }
   }
 
-  int getMaxSize(ForwardList < std::pair< std::string, Vector< std::string > > > list)
+  int getMaxSize(fList list)
   {
     ForwardList<int> ls;
     for (auto el : list)
@@ -84,7 +86,7 @@ namespace zasulsky
     }
     return max;
   }
-  Vector < int > getSizes(ForwardList < std::pair< std::string, Vector< std::string > > > list)
+  Vector < int > getSizes(fList list)
   {
     Vector<int> res;
     for (auto el : list)
@@ -94,7 +96,7 @@ namespace zasulsky
     return res;
   }
 
-  void outputSumes(ForwardList<int>& res, ForwardList<int>& sums, ForwardList<int>& sumsa, std::ostream& out, bool isOver)
+  void outputSumes(ForwardList< int >& res, ForwardList< int >& sums, ForwardList< int >& sumsa, std::ostream& out, bool isOver)
   {
     if (isOver)
     {
@@ -128,10 +130,10 @@ namespace zasulsky
       }
     }
   }
-  void outputSequence(ForwardList < std::pair< std::string, Vector< std::string > > >& listo, std::ostream& out, bool isOver)
+  void outputSequence(fList& listo, std::ostream& out, bool isOver)
   {
     Vector < int > sizes = getSizes(listo);
-    ForwardList < std::pair< std::string, Vector< std::string > > > list;
+    fList list;
     for (auto el : listo)
     {
       list.pushFront(el);

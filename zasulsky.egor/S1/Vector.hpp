@@ -7,8 +7,7 @@
 
 namespace zasulsky
 {
-
-  template <typename T>
+  template < typename T >
   class Vector
   {
   public:
@@ -32,10 +31,11 @@ namespace zasulsky
         data[i] = other.data[i];
       }
     }
-    class Iterator : public std::iterator < std::bidirectional_iterator_tag, T>
+
+    class Iterator : public std::iterator < std::bidirectional_iterator_tag, T >
     {
     public:
-      friend class Vector<T>;
+      friend class Vector< T >;
 
       T* ptr;
 
@@ -51,6 +51,7 @@ namespace zasulsky
         ++ptr;
         return *this;
       }
+
       Iterator& operator--()
       {
         --ptr;
@@ -63,6 +64,7 @@ namespace zasulsky
         ++ptr;
         return temp;
       }
+
       Iterator& operator--(int)
       {
         Iterator temp = *this;
@@ -80,6 +82,7 @@ namespace zasulsky
         return ptr != other.ptr;
       }
     };
+
     void push_front(const T& value)
     {
       if (size >= capacity)
@@ -105,6 +108,7 @@ namespace zasulsky
       data[0] = value;
       ++size;
     }
+
     Vector& operator=(const Vector& other)
     {
       if (this != &other)
@@ -149,6 +153,7 @@ namespace zasulsky
       }
       return res;
     }
+
     void push_back(const T& value)
     {
       if (size >= capacity)
@@ -184,12 +189,13 @@ namespace zasulsky
     }
 
     T& operator[](int index) {
-      if (index < 0 || index >= static_cast<int>(getSize()))
+      if (index < 0 || index >= static_cast< int >(getSize()))
       {
         throw std::out_of_range("Index out of bounds");
       }
       return data[index];
     }
+
     int getSize() const
     {
       return size;
@@ -207,6 +213,7 @@ namespace zasulsky
       }
       --size;
     }
+
     void erase(const Iterator& it)
     {
       if (it.ptr < data || it.ptr >= data + size)
@@ -247,6 +254,7 @@ namespace zasulsky
 
       return true;
     }
+
     ~Vector()
     {
       delete[] data;
@@ -261,6 +269,7 @@ namespace zasulsky
     {
       return Iterator(data + size);
     }
+
     T& back()
     {
       if (size == 0)
@@ -278,8 +287,6 @@ namespace zasulsky
       }
       return data[0];
     }
-
-
   };
 }
 

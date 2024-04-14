@@ -93,9 +93,11 @@ namespace zasulsky
     constIterator(detail::Node< T >* start) :
       current_(start)
     {}
+
     constIterator(const iterator< T > other) noexcept :
       current_(other.current_)
     {}
+
     bool operator==(const constIterator& other) const
     {
       return current_ == other.current_;
@@ -110,6 +112,7 @@ namespace zasulsky
     {
       return current_->data;
     }
+
     const T* operator->() const
     {
       if (current_ == nullptr)
@@ -145,7 +148,6 @@ namespace zasulsky
 
   };
 
-
   template < class T >
   class ForwardList
   {
@@ -159,22 +161,26 @@ namespace zasulsky
     {
       fakeNode_->next = nullptr;
     }
+
     explicit ForwardList(detail::Node<  T>* head) :
       fakeNode_(reinterpret_cast<detail::Node< T >*>(operator new(sizeof(detail::Node< T >))))
     {
       fakeNode_->next = head;
     }
+
     ForwardList(const ForwardList& other) :
       fakeNode_(static_cast<detail::Node<T>*>(operator new(sizeof(detail::Node< T >))))
     {
       fakeNode_->next = nullptr;
       insert_after(other.cbegin(), other.cend(), cbeforeBegin());
     }
+
     ForwardList(ForwardList&& other) :
       ForwardList(other.head())
     {
       other.head() = nullptr;
     }
+
     ~ForwardList()
     {
       clear();
@@ -239,6 +245,7 @@ namespace zasulsky
     {
       return constIter();
     }
+
     iter insert_after(constIter it, T  data)
     {
       checkIt(it);
@@ -276,6 +283,7 @@ namespace zasulsky
         throw std::runtime_error("error");
       }
     }
+
     T& back()
     {
       if (fakeNode_ == nullptr)
@@ -290,6 +298,7 @@ namespace zasulsky
 
       return current->data;
     }
+
     void pushFront(T value)
     {
       insert_after(cbeforeBegin(), value);
@@ -308,6 +317,7 @@ namespace zasulsky
     {
       return fakeNode_->next == nullptr;
     }
+
     void clear()
     {
       while (!empty())
