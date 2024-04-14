@@ -15,4 +15,4 @@ private:
   size_t current_;
 };
 
-#endif 
+#endif
