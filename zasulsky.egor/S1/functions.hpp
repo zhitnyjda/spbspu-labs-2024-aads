@@ -11,7 +11,7 @@ namespace zasulsky
 {
   using fList = ForwardList < std::pair < std::string, Vector < std::string > > >;
 
-  void getSequence(ForwardList < std::pair< std::string, Vector< std::string > > >& list, std::string str)
+  void getSequence(fList& list, std::string str)
   {
     if (str == "")
     {
