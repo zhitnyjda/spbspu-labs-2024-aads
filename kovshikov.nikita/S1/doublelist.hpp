@@ -84,9 +84,9 @@ namespace kovshikov
 
     void pushFront(const T &value);
     void pushBack(const T& value);
-    void popFront();
-    void popBack();
-    void clear();
+    void popFront() noexcept;
+    void popBack() noexcept;
+    void clear() noexcept;
     void swap(DoubleList& dl) noexcept;
     void remove(const T &value);
     template< class Predicate >
@@ -221,7 +221,7 @@ void kovshikov::DoubleList< T >::pushBack(const T& value)
 }
 
 template < typename T >
-void kovshikov::DoubleList< T >::popFront()
+void kovshikov::DoubleList< T >::popFront() noexcept
 {
   if(head_ != nullptr && tail_ != nullptr)
   {
@@ -240,7 +240,7 @@ void kovshikov::DoubleList< T >::popFront()
 }
 
 template < typename T >
-void kovshikov::DoubleList< T >::popBack()
+void kovshikov::DoubleList< T >::popBack() noexcept
 {
   if(head_ != nullptr && tail_ != nullptr)
   {
@@ -259,7 +259,7 @@ void kovshikov::DoubleList< T >::popBack()
 }
 
 template < typename T >
-void kovshikov::DoubleList< T >::clear()
+void kovshikov::DoubleList< T >::clear() noexcept
 {
   while (head_ && tail_)
   {
