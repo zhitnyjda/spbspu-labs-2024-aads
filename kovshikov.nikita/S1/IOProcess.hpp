@@ -1,5 +1,5 @@
-#ifndef FUNCTIONS_HPP
-#define FUNCTIONS_HPP
+#ifndef IOPROCESS_HPP
+#define IOPROCESS_HPP
 #include <iosfwd>
 #include <string>
 #include "doublelist.hpp"

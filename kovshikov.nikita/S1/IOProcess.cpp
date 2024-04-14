@@ -1,5 +1,5 @@
 #include <iostream>
-#include "functions.hpp"
+#include "IOProcess.hpp"
 
 void kovshikov::createIntList(DoubleList< size_t > &list, std::string &integerString, bool &isBigNumber)
 {

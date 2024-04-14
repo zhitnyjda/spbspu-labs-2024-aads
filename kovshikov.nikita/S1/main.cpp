@@ -1,6 +1,6 @@
 #include <iostream>
 #include "doublelist.hpp"
-#include "functions.hpp"
+#include "IOProcess.hpp"
 
 int main()
 {
