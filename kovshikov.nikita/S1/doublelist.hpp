@@ -193,7 +193,7 @@ void kovshikov::DoubleList< T >::pushFront(const T &value)
   Node::Node< T >* newNode = nullptr;
   try
   {
-    Node::Node< T >* newNode = new Node::Node< T >(value);
+    newNode = new Node::Node< T >(value);
   }
   catch(std::exception &e)
   {
@@ -218,11 +218,11 @@ void kovshikov::DoubleList< T >::pushBack(const T& value)
   Node::Node< T >* newNode = nullptr;
   try
   {
-    Node::Node< T >* newNode = new Node::Node< T >(value);
+    newNode = new Node::Node< T >(value);
   }
   catch(std::exception &e)
   {
-    std::cerr << e.what();
+    std::cerr << e.what() << "\n";
   }
   if (this->empty() == true)
   {
