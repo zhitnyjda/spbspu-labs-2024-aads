@@ -5,6 +5,7 @@
 #include <limits>
 #include <cassert>
 #include <memory>
+#include "node.hpp"
 
 namespace kovshikov
 {
@@ -12,22 +13,6 @@ namespace kovshikov
   class DoubleList
   {
   public:
-    struct Node
-    {
-      friend class DoubleList< T >;
-      Node(): data(0), prev(nullptr), next(nullptr) {};
-      Node(T data_) :
-      data(data_),
-      prev(nullptr),
-      next(nullptr)
-      {};
-      ~Node() = default;
-    private:
-      T data;
-      Node* prev;
-      Node* next;
-    };
-
     struct Iterator
     {
       friend class DoubleList< T >;
@@ -35,7 +20,7 @@ namespace kovshikov
 
       Iterator(): node(nullptr) {};
       Iterator(const this_t &) = default;
-      Iterator(Node* ptr): node(ptr) {};
+      Iterator(Node::Node< T >* ptr): node(ptr) {};
       ~Iterator() = default;
 
       this_t & operator=(const this_t &) = default;
@@ -52,7 +37,7 @@ namespace kovshikov
       T & operator*();
       T * operator->();
     private:
-      Node* node;
+      Node::Node< T >* node;
     };
 
    /* struct ConstIterator
@@ -114,8 +99,8 @@ namespace kovshikov
     const Iterator cend() const;
 
   private:
-    Node* head_;
-    Node* tail_;
+    Node::Node< T >* head_;
+    Node::Node< T >* tail_;
   };
 }
 
@@ -141,7 +126,7 @@ kovshikov::DoubleList< T >::DoubleList(const DoubleList& dl)
 {
   this->head_ = nullptr;
   this->tail_ = nullptr;
-  Node *temp = dl.head_;
+  Node::Node< T > *temp = dl.head_;
   while(temp != nullptr)
   {
     this->pushBack(temp->data);
@@ -162,7 +147,7 @@ kovshikov::DoubleList< T >::DoubleList(DoubleList&& dl)
 {
   this->head_ = nullptr;
   this->tail_ = nullptr;
-  Node *temp = std::move(dl.head_);
+  Node::Node< T > *temp = std::move(dl.head_);
   while(temp != nullptr)
   {
     this->pushBack(std::move(temp->data));
@@ -174,7 +159,7 @@ template< typename T >
 kovshikov::DoubleList< T >& kovshikov::DoubleList< T >::operator=(DoubleList&& dl)
 {
   this->clear();
-  Node *temp = std::move(dl.head_);
+  Node::Node< T > *temp = std::move(dl.head_);
   while(temp != nullptr)
   {
     this->pushBack(std::move(temp->data));
@@ -211,7 +196,7 @@ bool kovshikov::DoubleList< T >::empty() const
 template < typename T >
 void kovshikov::DoubleList< T >::pushFront(const T &value)
 {
-  Node* newNode = new Node(value);
+  Node::Node< T >* newNode = new Node::Node< T >(value);
   if (this->empty() == true)
   {
     head_ = newNode;
@@ -228,7 +213,7 @@ void kovshikov::DoubleList< T >::pushFront(const T &value)
 template < typename T >
 void kovshikov::DoubleList< T >::pushBack(const T& value)
 {
-  Node* newNode = new Node(value);
+  Node::Node< T >* newNode = new Node::Node< T >(value);
   if (this->empty() == true)
   {
     head_ = newNode;
@@ -247,7 +232,7 @@ void kovshikov::DoubleList< T >::popFront()
 {
   if(head_ != nullptr && tail_ != nullptr)
   {
-    Node* temp = head_->next;
+    Node::Node< T >* temp = head_->next;
     delete head_;
     head_ = temp;
     if(head_ == nullptr)
@@ -266,7 +251,7 @@ void kovshikov::DoubleList< T >::popBack()
 {
   if(head_ != nullptr && tail_ != nullptr)
   {
-    Node* temp = tail_->prev;
+    Node::Node< T >* temp = tail_->prev;
     delete tail_;
     tail_ = temp;
     if(tail_ == nullptr)
@@ -292,8 +277,8 @@ void kovshikov::DoubleList< T >::clear()
 template < typename T >
 void kovshikov::DoubleList< T >::swap(DoubleList& dl)
 {
-  Node* tempHead = dl.head_;
-  Node* tempTail = dl.tail_;
+  Node::Node< T >* tempHead = dl.head_;
+  Node::Node< T >* tempTail = dl.tail_;
   dl.head_ = this->head_;
   this->head_ = tempHead;
   dl.tail_ = this->tail_;
@@ -308,8 +293,8 @@ void kovshikov::DoubleList< T >::remove(const T &value)
   {
     if(iterator.node->data == value)
     {
-      Node* tempPrev = iterator.node->prev;
-      Node* tempNext = iterator.node->next;
+      Node::Node< T >* tempPrev = iterator.node->prev;
+      Node::Node< T >* tempNext = iterator.node->next;
       Iterator iteratorToDelete = iterator;
       if(head_ == tail_)
       {
@@ -340,8 +325,8 @@ void kovshikov::DoubleList< T >::remove_if(Predicate pred)
   {
     if(pred(iterator.node->data))
     {
-      Node* tempPrev = iterator.node->prev;
-      Node* tempNext = iterator.node->next;
+      Node::Node< T >* tempPrev = iterator.node->prev;
+      Node::Node< T >* tempNext = iterator.node->next;
       Iterator iteratorToDelete = iterator;
       if(head_ == tail_)
       {
@@ -388,7 +373,7 @@ typename kovshikov::DoubleList< T >::Iterator kovshikov::DoubleList< T >::end() 
   }
   else
   {
-    Node* pastTheEnd = tail_->next;
+    Node::Node< T >* pastTheEnd = tail_->next;
     return Iterator(pastTheEnd);
   }
 }
@@ -408,7 +393,7 @@ const typename kovshikov::DoubleList< T >::Iterator kovshikov::DoubleList< T >::
   }
   else
   {
-    Node* pastTheEnd = tail_->next;
+    Node::Node< T >* pastTheEnd = tail_->next;
     return Iterator(pastTheEnd);
   }
 }
