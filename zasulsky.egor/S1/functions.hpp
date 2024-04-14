@@ -9,7 +9,7 @@
 
 namespace zasulsky
 {
-  void getSequence(ForwardList < std::pair< std::string, Vector< std::string > > >& list, std::string str, bool& isOver)
+  void getSequence(ForwardList < std::pair< std::string, Vector< std::string > > >& list, std::string str)
   {
     if (str == "")
     {

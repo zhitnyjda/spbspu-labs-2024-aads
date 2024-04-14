@@ -15,7 +15,7 @@ int main()
     while (!std::cin.eof())
     {
       std::getline(std::cin, str);
-      getSequence(list, str, isOver);
+      getSequence(list, str);
     }
     outputNames(list, std::cout);
     outputSequence(list, std::cout, isOver);
