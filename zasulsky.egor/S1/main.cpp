@@ -24,6 +24,11 @@ int main()
       return 1;
     }
   }
+  catch (std::overflow_error& e)
+  {
+    std::cerr << e.what() << '\n';
+    return 1;
+  }
   catch (...)
   {
     std::cerr << "incorrect use of programm\n";
