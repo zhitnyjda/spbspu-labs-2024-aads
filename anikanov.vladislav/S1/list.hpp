@@ -23,7 +23,7 @@ namespace anikanov {
 
     void push_back(const T &value);
     void pop(size_t n = std::numeric_limits< size_t >::max());
-    bool empty();
+    bool empty() const;
     size_t size() const;
     void clear();
     void swap(const List &other) noexcept;
@@ -498,7 +498,7 @@ void anikanov::List< T >::pop(size_t n)
 }
 
 template< typename T >
-bool anikanov::List< T >::empty()
+bool anikanov::List< T >::empty() const
 {
   if (head == nullptr) {
     return true;
