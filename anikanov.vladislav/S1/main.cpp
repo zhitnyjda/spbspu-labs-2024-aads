@@ -18,7 +18,7 @@ int main()
 
   line = "";
   std::getline(std::cin, line);
-  while (std::cin.eof()) {
+  while (!std::cin.eof()) {
     if (line.empty()) {
       continue;
     }
