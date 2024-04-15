@@ -124,7 +124,6 @@ public:
   }
   ~ConstIterator() = default;
 
-  std::shared_ptr< Node > get_node() const;
   this_t &operator=(const this_t &other);
   ConstIterator operator+(int n) const;
   ConstIterator operator-(int n) const;
@@ -139,6 +138,7 @@ public:
   bool operator!=(const this_t &other) const;
   bool operator==(const this_t &other) const;
 private:
+  std::shared_ptr< Node > get_node() const;
   iterator_t itr;
 };
 template< typename T >
