@@ -20,6 +20,8 @@ int main()
   std::getline(std::cin, line);
   while (!std::cin.eof()) {
     if (line.empty()) {
+      line = "";
+      std::getline(std::cin, line);
       continue;
     }
     List< std::string > inputList = split(line);
