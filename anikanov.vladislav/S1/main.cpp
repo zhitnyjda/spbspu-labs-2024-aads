@@ -9,7 +9,6 @@ int main()
 {
   using namespace anikanov;
 
-
   using list = List< unsigned long long >;
   using mainList = List< std::pair< std::string, list > >;
 
@@ -17,12 +16,9 @@ int main()
   std::string inputName;
   std::string line;
 
-  while (true) {
-    line = "";
-    std::getline(std::cin, line);
-    if (std::cin.eof()) {
-      break;
-    }
+  line = "";
+  std::getline(std::cin, line);
+  while (std::cin.eof()) {
     if (line.empty()) {
       continue;
     }
@@ -40,6 +36,8 @@ int main()
       listPair.second.push_back(num);
     }
     lists->push_back(listPair);
+    line = "";
+    std::getline(std::cin, line);
   }
 
 
