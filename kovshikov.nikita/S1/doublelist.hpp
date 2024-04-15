@@ -45,8 +45,8 @@ namespace kovshikov
 
     Iterator begin() const;
     Iterator end() const;
-    const Iterator cbegin() const; //brrrr
-    const Iterator cend() const;  //brrrrr
+    ConstIterator cbegin() const;
+    ConstIterator cend() const;
 
   private:
     Node::Node< T >* head_;
@@ -514,13 +514,13 @@ typename kovshikov::DoubleList< T >::Iterator kovshikov::DoubleList< T >::end() 
 }
 
 template< typename T >
-const typename kovshikov::DoubleList< T >::Iterator kovshikov::DoubleList< T >::cbegin() const
+typename kovshikov::DoubleList< T >::ConstIterator kovshikov::DoubleList< T >::cbegin() const
 {
-  return Iterator(head_);
+  return ConstIterator(head_);
 }
 
 template< typename T >
-const typename kovshikov::DoubleList< T >::Iterator kovshikov::DoubleList< T >::cend() const
+typename kovshikov::DoubleList< T >::ConstIterator kovshikov::DoubleList< T >::cend() const
 {
   if(this->empty)
   {
@@ -529,42 +529,8 @@ const typename kovshikov::DoubleList< T >::Iterator kovshikov::DoubleList< T >::
   else
   {
     Node::Node< T >* pastTheEnd = tail_->next;
-    return Iterator(pastTheEnd);
+    return ConstIterator(pastTheEnd);
   }
 }
-
-/*template<typename T>
-typename kovshikov::DoubleList<T>::ConstIterator::this_t & kovshikov::DoubleList<T>::ConstIterator::operator++()
-{
-  assert(node != nullptr);
-  node = node->next;
-  return *this; //const?
-}
-
-template<typename T>
-typename kovshikov::DoubleList<T>::ConstIterator::this_t kovshikov::DoubleList<T>::ConstIterator::operator++(int)
-{
-  assert(node != nullptr);
-  this_t result(*this);
-  ++(*this);
-  return result; // const??
-}
-
-template<typename T>
-typename kovshikov::DoubleList<T>::ConstIterator::this_t & kovshikov::DoubleList<T>::ConstIterator::operator--()
-{
-  assert(node != nullptr);
-  node = node->prev;
-  return *this;  //const??
-}
-
-template<typename T>
-typename kovshikov::DoubleList<T>::ConstIterator::this_t ko vshikov::DoubleList<T>::Iterator::operator--(int)
-{
-  assert(node != nullptr);
-  this_t result(*this);
-  --(*this);
-  return result;
-}*/
 
 #endif
