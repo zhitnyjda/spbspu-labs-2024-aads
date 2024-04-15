@@ -24,7 +24,7 @@ namespace anikanov {
     void push_back(const T &value);
     void pop(size_t n = std::numeric_limits< size_t >::max());
     bool empty();
-    [[nodiscard]] size_t size() const;
+    size_t size() const;
     void clear();
     void swap(const List &other) noexcept;
     void remove(const T &value);
@@ -43,8 +43,10 @@ namespace anikanov {
     List< T > &operator=(const List< T > &other);
 
     Iterator back();
-    Iterator begin() const;
-    Iterator end() const noexcept;
+    Iterator begin();
+    ConstIterator begin() const;
+    Iterator end() noexcept;
+    ConstIterator end() const noexcept;
 
   private:
     std::shared_ptr< List::Node > head, tail;
@@ -701,15 +703,27 @@ typename anikanov::List< T >::Iterator anikanov::List< T >::back()
 }
 
 template< typename T >
-typename anikanov::List< T >::Iterator anikanov::List< T >::begin() const
+typename anikanov::List< T >::Iterator anikanov::List< T >::begin()
 {
   return Iterator(head);
 }
 
 template< typename T >
-typename anikanov::List< T >::Iterator anikanov::List< T >::end() const noexcept
+typename anikanov::List< T >::ConstIterator anikanov::List< T >::begin() const
+{
+  return ConstIterator(head);
+}
+
+template< typename T >
+typename anikanov::List< T >::Iterator anikanov::List< T >::end() noexcept
 {
   return Iterator(nullptr);
+}
+
+template< typename T >
+typename anikanov::List< T >::ConstIterator anikanov::List< T >::end() const noexcept
+{
+  return ConstIterator(nullptr);
 }
 
 #endif
