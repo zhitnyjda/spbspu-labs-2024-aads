@@ -1,9 +1,9 @@
-#include "list.hpp"
 #include <iostream>
 #include <string>
 #include <limits>
 #include <algorithm>
 #include <stdexcept>
+#include "list.hpp"
 
 namespace lisitsyna
 {
