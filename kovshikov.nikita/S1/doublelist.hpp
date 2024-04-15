@@ -5,6 +5,7 @@
 #include <utility>
 #include <limits>
 #include <cassert>
+#include <iterator>
 #include <memory>
 #include "node.hpp"
 
@@ -15,33 +16,7 @@ namespace kovshikov
   {
   public:
     class Iterator;
-   /* struct ConstIterator
-    {
-      friend class DoubleList<T>;
-      using this_t = ConstIterator;
-
-      ConstIterator(): node(nullptr) {};
-      ConstIterator(const this_t&) = default;
-      //ConstIterator(Iterator);
-      ~ConstIterator() = default;
-
-      this_t & operator=(const this_t &) = default;
-
-      this_t & operator++();
-      this_t operator++(int);
-
-      this_t & operator--();
-      this_t operator--(int);
-
-      bool operator!=(const this_t & other) const;
-      bool operator==(const this_t & other) const;
-
-      const T & operator*() const;
-      const T * operator->() const;
-    private:
-      Node* node;
-      ConstIterator(Node*, const DoubleList<T>);
-    }*/
+    class ConstIterator;
 
     DoubleList(): head_(nullptr), tail_(nullptr) {};
     DoubleList(const DoubleList& dl);
@@ -70,8 +45,8 @@ namespace kovshikov
 
     Iterator begin() const;
     Iterator end() const;
-    const Iterator cbegin() const;
-    const Iterator cend() const;
+    const Iterator cbegin() const; //brrrr
+    const Iterator cend() const;  //brrrrr
 
   private:
     Node::Node< T >* head_;
@@ -80,7 +55,7 @@ namespace kovshikov
 }
 
 template< typename T >
-class kovshikov::DoubleList< T >::Iterator
+class kovshikov::DoubleList< T >::Iterator : public std::iterator< std::random_access_iterator_tag, T >
 {
 public:
   friend class DoubleList< T >;
@@ -107,46 +82,6 @@ public:
 private:
   Node::Node< T >* node;
 };
-
-template< typename T >
-typename kovshikov::DoubleList< T >::Iterator kovshikov::DoubleList< T >::begin() const
-{
-  return Iterator(head_);
-}
-
-template< typename T >
-typename kovshikov::DoubleList< T >::Iterator kovshikov::DoubleList< T >::end() const
-{
-  if(this->empty())
-  {
-    return this->begin();
-  }
-  else
-  {
-    Node::Node< T >* pastTheEnd = tail_->next;
-    return Iterator(pastTheEnd);
-  }
-}
-
-template< typename T >
-const typename kovshikov::DoubleList< T >::Iterator kovshikov::DoubleList< T >::cbegin() const
-{
-  return Iterator(head_);
-}
-
-template< typename T >
-const typename kovshikov::DoubleList< T >::Iterator kovshikov::DoubleList< T >::cend() const
-{
-  if(this->empty)
-  {
-    return this->cbegin();
-  }
-  else
-  {
-    Node::Node< T >* pastTheEnd = tail_->next;
-    return Iterator(pastTheEnd);
-  }
-}
 
 template< typename T >
 typename kovshikov::DoubleList< T >::Iterator::this_t & kovshikov::DoubleList< T >::Iterator::operator++()
@@ -206,6 +141,93 @@ T * kovshikov::DoubleList< T >::Iterator::operator->()
 {
   assert(node != nullptr);
   return std::addressof(node->data);
+}
+
+template < typename T >
+class kovshikov::DoubleList< T >::ConstIterator : public std::iterator< std::random_access_iterator_tag, T >
+{
+public:
+  friend class DoubleList< T >;
+  using this_t = ConstIterator;
+
+  ConstIterator(): iterator(nullptr) {};
+  ConstIterator(const this_t&) = default;
+  ConstIterator(Iterator iter): iterator(iter) {};
+  ~ConstIterator() = default;
+
+  this_t & operator=(const this_t &) = default;
+
+  this_t & operator++();
+  this_t operator++(int);
+
+  this_t & operator--();
+  this_t operator--(int);
+
+  bool operator!=(const this_t & other) const;
+  bool operator==(const this_t & other) const;
+
+  const T & operator*() const;
+  const T * operator->() const;
+private:
+  Iterator iterator;
+};
+
+template< typename T >
+typename kovshikov::DoubleList< T >::ConstIterator::this_t & kovshikov::DoubleList< T >::ConstIterator::operator++()
+{
+  assert(iterator != nullptr);
+  iterator++;
+  return iterator;
+}
+
+template< typename T >
+typename kovshikov::DoubleList< T >::ConstIterator::this_t kovshikov::DoubleList< T >::ConstIterator::operator++(int)
+{
+  assert(iterator != nullptr);
+  ++iterator;
+  return iterator;
+}
+
+template< typename T >
+typename kovshikov::DoubleList< T >::ConstIterator::this_t & kovshikov::DoubleList< T >::ConstIterator::operator--()
+{
+  assert(iterator != nullptr);
+  iterator--;
+  return iterator;
+}
+
+template< typename T >
+typename kovshikov::DoubleList< T >::ConstIterator::this_t kovshikov::DoubleList< T >::ConstIterator::operator--(int)
+{
+  assert(iterator != nullptr);
+  --iterator;
+  return iterator;
+}
+
+template< typename T >
+bool kovshikov::DoubleList< T >::ConstIterator::operator==(const this_t & other) const
+{
+  return iterator == other;
+}
+
+template< typename T >
+bool kovshikov::DoubleList< T >::ConstIterator::operator!=(const this_t & other) const
+{
+  return !(other == iterator);
+}
+
+template< typename T >
+const T & kovshikov::DoubleList< T >::ConstIterator::operator*() const
+{
+  assert(iterator != nullptr);
+  return iterator.node->data;
+}
+
+template< typename T >
+const T * kovshikov::DoubleList< T >::ConstIterator::operator->() const
+{
+  assert(iterator != nullptr);
+  return std::addressof(iterator.node->data);
 }
 
 template< typename T >
@@ -471,6 +493,45 @@ void kovshikov::DoubleList< T >::assign(size_t size, const T &value)
   }
 }
 
+template< typename T >
+typename kovshikov::DoubleList< T >::Iterator kovshikov::DoubleList< T >::begin() const
+{
+  return Iterator(head_);
+}
+
+template< typename T >
+typename kovshikov::DoubleList< T >::Iterator kovshikov::DoubleList< T >::end() const
+{
+  if(this->empty())
+  {
+    return this->begin();
+  }
+  else
+  {
+    Node::Node< T >* pastTheEnd = tail_->next;
+    return Iterator(pastTheEnd);
+  }
+}
+
+template< typename T >
+const typename kovshikov::DoubleList< T >::Iterator kovshikov::DoubleList< T >::cbegin() const
+{
+  return Iterator(head_);
+}
+
+template< typename T >
+const typename kovshikov::DoubleList< T >::Iterator kovshikov::DoubleList< T >::cend() const
+{
+  if(this->empty)
+  {
+    return this->cbegin();
+  }
+  else
+  {
+    Node::Node< T >* pastTheEnd = tail_->next;
+    return Iterator(pastTheEnd);
+  }
+}
 
 /*template<typename T>
 typename kovshikov::DoubleList<T>::ConstIterator::this_t & kovshikov::DoubleList<T>::ConstIterator::operator++()
@@ -505,7 +566,5 @@ typename kovshikov::DoubleList<T>::ConstIterator::this_t ko vshikov::DoubleList<
   --(*this);
   return result;
 }*/
-
-
 
 #endif
