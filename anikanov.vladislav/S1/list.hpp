@@ -113,6 +113,9 @@ public:
   using iterator_t = typename anikanov::List< T >::Iterator;
 
   ConstIterator();
+  explicit ConstIterator(std::shared_ptr< node_t > node_ptr) : itr(Iterator(node_ptr))
+  {
+  }
   explicit ConstIterator(const iterator_t &itr) : itr(itr)
   {
   }
