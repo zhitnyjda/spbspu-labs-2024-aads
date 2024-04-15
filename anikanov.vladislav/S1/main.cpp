@@ -82,7 +82,6 @@ int main()
           std::cout << " " << *numIter;
         }
         if (*sums.back() + *numIter < std::max(*sums.back(), *numIter)) {
-          std::cerr << "overflow\n";
           badSum = true;
         }
         *sums.back() += *numIter;
