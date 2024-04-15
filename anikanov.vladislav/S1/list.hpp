@@ -95,8 +95,8 @@ public:
   this_t &operator--();
   this_t operator--(int);
   T &operator*();
-  const T &operator*() const;
   T *operator->();
+  const T &operator*() const;
   const T *operator->() const;
   bool operator!=(const this_t &other) const;
   bool operator==(const this_t &other) const;
@@ -408,9 +408,11 @@ anikanov::List< T >::List(const List &other): head(nullptr), tail(nullptr), list
 }
 
 template< typename T >
-anikanov::List< T >::List(List &&other) noexcept: head(std::move(other.head)), tail(std::move(other.tail)),
-                                                  list_size(other.list_size)
+anikanov::List< T >::List(List &&other) noexcept
 {
+  head = std::move(other.head);
+  tail = std::move(other.tail);
+  list_size = other.list_size;
   other.head = nullptr;
   other.tail = nullptr;
   other.list_size = 0;
