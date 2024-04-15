@@ -1,6 +1,6 @@
 #include <iostream>
 #include <memory>
-#include "mainExtensions.cpp"
+#include "mainExtensions.hpp"
 
 
 int main()
