@@ -1,5 +1,4 @@
 #include "mainUtils.hpp"
-#include "stdexcept"
 
 namespace miheev
 {
@@ -16,27 +15,24 @@ namespace miheev
       return result;
   }
 
-  size_t takeNum(std::string& line)
+  std::string takeWord(std::string& line)
   {
     size_t spaceIndex = line.find(' ');
-    std::string number = line.substr(0, spaceIndex);
+    std::string word = line.substr(0, spaceIndex);
     line = spaceIndex == std::string::npos ? "" : line.substr(spaceIndex + 1);
-    return std::stoull(number);
+    return word;
   }
 
-  List< size_t > readNumbers(std::istream& stream)
+  List< size_t > readNumbers(std::string numbers)
   {
     List< size_t > list;
-
-    std::string numbers = "";
     size_t curNum = 0;
-    std::getline(stream, numbers);
 
     while (numbers.length() > 0)
     {
       try
       {
-        curNum = takeNum(numbers);
+        curNum = std::stoull(takeWord(numbers));
       }
       catch(const std::invalid_argument& err)
       {
@@ -51,8 +47,11 @@ namespace miheev
   SI_pair getSIPair(std::istream& stream)
   {
     SI_pair pair;
-    stream >> pair.first >> std::ws;
-    pair.second = readNumbers(stream);
+    std::string line = "";
+    std::getline(stream, line);
+    pair.first = takeWord(line);
+
+    pair.second = readNumbers(line);
     return pair;
   }
 
@@ -90,4 +89,7 @@ namespace miheev
     }
     return max;
   }
+
+
+
 }

@@ -23,6 +23,7 @@ int main()
       delete[] temp;
       pairsSize = expanded.second;
     }
+
     SI_pair pair = getSIPair(std::cin);
     if (pair.first != "")
     {
@@ -48,7 +49,6 @@ int main()
   std::cout << '\n';
 
   ListIter* iters = getIters(pairs, unusedIndex);
-
   List< size_t >* lists = getLists(pairs, unusedIndex);
   size_t maxSize = maxListSize(lists, unusedIndex);
   delete[] lists;
