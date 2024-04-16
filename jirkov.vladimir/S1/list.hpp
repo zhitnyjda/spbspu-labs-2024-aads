@@ -3,56 +3,58 @@
 
 #include <cstddef>
 #include "node.hpp"
-
-template<typename T>
-class List
+namespace jirkov
 {
-public:
+    template<typename T>
+    class List
+    {
+    public:
     // Объявление классов итераторов
-    class Iterator;
-    class ConstIterator;
+        class Iterator;
+        class ConstIterator;
 
     // Конструкторы, деструктор и другие методы
-    List();
-    ~List();
-    void push_back(const T& value);
-    void pop_back();
-    void clear();
-    size_t size();
-    bool empty();
+        List();
+        ~List();
+        void push_back(const T& value);
+        void pop_back();
+        void clear();
+        size_t size();
+        bool empty();
 
     // Другие методы...
 
     // Декларации для константного итератора
-    class ConstIterator
-    {
-    public:
-        ConstIterator();
-        ConstIterator(const Node<T>* node);
-        const T& operator*() const;
-        ConstIterator& operator++();
-        bool operator==(const ConstIterator& other) const;
-        bool operator!=(const ConstIterator& other) const;
+        class ConstIterator
+        {
+        public:
+            ConstIterator();
+            ConstIterator(const Node<T>* node);
+            const T& operator*() const;
+            ConstIterator& operator++();
+            bool operator==(const ConstIterator& other) const;
+            bool operator!=(const ConstIterator& other) const;
 
-    private:
-        const Node<T>* node;
-    };
+        private:
+            const Node<T>* node;
+        };
 
     // Декларации для обычного итератора
-    class Iterator
-    {
-    public:
-        Iterator();
-        Iterator(Node<T>* node);
-        T& operator*();
-        Iterator& operator++();
-        bool operator==(const Iterator& other) const;
-        bool operator!=(const Iterator& other) const;
+        class Iterator
+        {
+        public:
+            Iterator();
+            Iterator(Node<T>* node);
+            T& operator*();
+            Iterator& operator++();
+            bool operator==(const Iterator& other) const;
+            bool operator!=(const Iterator& other) const;
 
-    private:
-        Node<T>* node;
+        private:
+            Node<T>* node;
+        };
     };
-};
+}
 
 // Реализация константного итератора
 template<typename T>
