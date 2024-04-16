@@ -1,6 +1,6 @@
-#include "SequenceHandler.h"
 #include <iostream>
 #include <string>
+#include "SequenceHandler.h"
 
 int main()
 {
