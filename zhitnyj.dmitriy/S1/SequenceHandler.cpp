@@ -23,11 +23,9 @@ void SequenceHandler::printSequences()
 void SequenceHandler::rearrangeAndPrint()
 {
   size_t maxLen = 0;
-  auto seqIt = sequences.head;
-  while (seqIt != nullptr)
+  for (auto& seq : sequences)
   {
-    maxLen = std::max(maxLen, seqIt->data.size());
-    seqIt = seqIt->next;
+    maxLen = std::max(maxLen, seq.size());
   }
 
   unsigned long long* sums = new unsigned long long[maxLen]{};
@@ -35,33 +33,27 @@ void SequenceHandler::rearrangeAndPrint()
   int s = 0;
   for (size_t i = 0; i < maxLen; ++i)
   {
-    seqIt = sequences.head;
-    while (seqIt != nullptr)
+    for (const auto& seq : sequences)
     {
-      List<unsigned long long>& currentSeq = seqIt->data;
-      auto numIt = currentSeq.head;
+      auto it = seq.begin();
       size_t count = 0;
 
-      while (count < i && numIt != nullptr)
-      {
-        numIt = numIt->next;
-        count++;
+      for (size_t j = 0; j < i && it != seq.end(); ++j) {
+        ++it;
       }
-      if (numIt != nullptr)
+      if (it != seq.end())
       {
         std::cout << (s ? " " : "");
         s = 1;
-        std::cout << numIt->data;
-        if (sums[i] > std::numeric_limits<unsigned long long>::max() - numIt->data)
+        std::cout << *it;
+        if (sums[i] > std::numeric_limits<unsigned long long>::max() - *it)
         {
           std::cout << "\n";
           delete[] sums;
           throw std::overflow_error("Sum of numbers is too big.");
         }
-        sums[i] += numIt->data;
+        sums[i] += *it;
       }
-
-      seqIt = seqIt->next;
     }
     std::cout << "\n";
     s = 0;
