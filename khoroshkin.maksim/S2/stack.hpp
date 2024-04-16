@@ -15,8 +15,8 @@ namespace khoroshkin
     Stack(Stack && rhs);
 
     T & top() const noexcept;
-    bool isEmpty();
-    size_t getSize();
+    bool isEmpty() const;
+    size_t getSize() const;
 
     void push(const T & value);
     T pop();
@@ -51,13 +51,13 @@ T & khoroshkin::Stack< T >::top() const noexcept
 }
 
 template< typename T >
-bool khoroshkin::Stack< T >::isEmpty()
+bool khoroshkin::Stack< T >::isEmpty() const
 {
   return stack.isEmpty();
 }
 
 template< typename T >
-size_t khoroshkin::Stack< T >::getSize()
+size_t khoroshkin::Stack< T >::getSize() const
 {
   return stack.getSize();
 }

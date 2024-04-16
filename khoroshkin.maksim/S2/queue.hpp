@@ -16,8 +16,8 @@ namespace khoroshkin
 
     T & front() const noexcept;
     T & back() const noexcept;
-    bool isEmpty();
-    size_t getSize();
+    bool isEmpty() const;
+    size_t getSize() const;
 
     void push(const T & value);
     T pop();
@@ -58,13 +58,13 @@ T & khoroshkin::Queue< T >::back() const noexcept
 }
 
 template< typename T >
-bool khoroshkin::Queue< T >::isEmpty()
+bool khoroshkin::Queue< T >::isEmpty() const
 {
   return queue.isEmpty();
 }
 
 template< typename T >
-size_t khoroshkin::Queue< T >::getSize()
+size_t khoroshkin::Queue< T >::getSize() const
 {
   return queue.getSize();
 }

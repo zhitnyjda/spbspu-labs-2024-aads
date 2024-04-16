@@ -45,7 +45,7 @@ namespace khoroshkin
     iterator emplace_after(iterator pos, Args &&... args);
 
     T & front();
-    size_t getSize();
+    size_t getSize() const;
     bool isEmpty() const;
     T & operator[](const size_t index);
     void reverse();
@@ -426,7 +426,7 @@ void khoroshkin::List< T >::clear()
 }
 
 template < typename T >
-size_t khoroshkin::List< T >::getSize()
+size_t khoroshkin::List< T >::getSize() const
 {
   return size;
 }
