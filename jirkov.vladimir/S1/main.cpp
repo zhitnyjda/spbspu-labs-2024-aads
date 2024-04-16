@@ -5,15 +5,16 @@
 #include "list.hpp"
 
 int main() {
-    jirkov::List<std::pair<std::string, std::vector<int>>> sequences;
+    using namespace jirkov;
+    List<std::pair<std::string, List<size_t>>> sequences;
     std::string name;
     while (std::cin >> name) {
         std::string input;
         std::getline(std::cin, input);
 
-        std::vector<int> sequence;
+        std::vector<size_t> sequence;
         std::istringstream iss(input);
-        int num;
+        size_t num;
         while (iss >> num) {
             sequence.push_back(num);
         }
@@ -34,18 +35,18 @@ int main() {
         return 0;
     }
     std::cout << std::endl;
-    int maxlen = 0;
+    size_t maxlen = 0;
     for (const auto& pair : sequences) {
-        maxlen = std::max(maxlen, static_cast<int>(pair.second.size()));
+        maxlen = std::max(maxlen, static_cast<size_t>(pair.second.size()));
     }
-    for (int i = 0; i < maxlen; ++i)
+    for (size_t i = 0; i < maxlen; ++i)
     {
         bool first = true;
         for (const auto & pair: sequences)
         {
             const auto & list = pair.second;
             auto it = list.begin();
-            for (int j = 0; j < i && it != list.end(); ++j)
+            for (size_t j = 0; j < i && it != list.end(); ++j)
             {
                 ++it;
             }
@@ -68,24 +69,24 @@ int main() {
             std::cout << 0;
         }
     }
-    std::vector<int> sums;
+    std::vector<size_t> sums;
     try
     {
-        for (int i = 0; i < maxlen; i++)
+        for (size_t i = 0; i < maxlen; i++)
         {
             for (const auto & pair : sequences)
             {
-                if (i < static_cast<int>(pair.second.size())) {
+                if (i < static_cast<size_t>(pair.second.size())) {
                     const auto & list = pair.second;
                     auto it = list.begin();
-                    for (int j = 0; j < i && it != list.end(); ++j)
+                    for (size_t j = 0; j < i && it != list.end(); ++j)
                     {
                         ++it;
                     }
-                    if (static_cast<int>(i) >= static_cast<int>(sums.size())) {
+                    if (static_cast<size_t>(i) >= static_cast<size_t>(sums.size())) {
                         sums.push_back(pair.second[i]);
                     } else {
-                        sums[static_cast<int>(i)] += pair.second[i];
+                        sums[static_cast<size_t>(i)] += pair.second[i];
                     }
                 }
             }
@@ -96,9 +97,9 @@ int main() {
         std::cerr << e.what() << '\n';
         return 1;
     }
-    for (int i = 0; static_cast<int>(i) < static_cast<int>(sums.size()); i++) {
+    for (size_t i = 0; static_cast<size_t>(i) < static_cast<size_t>(sums.size()); i++) {
         std::cout << sums[i];
-        if (static_cast<int>(i) != static_cast<int>(sums.size()) - 1) {
+        if (static_cast<size_t>(i) != static_cast<size_t>(sums.size()) - 1) {
             std::cout << " ";
         }
     }
