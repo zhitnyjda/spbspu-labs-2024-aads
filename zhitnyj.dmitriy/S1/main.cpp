@@ -11,9 +11,6 @@ int main()
 
     while (std::getline(std::cin, line))
     {
-      if (line == "_EOF")
-        break;
-
       size_t firstSpace = line.find(' ');
 
       std::string name = line.substr(0, firstSpace);
