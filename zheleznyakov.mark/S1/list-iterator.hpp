@@ -27,6 +27,9 @@ namespace zheleznyakov
     bool operator!=(const ListIterator<T> &rhs) const;
     bool operator==(const ListIterator<T> &rhs) const;
 
+    ListIterator begin();
+    ListIterator end();
+
   private:
     ListItem<T> *listItem;
   };
@@ -87,5 +90,17 @@ template <typename T>
 T *zheleznyakov::ListIterator<T>::operator->()
 {
   return std::addressof(listItem->data);
+}
+
+template<typename T>
+zheleznyakov::ListIterator<T> zheleznyakov::ListIterator<T>::begin()
+{
+  return this;
+}
+
+template<typename T>
+zheleznyakov::ListIterator<T> zheleznyakov::ListIterator<T>::end()
+{
+  return nullptr;
 }
 #endif
