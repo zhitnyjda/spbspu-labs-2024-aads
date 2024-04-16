@@ -1,6 +1,6 @@
 #include "SequenceHandler.h"
 #include <iostream>
-#include <sstream>
+#include <string>
 
 int main()
 {
@@ -11,16 +11,34 @@ int main()
 
     while (std::getline(std::cin, line))
     {
-      std::istringstream iss(line);
-      std::string name;
-      iss >> name;
+      if (line == "_EOF")
+        break;
+
+      size_t firstSpace = line.find(' ');
+
+      std::string name = line.substr(0, firstSpace);
+      std::string numbers = line.substr(firstSpace + 1);
 
       List<unsigned long long> sequence;
-      unsigned long long number;
+      size_t pos = 0;
 
-      while (iss >> number)
+      if (firstSpace == std::string::npos)
       {
+        handler.addSequence(name, sequence);
+        continue;
+      }
+      while (pos < numbers.length())
+      {
+        size_t nextSpace = numbers.find(' ', pos);
+        if (nextSpace == std::string::npos)
+        {
+          nextSpace = numbers.length();
+        }
+
+        unsigned long long number = std::stoull(numbers.substr(pos, nextSpace - pos));
         sequence.push_back(number);
+
+        pos = nextSpace + 1;
       }
 
       handler.addSequence(name, sequence);
@@ -32,13 +50,11 @@ int main()
   catch (const std::overflow_error& err)
   {
     std::cerr << err.what() << "\n";
-
     return 1;
   }
   catch (const std::exception& err)
   {
     std::cerr << err.what() << "\n";
-
     return 1;
   }
 
