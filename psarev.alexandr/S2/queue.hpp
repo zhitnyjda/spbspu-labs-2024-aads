@@ -1,5 +1,6 @@
 #ifndef QUEUE_HPP
 #define QUEUE_HPP
+#include "list.hpp"
 
 namespace psarev
 {
@@ -29,19 +30,19 @@ namespace psarev
 }
 
 template < typename T >
-void psarev::Queue< T >::Queue()
+psarev::Queue< T >::Queue()
 {
   depot(List< T >());
 }
 
 template < typename T >
-void psarev::Queue< T >::Queue(const Queue& other)
+psarev::Queue< T >::Queue(const Queue& other)
 {
   depot = other.depot;
 }
 
 template < typename T >
-void psarev::Queue< T >::Queue(const List< T >& dep)
+psarev::Queue< T >::Queue(const psarev::List< T >& dep)
 {
   depot(dep);
 }

@@ -1,5 +1,6 @@
 #ifndef STACK_HPP
 #define STACK_HPP
+#include "list.hpp"
 
 namespace psarev
 {
@@ -28,19 +29,19 @@ namespace psarev
 }
 
 template < typename T >
-void psarev::Stack< T >::Stack()
+psarev::Stack< T >::Stack()
 {
   depot(List< T >());
 }
 
 template < typename T >
-void psarev::Stack< T >::Stack(const Stack& other)
+psarev::Stack< T >::Stack(const Stack& other)
 {
   depot = other.depot;
 }
 
 template < typename T >
-void psarev::Stack< T >::Stack(const List< T >& dep)
+psarev::Stack< T >::Stack(const List< T >& dep)
 {
   depot(dep);
 }
