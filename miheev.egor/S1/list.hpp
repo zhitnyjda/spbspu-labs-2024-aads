@@ -10,6 +10,8 @@ namespace miheev
   template< typename T >
   class List
   {
+  private:
+    void takeAndDrop(List** rhs);
   public:
     T data_;
     List< T >* next_;
@@ -46,7 +48,6 @@ namespace miheev
     Iterator end();
     ConstIterator cBegin() const;
     ConstIterator cEnd() const;
-
   };
 }
 
@@ -282,14 +283,26 @@ miheev::List< T >::List(const List& toCopy)
 }
 
 template< typename T >
+void miheev::List< T >::takeAndDrop(List< T >** rhs)
+{
+  data_ = (*rhs)->data_;
+  next_ = (*rhs)->next_;
+  isEmpty_ = (*rhs)->isEmpty_;
+  (*rhs)->next_ = nullptr;
+  delete *rhs;
+}
+
+template< typename T >
 miheev::List< T >::List(List&& rhs) noexcept:
   next_{nullptr},
   isEmpty_{true}
 {
+  List< T >* temp = new List< T >;
   for (size_t i = 0; i < rhs.size(); i++)
   {
-    pushBack(rhs[i]);
+    temp->pushBack(rhs[i]);
   }
+  takeAndDrop(&temp);
 }
 
 template< typename T >
@@ -297,10 +310,12 @@ miheev::List< T >::List(size_t count, const T& value):
   next_(nullptr),
   isEmpty_(true)
 {
+  List< T >* temp = new List< T >;
   for (size_t i = 0; i < count; i++)
   {
-    pushBack(value);
+    temp->pushBack(value);
   }
+  takeAndDrop(&temp);
 }
 
 template< typename T >
