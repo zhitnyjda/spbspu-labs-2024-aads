@@ -58,7 +58,7 @@ zheleznyakov::List<T>::List(const List<T> &other) : size(other.size), head(nullp
 }
 
 template <typename T>
-zheleznyakov::List<T>::List(const size_t count, const T & value)
+zheleznyakov::List<T>::List(const size_t count, const T & value) : size(0), head(nullptr), tail(nullptr)
 {
   for (size_t i = 0; i < count; i++)
   {
