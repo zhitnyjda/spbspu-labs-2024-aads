@@ -36,7 +36,6 @@ void SequenceHandler::rearrangeAndPrint()
     for (const auto& seq : sequences)
     {
       auto it = seq.begin();
-      size_t count = 0;
 
       for (size_t j = 0; j < i && it != seq.end(); ++j) {
         ++it;
