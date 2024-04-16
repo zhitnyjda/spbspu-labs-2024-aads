@@ -1,11 +1,13 @@
 #ifndef LIST_HPP
 #define LIST_HPP
+#include <iterator>
 
 namespace ponomarev
 {
   template< typename T >
   class List
   {
+  public:
     class ConstIterator;
 
     List();
@@ -14,16 +16,21 @@ namespace ponomarev
     //перегрузки операторов
 
     void clear();
-    void push(const T &value);
+    void push(const T & value);
 
     //итераторы
 
     private:
       struct ListNode
       {
+        explicit ListNode(const T & d):
+          data(d),
+          next(nullptr),
+          prev(nullptr)
+        {}
         T data;
-        ListNode *next;
-        ListNode(const T &d, ListNode *n);
+        ListNode * next;
+        ListNode * prev;
       };
 
       ListNode *head;
@@ -32,30 +39,32 @@ namespace ponomarev
 }
 
 template< typename T >
-class List< T >::ConstIterator
+class ponomarev::List< T >::ConstIterator: public std::iterator< std::bidirectional_iterator_tag, T >
 {
   public:
     friend class List< T >;
     using this_t = ConstIterator;
 
     ConstIterator();
-    ConstIterator(const this_t&) = default;
+    ConstIterator(ListNode * ptr);
+    ConstIterator(const this_t &) = default;
     ~ConstIterator() = default;
 
     this_t & operator=(const this_t &) = default;
     this_t & operator++();
     this_t operator++(int);
+    this_t operator--();
+    this_t operator--(int);
 
     const T & operator*() const;
     const T * operator->() const;
 
-    bool opetaror!=(const this_t &) const;
+    bool operator!=(const this_t &) const;
     bool operator==(const this_t &) const;
+
   private:
     ListNode * node_;
-    ConstIterator(ListNode*, const List< T >*);
 };
-
 
 template< typename T >
 ponomarev::List< T >::List():
@@ -95,4 +104,5 @@ void ponomarev::List< T >::push(const T & value)
     tail->prev = data;
   }
 }
+
 #endif
