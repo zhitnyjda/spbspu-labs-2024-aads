@@ -7,7 +7,7 @@
 namespace anikanov {
   using list = List< unsigned long long >;
   using mainList = List< std::pair< std::string, list > >;
-  using getSums = std::pair<anikanov::list, bool>;
+  using getSums = std::pair< anikanov::list, bool >;
 
   List< std::string > split(const std::string &str);
   void inputList(std::unique_ptr< mainList > &lists, std::istream &stream);
