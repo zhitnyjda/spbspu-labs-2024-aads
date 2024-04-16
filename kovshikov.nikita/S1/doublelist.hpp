@@ -315,15 +315,7 @@ bool kovshikov::DoubleList< T >::empty() const noexcept
 template < typename T >
 void kovshikov::DoubleList< T >::pushFront(const T &value)
 {
-  Node::Node< T >* newNode = nullptr;
-  try
-  {
-    newNode = new Node::Node< T >(value);
-  }
-  catch(std::exception &e)
-  {
-    std::cerr << e.what() << "\n";
-  }
+  Node::Node< T >* newNode = new Node::Node< T >(value);
   if (this->empty() == true)
   {
     head_ = newNode;
@@ -340,15 +332,7 @@ void kovshikov::DoubleList< T >::pushFront(const T &value)
 template < typename T >
 void kovshikov::DoubleList< T >::pushBack(const T& value)
 {
-  Node::Node< T >* newNode = nullptr;
-  try
-  {
-    newNode = new Node::Node< T >(value);
-  }
-  catch(std::exception &e)
-  {
-    std::cerr << e.what() << "\n";
-  }
+  Node::Node< T >* newNode = new Node::Node< T >(value);
   if (this->empty() == true)
   {
     head_ = newNode;
