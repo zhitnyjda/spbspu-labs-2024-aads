@@ -11,6 +11,6 @@ namespace jirkov {
         Node(const T& value) : value(value), next(nullptr) {}
     };
 
-} // namespace jirkov
+}
 
-#endif // NODE_HPP
+#endif
