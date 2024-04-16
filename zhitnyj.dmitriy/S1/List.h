@@ -7,19 +7,20 @@
 template<typename T>
 class List
 {
-public:
-    struct Node
+private:
+  struct Node
+  {
+    T data;
+    std::shared_ptr<Node> next;
+
+    Node(T data, std::shared_ptr<Node> next = nullptr) : data(data), next(next)
     {
-        T data;
-        std::shared_ptr<Node> next;
+    }
+  };
 
-        Node(T data, std::shared_ptr<Node> next = nullptr) : data(data), next(next)
-        {
-        }
-    };
+  std::shared_ptr<Node> head;
 
-    std::shared_ptr<Node> head;
-
+public:
     List() : head(nullptr)
     {
     }
@@ -60,12 +61,12 @@ public:
       return *this;
     }
 
-    void push(T data)
+    void push(T data) noexcept
     {
       head = std::make_shared<Node>(data, head);
     }
 
-    void pop()
+    void pop() noexcept
     {
       if (head != nullptr)
       {
@@ -73,19 +74,19 @@ public:
       }
     }
 
-    void clear()
+    void clear() noexcept
     {
       head = nullptr;
     }
 
-    void swap(List& other)
+    void swap(List& other) noexcept
     {
       auto temp = head;
       head = other.head;
       other.head = temp;
     }
 
-    void fill(const T& value, size_t n)
+    void fill(const T& value, size_t n) noexcept
     {
       clear();
       for (size_t i = 0; i < n; ++i)
@@ -94,7 +95,7 @@ public:
       }
     }
 
-    void splice(List<T>& other)
+    void splice(List<T>& other) noexcept
     {
       if (other.head == nullptr)
       {
@@ -143,14 +144,14 @@ public:
       return current->data;
     }
 
-    void assign(size_t count, const T& value)
+    void assign(size_t count, const T& value) noexcept
     {
       clear();
       fill(value, count);
     }
 
     template<typename InputIterator>
-    void assign(InputIterator first, InputIterator last)
+    void assign(InputIterator first, InputIterator last) noexcept
     {
       clear();
       for (auto it = first; it != last; ++it)
@@ -159,7 +160,7 @@ public:
       }
     }
 
-    void assign(std::initializer_list<T> list)
+    void assign(std::initializer_list<T> list) noexcept
     {
       clear();
       for (const auto& value : list)
@@ -168,7 +169,7 @@ public:
       }
     }
 
-    void insert(size_t index, const T& value)
+    void insert(size_t index, const T& value) noexcept
     {
       if (index == 0 || !head)
       {
@@ -186,7 +187,7 @@ public:
       current->next = std::make_shared<Node>(value, current->next);
     }
 
-    void erase(const T& value)
+    void erase(const T& value) noexcept
     {
       while (head && head->data == value)
       {
@@ -206,7 +207,7 @@ public:
       }
     }
 
-    void reverse()
+    void reverse() noexcept
     {
       std::shared_ptr<Node> prev = nullptr, current = head, next = nullptr;
       while (current != nullptr)
@@ -219,17 +220,17 @@ public:
       head = prev;
     }
 
-    int empty() const
+    int empty() const noexcept
     {
       return head == nullptr;
     }
 
-    void push_front(T data)
+    void push_front(const T &data)
     {
       head = std::make_shared<Node>(data, head);
     }
 
-    void push_back(T data)
+    void push_back(const T &data)
     {
       auto newNode = std::make_shared<Node>(data);
       if (!head)
