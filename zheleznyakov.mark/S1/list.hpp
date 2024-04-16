@@ -15,7 +15,7 @@ namespace zheleznyakov
     List();
     ~List();
     List(const List<T> &other);
-    List(const size_t count, const T & value);
+    List(const size_t count, const T &value);
     List(List &&other) noexcept;
     void pushFront(T value);
     void pushBack(T value);
@@ -25,7 +25,8 @@ namespace zheleznyakov
     void clear();
     void swap(size_t index1, size_t index2);
     bool isEmpty();
-    void assign(const size_t count, const T & value);
+    void assign(const size_t count, const T &value);
+    void remove(size_t i);
     T &operator[](const size_t index);
 
   private:
@@ -58,7 +59,7 @@ zheleznyakov::List<T>::List(const List<T> &other) : size(other.size), head(nullp
 }
 
 template <typename T>
-zheleznyakov::List<T>::List(const size_t count, const T & value) : size(0), head(nullptr), tail(nullptr)
+zheleznyakov::List<T>::List(const size_t count, const T &value) : size(0), head(nullptr), tail(nullptr)
 {
   for (size_t i = 0; i < count; i++)
   {
@@ -191,12 +192,40 @@ void zheleznyakov::List<T>::swap(size_t index1, size_t index2)
 }
 
 template <typename T>
-void zheleznyakov::List<T>::assign(const size_t count, const T & value)
+void zheleznyakov::List<T>::assign(const size_t count, const T &value)
 {
   clear();
   for (size_t i = 0; i < count; i++)
   {
     pushBack(value);
+  }
+}
+
+template <typename T>
+void zheleznyakov::List<T>::remove(size_t i)
+{
+  ListItem<T> *current = head;
+  for (size_t j = 0; j < i; j++)
+  {
+    current = current->next;
+  }
+
+  if (current->prev)
+  {
+    current->prev->next = current->next;
+  }
+  else
+  {
+    head = current->next;
+  }
+
+  if (current->next)
+  {
+    current->next->prev = current->prev;
+  }
+  else
+  {
+    tail = current->prev;
   }
 }
 #endif
