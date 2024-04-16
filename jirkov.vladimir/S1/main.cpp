@@ -12,7 +12,7 @@ int main() {
         std::string input;
         std::getline(std::cin, input);
 
-        std::vector<size_t> sequence;
+        List< List < size_t > > sequences;
         std::istringstream iss(input);
         size_t num;
         while (iss >> num) {
