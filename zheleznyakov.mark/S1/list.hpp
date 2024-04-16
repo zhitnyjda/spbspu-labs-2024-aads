@@ -25,6 +25,7 @@ namespace zheleznyakov
     void clear();
     void swap(size_t index1, size_t index2);
     bool isEmpty();
+    void assign(const size_t count, const T & value);
     T &operator[](const size_t index);
 
   private:
@@ -187,5 +188,15 @@ void zheleznyakov::List<T>::swap(size_t index1, size_t index2)
   T tempValue = currentItem1->value;
   currentItem1->value = currentItem2->value;
   currentItem2->value = tempValue;
+}
+
+template <typename T>
+void zheleznyakov::List<T>::assign(const size_t count, const T & value)
+{
+  clear();
+  for (size_t i = 0; i < count; i++)
+  {
+    pushBack(value);
+  }
 }
 #endif
