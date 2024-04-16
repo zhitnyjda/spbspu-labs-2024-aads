@@ -3,7 +3,7 @@
 
 namespace kovshikov
 {
-  namespace Node
+  namespace details
   {
     template< typename T >
     struct Node
