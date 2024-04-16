@@ -14,6 +14,7 @@ namespace zheleznyakov
   public:
     List();
     ~List();
+    List(const List<T> &other);
     void pushFront(T value);
     void pushBack(T value);
     size_t getSize();
@@ -36,7 +37,24 @@ zheleznyakov::List<T>::List() : size(0), head(nullptr), tail(nullptr)
 {
 }
 
-template<typename T>
+template <typename T>
+zheleznyakov::List<T>::List(const List<T> &other) : size(other.size), head(nullptr), tail(nullptr)
+{
+  if (other.size > 0)
+  {
+    head = new ListItem<T>(other.head->value);
+    tail = head;
+    ListItem<T> *current = other.head;
+    while (current->next != nullptr)
+    {
+      tail->next = new ListItem<T>(current->next->value);
+      tail = tail->next;
+      current = current->next;
+    }
+  }
+}
+
+template <typename T>
 zheleznyakov::List<T>::~List()
 {
   clear();
