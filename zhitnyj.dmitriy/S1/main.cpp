@@ -2,15 +2,12 @@
 #include <string>
 #include "SequenceHandler.h"
 
-int main()
-{
-  try
-  {
+int main() {
+  try {
     SequenceHandler handler;
     std::string line;
 
-    while (std::getline(std::cin, line))
-    {
+    while (std::getline(std::cin, line)) {
       size_t firstSpace = line.find(' ');
 
       std::string name = line.substr(0, firstSpace);
@@ -19,16 +16,13 @@ int main()
       List< unsigned long long > sequence;
       size_t pos = 0;
 
-      if (firstSpace == std::string::npos)
-      {
+      if (firstSpace == std::string::npos) {
         handler.addSequence(name, sequence);
         continue;
       }
-      while (pos < numbers.length())
-      {
+      while (pos < numbers.length()) {
         size_t nextSpace = numbers.find(' ', pos);
-        if (nextSpace == std::string::npos)
-        {
+        if (nextSpace == std::string::npos) {
           nextSpace = numbers.length();
         }
 
@@ -44,13 +38,11 @@ int main()
     handler.printSequences();
     handler.rearrangeAndPrint();
   }
-  catch (const std::overflow_error& err)
-  {
+  catch (const std::overflow_error &err) {
     std::cerr << err.what() << "\n";
     return 1;
   }
-  catch (const std::exception& err)
-  {
+  catch (const std::exception &err) {
     std::cerr << err.what() << "\n";
     return 1;
   }
