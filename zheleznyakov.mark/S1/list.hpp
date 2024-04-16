@@ -15,6 +15,7 @@ namespace zheleznyakov
     List();
     ~List();
     List(const List<T> &other);
+    List(const size_t count, const T & value);
     List(List &&other) noexcept;
     void pushFront(T value);
     void pushBack(T value);
@@ -55,6 +56,14 @@ zheleznyakov::List<T>::List(const List<T> &other) : size(other.size), head(nullp
   }
 }
 
+template <typename T>
+zheleznyakov::List<T>::List(const size_t count, const T & value)
+{
+  for (size_t i = 0; i < count; i++)
+  {
+    pushBack(value);
+  }
+}
 
 template <typename T>
 zheleznyakov::List<T>::List(List &&other) noexcept : size{other.size}, head{other.head}, tail{other.tail}
