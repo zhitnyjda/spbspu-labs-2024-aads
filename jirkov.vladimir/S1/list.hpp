@@ -2,105 +2,189 @@
 #define LIST_HPP
 
 #include <cstddef>
-#include <iterator>
 #include "node.hpp"
-#include "iterator.hpp"
 
-namespace jirkov {
+template<typename T>
+class List
+{
+public:
+    // Объявление классов итераторов
+    class Iterator;
+    class ConstIterator;
 
-  template<typename T>
-  class List {
-  private:
-    Node<T>* head;
-    Node<T>* tail;
-    size_t size_;
+    // Конструкторы, деструктор и другие методы
+    List();
+    ~List();
+    void push_back(const T& value);
+    void pop_back();
+    void clear();
+    size_t size();
+    bool empty();
 
-  public:
-    List() : head(nullptr), tail(nullptr), size_(0) {}
+    // Другие методы...
 
-    ~List() {
-      clear();
-    }
+    // Декларации для константного итератора
+    class ConstIterator
+    {
+    public:
+        ConstIterator();
+        ConstIterator(const Node<T>* node);
+        const T& operator*() const;
+        ConstIterator& operator++();
+        bool operator==(const ConstIterator& other) const;
+        bool operator!=(const ConstIterator& other) const;
 
-    void push_back(const T& value) {
-      Node<T>* newNode = new Node<T>(value);
-      if (head == nullptr) {
+    private:
+        const Node<T>* node;
+    };
+
+    // Декларации для обычного итератора
+    class Iterator
+    {
+    public:
+        Iterator();
+        Iterator(Node<T>* node);
+        T& operator*();
+        Iterator& operator++();
+        bool operator==(const Iterator& other) const;
+        bool operator!=(const Iterator& other) const;
+
+    private:
+        Node<T>* node;
+    };
+};
+
+// Реализация константного итератора
+template<typename T>
+List<T>::ConstIterator::ConstIterator() : node(nullptr) {}
+
+template<typename T>
+List<T>::ConstIterator::ConstIterator(const Node<T>* node) : node(node) {}
+
+template<typename T>
+const T& List<T>::ConstIterator::operator*() const
+{
+    return node->value;
+}
+
+template<typename T>
+typename List<T>::ConstIterator& List<T>::ConstIterator::operator++()
+{
+    node = node->next;
+    return *this;
+}
+
+template<typename T>
+bool List<T>::ConstIterator::operator==(const ConstIterator& other) const
+{
+    return node == other.node;
+}
+
+template<typename T>
+bool List<T>::ConstIterator::operator!=(const ConstIterator& other) const
+{
+    return !(*this == other);
+}
+
+// Реализация обычного итератора
+template<typename T>
+List<T>::Iterator::Iterator() : node(nullptr) {}
+
+template<typename T>
+List<T>::Iterator::Iterator(Node<T>* node) : node(node) {}
+
+template<typename T>
+T& List<T>::Iterator::operator*()
+{
+    return node->value;
+}
+
+template<typename T>
+typename List<T>::Iterator& List<T>::Iterator::operator++()
+{
+    node = node->next;
+    return *this;
+}
+
+template<typename T>
+bool List<T>::Iterator::operator==(const Iterator& other) const
+{
+    return node == other.node;
+}
+
+template<typename T>
+bool List<T>::Iterator::operator!=(const Iterator& other) const
+{
+    return !(*this == other);
+}
+template<typename T>
+List<T>::List() : head(nullptr), tail(nullptr) {}
+
+template<typename T>
+List<T>::~List()
+{
+    clear();
+}
+
+template<typename T>
+void List<T>::push_back(const T& value)
+{
+    Node<T>* newNode = new Node<T>(value);
+    if (head == nullptr) {
         head = newNode;
         tail = newNode;
-      }
-      else {
+    } else {
         tail->next = newNode;
+        newNode->prev = tail;
         tail = newNode;
-      }
-      size_++;
     }
+}
 
-    void pop_back() {
-      if (head == nullptr) {
-        return;
-      }
-      if (head == tail) {
-        delete head;
-        head = nullptr;
-        tail = nullptr;
-      }
-      else {
-        Node<T>* secondLastNode = head;
-        while (secondLastNode->next != tail) {
-          secondLastNode = secondLastNode->next;
+template<typename T>
+void List<T>::pop_back()
+{
+    if (tail != nullptr) {
+        if (tail == head) {
+            delete tail;
+            head = nullptr;
+            tail = nullptr;
+        } else {
+            Node<T>* prevNode = tail->prev;
+            delete tail;
+            tail = prevNode;
+            tail->next = nullptr;
         }
-        delete tail;
-        tail = secondLastNode;
-        tail->next = nullptr;
-      }
-      size_--;
     }
+}
 
-    void clear() {
-      Node<T>* currentNode = head;
-      while (currentNode != nullptr) {
-        Node<T>* nextNode = currentNode->next;
-        delete currentNode;
-        currentNode = nextNode;
-      }
-      head = nullptr;
-      tail = nullptr;
-      size_ = 0;
+template<typename T>
+void List<T>::clear()
+{
+    Node<T>* current = head;
+    while (current != nullptr) {
+        Node<T>* next = current->next;
+        delete current;
+        current = next;
     }
+    head = nullptr;
+    tail = nullptr;
+template<typename T>
+bool List<T>::empty() const
+{
+    return head == nullptr;
+}
 
-    bool empty() const {
-      return size_ == 0;
+template<typename T>
+std::size_t List<T>::size() const
+{
+    std::size_t count = 0;
+    Node<T>* current = head;
+    while (current != nullptr) {
+        ++count;
+        current = current->next;
     }
-
-    size_t size() const {
-      return size_;
-    }
-
-    using iterator = ListIterator<T>;
-    using const_iterator = ListIterator<const T>;
-
-    iterator begin() {
-      return iterator(head);
-    }
-
-    iterator end() {
-      return iterator(nullptr);
-    }
-
-    const_iterator begin() const {
-      return const_iterator(head);
-    }
-
-    const_iterator end() const {
-      return const_iterator(nullptr);
-    }
-
-    void swap(List& other) {
-      std::swap(head, other.head);
-      std::swap(tail, other.tail);
-      std::swap(size_, other.size_);
-    }
-  };
+    return count;
 }
 
 #endif
+
