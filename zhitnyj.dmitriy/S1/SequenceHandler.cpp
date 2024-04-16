@@ -28,7 +28,6 @@ void SequenceHandler::rearrangeAndPrint() {
   for (size_t i = 0; i < maxLen; ++i) {
     for (const auto &seq: sequences) {
       auto it = seq.begin();
-      size_t count = 0;
 
       for (size_t j = 0; j < i && it != seq.end(); ++j) {
         ++it;
