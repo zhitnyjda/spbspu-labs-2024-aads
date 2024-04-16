@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cstddef>
 #include <stdexcept>
+#include <memory>
 #include "list-item.hpp"
 #include "list-iterator.hpp"
 
@@ -27,6 +28,8 @@ namespace zheleznyakov
     bool isEmpty();
     void assign(const size_t count, const T &value);
     void remove(size_t i);
+    template <typename UnaryPredicate>
+    void removeIf(UnaryPredicate predicate);
     T &operator[](const size_t index);
 
   private:
@@ -226,6 +229,41 @@ void zheleznyakov::List<T>::remove(size_t i)
   else
   {
     tail = current->prev;
+  }
+}
+
+template <typename T>
+template <typename UnaryPredicate>
+void zheleznyakov::List<T>::removeIf(UnaryPredicate predicate)
+{
+  ListItem<T> *current = head;
+  while (current != nullptr)
+  {
+    ListItem<T> *next = current->next;
+    if (predicate(current->value))
+    {
+      if (current->prev)
+      {
+        current->prev->next = current->next;
+      }
+      else
+      {
+        head = current->next;
+      }
+
+      if (current->next)
+      {
+        current->next->prev = current->prev;
+      }
+      else
+      {
+        tail = current->prev;
+      }
+
+      delete current;
+      size--;
+    }
+    current = next;
   }
 }
 #endif
