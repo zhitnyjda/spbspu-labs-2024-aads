@@ -1,5 +1,4 @@
 #include <iostream>
-#include <sstream>
 #include <utility>
 #include <limits>
 #include <string>
@@ -14,30 +13,17 @@ int main()
   SI_pair* pairs = new SI_pair[pairsSize];
   size_t unusedIndex = 0;
 
-  while (1)
+  while (!std::cin.eof())
   {
-    std::string line;
-    std::getline(std::cin, line);
-
-    if (std::cin.eof())
-    {
-      break;
-    }
-    std::istringstream stream(line);
-
     if (unusedIndex >= pairsSize)
     {
-      const size_t additionalSize = 5;
-      SI_pair* copy = new SI_pair[pairsSize + additionalSize];
-      for (size_t i = 0; i < pairsSize; i++)
-      {
-        copy[i] = pairs[i];
-      }
-      pairsSize += additionalSize;
-      delete [] pairs;
-      pairs = copy;
+      std::pair< SI_pair*, size_t > expanded = expandArr(pairs, pairsSize);
+      SI_pair* temp = pairs;
+      pairs = expanded.first;
+      delete[] temp;
+      pairsSize = expanded.second;
     }
-    SI_pair pair = getSIPair(stream);
+    SI_pair pair = getSIPair(std::cin);
     if (pair.first != "")
     {
       pairs[unusedIndex++] = pair;

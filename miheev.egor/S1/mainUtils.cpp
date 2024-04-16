@@ -3,36 +3,55 @@
 
 namespace miheev
 {
-  size_t readInt(std::istream& stream)
+  std::pair<SI_pair*, size_t> expandArr(SI_pair* pairs, size_t size)
   {
-    size_t number = 0;
-    if (!(stream >> number))
-    {
-      throw std::logic_error("Cant process number on input\n");
-    }
-    return number;
+      const size_t additionalSize = 5;
+      SI_pair* copy = new SI_pair[size + additionalSize];
+      for (size_t i = 0; i < size; i++)
+      {
+        copy[i] = pairs[i];
+      }
+      size += additionalSize;
+      std::pair< SI_pair*, size_t > result(pairs, size);
+      return result;
+  }
+
+  size_t takeNum(std::string& line)
+  {
+    size_t spaceIndex = line.find(' ');
+    std::string number = line.substr(0, spaceIndex);
+    line = spaceIndex == std::string::npos ? "" : line.substr(spaceIndex + 1);
+    return std::stoull(number);
   }
 
   List< size_t > readNumbers(std::istream& stream)
   {
-    if ((stream >> std::ws).eof())
-    {
-      List< size_t > list;
-      return list;
-    }
-    List< size_t > list(readInt(stream));
+    List< size_t > list;
 
-    while(!(stream >> std::ws).eof())
+    std::string numbers = "";
+    size_t curNum = 0;
+    std::getline(stream, numbers);
+
+    while (numbers.length() > 0)
     {
-      list.pushBack(readInt(stream));
+      try
+      {
+        curNum = takeNum(numbers);
+      }
+      catch(const std::invalid_argument& err)
+      {
+        return list;
+      }
+      list.pushBack(curNum);
     }
+
     return list;
   }
 
   SI_pair getSIPair(std::istream& stream)
   {
     SI_pair pair;
-    stream >> pair.first; // reading word
+    stream >> pair.first >> std::ws;
     pair.second = readNumbers(stream);
     return pair;
   }

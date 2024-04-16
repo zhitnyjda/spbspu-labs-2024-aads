@@ -10,7 +10,7 @@ namespace miheev
 {
   template <class T>
   void pPrint(T* arr, size_t size);
-  void expandPairsArr(SI_pair*& pairs, size_t& size);
+  std::pair<SI_pair*, size_t> expandArr(SI_pair* pairs, size_t size);
   List< size_t > readNumbers(std::istream& stream);
   SI_pair getSIPair(std::istream& stream);
   ListIter* getIters(SI_pair* pairs, size_t size);
