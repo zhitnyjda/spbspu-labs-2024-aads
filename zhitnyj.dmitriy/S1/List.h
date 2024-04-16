@@ -122,12 +122,12 @@ public:
 };
 
 template< typename T >
-List< T >::Iterator List< T >::begin() {
+typename List< T >::Iterator List< T >::begin() {
   return Iterator(head);
 }
 
 template< typename T >
-List< T >::Iterator List< T >::end() {
+typename List< T >::Iterator List< T >::end() {
   return Iterator(nullptr);
 }
 
@@ -181,12 +181,12 @@ public:
 };
 
 template< typename T >
-List< T >::ConstIterator List< T >::end() const {
+typename List< T >::ConstIterator List< T >::end() const {
   return ConstIterator(nullptr);
 }
 
 template< typename T >
-List< T >::ConstIterator List< T >::begin() const {
+typename List< T >::ConstIterator List< T >::begin() const {
   return ConstIterator(head);
 }
 
