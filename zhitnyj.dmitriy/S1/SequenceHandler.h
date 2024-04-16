@@ -1,11 +1,8 @@
 #ifndef SEQUENCEHANDLER_H
 #define SEQUENCEHANDLER_H
 
-#include "List.h"
 #include <string>
-#include <iostream>
-#include <sstream>
-#include <stdexcept>
+#include "List.h"
 
 class SequenceHandler
 {
