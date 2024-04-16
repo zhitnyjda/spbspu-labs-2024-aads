@@ -44,41 +44,17 @@ namespace miheev
 
     Iterator begin();
     Iterator end();
-    ConstIterator cBegin();
-    ConstIterator cEnd();
+    ConstIterator cBegin() const;
+    ConstIterator cEnd() const;
 
   };
-}
-
-template< typename T >
-typename miheev::List< T >::ConstIterator miheev::List< T >::cBegin()
-{
-  return this;
-}
-
-template< typename T >
-typename miheev::List< T >::ConstIterator miheev::List< T >::cEnd()
-{
-  return nullptr;
-}
-
-template< typename T >
-typename miheev::List< T >::Iterator miheev::List< T >::begin()
-{
-  return this;
-}
-
-template< typename T >
-typename miheev::List< T >::Iterator miheev::List< T >::end()
-{
-  return nullptr;
 }
 
 template< typename T >
 struct miheev::List< T >::ConstIterator
 {
 private:
-  List< T >* cur_;
+  const List< T >* cur_;
 public:
   friend class List< T >;
   ConstIterator(const List< T >*);
@@ -95,6 +71,55 @@ public:
   bool operator!=(const ConstIterator& rhs) const;
   bool operator==(const ConstIterator& rhs) const;
 };
+
+template< typename T >
+struct miheev::List< T >::Iterator
+{
+  List<T>* cur;
+
+  using this_t = List< T >::Iterator;
+
+  Iterator();
+  Iterator(List< T >* head);
+  Iterator(const this_t&) = default;
+  this_t& operator=(const this_t&) = default;
+  List<T>& operator+(size_t n);
+  T& operator*();
+  T* operator->();
+  explicit operator bool() const;
+  this_t& operator++();
+  this_t operator++(int);
+  bool operator!=(const this_t & rhs) const;
+  bool operator==(const this_t & rhs) const;
+
+  void eraseAfter();
+  bool empty() const;
+  this_t next();
+};
+
+template< typename T >
+typename miheev::List< T >::ConstIterator miheev::List< T >::cBegin() const
+{
+  return this;
+}
+
+template< typename T >
+typename miheev::List< T >::ConstIterator miheev::List< T >::cEnd() const
+{
+  return nullptr;
+}
+
+template< typename T >
+typename miheev::List< T >::Iterator miheev::List< T >::begin()
+{
+  return this;
+}
+
+template< typename T >
+typename miheev::List< T >::Iterator miheev::List< T >::end()
+{
+  return nullptr;
+}
 
 template< typename T >
 miheev::List< T >::ConstIterator::ConstIterator(const miheev::List< T >* ptr):
@@ -139,31 +164,6 @@ bool miheev::List< T >::ConstIterator::operator==(const miheev::List< T >::Const
 {
   return rhs == *this;
 }
-
-template< typename T >
-struct miheev::List< T >::Iterator
-{
-  List<T>* cur;
-
-  using this_t = List< T >::Iterator;
-
-  Iterator();
-  Iterator(List< T >* head);
-  Iterator(const this_t&) = default;
-  this_t& operator=(const this_t&) = default;
-  List<T>& operator+(size_t n);
-  T& operator*();
-  T* operator->();
-  explicit operator bool() const;
-  this_t& operator++();
-  this_t operator++(int);
-  bool operator!=(const this_t & rhs) const;
-  bool operator==(const this_t & rhs) const;
-
-  void eraseAfter();
-  bool empty() const;
-  this_t next();
-};
 
 template< typename T >
 miheev::List< T >::Iterator::Iterator():
@@ -286,7 +286,6 @@ miheev::List< T >::List(List&& rhs) noexcept:
   next_{nullptr},
   isEmpty_{true}
 {
-
   for (size_t i = 0; i < rhs.size(); i++)
   {
     pushBack(rhs[i]);
