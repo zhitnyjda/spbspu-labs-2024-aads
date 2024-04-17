@@ -2,7 +2,7 @@
 #define NODE_HPP
 #include <cstddef>
 
-template <typename T>
+template < typename T >
 struct Node
 {
   T data;
