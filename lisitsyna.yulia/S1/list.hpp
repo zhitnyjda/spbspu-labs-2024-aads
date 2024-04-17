@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include "node.hpp"
 
-template<typename T>
+template< typename T >
 class List
 {
   private:
