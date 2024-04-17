@@ -1,5 +1,6 @@
 #ifndef LIST_HPP
 #define LIST_HPP
+
 #include <iterator>
 
 namespace ponomarev
@@ -46,7 +47,7 @@ class ponomarev::List< T >::ConstIterator: public std::iterator< std::bidirectio
     using this_t = ConstIterator;
 
     ConstIterator();
-    ConstIterator(ListNode * ptr);
+    explicit ConstIterator(ListNode * ptr);
     ConstIterator(const this_t &) = default;
     ~ConstIterator() = default;
 
@@ -65,6 +66,56 @@ class ponomarev::List< T >::ConstIterator: public std::iterator< std::bidirectio
   private:
     ListNode * node_;
 };
+
+template< typename T >
+ponomarev::List< T >::ConstIterator::ConstIterator():
+  node_(nullptr)
+{}
+
+template< typename T >
+ponomarev::List< T >::ConstIterator::ConstIterator(ListNode * ptr):
+  node_(ptr)
+{}
+
+template< typename T >
+typename ponomarev::List< T >::ConstIterator & ponomarev::List< T >::ConstIterator::operator++()
+{
+  assert(node_ != nullptr);
+  node_ = node_->next;
+  return *this;
+}
+
+template< typename T >
+typename ponomarev::List< T >::ConstIterator & ponomarev::List< T >::ConstIterator::operator--()
+{
+  assert(node_ != nullptr);
+  node_ = node_->prev;
+  return *this;
+}
+
+template< typename T >
+const T & ponomarev::List< T >::ConstIterator::*() const
+{
+  return node_->data;
+}
+
+template< typename T >
+const T * ponomarev::List< T >::ConstIterator::operator->() const
+{
+  return &(node_->data);
+}
+
+template< typename T >
+bool ponomarev::List< T >::ConstIterator::operator==(const this_t & some) const
+{
+  return node_ == some.node_;
+}
+
+template< typename T >
+bool ponomarev::List< T >::ConstIterator::operator==(const this_t & some) const
+{
+  return !(some == *this);
+}
 
 template< typename T >
 ponomarev::List< T >::List():
