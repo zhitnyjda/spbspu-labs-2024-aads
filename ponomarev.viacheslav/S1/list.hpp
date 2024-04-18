@@ -54,7 +54,7 @@ class ponomarev::List< T >::ConstIterator: public std::iterator< std::bidirectio
     this_t & operator=(const this_t &) = default;
     this_t & operator++();
     this_t operator++(int);
-    this_t operator--();
+    this_t & operator--();
     this_t operator--(int);
 
     const T & operator*() const;
@@ -85,6 +85,14 @@ typename ponomarev::List< T >::ConstIterator & ponomarev::List< T >::ConstIterat
   return *this;
 }
 
+template < typename T >
+typename ponomarev::List< T >::ConstIterator ponomarev::List< T >::ConstIterator::operator++(int)
+{
+  ConstIterator t(*this);
+  ++(*this);
+  return t;
+}
+
 template< typename T >
 typename ponomarev::List< T >::ConstIterator & ponomarev::List< T >::ConstIterator::operator--()
 {
@@ -93,8 +101,16 @@ typename ponomarev::List< T >::ConstIterator & ponomarev::List< T >::ConstIterat
   return *this;
 }
 
+template < typename T >
+typename ponomarev::List< T >::ConstIterator ponomarev::List< T >::ConstIterator::operator--(int)
+{
+  ConstIterator t(*this);
+  --(*this);
+  return t;
+}
+
 template< typename T >
-const T & ponomarev::List< T >::ConstIterator::*() const
+const T & ponomarev::List< T >::ConstIterator::operator*() const
 {
   return node_->data;
 }
@@ -112,7 +128,7 @@ bool ponomarev::List< T >::ConstIterator::operator==(const this_t & some) const
 }
 
 template< typename T >
-bool ponomarev::List< T >::ConstIterator::operator==(const this_t & some) const
+bool ponomarev::List< T >::ConstIterator::operator!=(const this_t & some) const
 {
   return !(some == *this);
 }
