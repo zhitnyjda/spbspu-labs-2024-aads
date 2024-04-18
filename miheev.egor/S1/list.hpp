@@ -59,8 +59,6 @@ namespace miheev
 template< typename T >
 struct miheev::List< T >::ConstIterator: public std::iterator<std::forward_iterator_tag, T>
 {
-private:
-  const List< T >* cur_;
 public:
   friend class List< T >;
   ConstIterator(const List< T >*);
@@ -76,6 +74,9 @@ public:
 
   bool operator!=(const ConstIterator& rhs) const;
   bool operator==(const ConstIterator& rhs) const;
+
+private:
+  const List< T >* cur_;
 };
 
 template< typename T >
