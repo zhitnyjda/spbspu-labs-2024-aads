@@ -25,7 +25,6 @@ void taskaev::Stack< T >::push(const T& value)
   greenfield.pushFront(value);
 }
 
-
 template < typename T >
 void taskaev::Stack< T >::pop()
 {
