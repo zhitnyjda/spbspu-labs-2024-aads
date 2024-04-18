@@ -12,10 +12,10 @@ namespace miheev
   {
   private:
     void takeAndDrop(List** rhs);
-  public:
     T data_;
     List< T >* next_;
     bool isEmpty_;
+  public:
     struct ConstIterator;
     struct Iterator;
 
@@ -23,7 +23,7 @@ namespace miheev
     List(T data);
     List(const List& toCopy);
     List(List&& rhs) noexcept;
-    explicit List(size_t count, const T& value);
+    List(size_t count, const T& value);
     ~List();
 
     List& operator=(const List& list);
@@ -76,7 +76,6 @@ public:
 template< typename T >
 struct miheev::List< T >::Iterator
 {
-  List<T>* cur;
 
   using this_t = List< T >::Iterator;
 
@@ -92,6 +91,9 @@ struct miheev::List< T >::Iterator
   this_t operator++(int);
   bool operator!=(const this_t & rhs) const;
   bool operator==(const this_t & rhs) const;
+
+private:
+  List<T>* cur;
 
   void eraseAfter();
   bool empty() const;
