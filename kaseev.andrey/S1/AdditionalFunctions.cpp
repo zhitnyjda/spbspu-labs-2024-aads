@@ -32,9 +32,9 @@ namespace kaseev {
       start_pos = next_space_pos + 1;
     }
 
-    std::pair<std::string, kaseev::List< unsigned long long > > list_pair;
+    std::pair< std::string, kaseev::List< unsigned long long > > list_pair;
     list_pair.first = ListName;
-    list_pair.second = kaseev::List <unsigned long long >(tempList);
+    list_pair.second = kaseev::List < unsigned long long >(tempList);
     arr.pushBack(list_pair);
   }
 
@@ -101,7 +101,7 @@ namespace kaseev {
     }
   }
 
-  kaseev::List<IntListPair> calculateSumList(const kaseev::List< ULL_ListPair > &arr)
+  kaseev::List< IntListPair > calculateSumList(const kaseev::List< ULL_ListPair > &arr)
   {
     bool finished = false;
     int index = 0;
