@@ -40,15 +40,15 @@ namespace kaseev {
     ConstIterator end() const noexcept;
 
     const T &operator[](int index) const;
-    List<T>& operator=(const List<T>& other);
+    List< T >& operator=(const List< T >& other);
 
   private:
     int ArrSize;
-    template <class N>
+    template < class N >
     class Node {
     public:
       N data;
-      Node<N>* next;
+      Node< N >* next;
 
       explicit Node(const N& value) : data(value), next(nullptr) {}
     };
@@ -57,7 +57,7 @@ namespace kaseev {
   };
 
   template< class T >
-  List<T>::~List()
+  List< T >::~List()
   {
     clear();
   }
@@ -70,16 +70,16 @@ namespace kaseev {
   }
 
   template< class T >
-  void List<T>::pushBack(const T &value)
+  void List< T >::pushBack(const T &value)
   {
-    Node<T> *newNode = new Node< T >(value);
+    Node< T > *newNode = new Node< T >(value);
     if (head == nullptr)
     {
       head = newNode;
     }
     else
     {
-      Node<T> *current = head;
+      Node< T > *current = head;
       while (current->next != nullptr)
       {
         current = current->next;
@@ -348,7 +348,7 @@ namespace kaseev {
   {}
 
   template< typename T >
-  typename kaseev::List< T >::Iterator& List<T>::Iterator::operator++()
+  typename kaseev::List< T >::Iterator& List< T >::Iterator::operator++()
   {
     if (Node != nullptr)
     {

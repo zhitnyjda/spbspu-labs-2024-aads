@@ -1,5 +1,5 @@
-#ifndef ACID_ADDITIONALFUNCTIONS_HPP
-#define ACID_ADDITIONALFUNCTIONS_HPP
+#ifndef ADDITIONALFUNCTIONS_HPP
+#define ADDITIONALFUNCTIONS_HPP
 #include "MaineArray.hpp"
 
 namespace kaseev
