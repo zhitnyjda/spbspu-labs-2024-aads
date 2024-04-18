@@ -11,10 +11,13 @@ namespace miheev
   class List
   {
   private:
-    void takeAndDrop(List** rhs);
     T data_;
     List< T >* next_;
     bool isEmpty_;
+
+    T& operator[](size_t i);
+    void takeAndDrop(List** rhs);
+
   public:
     struct ConstIterator;
     struct Iterator;
@@ -25,22 +28,24 @@ namespace miheev
     List(List&& rhs) noexcept;
     List(size_t count, const T& value);
     ~List();
-
     List& operator=(const List& list);
-    T& operator[](size_t i);
 
     bool empty() const;
-    void swap(List< T >& aList);
-    void clear();
-    size_t size() const;
+
     T& front();
+
+    size_t size() const;
+
     void pushFront(T data);
     void popFront();
     void pushBack(T data);
     void eraseAfter(Iterator iter);
-    void remove(T data);
+    void swap(List< T >& aList);
+    void clear();
+
     void print(std::ostream& stream = std::cout, const char& splitter = ' ') const;
 
+    void remove(T data);
     template < class P >
     void removeIf(P functor);
 
@@ -510,7 +515,7 @@ void miheev::List< T >::print(std::ostream& stream, const char& splitter) const
   }
 }
 
-template < typename T >
+template < typename T>
 template < typename P >
 void miheev::List< T >::removeIf(P functor)
 {
