@@ -28,6 +28,7 @@ namespace miheev
 
     size_t size() const;
 
+    void assign (size_t n, const T& val);
     void pushFront(T data);
     void popFront();
     void pushBack(T data);
@@ -538,6 +539,14 @@ void miheev::List< T >::removeIf(P functor)
       iter++;
     }
   }
+}
+
+template < typename T >
+void miheev::List< T >::assign(size_t n, const T& val)
+{
+  clear();
+  List< T >* temp = new List< T >(n, val);
+  takeAndDrop(&temp);
 }
 
 #endif
