@@ -5,18 +5,33 @@
 #include "Stack.hpp"
 #include "Queue.hpp"
 
-sukacheva::stackOfQueue sukacheva::inputStatement(std::istream& in)
+sukacheva::Queue< std::string > sukacheva::inputStatement(std::istream& input)
 {
-  std::string name = "";
-  stackOfQueue result;
-  while (in) {
-    Queue< std::string > temp;
-    result.push(temp);
-    while (in >> name && (isNumber(name) || isBinaryOperations(name))) {
-      result.top().push(name);
+  input >> std::noskipws;
+  std::string line = "";
+  std::string num = "";
+  Queue< std::string > statement;
+  std::getline(input, line);
+  for (size_t i = 0; i < line.length(); i++)
+  {
+    if (line[i] == ' ')
+    {
+      if (!num.empty())
+      {
+        statement.push(num);
+      }
+      num = {};
+    }
+    else
+    {
+      num += line[i];
     }
   }
-  return result;
+  if (!num.empty())
+  {
+    statement.push(num);
+  }
+  return statement;
 }
 
 bool sukacheva::isNumber(std::string example)

@@ -5,8 +5,7 @@
 #include "Queue.hpp"
 
 namespace sukacheva {
-  using stackOfQueue = Stack<  Queue< std::string > >;
-  stackOfQueue inputStatement(std::istream& in);
+  Queue< std::string > inputStatement(std::istream& input);
   Queue< std::string > makePostfix(Queue< std::string >& infix);
   bool isBinaryOperations(std::string example);
   bool isNumber(std::string example);

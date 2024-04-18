@@ -11,20 +11,34 @@ int main(int argc, char** argv)
   if (argc == 1)
   {
     try {
-      stackOfQueue res;
-      stackOfQueue test = inputStatement(std::cin);
+
+      /*queueOfQueue test = inputQueueOfStatements(std::cin);
       while (!test.empty()) {
-        res.push(makePostfix(test.top()));
-        test.pop();
-      }
-      while (!res.empty()) {
-        while (!res.top().empty()) {
-          std::cout << res.top().front() << " ";
-          res.top().pop();
+        if (test.front().empty()) {
+          std::cout << "HELP ME SOMEBODY\n";
         }
-        std::cout << "dfdfsa" << "\n";
-        res.pop();
+        while (!test.front().empty()) {
+          std::cout << test.front().front() << " ";
+          test.front().pop();
+        }
+        test.pop();
+      }*/
+
+      while (std::cin)
+      {
+        Queue< std::string > inf = inputStatement(std::cin);
+        Queue< std::string > test = makePostfix(inf);
+        while (!test.empty()) {
+          std::cout << test.front() << " ";
+          test.pop();
+        }
       }
+
+      /*Queue< std::string > test = inputStatement(std::cin);
+      while (!test.empty()) {
+        std::cout << test.front() << " ";
+        test.pop();
+      }*/
     }
     catch (const std::exception& e) {
       std::cerr << e.what() << "\n";
