@@ -48,7 +48,7 @@ int main()
   }
   std::cout << '\n';
 
-  ListIter* iters = getIters(pairs, unusedIndex);
+  ListIter* iters = getNonEmptyIters(pairs, unusedIndex);
   List< size_t >* lists = getLists(pairs, unusedIndex);
   size_t maxSize = maxListSize(lists, unusedIndex);
   delete[] lists;
@@ -73,7 +73,7 @@ int main()
     for (size_t i = 0; i < unusedIndex; i++)
     {
       ListIter iter = iters[i];
-      if (iter != nullptr and !iter.empty())
+      if (iter != nullptr)
       {
         if (!isOverflow and std::numeric_limits<size_t>::max() - *iter >= sumArr[index])
         {

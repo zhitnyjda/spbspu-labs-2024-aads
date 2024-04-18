@@ -55,12 +55,15 @@ namespace miheev
     return pair;
   }
 
-  ListIter* getIters(SI_pair* pairs, size_t size)
+  ListIter* getNonEmptyIters(SI_pair* pairs, size_t size)
   {
     ListIter* iters = new ListIter[size];
     for (size_t i = 0; i < size; i++)
     {
-      iters[i] = ListIter(pairs[i].second.begin());
+      if (!pairs[i].second.empty())
+      {
+        iters[i] = ListIter(pairs[i].second.begin());
+      }
     }
     return iters;
   }
