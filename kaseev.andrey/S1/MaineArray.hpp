@@ -325,7 +325,7 @@ namespace kaseev {
   template< typename T >
   class kaseev::List<T>::Iterator {
   public:
-    List<T>* Node;
+    List< T >* Node;
     using this_t = Iterator;
 
     Iterator();
@@ -377,7 +377,7 @@ namespace kaseev {
   template< typename T >
   T* kaseev::List<T>::Iterator::operator->()
   {
-    return &(Node->data);
+    return std::addressof(Node->data);
   }
 
   template< typename T >
