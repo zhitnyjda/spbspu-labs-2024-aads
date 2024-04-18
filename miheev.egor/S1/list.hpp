@@ -10,14 +10,6 @@ namespace miheev
   template< typename T >
   class List
   {
-  private:
-    T data_;
-    List< T >* next_;
-    bool isEmpty_;
-
-    T& operator[](size_t i);
-    void takeAndDrop(List** rhs);
-
   public:
     struct ConstIterator;
     struct Iterator;
@@ -40,7 +32,7 @@ namespace miheev
     void popFront();
     void pushBack(T data);
     void eraseAfter(Iterator iter);
-    void swap(List< T >& aList);
+    void swap(List& aList);
     void clear();
 
     void print(std::ostream& stream = std::cout, const char& splitter = ' ') const;
@@ -53,11 +45,19 @@ namespace miheev
     Iterator end();
     ConstIterator cBegin() const;
     ConstIterator cEnd() const;
+
+  private:
+    T data_;
+    List* next_;
+    bool isEmpty_;
+
+    T& operator[](size_t i);
+    void takeAndDrop(List** rhs);
   };
 }
 
 template< typename T >
-struct miheev::List< T >::ConstIterator : public std::iterator<std::forward_iterator_tag, T>
+struct miheev::List< T >::ConstIterator: public std::iterator<std::forward_iterator_tag, T>
 {
 private:
   const List< T >* cur_;
@@ -79,7 +79,7 @@ public:
 };
 
 template< typename T >
-struct miheev::List< T >::Iterator : public std::iterator<std::forward_iterator_tag, T>
+struct miheev::List< T >::Iterator: public std::iterator<std::forward_iterator_tag, T>
 {
 
   using this_t = List< T >::Iterator;

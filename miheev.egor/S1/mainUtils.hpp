@@ -11,10 +11,8 @@ namespace miheev
   template <class T>
   void pPrint(T* arr, size_t size);
   std::pair<SI_pair*, size_t> expandArr(SI_pair* pairs, size_t size);
-  List< size_t > readNumbers(std::istream& stream);
   SI_pair getSIPair(std::istream& stream);
   ListIter* getNonEmptyIters(SI_pair* pairs, size_t size);
-  List< size_t >* getLists(SI_pair* pairs, size_t size);
   size_t maxListSize(List< size_t >* lists, size_t size);
   size_t calcMaxListSize(SI_pair* pairs, size_t unusedIndex);
   bool calcSumsArr(SI_pair* pairs, size_t unusedIndex, size_t* accumulator);

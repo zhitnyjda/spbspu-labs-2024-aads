@@ -1,159 +1,157 @@
 #include "mainUtils.hpp"
 #include <limits>
 
-namespace miheev
+std::pair<SI_pair*, size_t> miheev::expandArr(SI_pair* pairs, size_t size)
 {
-  std::pair<SI_pair*, size_t> expandArr(SI_pair* pairs, size_t size)
-  {
-      const size_t additionalSize = 5;
-      SI_pair* copy = new SI_pair[size + additionalSize];
-      for (size_t i = 0; i < size; i++)
-      {
-        copy[i] = pairs[i];
-      }
-      size += additionalSize;
-      std::pair< SI_pair*, size_t > result(pairs, size);
-      return result;
-  }
-
-  std::string takeWord(std::string& line)
-  {
-    size_t spaceIndex = line.find(' ');
-    std::string word = line.substr(0, spaceIndex);
-    line = spaceIndex == std::string::npos ? "" : line.substr(spaceIndex + 1);
-    return word;
-  }
-
-  List< size_t > readNumbers(std::string numbers)
-  {
-    List< size_t > list;
-    size_t curNum = 0;
-
-    while (numbers.length() > 0)
-    {
-      try
-      {
-        curNum = std::stoull(takeWord(numbers));
-      }
-      catch(const std::invalid_argument& err)
-      {
-        return list;
-      }
-      list.pushBack(curNum);
-    }
-
-    return list;
-  }
-
-  SI_pair getSIPair(std::istream& stream)
-  {
-    SI_pair pair;
-    std::string line = "";
-    std::getline(stream, line);
-    pair.first = takeWord(line);
-
-    pair.second = readNumbers(line);
-    return pair;
-  }
-
-  ListIter* getNonEmptyIters(SI_pair* pairs, size_t size)
-  {
-    ListIter* iters = new ListIter[size];
+    const size_t additionalSize = 5;
+    SI_pair* copy = new SI_pair[size + additionalSize];
     for (size_t i = 0; i < size; i++)
     {
-      if (!pairs[i].second.empty())
-      {
-        iters[i] = ListIter(pairs[i].second.begin());
-      }
+      copy[i] = pairs[i];
     }
-    return iters;
-  }
+    size += additionalSize;
+    std::pair< SI_pair*, size_t > result(pairs, size);
+    return result;
+}
 
-  List< size_t >* getLists(SI_pair* pairs, size_t size)
+std::string takeWord(std::string& line)
+{
+  size_t spaceIndex = line.find(' ');
+  std::string word = line.substr(0, spaceIndex);
+  line = spaceIndex == std::string::npos ? "" : line.substr(spaceIndex + 1);
+  return word;
+}
+
+miheev::List< size_t > readNumbers(std::string numbers)
+{
+  miheev::List< size_t > list;
+  size_t curNum = 0;
+
+  while (numbers.length() > 0)
   {
-    List< size_t >* lists = new List< size_t > [size];
-    for (size_t i = 0; i < size; i++)
+    try
     {
-      lists[i] = pairs[i].second;
+      curNum = std::stoull(takeWord(numbers));
     }
-    return lists;
-  }
-
-  size_t maxListSize(List< size_t >* lists, size_t size)
-  {
-    size_t max = lists[0].size();
-    for (size_t i = 0; i < size; i++)
+    catch(const std::invalid_argument& err)
     {
-      List< size_t > list = lists[i];
-      size_t size = list.size();
-      if (size > max)
-      {
-        max = size;
-      }
+      return list;
     }
-    return max;
+    list.pushBack(curNum);
   }
 
-  size_t calcMaxListSize(SI_pair* pairs, size_t unusedIndex)
-  {
-    List< size_t >* lists = getLists(pairs, unusedIndex);
-    size_t maxSize = maxListSize(lists, unusedIndex);
-    delete[] lists;
-    return maxSize;
-  }
+  return list;
+}
 
-  bool calcSumsArr(SI_pair* pairs, size_t unusedIndex, size_t* accumulator)
-  {
-    size_t index = 0;
-    bool isOverflow = false;
-    ListIter* iters = getNonEmptyIters(pairs, unusedIndex);
+SI_pair miheev::getSIPair(std::istream& stream)
+{
+  SI_pair pair;
+  std::string line = "";
+  std::getline(stream, line);
+  pair.first = takeWord(line);
 
-    bool flag = false;
-    do
+  pair.second = readNumbers(line);
+  return pair;
+}
+
+ListIter* miheev::getNonEmptyIters(SI_pair* pairs, size_t size)
+{
+  ListIter* iters = new ListIter[size];
+  for (size_t i = 0; i < size; i++)
+  {
+    if (!pairs[i].second.empty())
     {
-      flag = false;
-      bool isFirstToPrint = true;
-      for (size_t i = 0; i < unusedIndex; i++)
+      iters[i] = ListIter(pairs[i].second.begin());
+    }
+  }
+  return iters;
+}
+
+miheev::List< size_t >* getLists(SI_pair* pairs, size_t size)
+{
+  miheev::List< size_t >* lists = new miheev::List< size_t > [size];
+  for (size_t i = 0; i < size; i++)
+  {
+    lists[i] = pairs[i].second;
+  }
+  return lists;
+}
+
+size_t miheev::maxListSize(List< size_t >* lists, size_t size)
+{
+  size_t max = lists[0].size();
+  for (size_t i = 0; i < size; i++)
+  {
+    List< size_t > list = lists[i];
+    size_t size = list.size();
+    if (size > max)
+    {
+      max = size;
+    }
+  }
+  return max;
+}
+
+size_t miheev::calcMaxListSize(SI_pair* pairs, size_t unusedIndex)
+{
+  List< size_t >* lists = getLists(pairs, unusedIndex);
+  size_t maxSize = maxListSize(lists, unusedIndex);
+  delete[] lists;
+  return maxSize;
+}
+
+bool miheev::calcSumsArr(SI_pair* pairs, size_t unusedIndex, size_t* accumulator)
+{
+  size_t index = 0;
+  bool isOverflow = false;
+  ListIter* iters = getNonEmptyIters(pairs, unusedIndex);
+
+  bool flag = false;
+  do
+  {
+    flag = false;
+    bool isFirstToPrint = true;
+    for (size_t i = 0; i < unusedIndex; i++)
+    {
+      ListIter iter = iters[i];
+      if (iter != nullptr)
       {
-        ListIter iter = iters[i];
-        if (iter != nullptr)
+        if (!isOverflow and std::numeric_limits<size_t>::max() - *iter >= accumulator[index])
         {
-          if (!isOverflow and std::numeric_limits<size_t>::max() - *iter >= accumulator[index])
-          {
-            accumulator[index] += *iter;
-          }
-          else
-          {
-            isOverflow = true;
-          }
-          if (iter)
-          {
-            flag = true;
-          }
-          if (!isFirstToPrint)
-          {
-            std::cout << ' ';
-          }
-          std::cout << *iter;
-          isFirstToPrint = false;
-          iters[i] = ++iter;
+          accumulator[index] += *iter;
         }
+        else
+        {
+          isOverflow = true;
+        }
+        if (iter)
+        {
+          flag = true;
+        }
+        if (!isFirstToPrint)
+        {
+          std::cout << ' ';
+        }
+        std::cout << *iter;
+        isFirstToPrint = false;
+        iters[i] = ++iter;
       }
-      index++;
-      std::cout << '\n';
-    } while (flag);
-    delete[] iters;
-    return isOverflow;
-  }
-  void printSums(size_t* sums, size_t size, bool isOverflow)
+    }
+    index++;
+    std::cout << '\n';
+  } while (flag);
+  delete[] iters;
+  return isOverflow;
+}
+
+void miheev::printSums(size_t* sums, size_t size, bool isOverflow)
+{
+  if (!isOverflow)
   {
-    if (!isOverflow)
-    {
-      pPrint(sums, size);
-    }
-    if (isOverflow)
-    {
-      throw std::runtime_error("sum is bigger than size_t can contain\n");
-    }
+    pPrint(sums, size);
+  }
+  if (isOverflow)
+  {
+    throw std::runtime_error("sum is bigger than size_t can contain\n");
   }
 }
