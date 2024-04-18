@@ -16,6 +16,9 @@ namespace miheev
   ListIter* getNonEmptyIters(SI_pair* pairs, size_t size);
   List< size_t >* getLists(SI_pair* pairs, size_t size);
   size_t maxListSize(List< size_t >* lists, size_t size);
+  size_t calcMaxListSize(SI_pair* pairs, size_t unusedIndex);
+  bool calcSumsArr(SI_pair* pairs, size_t unusedIndex, size_t* accumulator);
+  void printSums(size_t* sums, size_t size, bool isOverflow);
 }
 
 template <class T>

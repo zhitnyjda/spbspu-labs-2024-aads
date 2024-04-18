@@ -1,4 +1,5 @@
 #include "mainUtils.hpp"
+#include <limits>
 
 namespace miheev
 {
@@ -93,6 +94,66 @@ namespace miheev
     return max;
   }
 
+  size_t calcMaxListSize(SI_pair* pairs, size_t unusedIndex)
+  {
+    List< size_t >* lists = getLists(pairs, unusedIndex);
+    size_t maxSize = maxListSize(lists, unusedIndex);
+    delete[] lists;
+    return maxSize;
+  }
 
+  bool calcSumsArr(SI_pair* pairs, size_t unusedIndex, size_t* accumulator)
+  {
+    size_t index = 0;
+    bool isOverflow = false;
+    ListIter* iters = getNonEmptyIters(pairs, unusedIndex);
 
+    bool flag = false;
+    do
+    {
+      flag = false;
+      bool isFirstToPrint = true;
+      for (size_t i = 0; i < unusedIndex; i++)
+      {
+        ListIter iter = iters[i];
+        if (iter != nullptr)
+        {
+          if (!isOverflow and std::numeric_limits<size_t>::max() - *iter >= accumulator[index])
+          {
+            accumulator[index] += *iter;
+          }
+          else
+          {
+            isOverflow = true;
+          }
+          if (iter)
+          {
+            flag = true;
+          }
+          if (!isFirstToPrint)
+          {
+            std::cout << ' ';
+          }
+          std::cout << *iter;
+          isFirstToPrint = false;
+          iters[i] = ++iter;
+        }
+      }
+      index++;
+      std::cout << '\n';
+    } while (flag);
+    delete[] iters;
+    return isOverflow;
+  }
+  void printSums(size_t* sums, size_t size, bool isOverflow)
+  {
+    if (!isOverflow)
+    {
+      pPrint(sums, size);
+    }
+    if (isOverflow)
+    {
+      throw std::runtime_error("sum is bigger than size_t can contain\n");
+    }
+  }
 }

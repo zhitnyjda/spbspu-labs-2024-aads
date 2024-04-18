@@ -52,7 +52,7 @@ namespace miheev
 }
 
 template< typename T >
-struct miheev::List< T >::ConstIterator
+struct miheev::List< T >::ConstIterator : public std::iterator<std::forward_iterator_tag, T>
 {
 private:
   const List< T >* cur_;
@@ -74,7 +74,7 @@ public:
 };
 
 template< typename T >
-struct miheev::List< T >::Iterator
+struct miheev::List< T >::Iterator : public std::iterator<std::forward_iterator_tag, T>
 {
 
   using this_t = List< T >::Iterator;
