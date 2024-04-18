@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
       try
       {
         inputMathValue(queue, mathValue);
-        converToPostfix(queue, postfix, stack);
+        convertToPostfix(queue, postfix, stack);
         // result
       }
       catch(...)
