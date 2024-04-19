@@ -2,10 +2,11 @@
 #include <string>
 #include "Queue.hpp"
 #include "Stack.hpp"
+#include "function.hpp"
 #include "IdentifierMath.hpp"
 using namespace taskaev;
 
-int main(int argc, char* argv[])
+int main(int argc, char * argv[])
 {
   Queue< IdentifierMath > queue;
   Queue< IdentifierMath > postfix;

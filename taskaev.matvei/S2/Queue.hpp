@@ -40,7 +40,7 @@ bool taskaev::Queue< T >::isEmpty() const noexcept
 template < typename T >
 T& taskaev::Queue< T >::front()
 {
-  return conatiner.front();
+  return container.front();
 }
 
 #endif
