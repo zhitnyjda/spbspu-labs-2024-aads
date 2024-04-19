@@ -67,30 +67,30 @@ namespace taskaev
         result.push(postfix.front().data);
       }
       else {
-        long long operandOne = result.top();
-        result.pop();
-        long long operandTwo = result.top();
+        long long operand = result.top();
         result.pop();
         if (postfix.front().data == '+')
         {
-          result.push(operandTwo + operandOne);
+          operandOne += result.top();
         }
         else if (postfix.front().data == '-')
         {
-          result.push(operandTwo - operandOne);
+          operandOne = result.top() - operandOne;
         }
         else if (postfix.front().data == '*')
         {
-          result.push(operandTwo * operandOne);
+          operandOne *= result.top();
         }
         else if (postfix.front().data == '/')
         {
-          result.push(operandTwo / operandOne);
+          operandOne = result.top() / operandOne;
         }
         else
         {
-          result.push(operandTwo % operandOne);
+          operandOne = result.top() % operandOne;
         }
+        result.pop();
+        result.push(operandOne);
       }
       postfix.pop();
     }
