@@ -106,7 +106,7 @@ private:
   void eraseAfter();
   bool empty() const;
   this_t next();
-  
+
   friend class List< T >;
 };
 
