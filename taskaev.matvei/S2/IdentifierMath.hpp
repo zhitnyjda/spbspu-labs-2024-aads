@@ -1,5 +1,5 @@
-#ifndef IDENTIFIERMATH_H
-#define IDENTIFIERMATH_H
+#ifndef IDENTIFIERMATH_HPP
+#define IDENTIFIERMATH_HPP
 #include <stdexcept>
 #include <string>
 

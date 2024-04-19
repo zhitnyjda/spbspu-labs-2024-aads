@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
       {
         inputMathValue(queue, mathValue);
         convertToPostfix(queue, postfix, stack);
-        // result
+        results.push(calculate(postfix));
       }
       catch(...)
       {
@@ -39,5 +39,13 @@ int main(int argc, char* argv[])
     std::cerr << "Error arguments, don't be greedy add more!\n";
     return 1;
   }
+  while (!results.isEmpty()) {
+    std::cout << results.top();
+    results.pop();
+    if (!results.isEmpty()) {
+      std::cout << " ";
+    }
+  }
+  std::cout << "\n";
   return 0;
 }
