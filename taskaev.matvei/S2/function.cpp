@@ -67,7 +67,7 @@ namespace taskaev
         result.push(postfix.front().data);
       }
       else {
-        long long operand = result.top();
+        long long operandOne = result.top();
         result.pop();
         if (postfix.front().data == '+')
         {
