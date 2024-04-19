@@ -15,32 +15,32 @@ namespace taskaev
     bool isEmpty() const noexcept;
     T& front();
   private:
-    List< T > greenfield;
+    List< T > container;
   };
 }
 
 template < typename T >
 void taskaev::Queue< T >::push(const T& value)
 {
-  greenfield.pushBack(value);
+  container.pushBack(value);
 }
 
 template < typename T >
 void taskaev::Queue< T >::pop()
 {
-  greenfield.popFront();
+  container.popFront();
 }
 
 template < typename T >
 bool taskaev::Queue< T >::isEmpty() const noexcept
 {
-  return greenfield.isEmpty();
+  return container.isEmpty();
 }
 
 template < typename T >
 T& taskaev::Queue< T >::front()
 {
-  return storage.front();
+  return conatiner.front();
 }
 
 #endif
