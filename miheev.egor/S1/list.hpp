@@ -328,16 +328,12 @@ miheev::List< T >::List(size_t count, const T& value):
   next_(nullptr),
   isEmpty_(true)
 {
-//  List< T >* temp = new List< T >;
-//  for (size_t i = 0; i < count; i++)
-//  {
-//    temp->pushBack(value);
-//  }
-//  takeAndDrop(&temp);
-  if (count > 0)
+  if (count == 0)
   {
-    data_ = value;
+    return;
   }
+  data_ = value;
+  isEmpty_ = false;
   List< T >* node = this;
   for (size_t i = 1; i < count; i++)
   {
