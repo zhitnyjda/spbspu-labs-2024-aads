@@ -3,11 +3,10 @@
 
 #include "list.hpp"
 
-using SI_pair = std::pair< std::string, miheev::List< size_t > >;
-using ListIter = miheev::List<size_t>::Iterator;
-
 namespace miheev
 {
+  using SI_pair = std::pair< std::string, miheev::List< size_t > >;
+  using ListIter = miheev::List<size_t>::Iterator;
   template <class T>
   void pPrint(T* arr, size_t size);
   std::pair<SI_pair*, size_t> expandArr(SI_pair* pairs, size_t size);

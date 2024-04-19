@@ -1,16 +1,16 @@
 #include "mainUtils.hpp"
 #include <limits>
 
-std::pair<SI_pair*, size_t> miheev::expandArr(SI_pair* pairs, size_t size)
+std::pair<miheev::SI_pair*, size_t> miheev::expandArr(SI_pair* pairs, size_t size)
 {
     const size_t additionalSize = 5;
-    SI_pair* copy = new SI_pair[size + additionalSize];
+    miheev::SI_pair* copy = new SI_pair[size + additionalSize];
     for (size_t i = 0; i < size; i++)
     {
       copy[i] = pairs[i];
     }
     size += additionalSize;
-    std::pair< SI_pair*, size_t > result(copy, size);
+    std::pair< miheev::SI_pair*, size_t > result(copy, size);
     return result;
 }
 
@@ -43,9 +43,9 @@ miheev::List< size_t > readNumbers(std::string numbers)
   return list;
 }
 
-SI_pair miheev::getSIPair(std::istream& stream)
+miheev::SI_pair miheev::getSIPair(std::istream& stream)
 {
-  SI_pair pair;
+  miheev::SI_pair pair;
   std::string line = "";
   std::getline(stream, line);
   pair.first = takeWord(line);
@@ -54,20 +54,20 @@ SI_pair miheev::getSIPair(std::istream& stream)
   return pair;
 }
 
-ListIter* miheev::getNonEmptyIters(SI_pair* pairs, size_t size)
+miheev::ListIter* miheev::getNonEmptyIters(miheev::SI_pair* pairs, size_t size)
 {
-  ListIter* iters = new ListIter[size];
+  miheev::ListIter* iters = new ListIter[size];
   for (size_t i = 0; i < size; i++)
   {
     if (!pairs[i].second.empty())
     {
-      iters[i] = ListIter(pairs[i].second.begin());
+      iters[i] = miheev::ListIter(pairs[i].second.begin());
     }
   }
   return iters;
 }
 
-miheev::List< size_t >* getLists(SI_pair* pairs, size_t size)
+miheev::List< size_t >* getLists(miheev::SI_pair* pairs, size_t size)
 {
   miheev::List< size_t >* lists = new miheev::List< size_t > [size];
   for (size_t i = 0; i < size; i++)
@@ -92,7 +92,7 @@ size_t miheev::maxListSize(List< size_t >* lists, size_t size)
   return max;
 }
 
-size_t miheev::calcMaxListSize(SI_pair* pairs, size_t unusedIndex)
+size_t miheev::calcMaxListSize(miheev::SI_pair* pairs, size_t unusedIndex)
 {
   List< size_t >* lists = getLists(pairs, unusedIndex);
   size_t maxSize = maxListSize(lists, unusedIndex);
@@ -100,11 +100,11 @@ size_t miheev::calcMaxListSize(SI_pair* pairs, size_t unusedIndex)
   return maxSize;
 }
 
-bool miheev::calcSumsArr(SI_pair* pairs, size_t unusedIndex, size_t* accumulator)
+bool miheev::calcSumsArr(miheev::SI_pair* pairs, size_t unusedIndex, size_t* accumulator)
 {
   size_t index = 0;
   bool isOverflow = false;
-  ListIter* iters = getNonEmptyIters(pairs, unusedIndex);
+  miheev::ListIter* iters = getNonEmptyIters(pairs, unusedIndex);
 
   bool flag = false;
   do
@@ -113,7 +113,7 @@ bool miheev::calcSumsArr(SI_pair* pairs, size_t unusedIndex, size_t* accumulator
     bool isFirstToPrint = true;
     for (size_t i = 0; i < unusedIndex; i++)
     {
-      ListIter iter = iters[i];
+      miheev::ListIter iter = iters[i];
       if (iter != nullptr)
       {
         if (!isOverflow && std::numeric_limits<size_t>::max() - *iter >= accumulator[index])
