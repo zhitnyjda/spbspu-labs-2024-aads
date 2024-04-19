@@ -10,7 +10,7 @@ std::pair<SI_pair*, size_t> miheev::expandArr(SI_pair* pairs, size_t size)
       copy[i] = pairs[i];
     }
     size += additionalSize;
-    std::pair< SI_pair*, size_t > result(pairs, size);
+    std::pair< SI_pair*, size_t > result(copy, size);
     return result;
 }
 
@@ -116,7 +116,7 @@ bool miheev::calcSumsArr(SI_pair* pairs, size_t unusedIndex, size_t* accumulator
       ListIter iter = iters[i];
       if (iter != nullptr)
       {
-        if (!isOverflow and std::numeric_limits<size_t>::max() - *iter >= accumulator[index])
+        if (!isOverflow && std::numeric_limits<size_t>::max() - *iter >= accumulator[index])
         {
           accumulator[index] += *iter;
         }

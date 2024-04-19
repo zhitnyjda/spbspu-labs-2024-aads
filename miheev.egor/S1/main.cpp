@@ -8,8 +8,8 @@ int main()
 {
   using namespace miheev;
 
-  size_t pairsSize = 5;
-  SI_pair* pairs = new SI_pair[pairsSize];
+  SI_pair* pairs = nullptr;
+  size_t pairsSize = 0;
   size_t unusedIndex = 0;
 
   while (!std::cin.eof())
@@ -19,7 +19,10 @@ int main()
       std::pair< SI_pair*, size_t > expanded = expandArr(pairs, pairsSize);
       SI_pair* temp = pairs;
       pairs = expanded.first;
-      delete[] temp;
+      if (temp)
+      {
+        delete[] temp;
+      }
       pairsSize = expanded.second;
     }
 
