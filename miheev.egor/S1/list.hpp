@@ -29,9 +29,9 @@ namespace miheev
     size_t size() const;
 
     void assign (size_t n, const T& val);
-    void pushFront(T data);
+    void pushFront(const T& data);
     void popFront();
-    void pushBack(T data);
+    void pushBack(const T& data);
     void eraseAfter(Iterator iter);
     void swap(List& aList);
     void clear();
@@ -517,7 +517,7 @@ void miheev::List< T >::print(std::ostream& stream, const char& splitter) const
   }
 }
 
-template < typename T>
+template < typename T >
 template < typename P >
 void miheev::List< T >::removeIf(P functor)
 {
