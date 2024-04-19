@@ -10,6 +10,7 @@ namespace ponomarev
   {
   public:
     class ConstIterator;
+    class Iterator;
 
     List();
     ~List();
@@ -80,7 +81,6 @@ ponomarev::List< T >::ConstIterator::ConstIterator(ListNode * ptr):
 template< typename T >
 typename ponomarev::List< T >::ConstIterator & ponomarev::List< T >::ConstIterator::operator++()
 {
-  assert(node_ != nullptr);
   node_ = node_->next;
   return *this;
 }
@@ -96,7 +96,6 @@ typename ponomarev::List< T >::ConstIterator ponomarev::List< T >::ConstIterator
 template< typename T >
 typename ponomarev::List< T >::ConstIterator & ponomarev::List< T >::ConstIterator::operator--()
 {
-  assert(node_ != nullptr);
   node_ = node_->prev;
   return *this;
 }
@@ -118,7 +117,7 @@ const T & ponomarev::List< T >::ConstIterator::operator*() const
 template< typename T >
 const T * ponomarev::List< T >::ConstIterator::operator->() const
 {
-  return &(node_->data);
+  return & (node_->data);
 }
 
 template< typename T >
@@ -129,6 +128,115 @@ bool ponomarev::List< T >::ConstIterator::operator==(const this_t & some) const
 
 template< typename T >
 bool ponomarev::List< T >::ConstIterator::operator!=(const this_t & some) const
+{
+  return !(some == *this);
+}
+
+template< typename T >
+class ponomarev::List< T >::Iterator : public std::iterator< std::bidirectional_iterator_tag, T >
+{
+public:
+  friend class List< T >;
+  using this_t = Iterator;
+  Iterator();
+  explicit Iterator(ListNode * ptr);
+  explicit Iterator(ConstIterator constIterator);
+  Iterator(const this_t &) = default;
+  ~Iterator() = default;
+
+  this_t & operator=(const this_t &) = default;
+  this_t & operator++();
+  this_t operator++(int);
+  this_t & operator--();
+  this_t operator--(int);
+
+  T & operator*();
+  T * operator->();
+  const T & operator*() const;
+  const T * operator->() const;
+
+  bool operator==(const this_t &) const;
+  bool operator!=(const this_t &) const;
+
+private:
+  ConstIterator iterator_;
+};
+
+template< typename T >
+ponomarev::List< T >::Iterator::Iterator():
+  iterator_(ConstIterator())
+{}
+
+template< typename T >
+ponomarev::List< T >::Iterator::Iterator(ListNode * ptr) :
+  iterator_(ConstIterator(ptr))
+{}
+
+template< typename T >
+ponomarev::List< T >::Iterator::Iterator(ConstIterator constIterator) :
+  iterator_(constIterator)
+{}
+
+template< typename T >
+typename ponomarev::List< T >::Iterator & ponomarev::List< T >::Iterator::operator++()
+{
+  iterator_++;
+  return iterator_;
+};
+
+template< typename T >
+typename ponomarev::List< T >::Iterator ponomarev::List< T >::Iterator::operator++(int)
+{
+  ++iterator_;
+  return iterator_;
+}
+
+template < typename T >
+typename ponomarev::List< T >::Iterator & ponomarev::List< T >::Iterator::operator--()
+{
+  iterator_--;
+  return iterator_;
+}
+
+template < typename T >
+typename ponomarev::List< T >::Iterator ponomarev::List< T >::Iterator::operator--(int)
+{
+  --iterator_;
+  return iterator_;
+}
+
+template< typename T >
+T & ponomarev::List< T >::Iterator::operator*()
+{
+  return iterator_.node_->data;
+}
+
+template< typename T >
+T * ponomarev::List< T >::Iterator::operator->()
+{
+  return & (iterator_.node_->data);
+}
+
+template< typename T >
+const T & ponomarev::List< T >::Iterator::operator*() const
+{
+  return iterator_.node_->data;
+}
+
+template< typename T >
+const T * ponomarev::List< T >::Iterator::operator->() const
+{
+  return & (iterator_.node_->data);
+}
+
+template< typename T >
+bool ponomarev::List< T >::Iterator::operator==(const this_t & some) const
+{
+  return iterator_ == some.iterator_;
+}
+
+template< typename T >
+bool ponomarev::List< T >::Iterator::operator!=(const this_t & some) const
 {
   return !(some == *this);
 }
