@@ -2,13 +2,14 @@
 #include <string>
 #include "Queue.hpp"
 #include "Stack.hpp"
+#include "IdentifierMath.hpp"
 using namespace taskaev;
 
 int main(int argc, char* argv[])
 {
-  Queue< std::string > queue;
-  Queue< std::string > postfix;
-  Stack< std::string > stack;
+  Queue< IdentifierMath > queue;
+  Queue< IdentifierMath > postfix;
+  Stack< IdentifierMath > stack;
   Stack< long long > results;
   std::string mathValue;
   if(argc == 1)
