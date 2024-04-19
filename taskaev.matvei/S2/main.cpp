@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <iosfwd>
 #include "Queue.hpp"
 #include "Stack.hpp"
 #include "function.hpp"
@@ -33,7 +34,7 @@ int main(int argc, char * argv[])
   }
   else if(argc == 2)
   {
-    std::ifstream input;
+    std::ifstream input(argv[1]);
     // не помню наверно стоит посмотреть как работали в P4
   }
   else
