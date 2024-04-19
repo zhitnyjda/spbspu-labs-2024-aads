@@ -2,6 +2,7 @@
 #define IDENTIFIERMATH_HPP
 #include <stdexcept>
 #include <string>
+#include <cstring>
 
 namespace taskaev
 {
