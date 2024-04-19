@@ -49,27 +49,33 @@ sukacheva::Queue<std::string> sukacheva::makePostfix(Queue< std::string >& infix
   sukacheva::Stack< std::string > temp;
   sukacheva::Queue< std::string > postfix;
   while (!infix.empty()) {
-    if (infix.front() == "(") {
+    if (infix.front() == "(")
+    {
       temp.push(infix.front());
       infix.pop();
     }
-    else if (infix.front() == ")") {
-      while (temp.top() != "(") {
+    else if (infix.front() == ")")
+    {
+      while (temp.top() != "(")
+      {
         postfix.push(temp.top());
         temp.pop();
       }
       infix.pop();
       temp.pop();
     }
-    else if (isNumber(infix.front())) {
+    else if (isNumber(infix.front()))
+    {
       postfix.push(infix.front());
       infix.pop();
     }
-    else if (isBinaryOperations(infix.front())) {
+    else if (isBinaryOperations(infix.front()))
+    {
       temp.push(infix.front());
       infix.pop();
     }
-    else {
+    else
+    {
       throw std::logic_error("invalid argument >:( ");
     }
   }
@@ -81,7 +87,43 @@ sukacheva::Queue<std::string> sukacheva::makePostfix(Queue< std::string >& infix
   return postfix;
 }
 
-size_t sukacheva::calculate(Queue< std::string >& postfix)
+long long sukacheva::calculate(Queue< std::string >& postfix)
 {
-  return size_t();
+  Stack<long long> stack;
+
+  while (!postfix.empty()) {
+    if (isNumber(postfix.front())) {
+      stack.push(std::stoul(postfix.front()));
+    }
+    else {
+      size_t operand2 = stack.top();
+      stack.pop();
+      size_t operand1 = stack.top();
+      stack.pop();
+
+      if (postfix.front() == "+")
+      {
+        stack.push(operand1 + operand2);
+      }
+      else if (postfix.front() == "-")
+      {
+        stack.push(operand1 - operand2);
+      }
+      else if (postfix.front() == "*")
+      {
+        stack.push(operand1 * operand2);
+      }
+      else if (postfix.front() == "/")
+      {
+        stack.push(operand1 / operand2);
+      }
+      else if (postfix.front() == "%")
+      {
+        stack.push(operand1 % operand2);
+      }
+    }
+    postfix.pop();
+  }
+
+  return stack.top();
 }
