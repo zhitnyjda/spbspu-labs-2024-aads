@@ -63,16 +63,16 @@ int main()
     }
   }
 
-  if (mixedList.size_ == 0)
+  if (mixedList.getSize() == 0)
   {
     std::cout << 0 << std::endl;
     return 0;
   }
 
-  for (size_t ind = 0; ind < mixedList.size_; ind++)
+  for (size_t ind = 0; ind < mixedList.getSize(); ind++)
   {
     std::cout << mixedList[ind].first;
-    if (ind != mixedList.size_ - 1)
+    if (ind != mixedList.getSize() - 1)
     {
       std::cout << " ";
     }
@@ -92,9 +92,9 @@ int main()
   {
     flgNewStr = true;
     summa = 0;
-    for (size_t i = 0; i < mixedList.size_; i++)
+    for (size_t i = 0; i < mixedList.getSize(); i++)
     {
-      if (mixedList[i].second.size_ > numericView)
+      if (mixedList[i].second.getSize() > numericView)
       {
         if (flgNewStr)
         {
@@ -123,10 +123,10 @@ int main()
     std::cerr << "Input overflow!";
     return 1;
   }
-  for (size_t i = 0; i < tempIntList.size_; i++)
+  for (size_t i = 0; i < tempIntList.getSize(); i++)
   {
     std::cout << tempIntList[i];
-    if (i != tempIntList.size_ - 1)
+    if (i != tempIntList.getSize() - 1)
     {
       std::cout << " ";
     }
