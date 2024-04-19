@@ -32,6 +32,7 @@ namespace miheev
     void pushFront(const T& data);
     void popFront();
     void pushBack(const T& data);
+    void popBack();
     void eraseAfter(Iterator iter);
     void swap(List& aList);
     void clear();
@@ -105,6 +106,8 @@ private:
   void eraseAfter();
   bool empty() const;
   this_t next();
+  
+  friend class List< T >;
 };
 
 template< typename T >
@@ -409,7 +412,6 @@ void miheev::List< T >::clear()
     delete temp;
   }
   isEmpty_ = true;
-  data_ = 0;
 }
 
 template < typename T >
@@ -450,7 +452,6 @@ void miheev::List< T >::popFront()
 {
   if (!next_)
   {
-    data_ = 0;
     isEmpty_ = true;
   }
   if (isEmpty_)
@@ -553,6 +554,24 @@ void miheev::List< T >::assign(size_t n, const T& val)
   clear();
   List< T >* temp = new List< T >(n, val);
   takeAndDrop(&temp);
+}
+
+template < typename T >
+void miheev::List< T >::popBack()
+{
+  if (!next_)
+  {
+    isEmpty_ = true;
+  }
+  else
+  {
+    Iterator iter(begin());
+    for (size_t i = 0; i < size() - 2; i++)
+    {
+      iter++;
+    }
+    eraseAfter(iter);
+  }
 }
 
 #endif
