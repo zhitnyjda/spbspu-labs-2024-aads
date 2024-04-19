@@ -1,3 +1,4 @@
+#include <fstream>
 #include <iostream>
 #include "Queue.hpp"
 #include "Stack.hpp"
@@ -29,6 +30,7 @@ int main(int argc, char* argv[])
   }
   else if (argc == 2)
   {
+    std::ifstream input(argv[1]);
   }
   else
   {
