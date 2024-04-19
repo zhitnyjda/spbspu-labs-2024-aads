@@ -90,15 +90,15 @@ sukacheva::Queue<std::string> sukacheva::makePostfix(Queue< std::string >& infix
 long long sukacheva::calculate(Queue< std::string >& postfix)
 {
   Stack<long long> stack;
-
   while (!postfix.empty()) {
     if (isNumber(postfix.front())) {
-      stack.push(std::stoul(postfix.front()));
+      stack.push(std::stoull(postfix.front()));
     }
-    else {
-      size_t operand2 = stack.top();
+    else
+    {
+      long long operand2 = stack.top();
       stack.pop();
-      size_t operand1 = stack.top();
+      long long operand1 = stack.top();
       stack.pop();
 
       if (postfix.front() == "+")
@@ -124,6 +124,5 @@ long long sukacheva::calculate(Queue< std::string >& postfix)
     }
     postfix.pop();
   }
-
   return stack.top();
 }

@@ -12,11 +12,12 @@ int main(int argc, char** argv)
   {
     try
     {
+      long long result = 0;
       while (std::cin)
       {
         Queue< std::string > inf = inputStatement(std::cin);
         Queue< std::string > test = makePostfix(inf);
-        long long result = calculate(test);
+        result = calculate(test);
         std::cout << result << "\n";
       }
     }
@@ -26,9 +27,13 @@ int main(int argc, char** argv)
       return 1;
     }
   }
+  else if (argc == 2)
+  {
+    
+  }
   else
   {
-
+    std::cerr << "wrong number of args";
   }
   return 0;
 }
