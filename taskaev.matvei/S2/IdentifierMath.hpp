@@ -18,7 +18,7 @@ namespace taskaev
     IdentifierMath() = default;
     explicit IdentifierMath(const std::string& item)
     {
-      for (size_t i = 0; i < unit.length(); i++) {
+      for (size_t i = 0; i < item.length(); i++) {
         if (!isdigit(item[i]) && (item.length() > 1)) {
           throw std::invalid_argument(" SOS are you Ok? ");
         }
