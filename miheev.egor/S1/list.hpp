@@ -17,7 +17,7 @@ namespace miheev
     List();
     List(T data);
     List(const List& toCopy);
-    List(List&& rhs) noexcept;
+    List(List&& rhs);
     List(size_t count, const T& value);
     ~List();
     List& operator=(const List& list);
@@ -166,13 +166,13 @@ const T* miheev::List< T >::ConstIterator::operator->() const
 template< typename T >
 bool miheev::List< T >::ConstIterator::operator!=(const miheev::List< T >::ConstIterator& rhs) const
 {
-  return *this != rhs;
+  return rhs.cur_ != this->cur_;
 }
 
 template< typename T >
 bool miheev::List< T >::ConstIterator::operator==(const miheev::List< T >::ConstIterator& rhs) const
 {
-  return rhs == *this;
+  return rhs.cur_ == this->cur_;
 }
 
 template< typename T >
@@ -302,16 +302,22 @@ void miheev::List< T >::takeAndDrop(List< T >** rhs)
 }
 
 template< typename T >
-miheev::List< T >::List(List&& rhs) noexcept:
+miheev::List< T >::List(List&& rhs):
   next_{nullptr},
   isEmpty_{true}
 {
-  List< T >* temp = new List< T >;
-  for (size_t i = 0; i < rhs.size(); i++)
+  ConstIterator rhsIter(rhs.cBegin());
+  List< T >* node = this;
+  while (node != nullptr && rhsIter != nullptr)
   {
-    temp->pushBack(rhs[i]);
+    node->data_ = *rhsIter;
+    rhsIter++;
+    if (rhsIter != nullptr)
+    {
+      node->next_ = new List< T >(*rhsIter);
+    }
+    node = node->next_;
   }
-  takeAndDrop(&temp);
 }
 
 template< typename T >
@@ -427,7 +433,7 @@ T& miheev::List< T >::front()
 }
 
 template < typename T >
-void miheev::List< T >::pushFront(T data)
+void miheev::List< T >::pushFront(const T& data)
 {
   if (!isEmpty_)
   {
@@ -459,7 +465,7 @@ void miheev::List< T >::popFront()
 }
 
 template < typename T >
-void miheev::List< T >::pushBack(T data)
+void miheev::List< T >::pushBack(const T& data)
 {
   if (isEmpty_)
   {
