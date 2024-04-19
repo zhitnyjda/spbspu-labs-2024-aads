@@ -328,12 +328,22 @@ miheev::List< T >::List(size_t count, const T& value):
   next_(nullptr),
   isEmpty_(true)
 {
-  List< T >* temp = new List< T >;
-  for (size_t i = 0; i < count; i++)
+//  List< T >* temp = new List< T >;
+//  for (size_t i = 0; i < count; i++)
+//  {
+//    temp->pushBack(value);
+//  }
+//  takeAndDrop(&temp);
+  if (count > 0)
   {
-    temp->pushBack(value);
+    data_ = value;
   }
-  takeAndDrop(&temp);
+  List< T >* node = this;
+  for (size_t i = 1; i < count; i++)
+  {
+    node->next_ = new List< T >(value);
+    node = node->next_;
+  }
 }
 
 template< typename T >
