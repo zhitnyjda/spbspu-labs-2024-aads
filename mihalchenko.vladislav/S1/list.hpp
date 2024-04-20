@@ -100,6 +100,8 @@ namespace mihalchenko
     Iterator<T> erase_after(Iterator<T> pos);
     Iterator<T> erase_after(Iterator<T> first, Iterator<T> last);
 
+    void splice(Iterator<T> pos, List< T >& other);
+
     ConstIterator<T> cbegin() const noexcept;
     ConstIterator<T> cend() const noexcept;
     Iterator<T> begin() noexcept;
@@ -607,6 +609,21 @@ mihalchenko::List<T>::Iterator<T> mihalchenko::List<T>::erase_after(Iterator<T> 
     }
   }
   return Iterator<T>(newPosition);
+}
+
+template< typename T >
+void mihalchenko::List< T >::splice(Iterator<T> position, List< T >& other)
+{
+  if(other.empty() == false)
+  {
+    Iterator<T> pointer = other.begin();
+    for (pointer = other.begin(); pointer != other.end(); ++pointer)
+    {
+      insert_after(position, *pointer);
+      position++;
+    }
+    other.clear();
+  }
 }
 
 template <typename T>
