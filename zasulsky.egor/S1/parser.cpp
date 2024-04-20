@@ -9,7 +9,9 @@
 std::string Parser::operator ()()
 {
   if (current_ > parsable_.length())
+  {
     return "";
+  }
   size_t start = current_;
   size_t end = 0;
   auto pos = parsable_.substr(current_).find_first_of(" ");
