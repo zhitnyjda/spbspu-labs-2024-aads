@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
       {
         Queue< std::string > inf = inputStatement(std::cin);
         Queue< std::string > test = makePostfix(inf);
-        resultsOfCalculate.(calculate(test));
+        resultsOfCalculate.push(calculate(test));
       }
       resultsOfCalculate.pop();
       while (!resultsOfCalculate.empty())
