@@ -100,7 +100,7 @@ namespace taskaev
         }
         else
         {
-          operand = (result.top() % operand < 0 )? ((result.top() % operand)+ operand) : (result.top() % operand)
+          operand = (result.top() % operand < 0 ) ? ((result.top() % operand)+ operand) : (result.top() % operand);
         }
         result.pop();
         result.push(operand);
