@@ -12,7 +12,14 @@ namespace ponomarev
     class ConstIterator;
     class Iterator;
 
+    using iterator = Iterator;
+    using const_iterator = ConstIterator;
+
     List();
+    List(size_t count, const T & value);
+    explicit List(size_t amount);
+    List(iterator first, iterator last);
+    List(std::initializer_list< T > init);
     ~List();
 
     //перегрузки операторов
@@ -246,6 +253,43 @@ ponomarev::List< T >::List():
   head(nullptr),
   tail(nullptr)
 {}
+
+template< typename T >
+ponomarev::List< T >::List(size_t count, const T & value)
+{
+  for (int i = 0; i < count; i++)
+  {
+    push(value);
+  }
+}
+
+template< typename T >
+ponomarev::List< T >::List(size_t amount)
+{
+  for (int i = 1; i <= amount; i++)
+  {
+    push(T());
+  }
+}
+
+template< typename T >
+ponomarev::List< T >::List(iterator first, iterator last)
+{
+  while (first != last)
+  {
+    push(*first);
+    first++;
+  }
+}
+
+template< typename T >
+ponomarev::List< T >::List(std::initializer_list< T > init)
+{
+  for (T data : init)
+  {
+    push(data);
+  }
+}
 
 template< typename T >
 ponomarev::List< T >::~List()
