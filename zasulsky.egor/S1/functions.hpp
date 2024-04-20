@@ -161,23 +161,23 @@ namespace zasulsky
         {
           if (sizes.isLeft(ind, num) && (sizes.isRight(ind, num)))
           {
-            out << ' ' << it->second.data[num];
+            out << ' ' << it->second.getData[num];
           }
           else if (!(sizes.isRight(ind, num)) && (sizes.isLeft(ind, num)))
           {
-            out << ' ' << it->second.data[num] << '\n';
+            out << ' ' << it->second.getData[num] << '\n';
           }
           else if (!(sizes.isRight(ind, num)) && !(sizes.isLeft(ind, num)))
           {
-            out << it->second.data[num] << '\n';
+            out << it->second.getData[num] << '\n';
           }
           else
           {
-            out << it->second.data[num];
+            out << it->second.getData[num];
           }
           try
           {
-            sum += stoi(it->second.data[num]);
+            sum += stoi(it->second.getData[num]);
           }
           catch (...)
           {

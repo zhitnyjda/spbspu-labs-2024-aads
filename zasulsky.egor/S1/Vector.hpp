@@ -285,6 +285,10 @@ namespace zasulsky
       return data[0];
     }
 
+    T* getData()
+    {
+      return data;
+    }
     private:
       T* data;
       int capacity;
