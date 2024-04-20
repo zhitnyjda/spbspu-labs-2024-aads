@@ -89,12 +89,13 @@ sukacheva::Queue<std::string> sukacheva::makePostfix(Queue< std::string >& infix
 
 long long sukacheva::calculate(Queue< std::string >& postfix)
 {
-  Stack<long long> stack;
+  Stack< long long > stack;
   while (!postfix.empty()) {
     if (isNumber(postfix.front())) {
       stack.push(std::stoull(postfix.front()));
+      postfix.pop();
     }
-    else
+    else if (isBinaryOperations(postfix.front()))
     {
       long long operand2 = stack.top();
       stack.pop();
@@ -121,8 +122,10 @@ long long sukacheva::calculate(Queue< std::string >& postfix)
       {
         stack.push(operand1 % operand2);
       }
+      postfix.pop();
     }
-    postfix.pop();
   }
-  return stack.top();
+  if (!stack.empty()) {
+    return stack.top();
+  }
 }

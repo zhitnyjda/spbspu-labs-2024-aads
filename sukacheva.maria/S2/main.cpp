@@ -1,5 +1,5 @@
-#include <fstream>
 #include <iostream>
+#include <fstream>
 #include "Queue.hpp"
 #include "Stack.hpp"
 #include <iosfwd>
@@ -13,13 +13,23 @@ int main(int argc, char* argv[])
   {
     try
     {
-      long long result = 0;
-      while (std::cin)
+      Stack< long long > resultsOfCalculate;
+      while (!std::cin.eof())
       {
         Queue< std::string > inf = inputStatement(std::cin);
         Queue< std::string > test = makePostfix(inf);
-        result = calculate(test);
-        std::cout << result << "\n";
+        resultsOfCalculate.
+(calculate(test));
+      }
+      resultsOfCalculate.pop();
+      while (!resultsOfCalculate.empty())
+      {
+        std::cout << resultsOfCalculate.top();
+        resultsOfCalculate.pop();
+        if (!resultsOfCalculate.empty())
+        {
+          std::cout << " ";
+        }
       }
     }
     catch (const std::exception& e)
