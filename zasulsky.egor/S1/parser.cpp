@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 
-explicit Parser::Parser(std::string toparse) :
+ Parser::Parser(std::string toparse) :
   parsable_(toparse),
   current_(toparse.find_first_not_of(" "))
 {}
