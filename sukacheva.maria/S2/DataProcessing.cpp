@@ -131,7 +131,7 @@ long long sukacheva::calculate(Queue< std::string >& postfix)
       }
       else if (postfix.front() == "*")
       {
-        if ((operand1 * operand2 > maxValue) || (operand1 * operand2 <= minValue))
+        if ((operand1 > maxValue / operand2) || (operand1 <= minValue / operand2))
         {
           throw std::logic_error("overflow observed !!!");
         }
@@ -146,9 +146,13 @@ long long sukacheva::calculate(Queue< std::string >& postfix)
         {
           throw std::logic_error("overflow observed !!!");
         }
-        else
+        else if (operand2 != 0)
         {
           stack.push(operand1 / operand2);
+        }
+        else
+        {
+          throw std::logic_error("division by zero !!!");
         }
       }
       else if (postfix.front() == "%")
