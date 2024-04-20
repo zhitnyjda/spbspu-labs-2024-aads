@@ -8,7 +8,7 @@ namespace taskaev
   class Queue
   {
   public:
-    Queue() = default;
+    Queue();
     ~Queue() = default;
     void push(const T& value);
     void pop();
@@ -18,6 +18,11 @@ namespace taskaev
     List< T > container;
   };
 }
+
+template< typename T >
+taskaev::Queue< T >::Queue():
+  container(List< T >())
+{}
 
 template < typename T >
 void taskaev::Queue< T >::push(const T& value)

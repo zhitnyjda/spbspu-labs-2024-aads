@@ -8,7 +8,7 @@ namespace taskaev
   class Stack
   {
   public:
-    Stack() = default;
+    Stack();
     ~Stack() = default;
     void push(const T& value);
     void pop();
@@ -18,6 +18,11 @@ namespace taskaev
     List< T > container;
   };
 }
+
+template < typename T >
+taskaev::Stack< T >::Stack():
+  container(List< T >())
+{}
 
 template < typename T >
 void taskaev::Stack< T >::push(const T& value)
