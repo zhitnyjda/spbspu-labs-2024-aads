@@ -18,9 +18,11 @@ int main(int argc, char* argv[])
       {
         Queue< std::string > inf = inputStatement(std::cin);
         Queue< std::string > test = makePostfix(inf);
-        resultsOfCalculate.push(calculate(test));
+        if (!test.empty())
+        {
+          resultsOfCalculate.push(calculate(test));
+        }
       }
-      resultsOfCalculate.pop();
       while (!resultsOfCalculate.empty())
       {
         std::cout << resultsOfCalculate.top();
@@ -40,7 +42,7 @@ int main(int argc, char* argv[])
   }
   else if (argc == 2)
   {
-    std::ifstream input(argv[1]);
+    //std::ifstream input(argv[1]);
   }
   else
   {
