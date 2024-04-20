@@ -18,7 +18,6 @@ namespace zasulsky
       return;
     }
 
-    fList dub;
     Vector< std::string > vec;
     std::string name;
     std::string numbers;
@@ -37,6 +36,7 @@ namespace zasulsky
     {
       name = str;
     }
+    fList dub;
     dub.insert_after(list.beforeBegin(), make_pair(name, vec));
     for (auto el : dub)
     {
@@ -69,7 +69,7 @@ namespace zasulsky
 
   int getMaxSize(fList list)
   {
-    ForwardList<int> ls;
+    ForwardList< int > ls;
     for (auto el : list)
     {
       ls.pushFront(el.second.getSize());

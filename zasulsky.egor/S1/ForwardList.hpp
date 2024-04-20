@@ -17,8 +17,8 @@ namespace zasulsky
   class iterator : public std::iterator < std::forward_iterator_tag, T >
   {
   public:
-    friend ForwardList<T>;
-    friend constIterator<T>;
+    friend ForwardList< T >;
+    friend constIterator< T >;
 
     iterator() :
       current_(nullptr)
