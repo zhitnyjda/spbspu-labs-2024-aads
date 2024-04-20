@@ -10,11 +10,8 @@ namespace zasulsky
   template < typename T >
   class Vector
   {
+  
   public:
-    T* data;
-    int capacity;
-    int size;
-
     Vector() :
       data(nullptr),
       capacity(0),
@@ -287,6 +284,10 @@ namespace zasulsky
       }
       return data[0];
     }
+    private:
+      T* data;
+      int capacity;
+      int size;
   };
 }
 
