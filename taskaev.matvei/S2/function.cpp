@@ -61,7 +61,8 @@ namespace taskaev
   long long calculate(Queue< IdentifierMath >& postfix)
   {
     Stack< long long > result;
-    while (!postfix.isEmpty()) {
+    while (!postfix.isEmpty())
+    {
       if (postfix.front().types == operand)
       {
         result.push(postfix.front().data);
@@ -94,6 +95,12 @@ namespace taskaev
       }
       postfix.pop();
     }
-    return result.top();
+    if(result.isEmpty())
+    {
+      return 0;
+    }
+    {
+      return result.top();
+    }
   }
 }
