@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <limits>
 #include "Stack.hpp"
 #include "Queue.hpp"
 
@@ -90,6 +91,7 @@ sukacheva::Queue<std::string> sukacheva::makePostfix(Queue< std::string >& infix
 long long sukacheva::calculate(Queue< std::string >& postfix)
 {
   Stack< long long > stack;
+  const long long maxValue = std::numeric_limits< long long >::max();
   while (!postfix.empty()) {
     if (isNumber(postfix.front())) {
       stack.push(std::stoull(postfix.front()));
@@ -104,23 +106,58 @@ long long sukacheva::calculate(Queue< std::string >& postfix)
 
       if (postfix.front() == "+")
       {
-        stack.push(operand1 + operand2);
+        if ((operand1 + operand2) > maxValue)
+        {
+          throw std::logic_error("overflow observed !!!");
+        }
+        else
+        {
+          stack.push(operand1 + operand2);
+        }
       }
       else if (postfix.front() == "-")
       {
-        stack.push(operand1 - operand2);
+        if ((operand1 - operand2) > maxValue)
+        {
+          throw std::logic_error("overflow observed !!!");
+        }
+        else
+        {
+          stack.push(operand1 - operand2);
+        }
       }
       else if (postfix.front() == "*")
       {
-        stack.push(operand1 * operand2);
+        if ((operand1 * operand2) > maxValue)
+        {
+          throw std::logic_error("overflow observed !!!");
+        }
+        else
+        {
+          stack.push(operand1 * operand2);
+        }
       }
       else if (postfix.front() == "/")
       {
-        stack.push(operand1 / operand2);
+        if ((operand1 / operand2) > maxValue)
+        {
+          throw std::logic_error("overflow observed !!!");
+        }
+        else
+        {
+          stack.push(operand1 / operand2);
+        }
       }
       else if (postfix.front() == "%")
       {
-        stack.push(operand1 % operand2);
+        if ((operand1 % operand2) > maxValue)
+        {
+          throw std::logic_error("overflow observed !!!");
+        }
+        else
+        {
+          stack.push(operand1 % operand2);
+        }
       }
       postfix.pop();
     }
