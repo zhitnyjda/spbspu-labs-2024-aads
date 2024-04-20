@@ -125,5 +125,12 @@ long long sukacheva::calculate(Queue< std::string >& postfix)
       postfix.pop();
     }
   }
-  return stack.top();
+  if (!stack.empty())
+  {
+    return stack.top();
+  }
+  else
+  {
+    return 0;
+  }
 }
