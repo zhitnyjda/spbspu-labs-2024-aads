@@ -43,9 +43,17 @@ namespace taskaev
       }
       else if (queue.front().types == closedParantheses)
       {
+        if (stack.isEmpty())
+        {
+          throw std::logic_error("a lot of ) in prog SOS");
+        }
         while (stack.top().types != openParantheses) {
           postfix.push(stack.top());
           stack.pop();
+          if (stack.isEmpty())
+          {
+            std::logic_error("error");
+          }
         }
         stack.pop();
         queue.pop();
@@ -53,6 +61,10 @@ namespace taskaev
     }
     while (!stack.isEmpty())
     {
+      if(!stack.isEmpty())
+      {
+        throw std::logic_error( " error !! ");
+      }
       postfix.push(stack.top());
       stack.pop();
     }
@@ -97,7 +109,7 @@ namespace taskaev
     }
     if(result.isEmpty())
     {
-      return 0;
+      throw std::logic_error("NON");
     }
     {
       return result.top();

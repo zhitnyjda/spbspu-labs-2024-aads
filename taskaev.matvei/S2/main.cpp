@@ -20,16 +20,19 @@ int main(int argc, char * argv[])
     while(!std::cin.eof())
     {
       std::getline(std::cin, mathValue);
-      try
+      if(!mathValue.empty())
       {
-        inputMathValue(queue, mathValue);
-        convertToPostfix(queue, postfix, stack);
-        results.push(calculate(postfix));
-      }
-      catch(const std::exception& e)
-      {
-        std::cerr << e.what() << "\n";
-        return 1;
+        try
+        {
+          inputMathValue(queue, mathValue);
+          convertToPostfix(queue, postfix, stack);
+          results.push(calculate(postfix));
+        }
+        catch(const std::exception& e)
+        {
+          std::cerr << e.what() << "\n";
+          return 1;
+        }
       }
     }
   }
