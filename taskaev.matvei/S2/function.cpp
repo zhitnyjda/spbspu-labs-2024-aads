@@ -61,7 +61,7 @@ namespace taskaev
     }
     while (!stack.isEmpty())
     {
-      if(stack.top().type == openParantheses)
+      if(stack.top().types == openParantheses)
       {
         throw std::logic_error( " error !! ");
       }
