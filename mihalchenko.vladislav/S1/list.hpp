@@ -95,12 +95,13 @@ namespace mihalchenko
     void assign(Iterator<T> first, Iterator<T> last);
     void assign(std::initializer_list<T> ilist);
 
-    Iterator<T> insert_after(Iterator<T> pos, const T &value);
-    Iterator<T> insert_after(Iterator<T> pos, size_t count, const T &value);
-    Iterator<T> erase_after(Iterator<T> pos);
+    Iterator<T> insert_after(Iterator<T> position, const T &value);
+    Iterator<T> insert_after(Iterator<T> position, size_t count, const T &value);
+    Iterator<T> erase_after(Iterator<T> position);
     Iterator<T> erase_after(Iterator<T> first, Iterator<T> last);
 
-    void splice(Iterator<T> pos, List< T >& other);
+    void splice(Iterator<T> pos, List<T> &other);
+    void reverse(Iterator<T> first, Iterator<T> last);
 
     ConstIterator<T> cbegin() const noexcept;
     ConstIterator<T> cend() const noexcept;
@@ -611,10 +612,10 @@ mihalchenko::List<T>::Iterator<T> mihalchenko::List<T>::erase_after(Iterator<T> 
   return Iterator<T>(newPosition);
 }
 
-template< typename T >
-void mihalchenko::List< T >::splice(Iterator<T> position, List< T >& other)
+template <typename T>
+void mihalchenko::List<T>::splice(Iterator<T> position, List<T> &other)
 {
-  if(other.empty() == false)
+  if (other.empty() == false)
   {
     Iterator<T> pointer = other.begin();
     for (pointer = other.begin(); pointer != other.end(); ++pointer)
@@ -624,6 +625,31 @@ void mihalchenko::List< T >::splice(Iterator<T> position, List< T >& other)
     }
     other.clear();
   }
+}
+
+template <typename T>
+void mihalchenko::List<T>::reverse(Iterator<T> first, Iterator<T> last)
+{
+  List<T> temp;
+  Node *actual = first;
+  Iterator<T> iterator = first;
+  while (actual != last)
+  {
+    if (front(iterator) != last && front(iterator).node_.pNext_ == last)
+    {
+      temp.push_back(*front(iterator));
+      erase_after(iterator);
+    }
+    else if (front(iterator) != last && front(iterator).node_ == last)
+    {
+      temp.push_back(*first);
+    }
+    else
+    {
+      iterator++;
+    }
+  }
+  assign(temp.first, temp.last);
 }
 
 template <typename T>
