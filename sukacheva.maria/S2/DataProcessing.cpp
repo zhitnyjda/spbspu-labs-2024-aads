@@ -92,8 +92,11 @@ long long sukacheva::calculate(Queue< std::string >& postfix)
 {
   Stack< long long > stack;
   const long long maxValue = std::numeric_limits< long long >::max();
-  while (!postfix.empty()) {
-    if (isNumber(postfix.front())) {
+  const long long minValue = std::numeric_limits< long long >::min();
+  while (!postfix.empty())
+  {
+    if (isNumber(postfix.front()))
+    {
       stack.push(std::stoull(postfix.front()));
       postfix.pop();
     }
@@ -106,7 +109,7 @@ long long sukacheva::calculate(Queue< std::string >& postfix)
 
       if (postfix.front() == "+")
       {
-        if ((operand1 + operand2) > maxValue)
+        if ((operand1 + operand2 >= maxValue) || (operand1 + operand2 <= minValue))
         {
           throw std::logic_error("overflow observed !!!");
         }
@@ -117,7 +120,7 @@ long long sukacheva::calculate(Queue< std::string >& postfix)
       }
       else if (postfix.front() == "-")
       {
-        if ((operand1 - operand2) > maxValue)
+        if ((operand1 - operand2 >= maxValue) || (operand1 - operand2 <= minValue))
         {
           throw std::logic_error("overflow observed !!!");
         }
@@ -128,7 +131,7 @@ long long sukacheva::calculate(Queue< std::string >& postfix)
       }
       else if (postfix.front() == "*")
       {
-        if ((operand1 * operand2) > maxValue)
+        if ((operand1 * operand2 >= maxValue) || (operand1 * operand2 <= minValue))
         {
           throw std::logic_error("overflow observed !!!");
         }
@@ -139,7 +142,7 @@ long long sukacheva::calculate(Queue< std::string >& postfix)
       }
       else if (postfix.front() == "/")
       {
-        if ((operand1 / operand2) > maxValue)
+        if ((operand1 / operand2 >= maxValue) || (operand1 / operand2 <= minValue))
         {
           throw std::logic_error("overflow observed !!!");
         }
@@ -150,7 +153,7 @@ long long sukacheva::calculate(Queue< std::string >& postfix)
       }
       else if (postfix.front() == "%")
       {
-        if ((operand1 % operand2) > maxValue)
+        if ((operand1 % operand2 >= maxValue) || (operand1 % operand2 <= minValue))
         {
           throw std::logic_error("overflow observed !!!");
         }
