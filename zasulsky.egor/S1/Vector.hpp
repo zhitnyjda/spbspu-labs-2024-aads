@@ -13,7 +13,7 @@ namespace zasulsky
   template < typename T >
   class Vector
   {
-    using Iterator = Iterator <T>;
+    using Iter = Iterator <T>;
   public:
     Vector() :
       data(nullptr),
@@ -168,11 +168,11 @@ namespace zasulsky
       --size;
     }
 
-    void erase(const Iterator& it)
+    void erase(const Iter& it)
     {
       if (it.ptr < data || it.ptr >= data + size)
       {
-        throw std::out_of_range("Iterator is out of bounds");
+        throw std::out_of_range("Iter is out of bounds");
       }
 
       int index = it.ptr - data;
@@ -227,14 +227,14 @@ namespace zasulsky
       return data[0];
     }
 
-    Iterator begin()
+    Iter begin()
     {
-      return Iterator(data);
+      return Iter(data);
     }
 
-    Iterator end()
+    Iter end()
     {
-      return Iterator(data + size);
+      return Iter(data + size);
     }
 
     T* getData()
