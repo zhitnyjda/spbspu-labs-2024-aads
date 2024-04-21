@@ -89,8 +89,15 @@ sukacheva::Queue<std::string> sukacheva::makePostfix(Queue< std::string >& infix
   }
   while (!temp.empty())
   {
-    postfix.push(temp.top());
-    temp.pop();
+    if (temp.top() != "(")
+    {
+      postfix.push(temp.top());
+      temp.pop();
+    }
+    else
+    {
+      throw std::logic_error("incorrect statement notation :)");
+    }
   }
   return postfix;
 }
