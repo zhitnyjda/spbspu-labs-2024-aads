@@ -8,11 +8,15 @@
 namespace zasulsky
 {
   template < typename T >
+  class Iterator;
+
+  template < typename T >
   class Vector
   {
-    class Iterator;
+    using Iterator = Iterator< T >;
 
   public:
+
     Vector() :
       data(nullptr),
       capacity(0),
@@ -240,62 +244,64 @@ namespace zasulsky
       return data;
     }
 
-    class Iterator : public std::iterator < std::bidirectional_iterator_tag, T >
-    {
-    public:
-      friend class Vector< T >;
-
-      T* ptr;
-
-      Iterator(T* ptr) : ptr(ptr) {}
-
-      T& operator*() const
-      {
-        return *ptr;
-      }
-
-      Iterator& operator++()
-      {
-        ++ptr;
-        return *this;
-      }
-
-      Iterator& operator--()
-      {
-        --ptr;
-        return *this;
-      }
-
-      Iterator& operator++(int)
-      {
-        Iterator temp = *this;
-        ++ptr;
-        return temp;
-      }
-
-      Iterator& operator--(int)
-      {
-        Iterator temp = *this;
-        --ptr;
-        return temp;
-      }
-
-      bool operator==(const Iterator& other) const
-      {
-        return ptr == other.ptr;
-      }
-
-      bool operator!=(const Iterator& other) const
-      {
-        return ptr != other.ptr;
-      }
-    };
-
+    
     private:
       T* data;
       int capacity;
       int size;
   };
+
+  class Iterator : public std::iterator < std::bidirectional_iterator_tag, T >
+  {
+  public:
+    friend class Vector< T >;
+
+    T* ptr;
+
+    Iterator(T* ptr) : ptr(ptr) {}
+
+    T& operator*() const
+    {
+      return *ptr;
+    }
+
+    Iterator& operator++()
+    {
+      ++ptr;
+      return *this;
+    }
+
+    Iterator& operator--()
+    {
+      --ptr;
+      return *this;
+    }
+
+    Iterator& operator++(int)
+    {
+      Iterator temp = *this;
+      ++ptr;
+      return temp;
+    }
+
+    Iterator& operator--(int)
+    {
+      Iterator temp = *this;
+      --ptr;
+      return temp;
+    }
+
+    bool operator==(const Iterator& other) const
+    {
+      return ptr == other.ptr;
+    }
+
+    bool operator!=(const Iterator& other) const
+    {
+      return ptr != other.ptr;
+    }
+  };
+
 }
 
 #endif
