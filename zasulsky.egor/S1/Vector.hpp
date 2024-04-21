@@ -290,7 +290,7 @@ namespace zasulsky
         return ptr != other.ptr;
       }
     };
-    
+
     private:
       T* data;
       int capacity;
