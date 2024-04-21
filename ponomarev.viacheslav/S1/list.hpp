@@ -31,6 +31,8 @@ namespace ponomarev
     const_iterator cbegin() const noexcept;
     const_iterator cend() const noexcept;
 
+    bool isEmpty() const noexcept;
+
     void clear();
     void push(const T & value);
 
@@ -342,6 +344,12 @@ template< typename T >
 typename ponomarev::List< T >::const_iterator ponomarev::List< T >::cend() const noexcept
 {
    return ConstIterator(tail.prev);
+}
+
+template< typename T >
+bool ponomarev::List< T >::isEmpty() const noexcept
+{
+  return (head.next == nullptr);
 }
 
 template< typename T >
