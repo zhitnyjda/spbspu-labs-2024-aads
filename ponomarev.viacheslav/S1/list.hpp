@@ -35,6 +35,8 @@ namespace ponomarev
 
     void clear();
     void push(const T & value);
+    void pop_front();
+    void swap(List & other) noexcept;
 
     private:
       struct ListNode
@@ -49,8 +51,8 @@ namespace ponomarev
         ListNode * prev;
       };
 
-      ListNode *head;
-      ListNode *tail;
+      ListNode * head;
+      ListNode * tail;
   };
 }
 
@@ -377,6 +379,22 @@ void ponomarev::List< T >::push(const T & value)
     temp->next = data;
     tail->prev = data;
   }
+}
+
+template< typename T >
+void ponomarev::List< T >::pop_front()
+{
+  ListNode * temp = head->next;
+  head->next = temp->next;
+  delete temp;
+}
+
+template< typename T >
+void ponomarev::List< T >::swap(List & other) noexcept
+{
+  ListNode temp = other.head;
+  other.head = head;
+  head = temp;
 }
 
 #endif
