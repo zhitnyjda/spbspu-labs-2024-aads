@@ -57,13 +57,20 @@ sukacheva::Queue<std::string> sukacheva::makePostfix(Queue< std::string >& infix
     }
     else if (infix.front() == ")")
     {
-      while (temp.top() != "(")
+      if (temp.empty())
       {
-        postfix.push(temp.top());
+        throw std::logic_error("incorrect statement notation :)");
+      }
+      else
+      {
+        while (temp.top() != "(")
+        {
+          postfix.push(temp.top());
+          temp.pop();
+        }
+        infix.pop();
         temp.pop();
       }
-      infix.pop();
-      temp.pop();
     }
     else if (isNumber(infix.front()))
     {
@@ -102,71 +109,77 @@ long long sukacheva::calculate(Queue< std::string >& postfix)
     }
     else if (isBinaryOperations(postfix.front()))
     {
-      long long operand2 = stack.top();
-      stack.pop();
-      long long operand1 = stack.top();
-      stack.pop();
+      if (stack.getSize() >= 2) {
+        long long operand2 = stack.top();
+        stack.pop();
+        long long operand1 = stack.top();
+        stack.pop();
 
-      if (postfix.front() == "+")
-      {
-        if ((operand1 + operand2 > maxValue) || (operand1 + operand2 <= minValue))
+        if (postfix.front() == "+")
         {
-          throw std::logic_error("overflow observed !!!");
+          if ((operand1 + operand2 > maxValue) || (operand1 + operand2 <= minValue))
+          {
+            throw std::logic_error("overflow observed !!!");
+          }
+          else
+          {
+            stack.push(operand1 + operand2);
+          }
         }
-        else
+        else if (postfix.front() == "-")
         {
-          stack.push(operand1 + operand2);
+          if ((operand1 - operand2 > maxValue) || (operand1 - operand2 <= minValue))
+          {
+            throw std::logic_error("overflow observed !!!");
+          }
+          else
+          {
+            stack.push(operand1 - operand2);
+          }
         }
+        else if (postfix.front() == "*")
+        {
+          if ((operand1 > maxValue / operand2) || (operand1 <= minValue / operand2))
+          {
+            throw std::logic_error("overflow observed !!!");
+          }
+          else
+          {
+            stack.push(operand1 * operand2);
+          }
+        }
+        else if (postfix.front() == "/")
+        {
+          if ((operand1 / operand2 > maxValue) || (operand1 / operand2 <= minValue))
+          {
+            throw std::logic_error("overflow observed !!!");
+          }
+          else if (operand2 != 0)
+          {
+            stack.push(operand1 / operand2);
+          }
+          else
+          {
+            throw std::logic_error("division by zero !!!");
+          }
+        }
+        else if (postfix.front() == "%")
+        {
+          if ((operand1 % operand2 > maxValue) || (operand1 % operand2 <= minValue))
+          {
+            throw std::logic_error("overflow observed !!!");
+          }
+          else
+          {
+            stack.push(operand1 % operand2);
+          }
+        }
+        postfix.pop();
       }
-      else if (postfix.front() == "-")
+      else
       {
-        if ((operand1 - operand2 > maxValue) || (operand1 - operand2 <= minValue))
-        {
-          throw std::logic_error("overflow observed !!!");
-        }
-        else
-        {
-          stack.push(operand1 - operand2);
-        }
+        throw std::logic_error("incorrect statement notation :)");
       }
-      else if (postfix.front() == "*")
-      {
-        if ((operand1 > maxValue / operand2) || (operand1 <= minValue / operand2))
-        {
-          throw std::logic_error("overflow observed !!!");
-        }
-        else
-        {
-          stack.push(operand1 * operand2);
-        }
-      }
-      else if (postfix.front() == "/")
-      {
-        if ((operand1 / operand2 > maxValue) || (operand1 / operand2 <= minValue))
-        {
-          throw std::logic_error("overflow observed !!!");
-        }
-        else if (operand2 != 0)
-        {
-          stack.push(operand1 / operand2);
-        }
-        else
-        {
-          throw std::logic_error("division by zero !!!");
-        }
-      }
-      else if (postfix.front() == "%")
-      {
-        if ((operand1 % operand2 > maxValue) || (operand1 % operand2 <= minValue))
-        {
-          throw std::logic_error("overflow observed !!!");
-        }
-        else
-        {
-          stack.push(operand1 % operand2);
-        }
-      }
-      postfix.pop();
     }
   }
   if (!stack.empty())

@@ -13,7 +13,7 @@ namespace sukacheva {
     Stack(Stack&& other);
 
     bool empty() const noexcept;
-    size_t getSize() const noexcept;
+    size_t getSize() noexcept;
     void push(const T& value);
     void push(T&& value);
     T& top() noexcept;
@@ -50,7 +50,7 @@ bool sukacheva::Stack< T >::empty() const noexcept
 }
 
 template< typename T >
-size_t sukacheva::Stack< T >::getSize() const noexcept
+size_t sukacheva::Stack< T >::getSize() noexcept
 {
   return container.getSize();
 }
@@ -58,13 +58,15 @@ size_t sukacheva::Stack< T >::getSize() const noexcept
 template< typename T >
 void sukacheva::Stack< T >::push(const T& value)
 {
-  container.pushFront(value);
+  container.
+Front(value);
 }
 
 template< typename T >
 void sukacheva::Stack< T >::push(T&& value)
 {
-  container.pushFront(value);
+  container.
+Front(value);
 }
 
 template< typename T >
