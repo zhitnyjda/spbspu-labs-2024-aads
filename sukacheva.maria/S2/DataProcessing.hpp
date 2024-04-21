@@ -9,6 +9,7 @@ namespace sukacheva {
   Queue< std::string > makePostfix(Queue< std::string >& infix);
   bool isBinaryOperations(std::string example);
   bool isNumber(std::string example);
+  bool priorityOfOperation(std::string operation1, std::string operation2);
   long long calculate(Queue< std::string >& postfix);
 }
 #endif

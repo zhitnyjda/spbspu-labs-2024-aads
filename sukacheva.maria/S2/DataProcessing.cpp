@@ -45,6 +45,25 @@ bool sukacheva::isBinaryOperations(std::string example)
   return !example.empty() && (example.find_first_not_of("+-*/%") == example.npos);
 }
 
+bool sukacheva::priorityOfOperation(std::string operation1, std::string operation2)
+{
+  int priorityIndex1 = 1;
+  int priorityIndex2 = 1;
+  if (operation1.find_first_not_of("*/%") == operation1.npos)
+  {
+    priorityIndex1 = 2;
+  }
+  if (operation2.find_first_not_of("*/%") == operation2.npos)
+  {
+    priorityIndex2 = 2;
+  }
+  else if (operation2 == "(")
+  {
+    return 0;
+  }
+  return priorityIndex1 >= priorityIndex2;
+}
+
 sukacheva::Queue<std::string> sukacheva::makePostfix(Queue< std::string >& infix)
 {
   sukacheva::Stack< std::string > temp;
@@ -79,8 +98,21 @@ sukacheva::Queue<std::string> sukacheva::makePostfix(Queue< std::string >& infix
     }
     else if (isBinaryOperations(infix.front()))
     {
-      temp.push(infix.front());
-      infix.pop();
+      if (!temp.empty())
+      {
+        while (!temp.empty() && priorityOfOperation(postfix.front(), temp.top()))
+        {
+          postfix.push(temp.top());
+          temp.pop();
+        }
+        temp.push(infix.front());
+        infix.pop();
+      }
+      else
+      {
+        temp.push(infix.front());
+        infix.pop();
+      }
     }
     else
     {
@@ -178,7 +210,7 @@ long long sukacheva::calculate(Queue< std::string >& postfix)
           }
           else
           {
-            stack.push(operand1 % operand2);
+            stack.push((operand1 % operand2) < 0 ? (operand1 % operand2) + operand2 : (operand1 % operand2));
           }
         }
         postfix.pop();
