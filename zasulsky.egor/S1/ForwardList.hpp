@@ -11,7 +11,7 @@ namespace zasulsky
   class iterator;
 
   template < typename T >
-  class cosntIterator;
+  class constIterator;
 
   template < class T >
   class ForwardList
