@@ -22,12 +22,15 @@ namespace ponomarev
     List(std::initializer_list< T > init);
     ~List();
 
-    //перегрузки операторов
+    iterator begin() noexcept;
+    iterator end() noexcept;
+    const_iterator begin() const noexcept;
+    const_iterator end() const noexcept;
+    const_iterator cbegin() const noexcept;
+    const_iterator cend() const noexcept;
 
     void clear();
     void push(const T & value);
-
-    //итераторы
 
     private:
       struct ListNode
@@ -295,6 +298,42 @@ template< typename T >
 ponomarev::List< T >::~List()
 {
   clear();
+}
+
+template< typename T >
+typename ponomarev::List< T >::iterator ponomarev::List< T >::begin() noexcept
+{
+  return Iterator(head);
+}
+
+template< typename T >
+typename ponomarev::List< T >::iterator ponomarev::List< T >::end() noexcept
+{
+  return Iterator(tail.prev);
+}
+
+template< typename T >
+typename ponomarev::List< T >::const_iterator ponomarev::List< T >::begin() const noexcept
+{
+  return ConstIterator(head);
+}
+
+template< typename T >
+typename ponomarev::List< T >::const_iterator ponomarev::List< T >::end() const noexcept
+{
+  return ConstIterator(tail.prev);
+}
+
+template< typename T >
+typename ponomarev::List< T >::const_iterator ponomarev::List< T >::cbegin() const noexcept
+{
+  return ConstIterator(head);
+}
+
+template< typename T >
+typename ponomarev::List< T >::const_iterator ponomarev::List< T >::cend() const noexcept
+{
+   return ConstIterator(tail.prev);
 }
 
 template< typename T >
