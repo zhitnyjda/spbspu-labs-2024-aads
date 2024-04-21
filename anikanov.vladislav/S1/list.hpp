@@ -110,7 +110,7 @@ class anikanov::List< T >::ConstIterator {
 public:
   using node_t = Node;
   using this_t = ConstIterator;
-  using iterator_t = typename anikanov::List< T >::Iterator;
+  using iterator_t = typename List< T >::Iterator;
 
   ConstIterator();
   explicit ConstIterator(std::shared_ptr< node_t > node_ptr) : itr(Iterator(node_ptr))
@@ -143,13 +143,13 @@ private:
 };
 
 template< typename T >
-bool anikanov::List< T >::ConstIterator::operator==(const anikanov::List< T >::ConstIterator &other) const
+bool anikanov::List< T >::ConstIterator::operator==(const List< T >::ConstIterator &other) const
 {
   return itr == other.itr;
 }
 
 template< typename T >
-bool anikanov::List< T >::ConstIterator::operator!=(const anikanov::List< T >::ConstIterator &other) const
+bool anikanov::List< T >::ConstIterator::operator!=(const List< T >::ConstIterator &other) const
 {
   return itr != other.itr;
 }
