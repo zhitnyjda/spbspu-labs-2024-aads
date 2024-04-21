@@ -173,7 +173,7 @@ long long sukacheva::calculate(Queue< std::string >& postfix)
         }
         else if (postfix.front() == "*")
         {
-          if (operand1 > maxValue / operand2)
+          if ((operand1 > maxValue / operand2) || (operand1 <= minValue / operand2))
           {
             throw std::logic_error("overflow observed !!!");
           }
