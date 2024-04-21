@@ -22,6 +22,8 @@ namespace ponomarev
     List(std::initializer_list< T > init);
     ~List();
 
+    T & front();
+
     iterator begin() noexcept;
     iterator end() noexcept;
     const_iterator begin() const noexcept;
@@ -301,9 +303,15 @@ ponomarev::List< T >::~List()
 }
 
 template< typename T >
+T & ponomarev::List< T >::front()
+{
+  return head.next->data;
+}
+
+template< typename T >
 typename ponomarev::List< T >::iterator ponomarev::List< T >::begin() noexcept
 {
-  return Iterator(head);
+  return Iterator(head.next);
 }
 
 template< typename T >
@@ -315,7 +323,7 @@ typename ponomarev::List< T >::iterator ponomarev::List< T >::end() noexcept
 template< typename T >
 typename ponomarev::List< T >::const_iterator ponomarev::List< T >::begin() const noexcept
 {
-  return ConstIterator(head);
+  return ConstIterator(head.next);
 }
 
 template< typename T >
@@ -327,7 +335,7 @@ typename ponomarev::List< T >::const_iterator ponomarev::List< T >::end() const 
 template< typename T >
 typename ponomarev::List< T >::const_iterator ponomarev::List< T >::cbegin() const noexcept
 {
-  return ConstIterator(head);
+  return ConstIterator(head.next);
 }
 
 template< typename T >
