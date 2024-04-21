@@ -8,7 +8,7 @@ namespace detail
   template < class T >
   struct Node
   {
-    Node(T data, Node <T>* next = nullptr)
+    Node(T data, Node < T >* next = nullptr)
     {
       this->data = data;
       this->next = next;
@@ -34,7 +34,7 @@ namespace detail
     }
   }
   template <class T>
-  Node <T>* copyList(Node <T>* other)
+  Node <T>* copyList(Node < T >* other)
   {
     if (other)
     {
