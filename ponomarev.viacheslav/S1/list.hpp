@@ -22,6 +22,9 @@ namespace ponomarev
     List(std::initializer_list< T > init);
     ~List();
 
+    List< T > & operator=(const List & other);
+    List< T > & operator=(List && other);
+
     T & front();
 
     iterator begin() noexcept;
@@ -305,6 +308,35 @@ ponomarev::List< T >::~List()
 {
   clear();
 }
+
+template< typename T >
+ponomarev::List< T > & ponomarev::List< T >::operator=(const List & other)
+{
+  if (&other != this)
+  {
+    clear();
+    ListNode * temp = other.head.next;
+    while (temp != nullptr)
+    {
+      push(temp->data);
+      temp = temp->next;
+    }
+  }
+  return *this;
+}
+
+template< typename T >
+ponomarev::List< T > & ponomarev::List< T >::operator=(List && other)
+{
+  if (&other != this)
+  {
+    clear();
+    head.next = std::move(other.head.next);
+    other.head.next = nullptr;
+  }
+  return *this;
+}
+
 
 template< typename T >
 T & ponomarev::List< T >::front()
