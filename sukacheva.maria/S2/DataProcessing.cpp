@@ -21,7 +21,7 @@ sukacheva::Queue< std::string > sukacheva::inputStatement(std::istream& input)
       {
         statement.push(num);
       }
-      num = {};
+      num = "";
     }
     else
     {
@@ -100,19 +100,14 @@ sukacheva::Queue<std::string> sukacheva::makePostfix(Queue< std::string >& infix
     {
       if (!temp.empty())
       {
-        while (!temp.empty() && priorityOfOperation(postfix.front(), temp.top()))
+        while (!temp.empty() && priorityOfOperation(infix.front(), temp.top()))
         {
           postfix.push(temp.top());
           temp.pop();
         }
-        temp.push(infix.front());
-        infix.pop();
       }
-      else
-      {
-        temp.push(infix.front());
-        infix.pop();
-      }
+      temp.push(infix.front());
+      infix.pop();
     }
     else
     {
@@ -178,7 +173,7 @@ long long sukacheva::calculate(Queue< std::string >& postfix)
         }
         else if (postfix.front() == "*")
         {
-          if ((operand1 > maxValue / operand2) || (operand1 <= minValue / operand2))
+          if (operand1 > maxValue / operand2)
           {
             throw std::logic_error("overflow observed !!!");
           }
@@ -189,7 +184,7 @@ long long sukacheva::calculate(Queue< std::string >& postfix)
         }
         else if (postfix.front() == "/")
         {
-          if ((operand1 / operand2 > maxValue) || (operand1 / operand2 <= minValue))
+          if (operand1 <= minValue * operand2)
           {
             throw std::logic_error("overflow observed !!!");
           }
@@ -204,14 +199,7 @@ long long sukacheva::calculate(Queue< std::string >& postfix)
         }
         else if (postfix.front() == "%")
         {
-          if ((operand1 % operand2 > maxValue) || (operand1 % operand2 <= minValue))
-          {
-            throw std::logic_error("overflow observed !!!");
-          }
-          else
-          {
-            stack.push((operand1 % operand2) < 0 ? (operand1 % operand2) + operand2 : (operand1 % operand2));
-          }
+          stack.push((operand1 % operand2) < 0 ? (operand1 % operand2) + operand2 : (operand1 % operand2));
         }
         postfix.pop();
       }
@@ -221,12 +209,5 @@ long long sukacheva::calculate(Queue< std::string >& postfix)
       }
     }
   }
-  if (!stack.empty())
-  {
-    return stack.top();
-  }
-  else
-  {
-    return 0;
-  }
+  return stack.top();
 }
