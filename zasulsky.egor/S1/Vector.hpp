@@ -11,7 +11,7 @@ namespace zasulsky
   class Vector
   {
     class Iterator;
-  
+
   public:
     Vector() :
       data(nullptr),
