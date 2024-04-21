@@ -7,152 +7,10 @@
 
 namespace zasulsky
 {
-  template < typename T >
-  class ForwardList;
-
-  template < typename T >
-  class constIterator;
-
-  template < typename T >
-  class iterator : public std::iterator < std::forward_iterator_tag, T >
-  {
-  public:
-    friend ForwardList< T >;
-    friend constIterator< T >;
-
-    iterator() :
-      current_(nullptr)
-    {}
-
-    iterator(detail::Node<T>* start) :
-      current_(start)
-    {}
-
-    bool operator==(const iterator& other) const
-    {
-      return current_ == other.current_;
-    }
-
-    bool operator!=(const iterator& other) const
-    {
-      return !(*this == other);
-    }
-
-    T& operator*()
-    {
-      return current_->data;
-    }
-
-    T* operator->()
-    {
-      if (current_ == nullptr)
-      {
-        throw std::logic_error("uncorrect argument");
-      }
-      return std::addressof(current_->data);
-    }
-
-    iterator& operator++()
-    {
-      if (current_)
-      {
-        current_ = current_->next;
-      }
-      return *this;
-    }
-    iterator operator++(int)
-    {
-      iterator<T> temp = *this;
-      ++(*this);
-      return temp;
-    }
-  private:
-    detail::Node< T >* current_;
-
-    iterator(const constIterator<T>& other) :
-      current_(const_cast<detail::Node <T>*> (other.current_))
-    {}
-  public:
-    detail::Node < T >*& getCur()
-    {
-      return current_;
-    }
-  };
-
-  template < class T >
-  class constIterator : public std::iterator< std::forward_iterator_tag, T >
-  {
-  public:
-    friend ForwardList < T >;
-    friend iterator < T >;
-
-    constIterator() :
-      current_(nullptr)
-    {}
-
-    constIterator(detail::Node< T >* start) :
-      current_(start)
-    {}
-
-    constIterator(const iterator< T > other) noexcept :
-      current_(other.current_)
-    {}
-
-    bool operator==(const constIterator& other) const
-    {
-      return current_ == other.current_;
-    }
-
-    bool operator!=(const constIterator& other) const
-    {
-      return !(*this == other);
-    }
-
-    const T& operator*() const
-    {
-      return current_->data;
-    }
-
-    const T* operator->() const
-    {
-      if (current_ == nullptr)
-      {
-        throw std::logic_error("->");
-      }
-      return std::addressof(current_->data);
-    }
-
-    constIterator& operator++()
-    {
-      if (current_)
-      {
-        current_ = current_->next;
-      }
-      return *this;
-    }
-
-    constIterator operator++(int)
-    {
-      constIterator< T > temp = *this;
-      ++(*this);
-      return temp;
-    }
-
-  private:
-    detail::Node< T >* current_;
-  public:
-    detail::Node < T >*& etCur()
-    {
-      return current_;
-    }
-
-  };
-
   template < class T >
   class ForwardList
   {
-
-  public:
+   public:
     using iter = iterator< T >;
     using constIter = constIterator< T >;
 
@@ -380,6 +238,141 @@ namespace zasulsky
         throw std::runtime_error("iterator is empty");
       }
     }
+  };
+
+  template < typename T >
+  class iterator : public std::iterator < std::forward_iterator_tag, T >
+  {
+  public:
+    friend ForwardList< T >;
+    friend constIterator< T >;
+
+    iterator() :
+      current_(nullptr)
+    {}
+
+    iterator(detail::Node<T>* start) :
+      current_(start)
+    {}
+
+    bool operator==(const iterator& other) const
+    {
+      return current_ == other.current_;
+    }
+
+    bool operator!=(const iterator& other) const
+    {
+      return !(*this == other);
+    }
+
+    T& operator*()
+    {
+      return current_->data;
+    }
+
+    T* operator->()
+    {
+      if (current_ == nullptr)
+      {
+        throw std::logic_error("uncorrect argument");
+      }
+      return std::addressof(current_->data);
+    }
+
+    iterator& operator++()
+    {
+      if (current_)
+      {
+        current_ = current_->next;
+      }
+      return *this;
+    }
+    iterator operator++(int)
+    {
+      iterator<T> temp = *this;
+      ++(*this);
+      return temp;
+    }
+  private:
+    detail::Node< T >* current_;
+
+    iterator(const constIterator<T>& other) :
+      current_(const_cast<detail::Node <T>*> (other.current_))
+    {}
+  public:
+    detail::Node < T >*& getCur()
+    {
+      return current_;
+    }
+  };
+
+  template < class T >
+  class constIterator : public std::iterator< std::forward_iterator_tag, T >
+  {
+  public:
+    friend ForwardList < T >;
+    friend iterator < T >;
+
+    constIterator() :
+      current_(nullptr)
+    {}
+
+    constIterator(detail::Node< T >* start) :
+      current_(start)
+    {}
+
+    constIterator(const iterator< T > other) noexcept :
+      current_(other.current_)
+    {}
+
+    bool operator==(const constIterator& other) const
+    {
+      return current_ == other.current_;
+    }
+
+    bool operator!=(const constIterator& other) const
+    {
+      return !(*this == other);
+    }
+
+    const T& operator*() const
+    {
+      return current_->data;
+    }
+
+    const T* operator->() const
+    {
+      if (current_ == nullptr)
+      {
+        throw std::logic_error("->");
+      }
+      return std::addressof(current_->data);
+    }
+
+    constIterator& operator++()
+    {
+      if (current_)
+      {
+        current_ = current_->next;
+      }
+      return *this;
+    }
+
+    constIterator operator++(int)
+    {
+      constIterator< T > temp = *this;
+      ++(*this);
+      return temp;
+    }
+
+  private:
+    detail::Node< T >* current_;
+  public:
+    detail::Node < T >*& etCur()
+    {
+      return current_;
+    }
+
   };
 }
 
