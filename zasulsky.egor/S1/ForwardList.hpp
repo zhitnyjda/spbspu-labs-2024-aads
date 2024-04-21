@@ -7,6 +7,12 @@
 
 namespace zasulsky
 {
+  template < typename T >
+  class iterator;
+
+  template < typename T >
+  class cosntIterator;
+
   template < class T >
   class ForwardList
   {
