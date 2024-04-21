@@ -10,7 +10,7 @@ namespace zasulsky
   template < typename T >
   class Vector
   {
-    class Iterator : public std::iterator < std::bidirectional_iterator_tag, T >
+    class Iterator;
 
   public:
     Vector() :
