@@ -293,23 +293,25 @@ namespace zasulsky
       }
       return *this;
     }
+
     iterator operator++(int)
     {
       iterator<T> temp = *this;
       ++(*this);
       return temp;
     }
+
+    detail::Node < T >*& getCur()
+    {
+      return current_;
+    }
+
   private:
     detail::Node< T >* current_;
 
     iterator(const constIterator<T>& other) :
       current_(const_cast<detail::Node <T>*> (other.current_))
     {}
-  public:
-    detail::Node < T >*& getCur()
-    {
-      return current_;
-    }
   };
 
   template < class T >
@@ -371,14 +373,13 @@ namespace zasulsky
       return temp;
     }
 
-  private:
-    detail::Node< T >* current_;
-  public:
-    detail::Node < T >*& etCur()
+    detail::Node < T >*& getCur()
     {
       return current_;
     }
 
+  private:
+    detail::Node< T >* current_;
   };
 }
 
