@@ -58,15 +58,13 @@ size_t sukacheva::Stack< T >::getSize() noexcept
 template< typename T >
 void sukacheva::Stack< T >::push(const T& value)
 {
-  container.
-Front(value);
+  container.pushFront(value);
 }
 
 template< typename T >
 void sukacheva::Stack< T >::push(T&& value)
 {
-  container.
-Front(value);
+  container.pushFront(value);
 }
 
 template< typename T >
