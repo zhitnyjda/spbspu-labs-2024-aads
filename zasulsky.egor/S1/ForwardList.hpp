@@ -21,19 +21,19 @@ namespace zasulsky
     using constIter = constIterator< T >;
 
     ForwardList() :
-      fakeNode_(static_cast<detail::Node< T >*>(operator new(sizeof(detail::Node < T >))))
+      fakeNode_(static_cast< detail::Node< T >* >(operator new(sizeof(detail::Node < T >))))
     {
       fakeNode_->next = nullptr;
     }
 
-    explicit ForwardList(detail::Node<  T>* head) :
-      fakeNode_(reinterpret_cast<detail::Node< T >*>(operator new(sizeof(detail::Node< T >))))
+    explicit ForwardList(detail::Node< T >* head) :
+      fakeNode_(reinterpret_cast< detail::Node< T >* >(operator new(sizeof(detail::Node< T >))))
     {
       fakeNode_->next = head;
     }
 
     ForwardList(const ForwardList& other) :
-      fakeNode_(static_cast<detail::Node<T>*>(operator new(sizeof(detail::Node< T >))))
+      fakeNode_(static_cast< detail::Node< T >* >(operator new(sizeof(detail::Node< T >))))
     {
       fakeNode_->next = nullptr;
       insert_after(other.cbegin(), other.cend(), cbeforeBegin());
@@ -48,7 +48,7 @@ namespace zasulsky
     ~ForwardList()
     {
       clear();
-      operator delete(reinterpret_cast<void*>(fakeNode_), sizeof(detail::Node<T>));
+      operator delete(reinterpret_cast<void*>(fakeNode_), sizeof(detail::Node< T >));
     }
 
     ForwardList& operator=(const ForwardList& rhs)
@@ -86,6 +86,7 @@ namespace zasulsky
     {
       return iter(fakeNode_->next);
     }
+
     iter beforeBegin()
     {
       return iter(fakeNode_);
@@ -95,6 +96,7 @@ namespace zasulsky
     {
       return iter(nullptr);
     }
+
     constIter cbegin() const
     {
       return constIter(fakeNode_->next);
@@ -154,7 +156,7 @@ namespace zasulsky
       {
         throw std::out_of_range("List is empty");
       }
-      detail::Node<T>* current = fakeNode_->next;
+      detail::Node< T >* current = fakeNode_->next;
       while (current->next)
       {
         current = current->next;
@@ -223,13 +225,13 @@ namespace zasulsky
 
     void SpliceAfter(constIter it, ForwardList& fl)
     {
-      detail::Node<T>* next = const_cast<detail::Node<T>*>(it.current_)->next;
-      const_cast<detail::Node<T>*>(it.current_)->next = fl.head();
+      detail::Node< T >* next = const_cast<detail::Node< T >* >(it.current_)->next;
+      const_cast< detail::Node< T >* >(it.current_)->next = fl.head();
       while (it.current_->next)
       {
         ++it;
       }
-      const_cast<detail::Node< T >*>(it.current_)->next = next;
+      const_cast< detail::Node< T >* >(it.current_)->next = next;
       fl.head() = nullptr;
     }
 
@@ -296,7 +298,7 @@ namespace zasulsky
 
     iterator operator++(int)
     {
-      iterator<T> temp = *this;
+      iterator< T > temp = *this;
       ++(*this);
       return temp;
     }

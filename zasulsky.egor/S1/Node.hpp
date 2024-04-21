@@ -15,17 +15,17 @@ namespace detail
     }
 
     T data;
-    Node<T>* next;
+    Node< T >* next;
   };
-  template <class T>
+  template < class T >
   void deleteHead(Node < T >*& head)
   {
-    Node <T>* temp = head->next;
+    Node < T >* temp = head->next;
     delete head;
     head = temp;
   }
 
-  template <class T>
+  template < class T >
   void freeList(Node < T >*& head)
   {
     while (head)
@@ -34,16 +34,16 @@ namespace detail
     }
   }
   template <class T>
-  Node <T>* copyList(Node < T >* other)
+  Node < T >* copyList(Node < T >* other)
   {
     if (other)
     {
-      Node <T>* head = new Node<T>(other->data);
-      Node<T>* temp1 = other;
-      Node<T>* temp2 = head;
+      Node < T >* head = new Node< T >(other->data);
+      Node< T >* temp1 = other;
+      Node< T >* temp2 = head;
       while (temp1->next != nullptr)
       {
-        temp2->next = new Node<T>((temp1->next)->data);
+        temp2->next = new Node< T >((temp1->next)->data);
         temp2 = temp2->next;
         temp1 = temp1->next;
       }

@@ -10,7 +10,8 @@ namespace zasulsky
   template < typename T >
   class Vector
   {
-
+    class Iterator;
+  
   public:
     Vector() :
       data(nullptr),
@@ -29,56 +30,26 @@ namespace zasulsky
       }
     }
 
-    class Iterator : public std::iterator < std::bidirectional_iterator_tag, T >
+    ~Vector()
     {
-    public:
-      friend class Vector< T >;
+      delete[] data;
+    }
 
-      T* ptr;
-
-      Iterator(T* ptr) : ptr(ptr) {}
-
-      T& operator*() const
+    Vector& operator=(const Vector& other)
+    {
+      if (this != &other)
       {
-        return *ptr;
+        delete[] data;
+        size = other.size;
+        capacity = other.capacity;
+        data = new T[capacity];
+        for (int i = 0; i < size; ++i)
+        {
+          data[i] = other.data[i];
+        }
       }
-
-      Iterator& operator++()
-      {
-        ++ptr;
-        return *this;
-      }
-
-      Iterator& operator--()
-      {
-        --ptr;
-        return *this;
-      }
-
-      Iterator& operator++(int)
-      {
-        Iterator temp = *this;
-        ++ptr;
-        return temp;
-      }
-
-      Iterator& operator--(int)
-      {
-        Iterator temp = *this;
-        --ptr;
-        return temp;
-      }
-
-      bool operator==(const Iterator& other) const
-      {
-        return ptr == other.ptr;
-      }
-
-      bool operator!=(const Iterator& other) const
-      {
-        return ptr != other.ptr;
-      }
-    };
+      return *this;
+    }
 
     void push_front(const T& value)
     {
@@ -104,22 +75,6 @@ namespace zasulsky
 
       data[0] = value;
       ++size;
-    }
-
-    Vector& operator=(const Vector& other)
-    {
-      if (this != &other)
-      {
-        delete[] data;
-        size = other.size;
-        capacity = other.capacity;
-        data = new T[capacity];
-        for (int i = 0; i < size; ++i)
-        {
-          data[i] = other.data[i];
-        }
-      }
-      return *this;
     }
 
     bool isRight(int index, int num)
@@ -252,21 +207,6 @@ namespace zasulsky
       return true;
     }
 
-    ~Vector()
-    {
-      delete[] data;
-    }
-
-    Iterator begin()
-    {
-      return Iterator(data);
-    }
-
-    Iterator end()
-    {
-      return Iterator(data + size);
-    }
-
     T& back()
     {
       if (size == 0)
@@ -285,10 +225,72 @@ namespace zasulsky
       return data[0];
     }
 
+    Iterator begin()
+    {
+      return Iterator(data);
+    }
+
+    Iterator end()
+    {
+      return Iterator(data + size);
+    }
+
     T* getData()
     {
       return data;
     }
+
+    class Iterator : public std::iterator < std::bidirectional_iterator_tag, T >
+    {
+    public:
+      friend class Vector< T >;
+
+      T* ptr;
+
+      Iterator(T* ptr) : ptr(ptr) {}
+
+      T& operator*() const
+      {
+        return *ptr;
+      }
+
+      Iterator& operator++()
+      {
+        ++ptr;
+        return *this;
+      }
+
+      Iterator& operator--()
+      {
+        --ptr;
+        return *this;
+      }
+
+      Iterator& operator++(int)
+      {
+        Iterator temp = *this;
+        ++ptr;
+        return temp;
+      }
+
+      Iterator& operator--(int)
+      {
+        Iterator temp = *this;
+        --ptr;
+        return temp;
+      }
+
+      bool operator==(const Iterator& other) const
+      {
+        return ptr == other.ptr;
+      }
+
+      bool operator!=(const Iterator& other) const
+      {
+        return ptr != other.ptr;
+      }
+    };
+    
     private:
       T* data;
       int capacity;

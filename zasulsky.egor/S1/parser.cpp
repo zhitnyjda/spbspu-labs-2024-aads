@@ -6,6 +6,7 @@
   parsable_(toparse),
   current_(toparse.find_first_not_of(" "))
 {}
+
 std::string Parser::operator ()()
 {
   if (current_ > parsable_.length())
