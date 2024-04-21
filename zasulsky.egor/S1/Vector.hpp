@@ -8,10 +8,12 @@
 namespace zasulsky
 {
   template < typename T >
+  class Iterator;
+
+  template < typename T >
   class Vector
   {
-    class Iterator;
-
+    using Iterator = Iterator <T>;
   public:
     Vector() :
       data(nullptr),
@@ -141,7 +143,7 @@ namespace zasulsky
     }
 
     T& operator[](int index) {
-      if (index < 0 || index >= static_cast< int >(getSize()))
+      if (index < 0 || index >= static_cast<int>(getSize()))
       {
         throw std::out_of_range("Index out of bounds");
       }
@@ -239,63 +241,63 @@ namespace zasulsky
     {
       return data;
     }
+  private:
+    T* data;
+    int capacity;
+    int size;
+  };
 
-    class Iterator : public std::iterator < std::bidirectional_iterator_tag, T >
+  template < typename T >
+  class Iterator : public std::iterator < std::bidirectional_iterator_tag, T >
+  {
+  public:
+    friend class Vector< T >;
+
+    T* ptr;
+
+    Iterator(T* ptr) : ptr(ptr) {}
+
+    T& operator*() const
     {
-    public:
-      friend class Vector< T >;
+      return *ptr;
+    }
 
-      T* ptr;
+    Iterator& operator++()
+    {
+      ++ptr;
+      return *this;
+    }
 
-      Iterator(T* ptr) : ptr(ptr) {}
+    Iterator& operator--()
+    {
+      --ptr;
+      return *this;
+    }
 
-      T& operator*() const
-      {
-        return *ptr;
-      }
+    Iterator& operator++(int)
+    {
+      Iterator temp = *this;
+      ++ptr;
+      return temp;
+    }
 
-      Iterator& operator++()
-      {
-        ++ptr;
-        return *this;
-      }
+    Iterator& operator--(int)
+    {
+      Iterator temp = *this;
+      --ptr;
+      return temp;
+    }
 
-      Iterator& operator--()
-      {
-        --ptr;
-        return *this;
-      }
+    bool operator==(const Iterator& other) const
+    {
+      return ptr == other.ptr;
+    }
 
-      Iterator& operator++(int)
-      {
-        Iterator temp = *this;
-        ++ptr;
-        return temp;
-      }
-
-      Iterator& operator--(int)
-      {
-        Iterator temp = *this;
-        --ptr;
-        return temp;
-      }
-
-      bool operator==(const Iterator& other) const
-      {
-        return ptr == other.ptr;
-      }
-
-      bool operator!=(const Iterator& other) const
-      {
-        return ptr != other.ptr;
-      }
-    };
-
-    private:
-      T* data;
-      int capacity;
-      int size;
+    bool operator!=(const Iterator& other) const
+    {
+      return ptr != other.ptr;
+    }
   };
 }
-
+  
 #endif
