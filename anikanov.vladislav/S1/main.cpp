@@ -2,7 +2,6 @@
 #include <memory>
 #include "mainExtensions.hpp"
 
-
 int main()
 {
   using namespace anikanov;

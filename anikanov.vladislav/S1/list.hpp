@@ -141,6 +141,7 @@ private:
   std::shared_ptr< Node > get_node() const;
   iterator_t itr;
 };
+
 template< typename T >
 bool anikanov::List< T >::ConstIterator::operator==(const anikanov::List< T >::ConstIterator &other) const
 {
@@ -307,7 +308,6 @@ typename anikanov::List< T >::Iterator::this_t &anikanov::List< T >::Iterator::o
   return *this;
 }
 
-
 template< typename T >
 typename anikanov::List< T >::Iterator::this_t anikanov::List< T >::Iterator::operator++(int)
 {
@@ -368,7 +368,6 @@ bool anikanov::List< T >::Iterator::operator==(const this_t &other) const
 {
   return node == other.node;
 }
-
 
 template< typename T >
 anikanov::List< T > &anikanov::List< T >::operator=(const List< T > &other)
