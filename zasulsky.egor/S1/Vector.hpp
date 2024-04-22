@@ -45,7 +45,7 @@ namespace zasulsky
         size = other.size;
         capacity = other.capacity;
         data = new T[capacity];
-        for (int i = 0; i < size; ++i)
+        for (size_t i = 0; i < size; ++i)
         {
           data[i] = other.data[i];
         }
@@ -198,7 +198,7 @@ namespace zasulsky
         return false;
       }
 
-      for (int i = 0; i < size; ++i)
+      for (size_t i = 0; i < size; ++i)
       {
         if (data[i] != other.data[i])
         {

@@ -86,7 +86,7 @@ namespace zasulsky
     }
     return max;
   }
-  Vector < int > getSizes(fList list)
+  Vector < size_t > getSizes(fList list)
   {
     Vector<size_t> res;
     for (auto el : list)
@@ -132,7 +132,7 @@ namespace zasulsky
   }
   void outputSequence(fList& listo, std::ostream& out, bool isOver)
   {
-    Vector < int > sizes = getSizes(listo);
+    Vector < size_t > sizes = getSizes(listo);
     fList list;
     for (auto el : listo)
     {
