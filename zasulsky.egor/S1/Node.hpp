@@ -13,7 +13,7 @@ namespace detail
       next = nullptr;
     }
 
-    Node(T data, Node < T >* next = nullptr)
+    Node(T data, Node< T >* next = nullptr)
     {
       this->data = data;
       this->next = next;
