@@ -62,7 +62,7 @@ namespace litsinger
 }
 
 template< typename T >
-class Listt::List< T >::ConstIterator : public std::iterator< std::forward_iterator_tag, T >
+class litsinger::List< T >::ConstIterator : public std::iterator< std::forward_iterator_tag, T >
 {
 public:
   friend class List< T >;
@@ -87,17 +87,17 @@ private:
 };
 
 template< typename T >
-Listt::List< T >::ConstIterator::ConstIterator():
+litsinger::List< T >::ConstIterator::ConstIterator():
   node(nullptr)
 {}
 
 template< typename T >
-Listt::List< T >::ConstIterator::ConstIterator(Node* pointer):
+litsinger::List< T >::ConstIterator::ConstIterator(Node* pointer):
   node(pointer)
 {}
 
 template< typename T >
-typename Listt::List< T >::ConstIterator& Listt::List< T >::ConstIterator::operator++()
+typename litsinger::List< T >::ConstIterator& litsinger::List< T >::ConstIterator::operator++()
 {
   assert(node != nullptr);
   node = node->next;
@@ -105,7 +105,7 @@ typename Listt::List< T >::ConstIterator& Listt::List< T >::ConstIterator::opera
 }
 
 template< typename T >
-typename Listt::List< T >::ConstIterator Listt::List< T >::ConstIterator::operator++(int)
+typename litsinger::List< T >::ConstIterator litsinger::List< T >::ConstIterator::operator++(int)
 {
   assert(node != nullptr);
   ConstIterator result(*this);
@@ -114,33 +114,33 @@ typename Listt::List< T >::ConstIterator Listt::List< T >::ConstIterator::operat
 }
 
 template< typename T >
-const T& Listt::List< T >::ConstIterator::operator*() const
+const T& litsinger::List< T >::ConstIterator::operator*() const
 {
   assert(node != nullptr);
   return node->data;
 }
 
 template< typename T >
-const T* Listt::List< T >::ConstIterator::operator->() const
+const T* litsinger::List< T >::ConstIterator::operator->() const
 {
   assert(node != nullptr);
   return std::addressof(node->data);
 }
 
 template< typename T >
-bool Listt::List< T >::ConstIterator::operator!=(const ConstIterator& rhs) const
+bool litsinger::List< T >::ConstIterator::operator!=(const ConstIterator& rhs) const
 {
   return !(rhs == *this);
 }
 
 template< typename T >
-bool Listt::List< T >::ConstIterator::operator==(const ConstIterator& rhs) const
+bool litsinger::List< T >::ConstIterator::operator==(const ConstIterator& rhs) const
 {
   return node == rhs.node;
 }
 
 template< typename T >
-class Listt::List< T >::Iterator : public std::iterator< std::forward_iterator_tag, T >
+class litsinger::List< T >::Iterator : public std::iterator< std::forward_iterator_tag, T >
 {
 public:
   friend class List< T >;
@@ -164,17 +164,17 @@ private:
 };
 
 template< typename T >
-Listt::List< T >::Iterator::Iterator():
+litsinger::List< T >::Iterator::Iterator():
   iterator(nullptr)
 {}
 
 template< typename T >
-Listt::List< T >::Iterator::Iterator(ConstIterator someIterator):
+litsinger::List< T >::Iterator::Iterator(ConstIterator someIterator):
   iterator(someIterator)
 {}
 
 template< typename T >
-typename Listt::List< T >::Iterator& Listt::List< T >::Iterator::operator++()
+typename litsinger::List< T >::Iterator& litsinger::List< T >::Iterator::operator++()
 {
   assert(iterator != nullptr);
   iterator++;
@@ -182,7 +182,7 @@ typename Listt::List< T >::Iterator& Listt::List< T >::Iterator::operator++()
 }
 
 template< typename T >
-typename Listt::List< T >::Iterator Listt::List< T >::Iterator::operator++(int)
+typename litsinger::List< T >::Iterator litsinger::List< T >::Iterator::operator++(int)
 {
   assert(iterator != nullptr);
   ++iterator;
@@ -190,39 +190,39 @@ typename Listt::List< T >::Iterator Listt::List< T >::Iterator::operator++(int)
 }
 
 template< typename T >
-T& Listt::List< T >::Iterator::operator*()
+T& litsinger::List< T >::Iterator::operator*()
 {
   assert(iterator != nullptr);
   return iterator.node->data;
 }
 
 template< typename T >
-T* Listt::List< T >::Iterator::operator->()
+T* litsinger::List< T >::Iterator::operator->()
 {
   assert(iterator != nullptr);
   return std::addressof(iterator.node->data);
 }
 
 template< typename T >
-bool Listt::List< T >::Iterator::operator!=(const Iterator& rhs) const
+bool litsinger::List< T >::Iterator::operator!=(const Iterator& rhs) const
 {
   return !(rhs.iterator == iterator);
 }
 
 template< typename T >
-bool Listt::List< T >::Iterator::operator==(const Iterator& rhs) const
+bool litsinger::List< T >::Iterator::operator==(const Iterator& rhs) const
 {
   return iterator == rhs.iterator;
 }
 
 template< typename T >
-Listt::List< T >::List():
+litsinger::List< T >::List():
   head_(nullptr),
   tail_(nullptr)
 {}
 
 template< typename T >
-Listt::List< T >::List(size_t n, const T& value)
+litsinger::List< T >::List(size_t n, const T& value)
 {
   head_ = nullptr;
   tail_ = nullptr;
@@ -233,7 +233,7 @@ Listt::List< T >::List(size_t n, const T& value)
 }
 
 template< typename T >
-Listt::List< T >::List(const List< T >& otherList)
+litsinger::List< T >::List(const List< T >& otherList)
 {
   head_ = nullptr;
   tail_ = nullptr;
@@ -246,7 +246,7 @@ Listt::List< T >::List(const List< T >& otherList)
 }
 
 template< typename T >
-Listt::List< T >::List(List&& otherList)
+litsinger::List< T >::List(List&& otherList)
 {
   head_ = otherList.head_;
   tail_ = otherList.tail_;
@@ -255,13 +255,13 @@ Listt::List< T >::List(List&& otherList)
 }
 
 template< typename T >
-Listt::List< T >::~List()
+litsinger::List< T >::~List()
 {
   clear();
 }
 
 template< typename T >
-void Listt::List< T >::pushFront(const T& data)
+void litsinger::List< T >::pushFront(const T& data)
 {
   Node* node = new Node(data);
   if (head_ != nullptr)
@@ -276,7 +276,7 @@ void Listt::List< T >::pushFront(const T& data)
 }
 
 template< typename T >
-void Listt::List< T >::pushBack(const T& data)
+void litsinger::List< T >::pushBack(const T& data)
 {
   Node* node = new Node(data);
   if (head_ == nullptr)
@@ -291,7 +291,7 @@ void Listt::List< T >::pushBack(const T& data)
 }
 
 template< typename T >
-size_t Listt::List< T >::getSize()
+size_t litsinger::List< T >::getSize()
 {
   Node* head = head_;
   size_t size = 0ull;
@@ -305,7 +305,7 @@ size_t Listt::List< T >::getSize()
 
 
 template< typename T >
-void Listt::List< T >::popFront()
+void litsinger::List< T >::popFront()
 {
   if (head_ == tail_)
   {
@@ -321,13 +321,13 @@ void Listt::List< T >::popFront()
 }
 
 template< typename T >
-bool Listt::List< T >::isEmpty() noexcept
+bool litsinger::List< T >::isEmpty() noexcept
 {
   return head_ == nullptr ? true : false;
 }
 
 template< typename T >
-void Listt::List< T >::clear()
+void litsinger::List< T >::clear()
 {
   while (head_)
   {
@@ -336,14 +336,14 @@ void Listt::List< T >::clear()
 }
 
 template< typename T >
-void Listt::List< T >::swap(List< T >& otherList) noexcept
+void litsinger::List< T >::swap(List< T >& otherList) noexcept
 {
   std::swap(head_, otherList.head_);
   std::swap(tail_, otherList.tail_);
 }
 
 template< typename T >
-void Listt::List< T >::assign(size_t n, const T& value)
+void litsinger::List< T >::assign(size_t n, const T& value)
 {
   clear();
   for (size_t i = 0; i < n; i++)
@@ -353,7 +353,7 @@ void Listt::List< T >::assign(size_t n, const T& value)
 }
 
 template< typename T >
-void Listt::List< T >::remove(const T& value)
+void litsinger::List< T >::remove(const T& value)
 {
   ConstIterator iterator = cbegin();
   Node* nextNode = iterator.node->next;
@@ -397,7 +397,7 @@ void Listt::List< T >::remove(const T& value)
 
 template< typename T >
 template< typename P >
-void Listt::List< T >::removeIf(P p)
+void litsinger::List< T >::removeIf(P p)
 {
   ConstIterator iterator = cbegin();
   Node* nextNode = iterator.node->next;
@@ -440,19 +440,19 @@ void Listt::List< T >::removeIf(P p)
 }
 
 template< typename T >
-T& Listt::List< T >::front()
+T& litsinger::List< T >::front()
 {
   return head_->data;
 }
 
 template< typename T >
-T& Listt::List< T >::back()
+T& litsinger::List< T >::back()
 {
   return tail_->data;
 }
 
 template< typename T >
-typename Listt::List< T >::ConstIterator Listt::List< T >::operator[](const int index)
+typename litsinger::List< T >::ConstIterator litsinger::List< T >::operator[](const int index)
 {
   ConstIterator iterator = cbegin();
   for (int i = 0; i < index; i++)
@@ -467,25 +467,25 @@ typename Listt::List< T >::ConstIterator Listt::List< T >::operator[](const int 
 }
 
 template< typename T >
-typename Listt::List< T >::Iterator Listt::List< T >::begin() const
+typename litsinger::List< T >::Iterator litsinger::List< T >::begin() const
 {
   return Iterator(head_);
 }
 
 template< typename T >
-typename Listt::List< T >::Iterator Listt::List< T >::end() const
+typename litsinger::List< T >::Iterator litsinger::List< T >::end() const
 {
   return Iterator(tail_->next);
 }
 
 template< typename T >
-typename Listt::List< T >::ConstIterator Listt::List< T >::cbegin() const
+typename litsinger::List< T >::ConstIterator litsinger::List< T >::cbegin() const
 {
   return ConstIterator(head_);
 }
 
 template< typename T >
-typename Listt::List< T >::ConstIterator Listt::List< T >::cend() const
+typename litsinger::List< T >::ConstIterator litsinger::List< T >::cend() const
 {
   return ConstIterator(tail_->next);
 }
