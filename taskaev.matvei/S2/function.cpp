@@ -75,7 +75,7 @@ namespace taskaev
   {
     Stack< long long > result;
     const long long maxLimit = std::numeric_limits< long long >::max();
-    const long long minLimit = std::numericLimits< long long >::min();
+    const long long minLimit = std::numeric_limits< long long >::min();
     while (!postfix.isEmpty())
     {
       if (postfix.front().types == operand)
@@ -109,7 +109,7 @@ namespace taskaev
         }
         else if (postfix.front().data == '*')
         {
-          if (operand > maxLimit / result.top() || hand < minLimit / result.top())
+          if (operand > maxLimit / result.top() || operand < minLimit / result.top())
           {
             throw std::logic_error("Error: overflow");
           }
@@ -122,7 +122,7 @@ namespace taskaev
         {
           if (operand != 0)
           {
-            operand = result.top() / opreand;
+            operand = result.top() / operand;
           }
           else
           {
