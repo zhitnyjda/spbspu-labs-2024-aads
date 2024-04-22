@@ -67,15 +67,15 @@ namespace zasulsky
     }
   }
 
-  int getMaxSize(fList list)
+  size_t getMaxSize(fList list)
   {
     ForwardList< int > ls;
     for (auto el : list)
     {
       ls.pushFront(el.second.getSize());
     }
-    int max = 0;
-    int current = 0;
+    size_t max = 0;
+    size_t current = 0;
     for (auto el : list)
     {
       current = el.second.getSize();
@@ -88,7 +88,7 @@ namespace zasulsky
   }
   Vector < int > getSizes(fList list)
   {
-    Vector<int> res;
+    Vector<size_t> res;
     for (auto el : list)
     {
       res.push_back(el.second.getSize());
@@ -138,7 +138,7 @@ namespace zasulsky
     {
       list.pushFront(el);
     }
-    int max = getMaxSize(list);
+    size_t max = getMaxSize(list);
     ForwardList<int> res;
     ForwardList<int> sumsa;
     ForwardList<int> sums;
