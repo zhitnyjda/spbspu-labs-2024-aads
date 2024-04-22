@@ -21,13 +21,13 @@ namespace zasulsky
     using constIter = constIterator< T >;
 
     ForwardList() :
-      fakeNode_( new detail::Node < T >)
+      fakeNode_(new detail::Node < T >)
     {
       fakeNode_->next = nullptr;
     }
 
     explicit ForwardList(detail::Node< T >* head) :
-      fakeNode_( new detail::Node< T >)
+      fakeNode_(new detail::Node< T >)
     {
       fakeNode_->next = head;
     }
@@ -48,7 +48,7 @@ namespace zasulsky
     ~ForwardList()
     {
       clear();
-      operator delete(reinterpret_cast<void*>(fakeNode_), sizeof(detail::Node< T >));
+      delete &fakeNode_;
     }
 
     ForwardList& operator=(const ForwardList& rhs)
