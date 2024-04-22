@@ -34,6 +34,18 @@ namespace taskaev
       }
       else if (queue.front().types == operation)
       {
+        if (!stack.isEmpty())
+        {
+          int priorityStack = 0;
+          int priorityQueue = 0;
+          priorityStack = (stack.top().types == '+' || stack.top().types == '-') ? 1 : 2;
+          priorityQueue = (queue.front().types == '+' || queue.front().types == '-') ? 1 : 2;
+          if (priorityStack >= priorityQueue)
+          {
+            postfix.push(stack.top());
+            stack.pop();
+          }
+        }
         stack.push(queue.front());
         queue.pop();
       }
