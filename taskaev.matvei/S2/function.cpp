@@ -1,4 +1,5 @@
 #include <string>
+#include <limits>
 #include "function.hpp"
 #include "Queue.hpp"
 #include "Stack.hpp"
@@ -73,6 +74,8 @@ namespace taskaev
   long long calculate(Queue< IdentifierMath >& postfix)
   {
     Stack< long long > result;
+    const long long maxLimit = std::numeric_limits< long long >::max();
+    const long long minLimit = std::numericLimits< long long >::min();
     while (!postfix.isEmpty())
     {
       if (postfix.front().types == operand)
@@ -84,23 +87,58 @@ namespace taskaev
         result.pop();
         if (postfix.front().data == '+')
         {
-          operand += result.top();
+          if(operand > maxLimit - result.top())
+          {
+            throw std::logic_error("Error: overflow!");
+          }
+          else
+          {
+            operand += result.top();
+          }
         }
         else if (postfix.front().data == '-')
         {
-          operand = result.top() - operand;
+          if(operand < minLimit - result.top())
+          {
+            throw std::logic_error("Erorr: overflow");
+          }
+          else
+          {
+            operand = result.top() - operand;
+          }
         }
         else if (postfix.front().data == '*')
         {
-          operand *= result.top();
+          if (operand > maxLimit / result.top() || hand < minLimit / result.top())
+          {
+            throw std::logic_error("Error: overflow");
+          }
+          else
+          {
+            operand *= result.top();
+          }
         }
         else if (postfix.front().data == '/')
         {
-          operand = result.top() / operand;
+          if (operand != 0)
+          {
+            operand = result.top() / opreand;
+          }
+          else
+          {
+            throw std::invalid_argument("Error: 0");
+          }
         }
         else
         {
-          operand = (result.top() % operand < 0 ) ? ((result.top() % operand)+ operand) : (result.top() % operand);
+          if (operand != 0)
+          {
+            operand = (result.top() % operand < 0 ) ? ((result.top() % operand)+ operand) : (result.top() % operand);
+          }
+          else
+          {
+            throw std::invalid_argument("Error: 0");
+          }
         }
         result.pop();
         result.push(operand);
@@ -109,7 +147,7 @@ namespace taskaev
     }
     if(result.isEmpty())
     {
-      throw std::logic_error("NON");
+      throw std::logic_error("Error: sos");
     }
     {
       return result.top();
