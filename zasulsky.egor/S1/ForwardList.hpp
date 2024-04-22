@@ -48,7 +48,7 @@ namespace zasulsky
     ~ForwardList()
     {
       clear();
-      delete std::addressof(fakeNode_);
+      delete &fakeNode_;
     }
 
     ForwardList& operator=(const ForwardList& rhs)
