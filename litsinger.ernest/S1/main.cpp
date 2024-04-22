@@ -1,74 +1,34 @@
 #include <iostream>
-#include <string>
-#include <vector>
-#include <iterator>
-#include <algorithm>
-#include <sstream>
 #include "list.hpp"
+#include "func.hpp"
 
 int main() {
-  std::string line;
-  std::list<std::pair<std::string, List<int>>> sequences;
+  using namespace litsinger;
 
-  while (std::getline(std::cin, line)) {
-    if (line.empty()) continue;
-    std::istringstream iss(line);
-    std::string name;
-    int num;
-    if (!(iss >> name)) {
-      std::cerr << "Error: Invalid input format" << std::endl;
-      return 1;
+  try {
+    auto list = listInput(std::cin);
+    if (list.isEmpty()) {
+      std::cout << "0\n";
+      return 0;
     }
-    List<int> numbers;
-    while (iss >> num) {
-     numbers.push_back(num);
-    }
-    sequences.emplace_back(name, numbers);
-  }
 
-  if (sequences.empty()) {
-    std::cout << "0" << std::endl;
+    namesOutput(list, std::cout);
+
+    List<List<size_t>> lists;
+    listFormation(list, lists);
+    if (!lists.isEmpty()) {
+      listsOutput(std::cout, lists);
+
+      List<size_t> sums;
+      sumsFormation(lists, sums);
+      sumsOutput(std::cout, sums);
+    }
     return 0;
+  } catch (const std::overflow_error& e) {
+    std::cerr << "Error: " << e.what() << "\n";
+    return 1;
+  } catch (const std::exception& e) {
+    std::cerr << "Unhandled exception: " << e.what() << "\n";
+    return 2;
   }
-
-  for (const auto& seq : sequences) {
-    std::cout << seq.first << " ";
-  }
-  std::cout << std::endl;
-
-  bool itemsRemaining;
-  int col = 0;
-  std::vector<int> sums;
-  do {
-    itemsRemaining = false;
-    List<int> columnValues;
-    for (auto& seq : sequences) {
-      if (seq.second.size() > col) {
-        auto it = std::next(seq.second.begin(), col);
-        if (it != seq.second.end()) {
-          columnValues.push_back(*it);
-          itemsRemaining = true;
-        }
-      }
-    }
-    if (!columnValues.empty()) {
-      int sum = 0;
-      for (int val : columnValues) {
-        std::cout << val << " ";
-        sum += val;
-      }
-      sums.push_back(sum);
-      std::cout << std::endl;
-    }
-    col++;
-  } while (itemsRemaining);
-
-  if (!sums.empty()) {
-    for (int sum : sums) {
-      std::cout << sum << " ";
-    }
-    std::cout << std::endl;
-  }
-
-  return 0;
 }
