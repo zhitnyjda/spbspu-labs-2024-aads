@@ -22,5 +22,6 @@ namespace detail
     T data;
     Node< T >* next;
   };
+}
 
 #endif
