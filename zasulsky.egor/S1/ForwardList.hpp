@@ -33,7 +33,7 @@ namespace zasulsky
     }
 
     ForwardList(const ForwardList& other) :
-      fakeNode_(new detail::Node< T >) 
+      fakeNode_(new detail::Node< T >)
     {
       fakeNode_->next = nullptr;
       insert_after(other.cbegin(), other.cend(), cbeforeBegin());
