@@ -57,9 +57,9 @@ namespace zasulsky
     {
       if (size >= capacity)
       {
-        int new_capacity = (capacity == 0) ? 1 : 2 * capacity;
+        size_t new_capacity = (capacity == 0) ? 1 : 2 * capacity;
         T* new_data = new T[new_capacity];
-        for (int i = 0; i < size; ++i)
+        for (size_t i = 0; i < size; ++i)
         {
           new_data[i + 1] = data[i];
         }
@@ -69,7 +69,7 @@ namespace zasulsky
       }
       else
       {
-        for (int i = size; i > 0; --i)
+        for (size_t i = size; i > 0; --i)
         {
           data[i] = data[i - 1];
         }
@@ -82,7 +82,7 @@ namespace zasulsky
     bool isRight(int index, int num)
     {
       bool res = false;
-      for (int i = ++index; i < getSize(); i++)
+      for (size_t i = ++index; i < getSize(); i++)
       {
         int d = 0;
         d = data[i];
@@ -112,9 +112,9 @@ namespace zasulsky
     {
       if (size >= capacity)
       {
-        int new_capacity = (capacity == 0) ? 1 : 2 * capacity;
+        size_t new_capacity = (capacity == 0) ? 1 : 2 * capacity;
         T* new_data = new T[new_capacity];
-        for (int i = 0; i < size; ++i)
+        for (size_t i = 0; i < size; ++i)
         {
           new_data[i] = data[i];
         }
@@ -129,9 +129,9 @@ namespace zasulsky
     {
       if (size >= capacity)
       {
-        int new_capacity = (capacity == 0) ? 1 : 2 * capacity;
+        size_t new_capacity = (capacity == 0) ? 1 : 2 * capacity;
         T* new_data = new T[new_capacity];
-        for (int i = 0; i < size; ++i)
+        for (size_t i = 0; i < size; ++i)
         {
           new_data[i] = data[i];
         }
@@ -150,7 +150,7 @@ namespace zasulsky
       return data[index];
     }
 
-    int getSize() const
+    size_t getSize() const
     {
       return size;
     }
@@ -243,8 +243,8 @@ namespace zasulsky
     }
   private:
     T* data;
-    int capacity;
-    int size;
+    size_t capacity;
+    size_t size;
   };
 
   template < typename T >
