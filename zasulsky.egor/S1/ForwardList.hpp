@@ -150,21 +150,6 @@ namespace zasulsky
       }
     }
 
-    T& back()
-    {
-      if (fakeNode_ == nullptr)
-      {
-        throw std::out_of_range("List is empty");
-      }
-      detail::Node< T >* current = fakeNode_->next;
-      while (current->next)
-      {
-        current = current->next;
-      }
-
-      return current->data;
-    }
-
     void pushFront(T value)
     {
       insert_after(cbeforeBegin(), value);
@@ -199,6 +184,20 @@ namespace zasulsky
         throw std::logic_error("ForwardList is empty");
       }
       return *begin();
+    }
+
+    T& back()
+    {
+      if (empty())
+      {
+        throw std::out_of_range("List is empty");
+      }
+      detail::Node< T >* current = fakeNode_->next;
+      while (current->next)
+      {
+        current = current->next;
+      }
+      return current->data;
     }
 
     detail::Node< T >** getPtrHead()
