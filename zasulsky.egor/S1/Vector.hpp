@@ -94,7 +94,7 @@ namespace zasulsky
       return res;
     }
 
-    bool isLeft(int index, int num)
+    bool isLeft(int index, size_t num)
     {
       bool res = false;
       for (int i = --index; i >= 0; i--)

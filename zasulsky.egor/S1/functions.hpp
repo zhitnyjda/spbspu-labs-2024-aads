@@ -143,7 +143,7 @@ namespace zasulsky
     ForwardList<int> sumsa;
     ForwardList<int> sums;
     size_t num = 0;
-    for (int i = 0; i <= max; i++)
+    for (size_t i = 0; i <= max; i++)
     {
       if (num > max - 1)
       {
