@@ -89,7 +89,7 @@ namespace taskaev
         {
           if(result.top() > maxLimit - operand)
           {
-            throw std::logic_error("Error: overflow!");
+            throw std::logic_error("Error: overflow +");
           }
           else
           {
@@ -98,9 +98,9 @@ namespace taskaev
         }
         else if (postfix.front().data == '-')
         {
-          if(result.top() < minLimit - operand)
+          if(result.top() < minLimit + operand)
           {
-            throw std::logic_error("Erorr: overflow");
+            throw std::logic_error("Erorr: overflow -");
           }
           else
           {
@@ -111,7 +111,7 @@ namespace taskaev
         {
           if (operand > maxLimit / result.top() || operand < minLimit / result.top())
           {
-            throw std::logic_error("Error: overflow");
+            throw std::logic_error("Error: overflow *");
           }
           else
           {
