@@ -21,19 +21,19 @@ namespace zasulsky
     using constIter = constIterator< T >;
 
     ForwardList() :
-      fakeNode_(static_cast< detail::Node< T >* >(operator new(sizeof(detail::Node < T >))))
+      fakeNode_( new detail::Node < T >)
     {
       fakeNode_->next = nullptr;
     }
 
     explicit ForwardList(detail::Node< T >* head) :
-      fakeNode_(reinterpret_cast< detail::Node< T >* >(operator new(sizeof(detail::Node< T >))))
+      fakeNode_( new detail::Node< T >)
     {
       fakeNode_->next = head;
     }
 
     ForwardList(const ForwardList& other) :
-      fakeNode_(static_cast< detail::Node< T >* >(operator new(sizeof(detail::Node< T >))))
+      fakeNode_(new detail::Node< T >) 
     {
       fakeNode_->next = nullptr;
       insert_after(other.cbegin(), other.cend(), cbeforeBegin());
