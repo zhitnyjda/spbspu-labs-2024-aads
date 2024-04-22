@@ -34,7 +34,7 @@ namespace taskaev
       }
       else if (queue.front().types == operation)
       {
-        if (!stack.isEmpty())
+        if (!stack.isEmpty() && stack.top().types == operation)
         {
           int priorityStack = 0;
           int priorityQueue = 0;
