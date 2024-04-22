@@ -53,6 +53,32 @@ namespace zasulsky
       return *this;
     }
 
+    bool operator==(const Vector& other) const
+    {
+      if (size != other.size)
+      {
+        return false;
+      }
+
+      for (size_t i = 0; i < size; ++i)
+      {
+        if (data[i] != other.data[i])
+        {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    T& operator[](int index) {
+      if (index < 0 || index >= static_cast<int>(getSize()))
+      {
+        throw std::out_of_range("Index out of bounds");
+      }
+      return data[index];
+    }
+
     void push_front(const T& value)
     {
       if (size >= capacity)
@@ -142,14 +168,6 @@ namespace zasulsky
       data[size++] = value;
     }
 
-    T& operator[](int index) {
-      if (index < 0 || index >= static_cast<int>(getSize()))
-      {
-        throw std::out_of_range("Index out of bounds");
-      }
-      return data[index];
-    }
-
     size_t getSize() const
     {
       return size;
@@ -189,24 +207,6 @@ namespace zasulsky
       data = nullptr;
       size = 0;
       capacity = 0;
-    }
-
-    bool operator==(const Vector& other) const
-    {
-      if (size != other.size)
-      {
-        return false;
-      }
-
-      for (size_t i = 0; i < size; ++i)
-      {
-        if (data[i] != other.data[i])
-        {
-          return false;
-        }
-      }
-
-      return true;
     }
 
     T& back()
