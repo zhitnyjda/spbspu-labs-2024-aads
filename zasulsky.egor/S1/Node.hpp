@@ -12,6 +12,7 @@ namespace detail
     {
       next = nullptr;
     }
+
     Node(T data, Node < T >* next = nullptr)
     {
       this->data = data;
@@ -21,6 +22,7 @@ namespace detail
     T data;
     Node< T >* next;
   };
+
   template < class T >
   void deleteHead(Node < T >*& head)
   {
@@ -37,6 +39,7 @@ namespace detail
       deleteHead(head);
     }
   }
+
   template <class T>
   Node < T >* copyList(Node < T >* other)
   {
