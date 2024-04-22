@@ -8,6 +8,11 @@ namespace detail
   template < class T >
   struct Node
   {
+    Node()
+    {
+      data();
+      next = nullptr;
+    }
     Node(T data, Node < T >* next = nullptr)
     {
       this->data = data;
