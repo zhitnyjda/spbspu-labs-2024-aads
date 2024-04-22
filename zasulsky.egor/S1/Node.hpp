@@ -10,7 +10,6 @@ namespace detail
   {
     Node()
     {
-      data = T();
       next = nullptr;
     }
     Node(T data, Node < T >* next = nullptr)
