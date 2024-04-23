@@ -1,4 +1,4 @@
-#include "mainUtils.hpp"
+#include "IOProcessing.hpp"
 #include <limits>
 
 std::pair<miheev::SI_pair*, size_t> miheev::expandArr(SI_pair* pairs, size_t size)
