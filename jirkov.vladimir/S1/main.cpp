@@ -1,25 +1,16 @@
-#include <iostream>
-#include <vector>
-#include <sstream>
-#include <string>
+#include <limits>
 #include "list.hpp"
 
-int main() {
-    using namespace jirkov;
-    List<std::pair<std::string, List<size_t>>> sequences;
-    std::string name;
-    while (std::cin >> name) {
-        std::string input;
-        std::getline(std::cin, input);
-
-        List<size_t> sequence;
-        std::istringstream iss(input);
-        size_t num;
-        while (iss >> num) {
-            sequence.push_back(num);
-        }
-        sequences.push_back({name, sequence});
-    }
-
+int main()
+{
+  using namespace jirkov;
+  try
+  {
+    List<std::pair<std::string,List<size_t>>>list = Input(std::cin);
+    const size_t maximum = std::numeric_limits< size_t >::max();
+    size_t sum = 0;
+    Iterator<std::pair<std::string, List<size_t>>>iterator = list.begin();
+    List< size_t > sums;
+    Iterator< size_t > iterator;
     return 0;
 }
