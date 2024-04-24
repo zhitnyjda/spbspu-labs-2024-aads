@@ -3,7 +3,7 @@
 
 jirkov::List<std::pair<std::string, jirkov::List<size_t>>>jirkov::listInput(std::istream& input)
 {
-  unsigned long long number = 0;
+  size_t number = 0;
   const size_t max = std::numeric_limits< size_t >::max();
   std::string string = "";
   jirkov::List< std::pair<std::string, jirkov::List<size_t>>>inputList;
@@ -28,4 +28,3 @@ jirkov::List<std::pair<std::string, jirkov::List<size_t>>>jirkov::listInput(std:
   }
   return inputList;
 }
-
