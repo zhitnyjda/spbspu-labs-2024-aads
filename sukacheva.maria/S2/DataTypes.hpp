@@ -1,19 +1,26 @@
 #ifndef DATATYPES_HPP
 #define DATATYPES_HPP
+#include <string>
+#include "Stack.hpp"
 
 namespace sukacheva
 {
   struct ElementOfStatement
   {
     ~ElementOfStatement() = default;
-    bool isBracket(std::string applicant) const noexcept;
-    bool isNumber(std::string applicant) const noexcept;
-    bool isBinaryOperations(std::string applicant) const noexcept;
+    ElementOfStatement() = default;
+    ElementOfStatement(std::string applicant_);
+    bool isBracket() const noexcept;
+    bool isNumber() const noexcept;
+    bool isBinaryOperations() const noexcept;
+
+    std::string applicant;
   };
 
   struct Bracket : public ElementOfStatement
   {
     Bracket(char bracket_);
+    Bracket(std::string value);
     bool ifBracketIsOpen() const noexcept;
     bool ifBracketIsClose() const noexcept;
 
@@ -36,10 +43,17 @@ namespace sukacheva
   struct Operation : public ElementOfStatement
   {
     Operation(char operation_);
+    Operation(std::string value);
 
-    bool priorityOfOperation(Operation other);
+    bool priorityOfOperation(ElementOfStatement other);
 
     char operation;
+  };
+
+  struct Postfix
+  {
+    Stack< Operation > operations;
+    Stack< Operand > operands;
   };
 }
 

@@ -3,13 +3,11 @@
 #include <iosfwd>
 #include "Stack.hpp"
 #include "Queue.hpp"
+#include "DataTypes.hpp"
 
 namespace sukacheva {
   Queue< std::string > inputStatement(std::istream& input);
-  Queue< std::string > makePostfix(Queue< std::string >& infix);
-  bool isBinaryOperations(std::string example);
-  bool isNumber(std::string example);
-  bool priorityOfOperation(std::string operation1, std::string operation2);
-  long long calculate(Queue< std::string >& postfix);
+  Postfix makePostfix(Queue< std::string >& infix);
+  long long calculate(Postfix& postfix);
 }
 #endif

@@ -35,78 +35,60 @@ sukacheva::Queue< std::string > sukacheva::inputStatement(std::istream& input)
   return statement;
 }
 
-bool sukacheva::isNumber(std::string example)
+sukacheva::Postfix sukacheva::makePostfix(Queue< std::string >& infix)
 {
-  return !example.empty() && (example.find_first_not_of("0123456789") == example.npos);
-}
-
-bool sukacheva::isBinaryOperations(std::string example)
-{
-  return !example.empty() && (example.find_first_not_of("+-*/%") == example.npos);
-}
-
-bool sukacheva::priorityOfOperation(std::string operation1, std::string operation2)
-{
-  int priorityIndex1 = 1;
-  int priorityIndex2 = 1;
-  if (operation1.find_first_not_of("*/%") == operation1.npos)
-  {
-    priorityIndex1 = 2;
-  }
-  if (operation2.find_first_not_of("*/%") == operation2.npos)
-  {
-    priorityIndex2 = 2;
-  }
-  else if (operation2 == "(")
-  {
-    return 0;
-  }
-  return priorityIndex1 >= priorityIndex2;
-}
-
-sukacheva::Queue<std::string> sukacheva::makePostfix(Queue< std::string >& infix)
-{
-  sukacheva::Stack< std::string > temp;
-  sukacheva::Queue< std::string > postfix;
+  sukacheva::Stack< ElementOfStatement* > temp;
+  sukacheva::Postfix postfix;
   while (!infix.empty()) {
-    if (infix.front() == "(")
+    ElementOfStatement val = infix.front();
+    if (val.isBracket())
     {
-      temp.push(infix.front());
-      infix.pop();
-    }
-    else if (infix.front() == ")")
-    {
-      if (temp.empty())
+      Bracket bracket = val.applicant;
+      Bracket* bracketPointer = &bracket;
+      if (bracket.ifBracketIsOpen())
       {
-        throw std::logic_error("incorrect statement notation :)");
+        temp.push(bracketPointer);
+        infix.pop();
       }
-      else
+      else if (bracket.ifBracketIsClose())
       {
-        while (temp.top() != "(")
+        if (temp.empty())
         {
-          postfix.push(temp.top());
+          throw std::logic_error("incorrect statement notation :)");
+        }
+        else
+        {
+          while (!temp.top()->isBracket())
+          {
+            Operation operation = temp.top()->applicant;
+            postfix.operations.push(operation);
+            temp.pop();
+          }
+          infix.pop();
           temp.pop();
         }
-        infix.pop();
-        temp.pop();
       }
     }
-    else if (isNumber(infix.front()))
+    else if (val.isNumber())
     {
-      postfix.push(infix.front());
+      Operand operand = std::stoull(val.applicant);
+      postfix.operands.push(operand);
       infix.pop();
     }
-    else if (isBinaryOperations(infix.front()))
+    else if (val.isBinaryOperations())
     {
+      Operation operation = val.applicant;
+      Operation* operationPointer = &operation;
       if (!temp.empty())
       {
-        while (!temp.empty() && priorityOfOperation(infix.front(), temp.top()))
+        while (!temp.empty() && operation.priorityOfOperation(*temp.top()))
         {
-          postfix.push(temp.top());
+          Operation operation = temp.top()->applicant;
+          postfix.operations.push(operation);
           temp.pop();
         }
       }
-      temp.push(infix.front());
+      temp.push(operationPointer);
       infix.pop();
     }
     else
@@ -116,9 +98,10 @@ sukacheva::Queue<std::string> sukacheva::makePostfix(Queue< std::string >& infix
   }
   while (!temp.empty())
   {
-    if (temp.top() != "(")
+    if (!temp.top()->isBracket())
     {
-      postfix.push(temp.top());
+      Operation operation = temp.top()->applicant;
+      postfix.operations.push(operation);
       temp.pop();
     }
     else
@@ -129,85 +112,76 @@ sukacheva::Queue<std::string> sukacheva::makePostfix(Queue< std::string >& infix
   return postfix;
 }
 
-long long sukacheva::calculate(Queue< std::string >& postfix)
+long long sukacheva::calculate(Postfix& postfix)
 {
-  Stack< long long > stack;
   const long long maxValue = std::numeric_limits< long long >::max();
   const long long minValue = std::numeric_limits< long long >::min();
-  while (!postfix.empty())
+  while (!postfix.operations.empty() || !postfix.operands.empty())
   {
-    if (isNumber(postfix.front()))
-    {
-      stack.push(std::stoull(postfix.front()));
-      postfix.pop();
-    }
-    else if (isBinaryOperations(postfix.front()))
-    {
-      if (stack.getSize() >= 2) {
-        long long operand2 = stack.top();
-        stack.pop();
-        long long operand1 = stack.top();
-        stack.pop();
+    if (postfix.operands.getSize() >= 2) {
+      Operand operand2 = postfix.operands.top();
+      postfix.operands.pop();
+      Operand operand1 = postfix.operands.top();
+      postfix.operands.pop();
 
-        if (postfix.front() == "+")
-        {
-          if (operand1 > maxValue - operand2)
-          {
-            throw std::logic_error("overflow observed !!!");
-          }
-          else
-          {
-            stack.push(operand1 + operand2);
-          }
-        }
-        else if (postfix.front() == "-")
-        {
-          if (operand1 < minValue + operand2)
-          {
-            throw std::logic_error("overflow observed !!!");
-          }
-          else
-          {
-            stack.push(operand1 - operand2);
-          }
-        }
-        else if (postfix.front() == "*")
-        {
-          if ((operand1 > maxValue / operand2) || (operand1 <= minValue / operand2))
-          {
-            throw std::logic_error("overflow observed !!!");
-          }
-          else
-          {
-            stack.push(operand1 * operand2);
-          }
-        }
-        else if (postfix.front() == "/")
-        {
-          if ((operand1 / operand2 > maxValue) || (operand1 / operand2 <= minValue))
-          {
-            throw std::logic_error("overflow observed !!!");
-          }
-          else if (operand2 != 0)
-          {
-            stack.push(operand1 / operand2);
-          }
-          else
-          {
-            throw std::logic_error("division by zero !!!");
-          }
-        }
-        else if (postfix.front() == "%")
-        {
-          stack.push((operand1 % operand2) < 0 ? (operand1 % operand2) + operand2 : (operand1 % operand2));
-        }
-        postfix.pop();
-      }
-      else
+      if (postfix.operations.top().operation == '+')
       {
-        throw std::logic_error("incorrect statement notation :)");
+        if (operand1.value > maxValue - operand2.value)
+        {
+          throw std::logic_error("overflow observed !!!");
+        }
+        else
+        {
+          postfix.operands.push(operand1 + operand2);
+        }
       }
+      else if (postfix.operations.top().operation == '-')
+      {
+        if (operand1.value < minValue + operand2.value)
+        {
+          throw std::logic_error("overflow observed !!!");
+        }
+        else
+        {
+          postfix.operands.push(operand1 - operand2);
+        }
+      }
+      else if (postfix.operations.top().operation == '*')
+      {
+        if ((operand1.value > maxValue / operand2.value) || (operand1.value <= minValue / operand2.value))
+        {
+          throw std::logic_error("overflow observed !!!");
+        }
+        else
+        {
+          postfix.operands.push(operand1 * operand2);
+        }
+      }
+      else if (postfix.operations.top().operation == '/')
+      {
+        if ((operand1.value / operand2.value > maxValue) || (operand1.value / operand2.value <= minValue))
+        {
+          throw std::logic_error("overflow observed !!!");
+        }
+        else if (operand2.value != 0)
+        {
+          postfix.operands.push(operand1 / operand2);
+        }
+        else
+        {
+          throw std::logic_error("division by zero !!!");
+        }
+      }
+      else if (postfix.operations.top().operation == '%')
+      {
+        postfix.operands.push(operand1 % operand2);
+      }
+      postfix.operations.pop();
+    }
+    else
+    {
+      throw std::logic_error("incorrect statement notation :)");
     }
   }
-  return stack.top();
+  return postfix.operands.top().value;
 }

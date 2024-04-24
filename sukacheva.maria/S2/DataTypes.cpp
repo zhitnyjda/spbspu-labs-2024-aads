@@ -5,13 +5,16 @@ sukacheva::Bracket::Bracket(char bracket_):
   bracket(bracket_)
 {}
 
+sukacheva::Bracket::Bracket(std::string value):
+  bracket(*value.c_str())
+{}
 
-bool sukacheva::Bracket::ifBracketIsOpen() const
+bool sukacheva::Bracket::ifBracketIsOpen() const noexcept
 {
   return bracket == '(';
 }
 
-bool sukacheva::Bracket::ifBracketIsClose() const
+bool sukacheva::Bracket::ifBracketIsClose() const noexcept
 {
   return bracket == ')';
 }
@@ -54,11 +57,15 @@ sukacheva::Operation::Operation(char operation_) :
   operation(operation_)
 {}
 
-bool sukacheva::Operation::priorityOfOperation(Operation other)
+sukacheva::Operation::Operation(std::string value):
+  operation(*value.c_str())
+{}
+
+bool sukacheva::Operation::priorityOfOperation(ElementOfStatement other)
 {
   int priorityIndex1 = 1;
   int priorityIndex2 = 1;
-  if (other.operation == '*' || other.operation == '/' || other.operation == '%')
+  if (other.applicant == "*" || other.applicant == "/" || other.applicant == "%")
   {
     priorityIndex1 = 2;
   }
@@ -66,24 +73,28 @@ bool sukacheva::Operation::priorityOfOperation(Operation other)
   {
     priorityIndex2 = 2;
   }
-  else if (operation == '(' || other.operation == '(')
+  else if (operation == '(' || other.applicant == "(")
   {
     return false;
   }
   return priorityIndex1 >= priorityIndex2;
 }
 
-bool sukacheva::ElementOfStatement::isBracket(std::string applicant) const noexcept
+sukacheva::ElementOfStatement::ElementOfStatement(std::string applicant_):
+  applicant(applicant_)
+{}
+
+bool sukacheva::ElementOfStatement::isBracket() const noexcept
 {
   return applicant == "(" || applicant == ")";
 }
 
-bool sukacheva::ElementOfStatement::isNumber(std::string applicant) const noexcept
+bool sukacheva::ElementOfStatement::isNumber() const noexcept
 {
   return !applicant.empty() && (applicant.find_first_not_of("0123456789") == applicant.npos);
 }
 
-bool sukacheva::ElementOfStatement::isBinaryOperations(std::string applicant) const noexcept
+bool sukacheva::ElementOfStatement::isBinaryOperations() const noexcept
 {
   return !applicant.empty() && (applicant.find_first_not_of("+-*/%") == applicant.npos);
 }
