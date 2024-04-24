@@ -2,96 +2,55 @@
 #include "list.hpp"
 #include "inputPair.hpp"
 #include "findSize.hpp"
+#include "functions.hpp"
+
 int main()
 {
-  using namespace jirkov;
-  try
-  {
-    List<std::pair<std::string,List<size_t>>>list = listInput(std::cin);
-    const size_t maximum = std::numeric_limits< size_t >::max();
-    size_t sum = 0;
-    size_t maxSize = findSize(list);
-    bool overflowError = false;
-    Iterator<std::pair<std::string, List<size_t>>>iterator = list.begin();
-    List< size_t > sums;
-    Iterator< size_t > it;
-    if (!list.empty())
+    using namespace jirkov;
+    try
     {
-      while (iterator.node)
-      {
-        if (iterator.node != list.head_)
+        List<std::pair<std::string, List<size_t>>> list = listInput(std::cin);
+        size_t sum = 0;
+        bool overflowError = false;
+        size_t maxSize = findSize(list);
+        printListNames(list);
+        List<size_t> sums;
+        for (size_t index = 0; index < maxSize; index++)
         {
-          std::cout << " ";
+            printRowValues(list, index, sum, overflowError);
+            if (!overflowError)
+            {
+                sums.pushBack(sum);
+            }
+            sum = 0;
+            overflowError = false;
+            std::cout << "\n";
         }
-        std::cout << iterator.node->data.first;
-        iterator++;
-      }
-      std::cout << "\n";
-      for (size_t index = 0; index < maxSize; index++)
-      {
-        iterator = list.begin();
-        while (iterator.node)
+        if (sums.empty())
         {
-          if (iterator.node->data.second[index] != nullptr)
-          {
-            if (sum > 0)
-            {
-              std::cout << " ";
-            }
-            std::cout << iterator.node->data.second[index]->data;
-            if (maximum - sum < iterator.node->data.second[index]->data)
-            {
-              overflowError = true;
-              std::cout << "\n";
-              throw std::overflow_error("overflow error");
-            }
-            else
-            {
-              sum = sum + iterator.node->data.second[index]->data;
-            }
-          }
-          iterator++;
+            std::cout << "0\n";
         }
-        if (!overflowError)
+        else
         {
-          sums.pushBack(sum);
-        }
-        sum = 0;
-        overflowError = false;
-        std::cout << "\n";
-      }
-
-      it = sums.begin();
-      if (sums.empty())
-      {
-        std::cout << 0;
-      }
-      else
-      {
-        while (it.node)
-        {
-          if (it.node != nullptr)
-          {
-            if (it.node != sums.head_)
+            auto it = sums.begin();
+            while (it.node)
             {
-              std::cout << " ";
+                if (it.node != sums.head_)
+                {
+                    std::cout << " ";
+                }
+                std::cout << it.node->data;
+                it++;
             }
-            std::cout << it.node->data;
-          }
-          it++;
+            std::cout << "\n";
         }
-      }
-      std::cout << "\n";
+        return 0;
     }
-    else
+    catch (std::overflow_error& e)
     {
-      std::cout << "0\n";
+        handleOverflowError();
+        std::cerr << e.what() << "\n";
+        return 1;
     }
-    return 0;
-  }
-  catch (std::overflow_error& e)
-  {
-    std::cerr << e.what() << "\n";
-    return 1;
-  }
 }
+
