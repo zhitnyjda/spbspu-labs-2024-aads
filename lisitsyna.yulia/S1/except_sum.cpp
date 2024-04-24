@@ -1,7 +1,6 @@
-#include "except_sum.hpp"
-
 #include <stdexcept>
 #include <limits>
+#include "except_sum.hpp"
 
 unsigned long long sum(unsigned long long a, unsigned long long b)
 {
