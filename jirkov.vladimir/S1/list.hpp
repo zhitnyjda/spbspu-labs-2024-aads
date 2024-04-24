@@ -14,6 +14,8 @@ namespace jirkov
     Node<T>* head_;
     Node<T>* tail_;
     List();
+    List(size_t n, const T& value);
+    List(const List<T>& otherList);
     List(List<T>&& otherList);
     ~List();
     void pushFront(const T& data);
@@ -21,7 +23,6 @@ namespace jirkov
     void popFront();
     bool empty();
     void clear();
-    void swap(List<T>& otherList);
     size_t getSize();
     Node<T>* operator[](const int index);
     Iterator<T> begin() const;
@@ -36,6 +37,30 @@ jirkov::List< T >::List() :
   head_(nullptr),
   tail_(nullptr)
 {}
+
+template< typename T >
+jirkov::List< T >::List(size_t n, const T& value)
+{
+  head_ = nullptr;
+  tail_ = nullptr;
+  for (size_t i = 0; i < n; i++)
+  {
+    pushBack(value);
+  }
+}
+
+template< typename T >
+jirkov::List< T >::List(const List< T >& otherList)
+{
+  head_ = nullptr;
+  tail_ = nullptr;
+  Node< T >* head = otherList.head_;
+  while (head)
+  {
+    pushBack(head->data);
+    head = head->next;
+  }
+}
 
 template< typename T >
 jirkov::List< T >::List(List&& otherList)
@@ -96,4 +121,84 @@ size_t jirkov::List< T >::getSize()
   }
   return size;
 }
+
+
+template< typename T >
+void jirkov::List< T >::popFront()
+{
+  if (head_ == tail_)
+  {
+    delete tail_;
+    head_ = tail_ = nullptr;
+  }
+  if (head_ != nullptr)
+  {
+    Node< T >* node = head_;
+    head_ = node->next;
+    delete node;
+  }
+}
+
+template< typename T >
+bool jirkov::List< T >::empty()
+{
+  if (head_ == nullptr)
+  {
+    return true;
+  }
+  return false;
+}
+
+template< typename T >
+void jirkov::List< T >::clear()
+{
+  while (head_)
+  {
+    popFront();
+  }
+}
+
+template< typename T >
+jirkov::Node< T >* jirkov::List< T >::operator[](const int index)
+{
+  if (empty() == true)
+  {
+    return nullptr;
+  }
+  Node< T >* head = head_;
+  for (int i = 0; i < index; i++)
+  {
+    head = head->next;
+    if (!head)
+    {
+      return nullptr;
+    }
+  }
+  return head;
+}
+
+template< typename T >
+jirkov::Iterator< T > jirkov::List< T >::begin() const
+{
+  return Iterator< T >(head_);
+}
+
+template< typename T >
+jirkov::Iterator< T > jirkov::List< T >::end() const
+{
+  return Iterator< T >(tail_->next);
+}
+
+template< typename T >
+const jirkov::Iterator< T > jirkov::List< T >::cbegin() const
+{
+  return Iterator< T >(head_);
+}
+
+template< typename T >
+const jirkov::Iterator< T > jirkov::List< T >::cend() const
+{
+  return Iterator< T >(tail_->next);
+}
+
 #endif
