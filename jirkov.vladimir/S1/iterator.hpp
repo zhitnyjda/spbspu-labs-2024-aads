@@ -10,15 +10,18 @@ namespace jirkov
   struct Iterator
   {
     Node<T>* node;
+
     Iterator();
     ~Iterator() = default;
     Iterator(const Iterator<T>&) = default;
     Iterator<T>& operator= (const Iterator<T>&) = default;
     Iterator(Node<T>* pointer);
+
     Iterator<T>& operator++();
     Iterator<T> operator++(int);
     T& operator*();
     T* operator->();
+
     bool operator!=(const Iterator<T>& rhs) const;
     bool operator==(const Iterator<T>& rhs) const;
   };

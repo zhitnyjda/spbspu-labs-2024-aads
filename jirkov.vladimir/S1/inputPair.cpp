@@ -1,5 +1,6 @@
 #include "inputPair.hpp"
 #include <limits>
+
 jirkov::List<std::pair<std::string, jirkov::List<size_t>>>jirkov::listInput(std::istream& input)
 {
   unsigned long long number = 0;

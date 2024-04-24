@@ -1,7 +1,7 @@
 #include <limits>
 #include "list.hpp"
 #include "inputPair.hpp"
-
+#include "findSize.hpp"
 int main()
 {
   using namespace jirkov;
@@ -10,6 +10,7 @@ int main()
     List<std::pair<std::string,List<size_t>>>list = listInput(std::cin);
     const size_t maximum = std::numeric_limits< size_t >::max();
     size_t sum = 0;
+    size_t maxSize = findSize(list);
     bool overflowError = false;
     Iterator<std::pair<std::string, List<size_t>>>iterator = list.begin();
     List< size_t > sums;

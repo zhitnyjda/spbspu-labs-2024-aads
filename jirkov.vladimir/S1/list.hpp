@@ -23,6 +23,7 @@ namespace jirkov
     void popFront();
     bool empty();
     void clear();
+    void swap(List<T>& otherList);
     size_t getSize();
     Node<T>* operator[](const int index);
     Iterator<T> begin() const;
@@ -156,6 +157,19 @@ void jirkov::List< T >::clear()
   {
     popFront();
   }
+}
+
+template< typename T >
+void jirkov::List< T >::swap(List< T >& otherList)
+{
+  jirkov::Node< T >* head = head_;
+  head_ = otherList.head_;
+  otherList.head_ = head;
+  delete head;
+  jirkov::Node< T >* tail = tail_;
+  tail_ = otherList.tail_;
+  otherList.tail_ = tail;
+  delete tail;
 }
 
 template< typename T >
