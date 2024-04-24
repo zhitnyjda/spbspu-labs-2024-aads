@@ -16,7 +16,7 @@ void jirkov::printListNames(const jirkov::List<std::pair<std::string, jirkov::Li
     }
     std::cout << "\n";
 }
-void jirkov::printListValues(const jirkov::List<std::pair<std::string, jirkov::List<size_t>>>& list, size_t maxSize, jirkov::List<size_t>& sums)
+void jirkov::printValues(const jirkov::List<std::pair<std::string,jirkov::List<size_t>>>&list,size_t maxSize,jirkov::List<size_t>&sums)
 {
     const size_t maximum = std::numeric_limits<size_t>::max();
     size_t sum = 0;

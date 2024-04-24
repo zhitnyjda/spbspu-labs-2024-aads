@@ -18,7 +18,7 @@ int main()
         }
         size_t maxSize = findSize(list);
         printListNames(list);
-        printListValues(list, maxSize, sums);
+        printValues(list, maxSize, sums);
         printSums(sums);
         return 0;
     }
