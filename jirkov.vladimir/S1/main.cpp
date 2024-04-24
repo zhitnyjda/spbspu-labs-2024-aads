@@ -48,7 +48,6 @@ int main()
     }
     catch (std::overflow_error const & e)
     {
-        handleOverflowError();
         std::cerr << e.what() << "\n";
         return 1;
     }

@@ -41,7 +41,3 @@ void jirkov::printRowValues(const List<std::pair<std::string, jirkov::List<size_
     }
 }
 
-void jirkov::handleOverflowError()
-{
-    std::cerr << "Overflow error occurred.\n";
-}
