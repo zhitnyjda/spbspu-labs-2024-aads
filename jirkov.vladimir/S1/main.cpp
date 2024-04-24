@@ -10,46 +10,21 @@ int main()
     try
     {
         List<std::pair<std::string, List<size_t>>> list = listInput(std::cin);
-        size_t sum = 0;
-        bool overflowError = false;
-        size_t maxSize = findSize(list);
-        printListNames(list);
         List<size_t> sums;
-        for (size_t index = 0; index < maxSize; index++)
-        {
-            printRowValues(list, index, sum, overflowError);
-            if (!overflowError)
-            {
-                sums.pushBack(sum);
-            }
-            sum = 0;
-            overflowError = false;
-            std::cout << "\n";
-        }
-        if (sums.empty())
+        if (list.empty())
         {
             std::cout << "0\n";
+            return 0;
         }
-        else
-        {
-            auto it = sums.begin();
-            while (it.node)
-            {
-                if (it.node != sums.head_)
-                {
-                    std::cout << " ";
-                }
-                std::cout << it.node->data;
-                it++;
-            }
-            std::cout << "\n";
-        }
+        size_t maxSize = findSize(list);
+        printListNames(list);
+        printListValues(list, maxSize, sums);
+        printSums(sums);
         return 0;
     }
-    catch (std::overflow_error const & e)
+    catch (std::overflow_error& e)
     {
         std::cerr << e.what() << "\n";
         return 1;
     }
 }
-

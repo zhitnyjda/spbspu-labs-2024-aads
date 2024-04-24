@@ -1,43 +1,83 @@
 #include "functions.hpp"
 #include "findSize.hpp"
 #include <limits>
+
 void jirkov::printListNames(const jirkov::List<std::pair<std::string, jirkov::List<size_t>>>& list)
 {
-    auto it = list.begin();
-    while (it.node)
+    auto iterator = list.begin();
+    while (iterator.node)
     {
-        if (it.node != list.head_)
+        if (iterator.node != list.head_)
         {
             std::cout << " ";
         }
-        std::cout << it.node->data.first;
-        it++;
+        std::cout << iterator.node->data.first;
+        iterator++;
     }
     std::cout << "\n";
 }
-
-void jirkov::printRowValues(const List<std::pair<std::string, jirkov::List<size_t>>>& list, size_t index, size_t& sum, bool& overflowError)
+void jirkov::printListValues(const jirkov::List<std::pair<std::string, jirkov::List<size_t>>>& list, size_t maxSize, jirkov::List<size_t>& sums)
 {
-    auto it = list.begin();
-    size_t maximum = std::numeric_limits<size_t>::max();
-    while (it.node)
+    const size_t maximum = std::numeric_limits<size_t>::max();
+    size_t sum = 0;
+    bool overflowError = false;
+
+    for (size_t index = 0; index < maxSize; index++)
     {
-        if (it.node->data.second.getSize() > index)
+        auto iterator = list.begin();
+        while (iterator.node)
         {
-            if (sum > 0)
+            auto& secondList = iterator.node->data.second;
+            if (index < secondList.getSize())
+            {
+                size_t value = secondList[index]->data;
+                if (sum > 0)
+                {
+                    std::cout << " ";
+                }
+                std::cout << value;
+                checkForOverflow(sum, value);
+                sum += value;
+            }
+            iterator++;
+        }
+        std::cout << "\n";
+
+        if (!overflowError)
+        {
+            sums.pushBack(sum);
+        }
+        sum = 0;
+        overflowError = false;
+    }
+}
+void jirkov::printSums(jirkov::List<size_t>& sums)
+{
+    if (sums.empty())
+    {
+        std::cout << "0\n";
+    }
+    else
+    {
+        auto it = sums.begin();
+        while (it.node)
+        {
+            if (it.node != sums.head_)
             {
                 std::cout << " ";
             }
-            size_t value = it.node->data.second[index]->data;
-            std::cout << value;
-            if (maximum - sum < value)
-            {
-                overflowError = true;
-                throw std::overflow_error("Overflow error");
-            }
-            sum += value;
+            std::cout << it.node->data;
+            it++;
         }
-        it++;
+        std::cout << "\n";
     }
 }
+void jirkov::checkForOverflow(size_t sum, size_t value)
+{
+    const size_t maximum = std::numeric_limits<size_t>::max();
 
+    if (maximum - sum < value)
+    {
+        throw std::overflow_error("Overflow error");
+    }
+}
