@@ -76,8 +76,6 @@ template< typename T >
 jirkov::List< T >::~List()
 {
   clear();
-  delete head_;
-  delete tail_;
 }
 
 template< typename T >
@@ -143,13 +141,8 @@ void jirkov::List< T >::popFront()
 template< typename T >
 bool jirkov::List< T >::empty()
 {
-  if (head_ == nullptr)
-  {
-    return true;
-  }
-  return false;
+  return head_ == nullptr ? true : false;
 }
-
 template< typename T >
 void jirkov::List< T >::clear()
 {
