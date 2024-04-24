@@ -2,6 +2,7 @@
 #define DATATYPES_HPP
 #include <string>
 #include "Stack.hpp"
+#include "Queue.hpp"
 
 namespace sukacheva
 {
@@ -45,14 +46,14 @@ namespace sukacheva
     Operation(char operation_);
     Operation(std::string value);
 
-    bool priorityOfOperation(ElementOfStatement other);
+    bool priorityOfOperation(std::string other);
 
     char operation;
   };
 
   struct Postfix
   {
-    Stack< Operation > operations;
+    Queue< Operation > operations;
     Stack< Operand > operands;
   };
 }

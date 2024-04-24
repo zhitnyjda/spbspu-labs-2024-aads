@@ -6,7 +6,7 @@ sukacheva::Bracket::Bracket(char bracket_):
 {}
 
 sukacheva::Bracket::Bracket(std::string value):
-  bracket(*value.c_str())
+  bracket(value[0])
 {}
 
 bool sukacheva::Bracket::ifBracketIsOpen() const noexcept
@@ -58,14 +58,14 @@ sukacheva::Operation::Operation(char operation_) :
 {}
 
 sukacheva::Operation::Operation(std::string value):
-  operation(*value.c_str())
+  operation(value[0])
 {}
 
-bool sukacheva::Operation::priorityOfOperation(ElementOfStatement other)
+bool sukacheva::Operation::priorityOfOperation(std::string other)
 {
   int priorityIndex1 = 1;
   int priorityIndex2 = 1;
-  if (other.applicant == "*" || other.applicant == "/" || other.applicant == "%")
+  if (other == "*" || other == "/" || other == "%")
   {
     priorityIndex1 = 2;
   }
@@ -73,7 +73,7 @@ bool sukacheva::Operation::priorityOfOperation(ElementOfStatement other)
   {
     priorityIndex2 = 2;
   }
-  else if (operation == '(' || other.applicant == "(")
+  else if (operation == '(' || other == "(")
   {
     return false;
   }
