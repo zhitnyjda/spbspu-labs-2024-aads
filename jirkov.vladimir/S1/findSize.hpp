@@ -1,5 +1,5 @@
-#ifndef INPUT_PAIR_HPP
-#define INPUT_PAIR_HPP
+#ifndef FIND_SIZE_HPP
+#define FIND_SIZE_HPP
 #include "list.hpp"
 
 namespace jirkov
