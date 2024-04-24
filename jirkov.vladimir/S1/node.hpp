@@ -8,10 +8,7 @@ namespace jirkov
   {
     T data;
     Node<T>* next;
-    Node(T value) :
-      data(value),
-      next(nullptr)
-    {}
+    Node(T value) : data(value), next(nullptr) {}
   };
 }
 
