@@ -11,12 +11,14 @@ namespace jirkov
   {
     Node<T>* node;
     Iterator();
-    ~Iterator();
-    Iterator(const Iterator<T>&);
-    Iterator<T>& operator= (const Iterator<T>&);
+    ~Iterator() = default;
+    Iterator(const Iterator<T>&) = default;
+    Iterator<T>& operator= (const Iterator<T>&) = default;
     Iterator(Node<T>* pointer);
+    Iterator<T>& operator++();
     Iterator<T> operator++(int);
     T& operator*();
+    T* operator->();
     bool operator!=(const Iterator<T>& rhs) const;
     bool operator==(const Iterator<T>& rhs) const;
   };
@@ -33,6 +35,14 @@ jirkov::Iterator<T>::Iterator(Node<T>* pointer) :
 {}
 
 template<typename T>
+jirkov::Iterator<T>& jirkov::Iterator<T>::operator++()
+{
+  assert(node != nullptr);
+  node = node->next;
+  return *this;
+}
+
+template<typename T>
 jirkov::Iterator<T> jirkov::Iterator<T>::operator++(int)
 {
   assert(node != nullptr);
@@ -46,6 +56,13 @@ T& jirkov::Iterator<T>::operator*()
 {
   assert(node != nullptr);
   return node->data;
+}
+
+template<typename T>
+T* jirkov::Iterator<T>::operator->()
+{
+  assert(node != nullptr);
+  return std::addressof(node->data);
 }
 
 template<typename T>
