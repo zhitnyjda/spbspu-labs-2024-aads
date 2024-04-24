@@ -22,7 +22,7 @@ sequences_t readSequences(size_t & maxLen, std::istream & in)
       sequences.push_back({ name, std::move(list) });
       continue;
     }
-    size_t count = 0, i = 0;
+    size_t count = 0;
     std::string number;
     for (size_t i = 0; i < numbers.length(); ++i)
     {
