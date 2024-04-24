@@ -7,7 +7,7 @@ int main()
   using namespace jirkov;
   try
   {
-    List<std::pair<std::string,List<size_t>>>;
+    List<std::pair<std::string,List<size_t>>>list = listInput(std::cin);
     const size_t maximum = std::numeric_limits< size_t >::max();
     size_t sum = 0;
     bool overflowError = false;
