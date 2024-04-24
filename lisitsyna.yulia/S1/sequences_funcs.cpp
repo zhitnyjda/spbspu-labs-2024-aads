@@ -1,5 +1,6 @@
-#include <iostream>
 #include "sequences_funcs.hpp"
+#include <iostream>
+
 #include "except_sum.hpp"
 
 sequences_t readSequences(size_t & maxLen, std::istream & in)
