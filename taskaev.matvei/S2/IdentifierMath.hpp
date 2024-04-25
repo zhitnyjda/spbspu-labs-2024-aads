@@ -43,7 +43,7 @@ namespace taskaev
         types = operand;
         operands.data = std::stoll(item);
       }
-      else if (isOperation(item)) {
+      else if (isOperation(item[0])) {
         types = operation;
         operations.data = item[0];
       }
