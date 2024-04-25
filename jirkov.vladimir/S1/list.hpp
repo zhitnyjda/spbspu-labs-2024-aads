@@ -23,9 +23,6 @@ namespace jirkov
     void clear();
     void swap(List<T>& otherList);
     void assign(size_t n, const T& value);
-    void remove(const T& value);
-    template< typename P >
-    void removeIf(P p);
     size_t getSize();
     Node<T>* operator[](const int index);
     Iterator<T> begin() const;
@@ -170,6 +167,15 @@ void jirkov::List< T >::swap(List< T >& otherList)
 }
 
 template< typename T >
+void jirkov::List< T >::assign(size_t n, const T& value)
+{
+  for (size_t i = 0; i < n; i++)
+  {
+    push_back(value);
+  }
+}
+
+template< typename T >
 jirkov::Node< T >* jirkov::List< T >::operator[](const int index)
 {
   if (empty() == true)
@@ -210,13 +216,5 @@ template< typename T >
 const jirkov::Iterator< T > jirkov::List< T >::cend() const
 {
   return Iterator< T >(tail_->next);
-}
-template< typename T >
-void jirkov::List< T >::assign(size_t n, const T& value)
-{
-  for (size_t i = 0; i < n; i++)
-  {
-    push_back(value);
-  }
 }
 #endif
