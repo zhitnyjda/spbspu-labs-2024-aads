@@ -35,7 +35,7 @@ namespace taskaev
     IdentifierMath() = default;
     explicit IdentifierMath(const std::string& item)
     {
-      if (!isValue(item)
+      if (!isValue(item))
       {
         throw std::invalid_argument(" SOS are you Ok?");
       }
