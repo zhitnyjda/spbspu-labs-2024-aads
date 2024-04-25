@@ -27,6 +27,8 @@ namespace jirkov
     size_t getSize();
     void assign(size_t n, const T& value);
     void remove(const T& value);
+    template<typename P>
+    void removeIf(P p);
     Node<T>* operator[](const int index);
     Iterator<T> begin() const;
     Iterator<T> end() const;
@@ -248,6 +250,37 @@ void jirkov::List<T>::remove(const T& value)
       previous = current;
       current = current->next;
     }
+  }
+}
+template <class T>
+template <class P>
+void jirkov::List<T>::removeIf(P p) {
+  Node<T>* current = head_;
+  Node<T>* previous = nullptr;
+  while (current)
+  {
+    if (p(current->data))
+    {
+      if (previous)
+      {
+        previous->next = current->next;
+      }
+      else
+      {
+        head_ = current->next;
+      }
+      delete current;
+      current = previous ? previous->next : head_;
+    }
+    else
+    {
+      previous = current;
+      current = current->next;
+    }
+  }
+  if (!head_)
+  {
+    tail_ = nullptr;
   }
 }
 #endif
