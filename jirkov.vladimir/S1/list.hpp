@@ -2,8 +2,8 @@
 #define LIST_HPP
 #include <cstddef>
 #include <iostream>
-#include "iterator.hpp"
-#include "node.hpp"
+#include <memory>
+#include <cassert>
 
 namespace jirkov
 {
@@ -11,8 +11,32 @@ namespace jirkov
   class List
   {
   public:
-    Node<T>* head_;
-    Node<T>* tail_;
+    struct Node
+    {
+      T data;
+      Node* next;
+      Node(T value) :
+        data(value),
+        next(nullptr)
+      {}
+    };
+    struct Iterator
+    {
+      Node* node;
+      Iterator();
+      ~Iterator() = default;
+      Iterator(const Iterator&) = default;
+      Iterator& operator= (const Iterator&) = default;
+      Iterator(Node* pointer);
+      Iterator& operator++();
+      Iterator operator++(int);
+      T& operator*();
+      T* operator->();
+      bool operator!=(const Iterator& rhs) const;
+      bool operator==(const Iterator& rhs) const;
+    };
+    Node* head_;
+    Node* tail_;
     List();
     List(size_t n, const T& value);
     List(const List<T>& otherList);
@@ -29,11 +53,9 @@ namespace jirkov
     void remove(const T& value);
     template<typename P>
     void removeIf(P p);
-    Node<T>* operator[](const int index);
-    Iterator<T> begin() const;
-    Iterator<T> end() const;
-    const Iterator<T> cbegin() const;
-    const Iterator<T> cend() const;
+    Node* operator[](const int index);
+    Iterator begin() const;
+    Iterator end() const;
   };
 }
 
@@ -59,7 +81,7 @@ jirkov::List< T >::List(const List< T >& otherList)
 {
   head_ = nullptr;
   tail_ = nullptr;
-  Node< T >* head = otherList.head_;
+  Node* head = otherList.head_;
   while (head)
   {
     pushBack(head->data);
@@ -85,7 +107,7 @@ jirkov::List< T >::~List()
 template< typename T >
 void jirkov::List< T >::pushFront(const T& data)
 {
-  Node< T >* node = new Node< T >(data);
+  Node* node = new Node(data);
   if (head_ != nullptr)
   {
     node->next = head_;
@@ -100,7 +122,7 @@ void jirkov::List< T >::pushFront(const T& data)
 template< typename T >
 void jirkov::List< T >::pushBack(const T& data)
 {
-  Node< T >* node = new Node< T >(data);
+  Node* node = new Node(data);
   if (head_ == nullptr)
   {
     head_ = tail_ = node;
@@ -115,7 +137,7 @@ void jirkov::List< T >::pushBack(const T& data)
 template< typename T >
 size_t jirkov::List< T >::getSize()
 {
-  jirkov::Node< T >* head = head_;
+  Node* head = head_;
   size_t size = 0ull;
   while (head)
   {
@@ -136,7 +158,7 @@ void jirkov::List< T >::popFront()
   }
   if (head_ != nullptr)
   {
-    Node< T >* node = head_;
+    Node* node = head_;
     head_ = node->next;
     delete node;
   }
@@ -159,24 +181,24 @@ void jirkov::List< T >::clear()
 template< typename T >
 void jirkov::List< T >::swap(List< T >& otherList)
 {
-  jirkov::Node< T >* head = head_;
+  Node* head = head_;
   head_ = otherList.head_;
   otherList.head_ = head;
   delete head;
-  jirkov::Node< T >* tail = tail_;
+  Node* tail = tail_;
   tail_ = otherList.tail_;
   otherList.tail_ = tail;
   delete tail;
 }
 
 template< typename T >
-jirkov::Node< T >* jirkov::List< T >::operator[](const int index)
+typename jirkov::List< T >::Node* jirkov::List< T >::operator[](const int index)
 {
   if (empty() == true)
   {
     return nullptr;
   }
-  Node< T >* head = head_;
+  Node* head = head_;
   for (int i = 0; i < index; i++)
   {
     head = head->next;
@@ -187,31 +209,7 @@ jirkov::Node< T >* jirkov::List< T >::operator[](const int index)
   }
   return head;
 }
-
-template< typename T >
-jirkov::Iterator< T > jirkov::List< T >::begin() const
-{
-  return Iterator< T >(head_);
-}
-
-template< typename T >
-jirkov::Iterator< T > jirkov::List< T >::end() const
-{
-  return Iterator< T >(tail_->next);
-}
-
-template< typename T >
-const jirkov::Iterator< T > jirkov::List< T >::cbegin() const
-{
-  return Iterator< T >(head_);
-}
-
-template< typename T >
-const jirkov::Iterator< T > jirkov::List< T >::cend() const
-{
-  return Iterator< T >(tail_->next);
-}
-template< typename T >
+template<typename T>
 void jirkov::List< T >::assign(size_t n, const T& value)
 {
   for (size_t i = 0; i < n; i++)
@@ -222,8 +220,8 @@ void jirkov::List< T >::assign(size_t n, const T& value)
 template<typename T>
 void jirkov::List<T>::remove(const T& value)
 {
-  Node<T>* current = head_;
-  Node<T>* previous = nullptr;
+  Node* current = head_;
+  Node* previous = nullptr;
 
   while (current != nullptr)
   {
@@ -255,8 +253,8 @@ void jirkov::List<T>::remove(const T& value)
 template <class T>
 template <class P>
 void jirkov::List<T>::removeIf(P p) {
-  Node<T>* current = head_;
-  Node<T>* previous = nullptr;
+  Node* current = head_;
+  Node* previous = nullptr;
   while (current)
   {
     if (p(current->data))
@@ -282,5 +280,68 @@ void jirkov::List<T>::removeIf(P p) {
   {
     tail_ = nullptr;
   }
+}
+template< typename T >
+typename jirkov::List< T >::Iterator jirkov::List< T >::begin() const
+{
+  return Iterator(head_);
+}
+
+template< typename T >
+typename jirkov::List< T >::Iterator jirkov::List< T >::end() const
+{
+  return Iterator(tail_->next);
+}
+
+template< typename T >
+jirkov::List< T >::Iterator::Iterator() :
+  node(nullptr)
+{}
+
+template< typename T >
+jirkov::List< T >::Iterator::Iterator(Node* pointer) :
+  node(pointer)
+{}
+
+template< typename T >
+typename jirkov::List< T >::Iterator& jirkov::List< T >::Iterator::operator++()
+{
+  assert(node != nullptr);
+  node = node->next;
+  return *this;
+}
+template< typename T >
+typename jirkov::List< T >::Iterator jirkov::List< T >::Iterator::operator++(int)
+{
+  assert(node != nullptr);
+  Iterator result(*this);
+  ++(*this);
+  return result;
+}
+
+template< typename T >
+T& jirkov::List< T >::Iterator::operator*()
+{
+  assert(node != nullptr);
+  return node->data;
+}
+
+template< typename T >
+T* jirkov::List< T >::Iterator::operator->()
+{
+  assert(node != nullptr);
+  return std::addressof(node->data);
+}
+
+template< typename T >
+bool jirkov::List< T >::Iterator::operator!=(const Iterator& rhs) const
+{
+  return node == rhs.node;
+}
+
+template< typename T >
+bool jirkov::List< T >::Iterator::operator==(const Iterator& rhs) const
+{
+  return !(rhs == *this);
 }
 #endif
