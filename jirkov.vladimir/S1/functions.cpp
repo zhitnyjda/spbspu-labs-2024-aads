@@ -77,6 +77,7 @@ void jirkov::checkForOverflow(size_t sum, size_t value)
 
     if (maximum - sum < value)
     {
+        std::cout << "\n";
         throw std::overflow_error("Overflow error");
     }
 }
