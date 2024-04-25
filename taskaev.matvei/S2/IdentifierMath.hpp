@@ -60,11 +60,14 @@ namespace taskaev
     private:
       bool isValue(const std::string& item)
       {
-        for (size_t i = 0; i < item.length(); i++) {
-          if (!isdigit(item[i]) && (item.length() > 1)) {
+        for (size_t i = 0; i < item.length(); i++)
+        {
+          if (!isdigit(item[i]) && (item.length() > 1))
+          {
             return false;
           }
         }
+        return true;
       }
       bool isOperation(char c)
       {
