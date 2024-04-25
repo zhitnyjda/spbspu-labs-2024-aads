@@ -11,8 +11,6 @@ namespace jirkov
   class List
   {
   public:
-    Node<T>* head_;
-    Node<T>* tail_;
     List();
     List(size_t n, const T& value);
     List(const List<T>& otherList);
@@ -24,12 +22,18 @@ namespace jirkov
     bool empty();
     void clear();
     void swap(List<T>& otherList);
+    void assign(size_t n, const T& value);
+    void remove(const T& value);
+    template< typename P >
+    void removeIf(P p);
     size_t getSize();
     Node<T>* operator[](const int index);
     Iterator<T> begin() const;
     Iterator<T> end() const;
     const Iterator<T> cbegin() const;
     const Iterator<T> cend() const;
+    Node< T >* head_;
+    Node< T >* tail_;
   };
 }
 
@@ -207,5 +211,12 @@ const jirkov::Iterator< T > jirkov::List< T >::cend() const
 {
   return Iterator< T >(tail_->next);
 }
-
+template< typename T >
+void jirkov::List< T >::assign(size_t n, const T& value)
+{
+  for (size_t i = 0; i < n; i++)
+  {
+    push_back(value);
+  }
+}
 #endif
