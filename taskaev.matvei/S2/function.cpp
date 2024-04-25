@@ -92,45 +92,45 @@ namespace taskaev
     {
       if (postfix.front().types == operand)
       {
-        result.push(postfix.front().data);
+        result.push(postfix.front().operands.data);
       }
       else {
         long long operand = result.top();
         result.pop();
-        if (postfix.front().data == '+')
+        if (postfix.front().operations.data == '+')
         {
           if(result.top() > maxLimit - operand)
           {
-            throw std::logic_error("Error: overflow +");
+            throw std::logic_error("Error: overflow plus");
           }
           else
           {
             operand += result.top();
           }
         }
-        else if (postfix.front().data == '-')
+        else if (postfix.front().operations.data == '-')
         {
           if(result.top() < minLimit + operand)
           {
-            throw std::logic_error("Erorr: overflow -");
+            throw std::logic_error("Erorr: overflow minus");
           }
           else
           {
             operand = result.top() - operand;
           }
         }
-        else if (postfix.front().data == '*')
+        else if (postfix.front().operations.data == '*')
         {
           if (operand > maxLimit / result.top() || operand < minLimit / result.top())
           {
-            throw std::logic_error("Error: overflow *");
+            throw std::logic_error("Error: overflow multiplication");
           }
           else
           {
             operand *= result.top();
           }
         }
-        else if (postfix.front().data == '/')
+        else if (postfix.front().operations.data == '/')
         {
           if (operand != 0)
           {
@@ -138,7 +138,7 @@ namespace taskaev
           }
           else
           {
-            throw std::invalid_argument("Error: 0");
+            throw std::invalid_argument("Error: division by 0");
           }
         }
         else
@@ -149,7 +149,7 @@ namespace taskaev
           }
           else
           {
-            throw std::invalid_argument("Error: 0");
+            throw std::invalid_argument("Error: division by 0");
           }
         }
         result.pop();

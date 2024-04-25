@@ -13,35 +13,63 @@ namespace taskaev
     openParantheses,
     closedParantheses
   };
+
+  struct Operand
+  {
+    long long data;
+  };
+
+  struct Operation
+  {
+    char data;
+  };
+
   struct IdentifierMath {
     mathType types;
-    long long data;
+    union
+    {
+      Operand operands;
+      Operation operations;
+      char parantheses;
+    };
     IdentifierMath() = default;
     explicit IdentifierMath(const std::string& item)
     {
-      for (size_t i = 0; i < item.length(); i++) {
-        if (!isdigit(item[i]) && (item.length() > 1)) {
-          throw std::invalid_argument(" SOS are you Ok? ");
-        }
+      if (!isValue(item)
+      {
+        throw std::invalid_argument(" SOS are you Ok?");
       }
       if (isdigit(item[0])) {
         types = operand;
-        data = std::stoll(item);
+        operands.data = std::stoll(item);
       }
-      else if (strchr("+-*/%", item[0])) {
+      else if (isOperation(item)) {
         types = operation;
-        data = item[0];
+        operations.data = item[0];
       }
       else if ('(' == item[0]) {
         types = openParantheses;
-        data = item[0];
+        parantheses = item[0];
       }
       else
       {
         types = closedParantheses;
-        data = item[0];
+        parantheses = item[0];
       }
     }
+    private:
+      bool isValue(const std::string& item)
+      {
+        for (size_t i = 0; i < item.length(); i++) {
+          if (!isdigit(item[i]) && (item.length() > 1)) {
+            return false;
+          }
+        }
+      }
+      bool isOperation(char c)
+      {
+        return (c == '+' || c == '-' || c == '*' || c == '/' || c == '%');
+      }
   };
 }
 
