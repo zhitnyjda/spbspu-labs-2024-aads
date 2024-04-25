@@ -53,9 +53,9 @@ namespace redko
     {
       explicit Node(value_t value, Node * p = nullptr, Node * r = nullptr, Node * l = nullptr):
         elem(value),
-        parent(nullptr),
-        right(nullptr),
-        left(nullptr)
+        parent(p),
+        right(r),
+        left(l)
       {}
 
       value_t elem;
