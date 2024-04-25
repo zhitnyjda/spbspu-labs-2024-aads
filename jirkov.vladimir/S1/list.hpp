@@ -25,6 +25,7 @@ namespace jirkov
     void clear();
     void swap(List<T>& otherList);
     size_t getSize();
+    void assign(size_t n, const T& value);
     Node<T>* operator[](const int index);
     Iterator<T> begin() const;
     Iterator<T> end() const;
@@ -207,5 +208,12 @@ const jirkov::Iterator< T > jirkov::List< T >::cend() const
 {
   return Iterator< T >(tail_->next);
 }
-
+template< typename T >
+void jirkov::List< T >::assign(size_t n, const T& value)
+{
+  for (size_t i = 0; i < n; i++)
+  {
+    push_back(value);
+  }
+}
 #endif
