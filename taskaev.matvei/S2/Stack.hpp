@@ -10,42 +10,54 @@ namespace taskaev
   public:
     Stack();
     ~Stack() = default;
+    Stack(const Stack< T >& other);
+    Stack(Stack< T >&& other);
     void push(const T& value);
     void pop();
     bool isEmpty() const noexcept;
     T& top();
   private:
-    List< T > container;
+    List< T > container_;
   };
 }
 
 template < typename T >
 taskaev::Stack< T >::Stack():
-  container(List< T >())
+  container_(List< T >())
+{}
+
+template< typename T >
+taskaev::Stack< T >::Stack(const Stack< T >& other):
+  container_(other)
+{}
+
+template< typename T >
+taskaev::Stack< T >::Stack(Stack< T >&& other):
+  container_(other.container_)
 {}
 
 template < typename T >
 void taskaev::Stack< T >::push(const T& value)
 {
-  container.pushFront(value);
+  container_.pushFront(value);
 }
 
 template < typename T >
 void taskaev::Stack< T >::pop()
 {
-  container.popFront();
+  container_.popFront();
 }
 
 template < typename T >
 bool taskaev::Stack< T >::isEmpty() const noexcept
 {
-  return container.isEmpty();
+  return container_.isEmpty();
 }
 
 template < typename T >
 T& taskaev::Stack< T >::top()
 {
-  return container.front();
+  return container_.front();
 }
 
 
