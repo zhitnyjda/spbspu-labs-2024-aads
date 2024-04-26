@@ -38,12 +38,35 @@ int main(int argc, char * argv[])
   }
   else if(argc == 2)
   {
-    std::ifstream input(argv[1]);
-    // не помню наверно стоит посмотреть как работали в P4
+    std::ifstream input;
+    input.open(argv[1]);
+    if (!input.is_open())
+    {
+      std::cerr << " Error: file not open! ";
+      return 1;
+    }
+    while (std::getline(input, mathValue))
+    {
+      if (!mathValue.empty())
+      {
+        try
+        {
+          inputMathValue(queue, mathValue);
+          convertToPostfix(queue, postfix, stack);
+          results.push(calculate(postfix));
+        }
+        catch (const std::exception& e)
+        {
+          std::cerr << e.what() << "\n";
+          return 1;
+        }
+      }
+    }
+    input.close();
   }
   else
   {
-    std::cerr << "Error arguments, don't be greedy add more!\n";
+    std::cerr << "Erro: arguments, don't be greedy add more!\n";
     return 1;
   }
   while (!results.isEmpty()) {
