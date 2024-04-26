@@ -54,20 +54,32 @@ namespace litsinger
   void namesOutput(this_t& list, std::ostream& output)
   {
     this_t::Iterator iterator = list.begin();
+    bool hasNumbers = false;
+
     if (!list.isEmpty())
     {
-      while (iterator != list.end())
-      {
-        if (iterator != list.begin())
+        while (iterator != list.end())
         {
-          output << " ";
+            if (iterator != list.begin())
+            {
+                output << " ";
+            }
+            output << iterator->first;
+            if (!iterator->second.isEmpty())
+            {
+                hasNumbers = true;
+            }
+            iterator++;
         }
-        output << iterator->first;
-        iterator++;
-      }
-      output << "\n";
+        output << "\n";
+    }
+
+    if (!hasNumbers)
+    {
+        output << "0\n";
     }
   }
+
 
   void listFormation(this_t& mainList, List< List < size_t > >& lists)
   {
