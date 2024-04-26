@@ -21,10 +21,9 @@ namespace miheev
 
     void pop();
     void emplace();
-    void swap(); // TODO: change to correct signature
-
+    void swap(Queue&) noexcept;
   private:
-
+    List< T > container_;
   }
 }
 #endif
