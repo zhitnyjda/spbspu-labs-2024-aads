@@ -188,7 +188,7 @@ const T& hohlova::List<T>::ConstIterator::operator*()
 }
 
 template< typename T >
-const T* hohlova::List<T>::ConstIterator::operator->() 
+const T* hohlova::List<T>::ConstIterator::operator->()
 {
   return std::addressof(ptr->data);
 }
