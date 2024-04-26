@@ -45,10 +45,10 @@ namespace jirkov
     void pushFront(const T& data);
     void pushBack(const T& data);
     void popFront();
-    bool empty();
-    void clear();
-    void swap(List<T>& otherList);
-    size_t getSize();
+    bool empty() const noexcept;
+    void clear() noexcept;
+    void swap(List<T>& otherList) noexcept;
+    size_t getSize() noexcept;
     void assign(size_t n, const T& value);
     void remove(const T& value);
     template<typename P>
@@ -135,7 +135,7 @@ void jirkov::List< T >::pushBack(const T& data)
 }
 
 template< typename T >
-size_t jirkov::List< T >::getSize()
+size_t jirkov::List< T >::getSize() noexcept
 {
   Node* head = head_;
   size_t size = 0ull;
@@ -165,12 +165,12 @@ void jirkov::List< T >::popFront()
 }
 
 template< typename T >
-bool jirkov::List< T >::empty()
+bool jirkov::List< T >::empty() const noexcept
 {
   return head_ == nullptr ? true : false;
 }
 template< typename T >
-void jirkov::List< T >::clear()
+void jirkov::List< T >::clear() noexcept
 {
   while (head_)
   {
@@ -179,7 +179,7 @@ void jirkov::List< T >::clear()
 }
 
 template< typename T >
-void jirkov::List< T >::swap(List< T >& otherList)
+void jirkov::List< T >::swap(List< T >& otherList) noexcept
 {
   Node* head = head_;
   head_ = otherList.head_;

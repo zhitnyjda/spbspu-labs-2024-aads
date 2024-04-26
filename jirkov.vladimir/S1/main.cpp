@@ -22,7 +22,7 @@ int main()
     printSums(sums);
     return 0;
   }
-  catch (std::overflow_error& e)
+  catch (std::overflow_error const & e)
   {
     std::cerr << e.what() << "\n";
     return 1;
