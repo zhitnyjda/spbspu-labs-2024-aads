@@ -4,7 +4,7 @@
 int main()
 {
   hohlova::List<std::pair<std::string, std::vector<unsigned long long>>> numbers;
-  hohlova::List<unsigned long long> sums;
+  hohlova::List< unsigned long long > sums;
   std::string line;
   bool hasData = false;
   std::string temp;
