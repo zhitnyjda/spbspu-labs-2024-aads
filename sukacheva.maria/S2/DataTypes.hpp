@@ -1,7 +1,8 @@
 #ifndef DATATYPES_HPP
 #define DATATYPES_HPP
 #include <string>
-#include <iosfwd>
+#include "Stack.hpp"
+#include "Queue.hpp"
 
 namespace sukacheva
 {
@@ -13,7 +14,6 @@ namespace sukacheva
     bool isBracket() const noexcept;
     bool isNumber() const noexcept;
     bool isBinaryOperations() const noexcept;
-    bool operator==(const char val);
 
     std::string applicant;
   };
@@ -26,7 +26,6 @@ namespace sukacheva
     bool ifBracketIsClose() const noexcept;
 
     char bracket;
-    ElementOfStatement applicant;
   };
 
   struct Operand : public ElementOfStatement
@@ -40,7 +39,6 @@ namespace sukacheva
     Operand operator%(const Operand& val);
 
     long long value;
-    ElementOfStatement applicant;
   };
 
   struct Operation : public ElementOfStatement
@@ -48,11 +46,15 @@ namespace sukacheva
     Operation(char operation_);
     Operation(std::string value);
 
-    bool priorityOfOperation(ElementOfStatement other);
-    bool operator==(const char val);
+    bool priorityOfOperation(std::string other);
 
     char operation;
-    ElementOfStatement applicant;
+  };
+
+  struct Postfix
+  {
+    Queue< Operation > operations;
+    Stack< Operand > operands;
   };
 }
 
