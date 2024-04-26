@@ -11,7 +11,7 @@ namespace hohlova
   struct List
   {
   private:
-    template <typename T>
+    template <typename U>
     class Node
     {
     public:
