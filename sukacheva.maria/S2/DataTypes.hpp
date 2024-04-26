@@ -2,6 +2,7 @@
 #define DATATYPES_HPP
 #include <string>
 #include <iosfwd>
+#include "Queue.hpp"
 
 namespace sukacheva
 {
@@ -53,6 +54,11 @@ namespace sukacheva
 
     char operation;
     ElementOfStatement applicant;
+  };
+
+  struct Postfix
+  {
+    Queue< ElementOfStatement > postfix;
   };
 }
 

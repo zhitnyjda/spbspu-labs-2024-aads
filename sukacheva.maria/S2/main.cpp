@@ -18,10 +18,10 @@ int main(int argc, char* argv[])
       while (!std::cin.eof())
       {
         Queue< std::string > inf = inputStatement(std::cin);
-        Queue< ElementOfStatement > test = makePostfix(inf);
-        if (!test.empty())
+        Postfix statement = makePostfix(inf);
+        if (!statement.postfix.empty())
         {
-          resultsOfCalculate.push(calculate(test));
+          resultsOfCalculate.push(calculate(statement));
         }
       }
     }
@@ -46,10 +46,10 @@ int main(int argc, char* argv[])
         while (!input.eof())
         {
           Queue< std::string > inf = inputStatement(input);
-          Queue< ElementOfStatement > test = makePostfix(inf);
-          if (!test.empty())
+          Postfix statement = makePostfix(inf);
+          if (!statement.postfix.empty())
           {
-            resultsOfCalculate.push(calculate(test));
+            resultsOfCalculate.push(calculate(statement));
           }
         }
       }
