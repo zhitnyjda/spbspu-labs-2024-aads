@@ -77,7 +77,7 @@ sukacheva::Queue< sukacheva::ElementOfStatement > sukacheva::makePostfix(Queue< 
       Operation operation = val.applicant;
       if (!temp.empty())
       {
-        while (!temp.empty() && operation.priorityOfOperation(temp.top()))
+        while (!temp.empty() && operation.priorityOfOperation(temp.top().applicant))
         {
           postfix.push(temp.top());
           temp.pop();
@@ -126,7 +126,7 @@ long long sukacheva::calculate(Queue< ElementOfStatement >& postfix)
         long long operand1 = stack.top();
         stack.pop();
 
-        if (postfix.front() == '+')
+        if (postfix.front().applicant == "+")
         {
           if (operand1 > maxValue - operand2)
           {
@@ -137,7 +137,7 @@ long long sukacheva::calculate(Queue< ElementOfStatement >& postfix)
             stack.push(operand1 + operand2);
           }
         }
-        else if (postfix.front() == '-')
+        else if (postfix.front().applicant == "-")
         {
           if (operand1 < minValue + operand2)
           {
@@ -148,7 +148,7 @@ long long sukacheva::calculate(Queue< ElementOfStatement >& postfix)
             stack.push(operand1 - operand2);
           }
         }
-        else if (postfix.front() == '*')
+        else if (postfix.front().applicant == "*")
         {
           if ((operand1 > maxValue / operand2) || (operand1 <= minValue / operand2))
           {
@@ -159,7 +159,7 @@ long long sukacheva::calculate(Queue< ElementOfStatement >& postfix)
             stack.push(operand1 * operand2);
           }
         }
-        else if (postfix.front() == '/')
+        else if (postfix.front().applicant == "/")
         {
           if ((operand1 / operand2 > maxValue) || (operand1 / operand2 <= minValue))
           {
@@ -174,7 +174,7 @@ long long sukacheva::calculate(Queue< ElementOfStatement >& postfix)
             throw std::logic_error("division by zero !!!");
           }
         }
-        else if (postfix.front() == '%')
+        else if (postfix.front().applicant == "%")
         {
           stack.push((operand1 % operand2) < 0 ? (operand1 % operand2) + operand2 : (operand1 % operand2));
         }
