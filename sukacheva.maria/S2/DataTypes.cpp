@@ -26,36 +26,6 @@ sukacheva::Operand::Operand(long long value_):
   value(value_)
 {}
 
-sukacheva::Operand sukacheva::Operand::operator+(const Operand& val)
-{
-  Operand result = val.value + value;
-  return result;
-}
-
-sukacheva::Operand sukacheva::Operand::operator-(const Operand& val)
-{
-  Operand result = value - val.value;
-  return result;
-}
-
-sukacheva::Operand sukacheva::Operand::operator*(const Operand& val)
-{
-  Operand result = value * val.value;
-  return result;
-}
-
-sukacheva::Operand sukacheva::Operand::operator/(const Operand& val)
-{
-  Operand result = value / val.value;
-  return result;
-}
-
-sukacheva::Operand sukacheva::Operand::operator%(const Operand& val)
-{
-  Operand result = (value % val.value) < 0 ? (value % val.value) + val.value : (value % val.value);
-  return result;
-}
-
 sukacheva::Operation::Operation(char operation_) :
   ElementOfStatement(std::string(1, operation_)),
   operation(operation_)

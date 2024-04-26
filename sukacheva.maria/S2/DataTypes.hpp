@@ -34,12 +34,6 @@ namespace sukacheva
   {
     Operand(long long value_);
 
-    Operand operator+(const Operand& val);
-    Operand operator-(const Operand& val);
-    Operand operator*(const Operand& val);
-    Operand operator/(const Operand& val);
-    Operand operator%(const Operand& val);
-
     long long value;
     ElementOfStatement applicant;
   };
