@@ -39,8 +39,6 @@ sukacheva::Postfix sukacheva::makePostfix(Queue< std::string >& infix)
 {
   sukacheva::Stack< ElementOfStatement > temp;
   sukacheva::Postfix postfix;
-  const long long maxValue = std::numeric_limits< long long >::max();
-  const long long minValue = std::numeric_limits< long long >::min();
   while (!infix.empty()) {
     ElementOfStatement val = infix.front();
     if (val.isBracket())
