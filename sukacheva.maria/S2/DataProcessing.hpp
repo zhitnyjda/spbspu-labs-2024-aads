@@ -7,7 +7,7 @@
 
 namespace sukacheva {
   Queue< std::string > inputStatement(std::istream& input);
-  Postfix makePostfix(Queue< std::string >& infix);
-  long long calculate(Postfix& postfix);
+  Queue< ElementOfStatement > makePostfix(Queue< std::string >& infix);
+  long long calculate(Queue< ElementOfStatement >& postfix);
 }
 #endif

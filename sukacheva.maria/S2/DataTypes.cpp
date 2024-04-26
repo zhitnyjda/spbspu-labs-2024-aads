@@ -2,11 +2,13 @@
 #include <string>
 
 sukacheva::Bracket::Bracket(char bracket_):
+  ElementOfStatement(std::string(1, bracket_)),
   bracket(bracket_)
 {}
 
 sukacheva::Bracket::Bracket(std::string value):
-  bracket(value[0])
+  ElementOfStatement(value),
+  bracket(*value.c_str())
 {}
 
 bool sukacheva::Bracket::ifBracketIsOpen() const noexcept
@@ -20,6 +22,7 @@ bool sukacheva::Bracket::ifBracketIsClose() const noexcept
 }
 
 sukacheva::Operand::Operand(long long value_):
+  ElementOfStatement(std::to_string(value_)),
   value(value_)
 {}
 
@@ -54,18 +57,20 @@ sukacheva::Operand sukacheva::Operand::operator%(const Operand& val)
 }
 
 sukacheva::Operation::Operation(char operation_) :
+  ElementOfStatement(std::string(1, operation_)),
   operation(operation_)
 {}
 
 sukacheva::Operation::Operation(std::string value):
-  operation(value[0])
+  ElementOfStatement(value),
+  operation(*value.c_str())
 {}
 
-bool sukacheva::Operation::priorityOfOperation(std::string other)
+bool sukacheva::Operation::priorityOfOperation(ElementOfStatement other)
 {
   int priorityIndex1 = 1;
   int priorityIndex2 = 1;
-  if (other == "*" || other == "/" || other == "%")
+  if (other.applicant == "*" || other.applicant == "/" || other.applicant == "%")
   {
     priorityIndex1 = 2;
   }
@@ -73,7 +78,7 @@ bool sukacheva::Operation::priorityOfOperation(std::string other)
   {
     priorityIndex2 = 2;
   }
-  else if (operation == '(' || other == "(")
+  else if (operation == '(' || other.applicant == "(")
   {
     return false;
   }
@@ -97,4 +102,21 @@ bool sukacheva::ElementOfStatement::isNumber() const noexcept
 bool sukacheva::ElementOfStatement::isBinaryOperations() const noexcept
 {
   return !applicant.empty() && (applicant.find_first_not_of("+-*/%") == applicant.npos);
+}
+
+bool sukacheva::Operation::operator==(const char val)
+{
+  return operation == val;
+}
+
+bool sukacheva::ElementOfStatement::operator==(const char val)
+{
+  if (isBinaryOperations())
+  {
+    Operation op = applicant;
+    return op == val;
+  }
+  else {
+    return applicant[0] == val;
+  }
 }

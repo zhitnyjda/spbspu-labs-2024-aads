@@ -5,6 +5,7 @@
 #include <iosfwd>
 #include <string>
 #include "DataProcessing.hpp"
+#include "DataTypes.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -17,8 +18,8 @@ int main(int argc, char* argv[])
       while (!std::cin.eof())
       {
         Queue< std::string > inf = inputStatement(std::cin);
-        Postfix test = makePostfix(inf);
-        if (!test.operands.empty() && !test.operations.empty())
+        Queue< ElementOfStatement > test = makePostfix(inf);
+        if (!test.empty())
         {
           resultsOfCalculate.push(calculate(test));
         }
@@ -44,9 +45,9 @@ int main(int argc, char* argv[])
       {
         while (!input.eof())
         {
-          Queue< std::string > inf = inputStatement(std::cin);
-          Postfix test = makePostfix(inf);
-          if (!test.operands.empty() && !test.operations.empty())
+          Queue< std::string > inf = inputStatement(input);
+          Queue< ElementOfStatement > test = makePostfix(inf);
+          if (!test.empty())
           {
             resultsOfCalculate.push(calculate(test));
           }

@@ -29,17 +29,17 @@ namespace sukacheva {
 }
 
 template< typename T >
-sukacheva::Queue< T >::Queue():
+sukacheva::Queue< T >::Queue() :
   container(List< T >())
 {}
 
 template< typename T >
-sukacheva::Queue< T >::Queue(const Queue& cont):
+sukacheva::Queue< T >::Queue(const Queue& cont) :
   container(cont.container)
 {}
 
 template< typename T >
-sukacheva::Queue< T >::Queue(Queue&& other):
+sukacheva::Queue< T >::Queue(Queue&& other) :
   container(other.container)
 {
   other.container.clean();

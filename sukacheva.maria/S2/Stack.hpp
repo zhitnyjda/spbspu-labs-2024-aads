@@ -27,17 +27,17 @@ namespace sukacheva {
 }
 
 template< typename T >
-sukacheva::Stack< T >::Stack():
+sukacheva::Stack< T >::Stack() :
   container(List< T >())
 {}
 
 template< typename T >
-sukacheva::Stack< T >::Stack(const Stack& cont):
+sukacheva::Stack< T >::Stack(const Stack& cont) :
   container(cont.container)
 {}
 
 template< typename T >
-sukacheva::Stack< T >::Stack(Stack&& other):
+sukacheva::Stack< T >::Stack(Stack&& other) :
   container(other.container)
 {
   other.container.clean();
