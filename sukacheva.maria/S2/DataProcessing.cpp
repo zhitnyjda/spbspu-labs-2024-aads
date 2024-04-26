@@ -71,14 +71,8 @@ sukacheva::Postfix sukacheva::makePostfix(Queue< std::string >& infix)
     }
     else if (val.isNumber())
     {
-      if (std::stoll(val.applicant) == minValue || std::stoll(val.applicant) == maxValue)
-      {
-        throw std::logic_error("overflow observed !!!");
-      }
-      else {
-        postfix.postfix.push(Operand(std::stoll(val.applicant)));
-        infix.pop();
-      }
+      postfix.postfix.push(Operand(std::stoll(val.applicant)));
+      infix.pop();
     }
     else if (val.isBinaryOperations())
     {
