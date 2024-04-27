@@ -8,21 +8,29 @@
 namespace zheleznyakov
 {
   void processTask(std::ostream&, List< std::pair< std::string, List< unsigned long long > > >&);
+  void processTitles(std::ostream&, List< std::pair< std::string, List< unsigned long long > > >&);
+  void processSequences(std::ostream&, List< std::pair< std::string, List< unsigned long long > > >&);
+  size_t findMaxSequenceLength(List< std::pair< std::string, List< unsigned long long > > >&);
 }
 
 void zheleznyakov::processTask(std::ostream& out, List< std::pair < std::string, List< unsigned long long > > >& pairs)
+{
+  processTitles(out, pairs);
+  processSequences(out, pairs);
+}
+
+void zheleznyakov::processTitles(std::ostream& out, List< std::pair< std::string, List< unsigned long long > > >& pairs)
 {
   for (size_t i = 0; i < pairs.getSize(); i++)
   {
     out << pairs[i].first << (i < pairs.getSize() - 1 ? " " : "\n");
   }
+}
 
-  size_t maxSequenceLength = 0;
-  for (size_t i = 0; i < pairs.getSize(); i++)
-  {
-    maxSequenceLength = std::max(maxSequenceLength, pairs[i].second.getSize());
-  }
-  zheleznyakov::List<  unsigned long long  >sums;
+void zheleznyakov::processSequences(std::ostream& out, List< std::pair < std::string, List< unsigned long long > > >& pairs)
+{
+  const size_t maxSequenceLength = findMaxSequenceLength(pairs);
+  zheleznyakov::List< unsigned long long > sums;
   unsigned long long currentSum = 0;
   bool overflowFlag = false;
   for (size_t i = 0; i < maxSequenceLength; i++)
@@ -34,9 +42,9 @@ void zheleznyakov::processTask(std::ostream& out, List< std::pair < std::string,
       {
         if (currentSum != 0)
         {
-          std::cout << ' ';
+          out << ' ';
         }
-        std::cout << pairs[j].second[i];
+        out << pairs[j].second[i];
         if (currentSum > (std::numeric_limits< unsigned long long >::max() - pairs[j].second[i]))
         {
           overflowFlag = true;
@@ -48,7 +56,7 @@ void zheleznyakov::processTask(std::ostream& out, List< std::pair < std::string,
       }
     }
     sums.pushBack(currentSum);
-    std::cout << '\n';
+    out << '\n';
   }
   if (overflowFlag)
   {
@@ -56,7 +64,7 @@ void zheleznyakov::processTask(std::ostream& out, List< std::pair < std::string,
   }
   if (sums.getSize() == 0)
   {
-    std::cout << 0 << '\n';
+    out << 0 << '\n';
   }
   else
   {
@@ -65,5 +73,15 @@ void zheleznyakov::processTask(std::ostream& out, List< std::pair < std::string,
       out << sums[i] << (i == sums.getSize() - 1 ? '\n' : ' ');
     }
   }
+}
+
+size_t zheleznyakov::findMaxSequenceLength(List< std::pair < std::string, List< unsigned long long > > >& pairs)
+{
+  size_t maxSequenceLength = 0;
+  for (size_t i = 0; i < pairs.getSize(); i++)
+  {
+    maxSequenceLength = std::max(maxSequenceLength, pairs[i].second.getSize());
+  }
+  return maxSequenceLength;
 }
 #endif
