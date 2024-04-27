@@ -27,12 +27,12 @@ int main(int argc, char * argv[])
   std::string line;
   while (getline(input, line))
   {
-    line.push_back(' ');
-    std::string name = getName(line);
+    size_t pos = 0;
+    std::string name = getName(line, pos);
     khoroshkin::Map< long long, std::string > datasets{};
-    while (!line.empty())
+    while (pos < line.length())
     {
-      datasets.insert(getKey(line), getValue(line));
+      datasets.insert(getKey(line, pos), getValue(line, pos));
     }
     mapOfDataSets.insert(name, datasets);
   }

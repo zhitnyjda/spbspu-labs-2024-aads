@@ -2,45 +2,36 @@
 #include <string>
 #include <iostream>
 
-std::string khoroshkin::getName(std::string & line)
+std::string khoroshkin::getName(std::string & line, size_t & pos)
 {
-  size_t pos = 0;
-  while (pos < line.length() && line[pos] == ' ')
-  {
-    pos++;
-  }
-  line.erase(line.begin(), line.begin() + pos);
-  pos = 0;
   std::string result = "";
   while (pos < line.length() && line[pos] != ' ')
   {
     result += line[pos++];
   }
-  line.erase(line.begin() , line.begin() + pos + 1);
+  pos++;
   return result;
 }
 
-long long khoroshkin::getKey(std::string & line)
+long long khoroshkin::getKey(std::string & line, size_t & pos)
 {
   std::string result = "";
-  size_t pos = 0;
   while (pos < line.length() && line[pos] != ' ')
   {
     result += line[pos++];
   }
-  line.erase(line.begin() , line.begin() + pos + 1);
+  pos++;
   return std::stoll(result);
 }
 
-std::string khoroshkin::getValue(std::string & line)
+std::string khoroshkin::getValue(std::string & line, size_t & pos)
 {
   std::string result = "";
-  size_t pos = 0;
   while (pos < line.length() && line[pos] != ' ')
   {
     result += line[pos++];
   }
-  line.erase(line.begin(), line.begin() + pos + 1);
+  pos++;
   return result;
 }
 
