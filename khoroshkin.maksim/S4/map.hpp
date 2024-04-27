@@ -251,13 +251,13 @@ typename khoroshkin::Map< Key, Value, Compare >::ConstIterator khoroshkin::Map< 
 }
 
 template < typename Key, typename Value, typename Compare >
-const typename khoroshkin::Map< Key, Value, Compare >::value_type & khoroshkin::Map< Key, Value, Compare >::ConstIterator::operator*() const
+const typename khoroshkin::Map< Key,Value,Compare >::value_type & khoroshkin::Map< Key,Value,Compare >::ConstIterator::operator*() const
 {
   return node_->kv_pair;
 }
 
 template < typename Key, typename Value, typename Compare >
-const typename khoroshkin::Map< Key, Value, Compare >::value_type * khoroshkin::Map< Key, Value, Compare >::ConstIterator::operator->() const
+const typename khoroshkin::Map< Key,Value,Compare >::value_type * khoroshkin::Map< Key,Value,Compare >::ConstIterator::operator->() const
 {
   return std::addressof(node_->kv_pair);
 }
