@@ -53,12 +53,14 @@ int main(int argc, char * argv[])
     std::string todo;
     std::cin >> todo;
     auto function = mapOfFuntions.find(todo);
-    if (function == mapOfFuntions.end() && todo.length() > 1)
+    if (function == mapOfFuntions.end() && todo.length() > 0)
     {
       std::cout << "<INVALID COMMAND>\n";
-      continue;
     }
-    (*function).second(mapOfDataSets);
+    else if (todo.length() > 0)
+    {
+      (*function).second(mapOfDataSets);
+    }
   }
   return 0;
 }
