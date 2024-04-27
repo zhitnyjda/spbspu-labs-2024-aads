@@ -42,7 +42,7 @@ namespace khoroshkin
     Node * root;
     size_t size;
 
-    Node * insert(Key k, Value v, Node * node, Node * previous);
+    Node * insert(Key k, Value v, Node * node, Node * prev);
     iterator find(const Key & key, Node * node);
     void clear(Node * node);
 
@@ -82,7 +82,7 @@ khoroshkin::Map< Key, Value, Compare >::Node::Node(Key key_, Value data_, Node *
 {}
 
 template< typename Key, typename Value, typename Compare >
-typename khoroshkin::Map< Key, Value, Compare >::Node * khoroshkin::Map< Key, Value, Compare >::insert(Key k, Value v, Node * node, Node * previous)
+typename khoroshkin::Map< Key,Value,Compare >::Node * khoroshkin::Map< Key,Value,Compare >::insert(Key k, Value v, Node* node, Node * prev)
 {
   Compare comp;
   if (node == nullptr)
@@ -137,7 +137,7 @@ void khoroshkin::Map< Key, Value, Compare >::clear(Node * node)
 }
 
 template< typename Key, typename Value, typename Compare >
-class khoroshkin::Map< Key, Value, Compare >::ConstIterator : public std::iterator< std::bidirectional_iterator_tag, Key, Value, Compare >
+class khoroshkin::Map< Key, Value, Compare >::ConstIterator : public std::iterator< std::bidirectional_iterator_tag, value_type >
 {
   public:
     friend class Map< Key, Value, Compare >;
