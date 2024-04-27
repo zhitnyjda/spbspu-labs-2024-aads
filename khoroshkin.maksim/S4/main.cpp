@@ -50,10 +50,10 @@ int main(int argc, char * argv[])
 
   while (!std::cin.eof())
   {
-    std::string todo = "";
+    std::string todo;
     std::cin >> todo;
     auto function = mapOfFuntions.find(todo);
-    if (function == mapOfFuntions.end())
+    if (function == mapOfFuntions.end() && todo.length() > 1)
     {
       std::cout << "<INVALID COMMAND>\n";
       continue;
