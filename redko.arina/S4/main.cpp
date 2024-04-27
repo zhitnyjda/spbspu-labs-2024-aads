@@ -40,9 +40,8 @@ int main(int argc, char ** argv)
     }
 
     std::string command = "";
-    while (!std::cin.eof())
+    while (std::cin >> command)
     {
-      std::cin >> command;
       if (functions.find(command) != functions.end())
       {
         try
