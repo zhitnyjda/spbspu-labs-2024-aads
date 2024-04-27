@@ -87,7 +87,7 @@ typename khoroshkin::Map< Key,Value,Compare >::Node * khoroshkin::Map< Key,Value
   Compare comp;
   if (node == nullptr)
   {
-    node = new Node(k, v, previous);
+    node = new Node(k, v, prev);
     size++;
   }
   else if (comp(k, node->kv_pair.first))
