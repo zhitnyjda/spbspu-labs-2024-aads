@@ -34,7 +34,10 @@ int main(int argc, char * argv[])
     {
       datasets.insert(getKey(line, pos), getValue(line, pos));
     }
-    mapOfDataSets.insert(name, datasets);
+    if (!datasets.isEmpty())
+    {
+      mapOfDataSets.insert(name, datasets);
+    }
   }
 
   Map< std::string, std::function< void(Map< std::string, Map< long long, std::string > > & map) > > mapOfFuntions{};

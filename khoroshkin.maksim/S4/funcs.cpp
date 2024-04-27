@@ -1,6 +1,7 @@
 #include "funcs.hpp"
 #include <string>
 #include <iostream>
+#include <cctype>
 
 std::string khoroshkin::getName(std::string & line, size_t & pos)
 {
@@ -16,7 +17,7 @@ std::string khoroshkin::getName(std::string & line, size_t & pos)
 long long khoroshkin::getKey(std::string & line, size_t & pos)
 {
   std::string result = "";
-  while (pos < line.length() && line[pos] != ' ')
+  while (pos < line.length() && line[pos] != ' ' && std::isdigit(line[pos]))
   {
     result += line[pos++];
   }
