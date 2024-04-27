@@ -6,7 +6,7 @@
 
 int main()
 {
-  zheleznyakov::List<std::pair<std::string, zheleznyakov::List<unsigned long long>>> pairs;
+  zheleznyakov::List<  std::pair< std::string, zheleznyakov::List< unsigned long long > >  >pairs;
   size_t pairsIndex = -1;
   std::string input;
   while (std::cin >> input)

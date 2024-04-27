@@ -7,10 +7,10 @@
 
 namespace zheleznyakov
 {
-  void processTask(std::ostream&, List<std::pair<std::string, List<unsigned long long>>>&);
+  void processTask(std::ostream&, List< std::pair< std::string, List< unsigned long long > > >&);
 }
 
-void zheleznyakov::processTask(std::ostream& out, List<std::pair<std::string, List<unsigned long long>>>& pairs)
+void zheleznyakov::processTask(std::ostream& out, List< std::pair < std::string, List< unsigned long long > > >& pairs)
 {
   for (size_t i = 0; i < pairs.getSize(); i++)
   {
@@ -22,7 +22,7 @@ void zheleznyakov::processTask(std::ostream& out, List<std::pair<std::string, Li
   {
     maxSequenceLength = std::max(maxSequenceLength, pairs[i].second.getSize());
   }
-  zheleznyakov::List<unsigned long long> sums;
+  zheleznyakov::List<  unsigned long long  >sums;
   unsigned long long currentSum = 0;
   bool overflowFlag = false;
   for (size_t i = 0; i < maxSequenceLength; i++)
@@ -37,7 +37,7 @@ void zheleznyakov::processTask(std::ostream& out, List<std::pair<std::string, Li
           std::cout << ' ';
         }
         std::cout << pairs[j].second[i];
-        if (currentSum > (std::numeric_limits<unsigned long long>::max() - pairs[j].second[i]))
+        if (currentSum > (std::numeric_limits< unsigned long long >::max() - pairs[j].second[i]))
         {
           overflowFlag = true;
         }
