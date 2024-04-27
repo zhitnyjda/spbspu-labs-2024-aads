@@ -32,7 +32,9 @@ int main(int argc, char * argv[])
     khoroshkin::Map< long long, std::string > datasets{};
     while (pos < line.length())
     {
-      datasets.insert(getKey(line, pos), getValue(line, pos));
+      long long key = getKey(line, pos);
+      std::string value = getValue(line, pos);
+      datasets.insert(key, value);
     }
     if (!datasets.isEmpty())
     {
