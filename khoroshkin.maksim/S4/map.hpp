@@ -70,15 +70,15 @@ public:
 
 private:
   value_type kv_pair;
-  Node * left;
-  Node * right;
   Node * parent;
   int height;
+  Node * left;
+  Node * right;
 };
 
 template< typename Key, typename Value, typename Compare >
 khoroshkin::Map< Key, Value, Compare >::Node::Node(Key key_, Value data_, Node * parent_, int height_, Node * left_, Node * right_) :
-  kv_pair(std::make_pair(key_, data_)), parent(parent_), left(left_), right(right_), height(height_)
+  kv_pair(std::make_pair(key_, data_)), parent(parent_), height(height_), left(left_), right(right_)
 {}
 
 template< typename Key, typename Value, typename Compare >
