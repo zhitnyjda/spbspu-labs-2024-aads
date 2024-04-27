@@ -19,10 +19,9 @@ void redko::print(BSTree< std::string, BSTree < int, std::string > > & dataSets)
 {
   std::string setName = "";
   std::cin >> setName;
-  auto it = dataSets.find(setName);
-  if (it != dataSets.end())
+  redko::BSTree< std::string, BSTree < int, std::string > >::iterator currSet = dataSets.find(setName);
+  if (currSet != dataSets.end())
   {
-    std::cout << "dfd1" << setName << '\n';
     if (!dataSets[setName].empty())
     {
       std::cout << setName;
@@ -36,7 +35,7 @@ void redko::print(BSTree< std::string, BSTree < int, std::string > > & dataSets)
     }
     else
     {
-      std::cout << "EMPTY\n";
+      std::cout << "<EMPTY>\n";
     }
   }
 }

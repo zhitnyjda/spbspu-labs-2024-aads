@@ -26,9 +26,8 @@ int main(int argc, char ** argv)
     std::string name = "";
     std::string elem = "";
     int key = 0;
-    while (!input.eof())
+    while (std::getline(input, description))
     {
-      std::getline(input, description);
       redko::BSTree< int, std::string > dataSet{};
       name = redko::cutName(description);
       while (!description.empty())
@@ -46,11 +45,18 @@ int main(int argc, char ** argv)
       std::cin >> command;
       if (functions.find(command) != functions.end())
       {
-        functions[command](dataSets);
+        try
+        {
+          functions[command](dataSets);
+        }
+        catch (const std::out_of_range & e)
+        {
+          std::cout << "<INVALID COMMAND>\n";
+        }
       }
       else if (!std::cin.eof())
       {
-        std::cout << "INVALID COMMAND\n";
+        std::cout << "<INVALID COMMAND>\n";
       }
     }
     return 0;
