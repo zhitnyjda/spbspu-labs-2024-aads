@@ -36,10 +36,7 @@ int main(int argc, char * argv[])
       std::string value = getValue(line, pos);
       datasets.insert(key, value);
     }
-    if (!datasets.isEmpty())
-    {
-      mapOfDataSets.insert(name, datasets);
-    }
+    mapOfDataSets.insert(name, datasets);
   }
 
   Map< std::string, std::function< void(Map< std::string, Map< long long, std::string > > & map) > > mapOfFuntions{};
@@ -48,18 +45,25 @@ int main(int argc, char * argv[])
   mapOfFuntions.insert("intersect", intersect);
   mapOfFuntions.insert("union", unite);
 
+  bool wasWarning = false;
   while (!std::cin.eof())
   {
     std::string todo;
     std::cin >> todo;
+
     auto function = mapOfFuntions.find(todo);
     if (function == mapOfFuntions.end() && todo.length() > 0)
     {
-      std::cout << "<INVALID COMMAND>\n";
+      if (!wasWarning)
+      {
+        std::cout << "<INVALID COMMAND>\n";
+        wasWarning = true;
+      }
     }
     else if (todo.length() > 0)
     {
       (*function).second(mapOfDataSets);
+      wasWarning = false;
     }
   }
   return 0;
