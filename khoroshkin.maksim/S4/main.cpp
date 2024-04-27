@@ -51,6 +51,7 @@ int main(int argc, char * argv[])
     if (function == mapOfFuntions.end())
     {
       std::cout << "<INVALID COMMAND>\n";
+      continue;
     }
     (*function).second(mapOfDataSets);
   }

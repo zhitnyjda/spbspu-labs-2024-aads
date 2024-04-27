@@ -5,12 +5,18 @@
 std::string khoroshkin::getName(std::string & line)
 {
   size_t pos = 0;
+  while (pos < line.length() && line[pos] == ' ')
+  {
+    pos++;
+  }
+  line.erase(line.begin(), line.begin() + pos);
+  pos = 0;
   std::string result = "";
   while (pos < line.length() && line[pos] != ' ')
   {
     result += line[pos++];
   }
-  line.assign(line.begin() + pos + 1, line.end());
+  line.erase(line.begin() , line.begin() + pos + 1);
   return result;
 }
 
@@ -22,7 +28,7 @@ long long khoroshkin::getKey(std::string & line)
   {
     result += line[pos++];
   }
-  line.assign(line.begin() + pos + 1, line.end());
+  line.erase(line.begin() , line.begin() + pos + 1);
   return std::stoll(result);
 }
 
@@ -34,7 +40,7 @@ std::string khoroshkin::getValue(std::string & line)
   {
     result += line[pos++];
   }
-  line.assign(line.begin() + pos + 1, line.end());
+  line.erase(line.begin(), line.begin() + pos + 1);
   return result;
 }
 
