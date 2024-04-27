@@ -6,14 +6,14 @@
 
 int main()
 {
-  zheleznyakov::List<  std::pair< std::string, zheleznyakov::List< unsigned long long > >  >pairs;
-  size_t pairsIndex = -1;
+  zheleznyakov::List< std::pair< std::string, zheleznyakov::List< unsigned long long > > >pairs;
+  size_t pairsIndex = 0;
   std::string input;
   while (std::cin >> input)
   {
     if (zheleznyakov::isNumeric(input))
     {
-      pairs[pairsIndex].second.pushBack(std::stoull(input));
+      pairs[pairsIndex - 1].second.pushBack(std::stoull(input));
     }
     else
     {
