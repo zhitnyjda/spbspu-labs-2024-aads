@@ -58,14 +58,14 @@ namespace taskaev
       {
         if (stack.isEmpty())
         {
-          throw std::logic_error("a lot of ) in prog SOS");
+          throw std::logic_error("Error: a lot of ) in prog SOS");
         }
         while (stack.top().types != openParantheses) {
           postfix.push(stack.top());
           stack.pop();
           if (stack.isEmpty())
           {
-            std::logic_error("error");
+            std::logic_error("Error: please check the breckets");
           }
         }
         stack.pop();
@@ -76,7 +76,7 @@ namespace taskaev
     {
       if(stack.top().types == openParantheses)
       {
-        throw std::logic_error( " error !! ");
+        throw std::logic_error( "Error: don't match expression ");
       }
       postfix.push(stack.top());
       stack.pop();
@@ -159,7 +159,7 @@ namespace taskaev
     }
     if(result.isEmpty())
     {
-      throw std::logic_error("Error: sos");
+      throw std::logic_error("Error: the problem in stack and valgrind");
     }
     {
       return result.top();
