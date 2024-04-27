@@ -51,7 +51,7 @@ void khoroshkin::print(khoroshkin::Map< std::string, khoroshkin::Map< long long,
     std::cout << "<EMPTY>\n";
     return;
   }
-  
+
   std::cout << (*dataset).first << " ";
   for (auto it = (*dataset).second.begin(); it != (*dataset).second.end(); ++it)
   {
