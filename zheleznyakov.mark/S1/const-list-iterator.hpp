@@ -1,7 +1,7 @@
 #ifndef CONST_LIST_ITERATOR_HPP
 #define CONST_LIST_ITERATOR_HPP
 #include <memory>
-#include "list-item.hpp"
+#include "node.hpp"
 
 namespace zheleznyakov
 {
@@ -9,7 +9,7 @@ namespace zheleznyakov
   class ConstListIterator
   {
   public:
-    ConstListIterator(const ListItem<T> *listItem = nullptr);
+    ConstListIterator(const Node<T> *listItem = nullptr);
     ~ConstListIterator() = default;
 
     ConstListIterator(const ConstListIterator<T> &) = default;
@@ -31,12 +31,12 @@ namespace zheleznyakov
     ConstListIterator end() const;
 
   private:
-    ListItem<T> *listItem;
+    Node<T> *listItem;
   };
 }
 
 template <typename T>
-zheleznyakov::ConstListIterator<T>::ConstListIterator(const ListItem<T> *listItem) : listItem(listItem) {}
+zheleznyakov::ConstListIterator<T>::ConstListIterator(const Node<T> *listItem) : listItem(listItem) {}
 
 template <typename T>
 zheleznyakov::ConstListIterator<T> &zheleznyakov::ConstListIterator<T>::operator++()

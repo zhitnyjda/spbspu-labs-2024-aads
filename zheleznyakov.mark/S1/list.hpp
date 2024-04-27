@@ -4,7 +4,7 @@
 #include <cstddef>
 #include <stdexcept>
 #include <memory>
-#include "list-item.hpp"
+#include "node.hpp"
 #include "list-iterator.hpp"
 
 namespace zheleznyakov
@@ -34,8 +34,8 @@ namespace zheleznyakov
 
   private:
     size_t size;
-    ListItem<T> *head;
-    ListItem<T> *tail;
+    Node<T> *head;
+    Node<T> *tail;
   };
 };
 
@@ -49,12 +49,12 @@ zheleznyakov::List<T>::List(const List<T> &other) : size(other.size), head(nullp
 {
   if (other.size > 0)
   {
-    head = new ListItem<T>(other.head->value);
+    head = new Node<T>(other.head->value);
     tail = head;
-    ListItem<T> *current = other.head;
+    Node<T> *current = other.head;
     while (current->next != nullptr)
     {
-      tail->next = new ListItem<T>(current->next->value);
+      tail->next = new Node<T>(current->next->value);
       tail = tail->next;
       current = current->next;
     }
@@ -93,39 +93,39 @@ size_t zheleznyakov::List<T>::getSize()
 template <typename T>
 void zheleznyakov::List<T>::pushFront(T value)
 {
-  ListItem<T> *newListItem = new zheleznyakov::ListItem<T>(value);
+  Node<T> *newNode = new zheleznyakov::Node<T>(value);
   size++;
   if (head == nullptr)
   {
-    head = newListItem;
-    tail = newListItem;
+    head = newNode;
+    tail = newNode;
     return;
   }
-  newListItem->next = this->head;
-  head->prev = newListItem;
-  head = newListItem;
+  newNode->next = this->head;
+  head->prev = newNode;
+  head = newNode;
 }
 
 template <typename T>
 void zheleznyakov::List<T>::pushBack(T value)
 {
-  ListItem<T> *newListItem = new zheleznyakov::ListItem<T>(value);
+  Node<T> *newNode = new zheleznyakov::Node<T>(value);
   size++;
   if (head == nullptr)
   {
-    head = newListItem;
-    tail = newListItem;
+    head = newNode;
+    tail = newNode;
     return;
   }
-  newListItem->prev = this->tail;
-  this->tail->next = newListItem;
-  this->tail = newListItem;
+  newNode->prev = this->tail;
+  this->tail->next = newNode;
+  this->tail = newNode;
 }
 
 template <typename T>
 void zheleznyakov::List<T>::popFront()
 {
-  ListItem<T> *current = head;
+  Node<T> *current = head;
   head = head->next;
   delete current;
   size--;
@@ -134,7 +134,7 @@ void zheleznyakov::List<T>::popFront()
 template <typename T>
 void zheleznyakov::List<T>::popBack()
 {
-  ListItem<T> *current = tail;
+  Node<T> *current = tail;
   tail = tail->prev;
   delete current;
   size--;
@@ -143,7 +143,7 @@ void zheleznyakov::List<T>::popBack()
 template <typename T>
 T &zheleznyakov::List<T>::operator[](const size_t index)
 {
-  ListItem<T> *currentElement = head;
+  Node<T> *currentElement = head;
   size_t currentIndex = 0;
   while (currentElement != nullptr)
   {
@@ -175,14 +175,14 @@ bool zheleznyakov::List<T>::isEmpty()
 template <typename T>
 void zheleznyakov::List<T>::swap(size_t index1, size_t index2)
 {
-  zheleznyakov::ListItem<T> *currentItem1 = this->head;
+  zheleznyakov::Node<T> *currentItem1 = this->head;
   size_t currentIndex1 = 0;
   while (currentIndex1 < index1)
   {
     currentItem1 = currentItem1->next;
     ++currentIndex1;
   }
-  zheleznyakov::ListItem<T> *currentItem2 = this->head;
+  zheleznyakov::Node<T> *currentItem2 = this->head;
   size_t currentIndex2 = 0;
   while (currentIndex2 < index2)
   {
@@ -207,7 +207,7 @@ void zheleznyakov::List<T>::assign(const size_t count, const T &value)
 template <typename T>
 void zheleznyakov::List<T>::remove(size_t i)
 {
-  ListItem<T> *current = head;
+  Node<T> *current = head;
   for (size_t j = 0; j < i; j++)
   {
     current = current->next;
@@ -236,10 +236,10 @@ template <typename T>
 template <typename UnaryPredicate>
 void zheleznyakov::List<T>::removeIf(UnaryPredicate predicate)
 {
-  ListItem<T> *current = head;
+  Node<T> *current = head;
   while (current != nullptr)
   {
-    ListItem<T> *next = current->next;
+    Node<T> *next = current->next;
     if (predicate(current->value))
     {
       if (current->prev)

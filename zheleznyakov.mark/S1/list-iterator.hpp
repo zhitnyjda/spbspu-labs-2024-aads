@@ -1,7 +1,7 @@
 #ifndef LIST_ITERATOR_HPP
 #define LIST_ITERATOR_HPP
 #include <memory>
-#include "list-item.hpp"
+#include "node.hpp"
 
 namespace zheleznyakov
 {
@@ -9,7 +9,7 @@ namespace zheleznyakov
   class ListIterator
   {
   public:
-    ListIterator(ListItem<T> *listItem = nullptr);
+    ListIterator(Node<T> *listItem = nullptr);
     ~ListIterator() = default;
 
     ListIterator(const ListIterator<T> &) = default;
@@ -31,12 +31,12 @@ namespace zheleznyakov
     ListIterator end();
 
   private:
-    ListItem<T> *listItem;
+    Node<T> *listItem;
   };
 }
 
 template <typename T>
-zheleznyakov::ListIterator<T>::ListIterator(ListItem<T> *listItem) : listItem(listItem) {}
+zheleznyakov::ListIterator<T>::ListIterator(Node<T> *listItem) : listItem(listItem) {}
 
 template <typename T>
 zheleznyakov::ListIterator<T> &zheleznyakov::ListIterator<T>::operator++()
