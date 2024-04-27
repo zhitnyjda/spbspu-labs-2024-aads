@@ -13,16 +13,22 @@ namespace jirkov
   public:
     struct Node
     {
-      T data;
-      Node* next;
+    public:
+      friend class List<T>;
+      friend class Iterator;
       Node(T value) :
         data(value),
         next(nullptr)
       {}
+    private:
+      T data;
+      Node* next;
+
     };
     struct Iterator
     {
-      Node* node;
+    public:
+      friend class List<T>;
       Iterator();
       ~Iterator() = default;
       Iterator(const Iterator&) = default;
@@ -34,9 +40,9 @@ namespace jirkov
       T* operator->();
       bool operator!=(const Iterator& rhs) const;
       bool operator==(const Iterator& rhs) const;
+    private:
+      Node* node;
     };
-    Node* head_;
-    Node* tail_;
     List();
     List(size_t n, const T& value);
     List(const List<T>& otherList);
@@ -45,6 +51,8 @@ namespace jirkov
     void pushFront(const T& data);
     void pushBack(const T& data);
     void popFront();
+    T & front();
+    T & back();
     bool empty() const noexcept;
     void clear() noexcept;
     void swap(List<T>& otherList) noexcept;
@@ -56,6 +64,10 @@ namespace jirkov
     Node* operator[](const int index);
     Iterator begin() const;
     Iterator end() const;
+    private:
+      Node* head_;
+      Node* tail_;
+
   };
 }
 
@@ -181,14 +193,12 @@ void jirkov::List< T >::clear() noexcept
 template< typename T >
 void jirkov::List< T >::swap(List< T >& otherList) noexcept
 {
-  Node* head = head_;
-  head_ = otherList.head_;
-  otherList.head_ = head;
-  delete head;
-  Node* tail = tail_;
-  tail_ = otherList.tail_;
-  otherList.tail_ = tail;
-  delete tail;
+  Node* head = otherList.head_;
+  Node* tail = otherList.tail_;
+  otherList.head_ = head_;
+  head_ = head;
+  otherList.tail_ = tail_;
+  tail_ = tail;
 }
 
 template< typename T >
@@ -344,4 +354,16 @@ bool jirkov::List< T >::Iterator::operator==(const Iterator& rhs) const
 {
   return !(rhs == *this);
 }
+template< typename T >
+T& jirkov::List< T >::front()
+{
+  return head_->data;
+}
+
+template< typename T >
+T& jirkov::List< T >::back()
+{
+  return tail_->data;
+}
+
 #endif
