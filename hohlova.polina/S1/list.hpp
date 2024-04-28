@@ -73,11 +73,11 @@ namespace hohlova
       return os;
     }
 
-    Iterator begin() const { return Iterator(head); }
-    Iterator end() const { return Iterator(nullptr); }
+    Iterator begin() const;
+    Iterator end() const;
 
-    ConstIterator cBegin() const { return ConstIterator(head); }
-    ConstIterator cEnd() const { return ConstIterator(nullptr); }
+    ConstIterator cBegin() const;
+    ConstIterator cEnd() const;
 
   private:
     Node<T>* head;
@@ -315,4 +315,27 @@ void hohlova::List<T>::pop_back()
   removeAt(Size - 1);
 }
 
+template <typename T>
+typename hohlova::List<T>::Iterator hohlova::List<T>::begin() const
+{
+  return Iterator(head);
+}
+
+template <typename T>
+typename hohlova::List<T>::Iterator hohlova::List<T>::end() const
+{
+  return Iterator(nullptr);
+}
+
+template <typename T>
+typename hohlova::List<T>::ConstIterator hohlova::List<T>::cBegin() const
+{
+  return ConstIterator(head);
+}
+
+template <typename T>
+typename hohlova::List<T>::ConstIterator hohlova::List<T>::cEnd() const
+{
+  return ConstIterator(nullptr);
+}
 #endif
