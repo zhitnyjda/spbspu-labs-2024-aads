@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <iosfwd>
 #include "Queue.hpp"
 #include "Stack.hpp"
 #include "function.hpp"

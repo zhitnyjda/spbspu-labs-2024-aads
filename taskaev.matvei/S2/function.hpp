@@ -2,7 +2,6 @@
 #define FUNCTION_HPP
 #include "Queue.hpp"
 #include "Stack.hpp"
-#include <string>
 #include "IdentifierMath.hpp"
 
 namespace taskaev
