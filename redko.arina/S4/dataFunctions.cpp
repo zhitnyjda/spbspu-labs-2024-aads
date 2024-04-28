@@ -1,4 +1,5 @@
 #include "dataFunctions.hpp"
+#include "inputFunctions.hpp"
 #include <iostream>
 
 int redko::cutKey(std::string & str)
@@ -15,10 +16,9 @@ int redko::cutKey(std::string & str)
   return key;
 }
 
-void redko::print(BSTree< std::string, BSTree < int, std::string > > & dataSets)
+void redko::print(BSTree< std::string, BSTree < int, std::string > > & dataSets, std::string & descr)
 {
-  std::string setName = "";
-  std::cin >> setName;
+  std::string setName = redko::cutName(descr);
   redko::BSTree< std::string, BSTree < int, std::string > >::iterator currSet = dataSets.find(setName);
   if (currSet != dataSets.end())
   {
@@ -40,12 +40,11 @@ void redko::print(BSTree< std::string, BSTree < int, std::string > > & dataSets)
   }
 }
 
-void redko::complement(BSTree< std::string, BSTree < int, std::string > > & dataSets)
+void redko::complement(BSTree< std::string, BSTree < int, std::string > > & dataSets, std::string & descr)
 {
-  std::string newSetName = "";
-  std::string firstSetName = "";
-  std::string secondSetName = "";
-  std::cin >> newSetName >> firstSetName >> secondSetName;
+  std::string newSetName = redko::cutName(descr);
+  std::string firstSetName = redko::cutName(descr);
+  std::string secondSetName = redko::cutName(descr);
   redko::BSTree< int, std::string > dataSet{};
   redko::BSTree< int, std::string >::iterator currElem = dataSets[firstSetName].begin();
   while (currElem != dataSets[firstSetName].end())
@@ -68,12 +67,11 @@ void redko::complement(BSTree< std::string, BSTree < int, std::string > > & data
   dataSets.insert({ newSetName, dataSet });
 }
 
-void redko::intersect(BSTree< std::string, BSTree < int, std::string > > & dataSets)
+void redko::intersect(BSTree< std::string, BSTree < int, std::string > > & dataSets, std::string & descr)
 {
-  std::string newSetName = "";
-  std::string firstSetName = "";
-  std::string secondSetName = "";
-  std::cin >> newSetName >> firstSetName >> secondSetName;
+  std::string newSetName = redko::cutName(descr);
+  std::string firstSetName = redko::cutName(descr);
+  std::string secondSetName = redko::cutName(descr);
   redko::BSTree< int, std::string > dataSet{};
   redko::BSTree< int, std::string >::iterator currElem = dataSets[firstSetName].begin();
   while (currElem != dataSets[firstSetName].end())
@@ -87,12 +85,11 @@ void redko::intersect(BSTree< std::string, BSTree < int, std::string > > & dataS
   dataSets.insert({ newSetName, dataSet });
 }
 
-void redko::unite(BSTree< std::string, BSTree < int, std::string > > & dataSets)
+void redko::unite(BSTree< std::string, BSTree < int, std::string > > & dataSets, std::string & descr)
 {
-  std::string newSetName = "";
-  std::string firstSetName = "";
-  std::string secondSetName = "";
-  std::cin >> newSetName >> firstSetName >> secondSetName;
+  std::string newSetName = redko::cutName(descr);
+  std::string firstSetName = redko::cutName(descr);
+  std::string secondSetName = redko::cutName(descr);
   redko::BSTree< int, std::string > dataSet = dataSets[firstSetName];
   redko::BSTree< int, std::string >::iterator currElem = dataSets[secondSetName].begin();
   while (currElem != dataSets[secondSetName].end())

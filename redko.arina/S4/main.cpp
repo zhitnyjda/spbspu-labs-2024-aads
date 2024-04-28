@@ -17,7 +17,7 @@ int main(int argc, char ** argv)
     std::string description = "";
     redko::BSTree< std::string, redko::BSTree< int, std::string > > dataSets{};
 
-    redko::BSTree<std::string, void (*)(redko::BSTree< std::string, redko::BSTree< int, std::string > > &) > functions{};
+    redko::BSTree<std::string, void (*)(redko::BSTree< std::string, redko::BSTree< int, std::string > > &, std::string &) > functions{};
     functions.insert({ "print", redko::print });
     functions.insert({ "complement", redko::complement });
     functions.insert({ "intersect", redko::intersect });
@@ -40,13 +40,14 @@ int main(int argc, char ** argv)
     }
 
     std::string command = "";
-    while (std::cin >> command)
+    while (std::getline(std::cin, description))
     {
+      command = redko::cutName(description);
       if (functions.find(command) != functions.end())
       {
         try
         {
-          functions[command](dataSets);
+          functions[command](dataSets, description);
         }
         catch (const std::out_of_range & e)
         {
