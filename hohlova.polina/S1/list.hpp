@@ -222,9 +222,7 @@ template <typename T>
 void hohlova::List<T>::pop_front()
 {
   if (Size == 0)
-  {
     return;
-  {
   Node<T>* temp = head;
   head = head->nextPoint;
   delete temp;
