@@ -4,6 +4,7 @@
 #include <string>
 #include <fstream>
 #include <utility>
+#include <limits>
 #include "map.hpp"
 #include "funcs.hpp"
 
@@ -28,12 +29,12 @@ int main(int argc, char * argv[])
   while (getline(input, line))
   {
     size_t pos = 0;
-    std::string name = getName(line, pos);
+    std::string name = getString(line, pos);
     khoroshkin::Map< long long, std::string > datasets{};
     while (pos < line.length())
     {
       long long key = getKey(line, pos);
-      std::string value = getValue(line, pos);
+      std::string value = getString(line, pos);
       datasets.insert(key, value);
     }
     mapOfDataSets.insert(name, datasets);
@@ -45,7 +46,6 @@ int main(int argc, char * argv[])
   mapOfFuntions.insert("intersect", intersect);
   mapOfFuntions.insert("union", unite);
 
-  bool wasWarning = false;
   while (!std::cin.eof())
   {
     std::string todo;
@@ -54,16 +54,12 @@ int main(int argc, char * argv[])
     auto function = mapOfFuntions.find(todo);
     if (function == mapOfFuntions.end() && todo.length() > 0)
     {
-      if (!wasWarning)
-      {
-        std::cout << "<INVALID COMMAND>\n";
-        wasWarning = true;
-      }
+      std::cout << "<INVALID COMMAND>\n";
+      std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
     }
     else if (todo.length() > 0)
     {
       (*function).second(mapOfDataSets);
-      wasWarning = false;
     }
   }
   return 0;

@@ -5,6 +5,7 @@
 #include <utility>
 #include <iterator>
 #include <cmath>
+#include <iostream>
 
 namespace khoroshkin
 {
@@ -26,6 +27,7 @@ namespace khoroshkin
 
     void insert(Key key, Value value);
     void insert(value_type pair);
+    size_t erase(const Key & key);
     iterator find(const Key & key);
     Value & operator[](const Key & key);
     void clear();
@@ -47,7 +49,7 @@ namespace khoroshkin
     void clear(Node * node);
 
     int getHeight(Node * node);
-    void updateHeight(Node * node);
+    size_t updateHeight(Node * node);
     int checkBalance(Node * node);
     Node * isBalanced(Node * node);
 
@@ -57,6 +59,8 @@ namespace khoroshkin
     void leftRightRotate(Node * node);
 
     Node * copyMap(Node * node, Node * parent);
+    Node * findMin(Node * node);
+    Node * findMax(Node * node);
   };
 }
 
@@ -409,7 +413,7 @@ template< typename Key, typename Value, typename Compare >
 void khoroshkin::Map< Key, Value, Compare >::insert(Key key, Value value)
 {
   root = insert(key, value, root, nullptr);
-  updateHeight(find(key).iter_.node_);
+  updateHeight(root);
   Node * overweight = isBalanced(find(key).iter_.node_);
   while (overweight)
   {
@@ -440,6 +444,139 @@ void khoroshkin::Map< Key, Value, Compare >::insert(Key key, Value value)
 }
 
 template< typename Key, typename Value, typename Compare >
+size_t khoroshkin::Map< Key, Value, Compare >::erase(const Key & key)
+{
+  auto todelete = find(key);
+  if (todelete == end())
+  {
+    return 0;
+  }
+  Node * todeleteNode = todelete.iter_.node_;
+  Node * toCheckBalance = nullptr;
+  if (!todeleteNode->left && !todeleteNode->right)
+  {
+    if (todeleteNode->parent)
+    {
+      (todeleteNode->parent->left == todeleteNode) ? todeleteNode->parent->left = nullptr : todeleteNode->parent->right = nullptr;
+      toCheckBalance = todeleteNode->parent;
+      delete todeleteNode;
+    }
+    else
+    {
+      root = nullptr;
+      delete todeleteNode;
+    }
+  }
+  else
+  {
+    if (getHeight(todeleteNode->left) > getHeight(todeleteNode->right))
+    {
+      Node * toreplace = findMax(todeleteNode->left);
+      (toreplace->parent != todeleteNode) ? toCheckBalance = toreplace->parent : toCheckBalance = todeleteNode->parent;
+      toreplace->parent->right = toreplace->left;
+      if (toreplace->left)
+      {
+        toreplace->left->parent = toreplace->parent;
+      }
+      toreplace->parent = todeleteNode->parent;
+      if (toreplace->parent)
+      {
+        if (toreplace->parent->left == todeleteNode)
+        {
+          toreplace->parent->left = toreplace;
+        }
+        else
+        {
+          toreplace->parent->right = toreplace;
+        }
+      }
+      toreplace->right = todeleteNode->right;
+      if (toreplace->right)
+      {
+        toreplace->right->parent = toreplace;
+      }
+      if (todeleteNode->left != toreplace)
+      {
+        toreplace->left = todeleteNode->left;
+        toreplace->left->parent = toreplace;
+      }
+      if (todeleteNode == root)
+      {
+        root = toreplace;
+      }
+      delete todeleteNode;
+    }
+    else
+    {
+      Node * toreplace = findMin(todeleteNode->right);
+      (toreplace->parent != todeleteNode) ? toCheckBalance = toreplace->parent : toCheckBalance = todeleteNode->parent;
+      toreplace->parent->left = toreplace->right;
+      if (toreplace->right)
+      {
+        toreplace->right->parent = toreplace->parent;
+      }
+      toreplace->parent = todeleteNode->parent;
+      if (toreplace->parent)
+      {
+        if (toreplace->parent->right == todeleteNode)
+        {
+          toreplace->parent->right = toreplace;
+        }
+        else
+        {
+          toreplace->parent->left = toreplace;
+        }
+      }
+      toreplace->left = todeleteNode->left;
+      if (toreplace->left)
+      {
+        toreplace->left->parent = toreplace;
+      }
+      if (todeleteNode->right != toreplace)
+      {
+        toreplace->right = todeleteNode->right;
+        toreplace->right->parent = toreplace;
+      }
+      if (todeleteNode == root)
+      {
+        root = toreplace;
+      }
+      delete todeleteNode;
+    }
+  }
+  updateHeight(root);
+  Node * overweight = isBalanced(toCheckBalance);
+  while (overweight)
+  {
+    if (checkBalance(overweight) == 2)
+    {
+      if (checkBalance(overweight->right) >= 0)
+      {
+        leftRotate(overweight);
+      }
+      else
+      {
+        rightLeftRotate(overweight);
+      }
+    }
+    else
+    {
+      if (checkBalance(overweight->left) < 0)
+      {
+        rightRotate(overweight);
+      }
+      else
+      {
+        leftRightRotate(overweight);
+      }
+    }
+    overweight = isBalanced(overweight);
+  }
+  size--;
+  return 1;
+}
+
+template< typename Key, typename Value, typename Compare >
 void khoroshkin::Map< Key, Value, Compare >::leftRotate(Node * node)
 {
   if (node->parent)
@@ -458,8 +595,6 @@ void khoroshkin::Map< Key, Value, Compare >::leftRotate(Node * node)
     }
     node->right = node->right->left;
     newChild->left = node;
-    updateHeight(node);
-    updateHeight(newChild);
   }
   else
   {
@@ -469,9 +604,8 @@ void khoroshkin::Map< Key, Value, Compare >::leftRotate(Node * node)
     root->left = temp;
     temp->parent = root;
     root->parent = nullptr;
-    updateHeight(root->left);
-    updateHeight(root);
   }
+  updateHeight(root);
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -493,8 +627,6 @@ void khoroshkin::Map< Key, Value, Compare >::rightRotate(Node * node)
     }
     node->left = node->left->right;
     newChild->right = node;
-    updateHeight(node);
-    updateHeight(newChild);
   }
   else
   {
@@ -504,9 +636,8 @@ void khoroshkin::Map< Key, Value, Compare >::rightRotate(Node * node)
     root->right = temp;
     temp->parent = root;
     root->parent = nullptr;
-    updateHeight(root->right);
-    updateHeight(root);
   }
+  updateHeight(root);
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -602,21 +733,13 @@ int khoroshkin::Map< Key, Value, Compare >::getHeight(Node * node)
 }
 
 template< typename Key, typename Value, typename Compare >
-void khoroshkin::Map< Key, Value, Compare >::updateHeight(Node * node)
+size_t khoroshkin::Map< Key, Value, Compare >::updateHeight(Node * node)
 {
-  if (!node)
+  if (node == nullptr)
   {
-    return;
+    return 0;
   }
-  if (!node->left && !node->right)
-  {
-    node->height = 1;
-  }
-  else
-  {
-    node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
-  }
-  updateHeight(node->parent);
+  return node->height = std::max(updateHeight(node->left), updateHeight(node->right)) + 1;
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -651,6 +774,26 @@ typename khoroshkin::Map< Key, Value, Compare >::Node * khoroshkin::Map< Key, Va
   newnode->left = copyMap(node->left, newnode);
   newnode->right = copyMap(node->right, newnode);
   return newnode;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename khoroshkin::Map< Key, Value, Compare >::Node * khoroshkin::Map< Key, Value, Compare >::findMin(Node * node)
+{
+  if (node && node->left)
+  {
+    return findMin(node->left);
+  }
+  return node;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename khoroshkin::Map< Key, Value, Compare >::Node * khoroshkin::Map< Key, Value, Compare >::findMax(Node * node)
+{
+  if (node && node->right)
+  {
+    return findMax(node->right);
+  }
+  return node;
 }
 
 #endif

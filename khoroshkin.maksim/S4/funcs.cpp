@@ -3,7 +3,7 @@
 #include <iostream>
 #include <cctype>
 
-std::string khoroshkin::getName(std::string & line, size_t & pos)
+std::string khoroshkin::getString(std::string & line, size_t & pos)
 {
   std::string result = "";
   while (pos < line.length() && line[pos] != ' ')
@@ -23,17 +23,6 @@ long long khoroshkin::getKey(std::string & line, size_t & pos)
   }
   pos++;
   return std::stoll(result);
-}
-
-std::string khoroshkin::getValue(std::string & line, size_t & pos)
-{
-  std::string result = "";
-  while (pos < line.length() && line[pos] != ' ')
-  {
-    result += line[pos++];
-  }
-  pos++;
-  return result;
 }
 
 void khoroshkin::print(khoroshkin::Map< std::string, khoroshkin::Map< long long, std::string > > & map)
@@ -81,7 +70,15 @@ void khoroshkin::complement(khoroshkin::Map< std::string, khoroshkin::Map< long 
       datasets.insert(*it);
     }
   }
-  map.insert(name, datasets);
+  if (nameFirst == name)
+  {
+    map.erase(nameFirst);
+    map.insert(name, datasets);
+  }
+  else
+  {
+    map.insert(name, datasets);
+  }
 }
 
 void khoroshkin::intersect(khoroshkin::Map< std::string, khoroshkin::Map< long long, std::string > > & map)
@@ -104,18 +101,26 @@ void khoroshkin::intersect(khoroshkin::Map< std::string, khoroshkin::Map< long l
       datasets.insert(*it);
     }
   }
-  map.insert(name, datasets);
+  if (nameFirst == name)
+  {
+    map.erase(nameFirst);
+    map.insert(name, datasets);
+  }
+  else
+  {
+    map.insert(name, datasets);
+  }
 }
 
 void khoroshkin::unite(khoroshkin::Map< std::string, khoroshkin::Map< long long, std::string > > & map)
 {
   std::string name, nameFirst, nameSecond;
   std::cin >> name >> nameFirst >> nameSecond;
-  auto firstData = map.find(nameSecond);
+  auto firstData = map.find(nameFirst);
   auto secondData = map.find(nameSecond);
   if (firstData == map.end() || secondData == map.end())
   {
-    std::cout << "<EMPTY>\n";
+    std::cout << "<INVALID COMMAND>\n";
     return;
   }
   khoroshkin::Map< long long, std::string > datasets{};
@@ -125,7 +130,19 @@ void khoroshkin::unite(khoroshkin::Map< std::string, khoroshkin::Map< long long,
   }
   for (auto it = (*secondData).second.begin(); it != (*secondData).second.end(); it++)
   {
-    datasets.insert(*it);
+    auto inSet = datasets.find((*it).first);
+    if (inSet == datasets.end())
+    {
+      datasets.insert(*it);
+    }
   }
-  map.insert(name, datasets);
+  if (nameFirst == name || nameSecond == name)
+  {
+    map.erase(nameFirst);
+    map.insert(name, datasets);
+  }
+  else
+  {
+    map.insert(name, datasets);
+  }
 }
