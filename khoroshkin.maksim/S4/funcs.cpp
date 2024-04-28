@@ -136,9 +136,14 @@ void khoroshkin::unite(khoroshkin::Map< std::string, khoroshkin::Map< long long,
       datasets.insert(*it);
     }
   }
-  if (nameFirst == name || nameSecond == name)
+  if (nameFirst == name)
   {
     map.erase(nameFirst);
+    map.insert(name, datasets);
+  }
+  else if (nameSecond == name)
+  {
+    map.erase(nameSecond);
     map.insert(name, datasets);
   }
   else
