@@ -26,11 +26,9 @@ namespace sobolevsky
       friend class Stack< T >;
       T data;
       Node *last;
-      Node(T data)
-      {
-        this->data = data;
-        last = nullptr;
-      }
+      Node(T data = T()) :
+        data(data), last(nullptr)
+      {}
     };
 
     Node *last;
