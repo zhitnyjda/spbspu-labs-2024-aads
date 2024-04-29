@@ -6,7 +6,7 @@
 
 namespace ponomarev
 {
-  template< typename T >
+  template < typename T >
   class List
   {
   public:
@@ -59,7 +59,7 @@ namespace ponomarev
   };
 }
 
-template< typename T >
+template < typename T >
 class ponomarev::List< T >::ConstIterator : public std::iterator< std::bidirectional_iterator_tag, T >
 {
 public:
@@ -88,12 +88,12 @@ private:
   ListNode* node_;
 };
 
-template< typename T >
+template < typename T >
 ponomarev::List< T >::ConstIterator::ConstIterator():
   node_(nullptr)
 {}
 
-template< typename T >
+template < typename T >
 ponomarev::List< T >::ConstIterator::ConstIterator(ListNode* data):
   node_(data)
 {}
@@ -128,31 +128,31 @@ typename ponomarev::List< T >::ConstIterator ponomarev::List< T >::ConstIterator
   return temp;
 }
 
-template< typename T >
+template < typename T >
 const T& ponomarev::List< T >::ConstIterator::operator*() const
 {
   return node_->data;
 }
 
-template< typename T >
+template < typename T >
 const T* ponomarev::List< T >::ConstIterator::operator->() const
 {
   return &(node_->data);
 }
 
-template< typename T >
+template < typename T >
 bool ponomarev::List< T >::ConstIterator::operator==(const this_t& that) const
 {
   return node_ == that.node_;
 }
 
-template< typename T >
+template < typename T >
 bool ponomarev::List< T >::ConstIterator::operator!=(const this_t& that) const
 {
   return !(that == *this);
 }
 
-template< typename T >
+template < typename T >
 class ponomarev::List< T >::Iterator : public std::iterator< std::bidirectional_iterator_tag, T >
 {
 public:
@@ -170,6 +170,7 @@ public:
   this_t operator++(int);
   this_t& operator--();
   this_t operator--(int);
+  this_t operator+(size_t index);
 
   T& operator*();
   T* operator->();
@@ -183,17 +184,17 @@ private:
   ConstIterator iterator_;
 };
 
-template< typename T >
+template < typename T >
 ponomarev::List< T >::Iterator::Iterator():
   iterator_(ConstIterator())
 {}
 
-template< typename T >
+template < typename T >
 ponomarev::List< T >::Iterator::Iterator(ListNode* data):
   iterator_(ConstIterator(data))
 {}
 
-template< typename T >
+template < typename T >
 ponomarev::List< T >::Iterator::Iterator(ConstIterator const_iterator):
   iterator_(const_iterator)
 {}
@@ -226,43 +227,53 @@ typename ponomarev::List< T >::Iterator ponomarev::List< T >::Iterator::operator
   return iterator_;
 }
 
-template< typename T >
+template < typename T >
+typename ponomarev::List< T >::Iterator ponomarev::List< T >::Iterator::operator+(size_t index)
+{
+  for (size_t i = 0; i < index; i++)
+  {
+    (*this)++;
+  }
+  return *this;
+}
+
+template < typename T >
 T& ponomarev::List< T >::Iterator::operator*()
 {
   return iterator_.node_->data;
 }
 
-template< typename T >
+template < typename T >
 T* ponomarev::List< T >::Iterator::operator->()
 {
   return &(iterator_.node_->data);
 }
 
-template< typename T >
+template < typename T >
 const T& ponomarev::List< T >::Iterator::operator*() const
 {
   return iterator_.node_->data;
 }
 
-template< typename T >
+template < typename T >
 const T* ponomarev::List< T >::Iterator::operator->() const
 {
   return &(iterator_.node_->data);
 }
 
-template< typename T >
+template < typename T >
 bool ponomarev::List< T >::Iterator::operator==(const this_t& that) const
 {
   return iterator_ == that.iterator_;
 }
 
-template< typename T >
+template < typename T >
 bool ponomarev::List< T >::Iterator::operator!=(const this_t& that) const
 {
   return !(that == *this);
 }
 
-template< typename T >
+template < typename T >
 ponomarev::List< T >::List()
 {
   size = 0;
@@ -270,7 +281,7 @@ ponomarev::List< T >::List()
   tail = nullptr;
 }
 
-template< typename T >
+template < typename T >
 ponomarev::List< T >::List(size_t count)
 {
   size = 0;
@@ -280,7 +291,7 @@ ponomarev::List< T >::List(size_t count)
   }
 }
 
-template< typename T >
+template < typename T >
 ponomarev::List< T >::List(size_t count, const T& data)
 {
   size = 0;
@@ -290,7 +301,7 @@ ponomarev::List< T >::List(size_t count, const T& data)
   }
 }
 
-template< typename T >
+template < typename T >
 ponomarev::List< T >::List(iterator first, iterator last)
 {
   size = 0;
@@ -301,7 +312,7 @@ ponomarev::List< T >::List(iterator first, iterator last)
   }
 }
 
-template<typename T>
+template <typename T>
 ponomarev::List<T>::List(std::initializer_list<T> dataList)
 {
   size = 0;
@@ -311,13 +322,13 @@ ponomarev::List<T>::List(std::initializer_list<T> dataList)
   }
 }
 
-template< typename T >
+template < typename T >
 ponomarev::List< T >::~List()
 {
   clear();
 }
 
-template< typename T >
+template < typename T >
 void ponomarev::List< T >::popFront()
 {
   ListNode* temp = head;
@@ -326,7 +337,7 @@ void ponomarev::List< T >::popFront()
   --size;
 }
 
-template< typename T >
+template < typename T >
 void ponomarev::List< T >::pushBack(T& data)
 {
   if (head == nullptr)
@@ -343,13 +354,13 @@ void ponomarev::List< T >::pushBack(T& data)
   size++;
 }
 
-template< typename T >
+template < typename T >
 size_t ponomarev::List< T >::getSize() const noexcept
 {
   return size;
 }
 
-template< typename T >
+template < typename T >
 void ponomarev::List< T >::clear()
 {
   while (size != 0)
@@ -358,7 +369,7 @@ void ponomarev::List< T >::clear()
   }
 }
 
-template< typename T >
+template < typename T >
 bool ponomarev::List< T >::isEmpty() const noexcept
 {
   return this->getSize() == 0;
@@ -370,7 +381,7 @@ typename ponomarev::List< T >::ConstIterator ponomarev::List< T >::cbegin() cons
   return ConstIterator(head);
 }
 
-template< typename T >
+template < typename T >
 typename ponomarev::List< T >::ConstIterator ponomarev::List< T >::cend() const noexcept
 {
   return ConstIterator(tail->next);
@@ -382,7 +393,7 @@ typename ponomarev::List< T >::ConstIterator ponomarev::List< T >::begin() const
   return ConstIterator(head);
 }
 
-template< typename T >
+template < typename T >
 typename ponomarev::List< T >::ConstIterator ponomarev::List< T >::end() const noexcept
 {
   return ConstIterator(tail->next);
@@ -394,7 +405,7 @@ typename ponomarev::List< T >::Iterator ponomarev::List< T >::begin() noexcept
   return Iterator(head);
 }
 
-template< typename T >
+template < typename T >
 typename ponomarev::List< T >::Iterator ponomarev::List< T >::end() noexcept
 {
   return Iterator(tail->next);

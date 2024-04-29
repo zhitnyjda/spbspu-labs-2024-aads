@@ -2,6 +2,8 @@
 #define FUNCTIONS_HPP
 
 #include <string>
+#include <ostream>
+#include "list.hpp"
 
 namespace ponomarev
 {

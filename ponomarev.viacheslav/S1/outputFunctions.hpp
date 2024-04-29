@@ -1,0 +1,44 @@
+#ifndef OUTPUT_FUNCTIONS_HPP
+#define OUTPUT_FUNCTIONS_HPP
+
+#include <iostream>
+#include <utility>
+#include "list.hpp"
+
+using pair = ponomarev::List< std::pair< std::string, ponomarev::List< unsigned long long > > >;
+
+namespace ponomarev
+{
+  template< typename T >
+  List< T > outputNums(pair& data, size_t& maxLenSeq);
+}
+
+template< typename T >
+ponomarev::List< T > ponomarev::outputNums(pair& data, size_t& maxLenSeq)
+{
+  pair::Iterator seqIterator = data.begin();
+  typename List< T >::Iterator numIterator;
+  List< T > sums;
+  T lineSum = 0;
+  for (size_t i = 0; i < maxLenSeq; i++)
+  {
+    lineSum = 0;
+    seqIterator = data.begin();
+    for (seqIterator = data.begin(); seqIterator != data.end(); seqIterator++)
+    {
+      numIterator = (*seqIterator).second.begin();
+      if ((*seqIterator).second.getSize() > i)
+      {
+        numIterator = i != 0 ? (numIterator + i) : numIterator;
+        lineSum != 0 ? std::cout << ' ' << *numIterator : std::cout << *numIterator;
+        lineSum += *numIterator;
+      }
+    }
+    sums.pushBack(lineSum);
+    std::cout << '\n';
+  }
+  return sums;
+}
+
+
+#endif

@@ -1,7 +1,8 @@
-#include "list.hpp"
-#include "functions.hpp"
 #include <iostream>
 #include <utility>
+#include "functions.hpp"
+#include "outputFunctions.hpp"
+#include <algorithm>
 
 int main()
 {
@@ -9,7 +10,8 @@ int main()
   pairs data;
   pairs::Iterator iterator;
   std::string line = "";
-  size_t dataSize = 0;
+  size_t maxLenSeq = 0;
+
   while (std::getline(std::cin, line))
   {
     if (line.size() != 0)
@@ -18,18 +20,21 @@ int main()
       std::pair< std::string, ponomarev::List< unsigned long long > > pair = { name, {} };
       data.pushBack(pair);
       iterator = data.begin();
-      dataSize += 1;
-      for (size_t i = 0; i < (dataSize - 1); i++)
+      for (size_t i = 0; i < (data.getSize() - 1); i++)
       {
         iterator++;
       }
+      size_t temp = 0;
       while (!line.empty())
       {
         unsigned long long num = ponomarev::getNumber(line);
         iterator->second.pushBack(num);
+        temp++;
       }
+      maxLenSeq = std::max(maxLenSeq, temp);
     }
   }
+
   if (data.isEmpty())
   {
     std::cout << 0 << '\n';
@@ -44,5 +49,6 @@ int main()
       std::cout << (iterator == data.end() ? '\n' : ' ');
     }
   }
+  ponomarev::List< unsigned long long > sums = ponomarev::outputNums< unsigned long long >(data, maxLenSeq);
   return 0;
 }
