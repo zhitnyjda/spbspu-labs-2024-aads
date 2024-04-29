@@ -12,7 +12,7 @@ void sobolevsky::fillStack(std::istream & in, Stack< std::string > & container)
 
 bool sobolevsky::isDigit(std::string c)
 {
-  for(long long i = 0; i < c.length(); i++)
+  for(unsigned long i = 0; i < c.length(); i++)
   {
     if (!('0' <= c[i] && c[i] <= '9'))
     {
