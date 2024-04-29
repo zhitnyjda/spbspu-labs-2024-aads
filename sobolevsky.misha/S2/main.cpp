@@ -39,6 +39,7 @@ int main(int argc, char *argv[])
       std::cout << sobolevsky::countPostfix(ptr, size) << "\n";
     }
     stack.pop();
+    delete[] ptr;
   }
 
   return 0;
