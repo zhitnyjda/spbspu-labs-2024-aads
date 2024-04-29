@@ -73,7 +73,7 @@ int doroshenko::precendence(std::string c)
   }
   else
   {
-    return -1;
+    return 0;
   }
 }
 
