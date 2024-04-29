@@ -469,7 +469,7 @@ typename jirkov::List< T >::Iterator jirkov::List< T >::begin() const
 template< typename T >
 typename jirkov::List< T >::Iterator jirkov::List< T >::end() const
 {
-  return Iterator(tail_->next);
+  return Iterator(nullptr);
 }
 
 template< typename T >
