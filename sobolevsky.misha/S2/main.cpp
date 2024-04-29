@@ -26,20 +26,27 @@ int main(int argc, char *argv[])
   }
 
   size_t sz = stack.size();
-
   for(size_t i = 0; i < sz; i++)
   {
-    size_t size = 0;
-    std::shared_ptr< std::string[] > ptr(sobolevsky::fromInfixToPostfix(stack.top(), size));
-    if (i < (sz - 1))
+    try
     {
-      std::cout << sobolevsky::countPostfix(ptr, size) << " ";
+      size_t size = 0;
+      std::shared_ptr< std::string[] > ptr(sobolevsky::fromInfixToPostfix(stack.top(), size));
+      if (i < (sz - 1))
+      {
+        std::cout << sobolevsky::countPostfix(ptr, size) << " ";
+      }
+      else
+      {
+        std::cout << sobolevsky::countPostfix(ptr, size) << "\n";
+      }
+      stack.pop();
     }
-    else
+    catch(const std::exception& e)
     {
-      std::cout << sobolevsky::countPostfix(ptr, size) << "\n";
+      std::cerr << e.what() << '\n';
+      return 1;
     }
-    stack.pop();
   }
 
   return 0;

@@ -63,10 +63,7 @@ template< typename T >
 void sobolevsky::Stack< T >::push(T data)
 {
   Node *ptr = new Node(data);
-  if(size_ > 0)
-  {
-    ptr->last = last;
-  }
+  ptr->last = last;
   last = ptr;
   size_++;
 }
@@ -84,19 +81,10 @@ T sobolevsky::Stack< T >::top()
 template< typename T >
 void sobolevsky::Stack< T >::pop()
 {
-  if(size_ > 1)
-  {
-    Node *tempNode = last;
-    last = last->last;
-    size_--;
-    delete tempNode;
-  }
-  else
-  {
-    delete last;
-    last = nullptr;
-    size_--;
-  }
+  Node *tempNode = last;
+  last = last->last;
+  size_--;
+  delete tempNode;
 }
 
 template< typename T >
