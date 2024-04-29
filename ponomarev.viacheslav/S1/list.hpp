@@ -37,18 +37,21 @@ namespace ponomarev
     bool isEmpty() const noexcept;
 
     void clear();
-    void push(const T & value);
+    void pushBack(const T & value);
     void pop_front();
     void swap(List & other) noexcept;
 
     private:
       struct ListNode
       {
-        explicit ListNode(const T & d):
-          data(d),
-          next(nullptr),
-          prev(nullptr)
-        {}
+        friend class List< T >;
+        ListNode(T data, ListNode * next = nullptr, ListNode * prev = nullptr)
+        {
+           this->data = data;
+           this->next = next;
+           this->prev = prev;
+        }
+
         T data;
         ListNode * next;
         ListNode * prev;
@@ -271,7 +274,7 @@ ponomarev::List< T >::List(size_t count, const T & value)
 {
   for (int i = 0; i < count; i++)
   {
-    push(value);
+    pushBack(value);
   }
 }
 
@@ -280,7 +283,7 @@ ponomarev::List< T >::List(size_t amount)
 {
   for (int i = 1; i <= amount; i++)
   {
-    push(T());
+    pushBack(T());
   }
 }
 
@@ -289,7 +292,7 @@ ponomarev::List< T >::List(iterator first, iterator last)
 {
   while (first != last)
   {
-    push(*first);
+    pushBack(*first);
     first++;
   }
 }
@@ -299,7 +302,7 @@ ponomarev::List< T >::List(std::initializer_list< T > init)
 {
   for (T data : init)
   {
-    push(data);
+    pushBack(data);
   }
 }
 
@@ -347,7 +350,7 @@ T & ponomarev::List< T >::front()
 template< typename T >
 typename ponomarev::List< T >::iterator ponomarev::List< T >::begin() noexcept
 {
-  return Iterator(head.next);
+  return Iterator(head->next);
 }
 
 template< typename T >
@@ -397,19 +400,18 @@ void ponomarev::List< T >::clear()
 }
 
 template< typename T >
-void ponomarev::List< T >::push(const T & value)
+void ponomarev::List< T >::pushBack(const T & value)
 {
-  ListNode * data = new ListNode(value);
-  if (head == tail == nullptr)
+  if (head == nullptr)
   {
-    head->next = data;
-    tail->prev = data;
+    head = new ListNode(value);
+    tail = head;
   }
   else
   {
-    ListNode * temp = tail->prev;
-    temp->next = data;
-    tail->prev = data;
+    ListNode * temp = new ListNode(value, nullptr, tail);
+    tail->next = temp;
+    tail = temp;
   }
 }
 
