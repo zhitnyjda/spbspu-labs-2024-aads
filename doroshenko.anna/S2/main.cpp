@@ -21,16 +21,24 @@ int main(int argc, char* argv[])
     std::cerr << "Wrong input\n";
     return 1;
   }
-  formResultStack(expressions, resultStack);
-  while (!resultStack.isEmpty())
+  try
   {
-    std::cout << resultStack.front();
-    if (resultStack.front() != resultStack.back())
+    formResultStack(expressions, resultStack);
+    while (!resultStack.isEmpty())
     {
-      std::cout << ' ';
+      std::cout << resultStack.front();
+      if (resultStack.front() != resultStack.back())
+      {
+        std::cout << ' ';
+      }
+      resultStack.drop();
     }
-    resultStack.drop();
+    std::cout << '\n';
   }
-  std::cout << '\n';
+  catch (std::exception &e)
+  {
+    std::cout << e.what();
+    return 1;
+  }
   return 0;
 }

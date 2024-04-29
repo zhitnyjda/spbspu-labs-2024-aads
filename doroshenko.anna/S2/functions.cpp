@@ -122,20 +122,43 @@ void doroshenko::infixToPostfix(Queue< std::string >& expression, Queue< std::st
 long long doroshenko::countOperation(long long fval, long long sval, std::string operation)
 {
   long long result = 0;
+  long long maximum = std::numeric_limits< long long >::max();
+  long long minimum = std::numeric_limits< long long >::min();
   if (operation == "+")
   {
-    result = fval + sval;
-    return result;
+    if (maximum - fval < sval)
+    {
+      throw std::overflow_error("overflow error");
+    }
+    else
+    {
+      result = fval + sval;
+      return result;
+    }
   }
   else if (operation == "-")
   {
-    result = fval - sval;
-    return result;
+    if (fval < minimum + sval)
+    {
+      throw std::underflow_error("underflow error");
+    }
+    else
+    {
+      result = fval - sval;
+      return result;
+    }
   }
   else if (operation == "*")
   {
-    result = fval * sval;
-    return result;
+    if (maximum / fval < sval)
+    {
+      throw std::overflow_error("overflow error");
+    }
+    else
+    {
+      result = fval * sval;
+      return result;
+    }
   }
   else if (operation == "/")
   {
@@ -177,7 +200,7 @@ long long doroshenko::calculateExpr(Queue< std::string >& expression)
     }
     else
     {
-      std::cout << "error";
+      return 0;
     }
   }
   unsigned long long result = stack.front();
