@@ -132,5 +132,7 @@ size_t sobolevsky::countPostfix(std::string *postfix, size_t length)
     }
   }
 
+  delete[] postfix;
+
   return stack.top();
 }
