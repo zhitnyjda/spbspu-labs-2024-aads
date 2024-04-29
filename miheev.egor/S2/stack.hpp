@@ -20,10 +20,11 @@ namespace miheev
     const T& top() const;
     void push(const T&);
     void pop();
+    T drop();
     void swap(Stack&) noexcept;
   private:
     List< T > container_;
-  }
+  };
 }
 
 #endif
