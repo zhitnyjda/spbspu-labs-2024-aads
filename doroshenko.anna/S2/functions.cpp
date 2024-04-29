@@ -1,4 +1,5 @@
 #include "functions.hpp"
+#include <limits>
 
 void doroshenko::readInfixForm(std::istream& input, Queue< std::string >& result)
 {
