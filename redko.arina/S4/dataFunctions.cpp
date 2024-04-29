@@ -19,24 +19,20 @@ int redko::cutKey(std::string & str)
 void redko::print(BSTree< std::string, BSTree < int, std::string > > & dataSets, std::string & descr)
 {
   std::string setName = redko::cutName(descr);
-  redko::BSTree< std::string, BSTree < int, std::string > >::iterator currSet = dataSets.find(setName);
-  if (currSet != dataSets.end())
+  if (!dataSets[setName].empty())
   {
-    if (!dataSets[setName].empty())
+    std::cout << setName;
+    redko::BSTree< int, std::string >::iterator currElem = dataSets[setName].begin();
+    while (currElem != dataSets[setName].end())
     {
-      std::cout << setName;
-      redko::BSTree< int, std::string >::iterator currElem = dataSets[setName].begin();
-      while (currElem != dataSets[setName].end())
-      {
-        std::cout << ' ' << currElem->first << ' ' << currElem->second;
-        ++currElem;
-      }
-      std::cout << '\n';
+      std::cout << ' ' << currElem->first << ' ' << currElem->second;
+      ++currElem;
     }
-    else
-    {
-      std::cout << "<EMPTY>\n";
-    }
+    std::cout << '\n';
+  }
+  else
+  {
+    std::cout << "<EMPTY>\n";
   }
 }
 
@@ -64,6 +60,10 @@ void redko::complement(BSTree< std::string, BSTree < int, std::string > > & data
     }
     ++currElem;
   }
+  if (dataSets.find(newSetName) != dataSets.end())
+  {
+    dataSets.erase(newSetName);
+  }
   dataSets.insert({ newSetName, dataSet });
 }
 
@@ -82,6 +82,10 @@ void redko::intersect(BSTree< std::string, BSTree < int, std::string > > & dataS
     }
     ++currElem;
   }
+  if (dataSets.find(newSetName) != dataSets.end())
+  {
+    dataSets.erase(newSetName);
+  }
   dataSets.insert({ newSetName, dataSet });
 }
 
@@ -96,6 +100,10 @@ void redko::unite(BSTree< std::string, BSTree < int, std::string > > & dataSets,
   {
     dataSet.insert(*currElem);
     ++currElem;
+  }
+  if (dataSets.find(newSetName) != dataSets.end())
+  {
+    dataSets.erase(newSetName);
   }
   dataSets.insert({ newSetName, dataSet });
 }

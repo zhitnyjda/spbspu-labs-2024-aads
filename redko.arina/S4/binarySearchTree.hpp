@@ -24,6 +24,8 @@ namespace redko
     BSTree(std::initializer_list< value_t > init);
     ~BSTree();
 
+    BSTree & operator=(const BSTree & other);
+
     Value & at(const Key & key);
     const Value & at(const Key & key) const;
     Value & operator[](const Key & key);
@@ -42,6 +44,7 @@ namespace redko
     void clear();
     iterator insert(const value_t & value);
     iterator insert(value_t && value);
+    size_t erase(const Key & key);
 
     void swap(BSTree & other) noexcept;
 
@@ -80,6 +83,7 @@ namespace redko
     Node * balance(Node * node);
     Node * insertTo(Node * node, const value_t & value);
     Node * insertTo(Node * node, value_t && value);
+    Node * deleteFrom(Node * node, const Key & key);
   };
 }
 
@@ -206,7 +210,7 @@ bool redko::BSTree< Key, Value, Compare >::Iterator::operator!=(const this_t & r
 }
 
 template < typename Key, typename Value, typename Compare >
-class redko::BSTree< Key, Value, Compare >::ConstIterator
+class redko::BSTree< Key, Value, Compare >::ConstIterator: public std::iterator< std::bidirectional_iterator_tag, value_t >
 {
   friend class BSTree;
 public:
@@ -328,6 +332,22 @@ redko::BSTree< Key, Value, Compare >::~BSTree()
 }
 
 template < typename Key, typename Value, typename Compare >
+redko::BSTree< Key, Value, Compare > & redko::BSTree< Key, Value, Compare >::operator=(const BSTree & other)
+{
+  if (&other != this)
+  {
+    clear();
+    iterator curr = other.begin();
+    while (curr != other.end())
+    {
+      insert(*curr);
+      ++curr;
+    }
+  }
+  return *this;
+}
+
+template < typename Key, typename Value, typename Compare >
 Value & redko::BSTree< Key, Value, Compare >::at(const Key & key)
 {
   Node * curr = root_;
@@ -431,7 +451,7 @@ template < typename Key, typename Value, typename Compare >
 typename redko::BSTree< Key, Value, Compare >::iterator redko::BSTree< Key, Value, Compare >::begin() noexcept
 {
   Node * curr = root_;
-  while (curr != nullptr &&  curr->left != nullptr)
+  while (curr != nullptr && curr->left != nullptr)
   {
     curr = curr->left;
   }
@@ -448,6 +468,7 @@ typename redko::BSTree< Key, Value, Compare >::const_iterator redko::BSTree< Key
   }
   return ConstIterator(curr);
 }
+
 template < typename Key, typename Value, typename Compare >
 typename redko::BSTree< Key, Value, Compare >::const_iterator redko::BSTree< Key, Value, Compare >::cbegin() const noexcept
 {
@@ -481,6 +502,7 @@ template < typename Key, typename Value, typename Compare >
 void redko::BSTree< Key, Value, Compare >::clear()
 {
   deleteSubtree(root_);
+  root_ = nullptr;
 }
 
 template < typename Key, typename Value, typename Compare >
@@ -495,6 +517,17 @@ typename redko::BSTree< Key, Value, Compare >::iterator redko::BSTree< Key, Valu
 {
   root_ = insertTo(root_, std::move(value));
   return find(value.first);
+}
+
+template < typename Key, typename Value, typename Compare >
+size_t redko::BSTree< Key, Value, Compare >::erase(const Key & key)
+{
+  if (find(key) != end())
+  {
+    root_ = deleteFrom(root_, key);
+    return 1;
+  }
+  return 0;
 }
 
 template < typename Key, typename Value, typename Compare >
@@ -669,7 +702,8 @@ typename redko::BSTree< Key, Value, Compare >::Node * redko::BSTree< Key, Value,
     node = new Node(value);
     return node;
   }
-  else {
+  else
+  {
     if (cmp_(value.first, node->elem.first))
     {
       node->left = insertTo(node->left, value);
@@ -681,8 +715,7 @@ typename redko::BSTree< Key, Value, Compare >::Node * redko::BSTree< Key, Value,
       node->right->parent = node;
     }
   }
-  node = balance(node);
-  return node;
+  return balance(node);
 }
 
 template < typename Key, typename Value, typename Compare >
@@ -693,7 +726,8 @@ typename redko::BSTree< Key, Value, Compare >::Node * redko::BSTree< Key, Value,
     node = new Node(std::move(value));
     return node;
   }
-  else {
+  else
+  {
     if (cmp_(value.first, node->elem.first))
     {
       node->left = insertTo(node->left, std::move(value));
@@ -705,7 +739,80 @@ typename redko::BSTree< Key, Value, Compare >::Node * redko::BSTree< Key, Value,
       node->right->parent = node;
     }
   }
-  node = balance(node);
+  return balance(node);
+}
+
+template < typename Key, typename Value, typename Compare >
+typename redko::BSTree< Key, Value, Compare >::Node * redko::BSTree< Key, Value, Compare >::deleteFrom(Node * node, const Key & key)
+{
+  if (node == nullptr)
+  {
+    return node;
+  }
+
+  if (cmp_(key, node->elem.first))
+  {
+    node->left = deleteFrom(node->left, key);
+  }
+  else if (cmp_(node->elem.first, key))
+  {
+    node->right = deleteFrom(node->right, key);
+  }
+  else
+  {
+    Node * tmp = nullptr;
+    if (node->left == nullptr && node->right == nullptr)
+    {
+      delete node;
+      return nullptr;
+    }
+    else if (node->right == nullptr)
+    {
+      tmp = node->left;
+      *node = *tmp;
+      delete tmp;
+    }
+    else if (node->left == nullptr)
+    {
+      tmp = node->right;
+      *node = *tmp;
+      delete tmp;
+    }
+    else
+    {
+      tmp = node->right;
+      while (tmp->left != nullptr)
+      {
+        tmp = tmp->left;
+      }
+      node->elem = tmp->elem;
+      node->right = deleteFrom(node->right, tmp->elem.first);
+    }
+  }
+
+  int bFactor = getDiff(node);
+  if (bFactor == 2)
+  {
+    if (getDiff(node->left) >= 0)
+    {
+      node = rotateRR(node);
+    }
+    else
+    {
+      node = rotateLR(node);
+    }
+  }
+  else if (bFactor == -2)
+  {
+    if (getDiff(node->right) <= 0)
+    {
+      node = rotateLL(node);
+    }
+    else
+    {
+      node = rotateRL(node);
+    }
+  }
   return node;
 }
 
