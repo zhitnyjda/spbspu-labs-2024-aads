@@ -25,10 +25,11 @@ namespace ponomarev
 
     void popFront();
     void pushBack(T& data);
+    size_t getSize() const noexcept;
 
     void clear();
 
-    bool empty() const noexcept;
+    bool isEmpty() const noexcept;
 
     const_iterator cbegin() const noexcept;
     const_iterator cend() const noexcept;
@@ -54,6 +55,7 @@ namespace ponomarev
 
     ListNode* head;
     ListNode* tail;
+    size_t size;
   };
 }
 
@@ -263,6 +265,7 @@ bool ponomarev::List< T >::Iterator::operator!=(const this_t& that) const
 template< typename T >
 ponomarev::List< T >::List()
 {
+  size = 0;
   head = nullptr;
   tail = nullptr;
 }
@@ -270,6 +273,7 @@ ponomarev::List< T >::List()
 template< typename T >
 ponomarev::List< T >::List(size_t count)
 {
+  size = 0;
   for (int i = 1; i <= count; i++)
   {
     pushBack(T());
@@ -279,6 +283,7 @@ ponomarev::List< T >::List(size_t count)
 template< typename T >
 ponomarev::List< T >::List(size_t count, const T& data)
 {
+  size = 0;
   for (int i = 0; i <= count; i++)
   {
     pushBack(data);
@@ -288,6 +293,7 @@ ponomarev::List< T >::List(size_t count, const T& data)
 template< typename T >
 ponomarev::List< T >::List(iterator first, iterator last)
 {
+  size = 0;
   while (first != last)
   {
     pushBack(*first);
@@ -298,6 +304,7 @@ ponomarev::List< T >::List(iterator first, iterator last)
 template<typename T>
 ponomarev::List<T>::List(std::initializer_list<T> dataList)
 {
+  size = 0;
   for (T data : dataList)
   {
     pushBack(data);
@@ -316,6 +323,7 @@ void ponomarev::List< T >::popFront()
   ListNode* temp = head;
   head = head->next;
   delete temp;
+  --size;
 }
 
 template< typename T >
@@ -332,19 +340,26 @@ void ponomarev::List< T >::pushBack(T& data)
     tail->next = temp;
     tail = temp;
   }
+  size++;
+}
+
+template< typename T >
+size_t ponomarev::List< T >::getSize() const noexcept
+{
+  return size;
 }
 
 template< typename T >
 void ponomarev::List< T >::clear()
 {
-  while (begin() != end())
+  while (size != 0)
   {
     popFront();
   }
 }
 
 template< typename T >
-bool ponomarev::List< T >::empty() const noexcept
+bool ponomarev::List< T >::isEmpty() const noexcept
 {
   return this->getSize() == 0;
 }

@@ -30,5 +30,19 @@ int main()
       }
     }
   }
+  if (data.isEmpty())
+  {
+    std::cout << 0 << '\n';
+  }
+  else
+  {
+    iterator = data.begin();
+    while (iterator != data.end())
+    {
+      std::cout << iterator->first;
+      iterator++;
+      std::cout << (iterator == data.end() ? '\n' : ' ');
+    }
+  }
   return 0;
 }
