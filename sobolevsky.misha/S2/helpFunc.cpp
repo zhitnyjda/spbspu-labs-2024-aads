@@ -6,6 +6,10 @@ void sobolevsky::fillStack(std::istream & in, Stack< std::string > & container)
   std::string input;
   while (getline(in, input))
   {
+    if(input.length() == 0)
+    {
+      continue;
+    }
     container.push(input);
   }
 }
