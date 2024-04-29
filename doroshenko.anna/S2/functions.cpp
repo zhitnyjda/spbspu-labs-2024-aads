@@ -168,8 +168,16 @@ long long doroshenko::countOperation(long long fval, long long sval, std::string
   }
   else if (operation == "%")
   {
-    result = fval % sval;
-    return result;
+    if (fval < 0)
+    {
+      result = fval % sval + sval;
+      return result;
+    }
+    else
+    {
+      result = fval % sval;
+      return result;
+    }
   }
   else
   {
@@ -201,7 +209,7 @@ long long doroshenko::calculateExpr(Queue< std::string >& expression)
     }
     else
     {
-      return 0;
+      throw std::logic_error("incorrect expression");
     }
   }
   unsigned long long result = stack.front();
@@ -225,4 +233,3 @@ void doroshenko::formResultStack(Queue< std::string >& expressions, Stack< long 
     resultStack.push(curAnswer);
   }
 }
-
