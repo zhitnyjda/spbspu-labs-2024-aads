@@ -24,7 +24,7 @@ namespace miheev
     void emplace(Args&&... args);
     void swap(Queue&) noexcept;
 
-    void print();
+    void print() const;
   private:
     List< T > container_;
   };
@@ -109,7 +109,7 @@ void miheev::Queue< T >::swap(Queue& rhs) noexcept
 }
 
 template< typename T >
-void miheev::Queue< T >::print()
+void miheev::Queue< T >::print() const
 {
   container_.print();
 }

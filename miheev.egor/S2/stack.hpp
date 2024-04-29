@@ -12,7 +12,7 @@ namespace miheev
     Stack();
     Stack(const T&);
     Stack(const Stack&);
-    ~Stack();
+    ~Stack() = default;
 
     bool empty() const;
     size_t size() const;
@@ -21,10 +21,93 @@ namespace miheev
     void push(const T&);
     void pop();
     T drop();
+    template< class... Args >
+    void emplace(Args&&... args);
     void swap(Stack&) noexcept;
+
+    void print() const;
   private:
     List< T > container_;
   };
+}
+
+template< typename T >
+miheev::Stack < T >::Stack():
+  container_(List< T >())
+{}
+
+template< typename T >
+miheev::Stack< T >::Stack(const T& value):
+  container_(List< T >(value))
+{}
+
+template< typename T >
+miheev::Stack< T >::Stack(const Stack< T >& rhs)
+{
+  container_ = rhs.container_;
+}
+
+template< typename T >
+bool miheev::Stack< T >::empty() const
+{
+  return container_.empty();
+}
+
+template< typename T >
+size_t miheev::Stack< T >::size() const
+{
+  return container_.size();
+}
+
+template< typename T >
+const T& miheev::Stack < T >::top() const
+{
+  return container_.front();
+}
+
+template< typename T >
+T& miheev::Stack < T >::top()
+{
+  return container_.front();
+}
+
+template< typename T >
+void miheev::Stack < T >::push(const T& value)
+{
+  container_.pushFront(value);
+}
+
+template< typename T >
+void miheev::Stack < T >::pop()
+{
+  container_.popFront();
+}
+
+template< typename T >
+T miheev::Stack < T >::drop()
+{
+  T value = container_.front();
+  container_.popFront();
+  return value;
+}
+
+template< typename T >
+template< class... Args >
+void miheev::Stack< T >::emplace(Args&&... args)
+{
+  push(std::forward< Args > (args)...);
+}
+
+template< typename T >
+void miheev::Stack < T >::swap(Stack< T >& rhs) noexcept
+{
+  container_.swap(rhs);
+}
+
+template< typename T >
+void miheev::Stack< T >::print() const
+{
+  container_.print();
 }
 
 #endif
