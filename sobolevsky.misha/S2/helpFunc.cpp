@@ -1,5 +1,6 @@
 #include "helpFunc.hpp"
 #include <sstream>
+#include <limits>
 
 void sobolevsky::fillStack(std::istream & in, Stack< std::string > & container)
 {
@@ -44,20 +45,38 @@ int sobolevsky::algebrChars(std::string c)
 
 long long sobolevsky::counter(std::string ch, long long first, long long second)
 {
+  long long limitMax = std::numeric_limits< long long >::max();
+  long long limitMin = std::numeric_limits< long long >::min();
   if(ch == "+")
   {
+    if ((limitMax - first) < second || (limitMax - second) < first)
+    {
+      throw std::logic_error("overflow");
+    }
     return first + second;
   }
   else if(ch == "-")
   {
+    if ((limitMin + second) > first || (limitMin + first) > second)
+    {
+      throw std::logic_error("overflow");
+    }
     return first - second;
   }
   else if(ch == "*")
   {
+    if ((limitMax / second) < first || ((limitMin / second) > first))
+    {
+      throw std::logic_error("overflow");
+    }
     return first * second;
   }
   else if(ch == "/")
   {
+    if ((limitMin / second) > first)
+    {
+      throw std::logic_error("overflow");
+    }
     return first / second;
   }
   else
