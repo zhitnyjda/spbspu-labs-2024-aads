@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <memory>
 #include "queue.hpp"
 #include "stack.hpp"
 #include "helpFunc.hpp"
@@ -29,7 +30,7 @@ int main(int argc, char *argv[])
   for(size_t i = 0; i < sz; i++)
   {
     size_t size = 0;
-    std::string * ptr = sobolevsky::fromInfixToPostfix(stack.top(), size);
+    std::shared_ptr< std::string[] > ptr(sobolevsky::fromInfixToPostfix(stack.top(), size));
     if (i < (sz - 1))
     {
       std::cout << sobolevsky::countPostfix(ptr, size) << " ";
@@ -39,7 +40,6 @@ int main(int argc, char *argv[])
       std::cout << sobolevsky::countPostfix(ptr, size) << "\n";
     }
     stack.pop();
-    delete[] ptr;
   }
 
   return 0;

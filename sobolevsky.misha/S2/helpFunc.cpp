@@ -62,9 +62,9 @@ size_t sobolevsky::counter(std::string ch, size_t first, size_t second)
   }
 }
 
-std::string* sobolevsky::fromInfixToPostfix(std::string infixExpression, size_t &i)
+std::shared_ptr< std::string[] > sobolevsky::fromInfixToPostfix(std::string infixExpression, size_t &i)
 {
-  std::string *postfixExpression = new std::string[infixExpression.length()]();
+  std::shared_ptr< std::string[] > postfixExpression(new std::string[infixExpression.length()]());
   std::string str;
   sobolevsky::Stack< std::string > stack;
   std::stringstream ss(infixExpression);
@@ -111,7 +111,7 @@ std::string* sobolevsky::fromInfixToPostfix(std::string infixExpression, size_t 
   return postfixExpression;
 }
 
-size_t sobolevsky::countPostfix(std::string *postfix, size_t length)
+size_t sobolevsky::countPostfix(std::shared_ptr< std::string[] > postfix, size_t length)
 {
   sobolevsky::Stack< size_t > stack;
 
@@ -131,8 +131,6 @@ size_t sobolevsky::countPostfix(std::string *postfix, size_t length)
       stack.push(result);
     }
   }
-
-  delete[] postfix;
 
   return stack.top();
 }
