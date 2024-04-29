@@ -61,13 +61,16 @@ namespace jirkov {
     }
 
     size_t findSize(listOfPairs& newList) {
+        size_t size = 0;
         size_t maxSize = 0;
-        for (auto iterator = newList.begin(); iterator != newList.end(); ++iterator) {
-            maxSize = std::max(maxSize, iterator->second.getSize());
+        auto iterator = newList.begin();
+        while (iterator != newList.end()) {
+            size = iterator->second.getSize();
+            maxSize = (maxSize < size ? size : maxSize);
+            iterator++;
         }
         return maxSize;
     }
-
     listOfPairs inputPair(std::istream& input) {
         std::string name = "";
         List< size_t > args;
