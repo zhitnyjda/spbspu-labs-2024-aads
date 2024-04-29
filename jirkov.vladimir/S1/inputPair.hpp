@@ -6,7 +6,7 @@
 
 namespace jirkov
 {
-  List<std::pair<std::string, List<size_t>>> inputPair(std::istream& input);
+  List<std::pair<std::string, List<size_t>>> listInput(std::istream& input);
 }
 
 #endif

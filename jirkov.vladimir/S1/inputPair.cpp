@@ -1,17 +1,17 @@
 #include "inputPair.hpp"
 #include <limits>
 
-jirkov::List<std::pair<std::string, jirkov::List<size_t>>>jirkov::inputPair(std::istream& input)
+jirkov::List<std::pair<std::string, jirkov::List<size_t>>>jirkov::listInput(std::istream& input)
 {
   size_t number = 0;
   const size_t max = std::numeric_limits< size_t >::max();
   std::string string = "";
-  jirkov::List< std::pair<std::string, jirkov::List<size_t>>>inputPair;
+  jirkov::List< std::pair<std::string, jirkov::List<size_t>>>inputList;
   while(input >> string)
   {
     if (std::isalpha(string[0]))
     {
-      inputPair.pushBack({ string, jirkov::List<size_t>() });
+      inputList.pushBack({ string, jirkov::List<size_t>() });
     }
     else
     {
@@ -22,9 +22,9 @@ jirkov::List<std::pair<std::string, jirkov::List<size_t>>>jirkov::inputPair(std:
       }
       else
       {
-        inputPair.back().second.pushBack(number);
+        inputList.tail_->data.second.pushBack(number);
       }
     }
   }
-  return inputPair;
+  return inputList;
 }

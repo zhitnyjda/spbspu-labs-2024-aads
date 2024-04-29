@@ -5,9 +5,9 @@ size_t jirkov::findSize(jirkov::List<std::pair<std::string,jirkov::List<size_t>>
   size_t size = 0;
   size_t maxSize = 0;
   List<std::pair<std::string, jirkov::List<size_t>>>::Iterator iterator = list.begin();
-  while (iterator != nullptr)
+  while (iterator.node)
   {
-    size = iterator->second.getSize();
+    size = iterator.node->data.second.getSize();
     maxSize = size > maxSize ? size : maxSize;
     iterator++;
   }

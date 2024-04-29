@@ -1,16 +1,25 @@
+#include <iostream>
+#include <string>
 #include <limits>
 #include "list.hpp"
-#include "inputPair.hpp"
-#include "findSize.hpp"
-#include "outputPair.hpp"
+#include "calculatingData.hpp"
 
 int main()
 {
   using namespace jirkov;
   try
   {
-    List<std::pair<std::string, List<size_t>>> list = inputPair(std::cin);
-    outputPair(list);
+    List<std::pair<std::string, List<size_t>>> newList = inputPair(std::cin);
+    List<size_t> sums;
+    if (newList.empty())
+    {
+      std::cout << "0\n";
+      return 0;
+    }
+    size_t maxSize = findSize(newList);
+    printListNames(newList);
+    printValues(newList, sums);
+    getSums(sums);
     return 0;
   }
   catch (std::overflow_error const & e)
