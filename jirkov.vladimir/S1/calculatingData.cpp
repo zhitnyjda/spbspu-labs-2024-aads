@@ -14,7 +14,7 @@ namespace jirkov {
             }
             std::cout << iterator->first;
             iterator++;
-        } while (iterator != nullptr);
+        } while (iterator != newList.end());
         std::cout << "\n";
     }
     void printValues(listOfPairs& newList, bool& overflowFlag, List<size_t>& sums) {
@@ -23,7 +23,7 @@ namespace jirkov {
         for (size_t i = 0; i < findSize(newList); i++) {
             iterator = newList.begin();
             size_t sum = 0;
-            while (it != nullptr) {
+            while (iterator != newList.end()) {
                 List< size_t >::Iterator argsIt = iterator->second[i];
                     if (iterator->second[i] != nullptr)
                     {
@@ -56,7 +56,7 @@ namespace jirkov {
             }
             std::cout << *iterator;
             iterator++;
-        } while (iterator != nullptr);
+        } while (iterator != sums.end());
         std::cout << "\n";
     }
 
