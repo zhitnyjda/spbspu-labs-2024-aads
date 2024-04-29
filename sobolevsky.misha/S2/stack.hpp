@@ -26,9 +26,11 @@ namespace sobolevsky
       friend class Stack< T >;
       T data;
       Node *last;
-      Node(T data = T()) :
-        data(data), last(nullptr)
-      {}
+      Node(T data)
+      {
+        this->data = data;
+        last = nullptr;
+      }
     };
 
     Node *last;
@@ -79,10 +81,19 @@ T sobolevsky::Stack< T >::top()
 template< typename T >
 void sobolevsky::Stack< T >::pop()
 {
-  Node *tempNode = last;
-  last = last->last;
-  size_--;
-  delete tempNode;
+  if(size > 1)
+  {
+    Node *tempNode = last;
+    last = last->last;
+    size_--;
+    delete tempNode;
+  }
+  else
+  {
+    delete last;
+    last = nullptr;
+    size_--;
+  }
 }
 
 template< typename T >
