@@ -10,16 +10,25 @@ int main()
   try
   {
     List<std::pair<std::string, List<size_t>>> newList = inputPair(std::cin);
-    List<size_t> sums;
-    if (newList.empty())
+    if (findSize(newList) == 0)
     {
+      if (!newList.empty())
+      {
+        printListNames(newList);
+      }
       std::cout << "0\n";
-      return 0;
     }
-    printListNames(newList);
-    printValues(newList, sums);
-    getSums(sums);
-    return 0;
+    else
+    {
+      printListNames(newList);
+      bool overflowFlag = false;
+      List< size_t > sums;
+      printValues(newList, overflowFlag, sums);
+      if (!overflowFlag)
+      {
+        getSums(sums);
+      }
+    }
   }
   catch (std::overflow_error const & e)
   {
