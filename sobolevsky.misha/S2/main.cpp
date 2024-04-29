@@ -26,6 +26,11 @@ int main(int argc, char *argv[])
   }
 
   long long sz = stack.size();
+  if(sz == 0)
+  {
+    std::cout << " ";
+    return 0;
+  }
   for(long long i = 0; i < sz; i++)
   {
     try
