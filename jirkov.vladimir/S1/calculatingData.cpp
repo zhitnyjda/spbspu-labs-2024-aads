@@ -8,47 +8,55 @@ namespace jirkov {
 
     void printListNames(listOfPairs& newList) {
         auto iterator = newList.begin();
-        if (iterator != newList.end()) {
+        do {
+            if (iterator != newList.begin()) {
+                std::cout << " ";
+            }
             std::cout << iterator->first;
-            ++iterator;
-        }
-        while (iterator != newList.end()) {
-            std::cout << " " << iterator->first;
-            ++iterator;
-        }
+            iterator++;
+        } while (iterator != nullptr);
         std::cout << "\n";
     }
-
-    void printValues(listOfPairs& newList, List<size_t>& sums) {
+    void printValues(listOfPairs& newList, bool& overflowFlag, List<size_t>& sums) {
         auto iterator = newList.begin();
         const size_t maxSum = std::numeric_limits<size_t>::max();
-
-        while (iterator != newList.end()) {
+        for (size_t i = 0; i < findSize(newList); i++) {
+            iterator = newList.begin();
             size_t sum = 0;
-            for (auto secondListIt = iterator->second.begin(); secondListIt != iterator->second.end(); ++secondListIt) {
-                if (sum > maxSum - *secondListIt) {
-                    std::cout << "\n";
-                    throw std::overflow_error("Overflow error!");
+            while (it != nullptr) {
+                List< size_t >::Iterator argsIt = iterator->second[i];
+                    if (iterator->second[i] != nullptr)
+                    {
+                        if (sum != 0) {
+                        std::cout << " ";
+                    }
+                    std::cout << *argsIt;
+                    if (sum > maxSum - *argsIt)
+                    {
+                        overflowFlag = true;
+                        std::cout << "\n";
+                        throw std::overflow_error("overflow error");
+                    }
+                    else
+                    {
+                        sum += *argsIt;
+                    }
                 }
-                sum += *secondListIt;
-                std::cout << *secondListIt << " ";
+                iterator++;
             }
             std::cout << "\n";
             sums.pushBack(sum);
-            ++iterator;
         }
     }
-
     void getSums(List<size_t>& sums) {
         auto iterator = sums.begin();
-        if (iterator != sums.end()) {
+        do {
+            if (iterator != sums.begin()) {
+                std::cout << " ";
+            }
             std::cout << *iterator;
-            ++iterator;
-        }
-        while (iterator != sums.end()) {
-            std::cout << " " << *iterator;
-            ++iterator;
-        }
+            iterator++;
+        } while (iterator != nullptr);
         std::cout << "\n";
     }
 
@@ -61,19 +69,16 @@ namespace jirkov {
     }
 
     listOfPairs inputPair(std::istream& input) {
-        listOfPairs inputList;
-        std::string token;
-        while (input >> token) {
-            if (std::isalpha(token[0])) {
-                inputList.pushBack({token, List<size_t>()});
-            } else {
-                size_t number = std::stoull(token);
-                if (number > std::numeric_limits<size_t>::max()) {
-                    throw std::overflow_error("owerflow error");
-                }
-                inputList.back().second.pushBack(number);
+        std::string name = "";
+        List< size_t > args;
+        listOfPairs resultList;
+        input >> name;
+        while (input) {
+            resultList.pushBack({ name, args });
+            while (input >> name && std::isdigit(name[0])) {
+                resultList.back().second.pushBack(std::stoul(name));
             }
         }
-        return inputList;
+        return resultList;
     }
 }

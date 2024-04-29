@@ -10,7 +10,7 @@ namespace jirkov
   listOfPairs inputPair(std::istream& input);
   size_t findSize(listOfPairs& newList);
   void printListNames(listOfPairs& newList);
-  void printValues(listOfPairs& newList, List< size_t >& sums);
+  void printValues(listOfPairs& newList, bool& overflowFlag, List< size_t >& sums);
   void getSums(List< size_t >& sums);
 }
 
