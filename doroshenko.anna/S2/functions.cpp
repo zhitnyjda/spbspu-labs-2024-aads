@@ -103,8 +103,8 @@ void doroshenko::infixToPostfix(Queue< std::string >& expression, Queue< std::st
     }
     else
     {
-      while (!stack.isEmpty() && precendence(elem) < precendence(stack.front()) ||
-      (!stack.isEmpty() && precendence(elem) == precendence(stack.front()))
+      while ((!stack.isEmpty() && precendence(elem) < precendence(stack.front())) ||
+      (!stack.isEmpty() && precendence(elem) == precendence(stack.front())))
       {
         result.push(stack.front());
         stack.drop();
