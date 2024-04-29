@@ -15,7 +15,7 @@ std::string ponomarev::getName(std::string & line)
   return name;
 }
 
-unsigned long long getNumber(std::string & line)
+unsigned long long ponomarev::getNumber(std::string & line)
 {
   unsigned long long num = std::stoull(line.substr(0, line.find(" ")));
   if (line.find(" ") == std::string::npos)

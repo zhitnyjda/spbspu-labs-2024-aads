@@ -9,14 +9,20 @@ int main()
   pairs data;
   pairs::Iterator iterator;
   std::string line = "";
-
+  size_t dataSize = 0;
   while (std::getline(std::cin, line))
   {
     if (line.size() != 0)
     {
       std::string name = ponomarev::getName(line);
-      data.pushBack(std::pair< std::string, ponomarev::List< unsigned long long > >(name, ponomarev::List< unsigned long long >()));
+      std::pair< std::string, ponomarev::List< unsigned long long > > pair = { name, {} };
+      data.pushBack(pair);
       iterator = data.begin();
+      dataSize += 1;
+      for (size_t i = 0; i < (dataSize - 1); i++)
+      {
+        iterator++;
+      }
       while (!line.empty())
       {
         unsigned long long num = ponomarev::getNumber(line);
