@@ -3,8 +3,8 @@
 #include <string>
 // #include <iomanip>
 // #include <limits>
-#include "queue.hpp"
 #include "stack.hpp"
+#include "queue.hpp"
 #include <set>
 // #include <utility>
 // #include <cctype>
@@ -16,7 +16,8 @@ using namespace mihalchenko;
 int main(int argc, char *argv[])
 {
   std::cout << "Hello World" << std::endl;
-  std::set<int> numbers{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+  std::set<int> numberSet{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+  std::set<char> controlSet{'(', ')', '+', '-', '*', '/', '%'};
   for (int i = 0; i < argc; i++)
   {
     // Выводим список аргументов в цикле
@@ -42,26 +43,48 @@ int main(int argc, char *argv[])
       }
     }  */
     std::string elementStr;
+    std::string str(1, '(');
+    std::string strFS;
     while (std::getline(std::cin, elementStr, ' '))
     {
-      // std::cout << "elementStr =" << elementStr << std::endl;
       if (elementStr.length() > 0)
       {
-        // std::cout << "elementStr =" << elementStr << std::endl;
-        if ((isdigit(elementStr[0])) && (numbers.count(stoi(elementStr)))) //(numbers.contains(elementStr)))
-        // if (numbers.count(stoi(elementStr)))
+        if ((elementStr.size() == 1) && (controlSet.count(elementStr[0]))) // если это знак операции или скобки
+        {
+          if (elementStr[0] == ')')
+          {
+            // std::string str(1, '(');
+            // std::string strFS;
+            std::cout << "встретилась закрывающая скобка " << elementStr << std::endl;
+            do
+            {
+              // str = elementStr;//std::to_string(resiveControl.pop());  //вынимаем из стека очередной символ
+              strFS = resiveControl.pop(); // вынимаем из стека очередной символ
+              if (strFS != str)            // если из стека вытащили не "("
+              {
+                // resiveDigit.push(resiveControl.pop()); //Сохраняем принятый символ в очередь
+                resiveDigit.push(strFS); // Сохраняем принятый символ в очередь
+                std::cout << "Сохраняем символ " << strFS << " из стека в очередь" << std::endl;
+              }
+            } while (!(strFS[0] == '(') && !(resiveControl.size_ == 0));
+            std::cout << "strFS = " << strFS << std::endl;
+          }
+          else
+          {
+            resiveControl.push(elementStr); // Сохраняем принятый символ в стек
+            std::cout << "Сохраняем принятый символ " << elementStr << " в стек" << std::endl;
+          }
+        }
+        else
         {
           resiveDigit.push(elementStr); // Сохраняем принятый символ в очередь
           std::cout << "Сохраняем принятый символ " << elementStr << " в очередь" << std::endl;
         }
-        else
-        {
-          // resiveControl.push(elementStr); //Сохраняем принятый символ в стек
-          std::cout << "Сохраняем принятый символ " << elementStr << " в стек" << std::endl;
-        }
-        // std::cout << "Сохраняем принятый символ " << std::endl;
       }
     }
+    resiveDigit.push(resiveControl.pop()); // Выгружаем из стека крайнюю команду в очередь. Получилась постфиксная запись выражения
+    // std::cout << "Выгружаем из стека крайнюю команду " << strFS << " в очередь" << std::endl;
+    std::cout << "Выгружаем из стека крайнюю команду в очередь" << std::endl;
   }
   else if (argc == 2)
   {
@@ -89,6 +112,20 @@ int main(int argc, char *argv[])
     std::cerr << "Error: wrong input!";
     return 1;
   }
+
+  // if ((isdigit(elementStr[0]))
+  // if (numbers.count(stoi(elementStr)))
+
+  size_t num = resiveDigit.size_;
+  for (size_t i = 0; i < num; i++)
+  {
+    std::cout << resiveDigit.pop();
+    if (i != num - 1)
+    {
+      std::cout << " ";
+    }
+  }
+  std::cout << std::endl;
 
   std::cout << "Good By World" << std::endl;
   return 0;
