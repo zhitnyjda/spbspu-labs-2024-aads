@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <utility>
 #include <stdexcept>
+#include <memory>
 
 namespace sobolevsky
 {
@@ -25,7 +26,7 @@ namespace sobolevsky
     {
       friend class Stack< T >;
       T data;
-      Node *last;
+      std::shared_ptr< Node > last;
       Node(T data)
       {
         this->data = data;
@@ -33,7 +34,7 @@ namespace sobolevsky
       }
     };
 
-    Node *last;
+    std::shared_ptr< Node > last;
     size_t size_;
   };
 }
@@ -55,14 +56,14 @@ sobolevsky::Stack< T >::Stack(const Stack& rhs) noexcept
 template< typename T >
 sobolevsky::Stack< T >::Stack(Stack&& rhs)
 {
-  last(std::move(rhs.last));
+  last(rhs.last);
   size_ = rhs.size_;
 }
 
 template< typename T >
 void sobolevsky::Stack< T >::push(T data)
 {
-  Node *ptr = new Node(data);
+  std::shared_ptr< Node > ptr(new Node(data));
   ptr->last = last;
   last = ptr;
   size_++;
@@ -81,10 +82,9 @@ T sobolevsky::Stack< T >::top()
 template< typename T >
 void sobolevsky::Stack< T >::pop()
 {
-  Node *tempNode = last;
+  std::shared_ptr< Node > tempNode(last);
   last = last->last;
   size_--;
-  delete tempNode;
 }
 
 template< typename T >
