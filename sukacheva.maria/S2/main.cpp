@@ -1,11 +1,11 @@
 #include <iostream>
-#include <fstream>
-#include "Queue.hpp"
-#include "Stack.hpp"
 #include <iosfwd>
 #include <string>
 #include "DataProcessing.hpp"
 #include "DataTypes.hpp"
+#include <fstream>
+#include "Queue.hpp"
+#include "Stack.hpp"
 
 int main(int argc, char* argv[])
 {
