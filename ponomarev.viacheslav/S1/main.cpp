@@ -50,5 +50,6 @@ int main()
     }
   }
   ponomarev::List< unsigned long long > sums = ponomarev::outputNums< unsigned long long >(data, maxLenSeq);
+  ponomarev::outputSums< unsigned long long >(sums);
   return 0;
 }

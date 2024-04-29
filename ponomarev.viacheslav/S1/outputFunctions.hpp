@@ -9,11 +9,13 @@ using pair = ponomarev::List< std::pair< std::string, ponomarev::List< unsigned 
 
 namespace ponomarev
 {
-  template< typename T >
+  template < typename T >
   List< T > outputNums(pair& data, size_t& maxLenSeq);
+  template < typename T >
+  void outputSums(List< T >& sums);
 }
 
-template< typename T >
+template < typename T >
 ponomarev::List< T > ponomarev::outputNums(pair& data, size_t& maxLenSeq)
 {
   pair::Iterator seqIterator = data.begin();
@@ -40,5 +42,27 @@ ponomarev::List< T > ponomarev::outputNums(pair& data, size_t& maxLenSeq)
   return sums;
 }
 
+template < typename T >
+void ponomarev::outputSums(List< T >& sums)
+{
+  if (sums.isEmpty())
+  {
+    std::cout << 0;
+  }
+  else
+  {
+    typename ponomarev::List< T >::Iterator iteratorSums = sums.begin();
+    for (size_t i = 0; i < sums.getSize(); i++)
+    {
+      if (i != 0)
+      {
+        std::cout << ' ';
+      }
+      std::cout << *iteratorSums;
+      iteratorSums++;
+    }
+  }
+  std::cout << '\n';
+}
 
 #endif
