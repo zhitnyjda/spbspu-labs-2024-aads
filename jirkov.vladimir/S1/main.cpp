@@ -16,7 +16,6 @@ int main()
       std::cout << "0\n";
       return 0;
     }
-    size_t maxSize = findSize(newList);
     printListNames(newList);
     printValues(newList, sums);
     getSums(sums);

@@ -6,7 +6,6 @@
 namespace jirkov {
     using listOfPairs = List<std::pair<std::string, List<size_t>>>;
 
-    // Prints names from the list of pairs
     void printListNames(listOfPairs& newList) {
         auto iterator = newList.begin();
         if (iterator != newList.end()) {
@@ -20,10 +19,8 @@ namespace jirkov {
         std::cout << "\n";
     }
 
-    // Prints and calculates sum of values in list
     void printValues(listOfPairs& newList, List<size_t>& sums) {
         auto iterator = newList.begin();
-        bool overflowError = false;
         const size_t maxSum = std::numeric_limits<size_t>::max();
 
         while (iterator != newList.end()) {
@@ -42,7 +39,6 @@ namespace jirkov {
         }
     }
 
-    // Outputs the sums stored in the list
     void getSums(List<size_t>& sums) {
         auto iterator = sums.begin();
         if (iterator != sums.end()) {
@@ -56,7 +52,6 @@ namespace jirkov {
         std::cout << "\n";
     }
 
-    // Determines the maximum size among the second elements in the pairs
     size_t findSize(listOfPairs& newList) {
         size_t maxSize = 0;
         for (auto iterator = newList.begin(); iterator != newList.end(); ++iterator) {
@@ -65,7 +60,6 @@ namespace jirkov {
         return maxSize;
     }
 
-    // Parse input into list of pairs
     listOfPairs inputPair(std::istream& input) {
         listOfPairs inputList;
         std::string token;
@@ -75,7 +69,7 @@ namespace jirkov {
             } else {
                 size_t number = std::stoull(token);
                 if (number > std::numeric_limits<size_t>::max()) {
-                    throw std::overflow_error("Number exceeds maximum size_t value");
+                    throw std::overflow_error("owerflow error");
                 }
                 inputList.back().second.pushBack(number);
             }
