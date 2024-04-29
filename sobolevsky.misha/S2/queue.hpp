@@ -1,6 +1,8 @@
 #ifndef QUEUE_HPP
 #define QUEUE_HPP
 #include <cstddef>
+#include <utility>
+#include <stdexcept>
 
 namespace sobolevsky
 {

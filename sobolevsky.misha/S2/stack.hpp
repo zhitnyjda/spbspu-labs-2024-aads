@@ -1,6 +1,8 @@
 #ifndef STACK_HPP
 #define STACK_HPP
 #include <cstddef>
+#include <utility>
+#include <stdexcept>
 
 namespace sobolevsky
 {
