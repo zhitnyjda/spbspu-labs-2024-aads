@@ -81,7 +81,14 @@ long long sobolevsky::counter(std::string ch, long long first, long long second)
   }
   else
   {
-    return first % second;
+    if (first < 0)
+    {
+      return second + (first % second);
+    }
+    else
+    {
+      return first % second;
+    }
   }
 }
 
