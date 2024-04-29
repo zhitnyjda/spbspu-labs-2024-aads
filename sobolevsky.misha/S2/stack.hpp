@@ -20,7 +20,7 @@ namespace sobolevsky
     T top();
     void pop();
     bool empty();
-    size_t size();
+    long long size();
   private:
     class Node
     {
@@ -35,7 +35,7 @@ namespace sobolevsky
     };
 
     std::shared_ptr< Node > last;
-    size_t size_;
+    long long size_;
   };
 }
 
@@ -94,7 +94,7 @@ bool sobolevsky::Stack< T >::empty()
 }
 
 template< typename T >
-size_t sobolevsky::Stack< T >::size()
+long long sobolevsky::Stack< T >::size()
 {
   return size_;
 }

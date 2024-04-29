@@ -12,7 +12,7 @@ void sobolevsky::fillStack(std::istream & in, Stack< std::string > & container)
 
 bool sobolevsky::isDigit(std::string c)
 {
-  for(size_t i = 0; i < c.length(); i++)
+  for(long long i = 0; i < c.length(); i++)
   {
     if (!('0' <= c[i] && c[i] <= '9'))
     {
@@ -38,7 +38,7 @@ int sobolevsky::algebrChars(std::string c)
   }
 }
 
-size_t sobolevsky::counter(std::string ch, size_t first, size_t second)
+long long sobolevsky::counter(std::string ch, long long first, long long second)
 {
   if(ch == "+")
   {
@@ -62,7 +62,7 @@ size_t sobolevsky::counter(std::string ch, size_t first, size_t second)
   }
 }
 
-std::shared_ptr< std::string[] > sobolevsky::fromInfixToPostfix(std::string infixExpression, size_t &i)
+std::shared_ptr< std::string[] > sobolevsky::fromInfixToPostfix(std::string infixExpression, long long &i)
 {
   std::shared_ptr< std::string[] > postfixExpression(new std::string[infixExpression.length()]());
   std::string str;
@@ -111,11 +111,11 @@ std::shared_ptr< std::string[] > sobolevsky::fromInfixToPostfix(std::string infi
   return postfixExpression;
 }
 
-size_t sobolevsky::countPostfix(std::shared_ptr< std::string[] > postfix, size_t length)
+long long sobolevsky::countPostfix(std::shared_ptr< std::string[] > postfix, long long length)
 {
-  sobolevsky::Stack< size_t > stack;
+  sobolevsky::Stack< long long > stack;
 
-  for(size_t j = 0; j < length; j++)
+  for(long long j = 0; j < length; j++)
   {
     if (isDigit(postfix[j]))
     {
@@ -123,11 +123,11 @@ size_t sobolevsky::countPostfix(std::shared_ptr< std::string[] > postfix, size_t
     }
     else
     {
-      size_t second = stack.top();
+      long long second = stack.top();
       stack.pop();
-      size_t first = stack.top();
+      long long first = stack.top();
       stack.pop();
-      size_t result = counter(postfix[j], first, second);
+      long long result = counter(postfix[j], first, second);
       stack.push(result);
     }
   }

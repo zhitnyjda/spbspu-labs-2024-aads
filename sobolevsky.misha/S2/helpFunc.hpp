@@ -10,9 +10,9 @@ namespace sobolevsky
   void fillStack(std::istream & in, Stack< std::string > & expressions);
   bool isDigit(std::string c);
   int algebrChars(std::string c);
-  size_t counter(std::string ch, size_t first, size_t second);
-  std::shared_ptr< std::string[] > fromInfixToPostfix(std::string infixExpression, size_t &i);
-  size_t countPostfix(std::shared_ptr< std::string[] > postfix, size_t length);
+  long long counter(std::string ch, long long first, long long second);
+  std::shared_ptr< std::string[] > fromInfixToPostfix(std::string infixExpression, long long &i);
+  long long countPostfix(std::shared_ptr< std::string[] > postfix, long long length);
 }
 
 #endif

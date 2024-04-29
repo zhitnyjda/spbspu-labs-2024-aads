@@ -9,7 +9,7 @@
 int main(int argc, char *argv[])
 {
   sobolevsky::Stack< std::string > stack;
-  sobolevsky::Queue< size_t > queue;
+  sobolevsky::Queue< long long > queue;
   if(argc == 1)
   {
     sobolevsky::fillStack(std::cin, stack);
@@ -25,12 +25,12 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  size_t sz = stack.size();
-  for(size_t i = 0; i < sz; i++)
+  long long sz = stack.size();
+  for(long long i = 0; i < sz; i++)
   {
     try
     {
-      size_t size = 0;
+      long long size = 0;
       std::shared_ptr< std::string[] > ptr(sobolevsky::fromInfixToPostfix(stack.top(), size));
       if (i < (sz - 1))
       {

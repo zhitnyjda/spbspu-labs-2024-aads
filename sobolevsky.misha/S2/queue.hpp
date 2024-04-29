@@ -19,7 +19,7 @@ namespace sobolevsky
     T back();
     void pop();
     bool empty();
-    size_t size();
+    long long size();
   private:
     class Node
     {
@@ -35,7 +35,7 @@ namespace sobolevsky
 
     Node *last;
     Node *first;
-    size_t size_;
+    long long size_;
   };
 }
 
@@ -109,7 +109,7 @@ bool sobolevsky::Queue< T >::empty()
 }
 
 template< typename T >
-size_t sobolevsky::Queue< T >::size()
+long long sobolevsky::Queue< T >::size()
 {
   return size_;
 }
