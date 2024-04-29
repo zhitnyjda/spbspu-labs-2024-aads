@@ -113,7 +113,6 @@ std::string* sobolevsky::fromInfixToPostfix(std::string infixExpression, size_t 
 
 size_t sobolevsky::countPostfix(std::string *postfix, size_t length)
 {
-  size_t answer = 0;
   sobolevsky::Stack< size_t > stack;
 
   for(size_t j = 0; j < length; j++)
