@@ -96,4 +96,4 @@ size_t sobolevsky::Stack< T >::size()
   return size_;
 }
 
-#endif 
+#endif

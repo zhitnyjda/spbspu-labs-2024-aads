@@ -10,7 +10,7 @@ void sobolevsky::fillStack(std::istream & in, Stack< std::string > & container)
   }
 }
 
-bool sobolevsky::isDigit(std::string c) 
+bool sobolevsky::isDigit(std::string c)
 {
   for(size_t i = 0; i < c.length(); i++)
   {
