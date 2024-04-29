@@ -163,19 +163,18 @@ jirkov::List< T >::Iterator::Iterator(ConstIterator someIterator):
 template< typename T >
 typename jirkov::List< T >::Iterator& jirkov::List< T >::Iterator::operator++()
 {
-  assert(iterator != nullptr);
-  iterator++;
-  return iterator;
+    assert(iterator.node != nullptr);
+    iterator = ConstIterator(iterator.node->next);
+    return *this;
 }
-
 template< typename T >
 typename jirkov::List< T >::Iterator jirkov::List< T >::Iterator::operator++(int)
 {
-  assert(iterator != nullptr);
-  ++iterator;
-  return iterator;
+    assert(iterator.node != nullptr);
+    Iterator result(*this);
+    iterator = ConstIterator(iterator.node->next);
+    return result;
 }
-
 template< typename T >
 T& jirkov::List< T >::Iterator::operator*()
 {
