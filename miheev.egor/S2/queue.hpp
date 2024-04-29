@@ -18,9 +18,10 @@ namespace miheev
     T& front();
     T& back();
     void push(const T&);
-    T drop();
     void pop();
-    void emplace();
+    T drop();
+    template< class... Args >
+    void emplace(Args&&... args);
     void swap(Queue&) noexcept;
 
     void print();
@@ -42,7 +43,7 @@ miheev::Queue< T >::Queue(const T& value):
 template< typename T >
 miheev::Queue< T >::Queue(const Queue< T >& rhs)
 {
-  container_ = rhs;
+  container_ = rhs.container_;
 }
 
 template< typename T >
@@ -77,7 +78,34 @@ T& miheev::Queue< T >::back()
 template< typename T >
 void miheev::Queue< T > ::push(const T& value)
 {
-  container_.pushFront(value);
+  container_.pushBack(value);
+}
+
+template< typename T >
+void miheev::Queue< T >::pop()
+{
+  container_.popFront();
+}
+
+template< typename T >
+T miheev::Queue< T >::drop()
+{
+  T value = back();
+  pop();
+  return value;
+}
+
+template< typename T >
+template< class... Args >
+void miheev::Queue< T >::emplace(Args&&... args)
+{
+  push(std::forward< Args > (args)...);
+}
+
+template< typename T >
+void miheev::Queue< T >::swap(Queue& rhs) noexcept
+{
+  container_.swap(rhs);
 }
 
 template< typename T >
