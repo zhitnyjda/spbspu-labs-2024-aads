@@ -9,34 +9,34 @@ namespace zheleznyakov
   class ListIterator
   {
   public:
-    ListIterator(Node<  T  >*listItem = nullptr);
+    ListIterator(Node< T >*listItem = nullptr);
     ~ListIterator() = default;
 
-    ListIterator(const ListIterator<  T  >&) = default;
-    ListIterator<  T> &operator=(const ListIterator<T  >&);
+    ListIterator(const ListIterator< T >&) = default;
+    ListIterator< T > &operator=(const ListIterator< T >&);
 
-    ListIterator<  T  >&operator++();
-    ListIterator<  T  >&operator++(int);
+    ListIterator< T >&operator++();
+    ListIterator< T >&operator++(int);
 
-    ListIterator<  T  >&operator--();
-    ListIterator<  T  >&operator--(int);
+    ListIterator< T >&operator--();
+    ListIterator< T >&operator--(int);
 
     T &operator*();
     T *operator->();
 
-    bool operator!=(const ListIterator<  T  >&rhs) const;
-    bool operator==(const ListIterator<  T  >&rhs) const;
+    bool operator!=(const ListIterator< T >&rhs) const;
+    bool operator==(const ListIterator< T >&rhs) const;
 
     ListIterator begin();
     ListIterator end();
 
   private:
-    Node<  T  >*listItem;
+    Node< T >*listItem;
   };
 }
 
 template < typename T >
-zheleznyakov::ListIterator<  T>::ListIterator(Node<T  >*listItem) : listItem(listItem) {}
+zheleznyakov::ListIterator< T >::ListIterator(Node< T >*listItem) : listItem(listItem) {}
 
 template < typename T >
 zheleznyakov::ListIterator< T >&zheleznyakov::ListIterator< T >::operator++()
@@ -48,7 +48,7 @@ zheleznyakov::ListIterator< T >&zheleznyakov::ListIterator< T >::operator++()
 template < typename T >
 zheleznyakov::ListIterator< T >&zheleznyakov::ListIterator< T >::operator++(int)
 {
-  ListIterator<  T  >result(*this);
+  ListIterator< T >result(*this);
   ++(*this);
   return result;
 }
@@ -63,19 +63,19 @@ zheleznyakov::ListIterator< T >&zheleznyakov::ListIterator< T >::operator--()
 template < typename T >
 zheleznyakov::ListIterator< T >&zheleznyakov::ListIterator< T >::operator--(int)
 {
-  ListIterator<  T  >result(*this);
+  ListIterator< T >result(*this);
   --(*this);
   return result;
 }
 
 template < typename T >
-bool zheleznyakov::ListIterator<  T>::operator==(const ListIterator<T  >&rhs) const
+bool zheleznyakov::ListIterator< T >::operator==(const ListIterator< T >&rhs) const
 {
   return listItem == rhs.listItem;
 }
 
 template < typename T >
-bool zheleznyakov::ListIterator<  T>::operator!=(const ListIterator<T  >&rhs) const
+bool zheleznyakov::ListIterator< T >::operator!=(const ListIterator< T >&rhs) const
 {
   return !(rhs == *this);
 }
