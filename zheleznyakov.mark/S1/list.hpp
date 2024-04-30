@@ -18,8 +18,8 @@ namespace zheleznyakov
     List(const List< T > &other);
     List(const size_t count, const T &value);
     List(List &&other) noexcept;
-    void pushFront(T value);
-    void pushBack(T value);
+    void pushFront(const T &value);
+    void pushBack(const T &value);
     size_t getSize();
     void popFront();
     void popBack();
@@ -91,7 +91,7 @@ size_t zheleznyakov::List< T >::getSize()
 }
 
 template < typename T >
-void zheleznyakov::List< T >::pushFront(T value)
+void zheleznyakov::List< T >::pushFront(const T &value)
 {
   Node< T >*newNode = new zheleznyakov::Node< T >(value);
   size++;
@@ -107,7 +107,7 @@ void zheleznyakov::List< T >::pushFront(T value)
 }
 
 template < typename T >
-void zheleznyakov::List< T >::pushBack(T value)
+void zheleznyakov::List< T >::pushBack(const T &value)
 {
   Node< T >*newNode = new zheleznyakov::Node< T >(value);
   size++;
