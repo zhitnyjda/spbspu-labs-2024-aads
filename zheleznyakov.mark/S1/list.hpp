@@ -5,7 +5,6 @@
 #include <stdexcept>
 #include <memory>
 #include "node.hpp"
-#include "list-iterator.hpp"
 
 namespace zheleznyakov
 {
@@ -36,6 +35,8 @@ namespace zheleznyakov
     T &operator[](const size_t index);
     Iterator begin();
     Iterator end();
+    ConstIterator cBegin() const;
+    ConstIterator cEnd() const;
 
   private:
     size_t size;
@@ -64,6 +65,32 @@ namespace zheleznyakov
 
     bool operator!=(const Iterator &rhs) const;
     bool operator==(const Iterator &rhs) const;
+
+  private:
+    Node< T > *node_;
+  };
+
+  template < typename T >
+  class List< T >::ConstIterator
+  {
+  public:
+    ConstIterator(const Node< T > *list = nullptr);
+    ~ConstIterator() = default;
+
+    ConstIterator(const ConstIterator&) = default;
+    ConstIterator &operator=(const Iterator&) const;
+
+    ConstIterator &operator++();
+    ConstIterator operator++(int);
+
+    ConstIterator &operator--();
+    ConstIterator operator--(int);
+
+    T &operator*() const;
+    T *operator->() const;
+
+    bool operator!=(const ConstIterator &rhs) const;
+    bool operator==(const ConstIterator &rhs) const;
 
   private:
     Node< T > *node_;
@@ -365,6 +392,78 @@ typename zheleznyakov::List< T >::Iterator zheleznyakov::List< T >::begin()
 
 template< typename T >
 typename zheleznyakov::List< T >::Iterator zheleznyakov::List< T >::end()
+{
+  return nullptr;
+}
+
+
+template < typename T >
+zheleznyakov::List< T >::ConstIterator::ConstIterator(const zheleznyakov::Node< T > *node):
+  node_(node)
+{};
+
+template < typename T >
+typename zheleznyakov::List< T >::ConstIterator &zheleznyakov::List< T >::ConstIterator::operator++()
+{
+  node_ = node_->next;
+  return (*this);
+}
+
+template < typename T >
+typename zheleznyakov::List< T >::ConstIterator zheleznyakov::List< T >::ConstIterator::operator++(int)
+{
+  List< T >::Iterator result(*this);
+  ++(*this);
+  return result;
+}
+
+template < typename T >
+typename zheleznyakov::List< T >::ConstIterator &zheleznyakov::List< T >::ConstIterator::operator--()
+{
+  node_ = node_->prev;
+  return (*this);
+}
+
+template < typename T >
+typename zheleznyakov::List< T >::ConstIterator zheleznyakov::List< T >::ConstIterator::operator--(int)
+{
+  List< T >::Iterator result(*this);
+  --(*this);
+  return result;
+}
+
+template < typename T >
+bool zheleznyakov::List< T >::ConstIterator::operator==(const List< T >::ConstIterator &rhs) const
+{
+  return node_ == rhs.node_;
+}
+
+template < typename T >
+bool zheleznyakov::List< T >::ConstIterator::operator!=(const List< T >::ConstIterator &rhs) const
+{
+  return !(rhs == *this);
+}
+
+template < typename T >
+T &zheleznyakov::List< T >::ConstIterator::operator*() const
+{
+  return node_->value;
+}
+
+template < typename T >
+T *zheleznyakov::List< T >::ConstIterator::operator->() const
+{
+  return std::addressof(node_->data);
+}
+
+template< typename T >
+typename zheleznyakov::List< T >::ConstIterator zheleznyakov::List< T >::cBegin() const
+{
+  return this->head;
+}
+
+template< typename T >
+typename zheleznyakov::List< T >::ConstIterator zheleznyakov::List< T >::cEnd() const
 {
   return nullptr;
 }
