@@ -6,10 +6,10 @@ namespace zheleznyakov
   class Node
   {
   public:
-    Node(T value, Node< T > *next = nullptr, Node< T >*prev = nullptr);
+    Node(T value, Node< T > *next = nullptr, Node< T > *prev = nullptr);
     T value;
-    Node< T >*next;
-    Node< T >*prev;
+    Node< T > *next;
+    Node< T > *prev;
   };
 }
 

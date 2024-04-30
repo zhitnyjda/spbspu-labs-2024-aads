@@ -21,9 +21,14 @@ void zheleznyakov::processTask(std::ostream& out, List< std::pair < std::string,
 
 void zheleznyakov::processTitles(std::ostream& out, List< std::pair< std::string, List< unsigned long long > > >& pairs)
 {
-  for (size_t i = 0; i < pairs.getSize(); i++)
+  using list_type = std::pair< std::string, List< unsigned long long > >;
+  List< list_type >::Iterator iter(pairs.begin());
+  while (iter != pairs.end())
   {
-    out << pairs[i].first << (i < pairs.getSize() - 1 ? " " : "\n");
+    out << (*iter).first;
+    iter++;
+    if (iter == pairs.end()) out << "\n";
+    else out << " ";
   }
 }
 
