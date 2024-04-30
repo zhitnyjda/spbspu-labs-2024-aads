@@ -2,15 +2,23 @@
 #include <fstream>
 #include <string>
 #include <set>
+#include <stdexcept>
 #include "stack.hpp"
 #include "queue.hpp"
 // #include "funcS2.hpp"
 
 using namespace mihalchenko;
 
+typedef struct
+{
+  size_t resiveDigitSize;
+  size_t resiveControlSize;
+} t_ret;
+
 void printedResult(std::ostream &out, Stack<double> &calcRes, size_t &num);
 void printedQueuePostFix(std::ostream &out, Queue<std::string> &queue, size_t &num);
 size_t CalculatePostFix(std::ostream &out, Queue<std::string> &resiveDigit, Stack<double> &calculateResult, size_t &resiveDigitSize, size_t &stackSize);
+t_ret convertStr(std::ostream &out, std::string &currentStr, size_t currentStrSize, Queue<std::string> &resiveDigit, Stack<std::string> &resiveControl, size_t &resiveDigitSize, size_t &resiveControlSize);
 
 int main(int argc, char *argv[])
 {
@@ -26,98 +34,35 @@ int main(int argc, char *argv[])
   Stack<std::string> resiveControl;
   Stack<double> calculateResult;
 
+  std::string currentStr; // вся текущая строка, считанная из консоли
+  resiveControl.size_ = 0;
+  calculateResult.size_ = 0;
+
   if (argc == 1) // Программа запущена без параметров командной строки. Берем данные из консоли
   {
-    std::string elementStr;
-    std::string currentStr;
-    std::string str(1, '(');
-    std::string strFS;
     while (std::getline(std::cin, currentStr, '\n')) // Перебор всех строк из консоли - считываем всю строку сразу
     {
-      Queue<std::string> resiveDigit;
-      Stack<std::string> resiveControl;
-      int posWhite;
-      size_t wremCountLenStr = currentStr.size();
-      std::string prewCommand = "";
-      int i = 0;
-      while (i < wremCountLenStr) // Анализ текущей строки - перебираем элементы строки, разделенные пробелом
+      try
       {
-        posWhite = currentStr.find(' '); // позиция символа, где встретился пробел(индекс начинается с 1)
-        if (posWhite > 0)                // проверка, найден ли пробел
-        {
-          // выделить из строки s подстроку, начинающуюся с позиции i, длиной l символов, можно при помощи вызова s.substr(i, l)
-          elementStr = currentStr.substr(0, posWhite);
-          currentStr.erase(0, posWhite);
-          i += posWhite; // увеличиваем счетчик количества обработанных символов в строке(не забываем по пробел)
-        }
-        else
-        {
-          std::size_t found = currentStr.find(' ');
-
-          if (found <= currentStr.size())
-          {
-            // std::cout << "Самый первый символ в строке  currentStr  - пробел " << currentStr << std::endl;
-            elementStr = "";
-            currentStr.erase(0, 1);
-            i++;
-          }
-          else // делаем вывод, что все что осталось в строке, это число
-          {
-            elementStr = currentStr;
-            i += currentStr.size();
-            // std::cout << "Строка закончилась. Крайний элемент справа =" << elementStr << "posWhite=" << posWhite << "i=" << i <<std::endl;
-          }
-        }
-        if (elementStr.size() > 0) // length()
-        {
-          if ((elementStr.size() == 1) && (controlSet.count(elementStr[0]))) // если это знак операции или скобки
-          {
-            if (elementStr[0] == ')')
-            {
-              // std::cout << "встретилась закрывающая скобка:" << elementStr << std::endl;
-              do
-              {
-                strFS = resiveControl.pop(); // вынимаем из стека очередной символ
-                if (strFS != str)            // если из стека вытащили не "("
-                {
-                  resiveDigit.push(strFS); // Сохраняем принятый символ в очередь
-                  // std::cout << "Сохраняем символ " << strFS << " из стека в очередь" << std::endl;
-                }
-              } while (!(strFS[0] == '(') && !(resiveControl.size_ == 0));
-              // std::cout << "strFS = " << strFS << std::endl;
-            }
-            else if (((prewCommand == "+") || (prewCommand == "-")) && ((elementStr[0] == '+') || (elementStr[0] == '-')))
-            {
-              resiveDigit.push(resiveControl.pop()); // Выгружаем из стека крайнюю команду в очередь.
-              resiveControl.push(elementStr);        // Сохраняем принятый символ в стек
-              // std::cout << "Сохраняем принятый символ " << elementStr << " в стек +-*/" << std::endl;
-            }
-            else if (((prewCommand == "*") || (prewCommand == "/")) && ((elementStr[0] == '*') || (elementStr[0] == '/')))
-            {
-              resiveDigit.push(resiveControl.pop()); // Выгружаем из стека крайнюю команду в очередь.
-              resiveControl.push(elementStr);        // Сохраняем принятый символ в стек
-            }
-            else
-            {
-              resiveControl.push(elementStr); // Сохраняем принятый символ в стек
-              // std::cout << "Сохраняем принятый символ " << elementStr << " в стек" << std::endl;
-            }
-            prewCommand = elementStr;
-          }
-          else
-          {
-            resiveDigit.push(elementStr); // Сохраняем принятый символ в очередь
-          }
-        }
+        auto P = convertStr(std::cout, currentStr, currentStr.size(), resiveDigit, resiveControl, resiveDigit.size_, resiveControl.size_);
       }
-      resiveDigit.push(resiveControl.pop()); // Выгружаем из стека крайнюю команду в очередь. Получилась постфиксная запись выражения
+      catch (...)
+      {
+        std::cerr << "Exception!\n";
+        return 1;
+      }
+
+      while (resiveControl.size_ > 0)
+      {
+        std::string ttt = resiveControl.pop();
+        resiveDigit.push(ttt); // Выгружаем из стека крайнюю команду в очередь. Получилась постфиксная запись выражения
+      }
 
       queueWrem = resiveDigit;
       queueWrem.size_ = resiveDigit.size_;
 
       calculateResult.size_ = CalculatePostFix(std::cout, resiveDigit, calculateResult, resiveDigit.size_, calculateResult.size_);
-
-      // resiveDigit.clear();
+      resiveDigit.clear();
       resiveDigit.size_ = 0;
 
       size_t num = queueWrem.size_;
@@ -127,23 +72,34 @@ int main(int argc, char *argv[])
   else if (argc == 2)
   {
     std::cout << "При запуске указано имя файла. Берем данные из файла" << std::endl;
-    std::string elementStr;
     std::ifstream inputFF;
     inputFF.open(argv[1]);
-    std::cout << "Открыли файл на чтение" << std::endl;
-    while (std::getline(inputFF, elementStr, ' '))
+    // inputFF.open("F:\\input.txt");
+    std::cout << "Открыли файл" << argv[1] << "на чтение" << std::endl;
+    while (std::getline(inputFF, currentStr, '\n'))
     {
-      Queue<std::string> resiveDigit;
-      Stack<std::string> resiveControl;
+      std::cerr << "Error: wrong input!";
       std::cout << "Читаем из файла" << std::endl;
+      auto P = convertStr(std::cout, currentStr, currentStr.size(), resiveDigit, resiveControl, resiveDigit.size_, resiveControl.size_);
 
-      if (elementStr.length() > 0)
+      while (resiveControl.size_ > 0)
       {
-        resiveDigit.push(elementStr);
-        std::cout << "Сохраняем принятый символ в очередь" << std::endl;
+        std::string ttt = resiveControl.pop();
+        resiveDigit.push(ttt); // Выгружаем из стека крайнюю команду в очередь. Получилась постфиксная запись выражения
       }
+
+      queueWrem = resiveDigit;
+      queueWrem.size_ = resiveDigit.size_;
+
+      calculateResult.size_ = CalculatePostFix(std::cout, resiveDigit, calculateResult, resiveDigit.size_, calculateResult.size_);
+      resiveDigit.clear();
+      resiveDigit.size_ = 0;
+
+      size_t num = queueWrem.size_;
+      printedQueuePostFix(std::cout, queueWrem, num);
     }
     inputFF.close();
+    std::cout << "Error: нихрена не прочитал!" << std::endl;
   }
   else
   {
@@ -152,12 +108,13 @@ int main(int argc, char *argv[])
   }
 
   size_t num = calculateResult.size_;
+  // std::cout << "calculateResult.size_=" << calculateResult.size_ << std::endl;
   printedResult(std::cout, calculateResult, num);
 
   return 0;
 }
 
-// функции программы
+// ФУНКЦИИ программы
 void printedResult(std::ostream &out, Stack<double> &calcRes, size_t &num)
 {
   for (size_t i = 0; i < num; i++)
@@ -195,8 +152,36 @@ size_t CalculatePostFix(std::ostream &out, Queue<std::string> &resiveDigit, Stac
   bool flgStart = false;
   while (resiveDigit.size_ > 0)
   {
-    // out << "!!!!!!!! while !!!!!!!!!!! resiveDigit.size_ >0 " << resiveDigit.size_ << std::endl;
-    if ((!controlSet.count(resiveDigit.watch(0)[0])) && (!controlSet.count(resiveDigit.watch(1)[0])) && (controlSet.count(resiveDigit.watch(2)[0])))
+    if ((resiveDigit.size_ > 3) && (!controlSet.count(resiveDigit.watch(0)[0])) && (!controlSet.count(resiveDigit.watch(1)[0])) && (!controlSet.count(resiveDigit.watch(2)[0])) && (controlSet.count(resiveDigit.watch(3)[0])))
+    {
+      flgStart = true;
+      calculateResult.push(stod(resiveDigit.pop())); // фиксирую сюда первый элемент очереди
+      switch (resiveDigit.watch(2)[0])
+      {
+      case '+':
+        resultVal = stod(resiveDigit.pop()) + stod(resiveDigit.pop());
+        break;
+      case '-':
+        resultVal = stod(resiveDigit.pop());
+        resultVal = resultVal - stod(resiveDigit.pop());
+        break;
+      case '*':
+        resultVal = stod(resiveDigit.pop()) * stod(resiveDigit.pop());
+        break;
+      case '/':
+        resultVal = stod(resiveDigit.pop());
+        resultVal = resultVal / stod(resiveDigit.pop());
+        break;
+      case '%':
+        // resultVal = stod(resiveDigit.pop())
+        // resultVal = stod(resiveDigit.pop()) % resultVal;
+        break;
+      }
+      calculateResult.push(resultVal);
+      resiveDigit.pop(); // просто очищаем очередь от выполненной команды
+      // resiveDigit.push(wremStr); //  возвращаю обратно
+    }
+    else if ((!controlSet.count(resiveDigit.watch(0)[0])) && (!controlSet.count(resiveDigit.watch(1)[0])) && (controlSet.count(resiveDigit.watch(2)[0])))
     {
       flgStart = true;
       switch (resiveDigit.watch(2)[0])
@@ -220,10 +205,8 @@ size_t CalculatePostFix(std::ostream &out, Queue<std::string> &resiveDigit, Stac
         // resultVal = stod(resiveDigit.pop()) % resultVal;
         break;
       }
-      // out << "!!!!!!!!есть тройная команда !!!!!!!!!!! resiveDigit.size_ =" << resiveDigit.size_ << std::endl;
       calculateResult.push(resultVal);
       resiveDigit.pop(); // просто очищаем очередь от выполненной команды
-      // out << "!!!!!!!!есть тройная команда2 !!!!!!!!!!! resiveDigit.size_ =" << resiveDigit.size_ << std::endl;
     }
     else if ((flgStart) && (!controlSet.count(resiveDigit.watch(0)[0])) && (controlSet.count(resiveDigit.watch(1)[0])))
     {
@@ -245,7 +228,6 @@ size_t CalculatePostFix(std::ostream &out, Queue<std::string> &resiveDigit, Stac
         // resultVal = calculateResult.pop() % stod(resiveDigit.pop());
         break;
       }
-      // out << "!!!!!!!!есть двойная команда !!!!!!!!!!! resultVal=" <<  resultVal << std::endl;
       calculateResult.push(resultVal);
       resiveDigit.pop(); // просто очищаем очередь от выполненной команды
     }
@@ -271,16 +253,121 @@ size_t CalculatePostFix(std::ostream &out, Queue<std::string> &resiveDigit, Stac
         // resultVal = calculateResult.pop() % calculateResult.pop());
         break;
       }
-      // out << "!!!!!!!!есть деление!!!!!!!!!!! resultVal=" <<  resultVal << std::endl;
       calculateResult.push(resultVal);
       resiveDigit.pop(); // просто очищаем очередь от выполненной команды
     }
     else
     {
       out << "!!!!!!!!ERROR!!!!!!!!!!!" << std::endl;
-      return 1;
+      return stackSize;
     }
   }
   resiveDigit.clear();
   return calculateResult.size_;
+}
+
+t_ret convertStr(std::ostream &out, std::string &currentStr, size_t currentStrSize, Queue<std::string> &resiveDigit, Stack<std::string> &resiveControl, size_t &resiveDigitSize, size_t &resiveControlSize)
+{
+  resiveDigit.size_ = resiveDigitSize;
+  resiveControl.size_ = resiveControlSize;
+  std::string strFS;
+  int posWhite;
+  std::string elementStr; // элемент строки, текст между пробелами
+  std::string str(1, '(');
+  std::set<char> controlSet1{'(', ')', '+', '-', '*', '/', '%'};
+  size_t wremCountLenStr = currentStrSize;
+  std::string prewCommand = "";
+  int i = 0;
+
+  while (i < wremCountLenStr) // Анализ текущей строки - перебираем элементы строки, разделенные пробелом
+  {
+    posWhite = currentStr.find(' '); // позиция символа, где встретился пробел(индекс начинается с 1)
+    if (posWhite > 0)                // проверка, найден ли пробел
+    {
+      // выделить из строки s подстроку, начинающуюся с позиции i, длиной l символов, можно при помощи вызова s.substr(i, l)
+      elementStr = currentStr.substr(0, posWhite);
+      currentStr.erase(0, posWhite + 1);
+      // std::cout << "!!!!!!!!!!!!!!!!!!!test currentStr=" << currentStr << std::endl;
+      i += posWhite + 1; // увеличиваем счетчик количества обработанных символов в строке(не забываем по пробел)
+      // std::cout << "00elementStr=" << elementStr << "i=" << i << "posWhite=" << posWhite << std::endl;
+    }
+    else
+    {
+      std::size_t found = currentStr.find(' ');
+
+      if (found <= currentStr.size())
+      {
+        // std::cout << "Самый первый символ в строке  currentStr  - пробел " << currentStr << std::endl;
+        elementStr = "";
+        currentStr.erase(0, 1);
+        // std::cout << "?????????????????test currentStr=" << currentStr << std::endl;
+        // std::cout << "11elementStr=" << elementStr << "i=" << i << "found=" << found << std::endl;
+        i++;
+      }
+      else // делаем вывод, что все что осталось в строке, это число
+      {
+        elementStr = currentStr;
+        // std::cout << "?????????????????test currentStr=" << currentStr << std::endl;
+        // std::cout << "22elementStr=" << elementStr << "i=" << i << "found=" << found << std::endl;
+        i += currentStr.size();
+        // std::cout << "Строка закончилась. Крайний элемент справа =" << elementStr << "posWhite=" << posWhite << "i=" << i <<std::endl;
+      }
+    }
+    if (elementStr.size() > 0) // length()
+    {
+      // std::cout << "===!!!=== resiveControl.size_" << resiveControl.size_ << "resiveDigit=" << resiveDigit.size_ << std::endl;
+      // std::cout << "=============== elementStr=" << elementStr << "elementStr.size()=" << elementStr.size() << std::endl;
+      if ((elementStr.size() == 1) && (controlSet1.count(elementStr[0]))) // если это знак операции или скобки
+      {
+        if (elementStr[0] == ')')
+        {
+          // std::cout << "встретилась закрывающая скобка:" << elementStr << std::endl;
+          do
+          {
+            strFS = resiveControl.pop(); // вынимаем из стека очередной символ
+            if (strFS != str)            // если из стека вытащили не "("
+            {
+              resiveDigit.push(strFS); // Сохраняем принятый символ в очередь
+              // std::cout << "Сохраняем " << strFS << " из стека в очередь" << std::endl;
+            }
+            // else
+            //{
+            // std::cout << "вынули из стека открывающую скобку" << strFS << std::endl;
+            //}
+          } while (!(strFS[0] == '(') && (resiveControl.size_ > 0));
+
+          // if (resiveControl.size_ > 0)
+          //{
+          //   std::cout << resiveControl.pop() << "!!!!!!!!!!!!!!! Вынули из стека открывающую скобку" << std::endl;
+          // }
+        }
+        else if ((prewCommand == "(") || (elementStr[0] == '('))
+        {
+          // resiveDigit.push(resiveControl.pop()); //Выгружаем из стека крайнюю команду в очередь.
+          resiveControl.push(elementStr); // Сохраняем принятый символ в стек
+          // std::cout << "Сохраняем принятый символ " << elementStr << " в стек +-*/" << std::endl;
+        }
+        else
+        {
+          if (resiveControl.size_ > 0)
+          {
+            resiveDigit.push(resiveControl.pop()); // Выгружаем из стека крайнюю команду в очередь.
+            // std::cout << "Сохраняем команду из стека в очередь" << std::endl;
+          }
+          resiveControl.push(elementStr); // Сохраняем принятый символ в стек
+          // std::cout << "Сохраняем" << elementStr << "в стек------------------------strFS =" << elementStr << "===" << std::endl;
+        }
+        prewCommand = elementStr;
+      }
+      else
+      {
+        resiveDigit.push(elementStr); // Сохраняем принятый символ в очередь
+        // std::cout << "Сохраняем " << elementStr << " в очередь" << std::endl;
+      }
+    }
+  }
+  t_ret t;
+  t.resiveDigitSize = resiveDigit.size_;
+  t.resiveControlSize = resiveControl.size_;
+  return t;
 }

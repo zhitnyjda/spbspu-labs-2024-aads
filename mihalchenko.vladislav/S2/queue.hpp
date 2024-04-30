@@ -68,6 +68,8 @@ void mihalchenko::Queue<T>::push(const T &data)
   {
     // std::cout << "Queue !!! first" << std::endl;
     head_ = new Node(data, nullptr);
+    size_ = 0;
+    // std::cout << "data=" << data << std::endl;
   }
   else
   {
@@ -79,6 +81,7 @@ void mihalchenko::Queue<T>::push(const T &data)
     }
     Node *newNode = new Node(data, nullptr);
     temp->next = newNode;
+    // std::cout << "data=" << data << std::endl;
   }
   size_++;
 }
@@ -92,6 +95,7 @@ T mihalchenko::Queue<T>::pop()
     // throw StackEmptyException();// должен быть определён
     // throw std::out_of_range("Index out of range");
     std::cout << "error dinamic " << std::endl;
+    std::cerr << "error dinamic!";
     size_--;
     return 0;
   }
@@ -121,6 +125,7 @@ T mihalchenko::Queue<T>::watch(size_t index)
     k = k + 1;
   }
   throw std::out_of_range("Index out of range");
+  std::cerr << "Index out of range!";
   return 0;
 }
 
@@ -158,6 +163,7 @@ T &mihalchenko::Queue<T>::operator[](const size_t index)
     c++;
   }
   throw std::out_of_range("Index out of range");
+  std::cerr << "Index out of range!";
 }
 
 template <typename T>
@@ -222,7 +228,7 @@ void mihalchenko::Queue<T>::clear()
 {
   while (size_ > 0)
   {
-    std::cout << "size_= " << size_ << std::endl;
+    // std::cout << "size_= " << size_ << std::endl;
     pop();
   }
 }

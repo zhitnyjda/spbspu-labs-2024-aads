@@ -170,7 +170,7 @@ bool mihalchenko::Stack<T>::ConstIterator<U>::operator!=(const ConstIterator<T> 
 template <typename T>
 void mihalchenko::Stack<T>::clear()
 {
-  while (size_)
+  while (size_ > 0)
   {
     pop();
   }
