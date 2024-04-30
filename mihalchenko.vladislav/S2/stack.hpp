@@ -80,6 +80,8 @@ T mihalchenko::Stack<T>::pop()
     // throw StackEmptyException();// должен быть определён
     // https://stackoverflow.com/questions/40073460/exception-handling-in-a-class-c
     std::cout << "laga" << std::endl;
+    // std::cout << "error dinamic " << std::endl;
+    return 0;
   }
   Node *temp = head_;
   // std::unique_ptr<T> res(new T(std::move(head_->data)));
