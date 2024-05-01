@@ -49,15 +49,13 @@ int main()
       std::cout << (iterator == data.end() ? '\n' : ' ');
     }
   }
-  ponomarev::List< unsigned long long > sums = ponomarev::outputNums< unsigned long long >(data, maxLenSeq);
-  try
+  bool overflowCheck = false;
+  ponomarev::List< unsigned long long > sums = ponomarev::outputNums< unsigned long long >(data, maxLenSeq, overflowCheck);
+  if (overflowCheck)
   {
-    ponomarev::outputSums< unsigned long long >(sums);
-  }
-  catch (const std::overflow_error & e)
-  {
-    std::cerr << e.what() << '\n';
+    std::cerr << "Error detected very very very big value";
     return 1;
   }
+  ponomarev::outputSums< unsigned long long >(sums);
   return 0;
 }
