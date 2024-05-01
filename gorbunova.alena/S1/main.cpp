@@ -68,7 +68,7 @@ int main()
   std::string tempWord;
   bool isEmpty = true;
   bool containsEmptySequence = false;
-  while (std::getline(std::cin, input));
+  while (std::getline(std::cin, input))
   {
     if (input.empty())
       break;
