@@ -50,6 +50,14 @@ int main()
     }
   }
   ponomarev::List< unsigned long long > sums = ponomarev::outputNums< unsigned long long >(data, maxLenSeq);
-  ponomarev::outputSums< unsigned long long >(sums);
+  try
+  {
+    ponomarev::outputSums< unsigned long long >(sums);
+  }
+  catch (const std::overflow_error & e)
+  {
+    std::cerr << e.what() << '\n';
+    return 1;
+  }
   return 0;
 }
