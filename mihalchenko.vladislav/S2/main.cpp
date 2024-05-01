@@ -184,8 +184,8 @@ void printedQueuePostFix(std::ostream &out, Queue<std::string> &queue, size_t &n
 size_t CalculatePostFix(Queue<std::string> &resiveDigit, Stack<long long> &calculateResult, size_t &resiveDigitSize, size_t &stackSize)
 {
   std::set<char> controlSet{'(', ')', '+', '-', '*', '/', '%'};
-  long long resultVal = 0.0;
-  long long wremVal = 0.0;
+  long long resultVal = 0;
+  long long wremVal = 0;
   long long llMax = std::numeric_limits<long long>::max();
 
   resiveDigit.size_ = resiveDigitSize;
@@ -235,7 +235,13 @@ size_t CalculatePostFix(Queue<std::string> &resiveDigit, Stack<long long> &calcu
         break;
       case '%':
         resultVal = stoll(resiveDigit.pop());
-        resultVal = stoll(resiveDigit.pop()) % resultVal;
+        wremVal = stoll(resiveDigit.pop());
+        if (resultVal < 0)
+        {
+          resultVal = abs((resultVal / wremVal - 1) * wremVal - resultVal);
+        }
+        else
+          resultVal = resultVal % stoll(resiveDigit.pop());
         break;
       }
       calculateResult.push(resultVal);
@@ -284,8 +290,16 @@ size_t CalculatePostFix(Queue<std::string> &resiveDigit, Stack<long long> &calcu
         resultVal = resultVal / stoll(resiveDigit.pop());
         break;
       case '%':
+        // abs((resultVal / wrem -1)*wrem - resultVal)
+
         resultVal = stoll(resiveDigit.pop());
-        resultVal = stoll(resiveDigit.pop()) % resultVal;
+        wremVal = stoll(resiveDigit.pop());
+        if (resultVal < 0)
+        {
+          resultVal = abs((resultVal / wremVal - 1) * wremVal - resultVal);
+        }
+        else
+          resultVal = resultVal % wremVal;
         break;
       }
       calculateResult.push(resultVal);
@@ -327,7 +341,14 @@ size_t CalculatePostFix(Queue<std::string> &resiveDigit, Stack<long long> &calcu
         resultVal = calculateResult.pop() / stoll(resiveDigit.pop());
         break;
       case '%':
-        resultVal = calculateResult.pop() % stoll(resiveDigit.pop());
+        resultVal = calculateResult.pop();
+        wremVal = stoll(resiveDigit.pop());
+        if (resultVal < 0)
+        {
+          resultVal = abs((resultVal / wremVal - 1) * wremVal - resultVal);
+        }
+        else
+          resultVal = resultVal % wremVal;
         break;
       }
       calculateResult.push(resultVal);
@@ -372,8 +393,14 @@ size_t CalculatePostFix(Queue<std::string> &resiveDigit, Stack<long long> &calcu
         resultVal = calculateResult.pop() / resultVal;
         break;
       case '%':
+        wremVal = calculateResult.pop();
         resultVal = calculateResult.pop();
-        resultVal = calculateResult.pop() % resultVal;
+        if (resultVal < 0)
+        {
+          resultVal = abs((resultVal / wremVal - 1) * wremVal - resultVal);
+        }
+        else
+          resultVal = resultVal % wremVal;
         break;
       }
       calculateResult.push(resultVal);
