@@ -20,7 +20,7 @@ typedef struct
 
 void printedResult(std::ostream &out, Stack<long long> &calcRes, size_t &num);
 void printedQueuePostFix(std::ostream &out, Queue<std::string> &queue, size_t &num);
-size_t CalculatePostFix(std::ostream &out, Queue<std::string> &resiveDigit, Stack<long long> &calculateResult, size_t &resiveDigitSize, size_t &stackSize);
+size_t CalculatePostFix(Queue<std::string> &resiveDigit, Stack<long long> &calculateResult, size_t &resiveDigitSize, size_t &stackSize);
 // t_ret convertStr(std::ostream & out, std::string &currentStr, size_t currentStrSize, Queue < std::string > &resiveDigit, Stack < std::string > &resiveControl, size_t &resiveDigitSize, size_t &resiveControlSize);
 t_ret convertStr(std::string &currentStr, size_t currentStrSize, Queue<std::string> &resiveDigit, Stack<std::string> &resiveControl, size_t &resiveDigitSize, size_t &resiveControlSize);
 
@@ -38,6 +38,7 @@ int main(int argc, char *argv[])
   Stack<std::string> resiveControl;
   Stack<long long> calculateResult;
   size_t ullMax = std::numeric_limits<size_t>::max();
+  size_t llMax = std::numeric_limits<long long>::max();
 
   std::string currentStr; // вся текущая строка, считанная из консоли
   resiveControl.size_ = 0;
@@ -59,30 +60,34 @@ int main(int argc, char *argv[])
           std::cerr << "Ошиюка входных данных!\n";
           return 1;
         }
+        while ((resiveControl.size_ > 0) && (resiveControl.size_ != ullMax))
+        {
+          // std::cout << "7.ЧИТАЮ из Control и записываю ";
+          std::string ttt = resiveControl.pop();
+          resiveDigit.push(ttt); // Выгружаем из стека крайнюю команду в очередь. Получилась постфиксная запись выражения
+          // std::cout << ttt << " в Digit" << " resiveControl.size_=" << resiveControl.size_ << std::endl;
+        }
+        // std::cout << " ===========resiveDigit.size_=" << resiveDigit.size_ << "=====================================" << std::endl;
+        // queueWrem = resiveDigit;
+        // queueWrem.size_ = resiveDigit.size_;
+        // std::cout << " ===========resiveDigit.size_=" << resiveDigit.size_ << " queueWrem.size_=" << queueWrem.size_ << "=====================================" << std::endl;
+        calculateResult.size_ = CalculatePostFix(resiveDigit, calculateResult, resiveDigit.size_, calculateResult.size_);
+        // std::cout << " ===========calculateResult.size_=" << calculateResult.size_ << "llMax=" << llMax;
+        if (calculateResult.size_ == llMax)
+        {
+          return 1;
+        }
+        resiveDigit.clear();
+        resiveDigit.size_ = 0;
+
+        // size_t num = queueWrem.size_;
+        // printedQueuePostFix(std::cout, queueWrem, num);
       }
       catch (...)
       {
         std::cerr << "Exception!\n";
-        return 1;
+        return 5;
       }
-
-      while ((resiveControl.size_ > 0) && (resiveControl.size_ != ullMax))
-      {
-        // std::cout << "7.ЧИТАЮ из Control и записываю ";
-        std::string ttt = resiveControl.pop();
-        resiveDigit.push(ttt); // Выгружаем из стека крайнюю команду в очередь. Получилась постфиксная запись выражения
-        // std::cout << ttt << " в Digit" << " resiveControl.size_=" << resiveControl.size_ << std::endl;
-      }
-      // std::cout << " ===========resiveDigit.size_=" << resiveDigit.size_ << "=====================================" << std::endl;
-      // queueWrem = resiveDigit;
-      // queueWrem.size_ = resiveDigit.size_;
-      // std::cout << " ===========resiveDigit.size_=" << resiveDigit.size_ << " queueWrem.size_=" << queueWrem.size_ << "=====================================" << std::endl;
-      calculateResult.size_ = CalculatePostFix(std::cout, resiveDigit, calculateResult, resiveDigit.size_, calculateResult.size_);
-      resiveDigit.clear();
-      resiveDigit.size_ = 0;
-
-      // size_t num = queueWrem.size_;
-      // printedQueuePostFix(std::cout, queueWrem, num);
     }
   }
   else if (argc == 2)
@@ -105,30 +110,33 @@ int main(int argc, char *argv[])
           std::cerr << "Ошиюка входных данных!\n";
           return 1;
         }
+        while ((resiveControl.size_ > 0) && (resiveControl.size_ != ullMax))
+        {
+          // std::cout << "7.ЧИТАЮ из Control и записываю ";
+          std::string ttt = resiveControl.pop();
+          resiveDigit.push(ttt); // Выгружаем из стека крайнюю команду в очередь. Получилась постфиксная запись выражения
+          // std::cout << ttt << " в Digit" << " resiveControl.size_=" << resiveControl.size_ << std::endl;
+        }
+        // std::cout << " ===========resiveDigit.size_=" << resiveDigit.size_ << "=====================================" << std::endl;
+        // queueWrem = resiveDigit;
+        // queueWrem.size_ = resiveDigit.size_;
+        // std::cout << " ===========resiveDigit.size_=" << resiveDigit.size_ << " queueWrem.size_=" << queueWrem.size_ << "=====================================" << std::endl;
+        calculateResult.size_ = CalculatePostFix(resiveDigit, calculateResult, resiveDigit.size_, calculateResult.size_);
+        if (calculateResult.size_ == llMax)
+        {
+          return 1;
+        }
+        resiveDigit.clear();
+        resiveDigit.size_ = 0;
+
+        // size_t num = queueWrem.size_;
+        // printedQueuePostFix(std::cout, queueWrem, num);
       }
       catch (...)
       {
         std::cerr << "Exception!\n";
-        return 1;
+        return 3;
       }
-
-      while ((resiveControl.size_ > 0) && (resiveControl.size_ != ullMax))
-      {
-        // std::cout << "7.ЧИТАЮ из Control и записываю ";
-        std::string ttt = resiveControl.pop();
-        resiveDigit.push(ttt); // Выгружаем из стека крайнюю команду в очередь. Получилась постфиксная запись выражения
-        // std::cout << ttt << " в Digit" << " resiveControl.size_=" << resiveControl.size_ << std::endl;
-      }
-      // std::cout << " ===========resiveDigit.size_=" << resiveDigit.size_ << "=====================================" << std::endl;
-      // queueWrem = resiveDigit;
-      // queueWrem.size_ = resiveDigit.size_;
-      // std::cout << " ===========resiveDigit.size_=" << resiveDigit.size_ << " queueWrem.size_=" << queueWrem.size_ << "=====================================" << std::endl;
-      calculateResult.size_ = CalculatePostFix(std::cout, resiveDigit, calculateResult, resiveDigit.size_, calculateResult.size_);
-      resiveDigit.clear();
-      resiveDigit.size_ = 0;
-
-      // size_t num = queueWrem.size_;
-      // printedQueuePostFix(std::cout, queueWrem, num);
     }
     inputFF.close();
     // std::cout << "Error: нихрена не прочитал!" << std::endl;
@@ -173,10 +181,12 @@ void printedQueuePostFix(std::ostream &out, Queue<std::string> &queue, size_t &n
   out << std::endl;
 }
 
-size_t CalculatePostFix(std::ostream &out, Queue<std::string> &resiveDigit, Stack<long long> &calculateResult, size_t &resiveDigitSize, size_t &stackSize)
+size_t CalculatePostFix(Queue<std::string> &resiveDigit, Stack<long long> &calculateResult, size_t &resiveDigitSize, size_t &stackSize)
 {
   std::set<char> controlSet{'(', ')', '+', '-', '*', '/', '%'};
   long long resultVal = 0.0;
+  long long wremVal = 0.0;
+  long long llMax = std::numeric_limits<long long>::max();
 
   resiveDigit.size_ = resiveDigitSize;
   calculateResult.size_ = stackSize;
@@ -191,14 +201,33 @@ size_t CalculatePostFix(std::ostream &out, Queue<std::string> &resiveDigit, Stac
       switch (resiveDigit.watch(2)[0])
       {
       case '+':
-        resultVal = stoll(resiveDigit.pop()) + stoll(resiveDigit.pop());
+        if (llMax - stoull(resiveDigit.watch(1)) >= stoull(resiveDigit.watch(0)))
+        {
+          resultVal = stoull(resiveDigit.pop()) + stoull(resiveDigit.pop());
+          // out << resultVal << '\n';
+        }
+        else
+        {
+          std::cerr << "Переполнение!\n";
+          return llMax;
+        }
         break;
       case '-':
         resultVal = stoll(resiveDigit.pop());
         resultVal = resultVal - stoll(resiveDigit.pop());
         break;
       case '*':
-        resultVal = stoll(resiveDigit.pop()) * stoll(resiveDigit.pop());
+        resultVal = stoll(resiveDigit.pop());
+        wremVal = stoll(resiveDigit.pop());
+        if (llMax / resultVal >= wremVal)
+        {
+          resultVal = resultVal * wremVal;
+        }
+        else
+        {
+          std::cerr << "Переполнение!\n";
+          return llMax;
+        }
         break;
       case '/':
         resultVal = stoll(resiveDigit.pop());
@@ -213,20 +242,42 @@ size_t CalculatePostFix(std::ostream &out, Queue<std::string> &resiveDigit, Stac
       resiveDigit.pop(); // просто очищаем очередь от выполненной команды
       // resiveDigit.push(wremStr); //  возвращаю обратно
     }
-    else if ((!controlSet.count(resiveDigit.watch(0)[0])) && (!controlSet.count(resiveDigit.watch(1)[0])) && (controlSet.count(resiveDigit.watch(2)[0])))
+    else if ((resiveDigit.size_ > 2) && (!controlSet.count(resiveDigit.watch(0)[0])) && (!controlSet.count(resiveDigit.watch(1)[0])) && (controlSet.count(resiveDigit.watch(2)[0])))
     {
       flgStart = true;
       switch (resiveDigit.watch(2)[0])
       {
       case '+':
-        resultVal = stoll(resiveDigit.pop()) + stoll(resiveDigit.pop());
+        wremVal = stoll(resiveDigit.pop());
+        resultVal = stoll(resiveDigit.pop());
+        if (llMax - wremVal >= resultVal)
+        {
+          // out << "resultVal=" << resultVal << "wremVal= " << wremVal << '\n';
+          resultVal = resultVal + wremVal;
+          // out << resultVal << '\n';
+        }
+        else
+        {
+          std::cerr << "Переполнение!\n";
+          return llMax;
+        }
         break;
       case '-':
         resultVal = stoll(resiveDigit.pop());
         resultVal = resultVal - stoll(resiveDigit.pop());
         break;
       case '*':
-        resultVal = stoll(resiveDigit.pop()) * stoll(resiveDigit.pop());
+        resultVal = stoll(resiveDigit.pop());
+        wremVal = stoll(resiveDigit.pop());
+        if (llMax / resultVal >= wremVal)
+        {
+          resultVal = resultVal * wremVal;
+        }
+        else
+        {
+          std::cerr << "Переполнение!\n";
+          return llMax;
+        }
         break;
       case '/':
         resultVal = stoll(resiveDigit.pop());
@@ -240,18 +291,37 @@ size_t CalculatePostFix(std::ostream &out, Queue<std::string> &resiveDigit, Stac
       calculateResult.push(resultVal);
       resiveDigit.pop(); // просто очищаем очередь от выполненной команды
     }
-    else if ((flgStart) && (!controlSet.count(resiveDigit.watch(0)[0])) && (controlSet.count(resiveDigit.watch(1)[0])))
+    else if ((flgStart) && (resiveDigit.size_ > 1) && (!controlSet.count(resiveDigit.watch(0)[0])) && (controlSet.count(resiveDigit.watch(1)[0])))
     {
       switch (resiveDigit.watch(1)[0])
       {
       case '+':
-        resultVal = calculateResult.pop() + stoll(resiveDigit.pop());
+        resultVal = calculateResult.pop();
+        if (llMax - resultVal >= stoll(resiveDigit.watch(0)))
+        {
+          resultVal = resultVal + stoll(resiveDigit.pop());
+        }
+        else
+        {
+          std::cerr << "Переполнение!\n";
+          return llMax;
+        }
         break;
       case '-':
         resultVal = calculateResult.pop() - stoll(resiveDigit.pop());
         break;
       case '*':
-        resultVal = calculateResult.pop() * stoll(resiveDigit.pop());
+        resultVal = calculateResult.pop();
+        wremVal = stoll(resiveDigit.pop());
+        if (llMax / resultVal >= wremVal)
+        {
+          resultVal = resultVal * wremVal;
+        }
+        else
+        {
+          std::cerr << "Переполнение!\n";
+          return llMax;
+        }
         break;
       case '/':
         resultVal = calculateResult.pop() / stoll(resiveDigit.pop());
@@ -263,19 +333,39 @@ size_t CalculatePostFix(std::ostream &out, Queue<std::string> &resiveDigit, Stac
       calculateResult.push(resultVal);
       resiveDigit.pop(); // просто очищаем очередь от выполненной команды
     }
-    else if ((flgStart) && (controlSet.count(resiveDigit.watch(0)[0])))
+    else if ((flgStart) && (resiveDigit.size_ > 0) && (calculateResult.size_ > 1) && (controlSet.count(resiveDigit.watch(0)[0])))
     {
       switch (resiveDigit.watch(0)[0])
       {
       case '+':
-        resultVal = calculateResult.pop() + calculateResult.pop();
+        resultVal = calculateResult.pop();
+        wremVal = calculateResult.pop();
+        if (llMax - resultVal >= wremVal)
+        {
+          resultVal = resultVal + wremVal;
+        }
+        else
+        {
+          std::cerr << "Переполнение!\n";
+          return llMax;
+        }
         break;
       case '-':
         resultVal = calculateResult.pop();
         resultVal = calculateResult.pop() - resultVal;
         break;
       case '*':
-        resultVal = calculateResult.pop() * calculateResult.pop();
+        resultVal = calculateResult.pop();
+        wremVal = calculateResult.pop();
+        if (llMax / resultVal >= wremVal)
+        {
+          resultVal = resultVal * wremVal;
+        }
+        else
+        {
+          std::cerr << "Переполнение!\n";
+          return llMax;
+        }
         break;
       case '/':
         resultVal = calculateResult.pop();
@@ -289,10 +379,32 @@ size_t CalculatePostFix(std::ostream &out, Queue<std::string> &resiveDigit, Stac
       calculateResult.push(resultVal);
       resiveDigit.pop(); // просто очищаем очередь от выполненной команды
     }
+    else if ((!flgStart) && (resiveDigit.size_ > 0) && (calculateResult.size_ == 0) && (!controlSet.count(resiveDigit.watch(0)[0])))
+    {
+      calculateResult.push(stoll(resiveDigit.pop()));
+    }
+    else if ((!flgStart) && (resiveDigit.size_ > 0) && (calculateResult.size_ == 0))
+    {
+      std::string strV = resiveDigit.pop();
+      // std::cout << strV << std::endl;
+      if (strV[0] == '(')
+      {
+        strV.erase(0, 1);
+      }
+      // std::cout << strV << std::endl;
+      if (strV.find(')'))
+      {
+        strV.erase(strV.find(')'), 1);
+      }
+      // std::cout << strV << std::endl;
+      calculateResult.push(stoll(strV));
+    }
     else
     {
-      out << "!!!!!!!!ERROR!!!!!!!!!!!" << std::endl;
-      return stackSize;
+      // std::cout << "flgStart=" << flgStart << " resiveDigit.size_=" << resiveDigit.size_ <<  " calculateResult.size_=" << calculateResult.size_ << " controlSet.count(resiveDigit.watch(0)[0])=" << controlSet.count(resiveDigit.watch(0)[0]) << "resiveDigit.watch(0)=" << resiveDigit.watch(0) << std::endl;
+      // out << "!!!!!!!!ERROR!!!!!!!!!!!" << std::endl;
+      std::cerr << "Ошибка входных данных!\n";
+      return llMax;
     }
   }
   resiveDigit.clear();
