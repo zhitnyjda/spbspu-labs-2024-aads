@@ -1,34 +1,88 @@
-#include "list.hpp"
 #include <limits>
+#include <iostream>
+#include <vector>
+#include <stdexcept>
+#include "list.hpp"
+
+void printSums(gorbunova::List< unsigned long long > sums)
+{
+  for (auto it = sums.begin(); it != sums.end(); ++it)
+  {
+    std::cout << (*it);
+    auto nextIt = it;
+    ++nextIt;
+    if (nextIt != sums.end())
+    {
+      std::cout << " ";
+    }
+    std::cout << std::endl;
+}
+
+void printSequences(gorbunova::List<std::pair<std::string, std::vector< unsigned long long >>> sequences)
+{
+  for (auto it = sequences.begin(); it != sequences.end(); ++it)
+  {
+    std::cout << (*it).first;
+    auto nextIt = it;
+    ++nextIt;
+    if (nextIt != sequences.end())
+    {
+      std::cout << " ";
+    }
+  }
+    std::cout << std::endl;
+}
+
+std::vector<std::string> splitString(const std::string &input)
+{
+  std::vector<std::string> result;
+  std::string word;
+  for (char c : input)
+  {
+    if (c == ' ')
+    {
+      if (!word.empty())
+      {
+        result.push_back(word);
+        word.clear();
+      }
+    }
+    else
+    {
+      word += c;
+    }
+  }
+  if (!word.empty())
+  {
+    result.push_back(word);
+  }
+  return result;
+}
 
 int main()
 {
-  gorbunova::List<std::pair<std::string, std::vector<unsigned long long>>> sequences;
-  gorbunova::List<unsigned long long> sums;
+  gorbunova::List<std::pair<std::string, std::vector< unsigned long long >>> sequences;
+  gorbunova::List< unsigned long long > sums;
   std::string input;
   std::string tempWord;
   bool isEmpty = true;
-  bool flag = false;
-  while (std::cin)
+  bool containsEmptySequence = false;
+  while (std::getline(std::cin, input));
   {
-    std::getline(std::cin, input);
     if (input.empty())
       break;
     isEmpty = false;
-    std::string name;
-    std::istringstream iss(input);
-    iss >> name;
-    tempWord = name;
-    std::vector<unsigned long long> numbers;
-    unsigned long long num;
-    while (iss >> num)
+    auto words = splitString(input);
+    tempWord = words[0];
+    std::vector< unsigned long long > numbers;
+    for (size_t i = 1; i < words.size(); ++i)
     {
-      numbers.push_back(num);
+      numbers.push_back(std::stoull(words[i]));
     }
-    sequences.push_back(std::make_pair(name, numbers));
+    sequences.push_back(std::make_pair(tempWord, numbers));
     if (numbers.empty())
     {
-      flag = true;
+      containsEmptySequence = true;
     }
   }
   if (isEmpty)
@@ -38,7 +92,7 @@ int main()
   }
   else
   {
-    if (flag && sequences.getSize() == 1)
+    if (containsEmptySequence && sequences.getSize() == 1)
     {
       std::cout << tempWord << "\n"
                 << 0 << "\n";
@@ -49,17 +103,7 @@ int main()
     {
       max_size = std::max(max_size, (*it).second.size());
     }
-    for (auto it = sequences.begin(); it != sequences.end(); ++it)
-    {
-      std::cout << (*it).first;
-      auto nextIt = it;
-      ++nextIt;
-      if (nextIt != sequences.end())
-      {
-        std::cout << " ";
-      }
-    }
-    std::cout << std::endl;
+    printSequences(sequences);
     for (size_t i = 0; i < max_size; ++i)
     {
       bool firstElement = true;
@@ -87,7 +131,7 @@ int main()
         {
           if (i < (*it).second.size())
           {
-            if (sum > std::numeric_limits<unsigned long long>::max() - (*it).second[i])
+            if (sum > std::numeric_limits< unsigned long long >::max() - (*it).second[i])
             {
               throw std::overflow_error("Overflow");
             }
@@ -102,17 +146,7 @@ int main()
       std::cerr << e.what() << '\n';
       return 1;
     }
-    for (auto it = sums.begin(); it != sums.end(); ++it)
-    {
-      std::cout << (*it);
-      auto nextIt = it;
-      ++nextIt;
-      if (nextIt != sums.end())
-      {
-        std::cout << " ";
-      }
-    }
-    std::cout << std::endl;
+    printSums(sums);
   }
   return 0;
 }

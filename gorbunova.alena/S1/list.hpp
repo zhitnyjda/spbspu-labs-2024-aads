@@ -9,31 +9,51 @@
 namespace gorbunova
 {
   template <typename T>
-  struct Node
-  {
-    T data;
-    Node<T> *next;
-    Node(const T &value) : data(value), next(nullptr) {}
-  };
-
-  template <typename T>
   class List
   {
   private:
-    Node<T> *head;
-    int size = 0;
-  public:
-    class Iterator
+    template <typename D>
+    struct Node
     {
-    private:
+      D data;
+      Node<D> *next;
+      Node(const D &value) : data(value), next(nullptr) {}
+    };
+    Node<T> *head;
+    size_t size = 0;
+  public:
+    class ListIterator
+    {
+    public:
+      using this_t = ListIterator;
       Node<T> *current;
       friend class List<T>;
-
-    public:
-      Iterator(Node<T> *node) : current(node) {}
+      ListIterator(Node<T> *node) : current(node) {}
       T &operator*() const;
-      Iterator &operator++();
-      bool operator!=(const Iterator &other) const;
+      ListIterator &operator++();
+      ~ListIterator() {}
+      ListIterator(const this_t &other) : current(other.current) {}
+      this_t &operator=(const this_t &other)
+      {
+        if (this != &other)
+          current = other.current;
+        return *this;
+      }
+      this_t operator++(int)
+      {
+        this_t old = *this;
+        ++(*this);
+        return old;
+      }
+      bool operator==(const ListIterator &other) const
+      {
+        return current == other.current;
+      }
+      T *operator->() const
+      {
+        return &(current->data);
+      }
+      bool operator!=(const ListIterator &other) const;
     };
     List();
     List(std::initializer_list<std::pair<std::string, std::vector<int>>> ilist);
@@ -44,31 +64,31 @@ namespace gorbunova
     void push_back(const T &value);
     void clear();
     void assign(std::initializer_list<T> ilist);
-    void splice(Iterator pos, List &other);
+    void splice(ListIterator pos, List &other);
     void reverse();
-    void insert(Iterator pos, const T& value);
-    void erase(Iterator pos);
-    int getSize();
-    Iterator begin() const;
-    Iterator end() const;
+    void insert(ListIterator pos, const T &value);
+    void erase(ListIterator pos);
+    size_t getSize();
+    ListIterator begin() const;
+    ListIterator end() const;
   };
 }
 
 template <typename T>
-T &gorbunova::List<T>::Iterator::operator*() const
+T &gorbunova::List<T>::ListIterator::operator*() const
 {
   return current->data;
 }
 
 template <typename T>
-typename gorbunova::List<T>::Iterator & gorbunova::List<T>::Iterator::operator++()
+typename gorbunova::List<T>::ListIterator &gorbunova::List<T>::ListIterator::operator++()
 {
   current = current->next;
   return *this;
 }
 
 template <typename T>
-bool gorbunova::List<T>::Iterator::operator!=(const Iterator &other) const
+bool gorbunova::List<T>::ListIterator::operator!=(const ListIterator &other) const
 {
   return current != other.current;
 }
@@ -103,7 +123,7 @@ gorbunova::List<T>::~List()
 }
 
 template <typename T>
-int gorbunova::List<T>::getSize()
+size_t gorbunova::List<T>::getSize()
 {
   return size;
 }
@@ -150,7 +170,7 @@ void gorbunova::List<T>::assign(std::initializer_list<T> ilist)
 }
 
 template <typename T>
-void gorbunova::List<T>::splice(Iterator pos, List &other)
+void gorbunova::List<T>::splice(ListIterator pos, List &other)
 {
   if (other.head != nullptr)
   {
@@ -180,7 +200,7 @@ void gorbunova::List<T>::reverse()
 }
 
 template <typename T>
-void gorbunova::List<T>::insert(Iterator pos, const T &value)
+void gorbunova::List<T>::insert(ListIterator pos, const T &value)
 {
   Node<T> *newNode = new Node<T>(value);
   newNode->next = pos.current->next;
@@ -188,7 +208,7 @@ void gorbunova::List<T>::insert(Iterator pos, const T &value)
 }
 
 template <typename T>
-void gorbunova::List<T>::erase(Iterator pos)
+void gorbunova::List<T>::erase(ListIterator pos)
 {
   Node<T> *toDelete = pos.current;
   pos.current = pos.current->next;
@@ -196,14 +216,14 @@ void gorbunova::List<T>::erase(Iterator pos)
 }
 
 template <typename T>
-typename gorbunova::List<T>::Iterator gorbunova::List<T>::begin() const
+typename gorbunova::List<T>::ListIterator gorbunova::List<T>::begin() const
 {
-  return Iterator(head);
+  return ListIterator(head);
 }
 
 template <typename T>
-typename gorbunova::List<T>::Iterator gorbunova::List<T>::end() const
+typename gorbunova::List<T>::ListIterator gorbunova::List<T>::end() const
 {
-  return Iterator(nullptr);
+  return ListIterator(nullptr);
 }
 #endif
