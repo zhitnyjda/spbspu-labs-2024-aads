@@ -4,6 +4,9 @@
 #include <string>
 #include <memory>
 #include <queue>
+#include <algorithm>
+// #include <numeric>
+// #include <stddef.h>
 
 namespace mihalchenko
 {
@@ -20,7 +23,8 @@ namespace mihalchenko
     Node *head_;
 
   public:
-    Queue() = default;
+    // Queue() = default;
+    Queue() { head_ = nullptr; };
     Queue(const Queue &);
     ~Queue() = default;
     Queue &operator=(const Queue &copy);
@@ -63,13 +67,14 @@ namespace mihalchenko
 template <typename T>
 void mihalchenko::Queue<T>::push(const T &data)
 {
+  // std::cout << "Queue !!! head_=" << head_ << std::endl;
   // std::cout << "Queue push" << std::endl;
   if (head_ == nullptr)
   {
-    // std::cout << "Queue !!! first" << std::endl;
+    // std::cout << "Queue !!! first  data=" << data << std::endl;
     head_ = new Node(data, nullptr);
-    size_ = 0;
-    // std::cout << "data=" << data << std::endl;
+    size_ = 1;
+    // std::cout << "data=" << data << " size_=" << size_ << std::endl;
   }
   else
   {
@@ -81,9 +86,9 @@ void mihalchenko::Queue<T>::push(const T &data)
     }
     Node *newNode = new Node(data, nullptr);
     temp->next = newNode;
-    // std::cout << "data=" << data << std::endl;
+    size_++;
+    // std::cout << "data=" << data << " size_=" << size_ << std::endl;
   }
-  size_++;
 }
 
 template <typename T>
@@ -95,7 +100,6 @@ T mihalchenko::Queue<T>::pop()
     // throw StackEmptyException();// должен быть определён
     // throw std::out_of_range("Index out of range");
     std::cout << "error dinamic " << std::endl;
-    std::cerr << "error dinamic!";
     size_--;
     return 0;
   }
@@ -125,7 +129,6 @@ T mihalchenko::Queue<T>::watch(size_t index)
     k = k + 1;
   }
   throw std::out_of_range("Index out of range");
-  std::cerr << "Index out of range!";
   return 0;
 }
 
@@ -137,11 +140,14 @@ mihalchenko::Queue<T> &mihalchenko::Queue<T>::operator=(const Queue &copy)
     return *this;
   }
   // size_ = 0;
+  // std::cout << " =========== size_=" << size_ << "===============" << std::endl;
   clear();
   size_ = copy.size_;
+  // std::cout << " =========== size_=" << size_ << "===============" << std::endl;
   Node *pointer = copy.head_;
   while (pointer)
   {
+    // std::cout << " =========== pointer->data =" << pointer->data << "===============" << std::endl;
     push(pointer->data);
     pointer = pointer->next;
   }
@@ -163,7 +169,6 @@ T &mihalchenko::Queue<T>::operator[](const size_t index)
     c++;
   }
   throw std::out_of_range("Index out of range");
-  std::cerr << "Index out of range!";
 }
 
 template <typename T>
@@ -226,7 +231,8 @@ bool mihalchenko::Queue<T>::ConstIterator<U>::operator!=(const ConstIterator<T> 
 template <typename T>
 void mihalchenko::Queue<T>::clear()
 {
-  while (size_ > 0)
+  // size_t ullMax = std::numeric_limits<size_t>::max();
+  while ((size_ > 0) /*&& (size_ != ullMax)*/)
   {
     // std::cout << "size_= " << size_ << std::endl;
     pop();
