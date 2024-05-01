@@ -34,12 +34,7 @@ int main()
       maxLenSeq = std::max(maxLenSeq, temp);
     }
   }
-
-  if (data.isEmpty())
-  {
-    std::cout << 0 << '\n';
-  }
-  else
+  if (!data.isEmpty())
   {
     iterator = data.begin();
     while (iterator != data.end())
