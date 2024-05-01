@@ -15,7 +15,8 @@ void printSums(gorbunova::List< unsigned long long > sums)
     {
       std::cout << " ";
     }
-    std::cout << std::endl;
+  }
+  std::cout << std::endl;
 }
 
 void printSequences(gorbunova::List<std::pair<std::string, std::vector< unsigned long long >>> sequences)
