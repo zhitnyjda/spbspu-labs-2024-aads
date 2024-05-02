@@ -656,7 +656,7 @@ typename redko::BSTree< Key, Value, Compare >::const_iterator redko::BSTree< Key
 }
 
 template < typename Key, typename Value, typename Compare >
-using range = std::pair< typename redko::BSTree< Key, Value, Compare >::iterator, typename redko::BSTree< Key, Value, Compare >::iterator >;
+using range = std::pair< iterator< Key, Value, Compare >, iterator< Key, Value, Compare > >;
 
 template < typename Key, typename Value, typename Compare >
 range< Key, Value, Compare > redko::BSTree< Key, Value, Compare >::equalRange(const Key & key)
@@ -665,7 +665,7 @@ range< Key, Value, Compare > redko::BSTree< Key, Value, Compare >::equalRange(co
 }
 
 template < typename Key, typename Value, typename Compare >
-using const_range = std::pair< typename redko::BSTree< Key, Value, Compare >::const_iterator, typename redko::BSTree< Key, Value, Compare >::const_iterator >;
+using const_range = std::pair< const_iterator< Key, Value, Compare >, const_iterator< Key, Value, Compare > >;
 
 template < typename Key, typename Value, typename Compare >
 const_range< Key, Value, Compare > redko::BSTree< Key, Value, Compare >::equalRange(const Key & key) const
