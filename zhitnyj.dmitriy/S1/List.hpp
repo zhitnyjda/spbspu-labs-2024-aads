@@ -84,7 +84,7 @@ public:
   }
 
   T *operator->() {
-    return &node->data;
+    return std::addressof(node->data);
   }
 
   Iterator &operator++() {
@@ -147,7 +147,7 @@ public:
   }
 
   const T *operator->() {
-    return &node->data;
+    return std::addressof(node->data);
   }
 
   ConstIterator &operator++() {
