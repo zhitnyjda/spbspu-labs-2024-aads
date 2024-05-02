@@ -22,21 +22,21 @@ namespace zheleznyakov
     List(List &&other) noexcept;
     void pushFront(const T &value);
     void pushBack(const T &value);
-    size_t getSize();
+    size_t getSize() const noexcept;
     void popFront();
     void popBack();
     void clear();
     void swap(size_t index1, size_t index2);
-    bool isEmpty();
+    bool isEmpty() const noexcept;
     void assign(const size_t count, const T &value);
     void remove(size_t i);
     template < typename UnaryPredicate >
     void removeIf(UnaryPredicate predicate);
     T &operator[](const size_t index);
-    Iterator begin();
-    Iterator end();
-    ConstIterator cBegin() const;
-    ConstIterator cEnd() const;
+    Iterator begin() noexcept;
+    Iterator end() noexcept;
+    ConstIterator cBegin() const noexcept;
+    ConstIterator cEnd() const noexcept;
 
   private:
     size_t size;
@@ -129,7 +129,10 @@ zheleznyakov::List< T >::List(const size_t count, const T &value) : size(0), hea
 }
 
 template < typename T >
-zheleznyakov::List< T >::List(List &&other) noexcept : size{other.size}, head{other.head}, tail{other.tail}
+zheleznyakov::List< T >::List(List &&other) noexcept:
+  size{other.size},
+  head{other.head},
+  tail{other.tail}
 {
   other.size = 0;
   other.head = nullptr;
@@ -143,7 +146,7 @@ zheleznyakov::List< T >::~List()
 }
 
 template < typename T >
-size_t zheleznyakov::List< T >::getSize()
+size_t zheleznyakov::List< T >::getSize() const noexcept
 {
   return size;
 }
@@ -225,7 +228,7 @@ void zheleznyakov::List< T >::clear()
 }
 
 template < typename T >
-bool zheleznyakov::List< T >::isEmpty()
+bool zheleznyakov::List< T >::isEmpty() const noexcept
 {
   return size == 0;
 }
@@ -385,13 +388,13 @@ T *zheleznyakov::List< T >::Iterator::operator->()
 }
 
 template< typename T >
-typename zheleznyakov::List< T >::Iterator zheleznyakov::List< T >::begin()
+typename zheleznyakov::List< T >::Iterator zheleznyakov::List< T >::begin() noexcept
 {
   return this->head;
 }
 
 template< typename T >
-typename zheleznyakov::List< T >::Iterator zheleznyakov::List< T >::end()
+typename zheleznyakov::List< T >::Iterator zheleznyakov::List< T >::end() noexcept
 {
   return nullptr;
 }
@@ -457,13 +460,13 @@ T *zheleznyakov::List< T >::ConstIterator::operator->() const
 }
 
 template< typename T >
-typename zheleznyakov::List< T >::ConstIterator zheleznyakov::List< T >::cBegin() const
+typename zheleznyakov::List< T >::ConstIterator zheleznyakov::List< T >::cBegin() const noexcept
 {
   return this->head;
 }
 
 template< typename T >
-typename zheleznyakov::List< T >::ConstIterator zheleznyakov::List< T >::cEnd() const
+typename zheleznyakov::List< T >::ConstIterator zheleznyakov::List< T >::cEnd() const noexcept
 {
   return nullptr;
 }
