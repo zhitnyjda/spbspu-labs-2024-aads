@@ -19,7 +19,6 @@ private:
 
 public:
   class Iterator;
-
   class ConstIterator;
 
 public:
