@@ -236,23 +236,21 @@ bool zheleznyakov::List< T >::isEmpty() const noexcept
 template < typename T >
 void zheleznyakov::List< T >::swap(size_t index1, size_t index2)
 {
-  zheleznyakov::priv::Node< T >*currentItem1 = this->head;
+  zheleznyakov::priv::Node< T > *currentItem1 = this->head;
   size_t currentIndex1 = 0;
   while (currentIndex1 < index1)
   {
     currentItem1 = currentItem1->next;
     ++currentIndex1;
   }
-  zheleznyakov::priv::Node< T >*currentItem2 = this->head;
+  zheleznyakov::priv::Node< T > *currentItem2 = this->head;
   size_t currentIndex2 = 0;
   while (currentIndex2 < index2)
   {
     currentItem2 = currentItem2->next;
     ++currentIndex2;
   }
-  T tempValue = currentItem1->value;
-  currentItem1->value = currentItem2->value;
-  currentItem2->value = tempValue;
+  std::swap(currentItem1, currentItem2);
 }
 
 template < typename T >
