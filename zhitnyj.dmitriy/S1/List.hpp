@@ -9,6 +9,7 @@ template< typename T >
 class List {
 public:
   class Iterator;
+
   class ConstIterator;
 
 public:
@@ -60,7 +61,6 @@ public:
   ConstIterator end() const;
 
   ~List();
-};
 
 private:
   struct Node {
@@ -71,6 +71,7 @@ private:
   };
 
   std::shared_ptr< Node > head;
+};
 
 template< typename T >
 class List< T >::Iterator {
