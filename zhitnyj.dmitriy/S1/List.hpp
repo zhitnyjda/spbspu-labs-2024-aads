@@ -113,9 +113,13 @@ public:
     return *this;
   }
 
-  bool operator==(const Iterator &other) const { return node == other.node; }
+  bool operator==(const Iterator &other) const {
+    return node == other.node;
+  }
 
-  bool operator!=(const Iterator &other) const { return node != other.node; }
+  bool operator!=(const Iterator &other) const {
+    return node != other.node;
+  }
 
 private:
   std::shared_ptr< Node > node;
