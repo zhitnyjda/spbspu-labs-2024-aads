@@ -7,8 +7,8 @@
 class SequenceHandler
 {
 private:
-    List<std::string> names;
-    List<List<unsigned long long>> sequences;
+    List< std::string > names;
+    List< List< unsigned long long > > sequences;
 
 public:
     SequenceHandler() = default;
