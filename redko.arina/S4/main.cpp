@@ -16,14 +16,15 @@ int main(int argc, char ** argv)
     }
 
     std::string description = "";
-    redko::BSTree< std::string, redko::BSTree< int, std::string > > dataSets{};
+    using data_t = redko::BSTree< int, std::string >;
+    redko::BSTree< std::string, data_t > dataSets{};
 
     std::string name = "";
     std::string elem = "";
     int key = 0;
     while (std::getline(input, description))
     {
-      redko::BSTree< int, std::string > dataSet{};
+      data_t dataSet{};
       name = redko::cutName(description);
       while (!description.empty())
       {
@@ -34,7 +35,7 @@ int main(int argc, char ** argv)
       dataSets.insert({ name, dataSet });
     }
 
-    redko::BSTree< std::string, std::function< void(redko::BSTree< std::string, redko::BSTree< int, std::string > > &, std::string &) > > functions{};
+    redko::BSTree< std::string, std::function< void(redko::BSTree< std::string, data_t > &, std::string &) > > functions{};
     functions.insert({ "print", redko::print });
     functions.insert({ "complement", redko::complement });
     functions.insert({ "intersect", redko::intersect });
