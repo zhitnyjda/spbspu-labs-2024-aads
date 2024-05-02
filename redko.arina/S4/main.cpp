@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <functional>
 #include "inputFunctions.hpp"
 #include "dataFunctions.hpp"
 
@@ -17,12 +18,6 @@ int main(int argc, char ** argv)
     std::string description = "";
     redko::BSTree< std::string, redko::BSTree< int, std::string > > dataSets{};
 
-    redko::BSTree<std::string, void (*)(redko::BSTree< std::string, redko::BSTree< int, std::string > > &, std::string &) > functions{};
-    functions.insert({ "print", redko::print });
-    functions.insert({ "complement", redko::complement });
-    functions.insert({ "intersect", redko::intersect });
-    functions.insert({ "union", redko::unite });
-
     std::string name = "";
     std::string elem = "";
     int key = 0;
@@ -38,6 +33,14 @@ int main(int argc, char ** argv)
       }
       dataSets.insert({ name, dataSet });
     }
+
+    redko::BSTree< std::string, std::function< void(redko::BSTree< std::string, redko::BSTree< int, std::string > > &, std::string &) > > functions
+    {
+      { "print", redko::print },
+      { "complement", redko::complement },
+      { "intersect", redko::intersect },
+      { "union", redko::unite }
+    };
 
     std::string command = "";
     while (std::getline(std::cin, description))
