@@ -7,16 +7,6 @@
 
 template< typename T >
 class List {
-private:
-  struct Node {
-    T data;
-    std::shared_ptr< Node > next;
-
-    Node(const T &data, std::shared_ptr< Node > next = nullptr) : data(data), next(next) {}
-  };
-
-  std::shared_ptr< Node > head;
-
 public:
   class Iterator;
   class ConstIterator;
@@ -72,12 +62,20 @@ public:
   ~List();
 };
 
+private:
+  struct Node {
+    T data;
+    std::shared_ptr< Node > next;
+
+    Node(const T &data, std::shared_ptr< Node > next = nullptr) : data(data), next(next) {}
+  };
+
+  std::shared_ptr< Node > head;
+
 template< typename T >
 class List< T >::Iterator {
   friend class List< T >;
 
-private:
-  std::shared_ptr< Node > node;
 public:
   Iterator(std::shared_ptr< Node > node) : node(node) {}
 
@@ -118,6 +116,9 @@ public:
   bool operator==(const Iterator &other) const { return node == other.node; }
 
   bool operator!=(const Iterator &other) const { return node != other.node; }
+
+private:
+  std::shared_ptr< Node > node;
 };
 
 template< typename T >
