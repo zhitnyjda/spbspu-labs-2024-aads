@@ -7,11 +7,6 @@
 
 template< typename T >
 class List {
-public:
-  class Iterator;
-
-  class ConstIterator;
-
 private:
   struct Node {
     T data;
@@ -21,6 +16,11 @@ private:
   };
 
   std::shared_ptr< Node > head;
+
+public:
+  class Iterator;
+
+  class ConstIterator;
 
 public:
   List();
