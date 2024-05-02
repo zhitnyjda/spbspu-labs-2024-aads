@@ -1,5 +1,5 @@
-#ifndef FUNCTIONS_HPP
-#define FUNCTIONS_HPP
+#ifndef CALCULATION_PROCESS_HPP
+#define CALCULATION_PROCESS_HPP
 #include <iostream>
 #include <string>
 #include "stack.hpp"

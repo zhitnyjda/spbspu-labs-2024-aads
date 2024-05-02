@@ -17,8 +17,8 @@ namespace doroshenko
     void drop();
     T& front();
     T& back();
-    size_t getSize();
-    bool isEmpty() noexcept;
+    size_t getSize() const;
+    bool isEmpty() const noexcept;
 
   private:
     List< T > stack;
@@ -62,13 +62,13 @@ T& doroshenko::Stack< T >::back()
 }
 
 template< typename T >
-size_t doroshenko::Stack< T >::getSize()
+size_t doroshenko::Stack< T >::getSize() const
 {
   return stack.getSize();
 }
 
 template< typename T >
-bool doroshenko::Stack< T >::isEmpty() noexcept
+bool doroshenko::Stack< T >::isEmpty() const noexcept
 {
   return stack.isEmpty();
 }

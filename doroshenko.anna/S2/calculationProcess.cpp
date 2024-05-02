@@ -1,4 +1,4 @@
-#include "functions.hpp"
+#include "calculationProcess.hpp"
 #include <limits>
 
 void doroshenko::readInfixForm(std::istream& input, Queue< std::string >& result)
@@ -233,3 +233,4 @@ void doroshenko::formResultStack(Queue< std::string >& expressions, Stack< long 
     resultStack.push(curAnswer);
   }
 }
+
