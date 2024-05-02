@@ -13,7 +13,7 @@ private:
 public:
     SequenceHandler() = default;
 
-    void addSequence(const std::string& name, const List<unsigned long long>& sequence);
+    void addSequence(const std::string& name, const List< unsigned long long >& sequence);
     void printSequences();
     void rearrangeAndPrint();
 };
