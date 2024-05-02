@@ -51,6 +51,12 @@ namespace redko
 
     iterator find(const Key & key);
     const_iterator find(const Key & key) const;
+    std::pair<iterator, iterator> equalRange(const Key & key);
+    std::pair<const_iterator, const_iterator> equalRange(const Key & key) const;
+    iterator lowerBound(const Key & key);
+    const_iterator lowerBound(const Key & key) const;
+    iterator upperBound(const Key & key);
+    const_iterator upperBound(const Key & key) const;
 
   private:
     struct Node
@@ -644,6 +650,76 @@ typename redko::BSTree< Key, Value, Compare >::const_iterator redko::BSTree< Key
     else
     {
       return ConstIterator(Iterator(curr, root_));
+    }
+  }
+  return cend();
+}
+
+template < typename Key, typename Value, typename Compare >
+using range = std::pair< typename redko::BSTree< Key, Value, Compare >::iterator, typename redko::BSTree< Key, Value, Compare >::iterator >;
+
+template < typename Key, typename Value, typename Compare >
+range< Key, Value, Compare > redko::BSTree< Key, Value, Compare >::equalRange(const Key & key)
+{
+  return { lowerBound(), upperBound() };
+}
+
+template < typename Key, typename Value, typename Compare >
+using const_range = std::pair< typename redko::BSTree< Key, Value, Compare >::const_iterator, typename redko::BSTree< Key, Value, Compare >::const_iterator >;
+
+template < typename Key, typename Value, typename Compare >
+const_range< Key, Value, Compare > redko::BSTree< Key, Value, Compare >::equalRange(const Key & key) const
+{
+  return { lowerBound(), upperBound() };
+}
+
+template < typename Key, typename Value, typename Compare >
+typename redko::BSTree< Key, Value, Compare >::iterator redko::BSTree< Key, Value, Compare >::lowerBound(const Key & key )
+{
+  for (iterator curr = begin(); curr != end(); ++curr)
+  {
+    if (!cmp_(curr->first, key))
+    {
+      return curr;
+    }
+  }
+  return end();
+}
+
+template < typename Key, typename Value, typename Compare >
+typename redko::BSTree< Key, Value, Compare >::const_iterator redko::BSTree< Key, Value, Compare >::lowerBound(const Key & key ) const
+{
+  for (const_iterator curr = cbegin(); curr != cend(); ++curr)
+  {
+    if (!cmp_(curr->first, key))
+    {
+      return curr;
+    }
+  }
+  return cend();
+}
+
+template < typename Key, typename Value, typename Compare >
+typename redko::BSTree< Key, Value, Compare >::iterator redko::BSTree< Key, Value, Compare >::upperBound(const Key & key )
+{
+  for (iterator curr = begin(); curr != end(); ++curr)
+  {
+    if (cmp_(key, curr->first))
+    {
+      return curr;
+    }
+  }
+  return end();
+}
+
+template < typename Key, typename Value, typename Compare >
+typename redko::BSTree< Key, Value, Compare >::const_iterator redko::BSTree< Key, Value, Compare >::upperBound(const Key & key ) const
+{
+  for (const_iterator curr = cbegin(); curr != cend(); ++curr)
+  {
+    if (cmp_(key, curr->first))
+    {
+      return curr;
     }
   }
   return cend();
