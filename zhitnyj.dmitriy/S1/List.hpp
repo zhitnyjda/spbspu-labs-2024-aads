@@ -139,8 +139,6 @@ template< typename T >
 class List< T >::ConstIterator {
   friend class List< T >;
 
-private:
-  std::shared_ptr< const Node > node;
 public:
   ConstIterator(std::shared_ptr< const Node > node) : node(node) {}
 
@@ -179,9 +177,16 @@ public:
     return temp;
   }
 
-  bool operator==(const ConstIterator &other) const { return node == other.node; }
+  bool operator==(const ConstIterator &other) const {
+    return node == other.node;
+  }
 
-  bool operator!=(const ConstIterator &other) const { return node != other.node; }
+  bool operator!=(const ConstIterator &other) const {
+    return node != other.node;
+  }
+
+private:
+  std::shared_ptr< const Node > node;
 };
 
 template< typename T >
