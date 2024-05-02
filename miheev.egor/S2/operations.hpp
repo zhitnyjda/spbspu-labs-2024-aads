@@ -6,7 +6,6 @@ namespace miheev
   class Operation
   {
   public:
-    Operation();
     Operation(char);
     bool operator<(const Operation& rhs);
     bool operator<=(const Operation& rhs);
@@ -16,6 +15,11 @@ namespace miheev
     char operation;
   private:
     int priority_;
+  };
+
+  struct Parenthesis
+  {
+    char parenthesis;
   };
 }
 
