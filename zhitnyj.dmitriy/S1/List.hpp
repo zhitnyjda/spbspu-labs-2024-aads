@@ -9,7 +9,6 @@ template< typename T >
 class List {
 public:
   class Iterator;
-
   class ConstIterator;
 
 public:
