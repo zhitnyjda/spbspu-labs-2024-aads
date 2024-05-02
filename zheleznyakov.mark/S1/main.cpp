@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include "list.hpp"
-#include "numbers.hpp"
 #include "task.hpp"
 
 int main()
@@ -11,14 +10,14 @@ int main()
   std::string input;
   while (std::cin >> input)
   {
-    if (zheleznyakov::isNumeric(input))
-    {
-      pairs[pairsIndex - 1].second.pushBack(std::stoull(input));
-    }
-    else
+    if (std::isalpha(input[0]))
     {
       pairs.pushBack({ input, {} });
       pairsIndex++;
+    }
+    else
+    {
+      pairs[pairsIndex - 1].second.pushBack(std::stoull(input));
     }
   }
   try
