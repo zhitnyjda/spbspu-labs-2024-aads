@@ -49,9 +49,9 @@ namespace zheleznyakov
   {
   public:
     Iterator(priv::Node< T > *list = nullptr);
+    Iterator(const Iterator&) = default;
     ~Iterator() = default;
 
-    Iterator(const Iterator&) = default;
     Iterator &operator=(const Iterator&);
 
     Iterator &operator++();
@@ -75,9 +75,9 @@ namespace zheleznyakov
   {
   public:
     ConstIterator(const priv::Node< T > *list = nullptr);
+    ConstIterator(const ConstIterator&) = default;
     ~ConstIterator() = default;
 
-    ConstIterator(const ConstIterator&) = default;
     ConstIterator &operator=(const Iterator&) const;
 
     ConstIterator &operator++();
