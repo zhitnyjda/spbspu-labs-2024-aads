@@ -56,6 +56,11 @@ int main() {
   for (const auto& entry : data)
     maxValueCount = std::max(maxValueCount, entry.second.size());
 
+  if (maxValueCount == 0) {
+    std::cout << 0 << std::endl;
+    return 0;
+  }
+
   for (size_t i = 0; i < maxValueCount; ++i) {
     bool hasValue = false;
     for (const auto& entry : data) {
