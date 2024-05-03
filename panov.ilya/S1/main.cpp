@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <limits>
 #include <sstream>
 #include <stdexcept>
 
@@ -34,62 +33,66 @@ int main() {
     hasData = true;
   }
 
-  if (!hasData)
+  if (!hasData) {
     std::cout << 0 << '\n';
-  else {
-    size_t maxLength = 0;
-    for (const auto& entry : data)
-      maxLength = std::max(maxLength, entry.second.size());
+    return 0;
+  }
 
-    for (auto it = data.begin(); it != data.end(); ++it) {
-      std::cout << it->first;
-      auto nextIt = it;
-      ++nextIt;
-      if (nextIt != data.end())
-        std::cout << " ";
+  size_t maxLength = 0;
+  for (const auto& entry : data)
+    maxLength = std::max(maxLength, entry.second.size());
+
+  for (auto it = data.begin(); it != data.end(); ++it) {
+    std::cout << it->first;
+    auto nextIt = it;
+    ++nextIt;
+    if (nextIt != data.end())
+      std::cout << " ";
+  }
+  std::cout << std::endl;
+
+  size_t maxValueCount = 0;
+  for (const auto& entry : data)
+    maxValueCount = std::max(maxValueCount, entry.second.size());
+
+  for (size_t i = 0; i < maxValueCount; ++i) {
+    bool hasValue = false;
+    for (const auto& entry : data) {
+      if (i < entry.second.size()) {
+        if (hasValue)
+          std::cout << " ";
+        std::cout << entry.second[i];
+        hasValue = true;
+      }
     }
     std::cout << std::endl;
-
-    size_t maxValueCount = 0;
-    for (const auto& entry : data)
-      maxValueCount = std::max(maxValueCount, entry.second.size());
-
-    for (size_t i = 0; i < maxValueCount; ++i) {
-      bool hasValue = false;
-      for (const auto& entry : data) {
-        if (i < entry.second.size()) {
-          if (hasValue)
-            std::cout << " ";
-          std::cout << entry.second[i];
-          hasValue = true;
-        }
-      }
-      std::cout << std::endl;
-    }
-
-    try {
-      for (size_t i = 0; i < maxLength; ++i) {
-        uint64_t sum = 0;
-        for (auto it = data.begin(); it != data.end(); ++it) {
-          if (i < it->second.size()) {
-            sum += it->second[i];
-          }
-        }
-        totals.push_back(sum);
-      }
-    }
-    catch (...) {
-      std::cerr << "Overflow" << '\n';
-      return 1;
-    }
-    for (auto it = totals.begin(); it != totals.end(); ++it) {
-      std::cout << *it;
-      auto nextIt = it;
-      ++nextIt;
-      if (nextIt != totals.end())
-        std::cout << " ";
-    }
-    std::cout << "\n";
   }
+
+  try {
+    for (size_t i = 0; i < maxLength; ++i) {
+      uint64_t sum = 0;
+      for (auto it = data.begin(); it != data.end(); ++it) {
+        if (i < it->second.size()) {
+          if (sum > std::numeric_limits<uint64_t>::max() - it->second[i])
+            throw std::overflow_error("Overflow");
+          sum += it->second[i];
+        }
+      }
+      totals.push_back(sum);
+    }
+  }
+  catch (const std::overflow_error& e) {
+    std::cerr << e.what() << '\n';
+    return 1;
+  }
+  for (auto it = totals.begin(); it != totals.end(); ++it) {
+    std::cout << *it;
+    auto nextIt = it;
+    ++nextIt;
+    if (nextIt != totals.end())
+      std::cout << " ";
+  }
+  std::cout << "\n";
+
   return 0;
 }
