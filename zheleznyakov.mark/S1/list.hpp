@@ -26,7 +26,7 @@ namespace zheleznyakov
     void popFront();
     void popBack();
     void clear();
-    void swap(size_t index1, size_t index2);
+    void swap(size_t index1, size_t index2) const;
     bool isEmpty() const noexcept;
     void assign(const size_t count, const T &value);
     void remove(size_t i);
@@ -234,7 +234,7 @@ bool zheleznyakov::List< T >::isEmpty() const noexcept
 }
 
 template < typename T >
-void zheleznyakov::List< T >::swap(size_t index1, size_t index2)
+void zheleznyakov::List< T >::swap(size_t index1, size_t index2) const
 {
   zheleznyakov::details::Node< T > *currentItem1 = this->head;
   size_t currentIndex1 = 0;
