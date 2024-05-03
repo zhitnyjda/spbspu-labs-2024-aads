@@ -9,6 +9,7 @@ namespace miheev
   element_t getElement(std::string&);
   Queue< element_t > lineToPosfix(std::string line);
   long long calcLine(std::string);
+  void printTypes(miheev::Queue< element_t >);
 }
 
 std::string miheev::getSymbol(std::string& s)
@@ -30,7 +31,7 @@ miheev::element_t miheev::convertToElement(std::string s)
   miheev::element_t result;
   if (s == "+" || s == "-" || s == "*" || s == "/" || s == "%")
   {
-    result.operand.value = s[0];
+    result.operation.operation = s[0];
     result.type = "operation";
   }
   else if (s == "(")
@@ -62,9 +63,10 @@ miheev::Queue< miheev::element_t > miheev::lineToPosfix(std::string line)
 {
   Stack< miheev::element_t > stack;
   Queue< miheev::element_t > queue;
+  miheev::element_t current;
   while (line != "")
   {
-    miheev::element_t current = getElement(line);
+    current = getElement(line);
     if (current.type == "parenthesis")
     {
       if (current.parenthesis.parenthesis == '(')
@@ -75,7 +77,8 @@ miheev::Queue< miheev::element_t > miheev::lineToPosfix(std::string line)
       {
         while (!(stack.top().type == "parenthesis" && stack.top().parenthesis.parenthesis == '('))
         {
-          queue.push(stack.drop());
+          miheev::element_t temp = stack.drop();
+          queue.push(temp);
         }
         stack.pop();
       }
@@ -88,30 +91,62 @@ miheev::Queue< miheev::element_t > miheev::lineToPosfix(std::string line)
     {
       while (stack.top().type == "operation" && current.operation >= stack.top().operation)
       {
-        queue.push(stack.drop());
+        miheev::element_t temp = stack.drop();
+        queue.push(temp);
       }
       stack.push(current);
     }
   }
+  while (!stack.empty())
+  {
+    queue.push(stack.drop());
+  }
   return queue;
+}
+
+void miheev::printTypes(miheev::Queue< miheev::element_t > q)
+{
+  while (!q.empty())
+  {
+    std::cout << q.drop().type << ' ';
+  }
+  std::cout << '\n';
 }
 
 long long miheev::calcLine(std::string line)
 {
-  miheev::Stack< miheev::element_t > stack;
-  Queue< element_t > posfix = miheev::lineToPosfix(line);
-  std::cout << posfix.front().type << '\n';
-  return 0; // Затычка - TODO: исправить
+  miheev::Stack< Operand > stack;
+  Queue< miheev::element_t > postfix = miheev::lineToPosfix(line);
+  while (!postfix.empty())
+  {
+    miheev::element_t current = postfix.drop();
+    if (current.type == "operand")
+    {
+      stack.push(current.operand);
+    }
+    else if(current.type == "operation")
+    {
+      Operand rhs = stack.drop();
+      Operand lhs = stack.drop();
+      stack.push(current.operation.implement(lhs, rhs));
+    }
+  }
+  if (stack.size() > 1)
+  {
+    throw std::runtime_error("not all operands are used. check your expression");
+  }
+  return stack.top().value;
 }
 
-// miheev::Stack< long long > miheev::processInput(std::istream& in)
-// {
-//   Stack< long long > results;
-//   Queue< element_t > postfix;
-//   std::string line = "";
-//   while (!in.eof())
-//   {
-//     std::getline(in, line);
-//     postfix = miheev::lineToPosfix(line);
-//   }
-// }
+miheev::Stack< long long > miheev::processInput(std::istream& in)
+{
+  Stack< long long > results;
+  Queue< element_t > postfix;
+  std::string line = "";
+  while (!in.eof())
+  {
+    std::getline(in, line);
+    results.push(miheev::calcLine(line));
+  }
+  return results;
+}

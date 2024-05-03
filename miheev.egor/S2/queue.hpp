@@ -99,7 +99,7 @@ void miheev::Queue< T >::pop()
 template< typename T >
 T miheev::Queue< T >::drop()
 {
-  T value = back();
+  T value = front();
   pop();
   return value;
 }

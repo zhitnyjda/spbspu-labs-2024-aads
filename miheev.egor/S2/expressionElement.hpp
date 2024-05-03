@@ -12,7 +12,7 @@ namespace miheev
     element_t();
     element_t(const element_t&);
     element_t& operator=(const element_t&);
-    ~element_t();
+
     Operand operand;
     Operation operation;
     Parenthesis parenthesis;
