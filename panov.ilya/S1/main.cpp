@@ -63,10 +63,6 @@ int main() {
           std::cout << entry.second[i];
           hasValue = true;
         }
-        else {
-          if (hasValue)
-            std::cout << " 0";
-        }
       }
       std::cout << std::endl;
     }
@@ -86,7 +82,6 @@ int main() {
     }
     catch (const std::overflow_error& e) {
       std::cerr << e.what() << '\n';
-      return 1;
     }
     for (auto it = totals.begin(); it != totals.end(); ++it) {
       std::cout << *it;
