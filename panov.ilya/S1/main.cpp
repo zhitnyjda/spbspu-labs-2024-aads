@@ -1,86 +1,97 @@
 #include <iostream>
-#include <sstream>
 #include <vector>
 #include <limits>
+#include <sstream>
 #include <stdexcept>
 
-template<typename T>
-using Vec = std::vector<T>;
-
 int main() {
-  Vec<std::pair<std::string, Vec<unsigned long long>>> nums;
-  Vec<unsigned long long> sums;
-  std::string l, t, w, n;
-  bool d = false, e = false;
+  std::vector<std::pair<std::string, std::vector<uint64_t>>> data;
+  std::vector<uint64_t> totals;
+  std::string line, word, number;
+  bool hasData = false, hasOverflow = false;
 
-  while (std::getline(std::cin, l) && !l.empty()) {
-    std::istringstream s(l);
-    s >> w;
-    t = w;
+  while (std::getline(std::cin, line)) {
+    if (line.empty())
+      break;
+    std::istringstream ss(line);
+    ss >> word;
 
-    Vec<unsigned long long> ns;
-
-    while (s >> n) ns.push_back(std::stoull(n));
-    nums.push_back(std::make_pair(w, ns));
-    if (!ns.empty()) d = true;
+    std::vector<uint64_t> values;
+    while (ss >> number) {
+      try {
+        values.push_back(std::stoull(number));
+      }
+      catch (const std::invalid_argument& e) {
+        std::cerr << "Invalid number: " << number << '\n';
+        return 1;
+      }
+      catch (const std::out_of_range& e) {
+        std::cerr << "Number out of range: " << number << '\n';
+        return 1;
+      }
+    }
+    data.push_back({ word, values });
+    hasData = true;
   }
 
-  if (nums.empty()) std::cout << 0 << '\n';
+  if (!hasData)
+    std::cout << 0 << '\n';
   else {
-    if (!d) {
-      std::cout << t << "\n" << 0 << "\n";
-      return 0;
-    }
-    size_t ml = 0;
-    for (auto& i : nums) ml = std::max(ml, i.second.size());
+    size_t maxLength = 0;
+    for (const auto& entry : data)
+      maxLength = std::max(maxLength, entry.second.size());
 
-    for (auto it = nums.begin(); it != nums.end(); ++it) {
+    for (auto it = data.begin(); it != data.end(); ++it) {
       std::cout << it->first;
-      auto nextIt = it; ++nextIt;
-      if (nextIt != nums.end()) std::cout << " ";
+      auto nextIt = it;
+      ++nextIt;
+      if (nextIt != data.end())
+        std::cout << " ";
     }
     std::cout << std::endl;
 
-    size_t ms = 0;
-    for (const auto& p : nums) ms = std::max(ms, p.second.size());
+    size_t maxValueCount = 0;
+    for (const auto& entry : data)
+      maxValueCount = std::max(maxValueCount, entry.second.size());
 
-    for (size_t i = 0; i < ms; ++i) {
-      bool fe = true;
-      for (const auto& p : nums) {
-        const auto& s = p.second;
-        if (i < s.size()) {
-          if (!fe) std::cout << " ";
-          std::cout << s[i];
-          fe = false;
+    for (size_t i = 0; i < maxValueCount; ++i) {
+      bool hasValue = false;
+      for (const auto& entry : data) {
+        if (i < entry.second.size()) {
+          if (hasValue)
+            std::cout << " ";
+          std::cout << entry.second[i];
+          hasValue = true;
         }
       }
       std::cout << std::endl;
     }
 
     try {
-      for (size_t i = 0; i < ml; ++i) {
-        unsigned long long sm = 0;
-        for (auto it = nums.begin(); it != nums.end(); ++it) {
+      for (size_t i = 0; i < maxLength; ++i) {
+        uint64_t sum = 0;
+        for (auto it = data.begin(); it != data.end(); ++it) {
           if (i < it->second.size()) {
-            if (sm > std::numeric_limits<unsigned long long>::max() - it->second[i])
+            sum += it->second[i];
+            if (sum > std::numeric_limits<uint64_t>::max())
               throw std::overflow_error("Overflow");
-            sm += it->second[i];
           }
         }
-        sums.push_back(sm);
+        totals.push_back(sum);
       }
     }
-    catch (const std::overflow_error& x) {
-      std::cerr << x.what() << '\n';
-      return 1;
+    catch (const std::overflow_error& e) {
+      std::cerr << e.what() << '\n';
+      hasOverflow = true;
     }
-    for (auto it = sums.begin(); it != sums.end(); ++it) {
+    for (auto it = totals.begin(); it != totals.end(); ++it) {
       std::cout << *it;
-      auto nextIt = it; ++nextIt;
-      if (nextIt != sums.end()) std::cout << " ";
+      auto nextIt = it;
+      ++nextIt;
+      if (nextIt != totals.end())
+        std::cout << " ";
     }
     std::cout << "\n";
   }
-  if (e) return 1;
   return 0;
 }
