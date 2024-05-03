@@ -2,6 +2,7 @@
 #include <vector>
 #include <sstream>
 #include <stdexcept>
+#include <limits>
 
 int main() {
   std::vector<std::pair<std::string, std::vector<uint64_t>>> data;
