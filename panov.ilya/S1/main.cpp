@@ -73,15 +73,14 @@ int main() {
         for (auto it = data.begin(); it != data.end(); ++it) {
           if (i < it->second.size()) {
             sum += it->second[i];
-            if (sum > std::numeric_limits<uint64_t>::max())
-              throw std::overflow_error("Overflow");
           }
         }
         totals.push_back(sum);
       }
     }
-    catch (const std::overflow_error& e) {
-      std::cerr << e.what() << '\n';
+    catch (...) {
+      std::cerr << "Overflow" << '\n';
+      return 1;
     }
     for (auto it = totals.begin(); it != totals.end(); ++it) {
       std::cout << *it;
