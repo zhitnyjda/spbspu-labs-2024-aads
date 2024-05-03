@@ -41,7 +41,7 @@ mihalchenko::t_ret mihalchenko::printMixedList(mainList &mixedList, size_t mixed
   size_t summa = 0;
   flgNewStr = true;
   summa = 0;
-  size_t ullMax = std::numeric_limits<size_t>::max();
+  size_t ullMax = std::numeric_limits< size_t >::max();
   for (size_t i = 0; i < mixedListSize; i++)
   {
     if (mixedList[i].second.getSize() > numericView)

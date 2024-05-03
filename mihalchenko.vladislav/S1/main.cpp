@@ -10,8 +10,8 @@ int main()
   size_t maxLenOfSecondList = 0;
   size_t CountSecondList = 0;
   size_t CountmixedList = 0;
-  using mainList = mihalchenko::List<std::pair<std::string, mihalchenko::List<size_t>>>;
-  using integerList = mihalchenko::List<size_t>;
+  using mainList = mihalchenko::List< std::pair< std::string, mihalchenko::List< size_t > > >;
+  using integerList = mihalchenko::List< size_t >;
   mainList mixedList;
   integerList tempIntList;
   std::string inputStr;
