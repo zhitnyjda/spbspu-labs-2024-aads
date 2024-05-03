@@ -7,7 +7,7 @@
 
 namespace miheev
 {
-  union element_t
+  struct element_t
   {
     element_t();
     element_t(const element_t&);

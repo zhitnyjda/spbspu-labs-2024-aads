@@ -6,12 +6,13 @@ namespace miheev
   class Operand
   {
   public:
-    Operand(long long val);
-    Operand& operator+(const Operand& rhs);
-    Operand& operator-(const Operand& rhs);
-    Operand& operator*(const Operand& rhs);
-    Operand& operator/(const Operand& rhs);
-    Operand& operator%(const Operand& rhs);
+    Operand() = default;
+    explicit Operand(long long val);
+    Operand operator+(const Operand& rhs) const;
+    Operand operator-(const Operand& rhs) const;
+    Operand operator*(const Operand& rhs) const;
+    Operand operator/(const Operand& rhs) const;
+    Operand operator%(const Operand& rhs) const;
     long long value;
   };
 }

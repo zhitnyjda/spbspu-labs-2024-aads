@@ -2,11 +2,10 @@
 #include <fstream>
 #include <istream>
 #include "queue.hpp"
+#include "inputProcessing.hpp"
 
-int main(int argc, char* argv[])
+int main()
 {
-  if (argc == 2)
-  {
-    std::ifstream in(argv[1]);
-  }
+  std::string testLine = "( 1 + 2 ) * 3";
+  miheev::calcLine(testLine);
 }

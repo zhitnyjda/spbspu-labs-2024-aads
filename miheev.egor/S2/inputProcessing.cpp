@@ -30,22 +30,22 @@ miheev::element_t miheev::convertToElement(std::string s)
   miheev::element_t result;
   if (s == "+" || s == "-" || s == "*" || s == "/" || s == "%")
   {
-    result.operand = miheev::Operand{s[0]};
+    result.operand.value = s[0];
     result.type = "operation";
   }
   else if (s == "(")
   {
-    result.parenthesis = miheev::Parenthesis{'('};
+    result.parenthesis.parenthesis = s[0];
     result.type = "parenthesis";
   }
   else if (s == ")")
   {
-    result.parenthesis = miheev::Parenthesis{')'};
+    result.parenthesis.parenthesis = ')';
     result.type = "parenthesis";
   }
   else
   {
-    result.operand = miheev::Operand(stoll(s));
+    result.operand.value = stoll(s);
     result.type = "operand";
   }
   return result;
@@ -94,6 +94,14 @@ miheev::Queue< miheev::element_t > miheev::lineToPosfix(std::string line)
     }
   }
   return queue;
+}
+
+long long miheev::calcLine(std::string line)
+{
+  miheev::Stack< miheev::element_t > stack;
+  Queue< element_t > posfix = miheev::lineToPosfix(line);
+  std::cout << posfix.front().type << '\n';
+  return 0; // Затычка - TODO: исправить
 }
 
 // miheev::Stack< long long > miheev::processInput(std::istream& in)

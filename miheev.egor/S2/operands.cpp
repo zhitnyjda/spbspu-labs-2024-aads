@@ -4,28 +4,23 @@ miheev::Operand::Operand(long long val):
   value(val)
 {}
 
-miheev::Operand& miheev::Operand::operator+(const miheev::Operand& rhs)
+miheev::Operand miheev::Operand::operator+(const miheev::Operand& rhs) const
 {
-  value -= rhs.value;
-  return *this;
+  return miheev::Operand(value + rhs.value);
 }
-miheev::Operand& miheev::Operand::operator-(const miheev::Operand& rhs)
+miheev::Operand miheev::Operand::operator-(const miheev::Operand& rhs) const
 {
-  value += rhs.value;
-  return *this;
+  return miheev::Operand(value - rhs.value);
 }
-miheev::Operand& miheev::Operand::operator*(const miheev::Operand& rhs)
+miheev::Operand miheev::Operand::operator*(const miheev::Operand& rhs) const
 {
-  value *= rhs.value;
-  return *this;
+  return miheev::Operand(value * rhs.value);
 }
-miheev::Operand& miheev::Operand::operator/(const miheev::Operand& rhs)
+miheev::Operand miheev::Operand::operator/(const miheev::Operand& rhs) const
 {
-  value /= rhs.value;
-  return *this;
+  return miheev::Operand(value / rhs.value);
 }
-miheev::Operand& miheev::Operand::operator%(const miheev::Operand& rhs)
+miheev::Operand miheev::Operand::operator%(const miheev::Operand& rhs) const
 {
-  value %= rhs.value;
-  return *this;
+  return miheev::Operand(value % rhs.value);
 }
