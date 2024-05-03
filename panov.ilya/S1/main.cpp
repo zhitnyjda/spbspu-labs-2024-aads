@@ -30,10 +30,8 @@ int main() {
         return 1;
       }
     }
-    if (!values.empty()) {
-      data.push_back({ word, values });
-      hasData = true;
-    }
+    data.push_back({ word, values });
+    hasData = true;
   }
 
   if (!hasData)
@@ -64,6 +62,10 @@ int main() {
             std::cout << " ";
           std::cout << entry.second[i];
           hasValue = true;
+        }
+        else {
+          if (hasValue)
+            std::cout << " 0";
         }
       }
       std::cout << std::endl;
