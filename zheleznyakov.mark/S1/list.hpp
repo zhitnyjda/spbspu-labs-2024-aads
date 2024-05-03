@@ -16,10 +16,10 @@ namespace zheleznyakov
     class ConstIterator;
 
     List();
-    ~List();
     List(const List< T > &other);
-    List(const size_t count, const T &value);
     List(List &&other) noexcept;
+    List(const size_t count, const T &value);
+    ~List();
     void pushFront(const T &value);
     void pushBack(const T &value);
     size_t getSize() const noexcept;
