@@ -8,7 +8,7 @@ int main() {
   std::vector<std::pair<std::string, std::vector<uint64_t>>> data;
   std::vector<uint64_t> totals;
   std::string line, word, number;
-  bool hasData = false, hasOverflow = false;
+  bool hasData = false;
 
   while (std::getline(std::cin, line)) {
     if (line.empty())
@@ -82,7 +82,6 @@ int main() {
     }
     catch (const std::overflow_error& e) {
       std::cerr << e.what() << '\n';
-      hasOverflow = true;
     }
     for (auto it = totals.begin(); it != totals.end(); ++it) {
       std::cout << *it;
