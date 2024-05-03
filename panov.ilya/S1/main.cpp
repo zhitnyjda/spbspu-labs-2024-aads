@@ -30,8 +30,10 @@ int main() {
         return 1;
       }
     }
-    data.push_back({ word, values });
-    hasData = true;
+    if (!values.empty()) {
+      data.push_back({ word, values });
+      hasData = true;
+    }
   }
 
   if (!hasData)
@@ -82,6 +84,7 @@ int main() {
     }
     catch (const std::overflow_error& e) {
       std::cerr << e.what() << '\n';
+      return 1;
     }
     for (auto it = totals.begin(); it != totals.end(); ++it) {
       std::cout << *it;
