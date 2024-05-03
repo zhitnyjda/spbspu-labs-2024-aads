@@ -40,15 +40,15 @@ namespace zheleznyakov
 
   private:
     size_t size;
-    priv::Node< T > *head;
-    priv::Node< T > *tail;
+    details::Node< T > *head;
+    details::Node< T > *tail;
   };
 
   template < typename T >
   class List< T >::Iterator
   {
   public:
-    Iterator(priv::Node< T > *list = nullptr);
+    Iterator(details::Node< T > *list = nullptr);
     Iterator(const Iterator&) = default;
     ~Iterator() = default;
 
@@ -67,14 +67,14 @@ namespace zheleznyakov
     bool operator==(const Iterator &rhs) const;
 
   private:
-    priv::Node< T > *node_;
+    details::Node< T > *node_;
   };
 
   template < typename T >
   class List< T >::ConstIterator
   {
   public:
-    ConstIterator(const priv::Node< T > *list = nullptr);
+    ConstIterator(const details::Node< T > *list = nullptr);
     ConstIterator(const ConstIterator&) = default;
     ~ConstIterator() = default;
 
@@ -93,7 +93,7 @@ namespace zheleznyakov
     bool operator==(const ConstIterator &rhs) const;
 
   private:
-    priv::Node< T > *node_;
+    details::Node< T > *node_;
   };
 };
 
@@ -107,12 +107,12 @@ zheleznyakov::List< T >::List(const List< T >&other) : size(other.size), head(nu
 {
   if (other.size > 0)
   {
-    head = new priv::Node< T >(other.head->value);
+    head = new details::Node< T >(other.head->value);
     tail = head;
-    priv::Node< T >*current = other.head;
+    details::Node< T >*current = other.head;
     while (current->next != nullptr)
     {
-      tail->next = new priv::Node< T >(current->next->value);
+      tail->next = new details::Node< T >(current->next->value);
       tail = tail->next;
       current = current->next;
     }
@@ -154,7 +154,7 @@ size_t zheleznyakov::List< T >::getSize() const noexcept
 template < typename T >
 void zheleznyakov::List< T >::pushFront(const T &value)
 {
-  priv::Node< T >*newNode = new zheleznyakov::priv::Node< T >(value);
+  details::Node< T >*newNode = new zheleznyakov::details::Node< T >(value);
   size++;
   if (head == nullptr)
   {
@@ -170,7 +170,7 @@ void zheleznyakov::List< T >::pushFront(const T &value)
 template < typename T >
 void zheleznyakov::List< T >::pushBack(const T &value)
 {
-  priv::Node< T >*newNode = new zheleznyakov::priv::Node< T >(value);
+  details::Node< T >*newNode = new zheleznyakov::details::Node< T >(value);
   size++;
   if (head == nullptr)
   {
@@ -186,7 +186,7 @@ void zheleznyakov::List< T >::pushBack(const T &value)
 template < typename T >
 void zheleznyakov::List< T >::popFront()
 {
-  priv::Node< T >*current = head;
+  details::Node< T >*current = head;
   head = head->next;
   delete current;
   size--;
@@ -195,7 +195,7 @@ void zheleznyakov::List< T >::popFront()
 template < typename T >
 void zheleznyakov::List< T >::popBack()
 {
-  priv::Node< T >*current = tail;
+  details::Node< T >*current = tail;
   tail = tail->prev;
   delete current;
   size--;
@@ -204,7 +204,7 @@ void zheleznyakov::List< T >::popBack()
 template < typename T >
 T &zheleznyakov::List< T >::operator[](const size_t index)
 {
-  priv::Node< T >*currentElement = head;
+  details::Node< T >*currentElement = head;
   size_t currentIndex = 0;
   while (currentElement != nullptr)
   {
@@ -236,14 +236,14 @@ bool zheleznyakov::List< T >::isEmpty() const noexcept
 template < typename T >
 void zheleznyakov::List< T >::swap(size_t index1, size_t index2)
 {
-  zheleznyakov::priv::Node< T > *currentItem1 = this->head;
+  zheleznyakov::details::Node< T > *currentItem1 = this->head;
   size_t currentIndex1 = 0;
   while (currentIndex1 < index1)
   {
     currentItem1 = currentItem1->next;
     ++currentIndex1;
   }
-  zheleznyakov::priv::Node< T > *currentItem2 = this->head;
+  zheleznyakov::details::Node< T > *currentItem2 = this->head;
   size_t currentIndex2 = 0;
   while (currentIndex2 < index2)
   {
@@ -266,7 +266,7 @@ void zheleznyakov::List< T >::assign(const size_t count, const T &value)
 template < typename T >
 void zheleznyakov::List< T >::remove(size_t i)
 {
-  priv::Node< T >*current = head;
+  details::Node< T >*current = head;
   for (size_t j = 0; j < i; j++)
   {
     current = current->next;
@@ -295,10 +295,10 @@ template < typename T >
 template < typename UnaryPredicate >
 void zheleznyakov::List< T >::removeIf(UnaryPredicate predicate)
 {
-  priv::Node< T >*current = head;
+  details::Node< T >*current = head;
   while (current != nullptr)
   {
-    priv::Node< T >*next = current->next;
+    details::Node< T >*next = current->next;
     if (predicate(current->value))
     {
       if (current->prev)
@@ -327,7 +327,7 @@ void zheleznyakov::List< T >::removeIf(UnaryPredicate predicate)
 }
 
 template < typename T >
-zheleznyakov::List< T >::Iterator::Iterator(zheleznyakov::priv::Node< T > *node):
+zheleznyakov::List< T >::Iterator::Iterator(zheleznyakov::details::Node< T > *node):
   node_(node)
 {};
 
@@ -399,7 +399,7 @@ typename zheleznyakov::List< T >::Iterator zheleznyakov::List< T >::end() noexce
 
 
 template < typename T >
-zheleznyakov::List< T >::ConstIterator::ConstIterator(const zheleznyakov::priv::Node< T > *node):
+zheleznyakov::List< T >::ConstIterator::ConstIterator(const zheleznyakov::details::Node< T > *node):
   node_(node)
 {};
 

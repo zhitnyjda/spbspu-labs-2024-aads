@@ -2,7 +2,7 @@
 #define LIST_ITEM_HPP
 namespace zheleznyakov
 {
-  namespace priv
+  namespace details
   {
     template < typename T >
     class Node
@@ -17,7 +17,7 @@ namespace zheleznyakov
 }
 
 template < typename T >
-zheleznyakov::priv::Node< T >::Node(T value, Node< T > *next, Node< T >*prev):
+zheleznyakov::details::Node< T >::Node(T value, Node< T > *next, Node< T >*prev):
   value(value),
   next(next),
   prev(prev)
