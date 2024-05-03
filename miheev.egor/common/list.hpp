@@ -267,7 +267,7 @@ void miheev::List< T >::Iterator::eraseAfter()
 
 template< typename T >
 miheev::List< T >::List():
-  data_(0),
+  data_(T()),
   next_(nullptr),
   isEmpty_(true)
 {}
