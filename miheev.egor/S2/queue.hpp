@@ -13,6 +13,8 @@ namespace miheev
     Queue(const Queue& rhs);
     ~Queue() = default;
 
+    Queue& operator=(const Queue& rhs);
+
     bool empty() const;
     size_t size() const;
     T& front();
@@ -44,6 +46,13 @@ template< typename T >
 miheev::Queue< T >::Queue(const Queue< T >& rhs)
 {
   container_ = rhs.container_;
+}
+
+template< typename T >
+miheev::Queue< T >& miheev::Queue< T >::operator=(const miheev::Queue< T >& rhs)
+{
+  container_ = rhs.container_;
+  return *this;
 }
 
 template< typename T >

@@ -9,8 +9,9 @@ namespace miheev
 {
   union element_t
   {
-    element_t() { type = "none"; }
-    ~element_t() {}
+    element_t();
+    element_t(const element_t&);
+    ~element_t();
     Operand operand;
     Operation operation;
     Parenthesis parenthesis;
