@@ -130,6 +130,10 @@ long long miheev::calcLine(std::string line)
       Operand lhs = stack.drop();
       stack.push(current.operation.implement(lhs, rhs));
     }
+    else
+    {
+      throw std::logic_error("Unsupported expression element occured while calculating expr\n");
+    }
   }
   if (stack.size() > 1)
   {
