@@ -13,7 +13,7 @@ namespace zheleznyakov
       ~Stack() = default;
       bool empty() const noexcept;
       size_t size() const noexcept;
-      T & top();
+      T & top() const;
       void push(const T & value);
       void pop();
       void swap(const List< T > & other);
@@ -47,7 +47,7 @@ size_t zheleznyakov::Stack< T >::size() const noexcept
 }
 
 template< typename T >
-T & zheleznyakov::Stack< T >::top()
+T & zheleznyakov::Stack< T >::top() const
 {
   return container_[0];
 }
