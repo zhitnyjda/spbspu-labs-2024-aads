@@ -8,11 +8,11 @@ miheev::Operand::Operand(long long val):
 
 miheev::Operand miheev::Operand::operator+(const miheev::Operand& rhs) const
 {
-  if (std::numeric_limits< long long >::max() - value < rhs.value)
+  if (value > 0 && rhs.value > 0 && std::numeric_limits< long long >::max() - value < rhs.value)
   {
     throw std::logic_error("plus op has overflow\n");
   }
-  if (std::numeric_limits< long long >::min() + value > rhs.value)
+  if (value < 0 && rhs.value < 0 && std::numeric_limits< long long >::min() - value > rhs.value)
   {
     throw std::logic_error("plus op has underflow\n");
   }
@@ -20,11 +20,11 @@ miheev::Operand miheev::Operand::operator+(const miheev::Operand& rhs) const
 }
 miheev::Operand miheev::Operand::operator-(const miheev::Operand& rhs) const
 {
-  if (std::numeric_limits< long long >::min() + value > rhs.value)
+  if (value < 0 && rhs.value > 0 && std::numeric_limits< long long >::min() - value > -rhs.value)
   {
     throw std::logic_error("minus op has underflow\n");
   }
-  if (std::numeric_limits< long long >::max() - value < -rhs.value)
+  if (value > 0 && rhs.value < 0 && std::numeric_limits< long long >::max() + value < -rhs.value)
   {
     throw std::logic_error("minus op has overflow\n");
   }
@@ -32,9 +32,13 @@ miheev::Operand miheev::Operand::operator-(const miheev::Operand& rhs) const
 }
 miheev::Operand miheev::Operand::operator*(const miheev::Operand& rhs) const
 {
-  if (std::numeric_limits< long long >::max() / value < rhs.value)
+  if (((value > 0 && rhs.value > 0) || (value < 0 && rhs.value < 0)) && std::numeric_limits< long long >::max() / std::abs(value) < std::abs(rhs.value))
   {
     throw std::logic_error("multiply op has overflow\n");
+  }
+  if (((value > 0 && rhs.value < 0) || (value < 0 && rhs.value > 0)) && std::abs(std::numeric_limits< long long >::min() / value) < std::abs(rhs.value))
+  {
+    throw std::logic_error("multiply op has underflow\n");
   }
   return miheev::Operand(value * rhs.value);
 }

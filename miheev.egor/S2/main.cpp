@@ -9,7 +9,6 @@ int main(int argc, char* argv[])
 {
   using namespace miheev;
   Stack< long long> results;
-  // std::cout << "START\n";
   try
   {
     if (argc == 2)
@@ -29,6 +28,10 @@ int main(int argc, char* argv[])
     if (!results.empty())
     {
       results.print(std::cout, ' ');
+    }
+    else
+    {
+      std::cout << '\n';
     }
   }
   catch(const std::exception& e)
