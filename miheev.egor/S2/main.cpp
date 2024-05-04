@@ -9,6 +9,7 @@ int main(int argc, char* argv[])
 {
   using namespace miheev;
   Stack< long long> results;
+  // std::cout << "START\n";
   try
   {
     if (argc == 2)

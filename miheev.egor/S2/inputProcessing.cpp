@@ -75,7 +75,7 @@ miheev::Queue< miheev::element_t > miheev::lineToPosfix(std::string line)
       }
       else
       {
-        while (!(stack.top().type == "parenthesis" && stack.top().parenthesis.parenthesis == '('))
+        while (!stack.empty() && !(stack.top().type == "parenthesis" && stack.top().parenthesis.parenthesis == '('))
         {
           miheev::element_t temp = stack.drop();
           queue.push(temp);
@@ -89,7 +89,7 @@ miheev::Queue< miheev::element_t > miheev::lineToPosfix(std::string line)
     }
     else if (current.type == "operation")
     {
-      while (stack.top().type == "operation" && current.operation >= stack.top().operation)
+      while (!stack.empty() && stack.top().type == "operation" && current.operation >= stack.top().operation)
       {
         miheev::element_t temp = stack.drop();
         queue.push(temp);
