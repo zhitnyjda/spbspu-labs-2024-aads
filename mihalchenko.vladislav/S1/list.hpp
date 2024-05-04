@@ -18,10 +18,11 @@ namespace mihalchenko
     List(size_t count, const T &value);
     List(std::initializer_list< T > ilist);
     List(const List &copy);
-    List< T > &operator=(const List &copy);
     List(List &&move);
-    List< T > &operator=(List &&move);
     ~List();
+
+    List< T > &operator=(const List &copy);
+    List< T > &operator=(List &&move);
 
     void swap(List< T > &other) noexcept;
 

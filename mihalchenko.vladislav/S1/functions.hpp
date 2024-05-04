@@ -1,5 +1,5 @@
-#ifndef FUNCDOP_HPP
-#define FUNCDOP_HPP
+#ifndef FUNCTIONS_HPP
+#define FUNCTIONS_HPP
 
 #include "list.hpp"
 
@@ -16,7 +16,7 @@ namespace mihalchenko
   using integerList = mihalchenko::List< size_t >;
   size_t printName(mainList &mixedList, size_t mixedListSize, size_t maxLenOfSecondList);
   size_t printSumDigit(integerList &tempIntList, size_t tempIntListSize);
-  t_ret printMixedList(mainList &mixedList, size_t mixedListSize, size_t numericView, bool flgNewStr);
+  size_t printMixedList(mainList &mixedList, size_t mixedListSize, size_t numericView, bool &flgNewStr);
 }
 
 #endif

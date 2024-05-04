@@ -1,7 +1,7 @@
 #include <utility>
 #include <limits>
 #include "list.hpp"
-#include "funcDop.hpp"
+#include "functions.hpp"
 
 int main()
 {
@@ -20,8 +20,8 @@ int main()
   {
     if (!isdigit(inputStr[0]))
     {
-      std::string slovo;
-      slovo = inputStr;
+      std::string str;
+      str = inputStr;
       flgNamed = true;
       tempIntList.clear();
       if (maxLenOfSecondList < CountSecondList)
@@ -29,7 +29,7 @@ int main()
         maxLenOfSecondList = CountSecondList;
       }
       CountSecondList = 0;
-      mixedList.push_back(std::make_pair(slovo, tempIntList));
+      mixedList.push_back(std::make_pair(str, tempIntList));
       CountmixedList++;
     }
     else
@@ -39,8 +39,8 @@ int main()
       if (!flgNamed)
       {
         std::cerr << "No correct input!";
-        std::cout << wrem << std::endl;
-        std::cout << 0 << std::endl;
+        std::cout << wrem << '\n';
+        std::cout << 0 << '\n';
         return 0;
       }
       mixedList[CountmixedList - 1].second.push_back(wrem);
@@ -57,25 +57,25 @@ int main()
   }
   if (mixedList.getSize() == 0)
   {
-    std::cout << 0 << std::endl;
+    std::cout << 0 << '\n';
     return 0;
   }
 
   mihalchenko::printName(mixedList, mixedList.getSize(), maxLenOfSecondList);
 
   bool flgNewStr = false;
+  size_t ullMax = std::numeric_limits< size_t >::max();
   for (size_t numericView = 0; numericView < maxLenOfSecondList; numericView++)
   {
-    t_ret t = mihalchenko::printMixedList(mixedList, mixedList.getSize(), numericView, flgNewStr);
-    flgNewStr = t.flgNewStr;
-    if (t.resultFunc == false)
+    size_t summa = mihalchenko::printMixedList(mixedList, mixedList.getSize(), numericView, flgNewStr);
+    if (summa == ullMax)
     {
       std::cerr << "Input overflow!";
       return 1;
     }
     else
     {
-      tempIntList.push_back(t.summa);
+      tempIntList.push_back(summa);
     }
   }
   mihalchenko::printSumDigit(tempIntList, tempIntList.getSize());

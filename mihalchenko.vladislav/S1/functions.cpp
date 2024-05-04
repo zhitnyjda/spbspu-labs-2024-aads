@@ -1,4 +1,4 @@
-#include "funcDop.hpp"
+#include "functions.hpp"
 #include <limits>
 
 size_t mihalchenko::printName(mainList &mixedList, size_t mixedListSize, size_t maxLenOfSecondList)
@@ -14,11 +14,11 @@ size_t mihalchenko::printName(mainList &mixedList, size_t mixedListSize, size_t 
 
   if (maxLenOfSecondList == 0)
   {
-    std::cout << std::endl;
+    std::cout << '\n';
     std::cout << 0;
     return 0;
   }
-  std::cout << std::endl;
+  std::cout << '\n';
   return 0;
 }
 
@@ -32,11 +32,11 @@ size_t mihalchenko::printSumDigit(integerList &tempIntList, size_t tempIntListSi
       std::cout << " ";
     }
   }
-  std::cout << std::endl;
+  std::cout << '\n';
   return 0;
 }
 
-mihalchenko::t_ret mihalchenko::printMixedList(mainList &mixedList, size_t mixedListSize, size_t numericView, bool flgNewStr)
+size_t mihalchenko::printMixedList(mainList &mixedList, size_t mixedListSize, size_t numericView, bool &flgNewStr)
 {
   size_t summa = 0;
   flgNewStr = true;
@@ -61,20 +61,12 @@ mihalchenko::t_ret mihalchenko::printMixedList(mainList &mixedList, size_t mixed
       }
       else
       {
-        std::cout << std::endl;
+        std::cout << '\n';
         std::cerr << "Input overflow!";
-        t_ret t;
-        t.summa = summa;
-        t.flgNewStr = flgNewStr;
-        t.resultFunc = false;
-        return t;
+        return ullMax;
       }
     }
   }
-  std::cout << std::endl;
-  t_ret t;
-  t.summa = summa;
-  t.flgNewStr = flgNewStr;
-  t.resultFunc = true;
-  return t;
+  std::cout << '\n';
+  return summa;
 }
