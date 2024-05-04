@@ -1,29 +1,24 @@
 #include <iostream>
 #include "stack.hpp"
 #include "queue.hpp"
+#include "read.hpp"
 
-int main()
+int main(int argc, char * argv[])
 {
-  zheleznyakov::Stack< unsigned long long > stack;
-  for (size_t i = 0; i <= 4; i++)
+  zheleznyakov::Queue< std::string > problems;
+  if (argc == 2)
   {
-    stack.push(i);
+    std::ifstream input(argv[1]);
+    zheleznyakov::readLines(input, problems);
   }
-  for (size_t i = stack.size(); i > 1; i--)
+  else if (argc == 1)
   {
-    std::cout << stack.top() << '\n';
-    stack.pop();
+    zheleznyakov::readLines(std::cin, problems);
   }
-  std::cout << '\n';
-  zheleznyakov::Queue< unsigned long long > queue;
-  for (size_t i = 0; i <= 4; i++)
+  else
   {
-    queue.push(i);
-  }
-  for (size_t i = queue.size(); i > 1; i--)
-  {
-    std::cout << queue.back() << '\n';
-    queue.pop();
+    std::cerr << "Bad arguments\n";
+    return 1;
   }
   return 0;
 }
