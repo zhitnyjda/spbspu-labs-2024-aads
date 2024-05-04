@@ -65,7 +65,7 @@ int main()
   {
     if (!hasData)
     {
-      std::cout << temp << "\n" << 0 << "\n";
+      std::cout << temp << 0 << "\n";
       return 0;
     }
     size_t max_length = 0;
