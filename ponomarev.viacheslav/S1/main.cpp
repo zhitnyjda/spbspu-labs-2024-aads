@@ -1,6 +1,6 @@
 #include <iostream>
 #include <utility>
-#include "functions.hpp"
+#include "cutFunctions.hpp"
 #include "outputFunctions.hpp"
 #include <algorithm>
 

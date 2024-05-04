@@ -1,4 +1,4 @@
-#include "functions.hpp"
+#include "cutFunctions.hpp"
 #include <string>
 
 std::string ponomarev::getName(std::string & line)

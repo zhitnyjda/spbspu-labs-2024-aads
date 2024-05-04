@@ -45,12 +45,11 @@ namespace ponomarev
       T data;
       ListNode* next;
       ListNode* prev;
-      ListNode(T data, ListNode* next = nullptr, ListNode* prev = nullptr)
-      {
-        this->data = data;
-        this->next = next;
-        this->prev = prev;
-      }
+      ListNode(T data, ListNode* next = nullptr, ListNode* prev = nullptr):
+        data(data),
+        next(next),
+        prev(prev)
+      {}
     };
 
     ListNode* head;

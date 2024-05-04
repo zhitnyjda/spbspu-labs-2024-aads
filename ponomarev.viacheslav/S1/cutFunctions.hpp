@@ -1,5 +1,5 @@
-#ifndef FUNCTIONS_HPP
-#define FUNCTIONS_HPP
+#ifndef CUT_FUNCTIONS_HPP
+#define CUT_FUNCTIONS_HPP
 
 #include <string>
 #include <ostream>
