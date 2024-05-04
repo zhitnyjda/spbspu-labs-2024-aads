@@ -1,6 +1,23 @@
 #include "list.hpp"
 #include <limits>
 
+unsigned long long ParseNum(const std::string& str, size_t& pos)
+{
+  auto symbol = static_cast<unsigned char>(str[pos]);
+  unsigned long long result = 0;
+  while (std::isdigit(symbol))
+  {
+    result = result * 10 + (symbol - '0');
+    if (pos == str.size() - 1)
+    {
+      ++pos;
+      break;
+    }
+    symbol = static_cast<unsigned char>(str[++pos]);
+  }
+  return result;
+}
+
 int main()
 {
   hohlova::List<std::pair<std::string, std::vector< unsigned long long >>> numbers;
@@ -12,25 +29,34 @@ int main()
 
   while (std::getline(std::cin, line) && !line.empty())
   {
-    std::istringstream iss(line);
     std::string word;
-    iss >> word;
-    temp = word;
-
+    size_t pos = 0;
+    const auto size = line.size();
     std::vector<unsigned long long> nums;
-
-    std::string numStr;
-    while (iss >> numStr)
+    while (pos < size)
     {
-      nums.push_back(std::stoull(numStr));
+      unsigned char symbol = static_cast<unsigned char>(line[pos]);
+      if (std::isspace(symbol))
+      {
+        ++pos;
+      }
+      else if (std::isdigit(symbol))
+      {
+        nums.push_back(ParseNum(line, pos));
+      }
+      else if (std::isalpha(symbol))
+      {
+        word.push_back(line[pos++]);
+      }
+      else
+      {
+        ++pos;
+      }
     }
-
     numbers.push_back(std::make_pair(word, nums));
-
     if (!nums.empty())
       hasData = true;
   }
-
   if (numbers.size() == 0)
   {
     std::cout << 0 << '\n';
@@ -47,7 +73,6 @@ int main()
     {
       max_length = std::max(max_length, (*it).second.size());
     }
-
     for (auto it = numbers.begin(); it != numbers.end(); ++it)
     {
       std::cout << (*it).first;
@@ -66,7 +91,6 @@ int main()
       const auto& sequence = pair.second;
       max_size = std::max(max_size, sequence.size());
     }
-
     for (size_t i = 0; i < max_size; ++i)
     {
       bool firstElement = true;
@@ -85,7 +109,6 @@ int main()
       }
       std::cout << std::endl;
     }
-
     try
     {
       for (size_t i = 0; i < max_length; ++i)
