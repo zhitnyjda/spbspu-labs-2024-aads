@@ -5,12 +5,12 @@ namespace jirkov
 {
   namespace details
   {
-    template <typename T>
+    template < typename T >
     struct Node
     {
+      explicit Node(T value) : data(value), next(nullptr) {}
       T data;
       Node<T>* next;
-      explicit Node(T value) : data(value), next(nullptr) {}
     };
   }
 }

@@ -9,7 +9,7 @@ int main()
   using namespace jirkov;
   try
   {
-    List<std::pair<std::string, List<size_t>>> newList = inputPair(std::cin);
+    List< std::pair< std::string, List< size_t > > > newList = inputPair(std::cin);
     if (findSize(newList) == 0)
     {
       if (!newList.empty())
