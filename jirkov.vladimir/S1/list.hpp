@@ -132,10 +132,10 @@ class jirkov::List< T >::Iterator : public std::iterator< std::forward_iterator_
 public:
   friend class List< T >;
   Iterator();
-  Iterator(ConstIterator someIterator);
-  ~Iterator() = default;
   Iterator(const Iterator&) = default;
   Iterator& operator=(const Iterator&) = default;
+  Iterator(ConstIterator someIterator);
+  ~Iterator() = default;
 
   Iterator& operator++();
   Iterator operator++(int);
