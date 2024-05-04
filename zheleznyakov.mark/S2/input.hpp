@@ -1,5 +1,5 @@
-#ifndef READ_HPP
-#define READ_HPP
+#ifndef INPUT_HPP
+#define INPUT_HPP
 #include <fstream>
 #include "queue.hpp"
 namespace zheleznyakov

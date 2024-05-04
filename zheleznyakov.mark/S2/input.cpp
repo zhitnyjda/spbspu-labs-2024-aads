@@ -1,4 +1,4 @@
-#include "read.hpp"
+#include "input.hpp"
 
 void zheleznyakov::readLines(std::istream & input, Queue< std::string > & queue)
 {
