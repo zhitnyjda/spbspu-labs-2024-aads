@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
     }
     if (!results.empty())
     {
-      results.print();
+      results.print(std::cout, ' ');
     }
   }
   catch(const std::exception& e)

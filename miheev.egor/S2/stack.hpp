@@ -27,7 +27,7 @@ namespace miheev
     void emplace(Args&&... args);
     void swap(Stack&) noexcept;
 
-    void print() const;
+    void print(std::ostream& = std::cout, char delimiter = ' ') const;
   private:
     List< T > container_;
   };
@@ -114,9 +114,9 @@ void miheev::Stack < T >::swap(Stack< T >& rhs) noexcept
 }
 
 template< typename T >
-void miheev::Stack< T >::print() const
+void miheev::Stack< T >::print(std::ostream& out, char delimiter) const
 {
-  container_.print();
+  container_.print(out, delimiter);
 }
 
 #endif
