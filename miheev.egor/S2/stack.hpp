@@ -14,6 +14,8 @@ namespace miheev
     Stack(const Stack&);
     ~Stack() = default;
 
+    Stack& operator=(const Stack&);
+
     bool empty() const;
     size_t size() const;
     T& top();
@@ -45,6 +47,13 @@ template< typename T >
 miheev::Stack< T >::Stack(const Stack< T >& rhs)
 {
   container_ = rhs.container_;
+}
+
+template< typename T >
+miheev::Stack< T >& miheev::Stack< T >::operator=(const Stack< T >& rhs)
+{
+  container_ = rhs.container_;
+  return *this;
 }
 
 template< typename T >

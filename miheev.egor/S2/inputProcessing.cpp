@@ -146,7 +146,10 @@ miheev::Stack< long long > miheev::processInput(std::istream& in)
   while (!in.eof())
   {
     std::getline(in, line);
-    results.push(miheev::calcLine(line));
+    if (line != "")
+    {
+      results.push(miheev::calcLine(line));
+    }
   }
   return results;
 }

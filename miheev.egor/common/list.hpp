@@ -519,9 +519,10 @@ void miheev::List< T >::remove(T data)
 template < typename T >
 void miheev::List< T >::print(std::ostream& stream, const char& splitter) const
 {
-  stream << data_ << splitter;
+  stream << data_;
   if (next_)
   {
+    stream << splitter;
     next_->print(stream, splitter);
   }
   else
