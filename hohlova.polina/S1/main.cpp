@@ -127,6 +127,10 @@ int main()
               throw std::overflow_error("Overflow");
             }
             sum += (*it).second[i];
+            if (sum == 0)
+            {
+              return 0;
+            }
           }
         }
         sums.push_back(sum);
@@ -147,7 +151,7 @@ int main()
         std::cout << " ";
       }
     }
-    //std::cout << "\n";
+    std::cout << "\n";
   }
   if (err)
   {
