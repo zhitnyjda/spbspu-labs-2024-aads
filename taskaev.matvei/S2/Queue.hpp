@@ -9,9 +9,9 @@ namespace taskaev
   {
   public:
     Queue();
-    ~Queue() = default;
     Queue(Queue< T >&& other);
     Queue(const Queue< T >& other);
+    ~Queue() = default;
     void push(const T& value);
     void pop();
     bool isEmpty() const noexcept;
