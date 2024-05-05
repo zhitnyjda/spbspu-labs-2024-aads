@@ -6,7 +6,7 @@
 
 int main(int argc, char * argv[])
 {
-  zheleznyakov::Queue< std::string > problems;
+  zheleznyakov::Stack< std::string > problems;
   if (argc == 2)
   {
     std::ifstream input(argv[1]);

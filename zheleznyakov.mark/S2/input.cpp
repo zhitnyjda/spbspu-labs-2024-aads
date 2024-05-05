@@ -1,6 +1,6 @@
 #include "input.hpp"
 
-void zheleznyakov::readLines(std::istream & input, Queue< std::string > & queue)
+void zheleznyakov::readLines(std::istream & input, Stack< std::string > & stack)
 {
   std::string current;
   while (!input.eof())
@@ -8,7 +8,7 @@ void zheleznyakov::readLines(std::istream & input, Queue< std::string > & queue)
     std::getline(input, current);
     if (current != "")
     {
-      queue.push(current);
+      stack.push(current);
     }
   }
 }

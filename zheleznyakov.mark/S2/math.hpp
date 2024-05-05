@@ -6,7 +6,7 @@
 #include "input.hpp"
 namespace zheleznyakov
 {
-  void processProblems(Queue< std::string > & problems);
+  void processProblems(Stack< std::string > & problems);
   long long calculatePostfix(Queue< std::string > & expression);
 }
 #endif

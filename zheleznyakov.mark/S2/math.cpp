@@ -1,14 +1,14 @@
 #include "math.hpp"
 
-void zheleznyakov::processProblems(Queue< std::string > & problems)
+void zheleznyakov::processProblems(Stack< std::string > & problems)
 {
   while (!problems.empty())
   {
     Queue< std::string > infix;
     Queue< std::string > postfix;
-    tokenize(problems.front(), infix);
+    tokenize(problems.top(), infix);
     infixToPostfix(infix, postfix);
-    std::cout << calculatePostfix(postfix) << '\n';
+    std::cout << calculatePostfix(postfix) << (problems.size() > 1 ? ' ' : '\n');
     problems.pop();
   }
 }
@@ -52,6 +52,5 @@ long long zheleznyakov::calculatePostfix(Queue< std::string > & expression)
       }
     }
   }
-
   return stack.top();
 };

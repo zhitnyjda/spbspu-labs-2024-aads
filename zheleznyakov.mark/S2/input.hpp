@@ -5,7 +5,7 @@
 #include "stack.hpp"
 namespace zheleznyakov
 {
-  void readLines(std::istream & input, Queue< std::string > & queue);
+  void readLines(std::istream & input, Stack< std::string > & stack);
   void tokenize(std::string str, Queue< std::string > & dest);
   bool isOperator(const std::string & token);
   int priority(const std::string & op);
