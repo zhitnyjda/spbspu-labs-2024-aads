@@ -25,7 +25,6 @@ namespace miheev
 
     void push(const T&);
     void pop();
-    T drop();
     template< class... Args >
     void emplace(Args&&... args);
     void swap(Queue&) noexcept;
@@ -115,14 +114,6 @@ template< typename T >
 void miheev::Queue< T >::pop()
 {
   container_.popFront();
-}
-
-template< typename T >
-T miheev::Queue< T >::drop()
-{
-  T value = front();
-  pop();
-  return value;
 }
 
 template< typename T >

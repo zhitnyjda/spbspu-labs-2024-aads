@@ -16,8 +16,11 @@ namespace miheev
     bool operator>=(const Operation& rhs) const;
     bool operator>(const Operation& rhs) const;
     Operand implement(const Operand& lhs, const Operand& rhs) const;
-    char operation;
+
+    char getOperation() const;
+    void setOperation(char);
   private:
+    char operation_;
     int priority_;
   };
 

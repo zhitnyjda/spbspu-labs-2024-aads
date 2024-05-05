@@ -9,19 +9,19 @@ miheev::element_t::element_t(const element_t& rhs)
   *this = rhs;
 }
 
-miheev::Operand miheev::element_t::getOperand() const
+const miheev::Operand& miheev::element_t::getOperand() const
 {
   return operand;
 }
-miheev::Operation miheev::element_t::getOperation() const
+const miheev::Operation& miheev::element_t::getOperation() const
 {
   return operation;
 }
-miheev::Parenthesis miheev::element_t::getParenthesis() const
+const miheev::Parenthesis& miheev::element_t::getParenthesis() const
 {
   return parenthesis;
 }
-std::string miheev::element_t::getType() const
+const std::string miheev::element_t::getType() const
 {
   return type;
 }
@@ -29,18 +29,17 @@ std::string miheev::element_t::getType() const
 void miheev::element_t::setOperand(const miheev::Operand& rhs)
 {
   operand = rhs;
+  type = "operand";
 }
 void miheev::element_t::setOperation(const miheev::Operation& rhs)
 {
   operation = rhs;
+  type = "operation";
 }
 void miheev::element_t::setParenthesis(const miheev::Parenthesis& rhs)
 {
   parenthesis = rhs;
-}
-void miheev::element_t::setType(std::string rhs)
-{
-  type = rhs;
+  type = "parenthesis";
 }
 
 miheev::element_t& miheev::element_t::operator=(const element_t& rhs)
@@ -48,7 +47,7 @@ miheev::element_t& miheev::element_t::operator=(const element_t& rhs)
   type = rhs.type;
   if (rhs.type == "operation")
   {
-    operation = Operation(rhs.operation.operation);
+    operation = Operation(rhs.operation.getOperation());
   }
   else if (rhs.type == "operand")
   {

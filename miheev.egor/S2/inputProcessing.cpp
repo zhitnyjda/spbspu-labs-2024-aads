@@ -32,22 +32,18 @@ miheev::element_t miheev::convertToElement(std::string s)
   if (s == "+" || s == "-" || s == "*" || s == "/" || s == "%")
   {
     result.setOperation(s[0]);
-    result.setType("operation");
   }
   else if (s == "(")
   {
     result.setParenthesis(miheev::Parenthesis{s[0]});
-    result.setType("parenthesis");
   }
   else if (s == ")")
   {
     result.setParenthesis(miheev::Parenthesis{')'});
-    result.setType("parenthesis");
   }
   else
   {
     result.setOperand(miheev::Operand(stoll(s)));
-    result.setType("operand");
   }
   return result;
 }
@@ -111,7 +107,8 @@ miheev::Queue< miheev::element_t > miheev::lineToPosfix(std::string line)
       {
         while (!isOpeningParenthesisOnTop(stack))
         {
-          miheev::element_t temp = stack.drop();
+          miheev::element_t temp = stack.top();
+          stack.pop();
           queue.push(temp);
         }
         stack.pop();
@@ -125,7 +122,8 @@ miheev::Queue< miheev::element_t > miheev::lineToPosfix(std::string line)
     {
       while (!shouldPushOpToStack(stack, current))
       {
-        miheev::element_t temp = stack.drop();
+        miheev::element_t temp = stack.top();
+        stack.pop();
         queue.push(temp);
       }
       stack.push(current);
@@ -133,7 +131,8 @@ miheev::Queue< miheev::element_t > miheev::lineToPosfix(std::string line)
   }
   while (!stack.empty())
   {
-    queue.push(stack.drop());
+    queue.push(stack.top());
+    stack.pop();
   }
   return queue;
 }
@@ -142,7 +141,8 @@ void miheev::printTypes(miheev::Queue< miheev::element_t > q)
 {
   while (!q.empty())
   {
-    std::cout << q.drop().getType() << ' ';
+    std::cout << q.front().getType() << ' ';
+    q.pop();
   }
   std::cout << '\n';
 }
@@ -153,15 +153,18 @@ long long miheev::calcLine(std::string line)
   Queue< miheev::element_t > postfix = miheev::lineToPosfix(line);
   while (!postfix.empty())
   {
-    miheev::element_t current = postfix.drop();
+    miheev::element_t current = postfix.front();
+    postfix.pop();
     if (current.getType() == "operand")
     {
       stack.push(current.getOperand());
     }
     else if(current.getType() == "operation")
     {
-      Operand rhs = stack.drop();
-      Operand lhs = stack.drop();
+      Operand rhs = stack.top();
+      stack.pop();
+      Operand lhs = stack.top();
+      stack.pop();
       stack.push(current.getOperation().implement(lhs, rhs));
     }
     else

@@ -24,7 +24,6 @@ namespace miheev
 
     void push(const T&);
     void pop();
-    T drop();
     template< class... Args >
     void emplace(Args&&... args);
     void swap(Stack&) noexcept;
@@ -92,14 +91,6 @@ template< typename T >
 void miheev::Stack < T >::pop()
 {
   container_.popFront();
-}
-
-template< typename T >
-T miheev::Stack < T >::drop()
-{
-  T value = container_.front();
-  container_.popFront();
-  return value;
 }
 
 template< typename T >
