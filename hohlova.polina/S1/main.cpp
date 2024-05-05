@@ -53,6 +53,10 @@ int main()
         ++pos;
       }
     }
+    if (nums.empty())
+    {
+      nums.push_back(0);
+    }
     numbers.push_back(std::make_pair(word, nums));
     if (!nums.empty())
       hasData = true;
@@ -125,7 +129,10 @@ int main()
             sum += (*it).second[i];
           }
         }
-        sums.push_back(sum);
+        if (!hasData)
+        {
+          sums.push_back(sum);
+        }
       }
     }
     catch (const std::overflow_error& e)
