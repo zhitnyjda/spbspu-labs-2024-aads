@@ -2,6 +2,7 @@
 #include "stack.hpp"
 #include "queue.hpp"
 #include "input.hpp"
+#include "math.hpp"
 
 int main(int argc, char * argv[])
 {
@@ -20,19 +21,14 @@ int main(int argc, char * argv[])
     std::cerr << "Bad arguments\n";
     return 1;
   }
-  while (!problems.empty())
+  try
   {
-    zheleznyakov::Queue< std::string > infix;
-    zheleznyakov::Queue< std::string > postfix;
-    zheleznyakov::tokenize(problems.front(), infix);
-    zheleznyakov::infixToPostfix(infix, postfix);
-    while (!postfix.empty())
-    {
-      std::cout << postfix.front() << ' ';
-      postfix.pop();
-    }
-    std::cout << '\n';
-    problems.pop();
+    zheleznyakov::processProblems(problems);
+  }
+  catch (const std::overflow_error& e)
+  {
+    std::cerr << e.what() << '\n';
+    return 1;
   }
   return 0;
 }
