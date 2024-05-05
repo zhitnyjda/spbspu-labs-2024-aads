@@ -20,5 +20,19 @@ int main(int argc, char * argv[])
     std::cerr << "Bad arguments\n";
     return 1;
   }
+  while (!problems.empty())
+  {
+    zheleznyakov::Queue< std::string > infix;
+    zheleznyakov::Queue< std::string > postfix;
+    zheleznyakov::tokenize(problems.front(), infix);
+    zheleznyakov::infixToPostfix(infix, postfix);
+    while (!postfix.empty())
+    {
+      std::cout << postfix.front() << ' ';
+      postfix.pop();
+    }
+    std::cout << '\n';
+    problems.pop();
+  }
   return 0;
 }

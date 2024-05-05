@@ -62,13 +62,13 @@ T & zheleznyakov::Queue< T >::back() const
 template< typename T >
 void zheleznyakov::Queue< T >::push(const T & value)
 {
-  container_.pushFront(value);
+  container_.pushBack(value);
 }
 
 template< typename T >
 void zheleznyakov::Queue< T >::pop()
 {
-  container_.popBack();
+  container_.popFront();
 }
 
 template< typename T >
