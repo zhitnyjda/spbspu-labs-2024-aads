@@ -25,6 +25,7 @@ namespace miheev
     bool empty() const;
 
     T& front();
+    const T& front() const;
 
     size_t size() const;
 
@@ -436,6 +437,12 @@ size_t miheev::List< T >::size() const
 
 template < typename T >
 T& miheev::List< T >::front()
+{
+  return data_;
+}
+
+template < typename T >
+const T& miheev::List< T >::front() const
 {
   return data_;
 }

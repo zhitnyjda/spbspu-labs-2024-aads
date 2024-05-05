@@ -59,6 +59,23 @@ miheev::element_t miheev::getElement(std::string& s)
   return element;
 }
 
+bool isOpeningParenthesisOnTop(const miheev::Stack< miheev::element_t >& stack)
+{
+  if (stack.empty())
+  {
+    return false;
+  }
+  if (stack.top().type != "parenthesis")
+  {
+    return false;
+  }
+  if (stack.top().parenthesis.parenthesis != '(')
+  {
+    return false;
+  }
+  return true;
+}
+
 miheev::Queue< miheev::element_t > miheev::lineToPosfix(std::string line)
 {
   Stack< miheev::element_t > stack;
@@ -75,7 +92,7 @@ miheev::Queue< miheev::element_t > miheev::lineToPosfix(std::string line)
       }
       else
       {
-        while (!stack.empty() && !(stack.top().type == "parenthesis" && stack.top().parenthesis.parenthesis == '('))
+        while (isOpeningParenthesisOnTop(stack))
         {
           miheev::element_t temp = stack.drop();
           queue.push(temp);

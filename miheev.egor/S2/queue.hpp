@@ -15,10 +15,14 @@ namespace miheev
 
     Queue& operator=(const Queue& rhs);
 
-    bool empty() const;
-    size_t size() const;
+    bool empty() const noexcept;
+    size_t size() const noexcept;
     T& front();
+    T& front() const;
+
     T& back();
+    const T& back() const;
+
     void push(const T&);
     void pop();
     T drop();
@@ -56,13 +60,13 @@ miheev::Queue< T >& miheev::Queue< T >::operator=(const miheev::Queue< T >& rhs)
 }
 
 template< typename T >
-bool miheev::Queue< T >::empty() const
+bool miheev::Queue< T >::empty() const noexcept
 {
   return container_.empty();
 }
 
 template< typename T >
-size_t miheev::Queue< T >::size() const
+size_t miheev::Queue< T >::size() const noexcept
 {
   return container_.size();
 }
@@ -74,7 +78,24 @@ T& miheev::Queue< T >::front()
 }
 
 template< typename T >
+T& miheev::Queue< T >::front() const
+{
+  return container_.front();
+}
+
+template< typename T >
 T& miheev::Queue< T >::back()
+{
+  typename List< T >::Iterator iter(container_.begin());
+  for (size_t i = 1; i < container_.size(); i++)
+  {
+    iter++;
+  }
+  return *iter;
+}
+
+template< typename T >
+const T& miheev::Queue< T >::back() const
 {
   typename List< T >::Iterator iter(container_.begin());
   for (size_t i = 1; i < container_.size(); i++)
