@@ -1,10 +1,11 @@
 #ifndef QUEUE_HPP
 #define QUEUE_HPP
 
+#include <cassert>
 #include "../common/list.hpp"
 
-
 namespace anikanov {
+
   template< typename T >
   class Queue {
   public:
@@ -24,22 +25,73 @@ namespace anikanov {
     void push(const T &value);
     void pop();
   private:
-    List< T > queue;
+    List< T > list;
   };
 }
 
 template< typename T >
 anikanov::Queue< T >::Queue(const Queue &rhs)
 {
-  queue = rhs.queue;
+  list = rhs.queue;
 }
 
 template< typename T >
 anikanov::Queue< T >::Queue(Queue &&rhs) noexcept
 {
-  queue(std::move(rhs.queue));
+  list(std::move(rhs.queue));
 }
 
+template< typename T >
+T &anikanov::Queue< T >::front() noexcept
+{
+  assert(!list.empty());
+  return list[0];
+}
 
+template< typename T >
+const T &anikanov::Queue< T >::front() const noexcept
+{
+  assert(!list.empty());
+  return list[0];
+}
+
+template< typename T >
+T &anikanov::Queue< T >::back() noexcept
+{
+  assert(!list.empty());
+  return list[list.size() - 1];
+}
+
+template< typename T >
+const T &anikanov::Queue< T >::back() const noexcept
+{
+  assert(!list.empty());
+  return list[list.size() - 1];
+}
+
+template< typename T >
+bool anikanov::Queue< T >::isEmpty() const
+{
+  return list.empty();
+}
+
+template< typename T >
+size_t anikanov::Queue< T >::getSize() const
+{
+  return list.size();
+}
+
+template< typename T >
+void anikanov::Queue< T >::push(const T &value)
+{
+  list.push_back(value);
+}
+
+template< typename T >
+void anikanov::Queue< T >::pop()
+{
+  assert(!list.empty());
+  list.pop(0);
+}
 
 #endif
