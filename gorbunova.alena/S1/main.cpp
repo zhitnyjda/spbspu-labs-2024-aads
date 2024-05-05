@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include "list.hpp"
 
-void printSums(gorbunova::List< unsigned long long > sums)
+void printSums(const gorbunova::List< unsigned long long > &sums)
 {
   for (auto it = sums.begin(); it != sums.end(); ++it)
   {
@@ -19,7 +19,7 @@ void printSums(gorbunova::List< unsigned long long > sums)
   std::cout << std::endl;
 }
 
-void printSequences(gorbunova::List<std::pair<std::string, std::vector< unsigned long long >>> sequences)
+void printSequences(const gorbunova::List<std::pair<std::string, std::vector< unsigned long long >>> &sequences)
 {
   for (auto it = sequences.begin(); it != sequences.end(); ++it)
   {
@@ -38,7 +38,7 @@ std::vector<std::string> splitString(const std::string &input)
 {
   std::vector<std::string> result;
   std::string word;
-  for (char c : input)
+  for (const char c : input)
   {
     if (c == ' ')
     {

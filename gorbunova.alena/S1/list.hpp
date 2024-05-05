@@ -49,14 +49,17 @@ namespace gorbunova
       {
         return current == other.current;
       }
+      bool operator==(const ListIterator &other) const
+      {
+        return current == other.current;
+      }
       T *operator->() const
       {
         return &(current->data);
       }
-      bool operator!=(const ListIterator &other) const;
     };
     List();
-    List(std::initializer_list<std::pair<std::string, std::vector<int>>> ilist);
+    List(std::initializer_list<std::pair<std::string, std::vector< unsigned long long >>> ilist);
 
     template <typename InputIterator>
     List(InputIterator first, InputIterator last);
@@ -88,16 +91,10 @@ typename gorbunova::List<T>::ListIterator &gorbunova::List<T>::ListIterator::ope
 }
 
 template <typename T>
-bool gorbunova::List<T>::ListIterator::operator!=(const ListIterator &other) const
-{
-  return current != other.current;
-}
-
-template <typename T>
 gorbunova::List<T>::List() : head(nullptr) {}
 
 template <typename T>
-gorbunova::List<T>::List(std::initializer_list<std::pair<std::string, std::vector<int>>> ilist) : head(nullptr)
+gorbunova::List<T>::List(std::initializer_list<std::pair<std::string, std::vector< unsigned long long >>> ilist) : head(nullptr)
 {
   for (const auto &pair : ilist)
   {
@@ -123,7 +120,7 @@ gorbunova::List<T>::~List()
 }
 
 template <typename T>
-size_t gorbunova::List<T>::getSize()
+size_t gorbunova::List<T>::getSize() const
 {
   return size;
 }
@@ -156,6 +153,7 @@ void gorbunova::List<T>::clear()
     Node<T> *tmp = head;
     head = head ->next;
     delete tmp;
+    size--;
   }
 }
 
@@ -182,6 +180,7 @@ void gorbunova::List<T>::splice(ListIterator pos, List &other)
     otherTail->next = pos.current;
     pos.current = other.head;
     other.head == nullptr;
+    other.size = 0;
   }
 }
 
@@ -205,6 +204,7 @@ void gorbunova::List<T>::insert(ListIterator pos, const T &value)
   Node<T> *newNode = new Node<T>(value);
   newNode->next = pos.current->next;
   pos.current->next = newNode;
+  size++;
 }
 
 template <typename T>
@@ -213,6 +213,7 @@ void gorbunova::List<T>::erase(ListIterator pos)
   Node<T> *toDelete = pos.current;
   pos.current = pos.current->next;
   delete toDelete;
+  size--;
 }
 
 template <typename T>
