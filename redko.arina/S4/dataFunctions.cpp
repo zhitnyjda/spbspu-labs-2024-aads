@@ -32,7 +32,7 @@ void redko::print(BSTree< std::string, BSTree < int, std::string > > & dataSets,
   }
   else
   {
-    redko::printMessage(std::cout, "<INVALID COMMAND>");
+    redko::printMessage(std::cout, "<EMPTY>");
   }
 }
 
