@@ -32,7 +32,7 @@ void redko::print(BSTree< std::string, BSTree < int, std::string > > & dataSets,
   }
   else
   {
-    std::cout << "<EMPTY>\n";
+    redko::printMessage(std::cout, "<INVALID COMMAND>");
   }
 }
 
@@ -106,4 +106,9 @@ void redko::unite(BSTree< std::string, BSTree < int, std::string > > & dataSets,
     dataSets.erase(newSetName);
   }
   dataSets.insert({ newSetName, dataSet });
+}
+
+void redko::printMessage(std::ostream & out, const std::string & message)
+{
+  out << message << '\n';
 }

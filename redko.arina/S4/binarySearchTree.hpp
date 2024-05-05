@@ -21,6 +21,8 @@ namespace redko
     BSTree();
     BSTree(const BSTree & other);
     BSTree(BSTree && other);
+    template< class InputIt >
+    BSTree(InputIt first, InputIt last);
     BSTree(std::initializer_list< value_t > init);
     ~BSTree();
 
@@ -32,8 +34,8 @@ namespace redko
     Value & operator[](const Key & key);
     Value & operator[](Key && key);
 
-    bool empty() const;
-    size_t size() const;
+    bool empty() const noexcept;
+    size_t size() const noexcept;
 
     iterator begin() noexcept;
     const_iterator begin() const noexcept;
@@ -46,6 +48,8 @@ namespace redko
     iterator insert(const value_t & value);
     iterator insert(value_t && value);
     size_t erase(const Key & key);
+    template< class... Args >
+    iterator emplace(Args&&... args);
 
     void swap(BSTree & other) noexcept;
 
@@ -380,6 +384,18 @@ redko::BSTree< Key, Value, Compare >::BSTree(BSTree && other):
 }
 
 template < typename Key, typename Value, typename Compare >
+template< class InputIt >
+redko::BSTree< Key, Value, Compare >::BSTree(InputIt first, InputIt last):
+  root_(nullptr),
+  cmp_(Compare())
+{
+  for (; first != last; ++first)
+  {
+    insert(*first);
+  }
+}
+
+template < typename Key, typename Value, typename Compare >
 redko::BSTree< Key, Value, Compare >::BSTree(std::initializer_list< value_t > init)
 {
   for (auto value : init)
@@ -509,13 +525,13 @@ Value & redko::BSTree< Key, Value, Compare >::operator[](Key && key)
 }
 
 template < typename Key, typename Value, typename Compare >
-bool redko::BSTree< Key, Value, Compare >::empty() const
+bool redko::BSTree< Key, Value, Compare >::empty() const noexcept
 {
   return (root_ == nullptr);
 }
 
 template < typename Key, typename Value, typename Compare >
-size_t redko::BSTree< Key, Value, Compare >::size() const
+size_t redko::BSTree< Key, Value, Compare >::size() const noexcept
 {
   return getCountNode(root_);
 }
@@ -604,6 +620,14 @@ size_t redko::BSTree< Key, Value, Compare >::erase(const Key & key)
 }
 
 template < typename Key, typename Value, typename Compare >
+template< class... Args >
+typename redko::BSTree< Key, Value, Compare >::iterator redko::BSTree< Key, Value, Compare >::emplace(Args &&... args)
+{
+  root_ = insertTo(root_, value_t(std::forward< Args >(args)...));
+  return find(value_t(std::forward< Args >(args)...).first);
+}
+
+template < typename Key, typename Value, typename Compare >
 void redko::BSTree< Key, Value, Compare >::swap(BSTree & other) noexcept
 {
   Node * tmp = root_;
@@ -674,7 +698,7 @@ const_range< Key, Value, Compare > redko::BSTree< Key, Value, Compare >::equalRa
 }
 
 template < typename Key, typename Value, typename Compare >
-typename redko::BSTree< Key, Value, Compare >::iterator redko::BSTree< Key, Value, Compare >::lowerBound(const Key & key )
+typename redko::BSTree< Key, Value, Compare >::iterator redko::BSTree< Key, Value, Compare >::lowerBound(const Key & key)
 {
   for (iterator curr = begin(); curr != end(); ++curr)
   {
@@ -687,7 +711,7 @@ typename redko::BSTree< Key, Value, Compare >::iterator redko::BSTree< Key, Valu
 }
 
 template < typename Key, typename Value, typename Compare >
-typename redko::BSTree< Key, Value, Compare >::const_iterator redko::BSTree< Key, Value, Compare >::lowerBound(const Key & key ) const
+typename redko::BSTree< Key, Value, Compare >::const_iterator redko::BSTree< Key, Value, Compare >::lowerBound(const Key & key) const
 {
   for (const_iterator curr = cbegin(); curr != cend(); ++curr)
   {
@@ -700,7 +724,7 @@ typename redko::BSTree< Key, Value, Compare >::const_iterator redko::BSTree< Key
 }
 
 template < typename Key, typename Value, typename Compare >
-typename redko::BSTree< Key, Value, Compare >::iterator redko::BSTree< Key, Value, Compare >::upperBound(const Key & key )
+typename redko::BSTree< Key, Value, Compare >::iterator redko::BSTree< Key, Value, Compare >::upperBound(const Key & key)
 {
   for (iterator curr = begin(); curr != end(); ++curr)
   {
@@ -713,7 +737,7 @@ typename redko::BSTree< Key, Value, Compare >::iterator redko::BSTree< Key, Valu
 }
 
 template < typename Key, typename Value, typename Compare >
-typename redko::BSTree< Key, Value, Compare >::const_iterator redko::BSTree< Key, Value, Compare >::upperBound(const Key & key ) const
+typename redko::BSTree< Key, Value, Compare >::const_iterator redko::BSTree< Key, Value, Compare >::upperBound(const Key & key) const
 {
   for (const_iterator curr = cbegin(); curr != cend(); ++curr)
   {
