@@ -10,7 +10,7 @@ namespace miheev
   public:
     postfix_t();
     postfix_t(const postfix_t&);
-    postfix_t(const element_t&);
+    explicit postfix_t(const element_t&);
     postfix_t& operator=(const postfix_t&);
 
     const Operand& getOperand() const;

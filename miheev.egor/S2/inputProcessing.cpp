@@ -1,5 +1,6 @@
 #include "inputProcessing.hpp"
 #include "expressionElement.hpp"
+#include "postfixElement.hpp"
 #include "queue.hpp"
 
 namespace miheev
@@ -7,7 +8,7 @@ namespace miheev
   std::string getSymbol(std::string&);
   element_t convertToElement(std::string);
   element_t getElement(std::string&);
-  Queue< element_t > lineToPosfix(std::string line);
+  Queue< postfix_t > lineToPosfix(std::string line);
   long long calcLine(std::string);
   void printTypes(miheev::Queue< element_t >);
 }
@@ -35,15 +36,15 @@ miheev::element_t miheev::convertToElement(std::string s)
   }
   else if (s == "(")
   {
-    result.setParenthesis(miheev::Parenthesis{s[0]});
+    result.setParenthesis(s[0]);
   }
   else if (s == ")")
   {
-    result.setParenthesis(miheev::Parenthesis{')'});
+    result.setParenthesis(')');
   }
   else
   {
-    result.setOperand(miheev::Operand(stoll(s)));
+    result.setOperand(stoll(s));
   }
   return result;
 }
@@ -89,10 +90,10 @@ bool shouldPushOpToStack(const miheev::Stack< miheev::element_t >& stack, const 
   return false;
 }
 
-miheev::Queue< miheev::element_t > miheev::lineToPosfix(std::string line)
+miheev::Queue< miheev::postfix_t > miheev::lineToPosfix(std::string line)
 {
   Stack< miheev::element_t > stack;
-  Queue< miheev::element_t > queue;
+  Queue< miheev::postfix_t > queue;
   miheev::element_t current;
   while (line != "")
   {
@@ -107,7 +108,7 @@ miheev::Queue< miheev::element_t > miheev::lineToPosfix(std::string line)
       {
         while (!isOpeningParenthesisOnTop(stack))
         {
-          miheev::element_t temp = stack.top();
+          miheev::postfix_t temp(stack.top());
           stack.pop();
           queue.push(temp);
         }
@@ -116,22 +117,24 @@ miheev::Queue< miheev::element_t > miheev::lineToPosfix(std::string line)
     }
     else if (current.getType() == "operand")
     {
-      queue.push(current);
+      miheev::postfix_t temp(current);
+      queue.push(temp);
     }
     else if (current.getType() == "operation")
     {
       while (!shouldPushOpToStack(stack, current))
       {
-        miheev::element_t temp = stack.top();
+        miheev::postfix_t temp(stack.top());
         stack.pop();
-        queue.push(temp);
+        queue.emplace(temp);
       }
       stack.push(current);
     }
   }
   while (!stack.empty())
   {
-    queue.push(stack.top());
+    miheev::postfix_t temp(stack.top());
+    queue.push(temp);
     stack.pop();
   }
   return queue;
@@ -150,10 +153,10 @@ void miheev::printTypes(miheev::Queue< miheev::element_t > q)
 long long miheev::calcLine(std::string line)
 {
   miheev::Stack< Operand > stack;
-  Queue< miheev::element_t > postfix = miheev::lineToPosfix(line);
+  Queue< miheev::postfix_t > postfix = miheev::lineToPosfix(line);
   while (!postfix.empty())
   {
-    miheev::element_t current = postfix.front();
+    miheev::postfix_t current = postfix.front();
     postfix.pop();
     if (current.getType() == "operand")
     {

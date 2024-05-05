@@ -20,8 +20,11 @@ namespace miheev
     const std::string getType() const;
 
     void setOperand(const Operand& rhs);
+    void setOperand(long long);
     void setOperation(const Operation& rhs);
+    void setOperation(char);
     void setParenthesis(const Parenthesis& rhs);
+    void setParenthesis(char);
 
   private:
     Operand operand;

@@ -7,11 +7,11 @@ namespace miheev
   {
   public:
     Operand() = default;
+    explicit Operand(long long val);
 
     void setValue(long long);
     long long getValue() const;
 
-    explicit Operand(long long val);
     Operand operator+(const Operand& rhs) const;
     Operand operator-(const Operand& rhs) const;
     Operand operator*(const Operand& rhs) const;

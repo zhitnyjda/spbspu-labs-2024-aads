@@ -9,7 +9,7 @@ namespace miheev
   {
   public:
     Operation() = default;
-    Operation(char);
+    explicit Operation(char);
     bool operator<(const Operation& rhs) const;
     bool operator<=(const Operation& rhs) const;
     bool operator==(const Operation& rhs) const;

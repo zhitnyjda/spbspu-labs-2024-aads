@@ -31,9 +31,19 @@ void miheev::element_t::setOperand(const miheev::Operand& rhs)
   operand = rhs;
   type = "operand";
 }
+void miheev::element_t::setOperand(long long value)
+{
+  operand.setValue(value);
+  type = "operand";
+}
 void miheev::element_t::setOperation(const miheev::Operation& rhs)
 {
   operation = rhs;
+  type = "operation";
+}
+void miheev::element_t::setOperation(char op)
+{
+  operation.setOperation(op);
   type = "operation";
 }
 void miheev::element_t::setParenthesis(const miheev::Parenthesis& rhs)
@@ -41,6 +51,12 @@ void miheev::element_t::setParenthesis(const miheev::Parenthesis& rhs)
   parenthesis = rhs;
   type = "parenthesis";
 }
+void miheev::element_t::setParenthesis(char par)
+{
+  parenthesis.parenthesis = par;
+  type = "parenthesis";
+}
+
 
 miheev::element_t& miheev::element_t::operator=(const element_t& rhs)
 {
