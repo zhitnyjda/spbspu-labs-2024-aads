@@ -7,6 +7,10 @@ namespace miheev
   {
   public:
     Operand() = default;
+
+    void setValue(long long);
+    long long getValue();
+
     explicit Operand(long long val);
     Operand operator+(const Operand& rhs) const;
     Operand operator-(const Operand& rhs) const;
@@ -14,7 +18,7 @@ namespace miheev
     Operand operator/(const Operand& rhs) const;
     Operand operator%(const Operand& rhs) const;
   private:
-    long long value;
+    long long value_;
   };
 }
 

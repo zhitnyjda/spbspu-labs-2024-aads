@@ -18,7 +18,7 @@ miheev::element_t& miheev::element_t::operator=(const element_t& rhs)
   }
   else if (rhs.type == "operand")
   {
-    operand = Operand(rhs.operand.value);
+    operand = Operand(rhs.operand.value_);
   }
   else if (rhs.type == "parenthesis")
   {

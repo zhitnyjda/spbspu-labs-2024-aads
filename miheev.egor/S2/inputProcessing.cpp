@@ -46,7 +46,7 @@ miheev::element_t miheev::convertToElement(std::string s)
   }
   else
   {
-    result.operand.value = stoll(s);
+    result.operand.value_ = stoll(s);
     result.type = "operand";
   }
   return result;
@@ -139,7 +139,7 @@ long long miheev::calcLine(std::string line)
   {
     throw std::runtime_error("not all operands are used. check your expression");
   }
-  return stack.top().value;
+  return stack.top().value_;
 }
 
 miheev::Stack< long long > miheev::processInput(std::istream& in)
