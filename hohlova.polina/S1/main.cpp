@@ -53,7 +53,7 @@ int main()
         ++pos;
       }
     }
-    if (nums.empty())
+    if (nums.empty() && hasData == false)
     {
       nums.push_back(0);
     }
