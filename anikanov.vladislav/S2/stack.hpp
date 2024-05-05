@@ -36,7 +36,7 @@ anikanov::Stack< T >::Stack(const Stack &rhs)
 template< typename T >
 anikanov::Stack< T >::Stack(Stack &&rhs) noexcept
 {
-  list(std::move(rhs.list));
+  list = std::move(rhs.list);
 }
 
 template< typename T >
@@ -68,14 +68,14 @@ size_t anikanov::Stack< T >::getSize() const
 template< typename T >
 void anikanov::Stack< T >::push(const T &value)
 {
-  list.pushBack(value);
+  list.push_back(value);
 }
 
 template< typename T >
 void anikanov::Stack< T >::pop()
 {
   assert(!list.empty());
-  list.popBack();
+  list.pop();
 }
 
 #endif

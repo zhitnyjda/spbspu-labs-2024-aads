@@ -32,13 +32,13 @@ namespace anikanov {
 template< typename T >
 anikanov::Queue< T >::Queue(const Queue &rhs)
 {
-  list = rhs.queue;
+  list = rhs.list;
 }
 
 template< typename T >
 anikanov::Queue< T >::Queue(Queue &&rhs) noexcept
 {
-  list(std::move(rhs.queue));
+  list = std::move(rhs.list);
 }
 
 template< typename T >
