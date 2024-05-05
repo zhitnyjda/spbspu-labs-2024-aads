@@ -129,10 +129,7 @@ int main()
             sum += (*it).second[i];
           }
         }
-        if (!hasData)
-        {
-          sums.push_back(sum);
-        }
+        sums.push_back(sum);
       }
     }
     catch (const std::overflow_error& e)
