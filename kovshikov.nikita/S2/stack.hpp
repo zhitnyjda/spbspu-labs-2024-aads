@@ -14,7 +14,11 @@ namespace kovshikov
     ~Stack() = default;
 
     void push(const Stack< T > val);
-    
+    T& top();
+    void pop();
+
+    size_t getSize() const;
+    bool isEmpty() const;
   private:
     DoubleList< T > stack;
   }
@@ -36,6 +40,40 @@ template< T >
 void kovshikov::Stack< T >::push(const Stack< T > val)
 {
   stack.pushBack(val);
+}
+
+template< typename T >
+T& kovshikov::Stack< T >::top()
+{
+  return stack.back();
+}
+
+template< typename T >
+void kovshikov::Stack< T >::pop()
+{
+  stack.popBack();
+}
+
+template< T >
+size_t kovshikov::Stack< T >::getSize() const
+{
+  size_t size = 0;
+  // iterator start
+  // iterator finish
+  // в цикле посчитать размер списка
+  DoubleList< T >::Iterator start = stack.begin();
+  DoubleList< T >::Iterator finish = stack.end();
+  while(start != finish)
+  {
+    size += 1;
+  }
+  return size;
+}
+
+template< typename T >
+bool kovshikov::Stack< T >::isEmpty() const
+{
+  return stack.empty()
 }
 
 #endif
