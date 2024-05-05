@@ -13,7 +13,7 @@ bool anikanov::Bracket::isBracket() const noexcept
 
 bool anikanov::Bracket::isForward() const noexcept
 {
-  if (value == "("){
+  if (value == "(") {
     return true;
   }
   return false;
@@ -21,7 +21,7 @@ bool anikanov::Bracket::isForward() const noexcept
 
 bool anikanov::Bracket::isBackward() const noexcept
 {
-  if (value == ")"){
+  if (value == ")") {
     return true;
   }
   return false;

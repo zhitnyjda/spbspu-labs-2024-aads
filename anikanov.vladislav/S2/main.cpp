@@ -2,7 +2,6 @@
 #include <string>
 #include <sstream>
 #include "queue.hpp"
-#include "stack.hpp"
 #include "mainExtension.hpp"
 #include "elementOfExpression.hpp"
 #include "operand.hpp"

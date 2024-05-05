@@ -4,7 +4,7 @@
 #include "elementOfExpression.hpp"
 
 namespace anikanov {
-  class Operand: public ElementOfExpression {
+  class Operand : public ElementOfExpression {
   public:
     Operand() = default;
     explicit Operand(std::string value);

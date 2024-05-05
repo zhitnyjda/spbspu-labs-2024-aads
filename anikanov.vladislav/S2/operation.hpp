@@ -4,7 +4,7 @@
 #include "elementOfExpression.hpp"
 
 namespace anikanov {
-  class Operation: public ElementOfExpression {
+  class Operation : public ElementOfExpression {
   public:
     Operation() = default;
     explicit Operation(std::string value);
