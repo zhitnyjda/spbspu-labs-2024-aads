@@ -31,23 +31,23 @@ miheev::element_t miheev::convertToElement(std::string s)
   miheev::element_t result;
   if (s == "+" || s == "-" || s == "*" || s == "/" || s == "%")
   {
-    result.operation.operation = s[0];
-    result.type = "operation";
+    result.setOperation(s[0]);
+    result.setType("operation");
   }
   else if (s == "(")
   {
-    result.parenthesis.parenthesis = s[0];
-    result.type = "parenthesis";
+    result.setParenthesis(miheev::Parenthesis{s[0]});
+    result.setType("parenthesis");
   }
   else if (s == ")")
   {
-    result.parenthesis.parenthesis = ')';
-    result.type = "parenthesis";
+    result.setParenthesis(miheev::Parenthesis{')'});
+    result.setType("parenthesis");
   }
   else
   {
-    result.operand.setValue(stoll(s));
-    result.type = "operand";
+    result.setOperand(miheev::Operand(stoll(s)));
+    result.setType("operand");
   }
   return result;
 }
@@ -65,15 +65,32 @@ bool isOpeningParenthesisOnTop(const miheev::Stack< miheev::element_t >& stack)
   {
     return false;
   }
-  if (stack.top().type != "parenthesis")
+  if (stack.top().getType() != "parenthesis")
   {
     return false;
   }
-  if (stack.top().parenthesis.parenthesis != '(')
+  if (stack.top().getParenthesis().parenthesis != '(')
   {
     return false;
   }
   return true;
+}
+
+bool shouldPushOpToStack(const miheev::Stack< miheev::element_t >& stack, const miheev::element_t& curr)
+{
+  if (stack.empty())
+  {
+    return true;
+  }
+  if (stack.top().getType() != "operation")
+  {
+    return true;
+  }
+  if (curr.getOperation() < stack.top().getOperation())
+  {
+    return true;
+  }
+  return false;
 }
 
 miheev::Queue< miheev::element_t > miheev::lineToPosfix(std::string line)
@@ -84,15 +101,15 @@ miheev::Queue< miheev::element_t > miheev::lineToPosfix(std::string line)
   while (line != "")
   {
     current = getElement(line);
-    if (current.type == "parenthesis")
+    if (current.getType() == "parenthesis")
     {
-      if (current.parenthesis.parenthesis == '(')
+      if (current.getParenthesis().parenthesis == '(')
       {
         stack.push(current);
       }
       else
       {
-        while (isOpeningParenthesisOnTop(stack))
+        while (!isOpeningParenthesisOnTop(stack))
         {
           miheev::element_t temp = stack.drop();
           queue.push(temp);
@@ -100,13 +117,13 @@ miheev::Queue< miheev::element_t > miheev::lineToPosfix(std::string line)
         stack.pop();
       }
     }
-    else if (current.type == "operand")
+    else if (current.getType() == "operand")
     {
       queue.push(current);
     }
-    else if (current.type == "operation")
+    else if (current.getType() == "operation")
     {
-      while (!stack.empty() && stack.top().type == "operation" && current.operation >= stack.top().operation)
+      while (!shouldPushOpToStack(stack, current))
       {
         miheev::element_t temp = stack.drop();
         queue.push(temp);
@@ -125,7 +142,7 @@ void miheev::printTypes(miheev::Queue< miheev::element_t > q)
 {
   while (!q.empty())
   {
-    std::cout << q.drop().type << ' ';
+    std::cout << q.drop().getType() << ' ';
   }
   std::cout << '\n';
 }
@@ -137,15 +154,15 @@ long long miheev::calcLine(std::string line)
   while (!postfix.empty())
   {
     miheev::element_t current = postfix.drop();
-    if (current.type == "operand")
+    if (current.getType() == "operand")
     {
-      stack.push(current.operand);
+      stack.push(current.getOperand());
     }
-    else if(current.type == "operation")
+    else if(current.getType() == "operation")
     {
       Operand rhs = stack.drop();
       Operand lhs = stack.drop();
-      stack.push(current.operation.implement(lhs, rhs));
+      stack.push(current.getOperation().implement(lhs, rhs));
     }
     else
     {
