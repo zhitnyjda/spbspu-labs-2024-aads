@@ -31,7 +31,7 @@ void printSequences(const gorbunova::List<std::pair<std::string, std::vector< un
       std::cout << " ";
     }
   }
-    std::cout << std::endl;
+  std::cout << std::endl;
 }
 
 std::vector<std::string> splitString(const std::string &input)

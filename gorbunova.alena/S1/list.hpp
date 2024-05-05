@@ -71,7 +71,7 @@ namespace gorbunova
     void reverse();
     void insert(ListIterator pos, const T &value);
     void erase(ListIterator pos);
-    size_t getSize();
+    size_t getSize() const;
     ListIterator begin() const;
     ListIterator end() const;
   };
