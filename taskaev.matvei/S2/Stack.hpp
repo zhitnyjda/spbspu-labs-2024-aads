@@ -10,8 +10,8 @@ namespace taskaev
   public:
     Stack();
     ~Stack() = default;
-    Stack(const Stack< T >& other);
     Stack(Stack< T >&& other);
+    Stack(const Stack< T >& other);
     void push(const T& value);
     void pop();
     bool isEmpty() const noexcept;
@@ -59,6 +59,5 @@ T& taskaev::Stack< T >::top()
 {
   return container_.front();
 }
-
 
 #endif
