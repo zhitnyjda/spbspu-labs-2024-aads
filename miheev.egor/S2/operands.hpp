@@ -9,7 +9,7 @@ namespace miheev
     Operand() = default;
 
     void setValue(long long);
-    long long getValue();
+    long long getValue() const;
 
     explicit Operand(long long val);
     Operand operator+(const Operand& rhs) const;

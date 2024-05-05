@@ -11,7 +11,7 @@ void miheev::Operand::setValue(long long val)
   value_ = val;
 }
 
-long long miheev::Operand::getValue()
+long long miheev::Operand::getValue() const
 {
   return value_;
 }
