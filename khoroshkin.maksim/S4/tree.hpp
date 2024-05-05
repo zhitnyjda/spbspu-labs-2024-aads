@@ -428,6 +428,7 @@ khoroshkin::Tree< Key, Value, Comp >::Tree(Tree && rhs) :
   root(nullptr), size(std::move(rhs.size))
 {
   root = copyTree(std::move(rhs.root), nullptr);
+  rhs.clear();
   rhs.root = nullptr;
   rhs.size = 0;
 }
