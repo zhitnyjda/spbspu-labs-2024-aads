@@ -5,12 +5,12 @@
 #include <utility>
 #include <iterator>
 #include <cmath>
-#include <iostream>
+#include <initializer_list>
 
 namespace khoroshkin
 {
-  template< typename Key, typename Value, typename Compare = std::less< Key > >
-  class Map
+  template< typename Key, typename Value, typename Comp = std::less< Key > >
+  class Tree
   {
   public:
     class Node;
@@ -21,19 +21,24 @@ namespace khoroshkin
     using const_iterator = ConstIterator;
     using value_type = std::pair< const Key, Value >;
 
-    Map();
-    Map(const Map & rhs);
-    ~Map();
+    Tree();
+    Tree(size_t count, const value_type & keyAndValue);
+    Tree(std::initializer_list< value_type > init);
+    Tree(const Tree & rhs);
+    Tree(Tree && rhs);
+    ~Tree();
 
     void insert(Key key, Value value);
     void insert(value_type pair);
+    template< class... Args >
+    void emplace(Args&&... args);
     size_t erase(const Key & key);
     iterator find(const Key & key);
     Value & operator[](const Key & key);
     void clear();
 
-    bool isEmpty() const;
-    size_t getSize() const;
+    bool isEmpty() const noexcept;
+    size_t getSize() const noexcept;
 
     iterator begin() noexcept;
     iterator end() noexcept;
@@ -58,17 +63,19 @@ namespace khoroshkin
     void rightLeftRotate(Node * node);
     void leftRightRotate(Node * node);
 
-    Node * copyMap(Node * node, Node * parent);
+    Node * copyTree(Node * node, Node * parent);
     Node * findMin(Node * node);
     Node * findMax(Node * node);
+
+    void doBalance(Node * overweight);
   };
 }
 
-template< typename Key, typename Value, typename Compare >
-class khoroshkin::Map< Key, Value, Compare >::Node
+template< typename Key, typename Value, typename Comp >
+class khoroshkin::Tree< Key, Value, Comp >::Node
 {
 public:
-  friend class Map;
+  friend class Tree;
 
   Node(Key key_, Value data_, Node * parent = nullptr, int height_ = 0, Node * left_ = nullptr, Node * right_ = nullptr);
 
@@ -80,15 +87,16 @@ private:
   Node * right;
 };
 
-template< typename Key, typename Value, typename Compare >
-khoroshkin::Map< Key, Value, Compare >::Node::Node(Key key_, Value data_, Node * parent_, int height_, Node * left_, Node * right_) :
+
+template< typename Key, typename Value, typename Comp >
+khoroshkin::Tree< Key, Value, Comp >::Node::Node(Key key_, Value data_, Node * parent_, int height_, Node * left_, Node * right_) :
   kv_pair(std::make_pair(key_, data_)), parent(parent_), height(height_), left(left_), right(right_)
 {}
 
-template< typename Key, typename Value, typename Compare >
-typename khoroshkin::Map< Key,Value,Compare >::Node * khoroshkin::Map< Key,Value,Compare >::insert(Key k, Value v, Node* node, Node * prev)
+template< typename Key, typename Value, typename Comp >
+typename khoroshkin::Tree< Key,Value,Comp >::Node * khoroshkin::Tree< Key,Value,Comp >::insert(Key k, Value v, Node* node, Node * prev)
 {
-  Compare comp;
+  Comp comp;
   if (node == nullptr)
   {
     node = new Node(k, v, prev);
@@ -105,10 +113,10 @@ typename khoroshkin::Map< Key,Value,Compare >::Node * khoroshkin::Map< Key,Value
   return node;
 }
 
-template< typename Key, typename Value, typename Compare >
-typename khoroshkin::Map< Key, Value, Compare >::iterator khoroshkin::Map< Key, Value, Compare >::find(const Key & key, Node * node)
+template< typename Key, typename Value, typename Comp >
+typename khoroshkin::Tree< Key, Value, Comp >::iterator khoroshkin::Tree< Key, Value, Comp >::find(const Key & key, Node * node)
 {
-  Compare comp;
+  Comp comp;
   if (node == nullptr)
   {
     return Iterator(ConstIterator(nullptr, root));
@@ -128,8 +136,8 @@ typename khoroshkin::Map< Key, Value, Compare >::iterator khoroshkin::Map< Key, 
   throw std::logic_error("such element not exist");
 }
 
-template< typename Key, typename Value, typename Compare >
-void khoroshkin::Map< Key, Value, Compare >::clear(Node * node)
+template< typename Key, typename Value, typename Comp >
+void khoroshkin::Tree< Key, Value, Comp >::clear(Node * node)
 {
   if (node == nullptr)
   {
@@ -140,11 +148,11 @@ void khoroshkin::Map< Key, Value, Compare >::clear(Node * node)
   delete node;
 }
 
-template< typename Key, typename Value, typename Compare >
-class khoroshkin::Map< Key, Value, Compare >::ConstIterator : public std::iterator< std::bidirectional_iterator_tag, value_type >
+template< typename Key, typename Value, typename Comp >
+class khoroshkin::Tree< Key, Value, Comp >::ConstIterator : public std::iterator< std::bidirectional_iterator_tag, value_type >
 {
   public:
-    friend class Map< Key, Value, Compare >;
+    friend class Tree< Key, Value, Comp >;
     using this_t = ConstIterator;
 
     ConstIterator();
@@ -169,18 +177,18 @@ class khoroshkin::Map< Key, Value, Compare >::ConstIterator : public std::iterat
     ConstIterator(Node * node, Node * root);
 };
 
-template< typename Key, typename Value, typename Compare >
-khoroshkin::Map< Key, Value, Compare >::ConstIterator::ConstIterator() :
+template< typename Key, typename Value, typename Comp >
+khoroshkin::Tree< Key, Value, Comp >::ConstIterator::ConstIterator() :
   node_(nullptr), root_(nullptr)
 {}
 
-template< typename Key, typename Value, typename Compare >
-khoroshkin::Map< Key, Value, Compare >::ConstIterator::ConstIterator(Node * node, Node * root) :
+template< typename Key, typename Value, typename Comp >
+khoroshkin::Tree< Key, Value, Comp >::ConstIterator::ConstIterator(Node * node, Node * root) :
   node_(node), root_(root)
 {}
 
-template< typename Key, typename Value, typename Compare >
-typename khoroshkin::Map< Key, Value, Compare >::ConstIterator & khoroshkin::Map< Key, Value, Compare >::ConstIterator::operator++()
+template< typename Key, typename Value, typename Comp >
+typename khoroshkin::Tree< Key, Value, Comp >::ConstIterator & khoroshkin::Tree< Key, Value, Comp >::ConstIterator::operator++()
 {
   if (node_->right)
   {
@@ -203,16 +211,16 @@ typename khoroshkin::Map< Key, Value, Compare >::ConstIterator & khoroshkin::Map
   return *this;
 }
 
-template< typename Key, typename Value, typename Compare >
-typename khoroshkin::Map< Key, Value, Compare >::ConstIterator khoroshkin::Map< Key, Value, Compare >::ConstIterator::operator++(int)
+template< typename Key, typename Value, typename Comp >
+typename khoroshkin::Tree< Key, Value, Comp >::ConstIterator khoroshkin::Tree< Key, Value, Comp >::ConstIterator::operator++(int)
 {
   this_t result(*this);
   ++(*this);
   return result;
 }
 
-template< typename Key, typename Value, typename Compare >
-typename khoroshkin::Map< Key, Value, Compare >::ConstIterator & khoroshkin::Map< Key, Value, Compare >::ConstIterator::operator--()
+template< typename Key, typename Value, typename Comp >
+typename khoroshkin::Tree< Key, Value, Comp >::ConstIterator & khoroshkin::Tree< Key, Value, Comp >::ConstIterator::operator--()
 {
   if (node_ == nullptr)
   {
@@ -246,43 +254,43 @@ typename khoroshkin::Map< Key, Value, Compare >::ConstIterator & khoroshkin::Map
   return *this;
 }
 
-template< typename Key, typename Value, typename Compare >
-typename khoroshkin::Map< Key, Value, Compare >::ConstIterator khoroshkin::Map< Key, Value, Compare >::ConstIterator::operator--(int)
+template< typename Key, typename Value, typename Comp >
+typename khoroshkin::Tree< Key, Value, Comp >::ConstIterator khoroshkin::Tree< Key, Value, Comp >::ConstIterator::operator--(int)
 {
   this_t result(*this);
   --(*this);
   return result;
 }
 
-template < typename Key, typename Value, typename Compare >
-const typename khoroshkin::Map< Key,Value,Compare >::value_type & khoroshkin::Map< Key,Value,Compare >::ConstIterator::operator*() const
+template < typename Key, typename Value, typename Comp >
+const typename khoroshkin::Tree< Key,Value,Comp >::value_type & khoroshkin::Tree< Key,Value,Comp >::ConstIterator::operator*() const
 {
   return node_->kv_pair;
 }
 
-template < typename Key, typename Value, typename Compare >
-const typename khoroshkin::Map< Key,Value,Compare >::value_type * khoroshkin::Map< Key,Value,Compare >::ConstIterator::operator->() const
+template < typename Key, typename Value, typename Comp >
+const typename khoroshkin::Tree< Key,Value,Comp >::value_type * khoroshkin::Tree< Key,Value,Comp >::ConstIterator::operator->() const
 {
   return std::addressof(node_->kv_pair);
 }
 
-template < typename Key, typename Value, typename Compare >
-bool khoroshkin::Map< Key, Value, Compare >::ConstIterator::operator==(const this_t & rhs) const
+template < typename Key, typename Value, typename Comp >
+bool khoroshkin::Tree< Key, Value, Comp >::ConstIterator::operator==(const this_t & rhs) const
 {
   return node_ == rhs.node_;
 }
 
-template < typename Key, typename Value, typename Compare >
-bool khoroshkin::Map< Key, Value, Compare >::ConstIterator::operator!=(const this_t & rhs) const
+template < typename Key, typename Value, typename Comp >
+bool khoroshkin::Tree< Key, Value, Comp >::ConstIterator::operator!=(const this_t & rhs) const
 {
   return !(*this == rhs);
 }
 
-template< typename Key, typename Value, typename Compare >
-class khoroshkin::Map< Key, Value, Compare >::Iterator : public std::iterator< std::bidirectional_iterator_tag, Key, Value, Compare >
+template< typename Key, typename Value, typename Comp >
+class khoroshkin::Tree< Key, Value, Comp >::Iterator : public std::iterator< std::bidirectional_iterator_tag, Key, Value, Comp >
 {
   public:
-    friend class Map< Key, Value, Compare >;
+    friend class Tree< Key, Value, Comp >;
     using this_t = Iterator;
     Iterator();
     Iterator(ConstIterator iter);
@@ -307,114 +315,148 @@ class khoroshkin::Map< Key, Value, Compare >::Iterator : public std::iterator< s
     ConstIterator iter_;
 };
 
-template< typename Key, typename Value, typename Compare >
-khoroshkin::Map< Key, Value, Compare >::Iterator::Iterator() :
+template< typename Key, typename Value, typename Comp >
+khoroshkin::Tree< Key, Value, Comp >::Iterator::Iterator() :
   iter_(ConstIterator())
 {}
 
-template< typename Key, typename Value, typename Compare >
-khoroshkin::Map< Key, Value, Compare >::Iterator::Iterator(ConstIterator iter) :
+template< typename Key, typename Value, typename Comp >
+khoroshkin::Tree< Key, Value, Comp >::Iterator::Iterator(ConstIterator iter) :
   iter_(iter)
 {}
 
-template< typename Key, typename Value, typename Compare >
-typename khoroshkin::Map< Key, Value, Compare >::Iterator::this_t & khoroshkin::Map< Key, Value, Compare >::Iterator::operator++()
+template< typename Key, typename Value, typename Comp >
+typename khoroshkin::Tree< Key, Value, Comp >::Iterator::this_t & khoroshkin::Tree< Key, Value, Comp >::Iterator::operator++()
 {
   ++iter_;
   return *this;
 }
 
-template< typename Key, typename Value, typename Compare >
-typename khoroshkin::Map< Key, Value, Compare >::Iterator::this_t khoroshkin::Map< Key, Value, Compare >::Iterator::operator++(int)
+template< typename Key, typename Value, typename Comp >
+typename khoroshkin::Tree< Key, Value, Comp >::Iterator::this_t khoroshkin::Tree< Key, Value, Comp >::Iterator::operator++(int)
 {
   this_t result = iter_;
   ++iter_;
   return result;
 }
 
-template< typename Key, typename Value, typename Compare >
-typename khoroshkin::Map< Key, Value, Compare >::Iterator & khoroshkin::Map< Key, Value, Compare >::Iterator::operator--()
+template< typename Key, typename Value, typename Comp >
+typename khoroshkin::Tree< Key, Value, Comp >::Iterator & khoroshkin::Tree< Key, Value, Comp >::Iterator::operator--()
 {
   --iter_;
   return *this;
 }
 
-template< typename Key, typename Value, typename Compare >
-typename khoroshkin::Map< Key, Value, Compare >::Iterator khoroshkin::Map< Key, Value, Compare >::Iterator::operator--(int)
+template< typename Key, typename Value, typename Comp >
+typename khoroshkin::Tree< Key, Value, Comp >::Iterator khoroshkin::Tree< Key, Value, Comp >::Iterator::operator--(int)
 {
   this_t result = iter_;
   --iter_;
   return result;
 }
 
-template< typename Key, typename Value, typename Compare >
-typename khoroshkin::Map< Key, Value, Compare >::value_type & khoroshkin::Map< Key, Value, Compare >::Iterator::operator*()
+template< typename Key, typename Value, typename Comp >
+typename khoroshkin::Tree< Key, Value, Comp >::value_type & khoroshkin::Tree< Key, Value, Comp >::Iterator::operator*()
 {
   return iter_.node_->kv_pair;
 }
 
-template< typename Key, typename Value, typename Compare >
-typename khoroshkin::Map< Key, Value, Compare >::value_type * khoroshkin::Map< Key, Value, Compare >::Iterator::operator->()
+template< typename Key, typename Value, typename Comp >
+typename khoroshkin::Tree< Key, Value, Comp >::value_type * khoroshkin::Tree< Key, Value, Comp >::Iterator::operator->()
 {
   return std::addressof(iter_.node_->kv_pair);
 }
 
-template< typename Key, typename Value, typename Compare >
-const typename khoroshkin::Map< Key, Value, Compare >::value_type & khoroshkin::Map< Key, Value, Compare >::Iterator::operator*() const
+template< typename Key, typename Value, typename Comp >
+const typename khoroshkin::Tree< Key, Value, Comp >::value_type & khoroshkin::Tree< Key, Value, Comp >::Iterator::operator*() const
 {
   return iter_.node_->kv_pair;
 }
 
-template< typename Key, typename Value, typename Compare >
-const typename khoroshkin::Map< Key, Value, Compare >::value_type * khoroshkin::Map< Key, Value, Compare >::Iterator::operator->() const
+template< typename Key, typename Value, typename Comp >
+const typename khoroshkin::Tree< Key, Value, Comp >::value_type * khoroshkin::Tree< Key, Value, Comp >::Iterator::operator->() const
 {
   return std::addressof(iter_.node_->kv_pair);
 }
 
-template< typename Key, typename Value, typename Compare >
-bool khoroshkin::Map< Key, Value, Compare >::Iterator::operator!=(const this_t & rhs) const
+template< typename Key, typename Value, typename Comp >
+bool khoroshkin::Tree< Key, Value, Comp >::Iterator::operator!=(const this_t & rhs) const
 {
   return !(rhs == *this);
 }
 
-template< typename Key, typename Value, typename Compare >
-bool khoroshkin::Map< Key, Value, Compare >::Iterator::operator==(const this_t & rhs) const
+template< typename Key, typename Value, typename Comp >
+bool khoroshkin::Tree< Key, Value, Comp >::Iterator::operator==(const this_t & rhs) const
 {
   return iter_ == rhs.iter_;
 }
 
-template< typename Key, typename Value, typename Compare >
-khoroshkin::Map< Key, Value, Compare >::Map() :
+template< typename Key, typename Value, typename Comp >
+khoroshkin::Tree< Key, Value, Comp >::Tree() :
   root(nullptr), size(0)
 {}
 
-template< typename Key, typename Value, typename Compare >
-khoroshkin::Map< Key, Value, Compare >::Map(const Map & rhs) :
+template< typename Key, typename Value, typename Comp >
+khoroshkin::Tree< Key, Value, Comp >::Tree(size_t count, const value_type & keyAndValue) :
   root(nullptr), size(0)
 {
-  root = copyMap(rhs.root, nullptr);
-  size = rhs.size;
+  for (size_t i = 0; i < count; ++i)
+  {
+    insert(keyAndValue);
+  }
 }
 
-template< typename Key, typename Value, typename Compare >
-khoroshkin::Map< Key, Value, Compare >::~Map()
+template< typename Key, typename Value, typename Comp >
+khoroshkin::Tree< Key, Value, Comp >::Tree(std::initializer_list< value_type > init) :
+  root(nullptr), size(0)
+{
+  for (auto it = init.begin(); it != init.end(); ++it)
+  {
+    insert(*it);
+  }
+}
+
+template< typename Key, typename Value, typename Comp >
+khoroshkin::Tree< Key, Value, Comp >::Tree(const Tree & rhs) :
+  root(nullptr), size(rhs.size)
+{
+  root = copyTree(rhs.root, nullptr);
+}
+
+template< typename Key, typename Value, typename Comp >
+khoroshkin::Tree< Key, Value, Comp >::Tree(Tree && rhs) :
+  root(nullptr), size(std::move(rhs.size))
+{
+  root = copyTree(std::move(rhs.root), nullptr);
+  rhs.root = nullptr;
+  rhs.size = 0;
+}
+
+template< typename Key, typename Value, typename Comp >
+khoroshkin::Tree< Key, Value, Comp >::~Tree()
 {
   clear();
   root = nullptr;
 }
 
-template< typename Key, typename Value, typename Compare >
-void khoroshkin::Map< Key, Value, Compare >::insert(khoroshkin::Map< Key, Value, Compare >::value_type pair)
+template< typename Key, typename Value, typename Comp >
+void khoroshkin::Tree< Key, Value, Comp >::insert(khoroshkin::Tree< Key, Value, Comp >::value_type pair)
 {
   insert(pair.first, pair.second);
 }
 
-template< typename Key, typename Value, typename Compare >
-void khoroshkin::Map< Key, Value, Compare >::insert(Key key, Value value)
+template< typename Key, typename Value, typename Comp >
+void khoroshkin::Tree< Key, Value, Comp >::insert(Key key, Value value)
 {
   root = insert(key, value, root, nullptr);
   updateHeight(root);
   Node * overweight = isBalanced(find(key).iter_.node_);
+  doBalance(overweight);
+}
+
+template< typename Key, typename Value, typename Comp >
+void khoroshkin::Tree< Key, Value, Comp >::doBalance(Node * overweight)
+{
   while (overweight)
   {
     if (checkBalance(overweight) == 2)
@@ -443,8 +485,8 @@ void khoroshkin::Map< Key, Value, Compare >::insert(Key key, Value value)
   }
 }
 
-template< typename Key, typename Value, typename Compare >
-size_t khoroshkin::Map< Key, Value, Compare >::erase(const Key & key)
+template< typename Key, typename Value, typename Comp >
+size_t khoroshkin::Tree< Key, Value, Comp >::erase(const Key & key)
 {
   auto todelete = find(key);
   if (todelete == end())
@@ -546,38 +588,13 @@ size_t khoroshkin::Map< Key, Value, Compare >::erase(const Key & key)
   }
   updateHeight(root);
   Node * overweight = isBalanced(toCheckBalance);
-  while (overweight)
-  {
-    if (checkBalance(overweight) == 2)
-    {
-      if (checkBalance(overweight->right) >= 0)
-      {
-        leftRotate(overweight);
-      }
-      else
-      {
-        rightLeftRotate(overweight);
-      }
-    }
-    else
-    {
-      if (checkBalance(overweight->left) < 0)
-      {
-        rightRotate(overweight);
-      }
-      else
-      {
-        leftRightRotate(overweight);
-      }
-    }
-    overweight = isBalanced(overweight);
-  }
+  doBalance(overweight);
   size--;
   return 1;
 }
 
-template< typename Key, typename Value, typename Compare >
-void khoroshkin::Map< Key, Value, Compare >::leftRotate(Node * node)
+template< typename Key, typename Value, typename Comp >
+void khoroshkin::Tree< Key, Value, Comp >::leftRotate(Node * node)
 {
   if (node->parent)
   {
@@ -608,8 +625,8 @@ void khoroshkin::Map< Key, Value, Compare >::leftRotate(Node * node)
   updateHeight(root);
 }
 
-template< typename Key, typename Value, typename Compare >
-void khoroshkin::Map< Key, Value, Compare >::rightRotate(Node * node)
+template< typename Key, typename Value, typename Comp >
+void khoroshkin::Tree< Key, Value, Comp >::rightRotate(Node * node)
 {
   if (node->parent)
   {
@@ -640,52 +657,52 @@ void khoroshkin::Map< Key, Value, Compare >::rightRotate(Node * node)
   updateHeight(root);
 }
 
-template< typename Key, typename Value, typename Compare >
-void khoroshkin::Map< Key, Value, Compare >::rightLeftRotate(Node * node)
+template< typename Key, typename Value, typename Comp >
+void khoroshkin::Tree< Key, Value, Comp >::rightLeftRotate(Node * node)
 {
   rightRotate(node->right);
   leftRotate(node);
 }
 
-template< typename Key, typename Value, typename Compare >
-void khoroshkin::Map< Key, Value, Compare >::leftRightRotate(Node * node)
+template< typename Key, typename Value, typename Comp >
+void khoroshkin::Tree< Key, Value, Comp >::leftRightRotate(Node * node)
 {
   leftRotate(node->left);
   rightRotate(node);
 }
 
-template< typename Key, typename Value, typename Compare >
-typename khoroshkin::Map< Key, Value, Compare >::iterator khoroshkin::Map< Key, Value, Compare >::find(const Key & key)
+template< typename Key, typename Value, typename Comp >
+typename khoroshkin::Tree< Key, Value, Comp >::iterator khoroshkin::Tree< Key, Value, Comp >::find(const Key & key)
 {
   return find(key, root);
 }
 
-template< typename Key, typename Value, typename Compare >
-Value & khoroshkin::Map< Key, Value, Compare >::operator[](const Key & key)
+template< typename Key, typename Value, typename Comp >
+Value & khoroshkin::Tree< Key, Value, Comp >::operator[](const Key & key)
 {
   return (*find(key, root)).second;
 }
 
-template< typename Key, typename Value, typename Compare >
-void khoroshkin::Map< Key, Value, Compare >::clear()
+template< typename Key, typename Value, typename Comp >
+void khoroshkin::Tree< Key, Value, Comp >::clear()
 {
   clear(root);
 }
 
-template< typename Key, typename Value, typename Compare >
-bool khoroshkin::Map< Key, Value, Compare >::isEmpty() const
+template< typename Key, typename Value, typename Comp >
+bool khoroshkin::Tree< Key, Value, Comp >::isEmpty() const noexcept
 {
   return !size;
 }
 
-template< typename Key, typename Value, typename Compare >
-size_t khoroshkin::Map< Key, Value, Compare >::getSize() const
+template< typename Key, typename Value, typename Comp >
+size_t khoroshkin::Tree< Key, Value, Comp >::getSize() const noexcept
 {
   return size;
 }
 
-template< typename Key, typename Value, typename Compare >
-typename khoroshkin::Map< Key, Value, Compare >::iterator khoroshkin::Map< Key, Value, Compare >::begin() noexcept
+template< typename Key, typename Value, typename Comp >
+typename khoroshkin::Tree< Key, Value, Comp >::iterator khoroshkin::Tree< Key, Value, Comp >::begin() noexcept
 {
   if (isEmpty())
   {
@@ -699,14 +716,14 @@ typename khoroshkin::Map< Key, Value, Compare >::iterator khoroshkin::Map< Key, 
   return Iterator(ConstIterator(temp, root));
 }
 
-template< typename Key, typename Value, typename Compare >
-typename khoroshkin::Map< Key, Value, Compare >::iterator khoroshkin::Map< Key, Value, Compare >::end() noexcept
+template< typename Key, typename Value, typename Comp >
+typename khoroshkin::Tree< Key, Value, Comp >::iterator khoroshkin::Tree< Key, Value, Comp >::end() noexcept
 {
   return Iterator(ConstIterator(nullptr, root));
 }
 
-template< typename Key, typename Value, typename Compare >
-typename khoroshkin::Map< Key, Value, Compare >::const_iterator khoroshkin::Map< Key, Value, Compare >::cbegin() const noexcept
+template< typename Key, typename Value, typename Comp >
+typename khoroshkin::Tree< Key, Value, Comp >::const_iterator khoroshkin::Tree< Key, Value, Comp >::cbegin() const noexcept
 {
   if (isEmpty())
   {
@@ -720,20 +737,20 @@ typename khoroshkin::Map< Key, Value, Compare >::const_iterator khoroshkin::Map<
   return ConstIterator(temp, root);
 }
 
-template< typename Key, typename Value, typename Compare >
-typename khoroshkin::Map< Key, Value, Compare >::const_iterator khoroshkin::Map< Key, Value, Compare >::cend() const noexcept
+template< typename Key, typename Value, typename Comp >
+typename khoroshkin::Tree< Key, Value, Comp >::const_iterator khoroshkin::Tree< Key, Value, Comp >::cend() const noexcept
 {
   return ConstIterator(nullptr, root);
 }
 
-template< typename Key, typename Value, typename Compare >
-int khoroshkin::Map< Key, Value, Compare >::getHeight(Node * node)
+template< typename Key, typename Value, typename Comp >
+int khoroshkin::Tree< Key, Value, Comp >::getHeight(Node * node)
 {
   return (node) ? node->height : 0;
 }
 
-template< typename Key, typename Value, typename Compare >
-size_t khoroshkin::Map< Key, Value, Compare >::updateHeight(Node * node)
+template< typename Key, typename Value, typename Comp >
+size_t khoroshkin::Tree< Key, Value, Comp >::updateHeight(Node * node)
 {
   if (node == nullptr)
   {
@@ -742,14 +759,14 @@ size_t khoroshkin::Map< Key, Value, Compare >::updateHeight(Node * node)
   return node->height = std::max(updateHeight(node->left), updateHeight(node->right)) + 1;
 }
 
-template< typename Key, typename Value, typename Compare >
-int khoroshkin::Map< Key, Value, Compare >::checkBalance(Node * node)
+template< typename Key, typename Value, typename Comp >
+int khoroshkin::Tree< Key, Value, Comp >::checkBalance(Node * node)
 {
   return getHeight(node->right) - getHeight(node->left);
 }
 
-template< typename Key, typename Value, typename Compare >
-typename khoroshkin::Map< Key, Value, Compare >::Node * khoroshkin::Map< Key, Value, Compare >::isBalanced(Node * node)
+template< typename Key, typename Value, typename Comp >
+typename khoroshkin::Tree< Key, Value, Comp >::Node * khoroshkin::Tree< Key, Value, Comp >::isBalanced(Node * node)
 {
   Node * temp = node;
   while (temp)
@@ -763,21 +780,21 @@ typename khoroshkin::Map< Key, Value, Compare >::Node * khoroshkin::Map< Key, Va
   return nullptr;
 }
 
-template< typename Key, typename Value, typename Compare >
-typename khoroshkin::Map< Key, Value, Compare >::Node * khoroshkin::Map< Key, Value, Compare >::copyMap(Node * node, Node * parent)
+template< typename Key, typename Value, typename Comp >
+typename khoroshkin::Tree< Key, Value, Comp >::Node * khoroshkin::Tree< Key, Value, Comp >::copyTree(Node * node, Node * parent)
 {
   if (node == nullptr)
   {
     return nullptr;
   }
   Node * newnode = new Node(node->kv_pair.first, node->kv_pair.second, parent, node->height);
-  newnode->left = copyMap(node->left, newnode);
-  newnode->right = copyMap(node->right, newnode);
+  newnode->left = copyTree(node->left, newnode);
+  newnode->right = copyTree(node->right, newnode);
   return newnode;
 }
 
-template< typename Key, typename Value, typename Compare >
-typename khoroshkin::Map< Key, Value, Compare >::Node * khoroshkin::Map< Key, Value, Compare >::findMin(Node * node)
+template< typename Key, typename Value, typename Comp >
+typename khoroshkin::Tree< Key, Value, Comp >::Node * khoroshkin::Tree< Key, Value, Comp >::findMin(Node * node)
 {
   if (node && node->left)
   {
@@ -786,14 +803,21 @@ typename khoroshkin::Map< Key, Value, Compare >::Node * khoroshkin::Map< Key, Va
   return node;
 }
 
-template< typename Key, typename Value, typename Compare >
-typename khoroshkin::Map< Key, Value, Compare >::Node * khoroshkin::Map< Key, Value, Compare >::findMax(Node * node)
+template< typename Key, typename Value, typename Comp >
+typename khoroshkin::Tree< Key, Value, Comp >::Node * khoroshkin::Tree< Key, Value, Comp >::findMax(Node * node)
 {
   if (node && node->right)
   {
     return findMax(node->right);
   }
   return node;
+}
+
+template< typename Key, typename Value, typename Comp >
+template< class... Args >
+void khoroshkin::Tree< Key, Value, Comp >::emplace(Args&&... args)
+{
+  insert(std::forward< Args >(args)...);
 }
 
 #endif

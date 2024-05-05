@@ -5,8 +5,9 @@
 #include <fstream>
 #include <utility>
 #include <limits>
-#include "map.hpp"
-#include "funcs.hpp"
+#include <functional>
+#include "tree.hpp"
+#include "commands.hpp"
 
 int main(int argc, char * argv[])
 {
@@ -17,7 +18,7 @@ int main(int argc, char * argv[])
     return 2;
   }
 
-  Map< std::string, Map< long long, std::string > > mapOfDataSets{};
+  Tree< std::string, Tree< long long, std::string > > TreeOfDataSets{};
   std::ifstream input(argv[1]);
   if (!input)
   {
@@ -30,37 +31,39 @@ int main(int argc, char * argv[])
   {
     size_t pos = 0;
     std::string name = getString(line, pos);
-    khoroshkin::Map< long long, std::string > datasets{};
+    khoroshkin::Tree< long long, std::string > datasets{};
     while (pos < line.length())
     {
       long long key = getKey(line, pos);
       std::string value = getString(line, pos);
       datasets.insert(key, value);
     }
-    mapOfDataSets.insert(name, datasets);
+    TreeOfDataSets.insert(name, datasets);
   }
 
-  Map< std::string, std::function< void(Map< std::string, Map< long long, std::string > > & map) > > mapOfFuntions{};
-  mapOfFuntions.insert("print", print);
-  mapOfFuntions.insert("complement", complement);
-  mapOfFuntions.insert("intersect", intersect);
-  mapOfFuntions.insert("union", unite);
+  Tree< std::string, std::function< void(Tree< std::string, Tree< long long, std::string > > & Tree) > > TreeOfFuntions{};
+  TreeOfFuntions.insert("print", print);
+  TreeOfFuntions.insert("complement", complement);
+  TreeOfFuntions.insert("intersect", intersect);
+  TreeOfFuntions.insert("union", unite);
 
+  auto outInvalid = std::bind(outMessage, std::placeholders::_1, "<INVALID COMMAND>\n");
   while (!std::cin.eof())
   {
     std::string todo;
     std::cin >> todo;
 
-    auto function = mapOfFuntions.find(todo);
-    if (function == mapOfFuntions.end() && todo.length() > 0)
+    auto function = TreeOfFuntions.find(todo);
+    if (function == TreeOfFuntions.end() && todo.length() > 0)
     {
-      std::cout << "<INVALID COMMAND>\n";
+      outInvalid(std::cout);
       std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
     }
     else if (todo.length() > 0)
     {
-      (*function).second(mapOfDataSets);
+      (*function).second(TreeOfDataSets);
     }
   }
+
   return 0;
 }
