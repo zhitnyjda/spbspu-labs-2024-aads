@@ -86,7 +86,8 @@ bool sukacheva::ElementOfStatement::operator==(const char val)
     Operation op = applicant;
     return op == val;
   }
-  else {
+  else
+  {
     return applicant[0] == val;
   }
 }

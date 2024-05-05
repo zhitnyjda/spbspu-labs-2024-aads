@@ -8,16 +8,15 @@ namespace sukacheva {
   {
   public:
     Stack();
-    ~Stack() = default;
     Stack(const Stack&);
     Stack(Stack&& other);
+    ~Stack() = default;
 
     bool empty() const noexcept;
     size_t getSize() noexcept;
     void push(const T& value);
     void push(T&& value);
-    T& top() noexcept;
-    const T& top() const noexcept;
+    T& top() const noexcept;
     void pop();
     void swap(Stack& other) noexcept;
 
@@ -68,13 +67,7 @@ void sukacheva::Stack< T >::push(T&& value)
 }
 
 template< typename T >
-T& sukacheva::Stack< T >::top() noexcept
-{
-  return container.front();
-}
-
-template< typename T >
-const T& sukacheva::Stack< T >::top() const noexcept
+T& sukacheva::Stack< T >::top() const noexcept
 {
   return container.front();
 }

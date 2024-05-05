@@ -120,7 +120,8 @@ long long sukacheva::calculate(Postfix& postfix)
     }
     else if (postfix.postfix.front().isBinaryOperations())
     {
-      if (stack.getSize() >= 2) {
+      if (stack.getSize() >= 2)
+      {
         long long operand2 = stack.top();
         stack.pop();
         long long operand1 = stack.top();

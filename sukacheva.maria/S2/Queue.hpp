@@ -8,16 +8,15 @@ namespace sukacheva {
   {
   public:
     Queue();
-    ~Queue() = default;
     Queue(const Queue&);
     Queue(Queue&& other);
+    ~Queue() = default;
 
     bool empty() const noexcept;
     size_t getSize() const noexcept;
     T& front() noexcept;
     const T& front() const noexcept;
-    T& back() noexcept;
-    const T& back() const noexcept;
+    T& back() const noexcept;
     void push(const T& value);
     void push(T&& value);
     void pop();
@@ -70,13 +69,7 @@ const T& sukacheva::Queue< T >::front() const noexcept
 }
 
 template< typename T >
-T& sukacheva::Queue< T >::back() noexcept
-{
-  return container.back();
-}
-
-template< typename T >
-const T& sukacheva::Queue< T >::back() const noexcept
+T& sukacheva::Queue< T >::back() const noexcept
 {
   return container.back();
 }

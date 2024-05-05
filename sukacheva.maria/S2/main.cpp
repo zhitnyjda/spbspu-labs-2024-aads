@@ -1,9 +1,9 @@
 #include <iostream>
 #include <iosfwd>
 #include <string>
+#include <fstream>
 #include "DataProcessing.hpp"
 #include "DataTypes.hpp"
-#include <fstream>
 #include "Queue.hpp"
 #include "Stack.hpp"
 
