@@ -10,7 +10,7 @@ namespace miheev
   struct element_t
   {
     element_t();
-    element_t(const element_t&);
+    explicit element_t(const element_t&);
     element_t& operator=(const element_t&);
 
     Operand operand;

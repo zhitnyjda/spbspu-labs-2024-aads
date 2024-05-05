@@ -8,11 +8,15 @@ miheev::Operand::Operand(long long val):
 
 miheev::Operand miheev::Operand::operator+(const miheev::Operand& rhs) const
 {
-  if (value > 0 && rhs.value > 0 && std::numeric_limits< long long >::max() - value < rhs.value)
+  bool overflowIsPossible = value > 0 && rhs.value > 0;
+  bool isOverflow = std::numeric_limits< long long >::max() - value < rhs.value;
+  if ( overflowIsPossible && isOverflow)
   {
     throw std::logic_error("plus op has overflow\n");
   }
-  if (value < 0 && rhs.value < 0 && std::numeric_limits< long long >::min() - value > rhs.value)
+  bool underflowIsPossible = value < 0 && rhs.value < 0;
+  bool isUnderflow = std::numeric_limits< long long >::min() - value > rhs.value;
+  if (underflowIsPossible && isUnderflow)
   {
     throw std::logic_error("plus op has underflow\n");
   }
@@ -20,11 +24,15 @@ miheev::Operand miheev::Operand::operator+(const miheev::Operand& rhs) const
 }
 miheev::Operand miheev::Operand::operator-(const miheev::Operand& rhs) const
 {
-  if (value < 0 && rhs.value > 0 && std::numeric_limits< long long >::min() - value > -rhs.value)
+  bool underflowIsPossible = value < 0 && rhs.value > 0;
+  bool isUnderflow = std::numeric_limits< long long >::min() - value > -rhs.value;
+  if ( underflowIsPossible && isUnderflow)
   {
     throw std::logic_error("minus op has underflow\n");
   }
-  if (value > 0 && rhs.value < 0 && std::numeric_limits< long long >::max() + value < -rhs.value)
+  bool overflowIsPossbile = value > 0 && rhs.value < 0;
+  bool isOverflow = std::numeric_limits< long long >::max() + value < -rhs.value;
+  if (overflowIsPossbile && isOverflow)
   {
     throw std::logic_error("minus op has overflow\n");
   }
@@ -33,11 +41,13 @@ miheev::Operand miheev::Operand::operator-(const miheev::Operand& rhs) const
 miheev::Operand miheev::Operand::operator*(const miheev::Operand& rhs) const
 {
   bool areSameSign = (value > 0 && rhs.value > 0) || (value < 0 && rhs.value < 0);
-  if (areSameSign && std::numeric_limits< long long >::max() / std::abs(value) < std::abs(rhs.value))
+  bool isOverflow = std::numeric_limits< long long >::max() / std::abs(value) < std::abs(rhs.value);
+  if (areSameSign && isOverflow)
   {
     throw std::logic_error("multiply op has overflow\n");
   }
-  if (!areSameSign && std::abs(std::numeric_limits< long long >::min() / value) < std::abs(rhs.value))
+  bool isUnderflow = std::abs(std::numeric_limits< long long >::min() / value) < std::abs(rhs.value);
+  if (!areSameSign && isUnderflow)
   {
     throw std::logic_error("multiply op has underflow\n");
   }

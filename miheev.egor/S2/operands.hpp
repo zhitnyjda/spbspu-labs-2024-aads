@@ -13,6 +13,7 @@ namespace miheev
     Operand operator*(const Operand& rhs) const;
     Operand operator/(const Operand& rhs) const;
     Operand operator%(const Operand& rhs) const;
+  private:
     long long value;
   };
 }
