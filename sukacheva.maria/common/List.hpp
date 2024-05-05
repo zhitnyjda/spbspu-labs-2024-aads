@@ -26,10 +26,8 @@ namespace sukacheva {
 
     Iterator operator[](size_t index);
 
-    void 
-Front(const T& data);
-    void 
-Back(const T& data);
+    void pushFront(const T& data);
+    void pushBack(const T& data);
     void popFront();
     void clean() noexcept;
     void swap(List& other) noexcept;
@@ -196,8 +194,7 @@ void sukacheva::List< T >::assign(std::initializer_list<T> ilist)
   clean();
   Iterator it = ilist.begin();
   while (it) {
-    
-Back(it.node->data);
+    pushBack(it.node->data);
     it++;
   }
 }
@@ -208,8 +205,7 @@ void sukacheva::List< T >::assign(InputIt first, InputIt last)
 {
   clean();
   while (first != last) {
-    
-Back(first);
+    pushBack(first);
     first++;
   }
 }
@@ -219,8 +215,7 @@ void sukacheva::List< T >::assign(size_t count, const T& value)
 {
   clean();
   for (size_t i = 0; i != count; ++i) {
-    
-Back(value);
+    pushBack(value);
   }
 }
 
@@ -283,8 +278,7 @@ void sukacheva::List< T >::reverse()
   size_t tempSize = listSize;
   for (size_t i = tempSize - 1; i != -1; i--)
   {
-    
-Back(this->operator[](i)->data);
+    pushBack(this->operator[](i)->data);
   }
   for (size_t i = 0; i != tempSize; i++)
   {
@@ -312,8 +306,7 @@ typename sukacheva::List< T >::Iterator sukacheva::List< T >::operator[](size_t 
 }
 
 template< typename T >
-void sukacheva::List< T >::
-Back(const T& data)
+void sukacheva::List< T >::pushBack(const T& data)
 {
   sukacheva::details::Node< T >* newNode = new sukacheva::details::Node< T >(data);
   if (empty()) {
@@ -328,8 +321,7 @@ Back(const T& data)
 }
 
 template< typename T >
-void sukacheva::List< T >::
-Front(const T& data)
+void sukacheva::List< T >::pushFront(const T& data)
 {
   sukacheva::details::Node< T >* newNode = new sukacheva::details::Node< T >(data);
   if (empty()) {
@@ -404,8 +396,7 @@ sukacheva::List< T >::List(const List&) :
 {
   Iterator it = begin();
   while (it.node) {
-    this->
-Back(it.node->data);
+    this->pushBack(it.node->data);
     ++it;
   }
 }
@@ -425,8 +416,7 @@ template< typename T >
 sukacheva::List< T >::List(size_t count, const T& value) : List()
 {
   for (size_t i = 0; i != count; ++i) {
-    
-Back(value);
+    pushBack(value);
   }
 }
 
@@ -435,8 +425,7 @@ sukacheva::List< T >::List(std::initializer_list<T> init) : List()
 {
   Iterator it = init.begin();
   while (it) {
-    
-Back(it.node->data);
+    pushBack(it.node->data);
     it++;
   }
 }
@@ -446,8 +435,7 @@ template< typename InputIt >
 sukacheva::List< T >::List(InputIt first, InputIt last) : List()
 {
   while (first != last) {
-    
-Back(first);
+    pushBack(first);
     first++;
   }
 }
