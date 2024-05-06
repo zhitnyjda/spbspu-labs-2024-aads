@@ -94,7 +94,11 @@ void nikiforov::operations(std::string operand, nikiforov::Stack< long long >& s
 
   if (operand == "+")
   {
-    if (rNum > maxValue - lNum || rNum < maxValue + lNum)
+    if (rNum > 0 && lNum > 0 && (rNum > maxValue - lNum))
+    {
+      throw std::overflow_error("Error: overflow");
+    }
+    if (rNum < 0 && lNum < 0 && (rNum < maxValue - lNum))
     {
       throw std::overflow_error("Error: overflow");
     }
@@ -102,7 +106,11 @@ void nikiforov::operations(std::string operand, nikiforov::Stack< long long >& s
   }
   else if (operand == "-")
   {
-    if (rNum > maxValue + lNum || rNum < maxValue - lNum)
+    if (lNum > 0 && rNum < 0 && (lNum > std::numeric_limits< long long >::max() + rNum))
+    {
+      throw std::overflow_error("Error: overflow");
+    }
+    if (lNum < 0 && rNum > 0 && (lNum < std::numeric_limits< long long >::min() + rNum))
     {
       throw std::overflow_error("Error: overflow");
     }
@@ -110,15 +118,15 @@ void nikiforov::operations(std::string operand, nikiforov::Stack< long long >& s
   }
   else if (operand == "/")
   {
-    if ((rNum / lNum >= maxValue) || (rNum / lNum <= minValue))
-    {
-      throw std::overflow_error("Error: overflow");
-    }
     stack.push_back(lNum / rNum);
   }
   else if (operand == "*")
   {
-    if ((rNum >= maxValue / lNum) || (rNum <= minValue / lNum))
+    if (((lNum > 0 && rNum > 0) || (lNum < 0 && rNum < 0)) && (abs(rNum) > abs(maxValue / lNum)))
+    {
+      throw std::overflow_error("Error: overflow");
+    }
+    if (((lNum > 0 && rNum < 0) || (lNum < 0 && rNum > 0)) && (abs(rNum) > abs(minValue / lNum)))
     {
       throw std::overflow_error("Error: overflow");
     }
