@@ -101,7 +101,7 @@ long long calculate(anikanov::Queue< std::shared_ptr< anikanov::ElementOfExpress
         }
         result = left + right;
       } else if (operation->getValue() == "-") {
-        if (left < 0 && right > std::numeric_limits< long long >::max() + left) {
+        if (left < 0 && right > std::numeric_limits< long long >::max() + left + 1) {
           throw std::underflow_error("Underflow error");
         }
         result = left - right;
