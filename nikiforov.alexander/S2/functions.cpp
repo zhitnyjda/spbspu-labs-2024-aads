@@ -1,114 +1,114 @@
 #include "functions.hpp"
 
-using ListStr = nikiforov::List< std::string >;
-
-void nikiforov::convertToPostfix(std::string str, ListStr& Queue)
+void nikiforov::convertToPostfix(std::string str, Queue< std::string >& queue)
 {
-  ListStr Stack;
-  std::string elemSeq = "";
+  Stack< std::string > stack;
   size_t count1 = str.find(" ");
+  nikiforov::dataTypes elemSeq;
 
   while (count1 != std::string::npos)
   {
     count1 = str.find(" ");
-    elemSeq = str.substr(0, str.find_first_of(" ", 0));
-    str = str.substr(str.find(" ") + 1);
+    elemSeq = getType(str);
 
-    if (isdigit(elemSeq[0]))
+    if (elemSeq.type_ == operand)
     {
-      Queue.push_back(elemSeq);
+      queue.push_back(elemSeq.data_);
     }
     else
     {
-      if (elemSeq == "(")
+      if (elemSeq.type_ == bracket)
       {
-        Stack.push_back(elemSeq);
-      }
-      else if (elemSeq == ")")
-      {
-        while (Stack.back() != "(")
+        if (elemSeq.data_ == "(")
         {
-          Queue.push_back(Stack.back());
-          Stack.pop_back();
-        }
-        Stack.pop_back();
-      }
-      else if (!Stack.is_empty())
-      {
-        if (nikiforov::calculationPriority(elemSeq) <= nikiforov::calculationPriority(Stack.back()))
-        {
-          Queue.push_back(Stack.back());
-          Stack.pop_back();
-          Stack.push_back(elemSeq);
+          stack.push_back(elemSeq.data_);
         }
         else
         {
-          Stack.push_back(elemSeq);
+          while (stack.back() != "(")
+          {
+            queue.push_back(stack.back());
+            stack.pop_back();
+          }
+          stack.pop_back();
+        }
+      }
+      else if (!stack.is_empty())
+      {
+        if (nikiforov::calculationPriority(elemSeq.data_) <= nikiforov::calculationPriority(stack.back()))
+        {
+          queue.push_back(stack.back());
+          stack.pop_back();
+          stack.push_back(elemSeq.data_);
+        }
+        else
+        {
+          stack.push_back(elemSeq.data_);
         }
       }
       else
       {
-        Stack.push_back(elemSeq);
+        stack.push_back(elemSeq.data_);
       }
     }
   }
-  while (!Stack.is_empty() && Stack.back() != "(")
+  while (!stack.is_empty() && stack.back() != "(")
   {
-    Queue.push_back(Stack.back());
-    Stack.pop_back();
+    queue.push_back(stack.back());
+    stack.pop_back();
   }
 }
 
-void nikiforov::calculation(ListStr& Postfix, nikiforov::List< long long >& Result)
+void nikiforov::calculation(Queue< std::string >& Postfix, nikiforov::List< long long >& Result)
 {
   std::string elemSeq = "";
-  nikiforov::List< long long > Queue;
+  nikiforov::Stack< long long > stack;
 
   while (!Postfix.is_empty())
   {
     elemSeq = Postfix.front();
     if (isdigit(elemSeq[0]))
     {
-      Queue.push_back(stoll(Postfix.front()));
+      stack.push_back(stoll(Postfix.front()));
     }
     else
     {
-      operation(elemSeq, Queue);
+      operations(elemSeq, stack);
     }
     Postfix.pop_front();
   }
-  if (!Queue.is_empty())
+  if (!stack.is_empty())
   {
-    Result.push_back(Queue.back());
+    Result.push_back(stack.back());
   }
 }
 
-void nikiforov::operation(std::string operand, nikiforov::List< long long >& Queue)
+void nikiforov::operations(std::string operand, nikiforov::Stack< long long >& stack)
 {
-  long long rNum = Queue.back();
-  Queue.pop_back();
-  long long lNum = Queue.back();
-  Queue.pop_back();
+  long long rNum = stack.back();
+  stack.pop_back();
+  long long lNum = stack.back();
+  stack.pop_back();
 
   if (operand == "+")
   {
-    Queue.push_back(lNum + rNum);
+    stack.push_back(lNum + rNum);
   }
   else if (operand == "-")
   {
-    Queue.push_back(lNum - rNum);
+    stack.push_back(lNum - rNum);
   }
   else if (operand == "/")
   {
-    Queue.push_back(lNum / rNum);
+    stack.push_back(lNum / rNum);
   }
   else if (operand == "*")
   {
-    Queue.push_back(lNum * rNum);
+    stack.push_back(lNum * rNum);
   }
   else if (operand == "%")
   {
-    Queue.push_back(lNum % rNum);
+    stack.push_back(lNum % rNum);
   }
   else
   {
@@ -126,12 +126,8 @@ size_t nikiforov::calculationPriority(std::string elemSeq)
   {
     return 2;
   }
-  else if (elemSeq == "(")
-  {
-    return 0;
-  }
   else
   {
-    throw std::invalid_argument("Error: invalid operand");
+    return 0;
   }
 }

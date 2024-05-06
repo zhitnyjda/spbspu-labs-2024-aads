@@ -1,18 +1,32 @@
 #include "functions.hpp"
+#include <fstream>
 
-int main()
+int main(int argc, char* argv[])
 {
   using namespace nikiforov;
 
+  if (argc != 2)
+  {
+    std::cerr << "Error: wrong number of parameters\n";
+    return 2;
+  }
+
+  std::ifstream input(argv[1]);
+  if (!input)
+  {
+    std::cerr << "Error: unable to open the file\n";
+    return 2;
+  }
+
   List< long long > Result;
-  List< std::string > Postfix;
+  Queue< std::string > Postfix;
   std::string infix = "";
 
   try
   {
-    while (!std::cin.eof())
+    while (!input.eof())
     {
-      std::getline(std::cin, infix);
+      std::getline(input, infix);
       convertToPostfix(infix, Postfix);
       calculation(Postfix, Result);
     }
@@ -21,11 +35,6 @@ int main()
     {
       std::cout << *iter << "\n";
     }
-  }
-  catch (const std::overflow_error& e)
-  {
-    std::cerr << e.what() << "\n";
-    return 1;
   }
   catch (const std::exception& e)
   {
