@@ -1,6 +1,7 @@
 #include "mainExtension.hpp"
 
 #include <iostream>
+#include <limits>
 #include <sstream>
 #include "stack.hpp"
 #include "elementOfExpression.hpp"
@@ -60,7 +61,7 @@ anikanov::Queue< std::shared_ptr< anikanov::ElementOfExpression > > toPostfix(co
 
   while (!operators.isEmpty()) {
     auto oper = operators.top();
-    if (oper->isBracket()){
+    if (oper->isBracket()) {
       throw std::invalid_argument("Invalid expression");
     }
     output.push(operators.top());
@@ -68,4 +69,66 @@ anikanov::Queue< std::shared_ptr< anikanov::ElementOfExpression > > toPostfix(co
   }
 
   return output;
+}
+
+long long calculate(anikanov::Queue< std::shared_ptr< anikanov::ElementOfExpression > > &postfix)
+{
+  using namespace anikanov;
+  Stack< std::shared_ptr< ElementOfExpression > > stack;
+
+  while (!postfix.isEmpty()) {
+    auto element = postfix.front();
+    postfix.pop();
+
+    if (element->isNumber()) {
+      stack.push(element);
+    } else {
+      auto operation = std::dynamic_pointer_cast< Operation >(element);
+
+      if (stack.getSize() < 2) {
+        throw std::invalid_argument("Invalid expression");
+      }
+
+      auto right = std::dynamic_pointer_cast< Operand >(stack.top())->getValue();
+      stack.pop();
+      auto left = std::dynamic_pointer_cast< Operand >(stack.top())->getValue();
+      stack.pop();
+      long long result = 0;
+
+      if (operation->getValue() == "+") {
+        if (left > 0 && right > std::numeric_limits< long long >::max() - left) {
+          throw std::overflow_error("Overflow error");
+        }
+        result = left + right;
+      } else if (operation->getValue() == "-") {
+        if (left < 0 && right > std::numeric_limits< long long >::max() + left) {
+          throw std::underflow_error("Underflow error");
+        }
+        result = left - right;
+      } else if (operation->getValue() == "*") {
+        if (left != 0 && right > std::numeric_limits< long long >::max() / left) {
+          throw std::overflow_error("Overflow error");
+        }
+        result = left * right;
+      } else if (operation->getValue() == "/") {
+        if (right == 0) {
+          throw std::invalid_argument("Division by zero");
+        }
+        result = left / right;
+      } else if (operation->getValue() == "%") {
+        if (right == 0) {
+          throw std::invalid_argument("Division by zero");
+        }
+        result = left % right;
+      }
+
+      stack.push(std::make_shared< Operand >(result));
+    }
+  }
+
+  if (stack.getSize() != 1) {
+    throw std::invalid_argument("Invalid expression");
+  }
+
+  return std::dynamic_pointer_cast< Operand >(stack.top())->getValue();
 }

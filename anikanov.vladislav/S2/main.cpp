@@ -2,40 +2,51 @@
 #include <string>
 #include <sstream>
 #include "queue.hpp"
+#include "stack.hpp"
 #include "mainExtension.hpp"
 #include "elementOfExpression.hpp"
-#include "operand.hpp"
-#include "operation.hpp"
 
 int main()
 {
   using namespace anikanov;
   std::string expression;
-  std::getline(std::cin, expression);
-
   anikanov::Queue< std::shared_ptr< ElementOfExpression > > postfix;
+  anikanov::Stack< long long > answers;
 
-  try {
-    postfix = toPostfix(expression);
-  } catch (const std::invalid_argument &err) {
-    std::cerr << err.what() << "\n";
-    return 1;
-  } catch (const std::out_of_range &err) {
-    std::cerr << err.what() << "\n";
-    return 1;
-  }
-
-  while (!postfix.isEmpty()) {
-    auto element = postfix.front();
-    if (element->isNumber()) {
-      std::cout << std::dynamic_pointer_cast< Operand >(element)->getValue();
-    } else {
-      std::cout << std::dynamic_pointer_cast< Operation >(element)->getValue();
+  while (std::getline(std::cin, expression)) {
+    if (expression.empty()) {
+      expression.clear();
+      continue;
     }
-    std::cout << " ";
-    postfix.pop();
+
+    try {
+      postfix = toPostfix(expression);
+    } catch (const std::invalid_argument &err) {
+      std::cerr << err.what() << "\n";
+      return 1;
+    } catch (const std::out_of_range &err) {
+      std::cerr << err.what() << "\n";
+      return 1;
+    } catch (const std::overflow_error &err) {
+      std::cerr << err.what() << "\n";
+      return 2;
+    } catch (const std::underflow_error &err) {
+      std::cerr << err.what() << "\n";
+      return 2;
+    }
+
+    answers.push(calculate(postfix));
+    expression.clear();
   }
-  std::cout << std::endl;
+  while (!answers.isEmpty()) {
+    std::cout << answers.top();
+    answers.pop();
+    if (!answers.isEmpty()) {
+      std::cout << " ";
+    }
+  }
+
+  std::cout << "\n";
 
   return 0;
 }

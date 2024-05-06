@@ -14,4 +14,6 @@ bool checkForward(const elementType &element);
 
 anikanov::Queue< std::shared_ptr< anikanov::ElementOfExpression > > toPostfix(const std::string &expression);
 
+long long calculate(anikanov::Queue< std::shared_ptr< anikanov::ElementOfExpression > > &postfix);
+
 #endif

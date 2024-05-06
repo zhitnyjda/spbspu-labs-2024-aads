@@ -2,6 +2,11 @@
 
 #include <string>
 
+anikanov::Operand::Operand(long long int value)
+{
+  this->value = value;
+}
+
 anikanov::Operand::Operand(std::string value)
 {
   this->value = std::stoll(value);

@@ -7,6 +7,7 @@ namespace anikanov {
   class Operand : public ElementOfExpression {
   public:
     Operand() = default;
+    explicit Operand(long long value);
     explicit Operand(std::string value);
     bool isBracket() const noexcept override;
     bool isNumber() const noexcept override;
