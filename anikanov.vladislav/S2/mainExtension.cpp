@@ -119,7 +119,7 @@ long long calculate(anikanov::Queue< std::shared_ptr< anikanov::ElementOfExpress
         if (right == 0) {
           throw std::invalid_argument("Division by zero");
         }
-        result = left % right;
+        result = (left % right + right) % right;
       }
 
       stack.push(std::make_shared< Operand >(result));
