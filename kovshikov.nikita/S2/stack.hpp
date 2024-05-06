@@ -9,8 +9,8 @@ namespace kovshikov
   {
   public:
     Stack() = default;
-    Stack(const Stack< T > & s);
-    Stack(Stack< T > && s);
+    Stack(const Stack< T >& s);
+    Stack(Stack< T >&& s);
     ~Stack() = default;
 
     void push(const T& val);
@@ -25,13 +25,13 @@ namespace kovshikov
 }
 
 template< typename T >
-kovshikov::Stack< T >::Stack(const Stack< T > & s)
+kovshikov::Stack< T >::Stack(const Stack< T >& s)
 {
   stack = s.stack;
 }
 
 template< typename T >
-kovshikov::Stack< T >::Stack(Stack< T > && s)
+kovshikov::Stack< T >::Stack(Stack< T >&& s)
 {
   stack = std::move(s.stack); // stack(std::move(s.stack))
 }
@@ -58,9 +58,6 @@ template< typename T >
 size_t kovshikov::Stack< T >::getSize() const
 {
   size_t size = 0;
-  // iterator start
-  // iterator finish
-  // в цикле посчитать размер списка
   typename DoubleList< T >::Iterator start = stack.begin();
   typename DoubleList< T >::Iterator finish = stack.end();
   while(start != finish)
