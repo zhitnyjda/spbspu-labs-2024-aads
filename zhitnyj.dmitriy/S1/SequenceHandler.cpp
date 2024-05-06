@@ -32,7 +32,6 @@ void SequenceHandler::calculateSums() {
       }
       if (it != seq.end()) {
         if (sums[i] > std::numeric_limits< unsigned long long >::max() - *it) {
-          std::cout << "\n";
           delete[] sums;
           throw std::overflow_error("Sum of numbers is too big.");
         }
