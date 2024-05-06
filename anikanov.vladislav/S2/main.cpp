@@ -20,6 +20,9 @@ int main()
   } catch (const std::invalid_argument &err) {
     std::cerr << err.what() << "\n";
     return 1;
+  } catch (const std::out_of_range &err) {
+    std::cerr << err.what() << "\n";
+    return 1;
   }
 
   while (!postfix.isEmpty()) {
