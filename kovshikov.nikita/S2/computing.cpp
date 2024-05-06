@@ -37,9 +37,13 @@ int kovshikov::getPriority(char c)
 {
   if (c == '/' || c == '*' || c == '%')
   {
+    return 2;
+  }
+  else if( c == '+' || c == '-')
+  {
     return 1;
   }
-  else if (c == '+' || c == '-')
+  else
   {
     return 0;
   }
@@ -62,7 +66,6 @@ void kovshikov::getPostfix(Queue< std::string >& oldQ, Queue< std::string >& new
 {
   Stack< std::string > stack;
   std::string element = "";
-  char math = ' ';
   size_t size = oldQ.getSize();
   for(size_t i = 0; i < size; i++)
   {
@@ -78,12 +81,10 @@ void kovshikov::getPostfix(Queue< std::string >& oldQ, Queue< std::string >& new
     }
     else if(element[0] == ')')
     {
-      std::string tempOperator = "";
-      while(tempOperator[0] != '(') // || stack.isEmpty();
+      while(stack.top()[0] != '(')
       {
-        tempOperator = stack.top();
+        newQ.push(stack.top());
         stack.pop();
-        newQ.push(tempOperator);
       }
       stack.pop();
     }
@@ -103,11 +104,3 @@ void kovshikov::getPostfix(Queue< std::string >& oldQ, Queue< std::string >& new
     stack.pop();
   }
 }
-
- /* while(std::cin.eof())
-  {
-    Stack< std::string > stack; // стэк для временного хранения данных
-    Queue< std::string > finishQueue; // конечная очередь в постфиксной форме
-    Queue< std::string > startQueue // начальная очередь которая хранит в себе арифметическое выражение
-
- }*/

@@ -33,7 +33,7 @@ kovshikov::Stack< T >::Stack(const Stack< T >& s)
 template< typename T >
 kovshikov::Stack< T >::Stack(Stack< T >&& s)
 {
-  stack = std::move(s.stack); // stack(std::move(s.stack))
+  stack = std::move(s.stack);
 }
 
 template< typename T >

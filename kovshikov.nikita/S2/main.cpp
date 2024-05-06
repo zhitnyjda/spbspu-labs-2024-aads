@@ -19,7 +19,17 @@ int main(int argc, char ** argv)
   }
   else
   {
-    std::cout << "Something went wrong.\n";
+    std::cout << "Something went wrong." << "\n";
   }
-  
+  std::string first = allData.front();
+  Queue< std::string > oldQueue;
+  separateElements(first, oldQueue);
+  Queue< std::string > newQueue;
+  getPostfix(oldQueue, newQueue);
+  size_t size = newQueue.getSize();
+  for(size_t i = 0; i < size; i++)
+  {
+    std::cout << newQueue.front() << "\n";
+    newQueue.pop();
+  }
 }
