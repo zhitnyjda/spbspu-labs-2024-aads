@@ -9,6 +9,7 @@ template< typename T >
 class List {
 public:
   class Iterator;
+
   class ConstIterator;
 
 public:
@@ -24,7 +25,14 @@ public:
 
   List &operator=(const List &other);
 
-  T &operator[](size_t index);
+  T &operator[](size_t index) const;
+
+  template< typename InputIterator >
+  void assign(InputIterator first, InputIterator last) noexcept;
+
+  void assign(size_t n, const T &val) noexcept;
+
+  void assign(std::initializer_list< T > il) noexcept;
 
   template< typename Predicate >
   void remove_if(Predicate pred);
@@ -40,6 +48,7 @@ public:
   void swap(List &other) noexcept;
 
   void splice(List< T > &other) noexcept;
+
 
   void reverse() noexcept;
 
@@ -271,6 +280,31 @@ void List< T >::clear() noexcept {
 }
 
 template< typename T >
+template< typename InputIterator >
+void List< T >::assign(InputIterator first, InputIterator last) noexcept {
+  clear();
+  for (InputIterator it = first; it != last; ++it) {
+    push_back(*it);
+  }
+}
+
+template< typename T >
+void List< T >::assign(size_t n, const T &val) noexcept {
+  clear();
+  for (size_t i = 0; i < n; ++i) {
+    push_back(val);
+  }
+}
+
+template< typename T >
+void List< T >::assign(std::initializer_list< T > il) noexcept {
+  clear();
+  for (const T &value: il) {
+    push_back(value);
+  }
+}
+
+template< typename T >
 void List< T >::splice(List< T > &other) noexcept {
   if (other.head == nullptr) {
     return;
@@ -369,7 +403,7 @@ void List< T >::erase(const T &value) noexcept {
 }
 
 template< typename T >
-T &List< T >::operator[](size_t index) {
+T &List< T >::operator[](size_t index) const {
   auto current = head;
   for (size_t i = 0; i < index; ++i) {
     if (!current) throw std::out_of_range("Index is out of range.");
