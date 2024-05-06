@@ -1,5 +1,5 @@
-#ifndef QUEUE_HPP
-#define QUEUE_HPP
+#ifndef COMPUTING_HPP
+#define COMPUTING_HPP
 #include "doublelist.hpp"
 
 namespace kovshikov

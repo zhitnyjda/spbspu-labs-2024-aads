@@ -1,8 +1,7 @@
-#include "read.hpp"
+#include "computing.hpp"
 #include <cstring>
-#include <iostream>
 
-void kovshikov::readData(std::istream& in, Queue< std::string >& allData) // allData очередь очередей для хранения постфиксных форм
+void kovshikov::readData(std::istream& in, Queue< std::string >& allData)
 {
   while(!in.eof())
   {
@@ -13,6 +12,25 @@ void kovshikov::readData(std::istream& in, Queue< std::string >& allData) // all
       allData.push(expression);
     }
   }
+}
+
+void kovshikov::separateElements(std::string str, Queue< std::string >& queue)
+{
+  std::string temp = "";
+  size_t sizeStr = str.length();
+  for(size_t i = 0; i < sizeStr; i++)
+  {
+    if(str[i] != ' ')
+    {
+      temp += str[i];
+    }
+    else
+    {
+      queue.push(temp);
+      temp = "";
+    }
+  }
+  queue.push(temp)
 }
 
  /* while(std::cin.eof())
