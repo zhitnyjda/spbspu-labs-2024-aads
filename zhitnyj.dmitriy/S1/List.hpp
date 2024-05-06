@@ -9,66 +9,42 @@ template< typename T >
 class List {
 public:
   class Iterator;
-
   class ConstIterator;
 
-public:
   List();
-
+  ~List();
   List(size_t count, const T &value);
-
   List(std::initializer_list< T > init);
-
   List(const List &other);
-
   List(List &&other) noexcept;
 
   List &operator=(const List &other);
-
   T &operator[](size_t index) const;
 
   template< typename InputIterator >
   void assign(InputIterator first, InputIterator last) noexcept;
-
   void assign(size_t n, const T &val) noexcept;
-
   void assign(std::initializer_list< T > il) noexcept;
 
   template< typename Predicate >
   void remove_if(Predicate pred);
-
-  void push_front(const T &data);
-
-  void push_back(const T &data);
-
   void pop() noexcept;
-
   void clear() noexcept;
-
-  void swap(List &other) noexcept;
-
-  void splice(List< T > &other) noexcept;
-
-
   void reverse() noexcept;
-
+  void push_front(const T &data);
+  void swap(List &other) noexcept;
+  void push_back(const T &data);
+  void splice(List< T > &other) noexcept;
   void insert(size_t index, const T &value) noexcept;
-
   void erase(const T &value) noexcept;
-
   size_t size() const;
-
   bool empty() const noexcept;
 
   Iterator begin();
-
   Iterator end();
 
   ConstIterator begin() const;
-
   ConstIterator end() const;
-
-  ~List();
 
 private:
   struct Node {
@@ -82,84 +58,21 @@ private:
 };
 
 template< typename T >
-class List< T >::Iterator {
-  friend class List< T >;
-
-public:
-  Iterator(std::shared_ptr< Node > node) : node(node) {}
-
-  T &operator*() const {
-    return node->data;
-  }
-
-  T *operator->() {
-    return std::addressof(node->data);
-  }
-
-  Iterator &operator++() {
-    node = node->next;
-    return *this;
-  }
-
-  Iterator operator++(int) {
-    Iterator tmp = *this;
-    ++(*this);
-    return tmp;
-  }
-
-  Iterator operator+(int n) const {
-    Iterator temp = *this;
-    while (n-- > 0 && temp.node != nullptr) {
-      temp.node = temp.node->next;
-    }
-    return temp;
-  }
-
-  Iterator &operator+=(int n) {
-    for (int i = 0; i < n && node != nullptr; i++) {
-      node = node->next;
-    }
-    return *this;
-  }
-
-  bool operator==(const Iterator &other) const {
-    return node == other.node;
-  }
-
-  bool operator!=(const Iterator &other) const {
-    return node != other.node;
-  }
-
-private:
-  std::shared_ptr< Node > node;
-};
-
-template< typename T >
-typename List< T >::Iterator List< T >::begin() {
-  return Iterator(head);
-}
-
-template< typename T >
-typename List< T >::Iterator List< T >::end() {
-  return Iterator(nullptr);
-}
-
-template< typename T >
 class List< T >::ConstIterator {
   friend class List< T >;
 
 public:
-  ConstIterator(std::shared_ptr< const Node > node) : node(node) {}
+  ConstIterator(std::shared_ptr<const Node> node) : node(node) {}
 
-  const T &operator*() const {
+  const T& operator*() const {
     return node->data;
   }
 
-  const T *operator->() {
+  const T* operator->() const {
     return std::addressof(node->data);
   }
 
-  ConstIterator &operator++() {
+  ConstIterator& operator++() {
     node = node->next;
     return *this;
   }
@@ -178,24 +91,16 @@ public:
     return temp;
   }
 
-  ConstIterator &operator+=(int n) {
-    ConstIterator temp = *this;
-    for (int i = 0; i < n && node != nullptr; i++) {
-      temp.node = temp.node->next;
-    }
-    return temp;
-  }
-
-  bool operator==(const ConstIterator &other) const {
+  bool operator==(const ConstIterator& other) const {
     return node == other.node;
   }
 
-  bool operator!=(const ConstIterator &other) const {
+  bool operator!=(const ConstIterator& other) const {
     return node != other.node;
   }
 
 private:
-  std::shared_ptr< const Node > node;
+  std::shared_ptr<const Node> node;
 };
 
 template< typename T >
@@ -206,6 +111,41 @@ typename List< T >::ConstIterator List< T >::end() const {
 template< typename T >
 typename List< T >::ConstIterator List< T >::begin() const {
   return ConstIterator(head);
+}
+
+template< typename T >
+class List< T >::Iterator : public List< T >::ConstIterator {
+public:
+  Iterator(std::shared_ptr<const Node> node) : ConstIterator(node) {}
+
+  T& operator*() {
+    return const_cast< T& >(ConstIterator::operator*());
+  }
+
+  T* operator->() {
+    return const_cast< T* >(ConstIterator::operator->());
+  }
+
+  Iterator& operator++() {
+    ConstIterator::operator++();
+    return *this;
+  }
+
+  Iterator operator++(int) {
+    Iterator tmp = *this;
+    ++(*this);
+    return tmp;
+  }
+};
+
+template< typename T >
+typename List< T >::Iterator List< T >::begin() {
+  return Iterator(head);
+}
+
+template< typename T >
+typename List< T >::Iterator List< T >::end() {
+  return Iterator(nullptr);
 }
 
 template< typename T >
@@ -235,6 +175,11 @@ List< T >::List(const List &other) : head(nullptr) {
   for (auto node = other.head; node != nullptr; node = node->next) {
     push_back(node->data);
   }
+}
+
+template< typename T >
+List< T >::List(List &&other) noexcept : head(std::move(other.head)) {
+  other.head = nullptr;
 }
 
 template< typename T >
