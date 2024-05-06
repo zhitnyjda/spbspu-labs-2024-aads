@@ -49,9 +49,9 @@ namespace gorbunova
       {
         return current == other.current;
       }
-      bool operator==(const ListIterator &other) const
+      bool operator!=(const ListIterator &other) const
       {
-        return current == other.current;
+        return current != other.current;
       }
       T *operator->() const
       {
