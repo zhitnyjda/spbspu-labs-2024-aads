@@ -3,6 +3,7 @@
 #include <stddef.h>
 #include <iostream>
 #include <string>
+#include <limits>
 
 namespace mihalchenko
 {
@@ -27,8 +28,9 @@ namespace mihalchenko
 
     void push_front(const T &data);
     void push_back(const T &data);
+    T watch(size_t index);
 
-    void pop_front();
+    T pop_front();
     void pop_back();
     void insert(T value, size_t ind);
     void erase(size_t i);
@@ -38,7 +40,7 @@ namespace mihalchenko
 
     T &front();
 
-    size_t getSize() { return size_; };
+    size_t getSize();
 
     void assign(size_t count, const T &value);
     void assign(Iterator first, Iterator last);
@@ -63,6 +65,8 @@ namespace mihalchenko
     template <typename F>
     void remove_if(F functor);
 
+    size_t size_ = 0;
+
   private:
     class Node
     {
@@ -70,9 +74,9 @@ namespace mihalchenko
       T data_;
       Node *pNext_;
       Node(T value) : data_(value), pNext_(nullptr) {}
+      Node(T value, Node *pointer) : data_(value), pNext_(pointer) {}
     };
     Node *begin_;
-    size_t size_;
   };
 }
 
@@ -236,11 +240,6 @@ typename mihalchenko::List<T>::ConstIterator mihalchenko::List<T>::cbegin() cons
 template <typename T>
 typename mihalchenko::List<T>::ConstIterator mihalchenko::List<T>::cend() const noexcept
 {
-  /*while (begin_->pNext_ != nullptr)
-  {
-    end_ = begin_->pNext_;
-  }
-  return end_;*/
   return ConstIterator(nullptr);
 }
 
@@ -253,18 +252,13 @@ typename mihalchenko::List<T>::Iterator mihalchenko::List<T>::begin() noexcept
 template <typename T>
 typename mihalchenko::List<T>::Iterator mihalchenko::List<T>::end() noexcept
 {
-  /*while (begin_->pNext_ != nullptr)
-  {
-    end_ = begin_->pNext_;
-  }
-  return end_;*/
   return Iterator(nullptr);
 }
 
 template <typename T>
 mihalchenko::List<T>::List()
 {
-  this->size_ = 0;
+  size_ = 0;
   begin_ = nullptr;
 }
 
@@ -359,21 +353,9 @@ mihalchenko::List<T>::~List()
 template <typename T>
 void mihalchenko::List<T>::swap(List<T> &other) noexcept
 {
-  /*while (other.begin_)
-  {
-    push_back(other.begin_->data_);
-    other.begin_ = other.begin_->pNext_;
-  }*/
   Node *temp = begin_;
   begin_ = other.begin_;
   other.begin_ = temp;
-  /*mihalchenko::List<T> *tempPointerBegin = this->begin_;
-  this->begin_ = other.begin_;
-  other.begin_ = tempPointerBegin;
-  mihalchenko::List<T> *tempPointerEnd = this->end_;
-  this->end_ = other.end_;
-  other.end_ = tempPointerEnd;*/
-
   size_t tempSize = this->size_;
   this->size_ = other.size_;
   other.size_ = tempSize;
@@ -382,7 +364,8 @@ void mihalchenko::List<T>::swap(List<T> &other) noexcept
 template <typename T>
 void mihalchenko::List<T>::push_front(const T &data)
 {
-  begin_ = new Node(data, begin_);
+  Node *newNode = new Node(data, begin_);
+  begin_ = newNode;
   size_++;
 }
 
@@ -392,6 +375,7 @@ void mihalchenko::List<T>::push_back(const T &data)
   if (begin_ == nullptr)
   {
     begin_ = new Node(data);
+    size_ = 0;
   }
   else
   {
@@ -406,18 +390,60 @@ void mihalchenko::List<T>::push_back(const T &data)
 }
 
 template <typename T>
-void mihalchenko::List<T>::pop_front()
+T mihalchenko::List<T>::pop_front()
 {
+  if (begin_ == nullptr)
+  {
+    // throw StackEmptyException();// должен быть определён
+    std::cerr << "StackEmptyException!\n";
+  }
   Node *temp = begin_;
+  T res = begin_->data_;
   begin_ = begin_->pNext_;
   delete temp;
   size_--;
+  return res;
 }
 
 template <typename T>
 void mihalchenko::List<T>::pop_back()
 {
-  erase(size_ - 1);
+  if (size_ > 0)
+  {
+    erase(size_ - 1);
+  }
+  else
+  {
+    std::cerr << "StackEmptyException!\n";
+  }
+}
+
+template <typename T>
+T mihalchenko::List<T>::watch(size_t index)
+{
+  size_t ullMax = std::numeric_limits<size_t>::max();
+  if (index == ullMax)
+  {
+    std::cerr << "Index out of range!\n";
+    return 0;
+  }
+  Node *temp = begin_;
+  size_t k = 0;
+  while (temp != nullptr)
+  {
+    if (k == index)
+    {
+      return temp->data_;
+    }
+    temp = temp->pNext_;
+    if (temp == nullptr)
+    {
+      std::cerr << "Index out of range in watch!\n";
+    }
+    k = k + 1;
+  }
+  throw std::out_of_range("Index out of range");
+  return 0;
 }
 
 template <typename T>
@@ -481,7 +507,8 @@ T &mihalchenko::List<T>::operator[](const size_t index)
 template <typename T>
 void mihalchenko::List<T>::clear()
 {
-  while (size_)
+  size_t ullMax = std::numeric_limits<size_t>::max();
+  while ((size_ > 0) && (size_ != ullMax))
   {
     pop_front();
   }
@@ -679,6 +706,13 @@ void mihalchenko::List<T>::remove_if(F functor)
       iterator = begin_;
     }
   }
+}
+
+template <typename T>
+size_t mihalchenko::List<T>::getSize()
+{
+  // std::cerr << "size_=" << size_ << " Ошибка входных данных!\n";
+  return size_;
 }
 
 #endif
