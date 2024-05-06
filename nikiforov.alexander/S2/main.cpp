@@ -5,7 +5,7 @@ int main(int argc, char* argv[])
 {
   using namespace nikiforov;
 
-  List< long long > Result;
+  Stack< long long > Result;
   Queue< dataTypes > Postfix;
   std::string infix = "";
 
@@ -41,9 +41,18 @@ int main(int argc, char* argv[])
       std::cerr << "Error: wrong number of parameters\n";
     }
 
-    for (List< long long >::ConstIterator iter = Result.cbegin(); iter != Result.cend(); ++iter)
+    while (!Result.is_empty())
     {
-      std::cout << *iter << "\n";
+      std::cout << Result.back();
+      if (Result.getSize() == 1)
+      {
+        Result.pop_back();
+      }
+      else
+      {
+        std::cout << " ";
+        Result.pop_back();
+      }
     }
   }
   catch (const std::exception& e)

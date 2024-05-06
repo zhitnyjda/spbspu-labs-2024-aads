@@ -3,7 +3,7 @@
 void nikiforov::convertToPostfix(std::string str, Queue< dataTypes >& queue)
 {
   Stack< dataTypes > stack;
-  size_t count1 = str.find(" ");
+  size_t count1 = 0;
   nikiforov::dataTypes elemSeq;
 
   while (count1 != std::string::npos)
@@ -59,7 +59,7 @@ void nikiforov::convertToPostfix(std::string str, Queue< dataTypes >& queue)
   }
 }
 
-void nikiforov::calculation(Queue< dataTypes >& Postfix, nikiforov::List< long long >& Result)
+void nikiforov::calculation(Queue< dataTypes >& Postfix, nikiforov::Stack< long long >& Result)
 {
   nikiforov::Stack< long long > stack;
   nikiforov::dataTypes elemSeq;
@@ -134,7 +134,7 @@ void nikiforov::operations(std::string operand, nikiforov::Stack< long long >& s
   }
   else if (operand == "%")
   {
-    stack.push_back(lNum % rNum);
+    stack.push_back(((lNum % rNum + rNum) % rNum));
   }
   else
   {

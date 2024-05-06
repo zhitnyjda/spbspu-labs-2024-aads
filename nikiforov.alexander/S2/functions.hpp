@@ -12,7 +12,7 @@ namespace nikiforov
 {
   void convertToPostfix(std::string str, Queue< dataTypes >& Queue);
 
-  void calculation(Queue< dataTypes >& Postfix, List< long long >& Result);
+  void calculation(Queue< dataTypes >& Postfix, Stack< long long >& Result);
 
   void operations(std::string operand, Stack< long long >& stack);
 
