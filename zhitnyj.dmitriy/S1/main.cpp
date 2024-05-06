@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "SequenceHandler.h"
+#include "SequenceHandler.hpp"
 
 int main() {
   try {
