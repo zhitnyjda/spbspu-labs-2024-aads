@@ -21,9 +21,50 @@ void mihalchenko::printedResult(std::ostream &out, Stack<long long> &stack, size
 size_t mihalchenko::calculatePostFix(Queue<std::string> &resiveDigit, Stack<long long> &calculateResult)
 // size_t mihalchenko::calculatePostFix(Queue<std::string> &resiveDigit, Stack<long long> &calculateResult, Stack<CalcRez> &calcRezult)
 {
-  Stack<CalcRez> calcRezult;
+  finalTransform finTrans;
+  // Stack<char> commands;
   std::set<char> controlSet{'(', ')', '+', '-', '*', '/', '%'};
   bool flgStart = false;
+
+  //============================================
+  long long llMax = std::numeric_limits<long long>::max();
+  size_t i = resiveDigit.getSize();
+  while ((i > 0) && (i != llMax))
+  {
+    if (!controlSet.count(resiveDigit.watch(i - 1)[0]))
+    {
+      finTrans.calcRezult.push(stoll(resiveDigit.watch(i - 1))); // копирую числа из очереди в суперстек из чисел
+      finTrans.commands.push('.');
+    }
+    else
+    {
+      finTrans.commands.push(resiveDigit.watch(i - 1)[0]); // копирую команду из очереди в стек
+    }
+    i = i - 1;
+  }
+  //============================================
+  i = resiveDigit.getSize();
+  size_t k = 0;
+  while ((i > 0) && (i != llMax))
+  {
+    std::cout << resiveDigit.watch(k) << " ";
+    k = k + 1;
+    i = i - 1;
+  }
+  std::cout << "очередь" << std::endl;
+  // while (finTrans.calcRezult.getSize() > 0)
+  //{
+  //   std::cout <<  finTrans.calcRezult.pop().resultCalc << " " ;
+  //}
+  // std::cout << std::endl;
+  // while (finTrans.commands.getSize() > 0)
+  //{
+  //  std::cout <<  finTrans.commands.pop() << " " ;
+  //}
+  // std::cout << std::endl;
+  //============================================
+
+  /*
   while (resiveDigit.getSize() > 0)
   {
     if ((resiveDigit.getSize() > 3) && (!controlSet.count(resiveDigit.watch(0)[0])) && (!controlSet.count(resiveDigit.watch(1)[0])) && (!controlSet.count(resiveDigit.watch(2)[0])) && (controlSet.count(resiveDigit.watch(3)[0])))
@@ -31,10 +72,10 @@ size_t mihalchenko::calculatePostFix(Queue<std::string> &resiveDigit, Stack<long
       flgStart = true;
       calculateResult.push(stoll(resiveDigit.pop())); // фиксирую сюда первый элемент очереди
       calculateResult.push(bildOperation(stoll(resiveDigit.pop()), stoll(resiveDigit.pop()), resiveDigit.watch(2)[0]));
-      // calcRezult.push(stoll(resiveDigit.pop()) + stoll(resiveDigit.pop()));
-      // calcRezult.push(stoll(resiveDigit.pop()));
-      calcRezult.push(1000000);
-      std::cout << calcRezult.pop().resultCalc << std::endl;
+      //calcRezult.push(stoll(resiveDigit.pop()) + stoll(resiveDigit.pop()));
+      //calcRezult.push(stoll(resiveDigit.pop()));
+      //calcRezult.push(1000000);
+      //std::cout << calcRezult.pop().resultCalc << std::endl;
       resiveDigit.pop(); // просто очищаем очередь от выполненной команды
     }
     else if ((resiveDigit.getSize() > 2) && (!controlSet.count(resiveDigit.watch(0)[0])) && (!controlSet.count(resiveDigit.watch(1)[0])) && (controlSet.count(resiveDigit.watch(2)[0])))
@@ -76,8 +117,19 @@ size_t mihalchenko::calculatePostFix(Queue<std::string> &resiveDigit, Stack<long
       std::cerr << "Ошибка входных данных!\n";
       return std::numeric_limits<long long>::max();
     }
-  }
+  }*/
   resiveDigit.clear();
+
+  //========================================================
+  // while (finTrans.commands.getSize() > 0)
+  //{
+  finTrans.calculate();
+  // calculateResult.push(finTrans.calcRezult.pop().resultCalc);
+  // std::cout <<  finTrans.commands.pop() << " " ;
+  //}
+  // std::cout << std::endl;
+  //========================================================
+
   return calculateResult.getSize();
 }
 
@@ -208,6 +260,10 @@ bool mihalchenko::bildStrPostFix(std::string &currentStr, size_t currentStrSize,
       std::cerr << "ЛОГИКА НАРУШЕНА" << std::endl;
       flgResult = false;
     }
+  }
+  while ((resiveControl.getSize() > 0) && (resiveControl.getSize() != ullMax))
+  {
+    resiveDigit.push(resiveControl.pop()); // Выгружаем из стека в очередь. Получилась постфиксная запись выражения
   }
   return flgResult;
 }

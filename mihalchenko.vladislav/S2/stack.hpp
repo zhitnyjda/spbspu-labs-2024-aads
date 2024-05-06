@@ -6,6 +6,7 @@
 // #include <iostream>
 // #include <string>
 // #include <memory>
+#include <set>
 #include <stack>
 
 namespace mihalchenko
@@ -21,6 +22,7 @@ namespace mihalchenko
     // Stack & operator=(const Stack & copy);
     void push(const T &data); // поместить значение в стек
     T pop();                  // извлечь значение из стека
+    T watch(size_t index);
     void clear();
     size_t getSize();
     size_t size_;
@@ -49,6 +51,12 @@ T mihalchenko::Stack<T>::pop()
   return res;
 }
 
+template <typename T>
+T mihalchenko::Stack<T>::watch(size_t index)
+{
+  T res = containStack.watch(index);
+  return res;
+}
 /*template <typename T>
 mihalchenko::Stack<T> &mihalchenko::Stack<T>::operator=(const Stack &copy)
 {

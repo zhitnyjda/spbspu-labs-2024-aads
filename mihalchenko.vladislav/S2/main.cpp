@@ -7,7 +7,7 @@
 #include "queue.hpp"
 #include "list.hpp"
 #include "func.hpp"
-// #include "stack.hpp"
+// #include "stackWithOper.hpp"
 
 using namespace mihalchenko;
 
@@ -37,10 +37,6 @@ int main(int argc, char *argv[])
         {
           std::cerr << "Ошиюка входных данных!\n";
           return 1;
-        }
-        while ((resiveControl.getSize() > 0) && (resiveControl.getSize() != ullMax))
-        {
-          resiveDigit.push(resiveControl.pop()); // Выгружаем из стека в очередь. Получилась постфиксная запись выражения
         }
         // queueWrem = resiveDigit;
         // queueWrem.size_ = resiveDigit.size_;
@@ -75,10 +71,6 @@ int main(int argc, char *argv[])
         {
           std::cerr << "Ошиюка входных данных!\n";
           return 1;
-        }
-        while ((resiveControl.getSize() > 0) && (resiveControl.getSize() != ullMax))
-        {
-          resiveDigit.push(resiveControl.pop()); // Выгружаем из стека в очередь. Получилась постфиксная запись выражения
         }
         // calculateResult.size_ = calculatePostFix(resiveDigit, calculateResult, calcRezult);
         calculateResult.size_ = calculatePostFix(resiveDigit, calculateResult);
