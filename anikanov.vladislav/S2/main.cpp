@@ -21,6 +21,7 @@ int main()
 
     try {
       postfix = toPostfix(expression);
+      answers.push(calculate(postfix));
     } catch (const std::invalid_argument &err) {
       std::cerr << err.what() << "\n";
       return 1;
@@ -35,7 +36,6 @@ int main()
       return 2;
     }
 
-    answers.push(calculate(postfix));
     expression.clear();
   }
   while (!answers.isEmpty()) {
