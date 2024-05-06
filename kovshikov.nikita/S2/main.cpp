@@ -21,13 +21,5 @@ int main(int argc, char ** argv)
   {
     std::cout << "Something went wrong.\n";
   }
-  std::string first = allData.front();
-  Queue< std::string > newQueue;
-  separateElements(first, newQueue);
-  size_t size = newQueue.getSize();
-  for(size_t i = 0; i < size; i++)
-  {
-    std::cout << newQueue.front() << "\n";
-    newQueue.pop();
-  }
+  
 }
