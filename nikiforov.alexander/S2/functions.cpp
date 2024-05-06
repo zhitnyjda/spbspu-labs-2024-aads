@@ -3,13 +3,13 @@
 void nikiforov::convertToPostfix(std::string str, Queue< dataTypes >& queue)
 {
   Stack< dataTypes > stack;
-  size_t count1 = 0;
   nikiforov::dataTypes elemSeq;
+  std::string elem;
 
-  while (count1 != std::string::npos)
+  while (!str.empty())
   {
-    count1 = str.find(" ");
-    elemSeq = getType(str);
+    elem = cutElem(str);
+    elemSeq = getType(elem);
 
     if (elemSeq.type_ == operand)
     {
@@ -102,6 +102,7 @@ void nikiforov::operations(std::string operand, nikiforov::Stack< long long >& s
     {
       throw std::overflow_error("Error: overflow");
     }
+
     stack.push_back(lNum + rNum);
   }
   else if (operand == "-")
@@ -114,6 +115,7 @@ void nikiforov::operations(std::string operand, nikiforov::Stack< long long >& s
     {
       throw std::overflow_error("Error: overflow");
     }
+
     stack.push_back(lNum - rNum);
   }
   else if (operand == "/")
@@ -130,6 +132,7 @@ void nikiforov::operations(std::string operand, nikiforov::Stack< long long >& s
     {
       throw std::overflow_error("Error: overflow");
     }
+
     stack.push_back(lNum * rNum);
   }
   else if (operand == "%")

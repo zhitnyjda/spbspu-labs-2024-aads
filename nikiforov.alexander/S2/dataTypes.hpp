@@ -18,6 +18,7 @@ namespace nikiforov
   };
 
   dataTypes getType(std::string& str);
+  std::string cutElem(std::string& str);
 }
 
 #endif

@@ -1,11 +1,8 @@
 #include "dataTypes.hpp"
 #include <ios>
 
-nikiforov::dataTypes nikiforov::getType(std::string& str)
+nikiforov::dataTypes nikiforov::getType(std::string& elemSeq)
 {
-  std::string elemSeq = str.substr(0, str.find_first_of(" ", 0));
-  str = str.substr(str.find(" ") + 1);
-
   nikiforov::dataTypes elem;
   if (elemSeq == "(" || elemSeq == ")")
   {
@@ -24,5 +21,19 @@ nikiforov::dataTypes nikiforov::getType(std::string& str)
     throw std::invalid_argument("Error: wrong Type");
   }
   elem.data_ = elemSeq;
+  return elem;
+}
+
+std::string nikiforov::cutElem(std::string& str)
+{
+  std::string elem = str.substr(0, str.find_first_of(" ", 0));
+  if (str.find_first_of(" ") == std::string::npos)
+  {
+    str = "";
+  }
+  else
+  {
+    str = str.substr(str.find_first_of(" ") + 1);
+  }
   return elem;
 }
