@@ -13,9 +13,6 @@ int main() {
       std::string name = line.substr(0, firstSpace);
       std::string numbers = line.substr(firstSpace + 1);
 
-      if(name == "_EOF")
-        break;
-
       List< unsigned long long > sequence;
       size_t pos = 0;
 
