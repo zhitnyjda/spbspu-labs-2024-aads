@@ -11,14 +11,13 @@ namespace nikiforov
     bracket
   };
 
-	struct dataTypes
-	{
-		std::string data_;
-		type_t type_;
-	};
+  struct dataTypes
+  {
+    std::string data_;
+    type_t type_;
+  };
 
-	dataTypes getType(std::string& str);
-
+  dataTypes getType(std::string& str);
 }
 
 #endif

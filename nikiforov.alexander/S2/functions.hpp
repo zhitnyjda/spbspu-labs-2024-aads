@@ -17,7 +17,6 @@ namespace nikiforov
   void operations(std::string operand, Stack< long long >& stack);
 
   size_t calculationPriority(std::string elemSeq);
-
 }
 
 #endif
