@@ -4,7 +4,7 @@
 
 namespace kovshikov
 {
-  void readTerminal(std::istream& in, Queue< std::string >& allData);
+  void readData(std::istream& in, Queue< std::string >& allData);
 }
 
 #endif

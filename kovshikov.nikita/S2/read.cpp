@@ -2,7 +2,7 @@
 #include <cstring>
 #include <iostream>
 
-void kovshikov::readTerminal(std::istream& in, Queue< std::string >& allData) // allData очередь очередей для хранения постфиксных форм
+void kovshikov::readData(std::istream& in, Queue< std::string >& allData) // allData очередь очередей для хранения постфиксных форм
 {
   while(!in.eof())
   {
@@ -14,18 +14,6 @@ void kovshikov::readTerminal(std::istream& in, Queue< std::string >& allData) //
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
  /* while(std::cin.eof())
   {
