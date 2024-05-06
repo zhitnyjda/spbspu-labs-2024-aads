@@ -7,7 +7,7 @@
 #include "mainExtension.hpp"
 #include "elementOfExpression.hpp"
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
   using namespace anikanov;
   std::string expression;
