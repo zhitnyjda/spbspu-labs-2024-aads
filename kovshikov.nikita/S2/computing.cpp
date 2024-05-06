@@ -33,23 +33,19 @@ void kovshikov::separateElements(std::string str, Queue< std::string >& queue)
   queue.push(temp);
 }
 
-int getPriority(char c)
+int kovshikov::getPriority(char c)
 {
   if (c == '/' || c == '*' || c == '%')
   {
-    return 2;
-  }
-  else if (c == '+' || c == '-')
-  {
     return 1;
   }
-  else if(c == '(' || c == ')')
+  else if (c == '+' || c == '-')
   {
     return 0;
   }
 }
 
-bool isDigit(std::string str)
+bool kovshikov::isDigit(std::string str)
 {
   size_t size = str.length();
   for(size_t i = 0; i < size; i++)
@@ -83,13 +79,28 @@ void kovshikov::getPostfix(Queue< std::string >& oldQ, Queue< std::string >& new
     else if(element[0] == ')')
     {
       std::string tempOperator = "";
-      while(tempOperator[0] != '(')
+      while(tempOperator[0] != '(') // || stack.isEmpty();
       {
-        std::string tempOperator = stack.top();
+        tempOperator = stack.top();
         stack.pop();
         newQ.push(tempOperator);
       }
+      stack.pop();
     }
+    else
+    {
+      while(!stack.isEmpty() && getPriority(element[0]) <= getPriority(stack.top()[0]))
+      {
+        newQ.push(stack.top());
+        stack.pop();
+      }
+      stack.push(element);
+    }
+  }
+  while(!stack.isEmpty())
+  {
+    newQ.push(stack.top());
+    stack.pop();
   }
 }
 
