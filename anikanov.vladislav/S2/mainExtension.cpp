@@ -59,6 +59,10 @@ anikanov::Queue< std::shared_ptr< anikanov::ElementOfExpression > > toPostfix(co
   }
 
   while (!operators.isEmpty()) {
+    auto oper = operators.top();
+    if (oper->isBracket()){
+      throw std::invalid_argument("Invalid expression");
+    }
     output.push(operators.top());
     operators.pop();
   }
