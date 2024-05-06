@@ -89,20 +89,39 @@ void nikiforov::operations(std::string operand, nikiforov::Stack< long long >& s
   long long lNum = stack.back();
   stack.pop_back();
 
+  long long minValue = std::numeric_limits< long long >::min();
+  long long maxValue = std::numeric_limits< long long >::max();
+
   if (operand == "+")
   {
+    if (rNum > maxValue - lNum || rNum < maxValue + lNum)
+    {
+      throw std::overflow_error("Error: overflow");
+    }
     stack.push_back(lNum + rNum);
   }
   else if (operand == "-")
   {
+    if (rNum > maxValue + lNum || rNum < maxValue - lNum)
+    {
+      throw std::overflow_error("Error: overflow");
+    }
     stack.push_back(lNum - rNum);
   }
   else if (operand == "/")
   {
+    if ((rNum / lNum >= maxValue) || (rNum / lNum <= minValue))
+    {
+      throw std::overflow_error("Error: overflow");
+    }
     stack.push_back(lNum / rNum);
   }
   else if (operand == "*")
   {
+    if ((rNum >= maxValue / lNum) || (rNum <= minValue / lNum))
+    {
+      throw std::overflow_error("Error: overflow");
+    }
     stack.push_back(lNum * rNum);
   }
   else if (operand == "%")
