@@ -30,7 +30,7 @@ void kovshikov::separateElements(std::string str, Queue< std::string >& queue)
       temp = "";
     }
   }
-  queue.push(temp)
+  queue.push(temp);
 }
 
  /* while(std::cin.eof())
