@@ -62,7 +62,7 @@ class List< T >::ConstIterator {
   friend class List< T >;
 
 public:
-  ConstIterator(std::shared_ptr<const Node> node) : node(node) {}
+  ConstIterator(std::shared_ptr< const Node > node) : node(node) {}
 
   const T& operator*() const {
     return node->data;
@@ -100,7 +100,7 @@ public:
   }
 
 private:
-  std::shared_ptr<const Node> node;
+  std::shared_ptr< const Node > node;
 };
 
 template< typename T >
@@ -116,7 +116,7 @@ typename List< T >::ConstIterator List< T >::begin() const {
 template< typename T >
 class List< T >::Iterator : public List< T >::ConstIterator {
 public:
-  Iterator(std::shared_ptr<const Node> node) : ConstIterator(node) {}
+  Iterator(std::shared_ptr< const Node > node) : ConstIterator(node) {}
 
   T& operator*() {
     return const_cast< T& >(ConstIterator::operator*());
