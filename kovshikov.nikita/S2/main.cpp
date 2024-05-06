@@ -1,39 +1,30 @@
 #include <iostream>
 #include "queue.hpp"
-/*int main(int argc, char ** argv)
+#include "stack.hpp"
+#include "read.hpp"
+#include <cstring>
+
+int main(int argc, char ** argv)
 {
+  using namespace kovshikov;
+  Queue< std::string > allData; //очередь в которой элементом является арифмитическое выражение
   if(argc == 1)
   {
+    readTerminal(std::cin, allData);
+    size_t size = allData.getSize();
+    for(size_t i = 0; i < size; i++)
+    {
+      std::cout << allData.front() << "\n";
+      allData.pop();
+    }
     // работаем с потоком ввода вывода из терминала
+    // считываем данные из терминала, вносим в стек/очередь, какая-то функция
   }
   else if(argc == 2)
   {
+    std::cout << argv[1] << "\n";
+    //readFile(argv[2], allData)
     // работаем с потоком ввода вывода из файла
+    // считываем данные из файла, вносим в стек/очередь, какая-то функция
   }
-}*/
-
-int main()
-{
-  using namespace kovshikov;
-  Queue< int > queue1;
-  std::cout << "start\n";
-  queue1.push(2);
-  queue1.push(5);
-  queue1.push(29);
-  std::cout << queue1.getSize() << "\n";
-  std::cout << queue1.isEmpty() << "\n";
-  Queue< int > queue2(queue1);
-  for(int i = 0; i < 3; i++)
-  {
-    std::cout << queue2.back() << "\n";
-    std::cout << queue2.front() << "\n";
-    queue2.pop();
-  }
-  for(int i = 0; i < 3; i++)
-  {
-    std::cout << queue1.back() << "\n";
-    std::cout << queue1.front() << "\n";
-    queue1.pop();
-  }
-  std::cout << queue1.isEmpty() << "\n";
 }
