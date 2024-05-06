@@ -1,6 +1,6 @@
 #include <iostream>
 #include <limits>
-#include "SequenceHandler.hpp"
+#include "SequenceHandler.h"
 
 void SequenceHandler::addSequence(const std::string &name, const List< unsigned long long > &sequence) {
   names.push_back(name);
@@ -23,14 +23,19 @@ void SequenceHandler::calculateSums() {
   }
 
   unsigned long long *sums = new unsigned long long[maxLen]{};
-
   for (size_t i = 0; i < maxLen; ++i) {
     for (const auto &seq: sequences) {
-      if (i < seq.size()) {
-        if (sums[i] > std::numeric_limits< unsigned long long >::max() - seq[i]) {
+      auto it = seq.begin();
+
+      for (size_t j = 0; j < i && it != seq.end(); ++j) {
+        ++it;
+      }
+      if (it != seq.end()) {
+        if (sums[i] > std::numeric_limits< unsigned long long >::max() - *it) {
+          delete[] sums;
           throw std::overflow_error("Sum of numbers is too big.");
         }
-        sums[i] += seq[i];
+        sums[i] += *it;
       }
     }
   }
@@ -52,15 +57,20 @@ void SequenceHandler::printSequences() {
     maxLen = std::max(maxLen, seq.size());
   }
 
-  size_t count = 0;
+  int firstPrint = 0;
   for (size_t i = 0; i < maxLen; ++i) {
     for (const auto &seq: sequences) {
-      if (i < seq.size()) {
-        std::cout << (count ? " " : "") << seq[i];
+      auto it = seq.begin();
+
+      for (size_t j = 0; j < i && it != seq.end(); ++j) {
+        ++it;
       }
-      count++;
+      if (it != seq.end()) {
+        std::cout << (!firstPrint ? "" : " ") << *it;
+        firstPrint = 1;
+      }
     }
     std::cout << "\n";
-    count = 0;
+    firstPrint = 0;
   }
 }
