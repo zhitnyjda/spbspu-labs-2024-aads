@@ -1,23 +1,6 @@
 #include "list.hpp"
 #include <limits>
 
-unsigned long long ParseNum(const std::string& str, size_t& pos)
-{
-  auto symbol = static_cast<unsigned char>(str[pos]);
-  unsigned long long result = 0;
-  while (std::isdigit(symbol))
-  {
-    result = result * 10 + (symbol - '0');
-    if (pos == str.size() - 1)
-    {
-      ++pos;
-      break;
-    }
-    symbol = static_cast<unsigned char>(str[++pos]);
-  }
-  return result;
-}
-
 int main()
 {
   hohlova::List<std::pair<std::string, std::vector< unsigned long long >>> numbers;
@@ -42,7 +25,7 @@ int main()
       }
       else if (std::isdigit(symbol))
       {
-        nums.push_back(ParseNum(line, pos));
+        nums.push_back(hohlova::ParseNum(line, pos));
       }
       else if (std::isalpha(symbol))
       {
@@ -87,7 +70,7 @@ int main()
         std::cout << " ";
       }
     }
-    std::cout << std::endl;
+    std::cout << "\n";
 
     size_t max_size = 0;
     for (const auto& pair : numbers)
@@ -111,7 +94,7 @@ int main()
           firstElement = false;
         }
       }
-      std::cout << std::endl;
+      std::cout << "\n";
     }
     try
     {
