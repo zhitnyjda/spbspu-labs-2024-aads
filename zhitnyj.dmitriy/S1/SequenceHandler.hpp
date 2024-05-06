@@ -5,10 +5,6 @@
 #include "List.hpp"
 
 class SequenceHandler {
-private:
-  List< std::string > names;
-  List< List< unsigned long long > > sequences;
-
 public:
   SequenceHandler() = default;
 
@@ -16,6 +12,10 @@ public:
   void calculateSums();
   void printSequences();
   void printSequencesNames();
+
+private:
+  List< std::string > names;
+  List< List< unsigned long long > > sequences;
 };
 
 #endif
