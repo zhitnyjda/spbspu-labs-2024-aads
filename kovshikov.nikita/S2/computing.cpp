@@ -116,3 +116,15 @@ void kovshikov::getPostfix(Queue< std::string >& oldQ, Queue< std::string >& new
     stack.pop();
   }
 }
+
+void kovshikov::getPostfix(doubleQ oldQ, doubleQ& newQ)
+{
+  size_t size = oldQ.getSize();
+  for(size_t i = 0; i < size; i++)
+  {
+    Queue< std::string > queue;
+    getPostfix(oldQ.front(), queue);
+    oldQ.pop();
+    newQ.push(queue);
+  }
+}

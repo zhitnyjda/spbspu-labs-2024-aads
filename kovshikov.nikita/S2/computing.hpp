@@ -12,7 +12,7 @@ namespace kovshikov
   int getPriority(char c);
   bool isDigit(std::string str);
   void getPostfix(Queue< std::string >& oldQ, Queue< std::string >& newQ);
-  void getAllPostfix(doubleQ oldQ, doubleQ newQ);
+  void getPostfix(doubleQ oldQ, doubleQ& newQ);
 }
 
 #endif
