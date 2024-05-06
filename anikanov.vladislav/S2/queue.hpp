@@ -14,6 +14,8 @@ namespace anikanov {
     Queue(const Queue &rhs);
     Queue(Queue &&rhs) noexcept;
 
+    Queue &operator=(Queue &&rhs) noexcept;
+
     T &front() noexcept;
     const T &front() const noexcept;
     T &back() noexcept;
@@ -39,6 +41,19 @@ template< typename T >
 anikanov::Queue< T >::Queue(Queue &&rhs) noexcept
 {
   list = std::move(rhs.list);
+}
+
+template< typename T >
+anikanov::Queue< T > &anikanov::Queue< T >::operator=(Queue &&rhs) noexcept
+{
+  if (this == &rhs) {
+    return *this;
+  }
+  list.clear();
+  for (auto elem: rhs.list) {
+    list.push_back(elem);
+  }
+  return *this;
 }
 
 template< typename T >

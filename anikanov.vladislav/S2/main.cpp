@@ -13,7 +13,14 @@ int main()
   std::string expression;
   std::getline(std::cin, expression);
 
-  anikanov::Queue< std::shared_ptr< ElementOfExpression > > postfix = toPostfix(expression);
+  anikanov::Queue< std::shared_ptr< ElementOfExpression > > postfix;
+
+  try {
+    postfix = toPostfix(expression);
+  } catch (const std::invalid_argument &err) {
+    std::cerr << err.what() << "\n";
+    return 1;
+  }
 
   while (!postfix.isEmpty()) {
     auto element = postfix.front();
