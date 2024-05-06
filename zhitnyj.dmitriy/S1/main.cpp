@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "SequenceHandler.hpp"
+#include "SequenceHandler.h"
 
 int main() {
   try {
@@ -12,6 +12,9 @@ int main() {
 
       std::string name = line.substr(0, firstSpace);
       std::string numbers = line.substr(firstSpace + 1);
+
+      if(name == "_EOF")
+        break;
 
       List< unsigned long long > sequence;
       size_t pos = 0;
@@ -35,11 +38,12 @@ int main() {
       handler.addSequence(name, sequence);
     }
 
+    handler.printSequencesNames();
     handler.printSequences();
-    handler.rearrangeAndPrint();
+    handler.calculateSums();
   }
   catch (const std::overflow_error &err) {
-    std::cerr << "Overflow error(" << err.what() << ")" << "\n";
+    std::cerr << err.what() << "\n";
     return 1;
   }
   catch (const std::exception &err) {
