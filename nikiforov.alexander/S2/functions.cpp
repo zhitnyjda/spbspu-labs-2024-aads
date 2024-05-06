@@ -1,8 +1,8 @@
 #include "functions.hpp"
 
-void nikiforov::convertToPostfix(std::string str, Queue< std::string >& queue)
+void nikiforov::convertToPostfix(std::string str, Queue< dataTypes >& queue)
 {
-  Stack< std::string > stack;
+  Stack< dataTypes > stack;
   size_t count1 = str.find(" ");
   nikiforov::dataTypes elemSeq;
 
@@ -13,7 +13,7 @@ void nikiforov::convertToPostfix(std::string str, Queue< std::string >& queue)
 
     if (elemSeq.type_ == operand)
     {
-      queue.push_back(elemSeq.data_);
+      queue.push_back(elemSeq);
     }
     else
     {
@@ -21,11 +21,11 @@ void nikiforov::convertToPostfix(std::string str, Queue< std::string >& queue)
       {
         if (elemSeq.data_ == "(")
         {
-          stack.push_back(elemSeq.data_);
+          stack.push_back(elemSeq);
         }
         else
         {
-          while (stack.back() != "(")
+          while (stack.back().data_ != "(")
           {
             queue.push_back(stack.back());
             stack.pop_back();
@@ -35,45 +35,44 @@ void nikiforov::convertToPostfix(std::string str, Queue< std::string >& queue)
       }
       else if (!stack.is_empty())
       {
-        if (nikiforov::calculationPriority(elemSeq.data_) <= nikiforov::calculationPriority(stack.back()))
+        if (nikiforov::calculationPriority(elemSeq.data_) <= nikiforov::calculationPriority(stack.back().data_))
         {
           queue.push_back(stack.back());
           stack.pop_back();
-          stack.push_back(elemSeq.data_);
+          stack.push_back(elemSeq);
         }
         else
         {
-          stack.push_back(elemSeq.data_);
+          stack.push_back(elemSeq);
         }
       }
       else
       {
-        stack.push_back(elemSeq.data_);
+        stack.push_back(elemSeq);
       }
     }
   }
-  while (!stack.is_empty() && stack.back() != "(")
+  while (!stack.is_empty() && stack.back().data_ != "(")
   {
     queue.push_back(stack.back());
     stack.pop_back();
   }
 }
 
-void nikiforov::calculation(Queue< std::string >& Postfix, nikiforov::List< long long >& Result)
+void nikiforov::calculation(Queue< dataTypes >& Postfix, nikiforov::List< long long >& Result)
 {
-  std::string elemSeq = "";
   nikiforov::Stack< long long > stack;
-
+  nikiforov::dataTypes elemSeq;
   while (!Postfix.is_empty())
   {
     elemSeq = Postfix.front();
-    if (isdigit(elemSeq[0]))
+    if (elemSeq.type_ == operand)
     {
-      stack.push_back(stoll(Postfix.front()));
+      stack.push_back(stoll(elemSeq.data_));
     }
     else
     {
-      operations(elemSeq, stack);
+      operations(elemSeq.data_, stack);
     }
     Postfix.pop_front();
   }

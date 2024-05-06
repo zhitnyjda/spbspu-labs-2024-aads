@@ -443,10 +443,6 @@ void nikiforov::List< T >::pop_back()
   }
   actual->pNext = nullptr;
   delete todel;
-  if (size_l == 1)
-  {
-    head = nullptr;
-  }
   size_l--;
 }
 

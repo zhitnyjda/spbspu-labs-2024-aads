@@ -10,9 +10,9 @@
 
 namespace nikiforov
 {
-  void convertToPostfix(std::string str, Queue< std::string >& Queue);
+  void convertToPostfix(std::string str, Queue< dataTypes >& Queue);
 
-  void calculation(Queue< std::string >& Postfix, List< long long >& Result);
+  void calculation(Queue< dataTypes >& Postfix, List< long long >& Result);
 
   void operations(std::string operand, Stack< long long >& stack);
 

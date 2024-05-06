@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
   }
 
   List< long long > Result;
-  Queue< std::string > Postfix;
+  Queue< dataTypes > Postfix;
   std::string infix = "";
 
   try
