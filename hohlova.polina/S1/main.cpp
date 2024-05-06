@@ -1,4 +1,5 @@
 #include "list.hpp"
+#include "parseNums.hpp"
 #include <limits>
 
 int main()
