@@ -7,22 +7,18 @@
 #include "queue.hpp"
 #include "list.hpp"
 #include "func.hpp"
+// #include "stack.hpp"
 
 using namespace mihalchenko;
 
 int main(int argc, char *argv[])
 {
   std::set<char> controlSet{'(', ')', '+', '-', '*', '/', '%'};
-  /*  for (int i = 0; i < argc; i++)
-    {
-      // Выводим список аргументов в цикле
-      std::cout << "Argument " << i << " : " << argv[i] << std::endl;
-    }
-   */
   Queue<std::string> resiveDigit;
   // Queue<std::string> queueWrem;
   Stack<std::string> resiveControl;
   Stack<long long> calculateResult;
+  // Stack<CalcRez> calcRezult;
   size_t ullMax = std::numeric_limits<size_t>::max();
   size_t llMax = std::numeric_limits<long long>::max();
 
@@ -48,6 +44,7 @@ int main(int argc, char *argv[])
         }
         // queueWrem = resiveDigit;
         // queueWrem.size_ = resiveDigit.size_;
+        // calculateResult.size_ = calculatePostFix(resiveDigit, calculateResult, calcRezult);
         calculateResult.size_ = calculatePostFix(resiveDigit, calculateResult);
         if (calculateResult.getSize() == llMax)
         {
@@ -83,6 +80,7 @@ int main(int argc, char *argv[])
         {
           resiveDigit.push(resiveControl.pop()); // Выгружаем из стека в очередь. Получилась постфиксная запись выражения
         }
+        // calculateResult.size_ = calculatePostFix(resiveDigit, calculateResult, calcRezult);
         calculateResult.size_ = calculatePostFix(resiveDigit, calculateResult);
         if (calculateResult.getSize() == llMax)
         {

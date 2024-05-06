@@ -3,6 +3,7 @@
 #include <fstream>
 #include <set>
 #include <limits>
+#include "types.hpp"
 
 void mihalchenko::printedResult(std::ostream &out, Stack<long long> &stack, size_t &num)
 {
@@ -18,7 +19,9 @@ void mihalchenko::printedResult(std::ostream &out, Stack<long long> &stack, size
 }
 
 size_t mihalchenko::calculatePostFix(Queue<std::string> &resiveDigit, Stack<long long> &calculateResult)
+// size_t mihalchenko::calculatePostFix(Queue<std::string> &resiveDigit, Stack<long long> &calculateResult, Stack<CalcRez> &calcRezult)
 {
+  Stack<CalcRez> calcRezult;
   std::set<char> controlSet{'(', ')', '+', '-', '*', '/', '%'};
   bool flgStart = false;
   while (resiveDigit.getSize() > 0)
@@ -28,6 +31,10 @@ size_t mihalchenko::calculatePostFix(Queue<std::string> &resiveDigit, Stack<long
       flgStart = true;
       calculateResult.push(stoll(resiveDigit.pop())); // фиксирую сюда первый элемент очереди
       calculateResult.push(bildOperation(stoll(resiveDigit.pop()), stoll(resiveDigit.pop()), resiveDigit.watch(2)[0]));
+      // calcRezult.push(stoll(resiveDigit.pop()) + stoll(resiveDigit.pop()));
+      // calcRezult.push(stoll(resiveDigit.pop()));
+      calcRezult.push(1000000);
+      std::cout << calcRezult.pop().resultCalc << std::endl;
       resiveDigit.pop(); // просто очищаем очередь от выполненной команды
     }
     else if ((resiveDigit.getSize() > 2) && (!controlSet.count(resiveDigit.watch(0)[0])) && (!controlSet.count(resiveDigit.watch(1)[0])) && (controlSet.count(resiveDigit.watch(2)[0])))
@@ -122,6 +129,7 @@ long long mihalchenko::bildOperation(long long operandOne, long long operandTwo,
 
 bool mihalchenko::bildStrPostFix(std::string &currentStr, size_t currentStrSize, Queue<std::string> &resiveDigit, Stack<std::string> &resiveControl)
 {
+  // с помощью стека и очереди формирую постфиксную запись выражения В ОЧЕРЕДИ
   size_t ullMax = std::numeric_limits<size_t>::max();
   if (resiveControl.size_ == ullMax)
   {
