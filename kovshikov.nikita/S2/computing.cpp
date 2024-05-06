@@ -33,6 +33,18 @@ void kovshikov::separateElements(std::string str, Queue< std::string >& queue)
   queue.push(temp);
 }
 
+void kovshikov::separateElements(Queue< std::string > oldQ, doubleQ& sepQ)
+{
+  size_t size = oldQ.getSize();
+  for(size_t i = 0; i < size; i++)
+  {
+    Queue< std::string > queue;
+    separateElements(oldQ.front(), queue);
+    oldQ.pop();
+    sepQ.push(queue);
+  }
+}
+
 int kovshikov::getPriority(char c)
 {
   if (c == '/' || c == '*' || c == '%')

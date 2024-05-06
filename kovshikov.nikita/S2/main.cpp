@@ -21,15 +21,19 @@ int main(int argc, char ** argv)
   {
     std::cout << "Something went wrong." << "\n";
   }
-  std::string first = allData.front();
-  Queue< std::string > oldQueue;
-  separateElements(first, oldQueue);
-  Queue< std::string > newQueue;
-  getPostfix(oldQueue, newQueue);
-  size_t size = newQueue.getSize();
+  doubleQ separateData;
+  separateElements(allData, separateData);
+  size_t size = separateData.getSize();
   for(size_t i = 0; i < size; i++)
   {
-    std::cout << newQueue.front() << "\n";
-    newQueue.pop();
+    Queue< std::string > temp = separateData.front();
+    separateData.pop();
+    size_t sizeSmall = temp.getSize();
+    for(size_t j = 0; j < sizeSmall; j++)
+    {
+      std::cout << temp.front() << " ";
+      temp.pop();
+    }
+    std::cout << "\n";
   }
 }
