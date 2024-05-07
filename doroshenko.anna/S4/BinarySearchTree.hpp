@@ -57,26 +57,6 @@ namespace doroshenko
 }
 using namespace doroshenko;
 
-template< typename Key, typename Value, typename Compare >
-class doroshenko::BST< Key, Value, Compare >::Node
-{
-public:
-  friend class BST< Key, Value, Compare >;
-  explicit Node(keyValPair data) :
-    data_(data),
-    parent_(nullptr),
-    left_(nullptr),
-    right_(nullptr),
-    height_(0)
-  {};
-private:
-  keyValPair data_;
-  Node* left_;
-  Node* right_;
-  Node* parent_;
-  size_t height_;
-};
-
 template < typename Key, typename Value >
 using keyValPair = std::pair< Key, Value >;
 
@@ -85,6 +65,26 @@ using iterator = typename BST< Key, Value, Compare >::Iterator;
 
 template< typename Key, typename Value, typename Compare >
 using constIterator = typename BST< Key, Value, Compare >::ConstIterator;
+
+template< typename Key, typename Value, typename Compare >
+class doroshenko::BST< Key, Value, Compare >::Node
+{
+public:
+  friend class BST< Key, Value, Compare >;
+  Node(keyValPair data, Node* parent = nullptr, Node* right = nullptr, Node* left = nullptr, size_t h = 0) :
+    data_(data),
+    parent_(parent),
+    right_(right),
+    left_(left),
+    height_(h)
+  {};
+private:
+  keyValPair data_;
+  Node* left_;
+  Node* right_;
+  Node* parent_;
+  size_t height_;
+};
 
 template< typename Key, typename Value, typename Compare >
 class BST< Key, Value, Compare >::ConstIterator : public std::iterator< std::bidirectional_iterator_tag, keyValPair >
@@ -217,11 +217,7 @@ const keyValPair< Key, Value >* BST< Key, Value, Compare >::ConstIterator::opera
 template< typename Key, typename Value, typename Compare >
 bool BST< Key, Value, Compare >::ConstIterator::operator!=(const ConstIterator& rhs) const
 {
-  if (node_ != rhs.node_)
-  {
-    return true;
-  }
-  return false;
+  return !(rhs == *this);
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -671,8 +667,6 @@ constItPair< Key, Value, Compare > BST< Key, Value, Compare >::equalRange(const 
       return(std::make_pair(first, first));
     }
   }
-  std::cout << first->first;
-  std::cout << last->first;
 }
 
 template < typename Key, typename Value, typename Compare >
