@@ -44,7 +44,7 @@ template< typename T >
 typename reznikova::details::Iterator< T > reznikova::details::Iterator< T >::operator++(int)
 {
   assert(node_ != nullptr);
-  Iterator result(*this);
+  Iterator< T > result(*this);
   node_ = node_->next_;
   return result;
 }
@@ -61,7 +61,7 @@ template< typename T >
 typename reznikova::details::Iterator< T > reznikova::details::Iterator< T >::operator--(int)
 {
   assert(node_ != nullptr);
-  Iterator result(*this);
+  Iterator< T > result(*this);
   node_ = node_->prev_;
   return result;
 }
