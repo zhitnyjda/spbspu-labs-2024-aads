@@ -46,7 +46,6 @@ int main(int argc, char* argv[])
       std::cout << Result.back();
       if (Result.getSize() == 1)
       {
-        std::cout << "\n";
         Result.pop_back();
       }
       else
@@ -55,6 +54,8 @@ int main(int argc, char* argv[])
         Result.pop_back();
       }
     }
+    std::cout << "\n";
+
   }
   catch (const std::exception& e)
   {

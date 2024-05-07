@@ -52,8 +52,12 @@ void nikiforov::convertToPostfix(std::string str, Queue< dataTypes >& queue)
       }
     }
   }
-  while (!stack.is_empty() && stack.back().data_ != "(")
+  while (!stack.is_empty())
   {
+    if (stack.back().type_ == bracket)
+    {
+      throw std::logic_error("Error: wrong expression");
+    }
     queue.push_back(stack.back());
     stack.pop_back();
   }
