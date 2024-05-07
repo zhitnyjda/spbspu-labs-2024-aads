@@ -145,12 +145,12 @@ void kovshikov::getPostfix(doubleQ oldQ, doubleQ& newQ)
 
 void kovshikov::checkingError(long long integer)
 {
-  long long max = std::numeric_limits< long long >::max();
+  //long long max = std::numeric_limits< long long >::max();
   long long min = std::numeric_limits< long long >::min();
-  if(integer == max)
+ /* if(integer == max)
   {
     throw std::overflow_error("You've gone out of range long long до 9223372036854775807");
-  }
+  }*/
   if(integer == min)
   {
     throw std::underflow_error("You've gone out of range long long от -9223372036854775808");
@@ -186,7 +186,12 @@ long long kovshikov::getComputing(Queue< std::string > queue)
       stack.pop();
       if(element == "+")
       {
-        stack.push(operand + upperOperand);
+        long long summa = operand + upperOperand;
+        if(operand > 0 && upperOperand > 0 && summa < 0 )
+        {
+          throw std::overflow_error("overflow after summa");
+        }
+        stack.push(summa);
       }
       else if(element == "-")
       {
