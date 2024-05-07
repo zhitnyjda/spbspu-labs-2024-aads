@@ -143,7 +143,7 @@ void kovshikov::getPostfix(doubleQ oldQ, doubleQ& newQ)
   }
 }
 
-void kovshikov::checkingUnder(long long integer)
+/*void kovshikov::checkingUnder(long long integer)
 {
   long long min = std::numeric_limits< long long >::min();
   if(integer == min)
@@ -159,10 +159,12 @@ void kovshikov::checkingOver(long long integer)
   {
     throw std::overflow_error("You've gone out of range long long до 9223372036854775807");
   }
-}
+}*/
 
 long long kovshikov::getComputing(Queue< std::string > queue)
 {
+  long long min = std::numeric_limits< long long >::min();
+  long long max = std::numeric_limits< long long >::max();
   Stack< long long > stack;
   size_t size = queue.getSize();
   for(size_t i = 0; i < size; i++)
@@ -172,14 +174,18 @@ long long kovshikov::getComputing(Queue< std::string > queue)
     if(isDigit(element))
     {
       long long integer = std::stoll(element);
-      try
+      if(integer == max)
+      {
+        throw std::overflow_error("You've gone out of range long long до 9223372036854775807");
+      }
+     /* try
       {
         checkingUnder(integer);
       }
       catch(const std::exception &error)
       {
         throw;
-      }
+      }*/
       stack.push(integer);
     }
     else
@@ -203,7 +209,13 @@ long long kovshikov::getComputing(Queue< std::string > queue)
       }
       else if(element == "*")
       {
-        try
+        bool condOperand = operand > max / std::abs(upperOperand) || operand < min / std::abs(upperOperand);
+        bool condUOperand = upperOperand > max / std::abs(operand) || upperOperand < min / std::abs(operand);
+        if(condOperand || condUOperand)
+        {
+          throw std::range_error("range violation during multiplication");
+        }
+       /* try
         {
           checkingUnder(operand);
           checkingUnder(upperOperand);
@@ -213,7 +225,7 @@ long long kovshikov::getComputing(Queue< std::string > queue)
         catch(const std::exception &error)
         {
           throw;
-        }
+        }*/
         stack.push(operand * upperOperand);
       }
       else if(element == "/")
