@@ -71,12 +71,12 @@ class doroshenko::BST< Key, Value, Compare >::Node
 {
 public:
   friend class BST< Key, Value, Compare >;
-  Node(keyValPair data) :
+  Node(keyValPair data, Node* parent = nullptr, Node* right = nullptr, Node* left = nullptr, size_t height = 0) :
     data_(data),
-    parent_(nullptr),
-    right_(nullptr),
-    left_(nullptr),
-    height_(0)
+    parent_(parent),
+    right_(right),
+    left_(left),
+    height_(height)
   {};
 private:
   keyValPair data_;
