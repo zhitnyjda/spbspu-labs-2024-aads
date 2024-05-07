@@ -7,7 +7,7 @@ namespace reznikova
   namespace details
   {
     template< typename T >
-    class Iterator : public std::iterator< std::bidirectional_iterator_tag, T >
+    class Iterator
     {
     public:
       using this_t = Iterator;
@@ -67,13 +67,13 @@ typename reznikova::details::Iterator< T > reznikova::details::Iterator< T >::op
 }
 
 template< typename T >
-bool reznikova::details::Iterator< T >::operator==(const Iterator & rhs) const
+bool reznikova::details::Iterator< T >::operator==(const reznikova::details::Iterator< T > & rhs) const
 {
   return node_ == rhs.node_;
 }
 
 template< typename T >
-bool reznikova::details::Iterator< T >::operator!=(const Iterator & rhs) const
+bool reznikova::details::Iterator< T >::operator!=(const reznikova::details::Iterator< T > & rhs) const
 {
   return !(rhs == *this);
 }
