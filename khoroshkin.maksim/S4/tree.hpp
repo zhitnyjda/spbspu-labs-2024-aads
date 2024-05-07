@@ -611,8 +611,10 @@ void khoroshkin::Tree< Key, Value, Comp >::leftRotate(Node * node)
       parent->left = node->right;
       newChild = parent->left;
     }
+    newChild->parent = parent;
     node->right = node->right->left;
     newChild->left = node;
+    node->parent = newChild;
   }
   else
   {
@@ -643,8 +645,10 @@ void khoroshkin::Tree< Key, Value, Comp >::rightRotate(Node * node)
       parent->right = node->left;
       newChild = parent->right;
     }
+    newChild->parent = parent;
     node->left = node->left->right;
     newChild->right = node;
+    node->parent = newChild;
   }
   else
   {
