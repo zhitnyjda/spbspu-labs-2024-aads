@@ -434,6 +434,7 @@ void BST< Key, Value, Compare >::insert(const Key& key, const Value& value)
   }
   else
   {
+    delete newNode;
     return;
   }
   updateHeight(parent);
