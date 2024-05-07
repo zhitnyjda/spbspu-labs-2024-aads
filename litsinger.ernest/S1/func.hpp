@@ -58,28 +58,27 @@ namespace litsinger
 
     if (!list.isEmpty())
     {
-        while (iterator != list.end())
+      while (iterator != list.end())
+      {
+        if (iterator != list.begin())
         {
-            if (iterator != list.begin())
-            {
-                output << " ";
-            }
-            output << iterator->first;
-            if (!iterator->second.isEmpty())
-            {
-                hasNumbers = true;
-            }
-            iterator++;
+          output << " ";
         }
-        output << "\n";
+        output << iterator->first;
+        if (!iterator->second.isEmpty())
+        {
+          hasNumbers = true;
+        }
+        iterator++;
+      }
+      output << "\n";
     }
 
     if (!hasNumbers)
     {
-        output << "0\n";
+      output << "0\n";
     }
   }
-
 
   void listFormation(this_t& mainList, List< List < size_t > >& lists)
   {
