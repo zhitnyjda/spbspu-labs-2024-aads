@@ -1,5 +1,4 @@
 #include <iostream>
-#include <iostream>
 #include <string>
 #include <fstream>
 #include <functional>
@@ -45,7 +44,7 @@ int main(int argc, char* argv[])
     }
     else
     {
-      std::cout << "<INVALID COMMAND>";
+      std::cin.clear();
       std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
     }
   }
