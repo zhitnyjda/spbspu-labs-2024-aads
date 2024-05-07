@@ -32,18 +32,20 @@ int main(int argc, char* argv[])
       inputTree(input, treeOfDicts);
     }
   }
+
   while (!std::cin.eof())
   {
     std::string function;
     std::cin >> function;
 
     auto funcIter = treeOfFuncs.find(function);
-    if (funcIter != treeOfFuncs.end())
+    if (funcIter != treeOfFuncs.end() && !function.empty())
     {
-      treeOfFuncs.at(function).second(treeOfDicts);
+      funcIter->second(treeOfDicts);
     }
-    else
+    else if (!function.empty())
     {
+      std::cout << "<INVALID COMMAND>";
       std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
     }
   }
