@@ -1,5 +1,6 @@
 #ifndef ITERATOR_HPP
 #define ITERATOR_HPP
+#include <memory>
 #include "Node.hpp"
 
 namespace reznikova
