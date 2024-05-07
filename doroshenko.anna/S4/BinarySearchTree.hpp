@@ -347,7 +347,7 @@ BST< Key, Value, Compare >::~BST()
 template< typename Key, typename Value, typename Compare >
 bool BST< Key, Value, Compare >::isEmpty() noexcept
 {
-  return root_ == nullptr ? true : false;
+  return getSize() == 0 ? true : false;
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -437,7 +437,6 @@ void BST< Key, Value, Compare >::insert(const Key& key, const Value& value)
   }
   updateHeight(parent);
   balance(parent);
-  delete newNode;
   return;
 }
 
