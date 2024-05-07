@@ -9,18 +9,18 @@ namespace litsinger
 {
   using this_t = List< std::pair< std::string, List< size_t > > >;
 
-  size_t MaxSize(this_t& list)
+  size_t maxSize(this_t& list)
   {
     size_t size = 0;
-    size_t maxSize = 0;
+    size_t maxxSize = 0;
     this_t::Iterator iterator = list.begin();
     while (iterator != this_t::ConstIterator())
     {
       size = iterator->second.getSize();
-      maxSize = size > maxSize ? size : maxSize;
+      maxxSize = size > maxxSize ? size : maxxSize;
       iterator++;
     }
-    return maxSize;
+    return maxxSize;
   }
 
   this_t listInput(std::istream& input)
@@ -83,10 +83,10 @@ namespace litsinger
   void listFormation(this_t& mainList, List< List < size_t > >& lists)
   {
     this_t::Iterator iterator;
-    size_t maxSize = MaxSize(mainList);
+    size_t maxxSize = maxSize(mainList);
     List< size_t >::Iterator localIterator = List< size_t >::ConstIterator();
     List< size_t > curList;
-    for (size_t index = 0; index < maxSize; index++)
+    for (size_t index = 0; index < maxxSize; index++)
     {
       iterator = mainList.begin();
       while (iterator != mainList.end())
