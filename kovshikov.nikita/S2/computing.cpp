@@ -150,7 +150,10 @@ long long kovshikov::getComputing(Queue< std::string > queue)
       {
         throw std::underflow_error("You've gone out of range long long от -9223372036854775808");
       }
-      stack.push(integer);
+      else
+      {
+        stack.push(integer);
+      }
     }
     else
     {
@@ -185,6 +188,7 @@ long long kovshikov::getComputing(Queue< std::string > queue)
 
 void kovshikov::getComputing(doubleQ data, Stack< long long >& result)
 {
+  long long outcome;
   size_t size = data.getSize();
   for(size_t i = 0; i < size; i++)
   {
@@ -192,12 +196,13 @@ void kovshikov::getComputing(doubleQ data, Stack< long long >& result)
     data.pop();
     try
     {
-      result.push(getComputing(temp));
+      outcome = getComputing(temp);
     }
     catch(const std::exception &error)
     {
       throw;
     }
+    result.push(outcome);
   }
 }
 
