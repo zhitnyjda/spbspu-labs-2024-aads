@@ -171,3 +171,25 @@ long long kovshikov::getComputing(Queue< std::string > queue)
   }
   return stack.top();
 }
+
+void kovshikov::getComputing(doubleQ data, Stack< long long >& result)
+{
+  size_t size = data.getSize();
+  for(size_t i = 0; i < size; i++)
+  {
+    Queue< std::string > temp = data.front();
+    data.pop();
+    result.push(getComputing(temp));
+  }
+}
+
+void kovshikov::output(std::ostream& out, Stack< long long > result)
+{
+  size_t size = result.getSize();
+  for(size_t i = 0; i < size; i++)
+  {
+    out << result.top() << " ";
+    result.pop();
+  }
+  out << "\n";
+}

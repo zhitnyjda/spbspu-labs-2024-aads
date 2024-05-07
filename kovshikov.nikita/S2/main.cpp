@@ -25,6 +25,7 @@ int main(int argc, char ** argv)
   separateElements(allData, separateData);
   doubleQ postfixQ;
   getPostfix(separateData, postfixQ);
-  Queue< std::string > temp = postfixQ.front();
-  std::cout << getComputing(temp) << "\n";
+  Stack< long long > result;
+  getComputing(postfixQ, result);
+  output(std::cout, result);
 }

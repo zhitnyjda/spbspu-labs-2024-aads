@@ -14,6 +14,8 @@ namespace kovshikov
   void getPostfix(Queue< std::string >& oldQ, Queue< std::string >& newQ);
   void getPostfix(doubleQ oldQ, doubleQ& newQ);
   long long getComputing(Queue< std::string > queue);//для одного выражения
+  void getComputing(doubleQ data, Stack< long long >& result);// для всех выражений
+  void output(std::ostream& out, Stack< long long > result);
 }
 
 #endif
