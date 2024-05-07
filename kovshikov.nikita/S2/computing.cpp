@@ -143,11 +143,23 @@ void kovshikov::getPostfix(doubleQ oldQ, doubleQ& newQ)
   }
 }
 
+void kovshikov::checkingError(long long integer)
+{
+  long long max = std::numeric_limits< long long >::max();
+  long long min = std::numeric_limits< long long >::min();
+  if(integer == max)
+  {
+    throw std::overflow_error("You've gone out of range long long до 9223372036854775807");
+  }
+  if(integer == min)
+  {
+    throw std::underflow_error("You've gone out of range long long от -9223372036854775808");
+  }
+}
+
 long long kovshikov::getComputing(Queue< std::string > queue)
 {
   Stack< long long > stack;
-  long long max = std::numeric_limits< long long >::max();
-  long long min = std::numeric_limits< long long >::min();
   size_t size = queue.getSize();
   for(size_t i = 0; i < size; i++)
   {
@@ -156,18 +168,15 @@ long long kovshikov::getComputing(Queue< std::string > queue)
     if(isDigit(element))
     {
       long long integer = std::stoll(element);
-      if(integer == max)
+      try
       {
-        throw std::overflow_error("You've gone out of range long long до 9223372036854775807");
+        checkingError(integer);
       }
-      if(integer == min)
+      catch(const std::exception &error)
       {
-        throw std::underflow_error("You've gone out of range long long от -9223372036854775808");
+        throw;
       }
-      else
-      {
-        stack.push(integer);
-      }
+      stack.push(integer);
     }
     else
     {
