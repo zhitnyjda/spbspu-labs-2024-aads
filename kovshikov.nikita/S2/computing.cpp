@@ -1,5 +1,5 @@
-#include "computing.hpp"
 #include <cstring>
+#include "computing.hpp"
 
 void kovshikov::readData(std::istream& in, Queue< std::string >& allData)
 {
@@ -143,24 +143,6 @@ void kovshikov::getPostfix(doubleQ oldQ, doubleQ& newQ)
   }
 }
 
-/*void kovshikov::checkingUnder(long long integer)
-{
-  long long min = std::numeric_limits< long long >::min();
-  if(integer == min)
-  {
-    throw std::underflow_error("You've gone out of range long long от -9223372036854775808");
-  }
-}
-
-void kovshikov::checkingOver(long long integer)
-{
-  long long max = std::numeric_limits< long long >::max();
-  if(integer == max)
-  {
-    throw std::overflow_error("You've gone out of range long long до 9223372036854775807");
-  }
-}*/
-
 long long kovshikov::getComputing(Queue< std::string > queue)
 {
   long long min = std::numeric_limits< long long >::min();
@@ -178,14 +160,6 @@ long long kovshikov::getComputing(Queue< std::string > queue)
       {
         throw std::underflow_error("You've gone out of range long long от -9223372036854775808");
       }
-     /* try
-      {
-        checkingUnder(integer);
-      }
-      catch(const std::exception &error)
-      {
-        throw;
-      }*/
       stack.push(integer);
     }
     else
@@ -215,17 +189,6 @@ long long kovshikov::getComputing(Queue< std::string > queue)
         {
           throw std::range_error("range violation during multiplication");
         }
-       /* try
-        {
-          checkingUnder(operand);
-          checkingUnder(upperOperand);
-          checkingOver(operand);
-          checkingOver(upperOperand);
-        }
-        catch(const std::exception &error)
-        {
-          throw;
-        }*/
         stack.push(operand * upperOperand);
       }
       else if(element == "/")

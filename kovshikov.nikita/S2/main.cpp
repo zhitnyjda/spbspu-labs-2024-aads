@@ -1,8 +1,8 @@
 #include <cstring>
 #include <fstream>
+#include "computing.hpp"
 #include "queue.hpp"
 #include "stack.hpp"
-#include "computing.hpp"
 
 int main(int argc, char ** argv)
 {
