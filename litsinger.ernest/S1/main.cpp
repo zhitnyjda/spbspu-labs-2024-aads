@@ -14,7 +14,7 @@ int main() {
 
     namesOutput(list, std::cout);
 
-    List<List<size_t>> lists;
+    List< List< size_t > > lists;
     listFormation(list, lists);
     if (!lists.isEmpty()) {
       listsOutput(std::cout, lists);
