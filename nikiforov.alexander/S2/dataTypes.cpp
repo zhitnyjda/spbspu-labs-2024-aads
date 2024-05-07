@@ -1,5 +1,5 @@
 #include "dataTypes.hpp"
-#include <ios>
+#include <stdexcept>
 
 nikiforov::dataTypes nikiforov::getType(std::string& elemSeq)
 {

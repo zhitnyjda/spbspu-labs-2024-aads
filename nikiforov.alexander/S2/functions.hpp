@@ -3,10 +3,6 @@
 #include "stack.hpp"
 #include "queue.hpp"
 #include "dataTypes.hpp"
-#include <iostream>
-#include <string>
-#include <limits>
-#include <cmath>
 
 namespace nikiforov
 {

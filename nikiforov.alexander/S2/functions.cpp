@@ -1,4 +1,7 @@
 #include "functions.hpp"
+#include <limits>
+#include <cmath>
+#include <iostream>
 
 void nikiforov::convertToPostfix(std::string str, Queue< dataTypes >& queue)
 {
