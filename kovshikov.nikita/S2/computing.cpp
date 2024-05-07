@@ -76,6 +76,7 @@ bool kovshikov::isDigit(std::string str)
 
 void kovshikov::getPostfix(Queue< std::string >& oldQ, Queue< std::string >& newQ)
 {
+  bool isCorrect = true; //flag
   Stack< std::string > stack;
   std::string element = "";
   size_t size = oldQ.getSize();
@@ -89,10 +90,12 @@ void kovshikov::getPostfix(Queue< std::string >& oldQ, Queue< std::string >& new
     }
     else if(element[0] == '(')
     {
+      isCorrect = false;
       stack.push(element);
     }
     else if(element[0] == ')')
     {
+      isCorrect = true;
       while(stack.top()[0] != '(')
       {
         newQ.push(stack.top());
@@ -115,6 +118,10 @@ void kovshikov::getPostfix(Queue< std::string >& oldQ, Queue< std::string >& new
     newQ.push(stack.top());
     stack.pop();
   }
+  if(isCorrect == false)
+  {
+    throw std::domain_error("A single opening bracket");
+  }
 }
 
 void kovshikov::getPostfix(doubleQ oldQ, doubleQ& newQ)
@@ -123,7 +130,14 @@ void kovshikov::getPostfix(doubleQ oldQ, doubleQ& newQ)
   for(size_t i = 0; i < size; i++)
   {
     Queue< std::string > queue;
-    getPostfix(oldQ.front(), queue);
+    try
+    {
+      getPostfix(oldQ.front(), queue);
+    }
+    catch(const std::exception &error)
+    {
+      throw;
+    }
     oldQ.pop();
     newQ.push(queue);
   }

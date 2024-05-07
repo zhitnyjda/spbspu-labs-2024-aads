@@ -8,6 +8,9 @@ int main(int argc, char ** argv)
 {
   using namespace kovshikov;
   Queue< std::string > allData;
+  doubleQ separateData;
+  doubleQ postfixQ;
+  Stack< long long > result;
   if(argc == 1)
   {
     readData(std::cin, allData);
@@ -21,13 +24,10 @@ int main(int argc, char ** argv)
   {
     std::cout << "Something went wrong." << "\n";
   }
-  doubleQ separateData;
   separateElements(allData, separateData);
-  doubleQ postfixQ;
-  getPostfix(separateData, postfixQ);
-  Stack< long long > result;
   try
   {
+    getPostfix(separateData, postfixQ);
     getComputing(postfixQ, result);
   }
   catch(const std::exception &error)
