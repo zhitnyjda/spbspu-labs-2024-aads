@@ -76,7 +76,7 @@ bool kovshikov::isDigit(std::string str)
 
 void kovshikov::getPostfix(Queue< std::string >& oldQ, Queue< std::string >& newQ)
 {
-  bool isCorrect = true; //flag
+  bool isCorrect = true;
   Stack< std::string > stack;
   std::string element = "";
   size_t size = oldQ.getSize();
@@ -199,7 +199,7 @@ long long kovshikov::getComputing(Queue< std::string > queue)
         }
         else
         {
-          long long part = operand / upperOperand;
+          long long part = std::abs(operand / upperOperand);
           part++;
           long long temp = part * upperOperand;
           stack.push(operand + temp);

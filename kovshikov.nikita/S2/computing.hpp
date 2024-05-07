@@ -3,6 +3,7 @@
 #include "queue.hpp"
 #include "stack.hpp"
 #include <exception>
+#include <cmath>
 
 namespace kovshikov
 {
