@@ -174,9 +174,9 @@ long long kovshikov::getComputing(Queue< std::string > queue)
     if(isDigit(element))
     {
       long long integer = std::stoll(element);
-      if(integer == max)
+      if(integer == min)
       {
-        throw std::overflow_error("You've gone out of range long long до 9223372036854775807");
+        throw std::underflow_error("You've gone out of range long long от -9223372036854775808");
       }
      /* try
       {
