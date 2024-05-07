@@ -132,6 +132,8 @@ void kovshikov::getPostfix(doubleQ oldQ, doubleQ& newQ)
 long long kovshikov::getComputing(Queue< std::string > queue)
 {
   Stack< long long > stack;
+  long long max = std::numeric_limits< long long >::max();
+  long long min = std::numeric_limits< long long >::min();
   size_t size = queue.getSize();
   for(size_t i = 0; i < size; i++)
   {
@@ -139,7 +141,16 @@ long long kovshikov::getComputing(Queue< std::string > queue)
     queue.pop();
     if(isDigit(element))
     {
-      stack.push(std::stoll(element));
+      long long integer = std::stoll(element);
+      if(integer == max)
+      {
+        throw std::overflow_error("You've gone out of range long long до 9223372036854775807");
+      }
+      if(integer == min)
+      {
+        throw std::underflow_error("You've gone out of range long long от -9223372036854775808");
+      }
+      stack.push(integer);
     }
     else
     {
@@ -179,7 +190,14 @@ void kovshikov::getComputing(doubleQ data, Stack< long long >& result)
   {
     Queue< std::string > temp = data.front();
     data.pop();
-    result.push(getComputing(temp));
+    try
+    {
+      result.push(getComputing(temp));
+    }
+    catch(const std::exception &error)
+    {
+      throw;
+    }
   }
 }
 

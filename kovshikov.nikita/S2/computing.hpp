@@ -2,6 +2,7 @@
 #define COMPUTING_HPP
 #include "queue.hpp"
 #include "stack.hpp"
+#include <exception>
 
 namespace kovshikov
 {

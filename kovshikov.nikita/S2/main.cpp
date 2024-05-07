@@ -26,6 +26,15 @@ int main(int argc, char ** argv)
   doubleQ postfixQ;
   getPostfix(separateData, postfixQ);
   Stack< long long > result;
-  getComputing(postfixQ, result);
+  try
+  {
+    getComputing(postfixQ, result);
+  }
+  catch(const std::exception &error)
+  {
+    std::cerr << error.what() << "\n";
+    return 1;
+  }
   output(std::cout, result);
+  return 0;
 }
