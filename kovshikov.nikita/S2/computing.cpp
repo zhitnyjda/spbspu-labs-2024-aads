@@ -193,7 +193,17 @@ long long kovshikov::getComputing(Queue< std::string > queue)
       }
       else if(element == "%")
       {
-        stack.push(operand % upperOperand);
+        if(operand > 0)
+        {
+          stack.push(operand % upperOperand);
+        }
+        else
+        {
+          long long part = operand / upperOperand;
+          part++;
+          long long temp = part * upperOperand;
+          stack.push(operand + temp);
+        }
       }
     }
   }
