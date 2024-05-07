@@ -110,6 +110,11 @@ void doroshenko::intersect(BST< std::string, BST< long long, std::string > >& tr
     std::cout << "<INVALID COMMAND>\n";
     return;
   }
+  else if (fDictIt->second.isEmpty() || sDictIt->second.isEmpty())
+  {
+    std::cout << "<EMPTY>\n";
+    return;
+  }
   for (BST< long long, std::string >::Iterator it = (fDictIt->second).begin(); it != (fDictIt->second).end(); ++it)
   {
     if ((sDictIt->second).find(it->first) != (sDictIt->second).end())
@@ -148,6 +153,11 @@ void doroshenko::complement(BST< std::string, BST< long long, std::string > >& t
     std::cout << "<INVALID COMMAND>\n";
     return;
   }
+  else if (fDictIt->second.isEmpty() || sDictIt->second.isEmpty())
+  {
+    std::cout << "<EMPTY>\n";
+    return;
+  }
   for (tree::Iterator fIt = (fDictIt->second).begin(); fIt != (fDictIt->second).end(); ++fIt)
   {
     if ((sDictIt->second).find(fIt->first) == (sDictIt->second).end())
@@ -184,6 +194,11 @@ void doroshenko::unify(BST< std::string, BST< long long, std::string > >& treeOf
   if (fDictIt == treeOfDicts.end() || sDictIt == treeOfDicts.end())
   {
     std::cout << "<INVALID COMMAND>\n";
+    return;
+  }
+  else if (fDictIt->second.isEmpty() || sDictIt->second.isEmpty())
+  {
+    std::cout << "<EMPTY>\n";
     return;
   }
   for (tree::Iterator fIt = (fDictIt->second).begin(); fIt != (fDictIt->second).end(); ++fIt)
