@@ -1,35 +1,53 @@
 #include <iostream>
+#include <iostream>
 #include <string>
 #include <fstream>
+#include <functional>
 #include "treeProcess.hpp"
 
-int main()
+int main(int argc, char* argv[])
 {
   using namespace doroshenko;
   BST< std::string, BST< long long, std::string > > treeOfDicts;
-  BST< long long, std::string > dict2;
+  BST< std::string, std::function< void(BST< std::string, BST< long long, std::string > >&treeOfDicts) > > treeOfFuncs;
+  treeOfFuncs.insert("print", print);
+  treeOfFuncs.insert("complement", complement);
+  treeOfFuncs.insert("intersect", intersect);
+  treeOfFuncs.insert("union", unify);
 
-  std::string name1 = "dict1";
-  long long key1 = 1;
-  std::string value1 = "value1";
+  if (argc != 2)
+  {
+    std::cerr << "Wrong input\n";
+    return 1;
+  }
+  else
+  {
+    std::ifstream input(argv[1]);
+    if (!input)
+    {
+      std::cerr << "Wrong file\n";
+      return 1;
+    }
+    else
+    {
+      inputTree(input, treeOfDicts);
+    }
+  }
+  while (!std::cin.eof())
+  {
+    std::string function;
+    std::cin >> function;
 
-  std::string name2 = "dict2";
-  long long key3 = 3;
-  std::string value3 = "value3";
-
-  long long key2 = 2;
-  std::string value2 = "value2";
-  BST< long long, std::string> dict1;
-  dict1.insert(key1, value1);
-  dict1.insert(key2, value2);
-
-  dict2.insert(key1, value1);
-  dict2.insert(key3, value3);
-
-  std::cout << "\n";
-  treeOfDicts.insert(name1, dict1);
-  treeOfDicts.insert(name2, dict2);
-
-  complement(treeOfDicts);
-  print(treeOfDicts);
+    auto funcIter = treeOfFuncs.find(function);
+    if (funcIter != treeOfFuncs.end())
+    {
+      treeOfFuncs.at(function).second(treeOfDicts);
+    }
+    else
+    {
+      std::cout << "<INVALID COMMAND>";
+      std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+    }
+  }
+  return 0;
 }

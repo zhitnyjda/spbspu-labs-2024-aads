@@ -96,7 +96,7 @@ void doroshenko::print(BST< std::string, BST< long long, std::string > >& treeOf
   }
 }
 
-void doroshenko::complement(BST< std::string, BST< long long, std::string > >& treeOfDicts)
+void doroshenko::intersect(BST< std::string, BST< long long, std::string > >& treeOfDicts)
 {
   BST< long long, std::string > newDataset;
   std::string newDictName;
@@ -122,9 +122,96 @@ void doroshenko::complement(BST< std::string, BST< long long, std::string > >& t
     treeOfDicts.erase(firstDictName);
     treeOfDicts.insert(newDictName, newDataset);
   }
+  else if (secondDictName == newDictName)
+  {
+    treeOfDicts.erase(secondDictName);
+    treeOfDicts.insert(newDictName, newDataset);
+  }
   else
   {
     treeOfDicts.insert(newDictName, newDataset);
   }
 }
 
+void doroshenko::complement(BST< std::string, BST< long long, std::string > >& treeOfDicts)
+{
+  BST< long long, std::string > newDataset;
+  using tree = BST< long long, std::string >;
+  std::string newDictName;
+  std::string firstDictName;
+  std::string secondDictName;
+  std::cin >> newDictName >> firstDictName >> secondDictName;
+  BST< std::string, BST< long long, std::string > >::Iterator fDictIt = treeOfDicts.find(firstDictName);
+  BST< std::string, BST< long long, std::string > >::Iterator sDictIt = treeOfDicts.find(secondDictName);
+  if (fDictIt == treeOfDicts.end() || sDictIt == treeOfDicts.end())
+  {
+    std::cout << "<INVALID COMMAND>\n";
+    return;
+  }
+  for (tree::Iterator fIt = (fDictIt->second).begin(); fIt != (fDictIt->second).end(); ++fIt)
+  {
+    if ((sDictIt->second).find(fIt->first) == (sDictIt->second).end())
+    {
+      newDataset.insert(fIt->first, fIt->second);
+    }
+  }
+  if (firstDictName == newDictName)
+  {
+    treeOfDicts.erase(firstDictName);
+    treeOfDicts.insert(newDictName, newDataset);
+  }
+  else if (secondDictName == newDictName)
+  {
+    treeOfDicts.erase(secondDictName);
+    treeOfDicts.insert(newDictName, newDataset);
+  }
+  else
+  {
+    treeOfDicts.insert(newDictName, newDataset);
+  }
+}
+
+void doroshenko::unify(BST< std::string, BST< long long, std::string > >& treeOfDicts)
+{
+  BST< long long, std::string > newDataset;
+  using tree = BST< long long, std::string >;
+  std::string newDictName;
+  std::string firstDictName;
+  std::string secondDictName;
+  std::cin >> newDictName >> firstDictName >> secondDictName;
+  BST< std::string, BST< long long, std::string > >::Iterator fDictIt = treeOfDicts.find(firstDictName);
+  BST< std::string, BST< long long, std::string > >::Iterator sDictIt = treeOfDicts.find(secondDictName);
+  if (fDictIt == treeOfDicts.end() || sDictIt == treeOfDicts.end())
+  {
+    std::cout << "<INVALID COMMAND>\n";
+    return;
+  }
+  for (tree::Iterator fIt = (fDictIt->second).begin(); fIt != (fDictIt->second).end(); ++fIt)
+  {
+    if (newDataset.find(fIt->first) == (fDictIt->second).end())
+    {
+      newDataset.insert(fIt->first, fIt->second);
+    }
+  }
+  for (tree::Iterator sIt = (sDictIt->second).begin(); sIt != (sDictIt->second).end(); ++sIt)
+  {
+    if (newDataset.find(sIt->first) == (sDictIt->second).end())
+    {
+      newDataset.insert(sIt->first, sIt->second);
+    }
+  }
+  if (firstDictName == newDictName)
+  {
+    treeOfDicts.erase(firstDictName);
+    treeOfDicts.insert(newDictName, newDataset);
+  }
+  else if (secondDictName == newDictName)
+  {
+    treeOfDicts.erase(secondDictName);
+    treeOfDicts.insert(newDictName, newDataset);
+  }
+  else
+  {
+    treeOfDicts.insert(newDictName, newDataset);
+  }
+}

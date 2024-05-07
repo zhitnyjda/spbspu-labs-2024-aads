@@ -71,12 +71,12 @@ class doroshenko::BST< Key, Value, Compare >::Node
 {
 public:
   friend class BST< Key, Value, Compare >;
-  Node(keyValPair data, Node* parent = nullptr, Node* right = nullptr, Node* left = nullptr, size_t h = 0) :
+  Node(keyValPair data) :
     data_(data),
-    parent_(parent),
-    right_(right),
-    left_(left),
-    height_(h)
+    parent_(nullptr),
+    right_(nullptr),
+    left_(nullptr),
+    height_(0)
   {};
 private:
   keyValPair data_;
@@ -311,8 +311,6 @@ bool BST< Key, Value, Compare >::Iterator::operator==(const Iterator& rhs) const
   return iterator == rhs.iterator;
 }
 
-//TREE
-
 template< typename Key, typename Value, typename Compare >
 BST< Key, Value, Compare >::BST() :
   root_(nullptr),
@@ -514,7 +512,7 @@ typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::turnLeft(
 template< typename Key, typename Value, typename Compare >
 typename BST< Key, Value, Compare >::Iterator BST< Key, Value, Compare >::erase(Iterator position)
 {
-  if (isEmpty())
+  if (position == ConstIterator(nullptr, root_))
   {
     return end();
   }
@@ -528,8 +526,6 @@ typename BST< Key, Value, Compare >::Iterator BST< Key, Value, Compare >::erase(
     {
       successor = successor->left_;
     }
-    keyValPair data = successor->data_;
-    nodeToDelete->data_ = data;
     nodeToDelete = successor;
     parent = successor->parent_;
   }

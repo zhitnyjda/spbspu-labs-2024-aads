@@ -10,7 +10,8 @@ namespace doroshenko
   void inputTree(std::istream& input, BST< std::string, BST< long long, std::string > >& treeOfDicts);
   void print(BST< std::string, BST< long long, std::string > >& treeOfDicts);
   void complement(BST< std::string, BST< long long, std::string > >& treeOfDicts);
-
+  void intersect(BST< std::string, BST< long long, std::string > >& treeOfDicts);
+  void unify(BST< std::string, BST< long long, std::string > >& treeOfDicts);
 }
 
 #endif
