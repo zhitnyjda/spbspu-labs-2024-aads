@@ -159,7 +159,7 @@ reznikova::List< T >& reznikova::List< T >::operator=(List< T >&& other)
 template< typename T >
 void reznikova::List<T>::pushFront(const T & val)
 {
-  details::Node< T > * newNode = new details::Node(val, nullptr, head_);
+  details::Node< T > * newNode = new details::Node< T >(val, nullptr, head_);
   if (empty())
   {
     tail_ = newNode;
@@ -379,7 +379,7 @@ typename reznikova::details::Iterator< T > reznikova::List< T >::insert(details:
   }
   else
   {
-    details::Node< T > * node = new details::Node(value, pos->prev_, pos->prev_->next_);
+    details::Node< T > * node = new details::Node< T >(value, pos->prev_, pos->prev_->next_);
     it = node;
     pos->prev_ = it;
     pos->prev_next_ = it;
