@@ -188,6 +188,12 @@ void kovshikov::output(std::ostream& out, Stack< long long > result)
   size_t size = result.getSize();
   for(size_t i = 0; i < size; i++)
   {
+    if(i == size - 1)
+    {
+      out << result.top();
+      result.pop();
+    }
+    else
     out << result.top() << " ";
     result.pop();
   }
