@@ -8,7 +8,6 @@ int main()
   using namespace doroshenko;
   BST< std::string, BST< long long, std::string > > treeOfDicts;
   BST< long long, std::string > dict2;
-  //inputTree(std::cin, treeOfDicts);
 
   std::string name1 = "dict1";
   long long key1 = 1;
@@ -28,11 +27,6 @@ int main()
   dict2.insert(key3, value3);
 
   std::cout << "\n";
-
-  /*for (auto it = dict.cbegin(); it != dict.cend(); ++it)
-  {
-	  std::cout << "(" << it->first << ", " << it->second << ") " << "\n";
-  }*/
   treeOfDicts.insert(name1, dict1);
   treeOfDicts.insert(name2, dict2);
 
