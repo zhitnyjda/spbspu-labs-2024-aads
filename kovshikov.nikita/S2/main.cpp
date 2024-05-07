@@ -25,17 +25,6 @@ int main(int argc, char ** argv)
   separateElements(allData, separateData);
   doubleQ postfixQ;
   getPostfix(separateData, postfixQ);
-  size_t size = postfixQ.getSize();
-  for(size_t i = 0; i < size; i++)
-  {
-    Queue< std::string > temp = postfixQ.front();
-    postfixQ.pop();
-    size_t sizeSmall = temp.getSize();
-    for(size_t j = 0; j < sizeSmall; j++)
-    {
-      std::cout << temp.front() << " ";
-      temp.pop();
-    }
-    std::cout << "\n";
-  }
+  Queue< std::string > temp = postfixQ.front();
+  std::cout << getComputing(temp) << "\n";
 }

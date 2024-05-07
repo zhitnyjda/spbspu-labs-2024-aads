@@ -128,3 +128,46 @@ void kovshikov::getPostfix(doubleQ oldQ, doubleQ& newQ)
     newQ.push(queue);
   }
 }
+
+long long kovshikov::getComputing(Queue< std::string > queue)
+{
+  Stack< long long > stack;
+  size_t size = queue.getSize();
+  for(size_t i = 0; i < size; i++)
+  {
+    std::string element = queue.front();
+    queue.pop();
+    if(isDigit(element))
+    {
+      stack.push(std::stoll(element));
+    }
+    else
+    {
+      long long upperOperand = stack.top();
+      stack.pop();
+      long long operand = stack.top();
+      stack.pop();
+      if(element == "+")
+      {
+        stack.push(operand + upperOperand);
+      }
+      else if(element == "-")
+      {
+        stack.push(operand - upperOperand);
+      }
+      else if(element == "*")
+      {
+        stack.push(operand * upperOperand);
+      }
+      else if(element == "/")
+      {
+        stack.push(operand / upperOperand);
+      }
+      else if(element == "%")
+      {
+        stack.push(operand % upperOperand);
+      }
+    }
+  }
+  return stack.top();
+}
