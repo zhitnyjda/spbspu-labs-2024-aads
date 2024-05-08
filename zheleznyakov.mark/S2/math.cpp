@@ -26,31 +26,54 @@ long long zheleznyakov::calculatePostfix(Queue< std::string > & expression)
     }
     else
     {
-      int operand2 = stack.top();
+      long long operand2 = stack.top();
       stack.pop();
-      int operand1 = stack.top();
+      long long operand1 = stack.top();
       stack.pop();
-      if (token[0] == '+')
-      {
-        stack.push(operand1 + operand2);
-      }
-      else if (token[0] == '-')
-      {
-        stack.push(operand1 - operand2);
-      }
-      else if (token[0] == '*')
-      {
-        stack.push(operand1 * operand2);
-      }
-      else if (token[0] == '/')
-      {
-        stack.push(operand1 / operand2);
-      }
-      else if (token[0] == '%')
-      {
-        stack.push(operand1 % operand2);
-      }
+      stack.push(operation(operand1, operand2, token[0]));
     }
   }
   return stack.top();
 };
+
+long long zheleznyakov::operation(const long long lval, const long long rval, const char operation)
+{
+  long long minLimit = std::numeric_limits< long long >::min();
+  long long maxLimit = std::numeric_limits< long long >::max();
+  if (operation == '+')
+  {
+    if (maxLimit - lval < rval)
+    {
+      throw new std::overflow_error("Overflow while processing an operation");
+    }
+    return lval + rval;
+  }
+  else if (operation == '-')
+  {
+    if (lval < rval + minLimit)
+    {
+      throw new std::underflow_error("Underflow while processing an operation");
+    }
+    return lval - rval;
+  }
+  else if (operation == '*')
+  {
+    if (maxLimit / lval < rval)
+    {
+      throw new std::overflow_error("Overflow while processing an operation");
+    }
+    return lval * rval;
+  }
+  else if (operation == '/')
+  {
+    return lval / rval;
+  }
+  else if (operation == '%')
+  {
+    return lval < 0 ? lval % lval + rval : lval % rval;
+  }
+  else
+  {
+    return 0;
+  }
+}
