@@ -398,11 +398,11 @@ template < typename Key, typename Value, typename Compare >
 typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::insert(const Key& key, const Value& value)
 {
   keyValPair data(key, value);
-  Node* newNode = new Node(data);
+  //Node* newNode = new Node(data);
   if (root_ == nullptr)
   {
-    root_ = newNode;
-    return newNode;
+    root_ = new Node(data);
+    return root_;
   }
   Node* current = root_;
   Node* parent = nullptr;
@@ -419,10 +419,11 @@ typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::insert(co
     }
     else
     {
-      delete newNode;
+      //delete newNode;
       return current;
     }
   }
+  Node* newNode = new Node(data);
   newNode->parent_ = parent;
   if (cmp_(data.first, parent->data_.first))
   {
