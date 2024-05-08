@@ -18,6 +18,10 @@ void doroshenko::strToTree(std::string expression, BST< std::string, BST< long l
       if (count == 1)
       {
         name = symbol;
+        if (result.find(name) != result.end())
+        {
+          dict.clear();
+        }
       }
       else if (count % 2 == 0)
       {
@@ -36,14 +40,8 @@ void doroshenko::strToTree(std::string expression, BST< std::string, BST< long l
       i++;
       value = symbol;
       dict.insert(key, value);
-      if (result.find(name) == result.end())
-      {
-        result.insert(name, dict);
-      }
-      else
-      {
-        dict.clear();
-      }
+      result.insert(name, dict);
+      dict.clear();
     }
     else
     {
