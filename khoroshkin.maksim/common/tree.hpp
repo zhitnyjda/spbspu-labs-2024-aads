@@ -6,6 +6,8 @@
 #include <iterator>
 #include <cmath>
 #include <initializer_list>
+#include "stack.hpp"
+#include "queue.hpp"
 
 namespace khoroshkin
 {
@@ -23,6 +25,8 @@ namespace khoroshkin
 
     Tree();
     Tree(size_t count, const value_type & keyAndValue);
+    template< class InputIt >
+    Tree(InputIt first, InputIt last);
     Tree(std::initializer_list< value_type > init);
     Tree(const Tree & rhs);
     Tree(Tree && rhs);
@@ -44,6 +48,13 @@ namespace khoroshkin
     iterator end() noexcept;
     const_iterator cbegin() const noexcept;
     const_iterator cend() const noexcept;
+
+    template< typename F >
+    F traverse_lnr(F f) const;
+    template< typename F >
+    F traverse_rnl(F f) const;
+    template< typename F >
+    F traverse_breadth(F f) const;
 
   private:
     Node * root;
@@ -407,6 +418,16 @@ khoroshkin::Tree< Key, Value, Comp >::Tree(size_t count, const value_type & keyA
 }
 
 template< typename Key, typename Value, typename Comp >
+template< class InputIt >
+khoroshkin::Tree< Key, Value, Comp >::Tree(InputIt first, InputIt last)
+{
+  for (;first != last; ++first)
+  {
+    insert(*first);
+  }
+}
+
+template< typename Key, typename Value, typename Comp >
 khoroshkin::Tree< Key, Value, Comp >::Tree(std::initializer_list< value_type > init) :
   root(nullptr), size(0)
 {
@@ -611,8 +632,10 @@ void khoroshkin::Tree< Key, Value, Comp >::leftRotate(Node * node)
       parent->left = node->right;
       newChild = parent->left;
     }
+    newChild->parent = parent;
     node->right = node->right->left;
     newChild->left = node;
+    node->parent = newChild;
   }
   else
   {
@@ -643,8 +666,10 @@ void khoroshkin::Tree< Key, Value, Comp >::rightRotate(Node * node)
       parent->right = node->left;
       newChild = parent->right;
     }
+    newChild->parent = parent;
     node->left = node->left->right;
     newChild->right = node;
+    node->parent = newChild;
   }
   else
   {
@@ -819,6 +844,78 @@ template< class... Args >
 void khoroshkin::Tree< Key, Value, Comp >::emplace(Args&&... args)
 {
   insert(std::forward< Args >(args)...);
+}
+
+template< typename Key, typename Value, typename Comp >
+template< typename F >
+F khoroshkin::Tree< Key, Value, Comp >::traverse_lnr(F f) const
+{
+  Stack< Node * > parents;
+  Node * iterative = root;
+  while (iterative != nullptr || !parents.isEmpty())
+  {
+    while (iterative != nullptr)
+    {
+      parents.push(iterative);
+      iterative = iterative->left;
+    }
+    if (!parents.isEmpty())
+    {
+      Node * poppedNode = parents.top();
+      f(poppedNode->kv_pair);
+      parents.pop();
+      iterative = poppedNode->right;
+    }
+  }
+  return f;
+}
+
+template< typename Key, typename Value, typename Comp >
+template< typename F >
+F khoroshkin::Tree< Key, Value, Comp >::traverse_rnl(F f) const
+{
+  Stack< Node * > parents;
+  Node * iterative = root;
+  while (iterative != nullptr || !parents.isEmpty())
+  {
+    while (iterative != nullptr)
+    {
+      parents.push(iterative);
+      iterative = iterative->right;
+    }
+    if (!parents.isEmpty())
+    {
+      Node * poppedNode = parents.top();
+      f(poppedNode->kv_pair);
+      parents.pop();
+      iterative = poppedNode->left;
+    }
+  }
+  return f;
+}
+
+template< typename Key, typename Value, typename Comp >
+template< typename F >
+F khoroshkin::Tree< Key, Value, Comp >::traverse_breadth(F f) const
+{
+  Queue< Node * > currentLevel;
+  currentLevel.push(root);
+  while (!currentLevel.isEmpty())
+  {
+    if (currentLevel.front() != nullptr)
+    {
+      Node * poppedNode = currentLevel.front();
+      f(poppedNode->kv_pair);
+      currentLevel.pop();
+      currentLevel.push(poppedNode->left);
+      currentLevel.push(poppedNode->right);
+    }
+    else
+    {
+      currentLevel.pop();
+    }
+  }
+  return f;
 }
 
 #endif

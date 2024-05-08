@@ -45,7 +45,7 @@ namespace khoroshkin
     iterator emplace_after(iterator pos, Args &&... args);
 
     T & front();
-    size_t getSize();
+    size_t getSize() const;
     bool isEmpty() const;
     T & operator[](const size_t index);
     void reverse();
@@ -276,13 +276,10 @@ khoroshkin::List< T >::List(std::initializer_list< T > init)
 template< typename T >
 khoroshkin::List< T >::List(const khoroshkin::List< T > & obj)
 {
-  if (obj.head == nullptr)
+  clear();
+  for (auto it = obj.begin(); it != obj.end(); ++it)
   {
-    head = nullptr;
-  }
-  else
-  {
-    head = new Node(*obj.head);
+    push_back(*it);
   }
   size = obj.size;
 }
@@ -292,7 +289,6 @@ khoroshkin::List< T > & khoroshkin::List< T >::operator=(const List & obj)
 {
   if (this != &obj)
   {
-    this->size = obj.size;
     clear();
     Node * temp = obj.head;
     while (temp)
@@ -306,9 +302,11 @@ khoroshkin::List< T > & khoroshkin::List< T >::operator=(const List & obj)
 
 template< typename T >
 khoroshkin::List< T >::List(khoroshkin::List< T > && obj) :
-  size(obj.size), head(obj.head)
+  size(std::move(obj.size))
 {
-  obj.clear();
+  head = std::move(obj.head);
+  obj.head = nullptr;
+  obj.size = 0;
 }
 
 template< typename T >
@@ -317,13 +315,14 @@ khoroshkin::List< T > & khoroshkin::List< T >::operator=(List && obj)
   if (this != &obj)
   {
     clear();
-    this->size = obj.size;
-    while (obj.head)
+    Node * temp = obj.head;
+    while (temp)
     {
       push_back(obj.head->data);
-      obj.head = obj.head->pNext;
+      temp = temp->pNext;
     }
   }
+  this->size = obj.size;
   obj.clear();
   return *this;
 }
@@ -426,7 +425,7 @@ void khoroshkin::List< T >::clear()
 }
 
 template < typename T >
-size_t khoroshkin::List< T >::getSize()
+size_t khoroshkin::List< T >::getSize() const
 {
   return size;
 }
