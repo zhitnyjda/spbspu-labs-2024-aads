@@ -200,7 +200,7 @@ void sukacheva::List< T >::assign(std::initializer_list<T> ilist)
 }
 
 template< typename T >
-template< typename InputIt >
+template< typename InputIt>
 void sukacheva::List< T >::assign(InputIt first, InputIt last)
 {
   clean();
@@ -220,7 +220,7 @@ void sukacheva::List< T >::assign(size_t count, const T& value)
 }
 
 template< typename T >
-template< typename UnaryPredicate >
+template< typename UnaryPredicate>
 void sukacheva::List< T >::remove_if(UnaryPredicate p)
 {
   size_t index = 0;
