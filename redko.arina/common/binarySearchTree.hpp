@@ -2,6 +2,8 @@
 #define BINARYSEARCHTREE_HPP
 #include <utility>
 #include <stdexcept>
+#include "stack.hpp"
+#include "queue.hpp"
 
 namespace redko
 {
@@ -61,7 +63,14 @@ namespace redko
     const_iterator lowerBound(const Key & key) const;
     iterator upperBound(const Key & key);
     const_iterator upperBound(const Key & key) const;
-
+    
+    template< typename F >
+    F traverseLR(F func) const;
+    template< typename F >
+    F traverseRL(F func) const;
+    template< typename F >
+    F traverseBreadth(F func) const;
+    
   private:
     struct Node
     {
@@ -747,6 +756,76 @@ typename redko::BSTree< Key, Value, Compare >::const_iterator redko::BSTree< Key
     }
   }
   return cend();
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F redko::BSTree< Key, Value, Compare >::traverseLR(F func) const
+{
+  Stack< Node * > stack;
+  Node * curr = root_;
+  while (curr != nullptr || !stack.empty())
+  {
+    while (curr != nullptr)
+    {
+      stack.push(curr);
+      curr = curr->left;
+    }
+    curr = stack.top();
+    stack.pop();
+    func(curr->elem);
+    curr = curr->right;
+  }
+  return func;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F redko::BSTree< Key, Value, Compare >::traverseRL(F func) const
+{
+  Stack< Node * > stack;
+  Node * curr = root_;
+  while (curr != nullptr || !stack.empty())
+  {
+    while (curr != nullptr)
+    {
+      stack.push(curr);
+      curr = curr->right;
+    }
+    curr = stack.top();
+    stack.pop();
+    func(curr->elem);
+    curr = curr->left;
+  }
+  return func;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F redko::BSTree< Key, Value, Compare >::traverseBreadth(F func) const
+{
+  if (empty())
+  {
+     return func;
+  }
+  Queue< Node * > queue;
+  queue.push(root_);
+
+  while (!queue.empty())
+  {
+    Node * node = queue.front();
+    func(node->elem);
+    queue.pop();
+    if (node->left != nullptr)
+    {
+      queue.push(node->left);
+    }
+    if (node->right != nullptr)
+    {
+      queue.push(node->right);
+    }
+  }
+  return func;
 }
 
 template < typename Key, typename Value, typename Compare >
