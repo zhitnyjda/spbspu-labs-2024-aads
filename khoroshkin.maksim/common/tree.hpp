@@ -862,7 +862,14 @@ F khoroshkin::Tree< Key, Value, Comp >::traverse_lnr(F f) const
     if (!parents.isEmpty())
     {
       Node * poppedNode = parents.top();
-      f(poppedNode->kv_pair);
+      try
+      {
+        f(poppedNode->kv_pair);
+      }
+      catch(const std::exception & e)
+      {
+        throw e;
+      }
       parents.pop();
       iterative = poppedNode->right;
     }
@@ -886,7 +893,14 @@ F khoroshkin::Tree< Key, Value, Comp >::traverse_rnl(F f) const
     if (!parents.isEmpty())
     {
       Node * poppedNode = parents.top();
-      f(poppedNode->kv_pair);
+      try
+      {
+        f(poppedNode->kv_pair);
+      }
+      catch(const std::exception & e)
+      {
+        throw e;
+      }
       parents.pop();
       iterative = poppedNode->left;
     }
@@ -905,7 +919,14 @@ F khoroshkin::Tree< Key, Value, Comp >::traverse_breadth(F f) const
     if (currentLevel.front() != nullptr)
     {
       Node * poppedNode = currentLevel.front();
-      f(poppedNode->kv_pair);
+      try
+      {
+        f(poppedNode->kv_pair);
+      }
+      catch(const std::exception & e)
+      {
+        throw e;
+      }
       currentLevel.pop();
       currentLevel.push(poppedNode->left);
       currentLevel.push(poppedNode->right);
