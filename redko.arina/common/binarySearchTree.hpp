@@ -63,14 +63,14 @@ namespace redko
     const_iterator lowerBound(const Key & key) const;
     iterator upperBound(const Key & key);
     const_iterator upperBound(const Key & key) const;
-    
+
     template< typename F >
     F traverseLR(F func) const;
     template< typename F >
     F traverseRL(F func) const;
     template< typename F >
     F traverseBreadth(F func) const;
-    
+
   private:
     struct Node
     {
