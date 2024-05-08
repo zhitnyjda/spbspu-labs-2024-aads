@@ -276,10 +276,15 @@ khoroshkin::List< T >::List(std::initializer_list< T > init)
 template< typename T >
 khoroshkin::List< T >::List(const khoroshkin::List< T > & obj)
 {
-  for (auto it = obj.begin(); it != obj.end(); ++it)
+  if (obj.head == nullptr)
   {
-    push_back(*it);
+    head = nullptr;
   }
+  else
+  {
+    head = new Node(*obj.head);
+  }
+  size = obj.size;
 }
 
 template< typename T >
