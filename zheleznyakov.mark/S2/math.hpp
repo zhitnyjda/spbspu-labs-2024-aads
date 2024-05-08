@@ -1,7 +1,7 @@
 #ifndef MATH_HPP
 #define MATH_HPP
 #include <fstream>
-#include <climits>
+#include <limits>
 #include "queue.hpp"
 #include "stack.hpp"
 #include "input.hpp"
