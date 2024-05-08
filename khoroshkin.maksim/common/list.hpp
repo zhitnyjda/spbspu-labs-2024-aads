@@ -280,7 +280,6 @@ khoroshkin::List< T >::List(const khoroshkin::List< T > & obj)
   {
     push_back(*it);
   }
-  size = obj.size;
 }
 
 template< typename T >
@@ -300,9 +299,9 @@ khoroshkin::List< T > & khoroshkin::List< T >::operator=(const List & obj)
 }
 
 template< typename T >
-khoroshkin::List< T >::List(khoroshkin::List< T > && obj) :
-  size(std::move(obj.size))
+khoroshkin::List< T >::List(khoroshkin::List< T > && obj)
 {
+  size = std::move(obj.size);
   head = std::move(obj.head);
   obj.head = nullptr;
   obj.size = 0;
