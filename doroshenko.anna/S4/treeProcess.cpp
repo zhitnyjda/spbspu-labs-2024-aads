@@ -31,7 +31,7 @@ void doroshenko::strToTree(std::string expression, BST< std::string, BST< long l
       else
       {
         value = symbol;
-        dict.insert(key, value);
+        dict.insert(key, std::ref(value));
       }
       symbol = "";
     }

@@ -2,6 +2,7 @@
 #define BINARY_SEARCH_TREE_HPP
 #include <iterator>
 #include <cassert>
+#include <functional>
 #include <algorithm>
 
 namespace doroshenko
@@ -398,11 +399,11 @@ template < typename Key, typename Value, typename Compare >
 typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::insert(const Key& key, const Value& value)
 {
   keyValPair data(key, value);
-  //Node* newNode = new Node(data);
+  Node* newNode = new Node(std::ref(data));
   if (root_ == nullptr)
   {
-    root_ = new Node(data);
-    return root_;
+    root_ = newNode;
+    return newNode;
   }
   Node* current = root_;
   Node* parent = nullptr;
@@ -419,33 +420,76 @@ typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::insert(co
     }
     else
     {
-      //delete newNode;
+      delete newNode;
       return current;
     }
   }
+  newNode->parent_ = parent;
   if (cmp_(data.first, parent->data_.first))
   {
-    Node* newNode = new Node(data);
-    newNode->parent_ = parent;
     parent->left_ = newNode;
-    updateHeight(parent);
-    balance(parent);
-    return newNode;
-  }
-  else if (cmp_(parent->data_.first, data.first))
-  {
-    Node* newNode = new Node(data);
-    newNode->parent_ = parent;
-    parent->right_ = newNode;
-    updateHeight(parent);
-    balance(parent);
-    return newNode;
   }
   else
   {
-    return parent;
+    parent->right_ = newNode;
   }
+  updateHeight(parent);
+  balance(parent);
+  return newNode;
 }
+
+//template < typename Key, typename Value, typename Compare >
+//typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::insert(const Key& key, const Value& value)
+//{
+//  keyValPair data(key, value);
+//  //Node* newNode = new Node(data);
+//  if (root_ == nullptr)
+//  {
+//    root_ = new Node(data);
+//    return root_;
+//  }
+//  Node* current = root_;
+//  Node* parent = nullptr;
+//  while (current)
+//  {
+//    parent = current;
+//    if (cmp_(data.first, current->data_.first))
+//    {
+//      current = current->left_;
+//    }
+//    else if (cmp_(current->data_.first, data.first))
+//    {
+//      current = current->right_;
+//    }
+//    else
+//    {
+//      //delete newNode;
+//      return current;
+//    }
+//  }
+//  if (cmp_(data.first, parent->data_.first))
+//  {
+//    Node* newNode = new Node(data);
+//    newNode->parent_ = parent;
+//    parent->left_ = newNode;
+//    updateHeight(parent);
+//    balance(parent);
+//    return newNode;
+//  }
+//  else if (cmp_(parent->data_.first, data.first))
+//  {
+//    Node* newNode = new Node(data);
+//    newNode->parent_ = parent;
+//    parent->right_ = newNode;
+//    updateHeight(parent);
+//    balance(parent);
+//    return newNode;
+//  }
+//  else
+//  {
+//    return parent;
+//  }
+//}
 
 //template < typename Key, typename Value, typename Compare >
 //void BST< Key, Value, Compare >::insert(const Key& key, const Value& value)
