@@ -632,8 +632,8 @@ void BST< Key, Value, Compare >::clear(Node* node)
   {
     clear(node->left_);
     clear(node->right_);
-    delete node;
   }
+  delete node;
   return;
 }
 
