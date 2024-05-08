@@ -22,7 +22,7 @@ long long zheleznyakov::calculatePostfix(Queue< std::string > & expression)
     expression.pop();
     if (isdigit(token[0]))
     {
-      stack.push(std::stoi(token));
+      stack.push(std::stoll(token));
     }
     else
     {
