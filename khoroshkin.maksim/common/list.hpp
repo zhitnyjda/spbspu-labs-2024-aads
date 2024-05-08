@@ -276,7 +276,6 @@ khoroshkin::List< T >::List(std::initializer_list< T > init)
 template< typename T >
 khoroshkin::List< T >::List(const khoroshkin::List< T > & obj)
 {
-  clear();
   for (auto it = obj.begin(); it != obj.end(); ++it)
   {
     push_back(*it);
