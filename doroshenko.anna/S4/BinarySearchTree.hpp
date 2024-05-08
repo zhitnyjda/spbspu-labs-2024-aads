@@ -434,7 +434,7 @@ typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::insert(co
     parent->right_ = newNode;
   }
   updateHeight(parent);
-  Node* newRoot = balance(parent);
+  balance(parent);
   return newNode;
 }
 
