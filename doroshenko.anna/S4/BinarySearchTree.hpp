@@ -28,7 +28,7 @@ namespace doroshenko
     void clear();
     void swap(BST& other);
     Iterator find(const Key& key);
-    Node* insert(const Key& key, const Value& value);
+    Node* insert(const Key key, const Value value);
     void insert(keyValPair pair);
     keyValPair& at(const Key& key);
     const keyValPair& at(const Key& key) const;
@@ -396,9 +396,9 @@ void BST< Key, Value, Compare >::insert(keyValPair pair)
 }
 
 template < typename Key, typename Value, typename Compare >
-typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::insert(const Key& key, const Value& value)
+typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::insert(const Key key, const Value value)
 {
-  keyValPair data(key, std::ref(value));
+  keyValPair data(key, value);
   Node* newNode = new Node(data);
   if (root_ == nullptr)
   {
@@ -429,9 +429,14 @@ typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::insert(co
   {
     parent->left_ = newNode;
   }
-  else
+  else if (cmp_(parent->data_.first, data.first))
   {
     parent->right_ = newNode;
+  }
+  else
+  {
+    delete newNode;
+    return parent;
   }
   updateHeight(parent);
   balance(parent);
