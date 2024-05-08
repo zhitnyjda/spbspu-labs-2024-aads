@@ -20,8 +20,10 @@ khoroshkin::Operand::Operand(long long oper) :
 
 void khoroshkin::Postfix::popOperation()
 {
-  Operand secondOperand = operands.pop();
-  Operand firstOperand = operands.pop();
+  Operand secondOperand = operands.top();
+  operands.pop();
+  Operand firstOperand = operands.top();
+  operands.pop();
   Operand limitTop = std::numeric_limits< long long >::max();
   Operand limitBottom = std::numeric_limits< long long >::min();
 
