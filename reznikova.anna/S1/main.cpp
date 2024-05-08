@@ -7,12 +7,13 @@ int main()
   using namespace reznikova;
   List< std::pair< std::string, List< size_t > > > list;
   List< size_t > sums;
+  bool is_overflow = false;
   try
   {
     inputList(std::cin, list);
-    sums = countSums(list);
+    sums = countSums(list, is_overflow);
     outputNames(std::cout, list);
-    outputArgs(std::cout, list);
+    outputArgs(std::cout, list, is_overflow);
     outputSums(std::cout, sums);
   }
   catch (const std::overflow_error& e)

@@ -34,9 +34,8 @@ size_t reznikova::findMaxLenOfArgs(List< std::pair < std::string, List< size_t >
   return max_size;
 }
 
-reznikova::List< size_t > reznikova::countSums(List< std::pair< std::string, List< size_t > > > & list)
+reznikova::List< size_t > reznikova::countSums(List< std::pair< std::string, List< size_t > > > & list, bool & overflow)
 {
-  bool overflow = false;
   List< size_t > sums;
   size_t max_size = findMaxLenOfArgs(list);
   const size_t maximum = std::numeric_limits< size_t >::max();
@@ -66,10 +65,6 @@ reznikova::List< size_t > reznikova::countSums(List< std::pair< std::string, Lis
     }
     sums.pushBack(sum);
   }
-  if (overflow == true)
-  {
-    throw std::overflow_error("overflow");
-  }
   return sums;
 }
 
@@ -91,7 +86,7 @@ void reznikova::outputNames(std::ostream & output, List< std::pair< std::string,
   }
 }
 
-void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, List< size_t > > > & list)
+void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, List< size_t > > > & list, bool & overflow)
 {
   size_t max_size = findMaxLenOfArgs(list);
   for (size_t i = 0; i != max_size; i++)
@@ -120,6 +115,10 @@ void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, 
       iterator++;
     }
     output << "\n";
+  }
+  if (overflow == true)
+  {
+    throw std::overflow_error("overflow");
   }
 }
 
