@@ -1,4 +1,4 @@
-#include "functions.hpp"
+#include "InpOutpProcessing.hpp"
 #include <limits>
 
 size_t mihalchenko::printName(mainList &mixedList, size_t mixedListSize, size_t maxLenOfSecondList)
