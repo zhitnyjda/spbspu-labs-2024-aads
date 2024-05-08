@@ -73,7 +73,9 @@ long long khoroshkin::calculateExpression(const std::string & str)
   {
     throw std::logic_error("Error: wrong expression");
   }
-  return expression.operands.pop().value;
+  long long result = expression.operands.top().value;
+  expression.operands.pop();
+  return result;
 }
 
 std::string khoroshkin::getToken(const std::string & str, size_t & pos)

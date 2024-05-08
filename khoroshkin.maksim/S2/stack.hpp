@@ -14,12 +14,14 @@ namespace khoroshkin
     Stack(const Stack & rhs);
     Stack(Stack && rhs);
 
-    T & top() const noexcept;
-    bool isEmpty();
-    size_t getSize();
+    T & top() noexcept;
+    const T & top() const noexcept;
+
+    bool isEmpty() const;
+    size_t getSize() const;
 
     void push(const T & value);
-    T pop();
+    void pop();
   private:
     List< T > stack;
   };
@@ -38,7 +40,7 @@ khoroshkin::Stack< T >::Stack(Stack && rhs)
 }
 
 template< typename T >
-T & khoroshkin::Stack< T >::top() const noexcept
+T & khoroshkin::Stack< T >::top() noexcept
 {
   for (auto it = stack.begin(); it != stack.end(); it++)
   {
@@ -51,13 +53,26 @@ T & khoroshkin::Stack< T >::top() const noexcept
 }
 
 template< typename T >
-bool khoroshkin::Stack< T >::isEmpty()
+const T & khoroshkin::Stack< T >::top() const noexcept
+{
+  for (auto it = stack.begin(); it != stack.end(); it++)
+  {
+    if (next(it) == stack.end())
+    {
+      return *it;
+    }
+  }
+  return *stack.begin();
+}
+
+template< typename T >
+bool khoroshkin::Stack< T >::isEmpty() const
 {
   return stack.isEmpty();
 }
 
 template< typename T >
-size_t khoroshkin::Stack< T >::getSize()
+size_t khoroshkin::Stack< T >::getSize() const
 {
   return stack.getSize();
 }
@@ -77,7 +92,7 @@ void khoroshkin::Stack< T >::push(const T & value)
 }
 
 template< typename T >
-T khoroshkin::Stack< T >::pop()
+void khoroshkin::Stack< T >::pop()
 {
   if (stack.isEmpty())
   {
@@ -94,10 +109,7 @@ T khoroshkin::Stack< T >::pop()
     it_before = it;
     ++it;
   }
-  T result = *it;
   stack.erase_after(it_before);
-
-  return result;
 }
 
 #endif

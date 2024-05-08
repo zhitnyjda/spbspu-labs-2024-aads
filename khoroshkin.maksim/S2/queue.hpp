@@ -14,13 +14,16 @@ namespace khoroshkin
     Queue(const Queue & rhs);
     Queue(Queue && rhs);
 
-    T & front() const noexcept;
-    T & back() const noexcept;
-    bool isEmpty();
-    size_t getSize();
+    T & front() noexcept;
+    const T & front() const noexcept;
+    T & back() noexcept;
+    const T & back() const noexcept;
+
+    bool isEmpty() const;
+    size_t getSize() const;
 
     void push(const T & value);
-    T pop();
+    void pop();
   private:
     List< T > queue;
   };
@@ -39,13 +42,19 @@ khoroshkin::Queue< T >::Queue(Queue && rhs)
 }
 
 template< typename T >
-T & khoroshkin::Queue< T >::front() const noexcept
+T & khoroshkin::Queue< T >::front() noexcept
 {
   return queue.front();
 }
 
 template< typename T >
-T & khoroshkin::Queue< T >::back() const noexcept
+const T & khoroshkin::Queue< T >::front() const noexcept
+{
+  return queue.front();
+}
+
+template< typename T >
+T & khoroshkin::Queue< T >::back() noexcept
 {
   for (auto it = queue.begin(); it != queue.end(); it++)
   {
@@ -58,13 +67,26 @@ T & khoroshkin::Queue< T >::back() const noexcept
 }
 
 template< typename T >
-bool khoroshkin::Queue< T >::isEmpty()
+const T & khoroshkin::Queue< T >::back() const noexcept
+{
+  for (auto it = queue.begin(); it != queue.end(); it++)
+  {
+    if (next(it) == queue.end())
+    {
+      return *it;
+    }
+  }
+  return *queue.begin();
+}
+
+template< typename T >
+bool khoroshkin::Queue< T >::isEmpty() const
 {
   return queue.isEmpty();
 }
 
 template< typename T >
-size_t khoroshkin::Queue< T >::getSize()
+size_t khoroshkin::Queue< T >::getSize() const
 {
   return queue.getSize();
 }
@@ -84,11 +106,9 @@ void khoroshkin::Queue< T >::push(const T & value)
 }
 
 template< typename T >
-T khoroshkin::Queue< T >::pop()
+void khoroshkin::Queue< T >::pop()
 {
-  T result = *queue.begin();
   queue.pop_front();
-  return result;
 }
 
 #endif

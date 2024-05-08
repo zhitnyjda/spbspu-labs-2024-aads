@@ -28,7 +28,8 @@ int main(int argc, char * argv[])
   {
     try
     {
-      std::cout << calculateExpression(expressions.pop());
+      std::cout << calculateExpression(expressions.top());
+      expressions.pop();
       if (!expressions.isEmpty())
       {
         std::cout << ' ';
