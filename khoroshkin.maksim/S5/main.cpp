@@ -46,9 +46,9 @@ int main(int argc, char * argv[])
   treeOfType.insert("breadth", breadthTraverse);
 
   auto type = treeOfType.find(argv[1]);
-  if (inputTree.isEmpty() && type == treeOfType.end())
+  if (type == treeOfType.end())
   {
-    outMessage(std::cout, "Error: empty file\n");
+    outMessage(std::cerr, "Error: unexpected args\n");
     return 1;
   }
   else if (inputTree.isEmpty())
