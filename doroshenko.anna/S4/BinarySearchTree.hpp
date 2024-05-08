@@ -27,7 +27,7 @@ namespace doroshenko
     void clear();
     void swap(BST& other);
     Iterator find(const Key& key);
-    void insert(const Key& key, const Value& value);
+    Node* insert(const Key& key, const Value& value);
     void insert(keyValPair pair);
     keyValPair& at(const Key& key);
     const keyValPair& at(const Key& key) const;
@@ -395,14 +395,15 @@ void BST< Key, Value, Compare >::insert(keyValPair pair)
 }
 
 template < typename Key, typename Value, typename Compare >
-void BST< Key, Value, Compare >::insert(const Key& key, const Value& value)
+typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::insert(const Key& key, const Value& value)
 {
   keyValPair data(key, value);
-  Node* newNode = new Node(data);
+  Node* newNode = nullptr;
+  newNode = new Node(data);
   if (root_ == nullptr)
   {
     root_ = newNode;
-    return;
+    return newNode;
   }
   Node* current = root_;
   Node* parent = nullptr;
@@ -420,9 +421,7 @@ void BST< Key, Value, Compare >::insert(const Key& key, const Value& value)
     else
     {
       delete newNode;
-      delete current;
-      delete parent;
-      return;
+      return current;
     }
   }
   newNode->parent_ = parent;
@@ -430,21 +429,62 @@ void BST< Key, Value, Compare >::insert(const Key& key, const Value& value)
   {
     parent->left_ = newNode;
   }
-  else if (cmp_(parent->data_.first, data.first))
+  else
   {
     parent->right_ = newNode;
   }
-  else
-  {
-    delete newNode;
-    delete current;
-    delete parent;
-    return;
-  }
   updateHeight(parent);
-  balance(parent);
-  return;
+  Node* newRoot = balance(parent);
+  return newNode;
 }
+
+//template < typename Key, typename Value, typename Compare >
+//void BST< Key, Value, Compare >::insert(const Key& key, const Value& value)
+//{
+//  keyValPair data(key, value);
+//  Node* newNode = new Node(data);
+//  if (root_ == nullptr)
+//  {
+//    root_ = newNode;
+//    return;
+//  }
+//  Node* current = root_;
+//  Node* parent = nullptr;
+//  while (current)
+//  {
+//    parent = current;
+//    if (cmp_(data.first, current->data_.first))
+//    {
+//      current = current->left_;
+//    }
+//    else if (cmp_(current->data_.first, data.first))
+//    {
+//      current = current->right_;
+//    }
+//    else
+//    {
+//      delete newNode;
+//      return;
+//    }
+//  }
+//  newNode->parent_ = parent;
+//  if (cmp_(data.first, parent->data_.first))
+//  {
+//    parent->left_ = newNode;
+//  }
+//  else if (cmp_(parent->data_.first, data.first))
+//  {
+//    parent->right_ = newNode;
+//  }
+//  else
+//  {
+//    delete newNode;
+//    return;
+//  }
+//  updateHeight(parent);
+//  balance(parent);
+//  return;
+//}
 
 template < typename Key, typename Value, typename Compare >
 void BST< Key, Value, Compare >::updateHeight(Node* node)
