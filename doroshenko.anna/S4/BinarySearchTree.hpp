@@ -423,24 +423,28 @@ typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::insert(co
       return current;
     }
   }
-  Node* newNode = new Node(data);
-  newNode->parent_ = parent;
   if (cmp_(data.first, parent->data_.first))
   {
+    Node* newNode = new Node(data);
+    newNode->parent_ = parent;
     parent->left_ = newNode;
+    updateHeight(parent);
+    balance(parent);
+    return newNode;
   }
   else if (cmp_(parent->data_.first, data.first))
   {
+    Node* newNode = new Node(data);
+    newNode->parent_ = parent;
     parent->right_ = newNode;
+    updateHeight(parent);
+    balance(parent);
+    return newNode;
   }
   else
   {
-    delete newNode;
     return parent;
   }
-  updateHeight(parent);
-  balance(parent);
-  return newNode;
 }
 
 //template < typename Key, typename Value, typename Compare >
