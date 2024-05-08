@@ -40,6 +40,10 @@ void doroshenko::strToTree(std::string expression, BST< std::string, BST< long l
       {
         result.insert(name, dict);
       }
+      else
+      {
+        dict.clear();
+      }
     }
     else
     {

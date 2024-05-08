@@ -419,7 +419,7 @@ typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::insert(co
     }
     else
     {
-      clear(newNode);
+      delete newNode;
       return current;
     }
   }
@@ -434,7 +434,7 @@ typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::insert(co
   }
   else
   {
-    clear(newNode);
+    delete newNode;
     return parent;
   }
   updateHeight(parent);
