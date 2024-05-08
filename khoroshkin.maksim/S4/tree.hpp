@@ -23,6 +23,8 @@ namespace khoroshkin
 
     Tree();
     Tree(size_t count, const value_type & keyAndValue);
+    template< class InputIt >
+    Tree(InputIt first, InputIt last);
     Tree(std::initializer_list< value_type > init);
     Tree(const Tree & rhs);
     Tree(Tree && rhs);
@@ -403,6 +405,16 @@ khoroshkin::Tree< Key, Value, Comp >::Tree(size_t count, const value_type & keyA
   for (size_t i = 0; i < count; ++i)
   {
     insert(keyAndValue);
+  }
+}
+
+template< typename Key, typename Value, typename Comp >
+template< class InputIt >
+khoroshkin::Tree< Key, Value, Comp >::Tree(InputIt first, InputIt last)
+{
+  for (;first != last; ++first)
+  {
+    insert(*first);
   }
 }
 
