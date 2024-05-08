@@ -10,7 +10,7 @@ int main(int argc, char ** argv)
 {
   if (argc != 3)
   {
-    std::cerr << "Error: wrong parameters\n";
+    std::cerr << "Error: wrong number of parameters\n";
     return 2;
   }
 
@@ -33,15 +33,32 @@ int main(int argc, char ** argv)
   int key = 0;
   while (!description.empty())
   {
-    key = redko::cutKey(description);
+    try
+    {
+      key = redko::cutKey(description);
+    }
+    catch (const std::out_of_range &)
+    {
+      std::cerr << "Error: out of range value\n";
+      return 1;
+    }
     elem = redko::cutName(description);
     data.insert({ key, elem });
   }
   if (!data.empty())
   {
-    try
+    if (functions.find(argv[1]) != functions.end())
     {
-      redko::SumAndOrder result = functions[argv[1]](&data, redko::SumAndOrder());
+      redko::SumAndOrder result{};
+      try
+      {
+        result = functions[argv[1]](&data, redko::SumAndOrder());
+      }
+      catch (const std::out_of_range & e)
+      {
+        std::cerr << e.what() << '\n';
+        return 1;
+      }
       std::cout << result.sum;
       while (!result.valueOrder.empty())
       {
@@ -50,21 +67,15 @@ int main(int argc, char ** argv)
       }
       std::cout << '\n';
     }
-    catch (const std::out_of_range & e)
+    else
     {
-      redko::printMessage(std::cerr, "<INVALID PARAMETER>");
+      std::cerr << "Error: invalid parameter\n";
       return 2;
-    }
-    catch (const std::overflow_error & e)
-    {
-      redko::printMessage(std::cerr, "<OVERFLOW ERROR>");
-      return 1;
     }
   }
   else
   {
     redko::printMessage(std::cout, "<EMPTY>");
   }
-
   return 0;
 }

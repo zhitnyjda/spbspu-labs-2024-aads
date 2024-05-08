@@ -50,15 +50,17 @@ redko::Queue< T >::Queue(Queue && other):
 {}
 
 template < typename T >
-redko::Queue< T >& redko::Queue< T >::operator=(const Queue & other)
+redko::Queue< T > & redko::Queue< T >::operator=(const Queue & other)
 {
   container_ = other.container_;
+  return *this;
 }
 
 template < typename T >
 redko::Queue< T > & redko::Queue< T >::operator=(Queue && other)
 {
   container_ = std::move(other.container_);
+  return *this;
 }
 
 template < typename T >
