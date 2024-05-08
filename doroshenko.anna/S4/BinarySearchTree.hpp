@@ -398,8 +398,7 @@ template < typename Key, typename Value, typename Compare >
 typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::insert(const Key& key, const Value& value)
 {
   keyValPair data(key, value);
-  Node* newNode = nullptr;
-  newNode = new Node(data);
+  Node* newNode = new Node(data);
   if (root_ == nullptr)
   {
     root_ = newNode;

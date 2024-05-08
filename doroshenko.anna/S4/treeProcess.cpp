@@ -36,7 +36,10 @@ void doroshenko::strToTree(std::string expression, BST< std::string, BST< long l
       i++;
       value = symbol;
       dict.insert(key, value);
-      result.insert(name, dict);
+      if (result.find(name) == result.end())
+      {
+        result.insert(name, dict);
+      }
     }
     else
     {
@@ -69,7 +72,7 @@ void doroshenko::print(BST< std::string, BST< long long, std::string > >& treeOf
     std::cout << "<INVALID COMMAND>\n";
     return;
   }
-  else if ((iter->second).isEmpty())
+  else if ((iter->second).getSize() == 0)
   {
     std::cout << "<EMPTY>\n";
     return;
