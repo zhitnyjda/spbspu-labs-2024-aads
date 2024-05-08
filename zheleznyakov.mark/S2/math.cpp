@@ -45,7 +45,7 @@ long long zheleznyakov::operation(const long long lval, const long long rval, co
   {
     if (maxLimit - lval < rval)
     {
-      throw new std::overflow_error("Overflow while processing an operation");
+      throw std::overflow_error("Overflow while processing an operation");
     }
     return lval + rval;
   }
@@ -53,7 +53,7 @@ long long zheleznyakov::operation(const long long lval, const long long rval, co
   {
     if (lval < rval + minLimit)
     {
-      throw new std::underflow_error("Underflow while processing an operation");
+      throw std::underflow_error("Underflow while processing an operation");
     }
     return lval - rval;
   }
@@ -61,7 +61,7 @@ long long zheleznyakov::operation(const long long lval, const long long rval, co
   {
     if (maxLimit / lval < rval)
     {
-      throw new std::overflow_error("Overflow while processing an operation");
+      throw std::overflow_error("Overflow while processing an operation");
     }
     return lval * rval;
   }
