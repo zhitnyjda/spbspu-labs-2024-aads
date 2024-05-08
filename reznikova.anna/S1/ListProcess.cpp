@@ -97,6 +97,7 @@ void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, 
   for (size_t i = 0; i != max_size; i++)
   {
     reznikova::details::Iterator< std::pair< std::string, List< size_t > > > iterator = list.begin();
+    bool isSpace = false;
     while (iterator != list.end())
     {
       reznikova::details::Iterator< size_t > args_iterator = iterator->second.begin();
@@ -106,11 +107,15 @@ void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, 
         {
           args_iterator++;
         }
-        if (iterator != list.begin())
+        if (!isSpace)
+        {
+          isSpace = true;
+        }
+        else
         {
           output << " ";
         }
-        output <<  *args_iterator;
+        output << *args_iterator;
       }
       iterator++;
     }
@@ -136,4 +141,3 @@ void reznikova::outputSums(std::ostream & output, List< size_t > & sums)
   }
   output << "\n";
 }
-
