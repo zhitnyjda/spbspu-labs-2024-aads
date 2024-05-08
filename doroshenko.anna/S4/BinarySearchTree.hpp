@@ -428,9 +428,14 @@ typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::insert(co
   {
     parent->left_ = newNode;
   }
-  else
+  else if (cmp_(parent->data_.first, data.first))
   {
     parent->right_ = newNode;
+  }
+  else
+  {
+    delete newNode;
+    return parent;
   }
   updateHeight(parent);
   balance(parent);
