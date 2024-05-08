@@ -1,11 +1,8 @@
 #ifndef QUEUE_HPP
 #define QUEUE_HPP
+
 #include "list.hpp"
-// #include <iostream>
-// #include <string>
-// #include <memory>
-#include <queue>
-// #include <algorithm>
+// #include <queue>
 
 namespace mihalchenko
 {

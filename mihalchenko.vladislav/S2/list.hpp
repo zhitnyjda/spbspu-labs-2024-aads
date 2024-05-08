@@ -711,7 +711,6 @@ void mihalchenko::List<T>::remove_if(F functor)
 template <typename T>
 size_t mihalchenko::List<T>::getSize()
 {
-  // std::cerr << "size_=" << size_ << " Ошибка входных данных!\n";
   return size_;
 }
 

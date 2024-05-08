@@ -1,13 +1,12 @@
 #include <iostream>
 #include <fstream>
 #include <set>
-// #include <stdexcept>
 #include <limits>
-#include "stack.hpp"
-#include "queue.hpp"
-#include "list.hpp"
+#include <cctype> //
+// #include "stack.hpp"
+// #include "queue.hpp"
+// #include "list.hpp"
 #include "func.hpp"
-// #include "stackWithOper.hpp"
 
 using namespace mihalchenko;
 
@@ -15,11 +14,9 @@ int main(int argc, char *argv[])
 {
   std::set<char> controlSet{'(', ')', '+', '-', '*', '/', '%'};
   Queue<std::string> resiveDigit;
-  // Queue<std::string> queueWrem;
   Stack<std::string> resiveControl;
   Stack<long long> calculateResult;
-  // Stack<CalcRez> calcRezult;
-  size_t ullMax = std::numeric_limits<size_t>::max();
+  // size_t ullMax = std::numeric_limits<size_t>::max();
   size_t llMax = std::numeric_limits<long long>::max();
 
   std::string currentStr; // вся текущая строка, считанная из консоли
@@ -35,22 +32,14 @@ int main(int argc, char *argv[])
       {
         if (!bildStrPostFix(currentStr, currentStr.size(), resiveDigit, resiveControl))
         {
-          std::cerr << "Ошиюка входных данных!\n";
+          std::cerr << "Ошибка входных данных!\n";
           return 1;
         }
-        // queueWrem = resiveDigit;
-        // queueWrem.size_ = resiveDigit.size_;
-        // calculateResult.size_ = calculatePostFix(resiveDigit, calculateResult, calcRezult);
         calculateResult.size_ = calculatePostFix(resiveDigit, calculateResult);
         if (calculateResult.getSize() == llMax)
         {
           return 1;
         }
-        resiveDigit.clear();
-        resiveDigit.size_ = 0;
-
-        // size_t num = queueWrem.size_;
-        // printedQueuePostFix(std::cout, queueWrem, num);
       }
       catch (...)
       {
@@ -69,17 +58,14 @@ int main(int argc, char *argv[])
       {
         if (!bildStrPostFix(currentStr, currentStr.size(), resiveDigit, resiveControl))
         {
-          std::cerr << "Ошиюка входных данных!\n";
+          std::cerr << "Ошибка входных данных!\n";
           return 1;
         }
-        // calculateResult.size_ = calculatePostFix(resiveDigit, calculateResult, calcRezult);
         calculateResult.size_ = calculatePostFix(resiveDigit, calculateResult);
         if (calculateResult.getSize() == llMax)
         {
           return 1;
         }
-        resiveDigit.clear();
-        resiveDigit.size_ = 0;
       }
       catch (...)
       {
@@ -97,6 +83,5 @@ int main(int argc, char *argv[])
 
   size_t num = calculateResult.getSize();
   printedResult(std::cout, calculateResult, num);
-
   return 0;
 }

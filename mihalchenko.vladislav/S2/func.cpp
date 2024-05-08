@@ -1,9 +1,11 @@
 #include "func.hpp"
-#include <iostream>
-#include <fstream>
-#include <set>
-#include <limits>
+// #include <iostream>
+// #include <fstream>
+// #include <set>
+// #include <limits>
 #include "types.hpp"
+// #include "stack.hpp"
+// #include "queue.hpp"
 
 void mihalchenko::printedResult(std::ostream &out, Stack<long long> &stack, size_t &num)
 {
@@ -19,16 +21,12 @@ void mihalchenko::printedResult(std::ostream &out, Stack<long long> &stack, size
 }
 
 size_t mihalchenko::calculatePostFix(Queue<std::string> &resiveDigit, Stack<long long> &calculateResult)
-// size_t mihalchenko::calculatePostFix(Queue<std::string> &resiveDigit, Stack<long long> &calculateResult, Stack<CalcRez> &calcRezult)
 {
   finalTransform finTrans;
-  // Stack<char> commands;
   std::set<char> controlSet{'(', ')', '+', '-', '*', '/', '%'};
-  bool flgStart = false;
-
-  //============================================
+  // bool flgStart = false;
   long long llMax = std::numeric_limits<long long>::max();
-  size_t i = resiveDigit.getSize();
+  long long i = resiveDigit.getSize();
   while ((i > 0) && (i != llMax))
   {
     if (!controlSet.count(resiveDigit.watch(i - 1)[0]))
@@ -42,141 +40,20 @@ size_t mihalchenko::calculatePostFix(Queue<std::string> &resiveDigit, Stack<long
     }
     i = i - 1;
   }
-  //============================================
-  i = resiveDigit.getSize();
-  size_t k = 0;
-  while ((i > 0) && (i != llMax))
-  {
-    std::cout << resiveDigit.watch(k) << " ";
-    k = k + 1;
-    i = i - 1;
-  }
-  std::cout << "очередь" << std::endl;
-  // while (finTrans.calcRezult.getSize() > 0)
-  //{
-  //   std::cout <<  finTrans.calcRezult.pop().resultCalc << " " ;
-  //}
-  // std::cout << std::endl;
-  // while (finTrans.commands.getSize() > 0)
-  //{
-  //  std::cout <<  finTrans.commands.pop() << " " ;
-  //}
-  // std::cout << std::endl;
-  //============================================
 
-  /*
-  while (resiveDigit.getSize() > 0)
+  if (!finTrans.calculate())
   {
-    if ((resiveDigit.getSize() > 3) && (!controlSet.count(resiveDigit.watch(0)[0])) && (!controlSet.count(resiveDigit.watch(1)[0])) && (!controlSet.count(resiveDigit.watch(2)[0])) && (controlSet.count(resiveDigit.watch(3)[0])))
-    {
-      flgStart = true;
-      calculateResult.push(stoll(resiveDigit.pop())); // фиксирую сюда первый элемент очереди
-      calculateResult.push(bildOperation(stoll(resiveDigit.pop()), stoll(resiveDigit.pop()), resiveDigit.watch(2)[0]));
-      //calcRezult.push(stoll(resiveDigit.pop()) + stoll(resiveDigit.pop()));
-      //calcRezult.push(stoll(resiveDigit.pop()));
-      //calcRezult.push(1000000);
-      //std::cout << calcRezult.pop().resultCalc << std::endl;
-      resiveDigit.pop(); // просто очищаем очередь от выполненной команды
-    }
-    else if ((resiveDigit.getSize() > 2) && (!controlSet.count(resiveDigit.watch(0)[0])) && (!controlSet.count(resiveDigit.watch(1)[0])) && (controlSet.count(resiveDigit.watch(2)[0])))
-    {
-      flgStart = true;
-      calculateResult.push(bildOperation(stoll(resiveDigit.pop()), stoll(resiveDigit.pop()), resiveDigit.watch(2)[0]));
-      resiveDigit.pop(); // просто очищаем очередь от выполненной команды
-    }
-    else if ((flgStart) && (resiveDigit.getSize() > 1) && (!controlSet.count(resiveDigit.watch(0)[0])) && (controlSet.count(resiveDigit.watch(1)[0])))
-    {
-      calculateResult.push(bildOperation(stoll(resiveDigit.pop()), calculateResult.pop(), resiveDigit.watch(1)[0]));
-      resiveDigit.pop(); // просто очищаем очередь от выполненной команды
-    }
-    else if ((flgStart) && (resiveDigit.getSize() > 0) && (calculateResult.getSize() > 1) && (controlSet.count(resiveDigit.watch(0)[0])))
-    {
-      long long wrem = calculateResult.pop();
-      calculateResult.push(bildOperation(wrem, calculateResult.pop(), resiveDigit.watch(0)[0]));
-      resiveDigit.pop(); // просто очищаем очередь от выполненной команды
-    }
-    else if ((!flgStart) && (resiveDigit.getSize() > 0) && (calculateResult.getSize() == 0) && (!controlSet.count(resiveDigit.watch(0)[0])))
-    {
-      calculateResult.push(stoll(resiveDigit.pop()));
-    }
-    else if ((!flgStart) && (resiveDigit.getSize() > 0) && (calculateResult.getSize() == 0))
-    {
-      std::string strV = resiveDigit.pop();
-      if (strV[0] == '(')
-      {
-        strV.erase(0, 1);
-      }
-      if (strV.find(')'))
-      {
-        strV.erase(strV.find(')'), 1);
-      }
-      calculateResult.push(stoll(strV));
-    }
-    else
-    {
-      std::cerr << "Ошибка входных данных!\n";
-      return std::numeric_limits<long long>::max();
-    }
-  }*/
+    return llMax;
+  }
+
+  if (finTrans.calcRezult.getSize() > 0)
+  {
+    // std::cout << "!!!" << finTrans.calcRezult.watch(0).resultCalc << std::endl;
+    calculateResult.push(finTrans.calcRezult.watch(0).resultCalc);
+  }
   resiveDigit.clear();
-
-  //========================================================
-  // while (finTrans.commands.getSize() > 0)
-  //{
-  finTrans.calculate();
-  // calculateResult.push(finTrans.calcRezult.pop().resultCalc);
-  // std::cout <<  finTrans.commands.pop() << " " ;
-  //}
-  // std::cout << std::endl;
-  //========================================================
-
+  resiveDigit.size_ = 0;
   return calculateResult.getSize();
-}
-
-long long mihalchenko::bildOperation(long long operandOne, long long operandTwo, char operation)
-{
-  long long llMax = std::numeric_limits<long long>::max();
-  long long resultVal;
-  switch (operation)
-  {
-  case '+':
-    if (llMax - operandTwo >= operandOne)
-    {
-      resultVal = operandTwo + operandOne;
-    }
-    else
-    {
-      std::cerr << "Переполнение!\n";
-      return llMax;
-    }
-    break;
-  case '-':
-    resultVal = operandTwo - operandOne;
-    break;
-  case '*':
-    if (llMax / operandOne >= operandTwo)
-    {
-      resultVal = operandTwo * operandOne;
-    }
-    else
-    {
-      std::cerr << "Переполнение!\n";
-      return llMax;
-    }
-    break;
-  case '/':
-    resultVal = operandTwo / operandOne;
-    break;
-  case '%':
-    if (operandOne < 0)
-    {
-      resultVal = abs((operandOne / operandTwo - 1) * operandTwo - operandOne);
-    }
-    else
-      resultVal = operandTwo % operandOne;
-    break;
-  }
-  return resultVal;
 }
 
 bool mihalchenko::bildStrPostFix(std::string &currentStr, size_t currentStrSize, Queue<std::string> &resiveDigit, Stack<std::string> &resiveControl)
@@ -191,6 +68,7 @@ bool mihalchenko::bildStrPostFix(std::string &currentStr, size_t currentStrSize,
   size_t i = 0;
   std::string elementStr; // элемент строки, текст между пробелами
   std::string prewCommand = "";
+  int counterSc = 0;
   while (i < currentStrSize) // Анализ текущей строки - перебираем элементы строки, разделенные пробелом
   {
     size_t posWhite = currentStr.find(' ');                // позиция символа, где встретился пробел(индекс начинается с 1)
@@ -221,6 +99,7 @@ bool mihalchenko::bildStrPostFix(std::string &currentStr, size_t currentStrSize,
       {
         if (elementStr[0] == ')')
         {
+          counterSc = counterSc - 1;
           std::string strFS;
           do
           {
@@ -239,6 +118,10 @@ bool mihalchenko::bildStrPostFix(std::string &currentStr, size_t currentStrSize,
         else if ((prewCommand == "(") || (elementStr[0] == '('))
         {
           resiveControl.push(elementStr); // Сохраняем принятый символ в стек
+          if (elementStr[0] == '(')
+          {
+            counterSc = counterSc + 1;
+          }
         }
         else
         {
@@ -260,6 +143,11 @@ bool mihalchenko::bildStrPostFix(std::string &currentStr, size_t currentStrSize,
       std::cerr << "ЛОГИКА НАРУШЕНА" << std::endl;
       flgResult = false;
     }
+  }
+  if (counterSc != 0)
+  {
+    std::cerr << "количество скобок не бьется" << std::endl;
+    flgResult = false;
   }
   while ((resiveControl.getSize() > 0) && (resiveControl.getSize() != ullMax))
   {
