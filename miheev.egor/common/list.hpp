@@ -25,6 +25,7 @@ namespace miheev
     bool empty() const;
 
     T& front();
+    const T& front() const;
 
     size_t size() const;
 
@@ -267,7 +268,7 @@ void miheev::List< T >::Iterator::eraseAfter()
 
 template< typename T >
 miheev::List< T >::List():
-  data_(0),
+  data_(T()),
   next_(nullptr),
   isEmpty_(true)
 {}
@@ -441,6 +442,12 @@ T& miheev::List< T >::front()
 }
 
 template < typename T >
+const T& miheev::List< T >::front() const
+{
+  return data_;
+}
+
+template < typename T >
 void miheev::List< T >::pushFront(const T& data)
 {
   if (!isEmpty_)
@@ -519,9 +526,10 @@ void miheev::List< T >::remove(T data)
 template < typename T >
 void miheev::List< T >::print(std::ostream& stream, const char& splitter) const
 {
-  stream << data_ << splitter;
+  stream << data_;
   if (next_)
   {
+    stream << splitter;
     next_->print(stream, splitter);
   }
   else
