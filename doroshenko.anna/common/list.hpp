@@ -23,7 +23,7 @@ namespace doroshenko
     void pushFront(const T& data);
     void pushBack(const T& data);
     void popFront();
-    bool isEmpty() noexcept;
+    bool isEmpty() const noexcept;
     void clear();
     void swap(List< T >& otherList) noexcept;
     void assign(size_t n, const T& value);
@@ -321,7 +321,7 @@ void doroshenko::List< T >::popFront()
 }
 
 template< typename T >
-bool doroshenko::List< T >::isEmpty() noexcept
+bool doroshenko::List< T >::isEmpty() const noexcept
 {
   return head_ == nullptr ? true : false;
 }
