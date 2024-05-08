@@ -1,4 +1,5 @@
 #include "treeProcess.hpp"
+#include <functional>
 
 void doroshenko::strToTree(std::string expression, BST< std::string, BST< long long, std::string > >& result)
 {
