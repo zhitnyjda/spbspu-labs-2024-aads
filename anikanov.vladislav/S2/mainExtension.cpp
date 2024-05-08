@@ -2,14 +2,14 @@
 
 #include <iostream>
 #include <limits>
-#include <sstream>
+#include <algorithm>
+#include <cctype>
 #include "stack.hpp"
 #include "elementOfExpression.hpp"
 #include "bracket.hpp"
 #include "operand.hpp"
 
-
-bool checkPriority(const elementType &first, const std::shared_ptr< anikanov::Operation > &second)
+bool anikanov::checkPriority(const elementType &first, const std::shared_ptr< anikanov::Operation > &second)
 {
   if (first->isBracket()) {
     return 0 >= second->getPriority();
@@ -18,7 +18,7 @@ bool checkPriority(const elementType &first, const std::shared_ptr< anikanov::Op
   return operation->getPriority() >= std::dynamic_pointer_cast< anikanov::Operation >(second)->getPriority();
 }
 
-bool checkForward(const elementType &element)
+bool anikanov::checkForward(const elementType &element)
 {
   if (!element->isBracket()) {
     return false;
@@ -26,16 +26,19 @@ bool checkForward(const elementType &element)
   return std::dynamic_pointer_cast< anikanov::Bracket >(element)->isForward();
 }
 
-
-anikanov::Queue< std::shared_ptr< anikanov::ElementOfExpression > > toPostfix(const std::string &expression)
+anikanov::Queue< std::shared_ptr< anikanov::ElementOfExpression > > anikanov::toPostfix(const std::string &exp)
 {
   using namespace anikanov;
   Stack< std::shared_ptr< ElementOfExpression > > operators;
   Queue< std::shared_ptr< ElementOfExpression > > output;
-  std::stringstream ss(expression);
+  auto start = exp.begin();
   std::string token;
 
-  while (ss >> token) {
+  while (start != exp.end()) {
+    auto end = std::find_if(start, exp.end(), [](char c) { return std::isspace(c); });
+    token = std::string(start, end);
+    start = std::find_if(end, exp.end(), [](char c) { return !std::isspace(c); });
+
     if (isdigit(token[0])) {
       output.push(std::make_shared< Operand >(token));
     } else if (token[0] == '(') {
@@ -71,7 +74,7 @@ anikanov::Queue< std::shared_ptr< anikanov::ElementOfExpression > > toPostfix(co
   return output;
 }
 
-long long calculate(anikanov::Queue< std::shared_ptr< anikanov::ElementOfExpression > > &postfix)
+long long anikanov::calculate(anikanov::Queue< std::shared_ptr< anikanov::ElementOfExpression > > &postfix)
 {
   using namespace anikanov;
   Stack< std::shared_ptr< ElementOfExpression > > stack;

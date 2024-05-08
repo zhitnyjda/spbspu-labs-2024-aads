@@ -6,14 +6,17 @@
 #include "queue.hpp"
 #include "operation.hpp"
 
-using elementType = std::shared_ptr< anikanov::ElementOfExpression >;
+namespace anikanov {
 
-bool checkPriority(const elementType &first, const std::shared_ptr< anikanov::Operation > &second);
+  using elementType = std::shared_ptr< anikanov::ElementOfExpression >;
 
-bool checkForward(const elementType &element);
+  bool checkPriority(const elementType &first, const std::shared_ptr< anikanov::Operation > &second);
 
-anikanov::Queue< std::shared_ptr< anikanov::ElementOfExpression > > toPostfix(const std::string &expression);
+  bool checkForward(const elementType &element);
 
-long long calculate(anikanov::Queue< std::shared_ptr< anikanov::ElementOfExpression > > &postfix);
+  anikanov::Queue< std::shared_ptr< anikanov::ElementOfExpression > > toPostfix(const std::string &exp);
+
+  long long calculate(anikanov::Queue< std::shared_ptr< anikanov::ElementOfExpression > > &postfix);
+}
 
 #endif

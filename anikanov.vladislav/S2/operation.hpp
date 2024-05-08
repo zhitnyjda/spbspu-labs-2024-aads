@@ -14,7 +14,7 @@ namespace anikanov {
     short getPriority() const noexcept;
     std::string getValue() const noexcept;
   private:
-    short getPriority(std::string op);
+    short convertToPriority(std::string op);
 
     short priority{};
     std::string value{};

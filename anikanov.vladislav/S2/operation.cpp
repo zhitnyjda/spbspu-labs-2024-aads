@@ -1,6 +1,6 @@
 #include "operation.hpp"
 
-short anikanov::Operation::getPriority(std::string op)
+short anikanov::Operation::convertToPriority(std::string op)
 {
   if (op == "+" || op == "-") {
     return 1;
@@ -14,7 +14,7 @@ short anikanov::Operation::getPriority(std::string op)
 anikanov::Operation::Operation(std::string value)
 {
   this->value = value;
-  priority = getPriority(value);
+  priority = convertToPriority(value);
 }
 
 bool anikanov::Operation::isBracket() const noexcept

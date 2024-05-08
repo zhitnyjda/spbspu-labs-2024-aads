@@ -2,7 +2,7 @@
 #define STACK_HPP
 
 #include <cassert>
-#include "../common/list.hpp"
+#include "list.hpp"
 
 namespace anikanov {
 
@@ -12,12 +12,12 @@ namespace anikanov {
     Stack() = default;
     ~Stack() = default;
     Stack(const Stack &rhs);
-    Stack(Stack &&rhs) noexcept;
+    Stack(const Stack &&rhs) noexcept;
 
     T &top() noexcept;
     const T &top() const noexcept;
 
-    bool isEmpty() const;
+    bool isEmpty() const noexcept;
     size_t getSize() const;
 
     void push(const T &value);
@@ -34,7 +34,7 @@ anikanov::Stack< T >::Stack(const Stack &rhs)
 }
 
 template< typename T >
-anikanov::Stack< T >::Stack(Stack &&rhs) noexcept
+anikanov::Stack< T >::Stack(const Stack &&rhs) noexcept
 {
   list = std::move(rhs.list);
 }
@@ -54,7 +54,7 @@ const T &anikanov::Stack< T >::top() const noexcept
 }
 
 template< typename T >
-bool anikanov::Stack< T >::isEmpty() const
+bool anikanov::Stack< T >::isEmpty() const noexcept
 {
   return list.empty();
 }

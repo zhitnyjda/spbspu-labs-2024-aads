@@ -1,7 +1,6 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <sstream>
 #include "queue.hpp"
 #include "stack.hpp"
 #include "mainExtension.hpp"
@@ -35,16 +34,10 @@ int main(int argc, char *argv[])
     try {
       postfix = toPostfix(expression);
       answers.push(calculate(postfix));
-    } catch (const std::invalid_argument &err) {
+    } catch (const std::logic_error &err) {
       std::cerr << err.what() << "\n";
       return 1;
-    } catch (const std::out_of_range &err) {
-      std::cerr << err.what() << "\n";
-      return 1;
-    } catch (const std::overflow_error &err) {
-      std::cerr << err.what() << "\n";
-      return 2;
-    } catch (const std::underflow_error &err) {
+    } catch (const std::runtime_error &err) {
       std::cerr << err.what() << "\n";
       return 2;
     }
