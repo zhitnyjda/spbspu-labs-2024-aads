@@ -1,4 +1,5 @@
 #include <iostream>
+#include <exception>
 #include "stack.hpp"
 #include "queue.hpp"
 #include "input.hpp"
@@ -25,9 +26,9 @@ int main(int argc, char * argv[])
   {
     zheleznyakov::processProblems(problems);
   }
-  catch (const std::overflow_error& e)
+  catch (...)
   {
-    std::cerr << e.what() << '\n';
+    std::cerr << "Something went wrong\n";
     return 1;
   }
   return 0;
