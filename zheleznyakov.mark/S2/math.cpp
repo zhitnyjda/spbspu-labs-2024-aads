@@ -8,9 +8,10 @@ void zheleznyakov::processProblems(Stack< std::string > & problems)
     Queue< std::string > postfix;
     tokenize(problems.top(), infix);
     infixToPostfix(infix, postfix);
-    std::cout << calculatePostfix(postfix) << (problems.size() > 1 ? ' ' : '\n');
+    std::cout << calculatePostfix(postfix) << (problems.size() > 1 ? " " : "");
     problems.pop();
   }
+  std::cout << '\n';
 }
 
 long long zheleznyakov::calculatePostfix(Queue< std::string > & expression)
