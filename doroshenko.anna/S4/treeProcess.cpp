@@ -31,7 +31,7 @@ void doroshenko::strToTree(std::string expression, BST< std::string, BST< long l
       else
       {
         value = symbol;
-        dict.insert(key, std::ref(value));
+        dict.insert(key, value);
       }
       symbol = "";
     }
@@ -41,7 +41,7 @@ void doroshenko::strToTree(std::string expression, BST< std::string, BST< long l
       i++;
       value = symbol;
       dict.insert(key, value);
-      result.insert(name, std::ref(dict));
+      result.insert(name, dict);
       dict.clear();
     }
     else
