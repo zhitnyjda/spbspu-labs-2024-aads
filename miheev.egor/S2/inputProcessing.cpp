@@ -62,11 +62,13 @@ bool isOpeningParenthesisOnTop(const miheev::Stack< miheev::element_t >& stack)
   {
     return false;
   }
-  if (stack.top().getType() != "parenthesis")
+  bool parenthesisOnTop = stack.top().getType() != "parenthesis";
+  if (parenthesisOnTop)
   {
     return false;
   }
-  if (stack.top().getParenthesis().parenthesis != '(')
+  bool parenthesisIsOpening = stack.top().getParenthesis().parenthesis != '(';
+  if (parenthesisIsOpening)
   {
     return false;
   }
@@ -79,11 +81,13 @@ bool shouldPushOpToStack(const miheev::Stack< miheev::element_t >& stack, const 
   {
     return true;
   }
-  if (stack.top().getType() != "operation")
+  bool operationOnTop = stack.top().getType() != "operation";
+  if (operationOnTop)
   {
     return true;
   }
-  if (curr.getOperation() < stack.top().getOperation())
+  bool currOperationHasLessPriority = curr.getOperation() < stack.top().getOperation();
+  if (currOperationHasLessPriority)
   {
     return true;
   }
