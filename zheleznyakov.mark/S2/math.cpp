@@ -71,7 +71,7 @@ long long zheleznyakov::operation(const long long lval, const long long rval, co
   }
   else if (operation == '%')
   {
-    return lval < 0 ? lval % lval + rval : lval % rval;
+    return lval < 0 ? lval % rval + rval : lval % rval;
   }
   else
   {
