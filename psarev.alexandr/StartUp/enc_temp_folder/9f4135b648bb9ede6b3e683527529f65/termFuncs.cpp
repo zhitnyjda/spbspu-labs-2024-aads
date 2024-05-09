@@ -175,7 +175,7 @@ long long psarev::calculateTerm(Queue< std::string >& term)
     }
     else
     {
-      throw std::logic_error("Error: Term is incorrect!\n");
+      throw std::logic_error("incorrect expression");
     }
   }
   unsigned long long result = stack.getTop();

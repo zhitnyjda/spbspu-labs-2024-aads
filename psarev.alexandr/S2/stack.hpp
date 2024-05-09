@@ -1,6 +1,6 @@
 #ifndef STACK_HPP
 #define STACK_HPP
-#include <list.hpp>
+#include "../common/list.hpp"
 
 namespace psarev
 {
