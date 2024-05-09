@@ -76,7 +76,7 @@ public:
       {
         if (b == 0)
         {
-          throw std::runtime_error("Modulo by zero")
+          throw std::runtime_error("Modulo by zero");
         }
         if (a < 0)
         {
