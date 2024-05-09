@@ -513,8 +513,8 @@ size_t BST< Key, Value, Compare >::erase(const Key& key)
   {
     return 0;
   }
-  size_t count = deleteNode(nodeToDelete);
   balance(nodeToDelete->parent_);
+  size_t count = deleteNode(nodeToDelete);
   return count;
 }
 
