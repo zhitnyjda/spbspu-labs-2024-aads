@@ -8,7 +8,7 @@ namespace reznikova
   namespace details
   {
     template< typename T >
-    class ConstIterator : public std::iterator< std::bidirectional_iterator_tag, T >
+    class ConstIterator
     {
     public:
       using this_t = ConstIterator;
@@ -43,7 +43,7 @@ template< typename T >
 typename reznikova::details::ConstIterator< T > reznikova::details::ConstIterator< T >::operator++(int)
 {
   assert(iter_.node_ != nullptr);
-  Iterator result(*this);
+  Iterator< T > result(*this);
   iter_.node_ = iter_.node_->next_;
   return result;
 }
@@ -60,19 +60,19 @@ template< typename T >
 typename reznikova::details::ConstIterator< T > reznikova::details::ConstIterator< T >::operator--(int)
 {
   assert(iter_.node_ != nullptr);
-  Iterator result(*this);
+  Iterator< T > result(*this);
   iter_.node_ = iter_.node_->prev_;
   return result;
 }
 
 template< typename T >
-bool reznikova::details::ConstIterator< T >::operator==(const ConstIterator & rhs) const
+bool reznikova::details::ConstIterator< T >::operator==(const reznikova::details::ConstIterator< T > & rhs) const
 {
   return iter_.node_ == rhs.iter_.node_;
 }
 
 template< typename T >
-bool reznikova::details::ConstIterator< T >::operator!=(const ConstIterator & rhs) const
+bool reznikova::details::ConstIterator< T >::operator!=(const reznikova::details::ConstIterator< T > & rhs) const
 {
   return !(rhs == *this);
 }

@@ -67,7 +67,6 @@ namespace reznikova
         close_bracket_ = other.close_bracket_;
       }
       ~elem_t() {}
-      
       Operand operand_;
       Operator operator_;
       Bracket open_bracket_;

@@ -23,10 +23,10 @@ namespace reznikova
     template < class InputIterator >
     List(InputIterator first, InputIterator last);
     ~List();
-    
+
     List< T >& operator=(const List< T >& other);
     List< T >& operator=(List< T >&& other);
-    
+
     void pushFront(const T & val);
     void pushBack(const T & val);
     void popFront();
@@ -40,7 +40,7 @@ namespace reznikova
     details::ConstIterator< T > end() const noexcept;
     details::Iterator< T > begin() noexcept;
     details::Iterator< T > end() noexcept;
-    
+
     void remove(const T& value);
     template< class UnaryPredicate >
     void remove_if(UnaryPredicate p);
@@ -53,10 +53,11 @@ namespace reznikova
     void reverse();
     void splice(details::Iterator< T > position, List< T >& x);
     size_t getSize() const noexcept;
+
   private:
+    size_t size_;
     details::Node< T > * head_;
     details::Node< T > * tail_;
-    size_t size_;
   };
 }
 
@@ -158,7 +159,7 @@ reznikova::List< T >& reznikova::List< T >::operator=(List< T >&& other)
 template< typename T >
 void reznikova::List<T>::pushFront(const T & val)
 {
-  details::Node< T > * newNode = new details::Node(val, nullptr, head_);
+  details::Node< T > * newNode = new details::Node< T >(val, nullptr, head_);
   if (empty())
   {
     tail_ = newNode;
@@ -378,7 +379,7 @@ typename reznikova::details::Iterator< T > reznikova::List< T >::insert(details:
   }
   else
   {
-    details::Node< T > * node = new details::Node(value, pos->prev_, pos->prev_->next_);
+    details::Node< T > * node = new details::Node< T >(value, pos->prev_, pos->prev_->next_);
     it = node;
     pos->prev_ = it;
     pos->prev_next_ = it;
