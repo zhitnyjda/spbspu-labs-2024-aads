@@ -22,7 +22,7 @@ namespace sobolevsky
     bool empty();
     long long size();
   private:
-    List< T > list
+    List< T > list;
   };
 }
 
