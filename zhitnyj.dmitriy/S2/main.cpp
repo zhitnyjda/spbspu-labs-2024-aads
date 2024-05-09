@@ -5,8 +5,6 @@
 #include "Stack.hpp"
 #include "ExpressionItem.hpp"
 #include "ExpressionEvaluator.hpp"
-#include "Operand.hpp"
-#include "Operator.hpp"
 
 int main(int argc, char* argv[])
 {
