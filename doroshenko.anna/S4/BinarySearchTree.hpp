@@ -28,8 +28,8 @@ namespace doroshenko
     void clear();
     void swap(BST& other);
     Iterator find(const Key& key);
-    Node* insert(Key& key, Value& value);
-    void insert(keyValPair pair);
+    Node* insert(const Key& key, const Value& value);
+    void insert(const keyValPair& pair);
     keyValPair& at(const Key& key);
     const keyValPair& at(const Key& key) const;
     size_t erase(const Key& key);
@@ -388,13 +388,13 @@ size_t BST< Key, Value, Compare >::getBalance(Node* root)
 }
 
 template< typename Key, typename Value, typename Compare >
-void BST< Key, Value, Compare >::insert(keyValPair pair)
+void BST< Key, Value, Compare >::insert(const keyValPair& pair)
 {
   insert(pair.first, pair.second);
 }
 
 template < typename Key, typename Value, typename Compare >
-typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::insert(Key& key, Value& value)
+typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::insert(const Key& key, const Value& value)
 {
   if (isEmpty())
   {
