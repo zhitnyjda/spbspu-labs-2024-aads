@@ -49,15 +49,12 @@ int main(int argc, char* argv[])
       }
     }
 
-    if (results.empty())
-    {
-      std::cout << "\n";
-    }
     while (!results.empty())
     {
-      std::cout << results.top() << " ";
+      std::cout << results.top() << (results.size() == 1 ? "" : " ");
       results.pop();
     }
+    std::cout << "\n";
   }
   catch (const std::exception& e)
   {
