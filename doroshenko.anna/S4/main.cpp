@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
     }
     else if (!function.empty())
     {
-      std::cout << "<INVALID COMMAND>";
+      std::cout << "<INVALID COMMAND>\n";
       std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
     }
   }
