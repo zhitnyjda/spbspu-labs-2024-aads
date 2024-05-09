@@ -32,6 +32,7 @@ namespace doroshenko
     void insert(const keyValPair& pair);
     keyValPair& at(const Key& key);
     const keyValPair& at(const Key& key) const;
+    Iterator erase(Iterator position);
     size_t erase(const Key& key);
     std::pair< ConstIterator, ConstIterator > equalRange(const Key& key) const;
     std::pair< Iterator, Iterator > equalRange(const Key& key);
@@ -46,9 +47,9 @@ namespace doroshenko
     Node* root_;
     Compare cmp_;
 
-    Node* isBalanced(Node* node);
     void clear(Node* node);
     Node* balance(Node* node);
+    void balanceFromNode(Node* node);
     Node* turnRight(Node* root);
     Node* turnLeft(Node* root);
     void updateHeight(Node* root);
@@ -350,21 +351,6 @@ bool BST< Key, Value, Compare >::isEmpty() noexcept
 }
 
 template< typename Key, typename Value, typename Compare >
-typename BST< Key, Value, Compare >::Node * BST< Key, Value, Compare >::isBalanced(Node * node)
-{
-  Node * temp = node;
-  while (temp)
-  {
-    if (std::abs(getBalance(temp)) > 1)
-    {
-      return temp;
-    }
-    temp = temp->parent;
-  }
-  return nullptr;
-}
-
-template< typename Key, typename Value, typename Compare >
 size_t BST< Key, Value, Compare >::getSize() noexcept
 {
   ConstIterator iter = cbegin();
@@ -413,7 +399,7 @@ typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::insert(co
 {
   if (isEmpty())
   {
-    root_ = new Node({key, value});
+    root_ = new Node({ key, value });
     return root_;
   }
   Node* current = root_;
@@ -434,7 +420,7 @@ typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::insert(co
       return current;
     }
   }
-  Node* newNode = new Node({key, value}, parent);
+  Node* newNode = new Node({ key, value }, parent);
   if (cmp_(key, parent->data_.first))
   {
     parent->left_ = newNode;
@@ -445,6 +431,77 @@ typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::insert(co
   }
   balance(newNode);
   return newNode;
+}
+
+template <typename Key, typename Value, typename Compare>
+void BST<Key, Value, Compare>::balanceFromNode(Node* node) {
+  while (node) {
+    updateHeight(node);
+    node = balance(node);
+    node = node->parent_;
+  }
+}
+
+template< typename Key, typename Value, typename Compare >
+typename BST< Key, Value, Compare >::Iterator BST< Key, Value, Compare >::erase(Iterator position)
+{
+  if (position == ConstIterator(nullptr, root_))
+  {
+    return end();
+  }
+  Node* nodeToDelete = position.iterator.node_;
+  Node* parent = nodeToDelete->parent_;
+  Node* successor = nullptr;
+  if (nodeToDelete->left_ && nodeToDelete->right_)
+  {
+    successor = nodeToDelete->right_;
+    while (successor->left_)
+    {
+      successor = successor->left_;
+    }
+    nodeToDelete = successor;
+    parent = successor->parent_;
+  }
+  Node* child = nodeToDelete->left_ ? nodeToDelete->left_ : nodeToDelete->right_;
+  if (child)
+  {
+    child->parent_ = parent;
+  }
+  if (!parent)
+  {
+    root_ = child;
+  }
+  else if (nodeToDelete == parent->left_)
+  {
+    parent->left_ = child;
+  }
+  else
+  {
+    parent->right_ = child;
+  }
+  while (parent)
+  {
+    updateHeight(parent);
+    parent = balance(parent);
+    parent = parent->parent_;
+  }
+  delete nodeToDelete;
+  return Iterator(ConstIterator(child ? child : parent, root_));
+}
+
+template < typename Key, typename Value, typename Compare >
+size_t BST< Key, Value, Compare >::erase(const Key& key)
+{
+  Iterator iter = find(key);
+  if (iter == ConstIterator())
+  {
+    return 0;
+  }
+  else
+  {
+    erase(iter);
+    return 1;
+  }
 }
 
 template < typename Key, typename Value, typename Compare >
@@ -480,114 +537,6 @@ typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::balance(N
   }
   return node;
 }
-
-template< typename Key, typename Value, typename Compare >
-size_t BST< Key, Value, Compare >::erase(const Key & key)
-{
-  auto todelete = find(key);
-  if (todelete == end())
-  {
-    return 0;
-  }
-  Node * todeleteNode = todelete.iterator.node_;
-  Node * toCheckBalance = nullptr;
-  if (!todeleteNode->left_ && !todeleteNode->right_)
-  {
-    if (todeleteNode->parent_)
-    {
-      (todeleteNode->parent_->left_ == todeleteNode) ? todeleteNode->parent_->left_ = nullptr : todeleteNode->parent_->right_ = nullptr;
-      toCheckBalance = todeleteNode->parent_;
-      delete todeleteNode;
-    }
-    else
-    {
-      root_ = nullptr;
-      delete todeleteNode;
-    }
-  }
-  else
-  {
-    if (getHeight(todeleteNode->left_) > getHeight(todeleteNode->right_))
-    {
-      Node * toreplace = findMax(todeleteNode->left_);
-      (toreplace->parent_ != todeleteNode) ? toCheckBalance = toreplace->parent_ : toCheckBalance = todeleteNode->parent_;
-      toreplace->parent_->right_ = toreplace->left_;
-      if (toreplace->left_)
-      {
-        toreplace->left_->parent_ = toreplace->parent_;
-      }
-      toreplace->parent_ = todeleteNode->parent_;
-      if (toreplace->parent_)
-      {
-        if (toreplace->parent_->left_ == todeleteNode)
-        {
-          toreplace->parent_->left_ = toreplace;
-        }
-        else
-        {
-          toreplace->parent_->right_ = toreplace;
-        }
-      }
-      toreplace->right_ = todeleteNode->right_;
-      if (toreplace->right_)
-      {
-        toreplace->right_->parent_ = toreplace;
-      }
-      if (todeleteNode->left_ != toreplace)
-      {
-        toreplace->left_ = todeleteNode->left_;
-        toreplace->left_->parent_ = toreplace;
-      }
-      if (todeleteNode == root_)
-      {
-        root_ = toreplace;
-      }
-      delete todeleteNode;
-    }
-    else
-    {
-      Node * toreplace = findMin(todeleteNode->right_);
-      (toreplace->parent_ != todeleteNode) ? toCheckBalance = toreplace->parent_ : toCheckBalance = todeleteNode->parent_;
-      toreplace->parent_->left_ = toreplace->right_;
-      if (toreplace->right_)
-      {
-        toreplace->right_->parent_ = toreplace->parent_;
-      }
-      toreplace->parent_ = todeleteNode->parent_;
-      if (toreplace->parent_)
-      {
-        if (toreplace->parent_->right_ == todeleteNode)
-        {
-          toreplace->parent_->right_ = toreplace;
-        }
-        else
-        {
-          toreplace->parent_->left_ = toreplace;
-        }
-      }
-      toreplace->left_ = todeleteNode->left_;
-      if (toreplace->left_)
-      {
-        toreplace->left_->parent_ = toreplace;
-      }
-      if (todeleteNode->right_ != toreplace)
-      {
-        toreplace->right_ = todeleteNode->right_;
-        toreplace->right_->parent_ = toreplace;
-      }
-      if (todeleteNode == root_)
-      {
-        root_ = toreplace;
-      }
-      delete todeleteNode;
-    }
-  }
-  updateHeight(root_);
-  Node * overweight = isBalanced(toCheckBalance);
-  balance(overweight);
-  return 1;
-}
-
 
 template< typename Key, typename Value, typename Compare >
 typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::turnRight(Node* root)
@@ -779,5 +728,4 @@ typename BST< Key, Value, Compare >::Iterator BST< Key, Value, Compare >::end() 
 {
   return Iterator(cend());
 }
-
 #endif
