@@ -1,7 +1,9 @@
 #ifndef QUEUE_HPP
 #define QUEUE_HPP
+
 #include <utility>
 #include <stdexcept>
+#include <list.hpp>
 
 namespace sobolevsky
 {
@@ -12,7 +14,7 @@ namespace sobolevsky
     Queue();
     Queue(const Queue& rhs) noexcept;
     Queue(Queue&& rhs);
-    ~Queue() = default;
+    ~Queue();
 
     void push(T data);
     T back();
@@ -20,97 +22,66 @@ namespace sobolevsky
     bool empty();
     long long size();
   private:
-    class Node
-    {
-      friend class Queue< T >;
-      T data;
-      Node *prev;
-      Node(T data)
-      {
-        this->data = data;
-        prev = nullptr;
-      }
-    };
-
-    Node *last;
-    Node *first;
-    long long size_;
+    List< T > list
   };
 }
 
 template< typename T >
 sobolevsky::Queue< T >::Queue()
 {
-  last = nullptr;
-  first = nullptr;
-  size_ = 0;
+  list = List< T >();
 }
 
 template< typename T >
 sobolevsky::Queue< T >::Queue(const Queue& rhs) noexcept
 {
-  last = rhs.last;
-  first = rhs.first;
-  size_ = rhs.size_;
+  list = rhs.list;
 }
 
 template< typename T >
 sobolevsky::Queue< T >::Queue(Queue&& rhs)
 {
-  last(std::move(rhs.last));
-  first(std::move(rhs.first));
-  size_ = rhs.size_;
+  list = std::move(rhs.list);
+}
+
+template< typename T >
+sobolevsky::Queue< T >::~Queue()
+{
+  list.clear();
 }
 
 template< typename T >
 void sobolevsky::Queue< T >::push(T data)
 {
-  if (size_ == 0)
-  {
-    Node *ptr = new Node(data);
-    ptr->prev = nullptr;
-    first = ptr;
-    last = ptr;
-  }
-  else
-  {
-    Node *ptr = new Node(data);
-    ptr->prev = nullptr;
-    last->prev = ptr;
-    last = ptr;
-  }
-  size_++;
+  list.pushBack(data);
 }
 
 template< typename T >
 T sobolevsky::Queue< T >::back()
 {
-  if (first == nullptr)
+  if (list[0] == nullptr)
   {
-    throw std::logic_error("Queue is empty");
+    throw std::logic_error("stack is empty");
   }
-  return first->data;
+  return list[0]->data;
 }
 
 template< typename T >
 void sobolevsky::Queue< T >::pop()
 {
-  Node *tempNode = first;
-  first = first->prev;
-  size_--;
-  delete tempNode;
+  list.popFront();
 }
 
 template< typename T >
 bool sobolevsky::Queue< T >::empty()
 {
-  return (size_ == 0);
+  return (list.empty());
 }
 
 template< typename T >
 long long sobolevsky::Queue< T >::size()
 {
-  return size_;
+  return list.getSize();
 }
 
 #endif

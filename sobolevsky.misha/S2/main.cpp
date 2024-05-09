@@ -4,17 +4,17 @@
 #include <memory>
 #include "queue.hpp"
 #include "stack.hpp"
-#include "helpFunc.hpp"
+#include "functions.hpp"
 
 int main(int argc, char *argv[])
 {
   sobolevsky::Stack< std::string > stack;
   sobolevsky::Queue< long long > queue;
-  if(argc == 1)
+  if (argc == 1)
   {
     sobolevsky::fillStack(std::cin, stack);
   }
-  else if(argc == 2)
+  else if (argc == 2)
   {
     std::ifstream input(argv[1]);
     sobolevsky::fillStack(input, stack);
@@ -24,14 +24,13 @@ int main(int argc, char *argv[])
     std::cerr << "Empty input\n";
     return 1;
   }
-
   long long sz = stack.size();
-  if(sz == 0)
+  if (sz == 0)
   {
     std::cout << "\n";
     return 0;
   }
-  for(long long i = 0; i < sz; i++)
+  for (long long i = 0; i < sz; i++)
   {
     try
     {

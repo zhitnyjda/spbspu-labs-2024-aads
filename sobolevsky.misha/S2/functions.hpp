@@ -1,5 +1,6 @@
-#ifndef HELPFUNC_HPP
-#define HELPFUNC_HPP
+#ifndef FUNCTIONS_HPP
+#define FUNCTIONS_HPP
+
 #include <iostream>
 #include <string>
 #include <memory>

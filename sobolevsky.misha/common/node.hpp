@@ -11,16 +11,14 @@ namespace sobolevsky
     Node * next;
     Node * prev;
     T data;
-    std::string name;
 
-    Node(T dataIn, std::string nameIn);
+    Node(T dataIn);
   };
 }
 
 template< typename T >
-sobolevsky::Node< T >::Node(T dataIn, std::string nameIn)
+sobolevsky::Node< T >::Node(T dataIn)
 {
-  name = nameIn;
   data = dataIn;
   prev = nullptr;
   next = nullptr;

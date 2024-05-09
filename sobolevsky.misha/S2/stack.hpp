@@ -1,8 +1,10 @@
 #ifndef STACK_HPP
 #define STACK_HPP
+
 #include <utility>
 #include <stdexcept>
 #include <memory>
+#include <list.hpp>
 
 namespace sobolevsky
 {
@@ -13,89 +15,74 @@ namespace sobolevsky
     Stack();
     Stack(const Stack& rhs) noexcept;
     Stack(Stack&& rhs);
-    ~Stack() = default;
+    ~Stack();
 
-    void push(T data);
+    void push(const T& data);
     T top();
     void pop();
     bool empty();
     long long size();
   private:
-    class Node
-    {
-      friend class Stack< T >;
-      T data;
-      std::shared_ptr< Node > last;
-      Node(T data)
-      {
-        this->data = data;
-        last = nullptr;
-      }
-    };
-
-    std::shared_ptr< Node > last;
-    long long size_;
+    List< T > list;
   };
 }
 
 template< typename T >
 sobolevsky::Stack< T >::Stack()
 {
-  last = nullptr;
-  size_ = 0;
+  list = List< T >();
 }
 
 template< typename T >
 sobolevsky::Stack< T >::Stack(const Stack& rhs) noexcept
 {
-  last = rhs.last;
-  size_ = rhs.size_;
+  list = rhs.list;
 }
 
 template< typename T >
 sobolevsky::Stack< T >::Stack(Stack&& rhs)
 {
-  last(rhs.last);
-  size_ = rhs.size_;
+  list = std::move(rhs.list);
 }
 
 template< typename T >
-void sobolevsky::Stack< T >::push(T data)
+sobolevsky::Stack< T >::~Stack()
 {
-  std::shared_ptr< Node > ptr(new Node(data));
-  ptr->last = last;
-  last = ptr;
-  size_++;
+  list.clear();
+}
+
+template< typename T >
+void sobolevsky::Stack< T >::push(const T& data)
+{
+  list.pushFront(data);
 }
 
 template< typename T >
 T sobolevsky::Stack< T >::top()
 {
-  if (last == nullptr)
+  if (list[0] == nullptr)
   {
     throw std::logic_error("stack is empty");
   }
-  return last->data;
+  return list[0]->data;
 }
 
 template< typename T >
 void sobolevsky::Stack< T >::pop()
 {
-  std::shared_ptr< Node > tempNode(last);
-  last = last->last;
-  size_--;
+  list.popFront();
 }
 
 template< typename T >
 bool sobolevsky::Stack< T >::empty()
 {
-  return (size_ == 0);
+  return (list.empty());
 }
 
 template< typename T >
 long long sobolevsky::Stack< T >::size()
 {
-  return size_;
+  return list.getSize();
 }
 
 #endif

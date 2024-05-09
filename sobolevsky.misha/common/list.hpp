@@ -1,9 +1,7 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 #include "node.hpp"
-#include "iterator.hpp"
 #include <cstddef>
-#include <string>
 
 namespace sobolevsky
 {
@@ -12,15 +10,15 @@ namespace sobolevsky
   class List
   {
   public:
-    Node< T > * head = nullptr;
-    Node< T > * tail = nullptr;
+    Node< T > * head;
+    Node< T > * tail;
 
     List();
     List(size_t n, const T & val);
     ~List();
 
-    void pushFront(T data, std::string nameIn);
-    void pushBack(T data, std::string nameIn);
+    void pushFront(const T data);
+    void pushBack(const T data);
     void popFront();
     void popBack();
     void clear();
@@ -61,9 +59,9 @@ sobolevsky::List< T >::~List()
 }
 
 template< typename T >
-void sobolevsky::List< T >::pushFront(const T data, std::string nameIn)
+void sobolevsky::List< T >::pushFront(const T data)
 {
-  Node< T > * ptr = sobolevsky::Node< T >(data, nameIn);
+  Node< T > * ptr = new sobolevsky::Node< T >(data);
   ptr->next = head;
   if (head != nullptr)
   {
@@ -78,9 +76,9 @@ void sobolevsky::List< T >::pushFront(const T data, std::string nameIn)
 }
 
 template< typename T >
-void sobolevsky::List< T >::pushBack(const T data, std::string nameIn)
+void sobolevsky::List< T >::pushBack(const T data)
 {
-  Node< T > * ptr = new Node< T >(data, nameIn);
+  Node< T > * ptr = new Node< T >(data);
   ptr->prev = tail;
   if (tail != nullptr)
   {

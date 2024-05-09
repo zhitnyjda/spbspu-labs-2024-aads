@@ -1,4 +1,4 @@
-#include "helpFunc.hpp"
+#include "functions.hpp"
 #include <sstream>
 #include <limits>
 
@@ -96,7 +96,7 @@ std::shared_ptr< std::string[] > sobolevsky::fromInfixToPostfix(std::string infi
 {
   std::shared_ptr< std::string[] > postfixExpression(new std::string[infixExpression.length()]());
   std::string str;
-  sobolevsky::Stack< std::string > stack;
+  Stack< std::string > stack;
   std::stringstream ss(infixExpression);
   while (getline(ss, str, ' '))
   {
@@ -111,7 +111,7 @@ std::shared_ptr< std::string[] > sobolevsky::fromInfixToPostfix(std::string infi
     }
     else if (str == ")")
     {
-      while(stack.top() != "(")
+      while (stack.top() != "(")
       {
         postfixExpression[i] = stack.top();
         i++;
@@ -143,9 +143,9 @@ std::shared_ptr< std::string[] > sobolevsky::fromInfixToPostfix(std::string infi
 
 long long sobolevsky::countPostfix(std::shared_ptr< std::string[] > postfix, long long length)
 {
-  sobolevsky::Stack< long long > stack;
+  Stack< long long > stack;
 
-  for(long long j = 0; j < length; j++)
+  for (long long j = 0; j < length; j++)
   {
     if (isDigit(postfix[j]))
     {
