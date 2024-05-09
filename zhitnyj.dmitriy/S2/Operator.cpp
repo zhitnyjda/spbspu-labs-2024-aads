@@ -83,6 +83,16 @@ long long Operator::applyOp(long long a, long long b) const
   }
 }
 
+bool Operator::isOperator()
+{
+  return true;
+}
+
+bool Operator::isOperand()
+{
+  return false;
+}
+
 bool Operator::isOperator(char c)
 {
   return c == '+' || c == '-' || c == '*' || c == '/' || c == '%' || c == '(' || c == ')';

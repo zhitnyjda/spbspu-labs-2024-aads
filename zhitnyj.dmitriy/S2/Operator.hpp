@@ -15,11 +15,13 @@ public:
     char getOperator() const;
     int precedence() const;
     long long applyOp(long long a, long long b) const;
+    static bool isOperator(char c);
+
+    bool isOperator() override;
+    bool isOperand() override;
 
 private:
     char operator_;
-
-    static bool isOperator(char c);
 };
 
 #endif

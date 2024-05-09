@@ -15,7 +15,7 @@ void ExpressionEvaluator::parseExpression(Queue< std::shared_ptr< ExpressionItem
         {
           queue.push(std::make_shared< Operand >(std::stoll(token)));
         }
-        else if (token.size() == 1 && std::string("+-*/%()").find(token[0]) != std::string::npos)
+        else if (token.size() == 1 && Operator::isOperator(token[0]))
         {
           queue.push(std::make_shared< Operator >(token[0]));
         }
@@ -38,7 +38,7 @@ void ExpressionEvaluator::parseExpression(Queue< std::shared_ptr< ExpressionItem
     {
       queue.push(std::make_shared< Operand >(std::stoll(token)));
     }
-    else if (token.size() == 1 && std::string("+-*/%()").find(token[0]) != std::string::npos)
+    else if (token.size() == 1 && Operator::isOperator(token[0]))
     {
       queue.push(std::make_shared< Operator >(token[0]));
     }
@@ -115,12 +115,16 @@ long long ExpressionEvaluator::evaluateExpression(Queue< std::shared_ptr< Expres
     std::shared_ptr< ExpressionItem > item = postfixQueue.front();
     postfixQueue.pop();
 
-    if (auto operand = std::dynamic_pointer_cast< Operand >(item))
+    if (item->isOperand())
     {
+      auto operand = std::dynamic_pointer_cast< Operand >(item);
+
       evaluationStack.push(operand->getValue());
     }
-    else if (auto op = std::dynamic_pointer_cast< Operator >(item))
+    else if (item->isOperator())
     {
+      auto op = std::dynamic_pointer_cast< Operator >(item);
+
       if (evaluationStack.size() < 2)
       {
         throw std::runtime_error("Insufficient values in the expression for operation");
@@ -129,6 +133,7 @@ long long ExpressionEvaluator::evaluateExpression(Queue< std::shared_ptr< Expres
       evaluationStack.pop();
       long long left = evaluationStack.top();
       evaluationStack.pop();
+      
       if (op->getOperator() == '+' && (left > (std::numeric_limits< long long >::max() - right)))
       {
         throw std::overflow_error("There was an overflow error!");

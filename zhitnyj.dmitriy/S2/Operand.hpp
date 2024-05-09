@@ -7,10 +7,11 @@ class Operand : public ExpressionItem
 {
 public:
     explicit Operand(long long val);
+    ~Operand() = default;
 
-    long long getValue() noexcept;
-
-    bool isOperator(char c) noexcept;
+    long long getValue();
+    bool isOperator() override;
+    bool isOperand() override;
 
 private:
     long long value;
