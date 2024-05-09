@@ -4,7 +4,7 @@
 int main(int argc, char* argv[])
 {
   psarev::Queue< std::string > terms;
-  psarev::Stack< long long > resultStack;
+  psarev::Stack< long long > results;
 
   if (argc == 1)
   {
@@ -22,12 +22,12 @@ int main(int argc, char* argv[])
   }
   try
   {
-    psarev::formResultStack(terms, resultStack);
-    while (!resultStack.isEmpty())
+    psarev::makeResults(terms, results);
+    while (!results.isEmpty())
     {
-      std::cout << resultStack.getTop();
-      resultStack.pop();
-      if (!resultStack.isEmpty())
+      std::cout << results.getTop();
+      results.pop();
+      if (!results.isEmpty())
       {
         std::cout << ' ';
       }

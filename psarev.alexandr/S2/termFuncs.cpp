@@ -14,27 +14,27 @@ void psarev::readTerms(std::istream& input, Queue< std::string >& terms)
   }
 }
 
-void psarev::strToQueue(std::string expression, Queue< std::string >& result)
+void psarev::makeQueue(std::string strTerm, Queue< std::string >& queue)
 {
-  std::string symbol = "";
+  std::string symb = "";
   size_t i = 0;
-  while (i < expression.length())
+  while (i < strTerm.length())
   {
-    if (expression[i] == ' ')
+    if (strTerm[i] == ' ')
     {
       i++;
-      result.push(symbol);
-      symbol = "";
+      queue.push(symb);
+      symb = "";
     }
-    else if (i == (expression.length() - 1))
+    else if (i == (strTerm.length() - 1))
     {
-      symbol += expression[i];
+      symb += strTerm[i];
       i++;
-      result.push(symbol);
+      queue.push(symb);
     }
     else
     {
-      symbol += expression[i];
+      symb += strTerm[i];
       i++;
     }
   }
@@ -44,12 +44,12 @@ bool psarev::isOperand(std::string symbol)
 {
   for (char c : symbol)
   {
-    if (!std::isdigit(c))
+    if (std::isdigit(c))
     {
-      return false;
+      return true;
     }
   }
-  return true;
+  return false;
 }
 
 bool psarev::isOperator(std::string c)
@@ -120,28 +120,28 @@ void psarev::postfixation(Queue< std::string >& term, Queue< std::string >& resu
   }
 }
 
-long long psarev::makeOper(long long firVal, long long secVal, std::string operation)
+long long psarev::makeOperation(long long firValue, long long secValue, std::string operation)
 {
   long long res = 0;
   if (operation == "+")
   {
-    res = firVal + secVal;
+    res = firValue + secValue;
   }
   else if (operation == "-")
   {
-    res = firVal - secVal;
+    res = firValue - secValue;
   }
   else if (operation == "/")
   {
-    res = firVal / secVal;
+    res = firValue / secValue;
   }
   else if (operation == "*")
   {
-    res = firVal * secVal;
+    res = firValue * secValue;
   }
   else if (operation == "%")
   {
-    res = firVal < 0 ? (firVal % secVal + secVal) : firVal % secVal;
+    res = firValue < 0 ? (firValue % secValue + secValue) : firValue % secValue;
   }
   else
   {
@@ -151,7 +151,7 @@ long long psarev::makeOper(long long firVal, long long secVal, std::string opera
   return res;
 }
 
-long long psarev::calculateExpr(Queue< std::string >& term)
+long long psarev::calculateTerm(Queue< std::string >& term)
 {
   Stack< long long > stack;
   std::string elem;
@@ -171,7 +171,7 @@ long long psarev::calculateExpr(Queue< std::string >& term)
       stack.pop();
       firVal = stack.getTop();
       stack.pop();
-      stack.push(makeOper(firVal, secVal, elem));
+      stack.push(makeOperation(firVal, secVal, elem));
     }
     else
     {
@@ -183,19 +183,21 @@ long long psarev::calculateExpr(Queue< std::string >& term)
   return result;
 }
 
-void psarev::formResultStack(Queue< std::string >& terms, Stack< long long >& resultStack)
+void psarev::makeResults(Queue< std::string >& terms, Stack< long long >& results)
 {
-  std::string curStrExpr;
-  Queue< std::string > curInfixExpr;
-  Queue< std::string > curPostfixExpr;
-  long long curAnswer = 0;
+  std::string strTerm;
+  long long res = 0;
+
+  Queue< std::string > infixTrem;
+  Queue< std::string > postfixTerm;
+
   while (!terms.isEmpty())
   {
-    curStrExpr = terms.getFront();
+    strTerm = terms.getFront();
     terms.pop();
-    strToQueue(curStrExpr, curInfixExpr);
-    postfixation(curInfixExpr, curPostfixExpr);
-    curAnswer = calculateExpr(curPostfixExpr);
-    resultStack.push(curAnswer);
+    makeQueue(strTerm, infixTrem);
+    postfixation(infixTrem, postfixTerm);
+    res = calculateTerm(postfixTerm);
+    results.push(res);
   }
 }
