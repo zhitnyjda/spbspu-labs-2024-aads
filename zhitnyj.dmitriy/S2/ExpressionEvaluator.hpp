@@ -49,7 +49,7 @@ public:
       {
         if (std::isdigit(token[0]) || (token[0] == '-' && token.size() > 1 && std::isdigit(token[1])))
         {
-          queue.push(std::make_shared< Operand >(std::stoi(token)));
+          queue.push(std::make_shared< Operand >(std::stoll(token)));
         }
         else if (token.size() == 1 && std::string("+-*/%()").find(token[0]) != std::string::npos)
         {
@@ -174,19 +174,6 @@ public:
 
       return evaluationStack.top();
     }
-
-private:
-    static bool isOperator(char c)
-    {
-      return c == '+' || c == '-' || c == '*' || c == '/' || c == '%';
-    }
-
-    static int precedence(char op)
-    {
-      if (op == '+' || op == '-') return 1;
-      if (op == '*' || op == '/' || op == '%') return 2;
-      return 0;
-    }
 };
 
-#endif // EXPRESSION_EVALUATOR_HPP
+#endif
