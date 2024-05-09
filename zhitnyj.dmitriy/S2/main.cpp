@@ -10,7 +10,7 @@
 
 int main(int argc, char* argv[])
 {
-  Queue< std::shared_ptr< ExpressionItem>> expressionQueue;
+  Queue< std::shared_ptr< ExpressionItem > > expressionQueue;
   Stack< long long > results;
 
   try
