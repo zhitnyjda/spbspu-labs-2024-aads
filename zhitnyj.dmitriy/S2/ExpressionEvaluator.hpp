@@ -147,7 +147,7 @@ public:
           {
             throw std::overflow_error("There was an overflow error!");
           }
-          else if (op->getOperator() == '-' && (left > (std::numeric_limits< long long >::max() + right)))
+          else if (op->getOperator() == '-' && (left < (std::numeric_limits< long long >::min() + right)))
           {
             throw std::overflow_error("There was an overflow error!");
           }
