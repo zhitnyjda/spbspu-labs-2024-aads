@@ -1,7 +1,6 @@
 #ifndef ElementStructs_hpp
 #define ElementStructs_hpp
 #include <string>
-#include <cassert>
 #include "Queue.hpp"
 
 namespace reznikova
@@ -27,6 +26,7 @@ namespace reznikova
     Operand operator+(const Operand & other);
     Operand operator-(const Operand & other);
     Operand operator%(const Operand & other);
+    
     long long int operand_;
   };
 
@@ -71,8 +71,8 @@ namespace reznikova
       Bracket open_bracket_;
       Bracket close_bracket_;
     };
-    type_t types_;
     elem_t elem_;
+    type_t types_;
   };
 
   struct Postfix

@@ -1,11 +1,12 @@
 #include "InputProcessing.hpp"
+#include <cstddef>
 
 void reznikova::readLine(std::istream & is, reznikova::Queue< reznikova::Element > & infix)
 {
   std::string input;
   std::getline(is, input);
   std::string data;
-  for (int i = 0; i < input.length(); i++)
+  for (size_t i = 0; i < input.length(); i++)
   {
     if (input[i] == ' ' or i == (input.length()-1))
     {
