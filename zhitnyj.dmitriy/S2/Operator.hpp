@@ -80,7 +80,7 @@ public:
         }
         if (a < 0)
         {
-          return a % b + abs(a);
+          return a % b + abs(b);
         }
         return a % b;
       }
