@@ -49,7 +49,6 @@ namespace doroshenko
 
     void clear(Node* node);
     Node* balance(Node* node);
-    void balanceFromNode(Node* node);
     Node* turnRight(Node* root);
     Node* turnLeft(Node* root);
     void updateHeight(Node* root);
@@ -431,15 +430,6 @@ typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::insert(co
   }
   balance(newNode);
   return newNode;
-}
-
-template <typename Key, typename Value, typename Compare>
-void BST<Key, Value, Compare>::balanceFromNode(Node* node) {
-  while (node) {
-    updateHeight(node);
-    node = balance(node);
-    node = node->parent_;
-  }
 }
 
 template< typename Key, typename Value, typename Compare >

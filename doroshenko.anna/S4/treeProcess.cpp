@@ -55,7 +55,7 @@ void doroshenko::strToTree(std::string expression, BST< std::string, BST< long l
   }
 }
 
-void doroshenko::inputTree(std::istream& input, BST<std::string, BST<long long, std::string>>& treeOfDicts)
+void doroshenko::inputTree(std::istream& input, BST< std::string, BST< long long, std::string > >& treeOfDicts)
 {
   std::string inputLine;
   while (!input.eof())
