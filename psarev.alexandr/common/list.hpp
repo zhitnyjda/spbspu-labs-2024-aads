@@ -26,6 +26,8 @@ namespace psarev
     void popBack();
     void pushFront(T& data);
     void pushBack(T& data);
+    void pushFront(const T& data);
+    void pushBack(const T& data);
     void pushFront(T&& data);
     void pushBack(T&& data);
 
@@ -398,6 +400,34 @@ void psarev::List< T >::pushFront(T& data)
 
 template< typename T >
 void psarev::List< T >::pushBack(T& data)
+{
+  if (head == nullptr)
+  {
+    head = new Unit(data);
+    tail = head;
+  }
+  else
+  {
+    Unit* adUnit = new Unit(data, nullptr, tail);
+    tail->next = adUnit;
+    tail = adUnit;
+  }
+  size++;
+}
+
+template< typename T >
+void psarev::List< T >::pushFront(const T& data)
+{
+  head = new Unit(data, head);
+  if (size != 0)
+  {
+    head->next->prev = head;
+  }
+  size++;
+}
+
+template< typename T >
+void psarev::List< T >::pushBack(const T& data)
 {
   if (head == nullptr)
   {

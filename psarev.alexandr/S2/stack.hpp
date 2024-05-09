@@ -1,6 +1,6 @@
 #ifndef STACK_HPP
 #define STACK_HPP
-#include "list.hpp"
+#include "../common/list.hpp"
 
 namespace psarev
 {
@@ -8,7 +8,7 @@ namespace psarev
   class Stack
   {
   public:
-    Stack();
+    Stack() = default;
     Stack(const Stack& other);
     explicit Stack(const List< T >& dep);
     ~Stack() = default;
@@ -22,16 +22,10 @@ namespace psarev
     void pop();
 
     size_t getSize() const noexcept;
-    bool empty() const noexcept;
+    bool isEmpty() const noexcept;
   private:
     List< T > depot;
   };
-}
-
-template < typename T >
-psarev::Stack< T >::Stack()
-{
-  depot(List< T >());
 }
 
 template < typename T >
@@ -73,7 +67,7 @@ void psarev::Stack< T >::push(T&& data)
 template < typename T >
 void psarev::Stack< T >::pop()
 {
-  depot.popFront(data);
+  depot.popFront();
 }
 
 template<typename T>
@@ -83,7 +77,7 @@ size_t psarev::Stack<T>::getSize() const noexcept
 }
 
 template < typename T >
-bool psarev::Stack< T >::empty() const noexcept
+bool psarev::Stack< T >::isEmpty() const noexcept
 {
   return depot.empty();
 }
