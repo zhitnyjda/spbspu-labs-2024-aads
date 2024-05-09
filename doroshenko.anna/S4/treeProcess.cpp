@@ -35,8 +35,15 @@ void doroshenko::strToTree(std::string expression, BST< std::string, BST< long l
     {
       symbol += expression[i];
       i++;
-      value = symbol;
-      dict.insert(key, value);
+      if (count == 0)
+      {
+        name = symbol;
+      }
+      else
+      {
+        value = symbol;
+        dict.insert(key, value);
+      }
       result.insert(name, dict);
       return;
     }
@@ -71,7 +78,7 @@ void doroshenko::print(BST< std::string, BST< long long, std::string > >& treeOf
     std::cout << "<INVALID COMMAND>\n";
     return;
   }
-  else if ((iter->second).getSize() == 0)
+  else if ((iter->second).isEmpty())
   {
     std::cout << "<EMPTY>\n";
     return;
@@ -171,7 +178,6 @@ void doroshenko::complement(BST< std::string, BST< long long, std::string > >& t
     treeOfDicts.insert(newDictName, newDataset);
   }
 }
-
 void doroshenko::unify(BST< std::string, BST< long long, std::string > >& treeOfDicts)
 {
   BST< long long, std::string > newDataset;

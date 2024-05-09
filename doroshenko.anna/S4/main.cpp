@@ -14,7 +14,6 @@ int main(int argc, char* argv[])
   treeOfFuncs.insert("complement", complement);
   treeOfFuncs.insert("intersect", intersect);
   treeOfFuncs.insert("union", unify);
-
   if (argc != 2)
   {
     std::cerr << "Wrong input\n";
