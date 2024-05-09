@@ -1,6 +1,43 @@
 #include "termFuncs.hpp"
 #include <limits>
 
+bool psarev::checkOperand(std::string symbol)
+{
+  for (char c : symbol)
+  {
+    if (std::isdigit(c))
+    {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool psarev::checkOperator(std::string c)
+{
+  if (c == "/" || c == "*" || c == "+" || c == "-" || c == "%")
+  {
+    return true;
+  }
+  return false;
+}
+
+int psarev::priori(std::string c)
+{
+  if (c == "/" || c == "*" || c == "%")
+  {
+    return 2;
+  }
+  else if (c == "+" || c == "-")
+  {
+    return 1;
+  }
+  else
+  {
+    return 0;
+  }
+}
+
 void psarev::readTerms(std::istream& input, Queue< std::string >& terms)
 {
   std::string inputLine;
@@ -40,43 +77,6 @@ void psarev::makeQueue(std::string strTerm, Queue< std::string >& queue)
   }
 }
 
-bool psarev::isOperand(std::string symbol)
-{
-  for (char c : symbol)
-  {
-    if (std::isdigit(c))
-    {
-      return true;
-    }
-  }
-  return false;
-}
-
-bool psarev::isOperator(std::string c)
-{
-  if (c == "/" || c == "*" || c == "+" || c == "-" || c == "%")
-  {
-    return true;
-  }
-  return false;
-}
-
-int psarev::priori(std::string c)
-{
-  if (c == "/" || c == "*" || c == "%")
-  {
-    return 2;
-  }
-  else if (c == "+" || c == "-")
-  {
-    return 1;
-  }
-  else
-  {
-    return 0;
-  }
-}
-
 void psarev::postfixation(Queue< std::string >& term, Queue< std::string >& result)
 {
   Stack< std::string > stack;
@@ -85,7 +85,7 @@ void psarev::postfixation(Queue< std::string >& term, Queue< std::string >& resu
   {
     std::string elem = term.getFront();
     term.pop();
-    if (isOperand(elem))
+    if (checkOperand(elem))
     {
       result.push(elem);
     }
@@ -161,11 +161,11 @@ long long psarev::calculateTerm(Queue< std::string >& term)
   {
     elem = term.getFront();
     term.pop();
-    if (isOperand(elem))
+    if (checkOperand(elem))
     {
       stack.push(std::stoll(elem));
     }
-    else if (isOperator(elem))
+    else if (checkOperator(elem))
     {
       secVal = stack.getTop();
       stack.pop();
