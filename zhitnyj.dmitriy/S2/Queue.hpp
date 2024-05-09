@@ -25,37 +25,33 @@ public:
     T& front() const;
 
 private:
-    List<T> list;
+    List< T > list;
 };
 
 template< typename T >
-void Queue<T>::pop() noexcept
+void Queue< T >::pop() noexcept
 {
-  if (list.empty())
-  {
-    throw std::out_of_range("Queue is empty");
-  }
   list.pop();
 }
 
 template< typename T >
-void Queue<T>::clear() noexcept
+void Queue< T >::clear() noexcept
 {
   list.clear();
 }
 
 template< typename T >
-Queue<T>::Queue(const Queue& other) noexcept: list(other.list)
+Queue< T >::Queue(const Queue& other) noexcept: list(other.list)
 {
 }
 
 template< typename T >
-Queue<T>::Queue(Queue&& other) noexcept : list(std::move(other.list))
+Queue< T >::Queue(Queue&& other) noexcept : list(std::move(other.list))
 {
 }
 
 template< typename T >
-Queue<T>& Queue<T>::operator=(const Queue& other)
+Queue< T >& Queue< T >::operator=(const Queue& other)
 {
   if (this != &other)
   {
@@ -65,13 +61,13 @@ Queue<T>& Queue<T>::operator=(const Queue& other)
 }
 
 template< typename T >
-bool Queue<T>::empty() const noexcept
+bool Queue< T >::empty() const noexcept
 {
   return list.empty();
 }
 
 template< typename T >
-Queue<T>& Queue<T>::operator=(Queue&& other) noexcept
+Queue< T >& Queue< T >::operator=(Queue&& other) noexcept
 {
   if (this != &other)
   {
@@ -81,19 +77,19 @@ Queue<T>& Queue<T>::operator=(Queue&& other) noexcept
 }
 
 template< typename T >
-void Queue<T>::push(const T& value) noexcept
+void Queue< T >::push(const T& value) noexcept
 {
   list.push_back(value);
 }
 
 template< typename T >
-size_t Queue<T>::size() const noexcept
+size_t Queue< T >::size() const noexcept
 {
   return list.size();
 }
 
 template< typename T >
-T& Queue<T>::front()
+T& Queue< T >::front()
 {
   if (list.empty())
   {
@@ -103,7 +99,7 @@ T& Queue<T>::front()
 }
 
 template< typename T >
-T& Queue<T>::front() const
+T& Queue< T >::front() const
 {
   if (list.empty())
   {
