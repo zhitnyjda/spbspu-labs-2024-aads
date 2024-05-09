@@ -5,17 +5,15 @@
 
 class Operand : public ExpressionItem
 {
-    long long value;
-
 public:
-    Operand(long long val) : value(val)
-    {
-    }
+    explicit Operand(long long val);
 
-    long long getValue()
-    {
-      return value;
-    }
+    long long getValue() noexcept;
+
+    bool isOperator(char c) noexcept;
+
+private:
+    long long value;
 };
 
 #endif
