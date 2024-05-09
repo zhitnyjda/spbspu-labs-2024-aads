@@ -46,11 +46,13 @@ struct List< T >::Node
   Node* next;
   Node(T val, Node* next = nullptr);
 };
+
 template< typename T >
 List< T >::Node::Node(T val, Node* next):
   value(val),
   next(next)
 {}
+
 template< typename T >
 class List< T >::iterator: public std::iterator< std::forward_iterator_tag, T >
 {
@@ -61,17 +63,20 @@ public:
   bool operator!=(const iterator& other) const;
   T& operator*();
 };
+
 template< typename T >
-List< T >::iterator::iterator(List< T >::Node* p):
+List< T >::iterator::iterator(List<T>::Node* p):
   ptr(p)
 {}
+
 template< typename T >
-typename List< T >::iterator::iterator& List< T >::iterator::operator++()
+typename List< T >::iterator::iterator& List<T>::iterator::operator++()
 {
   assert(ptr);
   ptr = ptr->next;
   return *this;
 }
+
 template< typename T >
 bool List< T >::iterator::operator!=(const iterator& other) const
 {
@@ -88,9 +93,9 @@ T& List< T >::iterator::operator*()
 template< typename T >
 class List< T >::const_iterator: public std::iterator< std::forward_iterator_tag, T >
 {
-  const typename List< T >::Node* ptr;
+  const typename List<T>::Node* ptr;
 public:
-  const_iterator(const List< T >::Node* p = nullptr);
+  const_iterator(const List<T>::Node* p = nullptr);
   const_iterator& operator++();
   bool operator!=(const const_iterator& other) const;
   const T& operator*() const;
@@ -108,7 +113,7 @@ typename List< T >::const_iterator& List< T >::const_iterator::operator++()
 }
 
 template< typename T >
-bool List< T >::const_iterator::operator!=(const const_iterator& other) const
+bool List<T>::const_iterator::operator!=(const const_iterator& other) const
 {
   return ptr != other.ptr;
 }
@@ -122,9 +127,9 @@ const T& List< T >::const_iterator::operator*() const
 
 template< typename T >
 List< T >::List():
-    head(nullptr),
-    tail(nullptr),
-    size(0)
+  head(nullptr),
+  tail(nullptr),
+  size(0)
 {}
 
 template< typename T >
@@ -133,12 +138,12 @@ List< T >::List(const List& other):
   tail(nullptr),
   size(0)
 {
-  List< T >::Node* current = other.head;
-  while (current != nullptr)
-  {
-    push_back(current->value);
-    current = current->next;
-  }
+    List<T>::Node* current = other.head;
+    while (current != nullptr)
+    {
+      push_back(current->value);
+      current = current->next;
+    }
 }
 
 template< typename T >
@@ -163,7 +168,7 @@ typename List< T >::List& List< T >::operator=(const List& other)
 }
 
 template< typename T >
-typename List< T >::List& List< T >::operator=(List&& other) noexcept
+typename List< T >::List& List<T>::operator=(List&& other) noexcept
 {
   if (this != &other)
   {
@@ -255,6 +260,7 @@ typename List< T >::iterator List< T >::end()
   {
     return iterator(nullptr);
   }
+}
 
 template< typename T >
 typename List< T >::const_iterator List< T >::begin() const
