@@ -142,9 +142,6 @@ public:
           evaluationStack.pop();
           long long left = evaluationStack.top();
           evaluationStack.pop();
-          std::cout << left << " " << op->getOperator() << " " << right << " "
-                    << std::numeric_limits< long long >::max()
-                    << "\n";
           if (op->getOperator() == '+' && (left > (std::numeric_limits< long long >::max() - right)))
           {
             throw std::overflow_error("There was an overflow error!");
