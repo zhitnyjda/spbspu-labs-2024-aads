@@ -125,14 +125,9 @@ void doroshenko::intersect(BST< std::string, BST< long long, std::string > >& tr
       newDataset.insert(it->first, it->second);
     }
   }
-  if (firstDictName == newDictName)
+  if (treeOfDicts.find(newDictName) != treeOfDicts.end())
   {
-    treeOfDicts.erase(firstDictName);
-    treeOfDicts.insert(newDictName, newDataset);
-  }
-  else if (secondDictName == newDictName)
-  {
-    treeOfDicts.erase(secondDictName);
+    treeOfDicts.erase(newDictName);
     treeOfDicts.insert(newDictName, newDataset);
   }
   else
@@ -163,14 +158,9 @@ void doroshenko::complement(BST< std::string, BST< long long, std::string > >& t
       newDataset.insert(fIt->first, fIt->second);
     }
   }
-  if (firstDictName == newDictName)
+  if (treeOfDicts.find(newDictName) != treeOfDicts.end())
   {
-    treeOfDicts.erase(firstDictName);
-    treeOfDicts.insert(newDictName, newDataset);
-  }
-  else if (secondDictName == newDictName)
-  {
-    treeOfDicts.erase(secondDictName);
+    treeOfDicts.erase(newDictName);
     treeOfDicts.insert(newDictName, newDataset);
   }
   else
@@ -207,14 +197,9 @@ void doroshenko::unify(BST< std::string, BST< long long, std::string > >& treeOf
       newDataset.insert(sIt->first, sIt->second);
     }
   }
-  if (firstDictName == newDictName)
+  if (treeOfDicts.find(newDictName) != treeOfDicts.end())
   {
-    treeOfDicts.erase(firstDictName);
-    treeOfDicts.insert(newDictName, newDataset);
-  }
-  else if (secondDictName == newDictName)
-  {
-    treeOfDicts.erase(secondDictName);
+    treeOfDicts.erase(newDictName);
     treeOfDicts.insert(newDictName, newDataset);
   }
   else
