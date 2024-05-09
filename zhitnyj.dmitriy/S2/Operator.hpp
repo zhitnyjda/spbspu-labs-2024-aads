@@ -66,12 +66,22 @@ public:
       }
       else if (operator_ == '/')
       {
-        if (b == 0) throw std::runtime_error("Division by zero");
+        if (b == 0)
+        {
+          throw std::runtime_error("Division by zero");
+        }
         return a / b;
       }
       else if (operator_ == '%')
       {
-        if (b == 0) throw std::runtime_error("Modulo by zero");
+        if (b == 0)
+        {
+          throw std::runtime_error("Modulo by zero")
+        }
+        if (a < 0)
+        {
+          return a % b + abs(a);
+        }
         return a % b;
       }
       else
