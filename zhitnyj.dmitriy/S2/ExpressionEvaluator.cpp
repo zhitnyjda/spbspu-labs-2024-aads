@@ -49,25 +49,24 @@ void ExpressionEvaluator::parseExpression(Queue< std::shared_ptr< ExpressionItem
   }
 }
 
-Queue< std::shared_ptr< ExpressionItem>> ExpressionEvaluator::toPostfix(Queue< std::shared_ptr< ExpressionItem>>& infixQueue)
+Queue< std::shared_ptr< ExpressionItem>> ExpressionEvaluator::toPostfix(Queue< std::shared_ptr< ExpressionItem > >& infixQueue)
 {
-  Stack< std::shared_ptr< ExpressionItem>> operatorStack;
-  Queue< std::shared_ptr< ExpressionItem>> postfixQueue;
+  Stack< std::shared_ptr< ExpressionItem > > operatorStack;
+  Queue< std::shared_ptr< ExpressionItem > > postfixQueue;
 
   while (!infixQueue.empty())
   {
     std::shared_ptr< ExpressionItem > item = infixQueue.front();
     infixQueue.pop();
 
-    auto operand = std::dynamic_pointer_cast< Operand >(item);
-    auto operator_ = std::dynamic_pointer_cast< Operator >(item);
-
-    if (operand)
+    if (item->isOperand())
     {
-      postfixQueue.push(operand);
+      postfixQueue.push(item);
     }
-    else if (operator_)
+    else if (item->isOperator())
     {
+      auto operator_ = std::dynamic_pointer_cast< Operator >(item);
+
       if (operator_->isLeftParenthesis())
       {
         operatorStack.push(operator_);
@@ -106,7 +105,7 @@ Queue< std::shared_ptr< ExpressionItem>> ExpressionEvaluator::toPostfix(Queue< s
   return postfixQueue;
 }
 
-long long ExpressionEvaluator::evaluateExpression(Queue< std::shared_ptr< ExpressionItem>>& postfixQueue)
+long long ExpressionEvaluator::evaluateExpression(Queue< std::shared_ptr< ExpressionItem > >& postfixQueue)
 {
   Stack< long long > evaluationStack;
 
@@ -133,7 +132,7 @@ long long ExpressionEvaluator::evaluateExpression(Queue< std::shared_ptr< Expres
       evaluationStack.pop();
       long long left = evaluationStack.top();
       evaluationStack.pop();
-      
+
       if (op->getOperator() == '+' && (left > (std::numeric_limits< long long >::max() - right)))
       {
         throw std::overflow_error("There was an overflow error!");
@@ -144,7 +143,7 @@ long long ExpressionEvaluator::evaluateExpression(Queue< std::shared_ptr< Expres
       }
       else if (op->getOperator() == '*' && (left > (std::numeric_limits< long long >::max() / right)))
       {
-        throw std::overflow_error("There was an overf low error!");
+        throw std::overflow_error("There was an overflow error!");
       }
       else if (op->getOperator() == '*' && (left < (std::numeric_limits< long long >::min() / right)))
       {
