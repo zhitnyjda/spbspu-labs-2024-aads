@@ -27,7 +27,6 @@ namespace reznikova
     Operand operator+(const Operand & other);
     Operand operator-(const Operand & other);
     Operand operator%(const Operand & other);
-    
     long long int operand_;
   };
 
