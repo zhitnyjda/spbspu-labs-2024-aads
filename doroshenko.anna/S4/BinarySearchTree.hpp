@@ -28,11 +28,10 @@ namespace doroshenko
     void clear();
     void swap(BST& other);
     Iterator find(const Key& key);
-    Node* insert(const Key key, const Value value);
+    Node* insert(Key& key, Value& value);
     void insert(keyValPair pair);
     keyValPair& at(const Key& key);
     const keyValPair& at(const Key& key) const;
-    Iterator erase(Iterator position);
     size_t erase(const Key& key);
     std::pair< ConstIterator, ConstIterator > equalRange(const Key& key) const;
     std::pair< Iterator, Iterator > equalRange(const Key& key);
@@ -47,6 +46,7 @@ namespace doroshenko
     Node* root_;
     Compare cmp_;
 
+    size_t deleteNode(Node* nodeToDelete);
     void clear(Node* node);
     Node* balance(Node* node);
     Node* turnRight(Node* root);
@@ -150,7 +150,6 @@ typename BST< Key, Value, Compare >::ConstIterator& BST< Key, Value, Compare >::
   }
   return *this;
 }
-
 template< typename Key, typename Value, typename Compare >
 typename BST< Key, Value, Compare >::ConstIterator BST< Key, Value, Compare >::ConstIterator::operator++(int)
 {
@@ -293,7 +292,6 @@ keyValPair< Key, Value >& BST< Key, Value, Compare >::Iterator::operator*()
 {
   return iterator.node_->data_;
 }
-
 template< typename Key, typename Value, typename Compare >
 keyValPair< Key, Value >* BST< Key, Value, Compare >::Iterator::operator->()
 {
@@ -396,153 +394,43 @@ void BST< Key, Value, Compare >::insert(keyValPair pair)
 }
 
 template < typename Key, typename Value, typename Compare >
-typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::insert(const Key key, const Value value)
+typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::insert(Key& key, Value& value)
 {
-  keyValPair data(key, value);
-  Node* newNode = new Node(data);
-  if (root_ == nullptr)
+  if (isEmpty())
   {
-    root_ = newNode;
-    return newNode;
+    root_ = new Node({key, value});
+    return root_;
   }
   Node* current = root_;
   Node* parent = nullptr;
   while (current)
   {
     parent = current;
-    if (cmp_(data.first, current->data_.first))
+    if (cmp_(key, current->data_.first))
     {
       current = current->left_;
     }
-    else if (cmp_(current->data_.first, data.first))
+    else if (cmp_(current->data_.first, key))
     {
       current = current->right_;
     }
     else
     {
-      delete newNode;
       return current;
     }
   }
-  newNode->parent_ = parent;
-  if (cmp_(data.first, parent->data_.first))
+  Node* newNode = new Node({key, value}, parent);
+  if (cmp_(key, parent->data_.first))
   {
     parent->left_ = newNode;
   }
-  else if (cmp_(parent->data_.first, data.first))
+  else
   {
     parent->right_ = newNode;
   }
-  else
-  {
-    delete newNode;
-    return parent;
-  }
-  updateHeight(parent);
-  balance(parent);
+  balance(newNode);
   return newNode;
 }
-
-//template < typename Key, typename Value, typename Compare >
-//typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::insert(const Key& key, const Value& value)
-//{
-//  keyValPair data(key, value);
-//  //Node* newNode = new Node(data);
-//  if (root_ == nullptr)
-//  {
-//    root_ = new Node(data);
-//    return root_;
-//  }
-//  Node* current = root_;
-//  Node* parent = nullptr;
-//  while (current)
-//  {
-//    parent = current;
-//    if (cmp_(data.first, current->data_.first))
-//    {
-//      current = current->left_;
-//    }
-//    else if (cmp_(current->data_.first, data.first))
-//    {
-//      current = current->right_;
-//    }
-//    else
-//    {
-//      //delete newNode;
-//      return current;
-//    }
-//  }
-//  if (cmp_(data.first, parent->data_.first))
-//  {
-//    Node* newNode = new Node(data);
-//    newNode->parent_ = parent;
-//    parent->left_ = newNode;
-//    updateHeight(parent);
-//    balance(parent);
-//    return newNode;
-//  }
-//  else if (cmp_(parent->data_.first, data.first))
-//  {
-//    Node* newNode = new Node(data);
-//    newNode->parent_ = parent;
-//    parent->right_ = newNode;
-//    updateHeight(parent);
-//    balance(parent);
-//    return newNode;
-//  }
-//  else
-//  {
-//    return parent;
-//  }
-//}
-
-//template < typename Key, typename Value, typename Compare >
-//void BST< Key, Value, Compare >::insert(const Key& key, const Value& value)
-//{
-//  keyValPair data(key, value);
-//  Node* newNode = new Node(data);
-//  if (root_ == nullptr)
-//  {
-//    root_ = newNode;
-//    return;
-//  }
-//  Node* current = root_;
-//  Node* parent = nullptr;
-//  while (current)
-//  {
-//    parent = current;
-//    if (cmp_(data.first, current->data_.first))
-//    {
-//      current = current->left_;
-//    }
-//    else if (cmp_(current->data_.first, data.first))
-//    {
-//      current = current->right_;
-//    }
-//    else
-//    {
-//      delete newNode;
-//      return;
-//    }
-//  }
-//  newNode->parent_ = parent;
-//  if (cmp_(data.first, parent->data_.first))
-//  {
-//    parent->left_ = newNode;
-//  }
-//  else if (cmp_(parent->data_.first, data.first))
-//  {
-//    parent->right_ = newNode;
-//  }
-//  else
-//  {
-//    delete newNode;
-//    return;
-//  }
-//  updateHeight(parent);
-//  balance(parent);
-//  return;
-//}
 
 template < typename Key, typename Value, typename Compare >
 void BST< Key, Value, Compare >::updateHeight(Node* node)
@@ -553,7 +441,6 @@ void BST< Key, Value, Compare >::updateHeight(Node* node)
     node = node->parent_;
   }
 }
-
 template< typename Key, typename Value, typename Compare >
 typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::balance(Node* node)
 {
@@ -613,64 +500,59 @@ typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::turnLeft(
   return rightSubtree;
 }
 
-template< typename Key, typename Value, typename Compare >
-typename BST< Key, Value, Compare >::Iterator BST< Key, Value, Compare >::erase(Iterator position)
-{
-  if (position == ConstIterator(nullptr, root_))
-  {
-    return end();
-  }
-  Node* nodeToDelete = position.iterator.node_;
-  Node* parent = nodeToDelete->parent_;
-  Node* successor = nullptr;
-  if (nodeToDelete->left_ && nodeToDelete->right_)
-  {
-    successor = nodeToDelete->right_;
-    while (successor->left_)
-    {
-      successor = successor->left_;
-    }
-    nodeToDelete = successor;
-    parent = successor->parent_;
-  }
-  Node* child = nodeToDelete->left_ ? nodeToDelete->left_ : nodeToDelete->right_;
-  if (child)
-  {
-    child->parent_ = parent;
-  }
-  if (!parent)
-  {
-    root_ = child;
-  }
-  else if (nodeToDelete == parent->left_)
-  {
-    parent->left_ = child;
-  }
-  else
-  {
-    parent->right_ = child;
-  }
-  while (parent)
-  {
-    updateHeight(parent);
-    parent = balance(parent);
-    parent = parent->parent_;
-  }
-  return Iterator(ConstIterator(child ? child : parent, root_));
-}
-
 template < typename Key, typename Value, typename Compare >
 size_t BST< Key, Value, Compare >::erase(const Key& key)
 {
-  Iterator iter = find(key);
-  if (iter == ConstIterator())
+  if (isEmpty())
   {
     return 0;
   }
+  ConstIterator iter = find(key).iterator;
+  Node* nodeToDelete = iter.node_;
+  if (nodeToDelete == nullptr)
+  {
+    return 0;
+  }
+  size_t count = deleteNode(nodeToDelete);
+  balance(nodeToDelete->parent_);
+  return count;
+}
+
+template < typename Key, typename Value, typename Compare >
+size_t BST< Key, Value, Compare >::deleteNode(Node* nodeToDelete)
+{
+  if (nodeToDelete == nullptr)
+  {
+    return 0;
+  }
+  size_t count = 1;
+  if (nodeToDelete->left_ == nullptr && nodeToDelete->right_ == nullptr)
+  {
+    delete nodeToDelete;
+    return count;
+  }
+  else if (nodeToDelete->left_ == nullptr)
+  {
+    Node* newChild = nodeToDelete->right_;
+    delete nodeToDelete;
+    return count + deleteNode(newChild);
+  }
+  else if (nodeToDelete->right_ == nullptr)
+  {
+    Node* newChild = nodeToDelete->left_;
+    nodeToDelete->parent_->left_ = newChild;
+    delete nodeToDelete;
+    return count + deleteNode(newChild);
+  }
   else
   {
-    erase(iter);
-    return 1;
+    Node* successor = nodeToDelete->right_;
+    while (successor->left_ != nullptr)
+    {
+      successor = successor->left_;
+    }
+    count += deleteNode(successor);
+    return count;
   }
 }
 
@@ -721,7 +603,6 @@ typename BST< Key, Value, Compare >::Iterator BST< Key, Value, Compare >::find(c
   }
   return Iterator(ConstIterator(nullptr, root_));
 }
-
 template< typename Key, typename Value, typename Compare >
 size_t BST< Key, Value, Compare >::count(const Key& key) const
 {

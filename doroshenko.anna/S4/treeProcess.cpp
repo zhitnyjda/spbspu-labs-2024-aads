@@ -38,7 +38,7 @@ void doroshenko::strToTree(std::string expression, BST< std::string, BST< long l
       value = symbol;
       dict.insert(key, value);
       result.insert(name, dict);
-      dict.clear();
+      return;
     }
     else
     {
@@ -97,7 +97,6 @@ void doroshenko::print(BST< std::string, BST< long long, std::string > >& treeOf
     }
   }
 }
-
 void doroshenko::intersect(BST< std::string, BST< long long, std::string > >& treeOfDicts)
 {
   BST< long long, std::string > newDataset;
