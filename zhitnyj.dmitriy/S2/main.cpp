@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
         {
           ExpressionEvaluator::parseExpression(expressionQueue, line);
           Queue< std::shared_ptr< ExpressionItem>> postfixQueue = ExpressionEvaluator::toPostfix(expressionQueue);
-          results.push_back(ExpressionEvaluator::evaluateExpression(postfixQueue));
+          results.push(ExpressionEvaluator::evaluateExpression(postfixQueue));
           expressionQueue.clear();
         }
       }
@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
         {
           ExpressionEvaluator::parseExpression(expressionQueue, line);
           Queue< std::shared_ptr< ExpressionItem>> postfixQueue = ExpressionEvaluator::toPostfix(expressionQueue);
-          results.push_back(ExpressionEvaluator::evaluateExpression(postfixQueue));
+          results.push(ExpressionEvaluator::evaluateExpression(postfixQueue));
           expressionQueue.clear();
         }
       }
