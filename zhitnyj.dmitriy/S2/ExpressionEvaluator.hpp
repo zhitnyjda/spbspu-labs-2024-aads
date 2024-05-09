@@ -5,6 +5,7 @@
 #include <cctype>
 #include <cmath>
 #include <stdexcept>
+#include <limits>
 #include "Queue.hpp"
 #include "Stack.hpp"
 #include "ExpressionItem.hpp"
