@@ -49,7 +49,7 @@ void ExpressionEvaluator::parseExpression(Queue< std::shared_ptr< ExpressionItem
   }
 }
 
-Queue< std::shared_ptr< ExpressionItem>> ExpressionEvaluator::toPostfix(Queue< std::shared_ptr< ExpressionItem > >& infixQueue)
+Queue< std::shared_ptr< ExpressionItem > > ExpressionEvaluator::toPostfix(Queue< std::shared_ptr< ExpressionItem > >& infixQueue)
 {
   Stack< std::shared_ptr< ExpressionItem > > operatorStack;
   Queue< std::shared_ptr< ExpressionItem > > postfixQueue;
