@@ -54,7 +54,7 @@ sobolevsky::Stack< T >::~Stack()
 template< typename T >
 void sobolevsky::Stack< T >::push(const T& data)
 {
-  list.pushFront(data);
+  list.pushFront(data, "");
 }
 
 template< typename T >

@@ -53,7 +53,7 @@ sobolevsky::Queue< T >::~Queue()
 template< typename T >
 void sobolevsky::Queue< T >::push(T data)
 {
-  list.pushBack(data);
+  list.pushBack(data, "");
 }
 
 template< typename T >

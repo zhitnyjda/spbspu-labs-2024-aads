@@ -17,8 +17,8 @@ namespace sobolevsky
     List(size_t n, const T & val);
     ~List();
 
-    void pushFront(const T data);
-    void pushBack(const T data);
+    void pushFront(const T data, std::string nameIn);
+    void pushBack(const T data, std::string nameIn);
     void popFront();
     void popBack();
     void clear();
@@ -59,9 +59,9 @@ sobolevsky::List< T >::~List()
 }
 
 template< typename T >
-void sobolevsky::List< T >::pushFront(const T data)
+void sobolevsky::List< T >::pushFront(const T data, std::string nameIn)
 {
-  Node< T > * ptr = new sobolevsky::Node< T >(data);
+  Node< T > * ptr = new sobolevsky::Node< T >(data, nameIn);
   ptr->next = head;
   if (head != nullptr)
   {
@@ -76,9 +76,9 @@ void sobolevsky::List< T >::pushFront(const T data)
 }
 
 template< typename T >
-void sobolevsky::List< T >::pushBack(const T data)
+void sobolevsky::List< T >::pushBack(const T data, std::string nameIn)
 {
-  Node< T > * ptr = new Node< T >(data);
+  Node< T > * ptr = new Node< T >(data, nameIn);
   ptr->prev = tail;
   if (tail != nullptr)
   {
