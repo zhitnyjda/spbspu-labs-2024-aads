@@ -149,19 +149,15 @@ long long int reznikova::calculate(reznikova::Postfix & postfix)
       }
       else if (element.getOperator().operator_ == '-')
       {
-        if (minimum + second_operand.operand_ < first_operand.operand_)
-        {
-          throw std::overflow_error("too big numbers\n");
-        }
-        result_operand = first_operand - second_operand;
+        result_operand = second_operand - first_operand;
       }
       else if (element.getOperator().operator_ == '/')
       {
-        result_operand = first_operand / second_operand;
+        result_operand = second_operand / first_operand;
       }
       else if (element.getOperator().operator_ == '%')
       {
-        result_operand = first_operand % second_operand;
+        result_operand = second_operand % first_operand;
       }
       else if (element.getOperator().operator_ == '*')
       {
