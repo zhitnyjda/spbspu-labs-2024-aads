@@ -3,42 +3,52 @@
 #include <cmath>
 #include <iostream>
 
-void nikiforov::convertToPostfix(std::string str, Queue< dataTypes >& queue)
+std::string nikiforov::cutElem(std::string& str)
 {
-  Stack< dataTypes > stack;
-  nikiforov::dataTypes elemSeq;
+  std::string elem = str.substr(0, str.find_first_of(" ", 0));
+  if (str.find_first_of(" ") == std::string::npos)
+  {
+    str = "";
+  }
+  else
+  {
+    str = str.substr(str.find_first_of(" ") + 1);
+  }
+  return elem;
+}
+
+void nikiforov::convertToPostfix(std::string str, Queue< Initialization >& queue)
+{
+  Stack< Initialization > stack;
   std::string elem;
 
   while (!str.empty())
   {
     elem = cutElem(str);
-    elemSeq = getType(elem);
+    Initialization elemSeq(elem);
 
-    if (elemSeq.type_ == operand)
+    if (elemSeq.type == operand)
     {
       queue.push_back(elemSeq);
     }
     else
     {
-      if (elemSeq.type_ == bracket)
+      if (elemSeq.type == openBracket)
       {
-        if (elemSeq.data_ == "(")
+        stack.push_back(elemSeq);
+      }
+      else if (elemSeq.type == closeBracket)
+      {
+        while (stack.back().type != openBracket)
         {
-          stack.push_back(elemSeq);
-        }
-        else
-        {
-          while (stack.back().data_ != "(")
-          {
-            queue.push_back(stack.back());
-            stack.pop_back();
-          }
+          queue.push_back(stack.back());
           stack.pop_back();
         }
+        stack.pop_back();
       }
       else if (!stack.is_empty())
       {
-        if (nikiforov::calculationPriority(elemSeq.data_) <= nikiforov::calculationPriority(stack.back().data_))
+        if (nikiforov::calculationPriority(elemSeq.operation_.data) <= nikiforov::calculationPriority(stack.back().operation_.data))
         {
           queue.push_back(stack.back());
           stack.pop_back();
@@ -57,7 +67,7 @@ void nikiforov::convertToPostfix(std::string str, Queue< dataTypes >& queue)
   }
   while (!stack.is_empty())
   {
-    if (stack.back().type_ == bracket)
+    if (stack.back().type == openBracket || stack.back().type == closeBracket)
     {
       throw std::logic_error("Error: wrong expression");
     }
@@ -66,20 +76,20 @@ void nikiforov::convertToPostfix(std::string str, Queue< dataTypes >& queue)
   }
 }
 
-void nikiforov::calculation(Queue< dataTypes >& Postfix, nikiforov::Stack< long long >& Result)
+void nikiforov::calculation(Queue< Initialization >& Postfix, nikiforov::Stack< long long >& Result)
 {
   nikiforov::Stack< long long > stack;
-  nikiforov::dataTypes elemSeq;
+  Initialization elemSeq;
   while (!Postfix.is_empty())
   {
     elemSeq = Postfix.front();
-    if (elemSeq.type_ == operand)
+    if (elemSeq.type == operand)
     {
-      stack.push_back(stoll(elemSeq.data_));
+      stack.push_back(elemSeq.operand_.data);
     }
     else
     {
-      operations(elemSeq.data_, stack);
+      operations(elemSeq.operation_.data, stack);
     }
     Postfix.pop_front();
   }
@@ -89,7 +99,7 @@ void nikiforov::calculation(Queue< dataTypes >& Postfix, nikiforov::Stack< long 
   }
 }
 
-void nikiforov::operations(std::string operand, nikiforov::Stack< long long >& stack)
+void nikiforov::operations(char operand, nikiforov::Stack< long long >& stack)
 {
   long long rNum = stack.back();
   stack.pop_back();
@@ -99,7 +109,7 @@ void nikiforov::operations(std::string operand, nikiforov::Stack< long long >& s
   long long minValue = std::numeric_limits< long long >::min();
   long long maxValue = std::numeric_limits< long long >::max();
 
-  if (operand == "+")
+  if (operand == '+')
   {
     if (rNum > 0 && lNum > 0 && (rNum > maxValue - lNum))
     {
@@ -112,7 +122,7 @@ void nikiforov::operations(std::string operand, nikiforov::Stack< long long >& s
 
     stack.push_back(lNum + rNum);
   }
-  else if (operand == "-")
+  else if (operand == '-')
   {
     if (lNum > 0 && rNum < 0 && (lNum > maxValue + rNum))
     {
@@ -125,11 +135,11 @@ void nikiforov::operations(std::string operand, nikiforov::Stack< long long >& s
 
     stack.push_back(lNum - rNum);
   }
-  else if (operand == "/")
+  else if (operand == '/')
   {
     stack.push_back(lNum / rNum);
   }
-  else if (operand == "*")
+  else if (operand == '*')
   {
     if (((lNum > 0 && rNum > 0) || (lNum < 0 && rNum < 0)) && (abs(rNum) > abs(maxValue / lNum)))
     {
@@ -142,7 +152,7 @@ void nikiforov::operations(std::string operand, nikiforov::Stack< long long >& s
 
     stack.push_back(lNum * rNum);
   }
-  else if (operand == "%")
+  else if (operand == '%')
   {
     stack.push_back(((lNum % rNum + rNum) % rNum));
   }
@@ -152,13 +162,13 @@ void nikiforov::operations(std::string operand, nikiforov::Stack< long long >& s
   }
 }
 
-size_t nikiforov::calculationPriority(std::string elemSeq)
+size_t nikiforov::calculationPriority(char elemSeq)
 {
-  if (elemSeq == "+" || elemSeq == "-")
+  if (elemSeq == '+' || elemSeq == '-')
   {
     return 1;
   }
-  else if (elemSeq == "*" || elemSeq == "/" || elemSeq == "%")
+  else if (elemSeq == '*' || elemSeq == '/' || elemSeq == '%')
   {
     return 2;
   }

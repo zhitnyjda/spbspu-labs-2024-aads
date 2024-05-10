@@ -4,21 +4,47 @@
 
 namespace nikiforov
 {
-  enum type_t
+  enum Type
   {
     operation,
     operand,
-    bracket
+    openBracket,
+    closeBracket
   };
 
-  struct dataTypes
+  struct Operand
   {
-    std::string data_;
-    type_t type_;
+    long long data;
   };
 
-  dataTypes getType(std::string& str);
-  std::string cutElem(std::string& str);
+  struct Operation
+  {
+    char data;
+  };
+
+  struct Bracket
+  {
+    char data;
+  };
+
+  class Initialization
+  {
+  public:
+    union
+    {
+      Operand operand_;
+      Operation operation_;
+      Bracket bracket_;
+    };
+    Type type;
+
+    Initialization() = default;
+    Initialization(std::string& str);
+
+  private:
+    bool isOperation(std::string str);
+  };
+
 }
 
 #endif

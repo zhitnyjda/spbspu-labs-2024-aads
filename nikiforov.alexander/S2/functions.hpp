@@ -6,13 +6,15 @@
 
 namespace nikiforov
 {
-  void convertToPostfix(std::string str, Queue< dataTypes >& Queue);
+  std::string cutElem(std::string& str);
 
-  void calculation(Queue< dataTypes >& Postfix, Stack< long long >& Result);
+  void convertToPostfix(std::string str, Queue< Initialization >& Queue);
 
-  void operations(std::string operand, Stack< long long >& stack);
+  void calculation(Queue< Initialization >& Postfix, Stack< long long >& Result);
 
-  size_t calculationPriority(std::string elemSeq);
+  void operations(char operand, Stack< long long >& stack);
+
+  size_t calculationPriority(char elemSeq);
 }
 
 #endif

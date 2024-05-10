@@ -1,39 +1,31 @@
 #include "dataTypes.hpp"
 #include <stdexcept>
 
-nikiforov::dataTypes nikiforov::getType(std::string& elemSeq)
+nikiforov::Initialization::Initialization(std::string& str)
 {
-  nikiforov::dataTypes elem;
-  if (elemSeq == "(" || elemSeq == ")")
+  if (isdigit(str[0]))
   {
-    elem.type_ = bracket;
+    type = operand;
+    operand_.data = std::stoll(str);
   }
-  else if (elemSeq == "*" || elemSeq == "/" || elemSeq == "%" || elemSeq == "-" || elemSeq == "+")
+  else if (isOperation(str))
   {
-    elem.type_ = operation;
+    type = operation;
+    operation_.data = str[0];
   }
-  else if (isdigit(elemSeq[0]))
+  else if (str == "(")
   {
-    elem.type_ = operand;
+    type = openBracket;
+    bracket_.data = str[0];
   }
   else
   {
-    throw std::invalid_argument("Error: wrong Type");
+    type = closeBracket;
+    bracket_.data = str[0];
   }
-  elem.data_ = elemSeq;
-  return elem;
 }
 
-std::string nikiforov::cutElem(std::string& str)
+bool nikiforov::Initialization::isOperation(std::string str)
 {
-  std::string elem = str.substr(0, str.find_first_of(" ", 0));
-  if (str.find_first_of(" ") == std::string::npos)
-  {
-    str = "";
-  }
-  else
-  {
-    str = str.substr(str.find_first_of(" ") + 1);
-  }
-  return elem;
+  return (str == "+" || str == "-" || str == "*" || str == "/" || str == "%");
 }

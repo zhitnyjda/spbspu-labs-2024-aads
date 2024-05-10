@@ -1,13 +1,13 @@
-#include "functions.hpp"
 #include <iostream>
 #include <fstream>
+#include "functions.hpp"
 
 int main(int argc, char* argv[])
 {
   using namespace nikiforov;
 
   Stack< long long > Result;
-  Queue< dataTypes > Postfix;
+  Queue< Initialization > Postfix;
   std::string infix = "";
 
   try
