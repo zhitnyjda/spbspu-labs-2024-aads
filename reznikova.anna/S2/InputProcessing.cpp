@@ -1,5 +1,6 @@
 #include "InputProcessing.hpp"
 #include <cstddef>
+#include <limits>
 
 void reznikova::readLine(std::istream & is, reznikova::Queue< reznikova::Element > & infix)
 {
@@ -112,7 +113,7 @@ void reznikova::makePostfix(reznikova::Queue< reznikova::Element > & infix, rezn
   {
     if (stack.getValue().types_ == open_bracket_type)
     {
-      throw std::logic_error("wrong expression");
+      throw std::logic_error("wrong expression\n");
     }
     postfix.postfix_.push(stack.getValue());
     stack.pop();
@@ -121,6 +122,8 @@ void reznikova::makePostfix(reznikova::Queue< reznikova::Element > & infix, rezn
 
 long long int reznikova::calculate(reznikova::Postfix & postfix)
 {
+  const long long int maximum = std::numeric_limits< long long int >::max();
+  const long long int minimum = std::numeric_limits< long long int >::min();
   Stack< Element > stack;
   while(!postfix.postfix_.empty())
   {
@@ -138,10 +141,18 @@ long long int reznikova::calculate(reznikova::Postfix & postfix)
       Operand result_operand;
       if (element.elem_.operator_.operator_ == '+')
       {
+        if (maximum - second_operand.operand_ < first_operand.operand_)
+        {
+          throw std::overflow_error("too big numbers\n");
+        }
         result_operand = first_operand + second_operand;
       }
       else if (element.getOperator().operator_ == '-')
       {
+        if (minimum + second_operand.operand_ < first_operand.operand_)
+        {
+          throw std::overflow_error("too big numbers\n");
+        }
         result_operand = first_operand - second_operand;
       }
       else if (element.getOperator().operator_ == '/')
