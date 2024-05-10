@@ -6,6 +6,7 @@ int main(int argc, char ** argv)
   reznikova::Queue< reznikova::Element > infix;
   reznikova::Postfix postfix;
   long long int calculate_result = 0;
+  reznikova::Queue< long long int > results;
   try
   {
     if (argc == 2)
@@ -16,14 +17,17 @@ int main(int argc, char ** argv)
         std::cerr << "can't open file\n";
         return 1;
       }
-      while (!input.eof())
+      else
       {
-        reznikova::readLine(input, infix);
-        reznikova::makePostfix(infix, postfix);
-        if (!postfix.postfix_.empty())
+        while (!input.eof())
         {
-          calculate_result = reznikova::calculate(postfix);
-          std::cout << calculate_result << "\n";
+          reznikova::readLine(input, infix);
+          reznikova::makePostfix(infix, postfix);
+          if (!postfix.postfix_.empty())
+          {
+            calculate_result = reznikova::calculate(postfix);
+            results.push(calculate_result);
+          }
         }
       }
     }
@@ -36,7 +40,7 @@ int main(int argc, char ** argv)
         if (!postfix.postfix_.empty())
         {
           calculate_result = reznikova::calculate(postfix);
-          std::cout << calculate_result << "\n";
+          results.push(calculate_result);
         }
       }
     }
@@ -50,6 +54,16 @@ int main(int argc, char ** argv)
   {
     std::cerr << e.what();
     return 1;
+  }
+  results.reverse();
+  while (!results.empty())
+  {
+    std::cout << results.getValue();
+    if (results.getSize() != 1)
+    {
+      std::cout << " ";
+    }
+    results.pop();
   }
   return 0;
 }
