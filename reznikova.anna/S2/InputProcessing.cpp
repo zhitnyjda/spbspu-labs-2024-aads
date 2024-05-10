@@ -1,4 +1,4 @@
-#include "InputProcessing.hpp"
+k#include "InputProcessing.hpp"
 #include <cstddef>
 #include <limits>
 
@@ -123,6 +123,7 @@ void reznikova::makePostfix(reznikova::Queue< reznikova::Element > & infix, rezn
 long long int reznikova::calculate(reznikova::Postfix & postfix)
 {
   const long long int maximum = std::numeric_limits< long long int >::max();
+ // const long long int minimum = std::numeric_limits< long long int >::min();
   Stack< Element > stack;
   while(!postfix.postfix_.empty())
   {
@@ -160,6 +161,10 @@ long long int reznikova::calculate(reznikova::Postfix & postfix)
       }
       else if (element.getOperator().operator_ == '*')
       {
+        if (maximum / second_operand.operand_ < first_operand.operand_)
+        {
+          throw std::overflow_error("too big numbers\n");
+        }
         result_operand = first_operand * second_operand;
       }
       Element el;
