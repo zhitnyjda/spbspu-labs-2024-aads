@@ -25,7 +25,7 @@ namespace litsinger
     void popFront();
     bool isEmpty() noexcept;
     void clear();
-    void swap(const List< T >& otherList) noexcept;
+    void swap(List< T >& const otherList) noexcept;
     void assign(size_t n, const T& value);
     void remove(const T& value);
     template< typename P >
