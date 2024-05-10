@@ -123,7 +123,6 @@ void reznikova::makePostfix(reznikova::Queue< reznikova::Element > & infix, rezn
 long long int reznikova::calculate(reznikova::Postfix & postfix)
 {
   const long long int maximum = std::numeric_limits< long long int >::max();
-  const long long int minimum = std::numeric_limits< long long int >::min();
   Stack< Element > stack;
   while(!postfix.postfix_.empty())
   {
