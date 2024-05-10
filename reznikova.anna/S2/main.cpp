@@ -19,6 +19,11 @@ int main(int argc, char ** argv)
       while (!input.eof())
       {
         reznikova::readLine(input, infix);
+        if (infix.empty())
+        {
+          std::cerr << "nothing to calculate\n";
+          return 1;
+        }
         reznikova::makePostfix(infix, postfix);
         calculate_result = reznikova::calculate(postfix);
         std::cout << calculate_result << "\n";
@@ -29,6 +34,11 @@ int main(int argc, char ** argv)
       while (!std::cin.eof())
       {
         reznikova::readLine(std::cin, infix);
+        if (infix.empty())
+        {
+          std::cerr << "nothing to calculate\n";
+          return 1;
+        }
         reznikova::makePostfix(infix, postfix);
         calculate_result = reznikova::calculate(postfix);
         std::cout << calculate_result << "\n";
@@ -42,3 +52,4 @@ int main(int argc, char ** argv)
   }
   return 0;
 }
+
