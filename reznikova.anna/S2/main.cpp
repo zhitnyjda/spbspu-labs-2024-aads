@@ -6,7 +6,7 @@ int main(int argc, char ** argv)
   reznikova::Queue< reznikova::Element > infix;
   reznikova::Postfix postfix;
   long long int calculate_result = 0;
-  reznikova::Queue< long long int > results;
+  reznikova::Stack< long long int > results;
   try
   {
     if (argc == 2)
@@ -55,7 +55,6 @@ int main(int argc, char ** argv)
     std::cerr << e.what();
     return 1;
   }
-  results.reverse();
   while (!results.empty())
   {
     std::cout << results.getValue();
