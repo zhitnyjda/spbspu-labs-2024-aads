@@ -8,8 +8,8 @@ namespace reznikova
   struct Operator
   {
     Operator(): operator_() {}
-    Operator(std::string value): operator_(value) {}
-    std::string operator_;
+    Operator(char value): operator_(value) {}
+    char operator_;
   };
 
   struct Operand
@@ -32,8 +32,8 @@ namespace reznikova
   struct Bracket
   {
     Bracket(): bracket_() {}
-    Bracket(std::string value): bracket_(value) {}
-    std::string bracket_;
+    Bracket(char value): bracket_(value) {}
+    char bracket_;
   };
 
   enum type_t

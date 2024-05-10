@@ -18,21 +18,21 @@ void reznikova::readLine(std::istream & is, reznikova::Queue< reznikova::Element
       {
         Element input_bracket;
         input_bracket.types_ = open_bracket_type;
-        input_bracket.elem_.open_bracket_ = Bracket{ data };
+        input_bracket.elem_.open_bracket_ = Bracket{ data[0] };
         infix.push(input_bracket);
       }
       else if (data == ")")
       {
         Element input_bracket;
         input_bracket.types_ = close_bracket_type;
-        input_bracket.elem_.close_bracket_ = Bracket{ data };
+        input_bracket.elem_.close_bracket_ = Bracket{ data[0] };
         infix.push(input_bracket);
       }
       else if (data == "+" or data == "-" or data == "*" or data == "/" or data == "%")
       {
         Element input_operator;
         input_operator.types_ = operator_type;
-        input_operator.elem_.operator_ = Operator{ data };
+        input_operator.elem_.operator_ = Operator{ data[0] };
         infix.push(input_operator);
       }
       else
@@ -55,9 +55,9 @@ bool reznikova::ifNoLessImportant(reznikova::Stack< reznikova::Element > & stack
 {
   while(!stack.empty())
   {
-    if (element.elem_.operator_.operator_ == "+" or element.elem_.operator_.operator_ == "-")
+    if (element.elem_.operator_.operator_ == '+' or element.elem_.operator_.operator_ == '-')
     {
-      if (stack.getValue().elem_.operator_.operator_ == "+" or stack.getValue().elem_.operator_.operator_ == "-")
+      if (stack.getValue().elem_.operator_.operator_ == '+' or stack.getValue().elem_.operator_.operator_ == '-')
       {
         return true;
       }
@@ -136,23 +136,23 @@ long long int reznikova::calculate(reznikova::Postfix & postfix)
       Operand second_operand = stack.getValue().getOperand();
       stack.pop();
       Operand result_operand;
-      if (element.elem_.operator_.operator_ == "+")
+      if (element.elem_.operator_.operator_ == '+')
       {
         result_operand = first_operand + second_operand;
       }
-      else if (element.getOperator().operator_ == "-")
+      else if (element.getOperator().operator_ == '-')
       {
         result_operand = first_operand - second_operand;
       }
-      else if (element.getOperator().operator_ == "/")
+      else if (element.getOperator().operator_ == '/')
       {
         result_operand = first_operand / second_operand;
       }
-      else if (element.getOperator().operator_ == "%")
+      else if (element.getOperator().operator_ == '%')
       {
         result_operand = first_operand % second_operand;
       }
-      else if (element.getOperator().operator_ == "*")
+      else if (element.getOperator().operator_ == '*')
       {
         result_operand = first_operand * second_operand;
       }
