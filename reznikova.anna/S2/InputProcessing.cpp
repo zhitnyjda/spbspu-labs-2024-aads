@@ -1,6 +1,7 @@
 #include "InputProcessing.hpp"
 #include <cstddef>
 #include <limits>
+#include <cmath>
 
 void reznikova::readLine(std::istream & is, reznikova::Queue< reznikova::Element > & infix)
 {
@@ -157,7 +158,14 @@ long long int reznikova::calculate(reznikova::Postfix & postfix)
       }
       else if (element.getOperator().operator_ == '%')
       {
-        result_operand = second_operand % first_operand;
+        if (second_operand.operand_ < 0)
+        {
+          result_operand.operand_ = second_operand.operand_ - (first_operand.operand_ * floor(second_operand.operand_/first_operand.operand_ - 1));
+        }
+        else
+        {
+          result_operand = second_operand % first_operand;
+        }
       }
       else if (element.getOperator().operator_ == '*')
       {
