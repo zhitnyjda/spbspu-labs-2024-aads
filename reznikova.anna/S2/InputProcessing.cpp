@@ -121,6 +121,10 @@ void reznikova::makePostfix(reznikova::Queue< reznikova::Element > & infix, rezn
 
 long long int reznikova::calculate(reznikova::Postfix & postfix)
 {
+  if (postfix.postfix_.empty())
+  {
+    throw std::logic_error("nothing to calculate\n");
+  }
   Stack< Element > stack;
   while(!postfix.postfix_.empty())
   {
