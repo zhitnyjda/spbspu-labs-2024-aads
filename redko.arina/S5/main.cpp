@@ -22,9 +22,9 @@ int main(int argc, char ** argv)
   }
 
   redko::BSTree< std::string, std::function< redko::SumAndOrder(redko::BSTree< int, std::string > *, redko::SumAndOrder) > > functions{};
-  functions.insert({ "ascending", &redko::BSTree< int, std::string >::traverseLR<redko::SumAndOrder > });
-  functions.insert({ "descending", &redko::BSTree< int, std::string >::traverseRL<redko::SumAndOrder > });
-  functions.insert({ "breadth", &redko::BSTree< int, std::string >::traverseBreadth<redko::SumAndOrder > });
+  functions.insert({ "ascending", &redko::BSTree< int, std::string >::traverseLR< redko::SumAndOrder > });
+  functions.insert({ "descending", &redko::BSTree< int, std::string >::traverseRL< redko::SumAndOrder > });
+  functions.insert({ "breadth", &redko::BSTree< int, std::string >::traverseBreadth< redko::SumAndOrder > });
 
   redko::BSTree< int, std::string > data{};
   std::string description = "";
