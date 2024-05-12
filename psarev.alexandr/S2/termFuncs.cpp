@@ -1,36 +1,32 @@
 #include "termFuncs.hpp"
 #include <limits>
 
-bool psarev::checkOperand(std::string symbol)
+bool psarev::checkOperand(std::string symb)
 {
-  for (char c : symbol)
+  for (char c : symb)
   {
-    if (std::isdigit(c))
-    {
-      return true;
-    }
+    return std::isdigit(c) ? true : false;
   }
-  return false;
 }
 
-bool psarev::checkOperator(std::string c)
+bool psarev::checkOperator(std::string symb)
 {
-  if (c == "/" || c == "*" || c == "+" || c == "-" || c == "%")
+  if (symb == "*" || symb == "/" || symb == "%" || symb == "+" || symb == "-")
   {
     return true;
   }
   return false;
 }
 
-int psarev::priori(std::string c)
+int psarev::priori(std::string symb)
 {
-  if (c == "/" || c == "*" || c == "%")
-  {
-    return 2;
-  }
-  else if (c == "+" || c == "-")
+  if (symb == "+" || symb == "-")
   {
     return 1;
+  }
+  else if (symb == "*" || symb == "/" || symb == "%")
+  {
+    return 2;
   }
   else
   {
@@ -38,110 +34,109 @@ int psarev::priori(std::string c)
   }
 }
 
-void psarev::readTerms(std::istream& input, Queue< std::string >& terms)
+void psarev::readTerms(std::istream& in, Queue< std::string >& terms)
 {
-  std::string inputLine;
-  while (!input.eof())
+  std::string term;
+  while (!in.eof())
   {
-    std::getline(input, inputLine);
-    if (!inputLine.empty())
+    std::getline(in, term);
+    if (!term.empty())
     {
-      terms.push(inputLine);
+      terms.push(term);
     }
   }
 }
 
 void psarev::makeQueue(std::string strTerm, Queue< std::string >& queue)
 {
+  size_t termLen = 0;
   std::string symb = "";
-  size_t i = 0;
-  while (i < strTerm.length())
+  while (termLen < strTerm.length())
   {
-    if (strTerm[i] == ' ')
+    if (strTerm[termLen] == ' ')
     {
-      i++;
+      termLen++;
       queue.push(symb);
       symb = "";
     }
-    else if (i == (strTerm.length() - 1))
+    else if (termLen == (strTerm.length() - 1))
     {
-      symb += strTerm[i];
-      i++;
+      symb += strTerm[termLen];
       queue.push(symb);
+      termLen++;
     }
     else
     {
-      symb += strTerm[i];
-      i++;
+      symb += strTerm[termLen];
+      termLen++;
     }
   }
 }
 
-void psarev::postfixation(Queue< std::string >& term, Queue< std::string >& result)
+void psarev::postfixation(Queue< std::string >& infix, Queue< std::string >& postfix)
 {
-  Stack< std::string > stack;
-
-  while (!term.isEmpty())
+  Stack< std::string > interDepot;
+  while (!infix.isEmpty())
   {
-    std::string elem = term.getFront();
-    term.pop();
+    std::string elem = infix.getFront();
+    infix.pop();
     if (checkOperand(elem))
     {
-      result.push(elem);
+      postfix.push(elem);
     }
     else if (elem == "(")
     {
-      stack.push("(");
+      interDepot.push("(");
     }
     else if (elem == ")")
     {
-      while (stack.getTop() != "(")
+      while (interDepot.getTop() != "(")
       {
-        result.push(stack.getTop());
-        stack.pop();
+        postfix.push(interDepot.getTop());
+        interDepot.pop();
       }
-      stack.pop();
+      interDepot.pop();
     }
     else
     {
-      while ((!stack.isEmpty() && priori(elem) < priori(stack.getTop())) ||
-        (!stack.isEmpty() && priori(elem) == priori(stack.getTop())))
+      while ((!interDepot.isEmpty() && priori(elem) < priori(interDepot.getTop())) ||
+        (!interDepot.isEmpty() && priori(elem) == priori(interDepot.getTop())))
       {
-        result.push(stack.getTop());
-        stack.pop();
+        postfix.push(interDepot.getTop());
+        interDepot.pop();
       }
-      stack.push(elem);
+      interDepot.push(elem);
     }
   }
-  while (!stack.isEmpty())
+  while (!interDepot.isEmpty())
   {
-    result.push(stack.getTop());
-    stack.pop();
+    postfix.push(interDepot.getTop());
+    interDepot.pop();
   }
 }
 
-long long psarev::makeOperation(long long firValue, long long secValue, std::string operation)
+long long psarev::makeOperation(long long first, long long second, std::string operation)
 {
   long long res = 0;
   if (operation == "+")
   {
-    res = firValue + secValue;
+    res = first + second;
   }
   else if (operation == "-")
   {
-    res = firValue - secValue;
+    res = first - second;
   }
   else if (operation == "/")
   {
-    res = firValue / secValue;
+    res = first / second;
   }
   else if (operation == "*")
   {
-    res = firValue * secValue;
+    res = first * second;
   }
   else if (operation == "%")
   {
-    res = firValue < 0 ? (firValue % secValue + secValue) : firValue % secValue;
+    res = first < 0 ? (first % second + second) : first % second;
   }
   else
   {
@@ -154,24 +149,26 @@ long long psarev::makeOperation(long long firValue, long long secValue, std::str
 long long psarev::calculateTerm(Queue< std::string >& term)
 {
   Stack< long long > stack;
-  std::string elem;
-  long long firVal;
-  long long secVal;
+
+  long long first;
+  long long second;
+
+  std::string symb;
   while (!term.isEmpty())
   {
-    elem = term.getFront();
+    symb = term.getFront();
     term.pop();
-    if (checkOperand(elem))
+    if (checkOperand(symb))
     {
-      stack.push(std::stoll(elem));
+      stack.push(std::stoll(symb));
     }
-    else if (checkOperator(elem))
+    else if (checkOperator(symb))
     {
-      secVal = stack.getTop();
+      second = stack.getTop();
       stack.pop();
-      firVal = stack.getTop();
+      first = stack.getTop();
       stack.pop();
-      stack.push(makeOperation(firVal, secVal, elem));
+      stack.push(makeOperation(first, second, symb));
     }
     else
     {
@@ -188,16 +185,17 @@ void psarev::makeResults(Queue< std::string >& terms, Stack< long long >& result
   std::string strTerm;
   long long res = 0;
 
-  Queue< std::string > infixTrem;
-  Queue< std::string > postfixTerm;
+  Queue< std::string > infix;
+  Queue< std::string > postfix;
 
   while (!terms.isEmpty())
   {
     strTerm = terms.getFront();
     terms.pop();
-    makeQueue(strTerm, infixTrem);
-    postfixation(infixTrem, postfixTerm);
-    res = calculateTerm(postfixTerm);
+    makeQueue(strTerm, infix);
+    postfixation(infix, postfix);
+
+    res = calculateTerm(postfix);
     results.push(res);
   }
 }

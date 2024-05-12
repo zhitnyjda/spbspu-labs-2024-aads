@@ -1,9 +1,9 @@
 #ifndef TERMFUNCS_HPP
 #define TERMFUNCS_HPP
-#include <iostream>
 #include <string>
-#include "stack.hpp"
+#include <iostream>
 #include "queue.hpp"
+#include "stack.hpp"
 
 namespace psarev
 {
@@ -14,7 +14,7 @@ namespace psarev
   void readTerms(std::istream& input, Queue< std::string >& result);
   void makeQueue(std::string expression, Queue< std::string >& result);
   void postfixation(Queue< std::string >& term, Queue< std::string >& result);
-  long long makeOperation(long long firValue, long long secValue, std::string operation);
+  long long makeOperation(long long first, long long second, std::string operation);
   long long calculateTerm(Queue< std::string >& terms);
 
   void makeResults(Queue< std::string >& terms, Stack< long long >& results);

@@ -55,13 +55,13 @@ T& psarev::Stack< T >::getTop() const
 template < typename T >
 void psarev::Stack< T >::push(const T& data)
 {
-  depot.pushBack(data);
+  depot.pushFront(data);
 }
 
 template < typename T >
 void psarev::Stack< T >::push(T&& data)
 {
-  depot.pushBack(data);
+  depot.pushFront(data);
 }
 
 template < typename T >
