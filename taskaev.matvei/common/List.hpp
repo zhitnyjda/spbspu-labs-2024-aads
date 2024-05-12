@@ -26,6 +26,7 @@ namespace taskaev
     bool isEmpty() const noexcept;
     void clear();
     void reverse();
+    size_t getSize();
     void swap(List< T >& other) const noexcept;
     void remove(const T& value) noexcept;
     template< typename predicate >
@@ -36,7 +37,7 @@ namespace taskaev
     Iterator begin() noexcept;
     Iterator end() noexcept;
 
-    ConstIterator cbegin() const noexcept ;
+    ConstIterator cbegin() const noexcept;
     ConstIterator cend() const noexcept;
   private:
     struct Node
@@ -81,7 +82,7 @@ taskaev::List< T >::ConstIterator::ConstIterator() :
 {}
 
 template< typename T>
-taskaev::List< T >::ConstIterator::ConstIterator(Node* point):
+taskaev::List< T >::ConstIterator::ConstIterator(Node* point) :
   node(point)
 {}
 
@@ -126,7 +127,7 @@ bool taskaev::List< T >::ConstIterator::operator!=(const this_t& rhs) const
 }
 
 template< typename T >
-class taskaev::List< T >::Iterator: public std::iterator < std::forward_iterator_tag, T >
+class taskaev::List< T >::Iterator : public std::iterator < std::forward_iterator_tag, T >
 {
 public:
   friend class List< T >;
@@ -156,7 +157,7 @@ taskaev::List< T >::Iterator::Iterator() :
 {}
 
 template< typename T>
-taskaev::List< T >::Iterator::Iterator(ConstIterator val):
+taskaev::List< T >::Iterator::Iterator(ConstIterator val) :
   iter(val)
 {}
 
@@ -200,7 +201,7 @@ bool taskaev::List< T >::Iterator::operator!=(const this_t& rhs) const
 }
 
 template< typename T >
-taskaev::List< T >::List():
+taskaev::List< T >::List() :
   head_(nullptr)
 {}
 
@@ -219,7 +220,7 @@ taskaev::List< T >::List(const List< T >& other)
 {
   head_ = nullptr;
   Node* head = other.head_;
-  while(head)
+  while (head)
   {
     pushBack(head->data);
     head = head->next;
@@ -227,7 +228,7 @@ taskaev::List< T >::List(const List< T >& other)
 }
 
 template< typename T >
-taskaev::List< T >::List(List< T >&& other) noexcept:
+taskaev::List< T >::List(List< T >&& other) noexcept :
   head_(other.head_)
 {
   other.head_ = nullptr;
@@ -244,7 +245,7 @@ template< typename T>
 void taskaev::List< T >::assign(const T& value)
 {
   Node* newNode = head_;
-  while(newNode != nullptr)
+  while (newNode != nullptr)
   {
     newNode->data = value;
     newNode = newNode->next;
@@ -317,6 +318,19 @@ void taskaev::List< T >::reverse()
     temp = am;
   }
   head_ = newNode;
+}
+
+template< typename T >
+size_t taskaev::List< T >::getSize()
+{
+  size_t count = 0;
+  ConstIterator it = cbegin();
+  while (it != cend())
+  {
+    ++it;
+    ++count;
+  }
+  return count;
 }
 
 template< typename T>
