@@ -1,6 +1,6 @@
 #ifndef STACK_HPP
 #define STACK_HPP
-#include "doublelist.hpp"
+#include <doublelist.hpp>
 
 namespace kovshikov
 {
@@ -18,7 +18,7 @@ namespace kovshikov
     void pop();
 
     size_t getSize() const;
-    bool isEmpty() const;
+    bool isEmpty() const noexcept;
   private:
     DoubleList< T > stack;
   };
@@ -69,7 +69,7 @@ size_t kovshikov::Stack< T >::getSize() const
 }
 
 template< typename T >
-bool kovshikov::Stack< T >::isEmpty() const
+bool kovshikov::Stack< T >::isEmpty() const noexcept
 {
   return stack.empty();
 }

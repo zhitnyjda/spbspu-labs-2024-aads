@@ -1,6 +1,6 @@
 #ifndef QUEUE_HPP
 #define QUEUE_HPP
-#include "doublelist.hpp"
+#include <doublelist.hpp>
 
 namespace kovshikov
 {
@@ -20,7 +20,7 @@ namespace kovshikov
     T& back() const;
 
     size_t getSize() const;
-    bool isEmpty() const;
+    bool isEmpty() const noexcept;
 
   private:
     DoubleList< T > queue;
@@ -78,7 +78,7 @@ size_t kovshikov::Queue< T >::getSize() const
 }
 
 template< typename T >
-bool kovshikov::Queue< T >::isEmpty() const
+bool kovshikov::Queue< T >::isEmpty() const noexcept
 {
   return queue.empty();
 }

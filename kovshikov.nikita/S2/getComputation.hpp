@@ -1,5 +1,5 @@
-#ifndef COMPUTING_HPP
-#define COMPUTING_HPP
+#ifndef GETCOMPUTATION_HPP
+#define GETCOMPUTATION_HPP
 #include <cmath>
 #include <exception>
 #include "queue.hpp"
