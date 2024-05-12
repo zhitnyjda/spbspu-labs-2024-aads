@@ -5,8 +5,12 @@ bool psarev::checkOperand(std::string symb)
 {
   for (char c : symb)
   {
-    return std::isdigit(c) ? true : false;
+    if (std::isdigit(c))
+    {
+      return true;
+    }
   }
+  return false;
 }
 
 bool psarev::checkOperator(std::string symb)
