@@ -124,10 +124,18 @@ long long psarev::makeOperation(long long first, long long second, std::string o
   long long res = 0;
   if (operation == "+")
   {
+    if ((std::numeric_limits< long long >::max() - first) < second)
+    {
+      throw std::overflow_error("Error: Value overflow!");
+    }
     res = first + second;
   }
   else if (operation == "-")
   {
+    if (first < (std::numeric_limits< long long >::min() + second))
+    {
+      throw std::overflow_error("Error: Value underflow!");
+    }
     res = first - second;
   }
   else if (operation == "/")
@@ -136,6 +144,10 @@ long long psarev::makeOperation(long long first, long long second, std::string o
   }
   else if (operation == "*")
   {
+    if ((std::numeric_limits< long long >::max() / first) < second)
+    {
+      throw std::overflow_error("Error: Value overflow!");
+    }
     res = first * second;
   }
   else if (operation == "%")
