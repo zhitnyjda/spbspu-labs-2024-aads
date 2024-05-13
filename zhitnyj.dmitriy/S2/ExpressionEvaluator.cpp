@@ -1,7 +1,6 @@
 #include "ExpressionEvaluator.hpp"
 
-void ExpressionEvaluator::parseExpression(Queue< std::shared_ptr< ExpressionItem > >& queue,
-    const std::string& expression)
+void ExpressionEvaluator::parseExpression(Queue< std::shared_ptr< ExpressionItem > >& queue, const std::string& expression)
 {
   std::string token;
   for (size_t i = 0; i < expression.length(); ++i)
