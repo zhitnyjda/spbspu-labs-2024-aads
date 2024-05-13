@@ -4,8 +4,8 @@
 #include <cassert>
 #include <memory>
 #include <iostream>
-
-namespace doroshenko
+#include "node.hpp"
+namespace jirkov
 {
   template < typename T >
   class List
@@ -23,7 +23,7 @@ namespace doroshenko
     void pushFront(const T& data);
     void pushBack(const T& data);
     void popFront();
-    bool isEmpty() noexcept;
+    bool empty() noexcept;
     void clear();
     void swap(List< T >& otherList) noexcept;
     void assign(size_t n, const T& value);
@@ -43,32 +43,19 @@ namespace doroshenko
     ConstIterator cend() const;
 
   private:
-    struct Node
-    {
-    public:
-      friend class List;
-      Node(T value) :
-        data(value),
-        next(nullptr)
-      {}
-    private:
-      T data;
-      Node* next;
-    };
-
-    Node* head_;
-    Node* tail_;
+    details::Node<T>* head_;
+    details::Node<T>* tail_;
   };
 }
 
 template< typename T >
-class doroshenko::List< T >::ConstIterator : public std::iterator< std::forward_iterator_tag, T >
+class jirkov::List< T >::ConstIterator : public std::iterator< std::forward_iterator_tag, T >
 {
 public:
   friend class List< T >;
 
   ConstIterator();
-  ConstIterator(Node* pointer);
+  ConstIterator(jirkov::details::Node<T>* pointer);
   ConstIterator(const ConstIterator&) = default;
   ~ConstIterator() = default;
 
@@ -83,21 +70,21 @@ public:
   bool operator==(const ConstIterator& rhs) const;
 
 private:
-  Node* node;
+  jirkov::details::Node<T>* node;
 };
 
 template< typename T >
-doroshenko::List< T >::ConstIterator::ConstIterator():
+jirkov::List< T >::ConstIterator::ConstIterator():
   node(nullptr)
 {}
 
 template< typename T >
-doroshenko::List< T >::ConstIterator::ConstIterator(Node* pointer):
+jirkov::List< T >::ConstIterator::ConstIterator(jirkov::details::Node<T>* pointer):
   node(pointer)
 {}
 
 template< typename T >
-typename doroshenko::List< T >::ConstIterator& doroshenko::List< T >::ConstIterator::operator++()
+typename jirkov::List< T >::ConstIterator& jirkov::List< T >::ConstIterator::operator++()
 {
   assert(node != nullptr);
   node = node->next;
@@ -105,7 +92,7 @@ typename doroshenko::List< T >::ConstIterator& doroshenko::List< T >::ConstItera
 }
 
 template< typename T >
-typename doroshenko::List< T >::ConstIterator doroshenko::List< T >::ConstIterator::operator++(int)
+typename jirkov::List< T >::ConstIterator jirkov::List< T >::ConstIterator::operator++(int)
 {
   assert(node != nullptr);
   ConstIterator result(*this);
@@ -114,41 +101,41 @@ typename doroshenko::List< T >::ConstIterator doroshenko::List< T >::ConstIterat
 }
 
 template< typename T >
-const T& doroshenko::List< T >::ConstIterator::operator*() const
+const T& jirkov::List< T >::ConstIterator::operator*() const
 {
   assert(node != nullptr);
   return node->data;
 }
 
 template< typename T >
-const T* doroshenko::List< T >::ConstIterator::operator->() const
+const T* jirkov::List< T >::ConstIterator::operator->() const
 {
   assert(node != nullptr);
   return std::addressof(node->data);
 }
 
 template< typename T >
-bool doroshenko::List< T >::ConstIterator::operator!=(const ConstIterator& rhs) const
+bool jirkov::List< T >::ConstIterator::operator!=(const ConstIterator& rhs) const
 {
   return !(rhs == *this);
 }
 
 template< typename T >
-bool doroshenko::List< T >::ConstIterator::operator==(const ConstIterator& rhs) const
+bool jirkov::List< T >::ConstIterator::operator==(const ConstIterator& rhs) const
 {
   return node == rhs.node;
 }
 
 template< typename T >
-class doroshenko::List< T >::Iterator : public std::iterator< std::forward_iterator_tag, T >
+class jirkov::List< T >::Iterator : public std::iterator< std::forward_iterator_tag, T >
 {
 public:
   friend class List< T >;
   Iterator();
-  Iterator(ConstIterator someIterator);
-  ~Iterator() = default;
   Iterator(const Iterator&) = default;
   Iterator& operator=(const Iterator&) = default;
+  Iterator(ConstIterator someIterator);
+  ~Iterator() = default;
 
   Iterator& operator++();
   Iterator operator++(int);
@@ -164,65 +151,64 @@ private:
 };
 
 template< typename T >
-doroshenko::List< T >::Iterator::Iterator():
+jirkov::List< T >::Iterator::Iterator():
   iterator(nullptr)
 {}
 
 template< typename T >
-doroshenko::List< T >::Iterator::Iterator(ConstIterator someIterator):
+jirkov::List< T >::Iterator::Iterator(ConstIterator someIterator):
   iterator(someIterator)
 {}
 
 template< typename T >
-typename doroshenko::List< T >::Iterator& doroshenko::List< T >::Iterator::operator++()
+typename jirkov::List< T >::Iterator& jirkov::List< T >::Iterator::operator++()
 {
-  assert(iterator != nullptr);
-  iterator++;
-  return iterator;
+    assert(iterator.node != nullptr);
+    iterator = ConstIterator(iterator.node->next);
+    return *this;
 }
-
 template< typename T >
-typename doroshenko::List< T >::Iterator doroshenko::List< T >::Iterator::operator++(int)
+typename jirkov::List< T >::Iterator jirkov::List< T >::Iterator::operator++(int)
 {
-  assert(iterator != nullptr);
-  ++iterator;
-  return iterator;
+    assert(iterator.node != nullptr);
+    Iterator result(*this);
+    iterator = ConstIterator(iterator.node->next);
+    return result;
 }
-
 template< typename T >
-T& doroshenko::List< T >::Iterator::operator*()
+T& jirkov::List< T >::Iterator::operator*()
 {
   assert(iterator != nullptr);
   return iterator.node->data;
 }
 
 template< typename T >
-T* doroshenko::List< T >::Iterator::operator->()
+T* jirkov::List< T >::Iterator::operator->()
 {
   assert(iterator != nullptr);
   return std::addressof(iterator.node->data);
 }
 
 template< typename T >
-bool doroshenko::List< T >::Iterator::operator!=(const Iterator& rhs) const
+bool jirkov::List< T >::Iterator::operator!=(const Iterator& rhs) const
 {
   return !(rhs.iterator == iterator);
 }
 
 template< typename T >
-bool doroshenko::List< T >::Iterator::operator==(const Iterator& rhs) const
+bool jirkov::List< T >::Iterator::operator==(const Iterator& rhs) const
 {
   return iterator == rhs.iterator;
 }
 
 template< typename T >
-doroshenko::List< T >::List():
+jirkov::List< T >::List():
   head_(nullptr),
   tail_(nullptr)
 {}
 
 template< typename T >
-doroshenko::List< T >::List(size_t n, const T& value)
+jirkov::List< T >::List(size_t n, const T& value)
 {
   head_ = nullptr;
   tail_ = nullptr;
@@ -233,11 +219,11 @@ doroshenko::List< T >::List(size_t n, const T& value)
 }
 
 template< typename T >
-doroshenko::List< T >::List(const List< T >& otherList)
+jirkov::List< T >::List(const List< T >& otherList)
 {
   head_ = nullptr;
   tail_ = nullptr;
-  Node* head = otherList.head_;
+  jirkov::details::Node<T>* head = otherList.head_;
   while (head)
   {
     pushBack(head->data);
@@ -246,7 +232,7 @@ doroshenko::List< T >::List(const List< T >& otherList)
 }
 
 template< typename T >
-doroshenko::List< T >::List(List&& otherList)
+jirkov::List< T >::List(List&& otherList)
 {
   head_ = otherList.head_;
   tail_ = otherList.tail_;
@@ -255,15 +241,15 @@ doroshenko::List< T >::List(List&& otherList)
 }
 
 template< typename T >
-doroshenko::List< T >::~List()
+jirkov::List< T >::~List()
 {
   clear();
 }
 
 template< typename T >
-void doroshenko::List< T >::pushFront(const T& data)
+void jirkov::List< T >::pushFront(const T& data)
 {
-  Node* node = new Node(data);
+  jirkov::details::Node<T>* node = new jirkov::details::Node<T>(data);
   if (head_ != nullptr)
   {
     node->next = head_;
@@ -276,9 +262,17 @@ void doroshenko::List< T >::pushFront(const T& data)
 }
 
 template< typename T >
-void doroshenko::List< T >::pushBack(const T& data)
+void jirkov::List< T >::pushBack(const T& data)
 {
-  Node* node = new Node(data);
+  jirkov::details::Node<T>* node = nullptr;
+  try
+  {
+    node = new jirkov::details::Node<T>(data);
+  }
+  catch(std::exception& e)
+  {
+    std::cerr << e.what() << "\n";
+  }
   if (head_ == nullptr)
   {
     head_ = tail_ = node;
@@ -291,9 +285,9 @@ void doroshenko::List< T >::pushBack(const T& data)
 }
 
 template< typename T >
-size_t doroshenko::List< T >::getSize()
+size_t jirkov::List< T >::getSize()
 {
-  Node* head = head_;
+  jirkov::details::Node<T>* head = head_;
   size_t size = 0ull;
   while (head)
   {
@@ -305,7 +299,7 @@ size_t doroshenko::List< T >::getSize()
 
 
 template< typename T >
-void doroshenko::List< T >::popFront()
+void jirkov::List< T >::popFront()
 {
   if (head_ == tail_)
   {
@@ -314,20 +308,20 @@ void doroshenko::List< T >::popFront()
   }
   if (head_ != nullptr)
   {
-    Node* node = head_;
+    jirkov::details::Node<T>* node = head_;
     head_ = node->next;
     delete node;
   }
 }
 
 template< typename T >
-bool doroshenko::List< T >::isEmpty() noexcept
+bool jirkov::List< T >::empty() noexcept
 {
   return head_ == nullptr ? true : false;
 }
 
 template< typename T >
-void doroshenko::List< T >::clear()
+void jirkov::List< T >::clear()
 {
   while (head_)
   {
@@ -336,14 +330,14 @@ void doroshenko::List< T >::clear()
 }
 
 template< typename T >
-void doroshenko::List< T >::swap(List< T >& otherList) noexcept
+void jirkov::List< T >::swap(List< T >& otherList) noexcept
 {
   std::swap(head_, otherList.head_);
   std::swap(tail_, otherList.tail_);
 }
 
 template< typename T >
-void doroshenko::List< T >::assign(size_t n, const T& value)
+void jirkov::List< T >::assign(size_t n, const T& value)
 {
   clear();
   for (size_t i = 0; i < n; i++)
@@ -353,12 +347,12 @@ void doroshenko::List< T >::assign(size_t n, const T& value)
 }
 
 template< typename T >
-void doroshenko::List< T >::remove(const T& value)
+void jirkov::List< T >::remove(const T& value)
 {
   ConstIterator iterator = cbegin();
-  Node* nextNode = iterator.node->next;
-  Node* toRemove = nullptr;
-  if (!isEmpty())
+  jirkov::details::Node<T>* nextNode = iterator.node->next;
+  jirkov::details::Node<T>* toRemove = nullptr;
+  if (!empty())
   {
     while (*iterator == value)
     {
@@ -397,12 +391,12 @@ void doroshenko::List< T >::remove(const T& value)
 
 template< typename T >
 template< typename P >
-void doroshenko::List< T >::removeIf(P p)
+void jirkov::List< T >::removeIf(P p)
 {
   ConstIterator iterator = cbegin();
-  Node* nextNode = iterator.node->next;
-  Node* toRemove = nullptr;
-  if (!isEmpty())
+  jirkov::details::Node<T>* nextNode = iterator.node->next;
+  jirkov::details::Node<T>* toRemove = nullptr;
+  if (!empty())
   {
     while (p(*iterator))
     {
@@ -440,19 +434,19 @@ void doroshenko::List< T >::removeIf(P p)
 }
 
 template< typename T >
-T& doroshenko::List< T >::front()
+T& jirkov::List< T >::front()
 {
   return head_->data;
 }
 
 template< typename T >
-T& doroshenko::List< T >::back()
+T& jirkov::List< T >::back()
 {
   return tail_->data;
 }
 
 template< typename T >
-typename doroshenko::List< T >::ConstIterator doroshenko::List< T >::operator[](const int index)
+typename jirkov::List< T >::ConstIterator jirkov::List< T >::operator[](const int index)
 {
   ConstIterator iterator = cbegin();
   for (int i = 0; i < index; i++)
@@ -467,25 +461,25 @@ typename doroshenko::List< T >::ConstIterator doroshenko::List< T >::operator[](
 }
 
 template< typename T >
-typename doroshenko::List< T >::Iterator doroshenko::List< T >::begin() const
+typename jirkov::List< T >::Iterator jirkov::List< T >::begin() const
 {
   return Iterator(head_);
 }
 
 template< typename T >
-typename doroshenko::List< T >::Iterator doroshenko::List< T >::end() const
+typename jirkov::List< T >::Iterator jirkov::List< T >::end() const
 {
-  return Iterator(tail_->next);
+  return Iterator(nullptr);
 }
 
 template< typename T >
-typename doroshenko::List< T >::ConstIterator doroshenko::List< T >::cbegin() const
+typename jirkov::List< T >::ConstIterator jirkov::List< T >::cbegin() const
 {
   return ConstIterator(head_);
 }
 
 template< typename T >
-typename doroshenko::List< T >::ConstIterator doroshenko::List< T >::cend() const
+typename jirkov::List< T >::ConstIterator jirkov::List< T >::cend() const
 {
   return ConstIterator(tail_->next);
 }
