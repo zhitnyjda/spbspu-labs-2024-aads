@@ -269,7 +269,7 @@ khoroshkin::List< T >::List(size_t count, const T & value)
 template< typename T >
 template< typename Iter >
 khoroshkin::List< T >::List(Iter begin, Iter end) :
-  head(nullptr), size(0)
+  size(0), head(nullptr)
 {
   for (;begin != end; begin++)
   {
