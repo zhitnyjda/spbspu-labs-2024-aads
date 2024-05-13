@@ -66,9 +66,9 @@ int main(int argc, char * argv[])
 
     for (size_t i = 0; i < std::stoull(argv[3]); ++i)
     {
-      forwardList.push_back((double)(rand() % 100));
-      list.push_back((double)(rand() % 100));
-      deque.push_back((double)(rand() % 100));
+      forwardList.push_back(static_cast< double >(rand() % 100));
+      list.push_back(static_cast< double >(rand() % 100));
+      deque.push_back(static_cast< double >(rand() % 100));
     }
 
     outContainer(std::cout, forwardList);

@@ -22,6 +22,8 @@ namespace khoroshkin
 
     List();
     List(size_t count, const T & value);
+    template< typename Iter >
+    List(Iter begin, Iter end);
     List(std::initializer_list< T > init);
     List(const List & obj);
     List(List && obj);
@@ -261,6 +263,17 @@ khoroshkin::List< T >::List(size_t count, const T & value)
   for (size_t i = 0; i < count; ++i)
   {
     this->push_back(value);
+  }
+}
+
+template< typename T >
+template< typename Iter >
+khoroshkin::List< T >::List(Iter begin, Iter end) :
+  head(nullptr), size(0)
+{
+  for (;begin != end; begin++)
+  {
+    push_back(*begin);
   }
 }
 

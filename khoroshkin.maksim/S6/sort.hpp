@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <utility>
 #include <iterator>
+#include <ios>
+#include <iomanip>
 #include <list.hpp>
 
 namespace khoroshkin
@@ -126,8 +128,8 @@ int khoroshkin::getMinrun(int N)
 template< typename BiderectIt, typename Compare >
 void khoroshkin::shellSort(BiderectIt first, BiderectIt last, Compare comp)
 {
-  size_t size = std::distance(first, last);
-  size_t range = 1;
+  long int size = std::distance(first, last);
+  long int range = 1;
   while (range < size / 3)
   {
     range = 3 * range + 1;
