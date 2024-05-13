@@ -26,7 +26,7 @@ namespace anikanov {
     void push(const T &value);
     void pop();
   private:
-    List <T> list;
+    List< T > list;
   };
 }
 
