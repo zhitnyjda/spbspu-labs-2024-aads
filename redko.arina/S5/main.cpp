@@ -1,8 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <functional>
-#include "inputFunctions.hpp"
-#include "dataFunctions.hpp"
+#include <inputFunctions.hpp>
+#include <dataFunctions.hpp>
 #include "binarySearchTree.hpp"
 #include "sumAndOrder.hpp"
 
