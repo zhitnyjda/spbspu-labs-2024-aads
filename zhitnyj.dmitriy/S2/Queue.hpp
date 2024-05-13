@@ -2,7 +2,7 @@
 #define QUEUE_HPP
 
 #include <stdexcept>
-#include "List.hpp"
+#include <List.hpp>
 
 template< typename T >
 class Queue
