@@ -2,7 +2,7 @@
 #define QUEUE_HPP
 
 #include <cassert>
-#include "list.hpp"
+#include <list.hpp>
 
 namespace anikanov {
 
