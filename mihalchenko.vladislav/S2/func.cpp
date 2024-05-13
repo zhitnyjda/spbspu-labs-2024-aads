@@ -1,6 +1,16 @@
 #include "func.hpp"
 #include "types.hpp"
 
+mihalchenko::List< char > mihalchenko::getListFromString(const std::string strToList)
+{
+  List< char > list;
+  for (size_t n = 0; n < strToList.length(); n++)
+  {
+    list.push_back(strToList[n]);
+  }
+  return list;
+}
+
 void mihalchenko::printedResult(std::ostream &out, Stack< long long > &stack, size_t &num)
 {
   for (size_t i = 0; i < num; i++)
@@ -17,12 +27,21 @@ void mihalchenko::printedResult(std::ostream &out, Stack< long long > &stack, si
 size_t mihalchenko::calculatePostFix(Queue< std::string > &resiveDigit, Stack< long long > &calculateResult)
 {
   FinalTransform finTrans;
-  std::set< char > controlSet{'(', ')', '+', '-', '*', '/', '%'};
+  List< char > list = getListFromString("()+-*/%");
   long long llMax = std::numeric_limits< long long >::max();
   long long i = resiveDigit.getSize();
   while ((i > 0) && (i != llMax))
   {
-    if (!controlSet.count(resiveDigit.watch(i - 1)[0]))
+    bool flag = false;
+    for (size_t j = 0; j < list.getSize(); j++)
+    {
+      if (list[j] == resiveDigit.watch(i - 1)[0])
+      {
+        flag = true;
+        break;
+      }
+    }
+    if (!flag)
     {
       finTrans.calcRezult.push(stoll(resiveDigit.watch(i - 1)));
       finTrans.commands.push('.');
@@ -31,7 +50,7 @@ size_t mihalchenko::calculatePostFix(Queue< std::string > &resiveDigit, Stack< l
     {
       finTrans.commands.push(resiveDigit.watch(i - 1)[0]);
     }
-    i = i - 1;
+    i -= 1;
   }
 
   if (!finTrans.calculate())
@@ -49,7 +68,7 @@ size_t mihalchenko::calculatePostFix(Queue< std::string > &resiveDigit, Stack< l
 }
 
 bool mihalchenko::bildStrPostFix(std::string &currentStr, size_t currentStrSize,
-  Queue< std::string > &resiveDigit, Stack< std::string > &resiveControl)
+                                 Queue< std::string > &resiveDigit, Stack< std::string > &resiveControl)
 {
   size_t ullMax = std::numeric_limits< size_t >::max();
   if (resiveControl.getSize() == ullMax)
@@ -86,8 +105,16 @@ bool mihalchenko::bildStrPostFix(std::string &currentStr, size_t currentStrSize,
     }
     if (elementStr.size() > 0)
     {
-      std::set< char > controlSet1{'(', ')', '+', '-', '*', '/', '%'};
-      if ((elementStr.size() == 1) && (controlSet1.count(elementStr[0])))
+      List< char > list1 = getListFromString("()+-*/%");
+      bool flag = false;
+      for (size_t j = 0; j < list1.getSize(); j++)
+      {
+        if (list1[j] == elementStr[0])
+        {
+          flag = true;
+        }
+      }
+      if ((elementStr.size() == 1) && (flag))
       {
         if (elementStr[0] == ')')
         {
