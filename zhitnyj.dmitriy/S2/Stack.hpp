@@ -21,23 +21,23 @@ public:
     T& back();
 
 private:
-    List<T> list;
+    List< T > list;
 };
 
 template< typename T >
-void Stack<T>::push(T value) noexcept
+void Stack< T >::push(T value) noexcept
 {
   list.push_front(value);
 }
 
 template< typename T >
-void Stack<T>::push_back(T value) noexcept
+void Stack< T >::push_back(T value) noexcept
 {
   list.push_back(value);
 }
 
 template< typename T >
-void Stack<T>::pop() noexcept
+void Stack< T >::pop() noexcept
 {
   if (list.empty())
   {
@@ -47,7 +47,7 @@ void Stack<T>::pop() noexcept
 }
 
 template< typename T >
-T& Stack<T>::top()
+T& Stack< T >::top()
 {
   if (list.empty())
   {
@@ -57,7 +57,7 @@ T& Stack<T>::top()
 }
 
 template< typename T >
-T& Stack<T>::back()
+T& Stack< T >::back()
 {
   if (list.empty())
   {
@@ -67,13 +67,13 @@ T& Stack<T>::back()
 }
 
 template< typename T >
-bool Stack<T>::empty() const
+bool Stack< T >::empty() const
 {
   return list.empty();
 }
 
 template< typename T >
-size_t Stack<T>::size() const
+size_t Stack< T >::size() const
 {
   return list.size();
 }
