@@ -10,8 +10,8 @@ class Stack
 public:
     Stack() = default;
     ~Stack() = default;
-    Stack(const Queue& other) noexcept;
-    Stack(Queue&& other) noexcept;
+    Stack(const Stack& other) noexcept;
+    Stack(Stack&& other) noexcept;
     Stack& operator=(const Stack& other);
     Stack& operator=(Stack&& other) noexcept;
 
