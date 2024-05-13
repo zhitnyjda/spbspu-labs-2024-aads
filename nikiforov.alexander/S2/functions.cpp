@@ -31,38 +31,35 @@ void nikiforov::convertToPostfix(std::string str, Queue< Initialization >& queue
     {
       queue.push_back(elemSeq);
     }
-    else
+    else if (elemSeq.type == openBracket)
     {
-      if (elemSeq.type == openBracket)
+      stack.push_back(elemSeq);
+    }
+    else if (elemSeq.type == closeBracket)
+    {
+      while (stack.back().type != openBracket)
       {
-        stack.push_back(elemSeq);
-      }
-      else if (elemSeq.type == closeBracket)
-      {
-        while (stack.back().type != openBracket)
-        {
-          queue.push_back(stack.back());
-          stack.pop_back();
-        }
+        queue.push_back(stack.back());
         stack.pop_back();
       }
-      else if (!stack.is_empty())
+      stack.pop_back();
+    }
+    else if (!stack.is_empty())
+    {
+      if (nikiforov::calculationPriority(elemSeq) <= nikiforov::calculationPriority(stack.back()))
       {
-        if (nikiforov::calculationPriority(elemSeq.operation_.data) <= nikiforov::calculationPriority(stack.back().operation_.data))
-        {
-          queue.push_back(stack.back());
-          stack.pop_back();
-          stack.push_back(elemSeq);
-        }
-        else
-        {
-          stack.push_back(elemSeq);
-        }
+        queue.push_back(stack.back());
+        stack.pop_back();
+        stack.push_back(elemSeq);
       }
       else
       {
         stack.push_back(elemSeq);
       }
+    }
+    else
+    {
+      stack.push_back(elemSeq);
     }
   }
   while (!stack.is_empty())
@@ -89,7 +86,7 @@ void nikiforov::calculation(Queue< Initialization >& Postfix, nikiforov::Stack< 
     }
     else
     {
-      operations(elemSeq.operation_.data, stack);
+      operations(elemSeq, stack);
     }
     Postfix.pop_front();
   }
@@ -99,7 +96,7 @@ void nikiforov::calculation(Queue< Initialization >& Postfix, nikiforov::Stack< 
   }
 }
 
-void nikiforov::operations(char operand, nikiforov::Stack< long long >& stack)
+void nikiforov::operations(Initialization elemSeq, nikiforov::Stack< long long >& stack)
 {
   long long rNum = stack.back();
   stack.pop_back();
@@ -109,7 +106,7 @@ void nikiforov::operations(char operand, nikiforov::Stack< long long >& stack)
   long long minValue = std::numeric_limits< long long >::min();
   long long maxValue = std::numeric_limits< long long >::max();
 
-  if (operand == '+')
+  if (elemSeq.operation_.data == '+')
   {
     if (rNum > 0 && lNum > 0 && (rNum > maxValue - lNum))
     {
@@ -122,7 +119,7 @@ void nikiforov::operations(char operand, nikiforov::Stack< long long >& stack)
 
     stack.push_back(lNum + rNum);
   }
-  else if (operand == '-')
+  else if (elemSeq.operation_.data == '-')
   {
     if (lNum > 0 && rNum < 0 && (lNum > maxValue + rNum))
     {
@@ -135,11 +132,11 @@ void nikiforov::operations(char operand, nikiforov::Stack< long long >& stack)
 
     stack.push_back(lNum - rNum);
   }
-  else if (operand == '/')
+  else if (elemSeq.operation_.data == '/')
   {
     stack.push_back(lNum / rNum);
   }
-  else if (operand == '*')
+  else if (elemSeq.operation_.data == '*')
   {
     if (((lNum > 0 && rNum > 0) || (lNum < 0 && rNum < 0)) && (abs(rNum) > abs(maxValue / lNum)))
     {
@@ -152,7 +149,7 @@ void nikiforov::operations(char operand, nikiforov::Stack< long long >& stack)
 
     stack.push_back(lNum * rNum);
   }
-  else if (operand == '%')
+  else if (elemSeq.operation_.data == '%')
   {
     stack.push_back(((lNum % rNum + rNum) % rNum));
   }
@@ -162,13 +159,13 @@ void nikiforov::operations(char operand, nikiforov::Stack< long long >& stack)
   }
 }
 
-size_t nikiforov::calculationPriority(char elemSeq)
+size_t nikiforov::calculationPriority(Initialization elemSeq)
 {
-  if (elemSeq == '+' || elemSeq == '-')
+  if (elemSeq.operation_.data == '+' || elemSeq.operation_.data == '-')
   {
     return 1;
   }
-  else if (elemSeq == '*' || elemSeq == '/' || elemSeq == '%')
+  else if (elemSeq.operation_.data == '*' || elemSeq.operation_.data == '/' || elemSeq.operation_.data == '%')
   {
     return 2;
   }

@@ -12,9 +12,9 @@ namespace nikiforov
 
   void calculation(Queue< Initialization >& Postfix, Stack< long long >& Result);
 
-  void operations(char operand, Stack< long long >& stack);
+  void operations(Initialization operand, Stack< long long >& stack);
 
-  size_t calculationPriority(char elemSeq);
+  size_t calculationPriority(Initialization elemSeq);
 }
 
 #endif
