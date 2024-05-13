@@ -14,9 +14,9 @@ namespace mihalchenko
     Queue(const Queue<T> &copy);
     ~Queue() = default;
     // Queue & operator=(const Queue &copy);
-    void push(const T &data); // поместить значение в очередь
+    void push(const T &data);
     // T drop();
-    T pop(); // извлечь значение из очереди
+    T pop();
     T watch(size_t index);
     void clear();
     size_t getSize();

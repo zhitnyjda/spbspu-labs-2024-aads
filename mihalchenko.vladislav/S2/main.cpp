@@ -3,9 +3,6 @@
 #include <set>
 #include <limits>
 #include <cctype>
-// #include "stack.hpp"
-// #include "queue.hpp"
-// #include "list.hpp"
 #include "func.hpp"
 
 using namespace mihalchenko;
@@ -16,17 +13,16 @@ int main(int argc, char *argv[])
   Queue<std::string> resiveDigit;
   Stack<std::string> resiveControl;
   Stack<long long> calculateResult;
-  // size_t ullMax = std::numeric_limits<size_t>::max();
   size_t llMax = std::numeric_limits<long long>::max();
 
-  std::string currentStr; // вся текущая строка, считанная из консоли
+  std::string currentStr;
   resiveControl.size_ = 0;
   calculateResult.size_ = 0;
   resiveDigit.size_ = 0;
 
-  if (argc == 1) // Программа запущена без параметров командной строки. Берем данные из консоли
+  if (argc == 1)
   {
-    while (std::getline(std::cin, currentStr, '\n')) // Перебор всех строк из консоли - считываем всю строку сразу
+    while (std::getline(std::cin, currentStr, '\n'))
     {
       try
       {

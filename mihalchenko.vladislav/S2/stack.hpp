@@ -3,14 +3,13 @@
 #include <list.hpp>
 // #include <stddef.h>
 // #include <unistd.h>
-// #include <iostream>
+#include <iostream>
 // #include <string>
 // #include <memory>
-#include <stack>
+// #include <stack>
 
 namespace mihalchenko
 {
-  // шаблон стека на основе связного списка
   template <typename T>
   class Stack
   {
@@ -19,8 +18,8 @@ namespace mihalchenko
     Stack(const Stack<T> &copy);
     ~Stack() = default;
     // Stack & operator=(const Stack & copy);
-    void push(const T &data); // поместить значение в стек
-    T pop();                  // извлечь значение из стека
+    void push(const T &data);
+    T pop();
     T watch(size_t index);
     void clear();
     size_t getSize();
