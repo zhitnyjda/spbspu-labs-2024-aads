@@ -50,8 +50,8 @@ mihalchenko::CalcRez mihalchenko::CalcRez::operator%(const CalcRez &rhs)
 
 bool mihalchenko::FinalTransform::calculate()
 {
-  std::set<char> controlSet{'(', ')', '+', '-', '*', '/', '%'};
-  long long llMax = std::numeric_limits<long long>::max();
+  std::set< char > controlSet{'(', ')', '+', '-', '*', '/', '%'};
+  long long llMax = std::numeric_limits< long long >::max();
   char codOperation;
   CalcRez wremSave;
   CalcRez firstVal;

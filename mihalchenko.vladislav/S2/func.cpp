@@ -1,7 +1,7 @@
 #include "func.hpp"
 #include "types.hpp"
 
-void mihalchenko::printedResult(std::ostream &out, Stack<long long> &stack, size_t &num)
+void mihalchenko::printedResult(std::ostream &out, Stack< long long > &stack, size_t &num)
 {
   for (size_t i = 0; i < num; i++)
   {
@@ -14,11 +14,11 @@ void mihalchenko::printedResult(std::ostream &out, Stack<long long> &stack, size
   out << std::endl;
 }
 
-size_t mihalchenko::calculatePostFix(Queue<std::string> &resiveDigit, Stack<long long> &calculateResult)
+size_t mihalchenko::calculatePostFix(Queue< std::string > &resiveDigit, Stack< long long > &calculateResult)
 {
   FinalTransform finTrans;
-  std::set<char> controlSet{'(', ')', '+', '-', '*', '/', '%'};
-  long long llMax = std::numeric_limits<long long>::max();
+  std::set< char > controlSet{'(', ')', '+', '-', '*', '/', '%'};
+  long long llMax = std::numeric_limits< long long >::max();
   long long i = resiveDigit.getSize();
   while ((i > 0) && (i != llMax))
   {
@@ -49,9 +49,9 @@ size_t mihalchenko::calculatePostFix(Queue<std::string> &resiveDigit, Stack<long
 }
 
 bool mihalchenko::bildStrPostFix(std::string &currentStr, size_t currentStrSize,
-  Queue<std::string> &resiveDigit, Stack<std::string> &resiveControl)
+  Queue< std::string > &resiveDigit, Stack< std::string > &resiveControl)
 {
-  size_t ullMax = std::numeric_limits<size_t>::max();
+  size_t ullMax = std::numeric_limits< size_t >::max();
   if (resiveControl.getSize() == ullMax)
   {
     resiveControl.setSize(0);
@@ -86,7 +86,7 @@ bool mihalchenko::bildStrPostFix(std::string &currentStr, size_t currentStrSize,
     }
     if (elementStr.size() > 0)
     {
-      std::set<char> controlSet1{'(', ')', '+', '-', '*', '/', '%'};
+      std::set< char > controlSet1{'(', ')', '+', '-', '*', '/', '%'};
       if ((elementStr.size() == 1) && (controlSet1.count(elementStr[0])))
       {
         if (elementStr[0] == ')')

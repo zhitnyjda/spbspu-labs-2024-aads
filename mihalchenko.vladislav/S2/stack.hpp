@@ -4,13 +4,13 @@
 
 namespace mihalchenko
 {
-  template <typename T>
+  template < typename T >
   class Stack
   {
   public:
     Stack() = default;
     ~Stack() = default;
-    Stack(const Stack<T> &copy);
+    Stack(const Stack< T > &copy);
     void push(const T &data);
     T pop();
     T watch(size_t index);
@@ -19,52 +19,51 @@ namespace mihalchenko
     void setSize(const size_t size);
 
   private:
-    List<T> containStack;
-    // size_t size_;
+    List< T > containStack;
   };
 }
 
-template <typename T>
-mihalchenko::Stack<T>::Stack(const Stack<T> &copy)
+template < typename T >
+mihalchenko::Stack< T >::Stack(const Stack< T > &copy)
 {
   containStack(copy);
 }
 
-template <typename T>
-void mihalchenko::Stack<T>::push(const T &data)
+template < typename T >
+void mihalchenko::Stack< T >::push(const T &data)
 {
   containStack.push_front(data);
 }
 
-template <typename T>
-T mihalchenko::Stack<T>::pop()
+template < typename T >
+T mihalchenko::Stack< T >::pop()
 {
   T res = containStack.getT();
   containStack.pop_front();
   return res;
 }
 
-template <typename T>
-T mihalchenko::Stack<T>::watch(size_t index)
+template < typename T >
+T mihalchenko::Stack< T >::watch(size_t index)
 {
   T res = containStack.watch(index);
   return res;
 }
 
-template <typename T>
-void mihalchenko::Stack<T>::clear()
+template < typename T >
+void mihalchenko::Stack< T >::clear()
 {
   containStack.clear();
 }
 
-template <typename T>
-size_t mihalchenko::Stack<T>::getSize()
+template < typename T >
+size_t mihalchenko::Stack< T >::getSize()
 {
   return containStack.getSize();
 }
 
-template <typename T>
-void mihalchenko::Stack<T>::setSize(const size_t size)
+template < typename T >
+void mihalchenko::Stack< T >::setSize(const size_t size)
 {
   containStack.setSize(size);
 }

@@ -21,8 +21,8 @@ namespace mihalchenko
   struct FinalTransform
   {
     bool calculate();
-    Stack<CalcRez> calcRezult;
-    Stack<char> commands;
+    Stack< CalcRez > calcRezult;
+    Stack< char > commands;
   };
 }
 

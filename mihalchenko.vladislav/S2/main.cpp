@@ -9,9 +9,9 @@ using namespace mihalchenko;
 
 int main(int argc, char *argv[])
 {
-  Queue<std::string> resiveDigit;
-  Stack<std::string> resiveControl;
-  Stack<long long> calculateResult;
+  Queue< std::string > resiveDigit;
+  Stack< std::string > resiveControl;
+  Stack< long long > calculateResult;
   std::string currentStr;
   resiveControl.setSize(0);
   calculateResult.setSize(0);
@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
           return 1;
         }
         calculateResult.setSize(calculatePostFix(resiveDigit, calculateResult));
-        size_t llMax = std::numeric_limits<long long>::max();
+        size_t llMax = std::numeric_limits< long long >::max();
         if (calculateResult.getSize() == llMax)
         {
           return 1;
@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
           return 1;
         }
         calculateResult.setSize(calculatePostFix(resiveDigit, calculateResult));
-        size_t llMax = std::numeric_limits<long long>::max();
+        size_t llMax = std::numeric_limits< long long >::max();
         if (calculateResult.getSize() == llMax)
         {
           return 1;
