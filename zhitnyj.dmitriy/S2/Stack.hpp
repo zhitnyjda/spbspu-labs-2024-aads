@@ -58,13 +58,13 @@ Stack< T >& Stack< T >::operator=(Stack&& other) noexcept
 }
 
 template< typename T >
-void Stack< T >::push(T value) noexcept
+void Stack< T >::push(const T &value) noexcept
 {
   list.push_front(value);
 }
 
 template< typename T >
-void Stack< T >::push_back(T value) noexcept
+void Stack< T >::push_back(const T &value) noexcept
 {
   list.push_back(value);
 }
