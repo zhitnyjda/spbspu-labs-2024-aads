@@ -1,8 +1,8 @@
 #ifndef OPERATOR_HPP
 #define OPERATOR_HPP
 
-#include "ExpressionItem.hpp"
 #include <stdexcept>
+#include "ExpressionItem.hpp"
 
 class Operator : public ExpressionItem
 {
