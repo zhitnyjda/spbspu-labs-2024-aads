@@ -8,8 +8,9 @@ namespace ponomarev
   class Queue {
   public:
     Queue();
-    Queue(const T & value);
-    Queue(const Queue & rhs);
+    explicit Queue(const List< T > & data);
+    Queue(const Queue< T > & other);
+    Queue(Queue< T > && other);
     ~Queue() = default;
 
     Queue< T > & operator=(const Queue & other);
@@ -18,7 +19,7 @@ namespace ponomarev
     bool empty() const;
     size_t size() const;
 
-    void push(const T & value);
+    void push(T & value);
     void push(T && value);
     void pop();
 
@@ -32,18 +33,23 @@ ponomarev::Queue< T >::Queue():
   container_(List< T >())
 {}
 
-template< typename T >
-ponomarev::Queue< T >::Queue(const T & value):
-  container_(List< T >(value))
+template < typename T >
+ponomarev::Queue< T >::Queue(const List< T > & data):
+  container_(data)
 {}
 
-template< typename T >
-ponomarev::Queue< T >::Queue(const Queue< T > & rhs)
-{
-  container_ = rhs.container_;
-}
+template < typename T >
+ponomarev::Queue< T >::Queue(const Queue & other):
+  container_(other.container_)
+{}
 
-ponomarev::Queue< T >& ponomarev::Queue< T >::operator=(const Queue & other)
+template < typename T >
+ponomarev::Queue< T >::Queue(Queue && other):
+  container_(std::move(other.container_))
+{}
+
+template < typename T >
+ponomarev::Queue< T > & ponomarev::Queue< T >::operator=(const Queue & other)
 {
   container_ = other.container_;
 }
@@ -63,11 +69,11 @@ bool ponomarev::Queue< T >::empty() const
 template < typename T >
 size_t ponomarev::Queue< T >::size() const
 {
-  container_.getSize();
+  return container_.getSize();
 }
 
 template < typename T >
-void ponomarev::Queue< T >::push(const T & value)
+void ponomarev::Queue< T >::push(T & value)
 {
   container_.pushBack(value);
 }
