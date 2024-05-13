@@ -22,6 +22,9 @@ namespace khoroshkin
 
   template< typename BiderectIt, typename Compare >
   void shellSort(BiderectIt first, BiderectIt last, Compare comp);
+
+  template< typename T >
+  std::ostream & outContainer(std::ostream & out, const T & container);
 }
 
 template< typename ForwardIt, typename Compare >
@@ -140,6 +143,17 @@ void khoroshkin::shellSort(BiderectIt first, BiderectIt last, Compare comp)
     }
     range /= 3;
   }
+}
+
+template< typename T >
+std::ostream & khoroshkin::outContainer(std::ostream & out, const T & container)
+{
+  for (auto it = container.begin(); it != container.end(); it++)
+  {
+    out << std::fixed << std::setprecision(1) << *it;
+    out << ((std::next(it) == container.end()) ? "\n" : " ");
+  }
+  return out;
 }
 
 #endif

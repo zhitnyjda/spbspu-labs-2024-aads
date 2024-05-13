@@ -6,22 +6,11 @@
 #include "sort.hpp"
 #include "list.hpp"
 
-template< typename T >
-std::ostream & outContainer(std::ostream & out, const T & container)
-{
-  for (auto it = container.begin(); it != container.end(); it++)
-  {
-    out << std::fixed << std::setprecision(1) << *it;
-    out << ((std::next(it) == container.end()) ? "\n" : " ");
-  }
-  return out;
-}
-
 int main(int argc, char * argv[])
 {
   using namespace khoroshkin;
   srand(time(0));
-  
+
   if (argc != 4)
   {
     std::cerr << "Error: wrong input!\n";
