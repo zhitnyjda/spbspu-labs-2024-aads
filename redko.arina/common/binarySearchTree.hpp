@@ -2,6 +2,8 @@
 #define BINARYSEARCHTREE_HPP
 #include <utility>
 #include <stdexcept>
+#include "stack.hpp"
+#include "queue.hpp"
 
 namespace redko
 {
@@ -12,6 +14,10 @@ namespace redko
 
     class Iterator;
     class ConstIterator;
+
+    class LnRIterator;
+    class RnLIterator;
+    class BreadthIterator;
 
     using value_t = typename std::pair< Key, Value >;
 
@@ -62,6 +68,19 @@ namespace redko
     iterator upperBound(const Key & key);
     const_iterator upperBound(const Key & key) const;
 
+    template< typename F >
+    F ctraverseLR(F func) const;
+    template< typename F >
+    F traverseLR(F func);
+    template< typename F >
+    F ctraverseRL(F func) const;
+    template< typename F >
+    F traverseRL(F func);
+    template< typename F >
+    F ctraverseBreadth(F func) const;
+    template< typename F >
+    F traverseBreadth(F func);
+
   private:
     struct Node
     {
@@ -107,6 +126,9 @@ public:
 
   Iterator();
   Iterator(ConstIterator);
+  Iterator(LnRIterator);
+  Iterator(RnLIterator);
+  Iterator(BreadthIterator);
   Iterator(const this_t &) = default;
   ~Iterator() = default;
 
@@ -146,6 +168,24 @@ template < typename Key, typename Value, typename Compare >
 redko::BSTree< Key, Value, Compare >::Iterator::Iterator(ConstIterator iter):
   node_(iter.iter_.node_),
   treeRoot_(iter.iter_.treeRoot_)
+{}
+
+template < typename Key, typename Value, typename Compare >
+redko::BSTree< Key, Value, Compare >::Iterator::Iterator(LnRIterator iter):
+  node_(iter.curr_),
+  treeRoot_(iter.curr_)
+{}
+
+template < typename Key, typename Value, typename Compare >
+redko::BSTree< Key, Value, Compare >::Iterator::Iterator(RnLIterator iter):
+  node_(iter.curr_),
+  treeRoot_(iter.curr_)
+{}
+
+template < typename Key, typename Value, typename Compare >
+redko::BSTree< Key, Value, Compare >::Iterator::Iterator(BreadthIterator iter):
+  node_(iter.node_),
+  treeRoot_(iter.node_)
 {}
 
 template < typename Key, typename Value, typename Compare >
@@ -357,6 +397,329 @@ bool redko::BSTree< Key, Value, Compare >::ConstIterator::operator!=(const this_
 {
   return !(rhs == *this);
 }
+
+template < typename Key, typename Value, typename Compare >
+class redko::BSTree< Key, Value, Compare >::LnRIterator: public std::iterator< std::forward_iterator_tag, value_t >
+{
+  friend class BSTree;
+public:
+  using this_t = LnRIterator;
+  LnRIterator();
+  LnRIterator(const this_t &) = default;
+  ~LnRIterator() = default;
+
+  this_t & operator=(const this_t &) = default;
+  this_t & operator++();
+  this_t operator++(int);
+
+  value_t & operator*();
+  value_t * operator->();
+  const value_t & operator*() const;
+  const value_t * operator->() const;
+
+  bool operator!=(const this_t &) const;
+  bool operator==(const this_t &) const;
+
+private:
+  Node * node_;
+  Node * curr_;
+  Stack< Node * > stack_;
+  explicit LnRIterator(Node * ptr);
+};
+
+template < typename Key, typename Value, typename Compare >
+redko::BSTree< Key, Value, Compare >::LnRIterator::LnRIterator():
+  node_(nullptr),
+  curr_(nullptr),
+  stack_(Stack< Node * >())
+{}
+
+template < typename Key, typename Value, typename Compare >
+redko::BSTree< Key, Value, Compare >::LnRIterator::LnRIterator(Node * ptr):
+  node_(ptr),
+  curr_(nullptr),
+  stack_(Stack< Node * >())
+{}
+
+template < typename Key, typename Value, typename Compare >
+typename redko::BSTree< Key, Value, Compare >::LnRIterator & redko::BSTree< Key, Value, Compare >::LnRIterator::operator++()
+{
+  if (node_ != nullptr || !stack_.empty())
+  {
+    while (node_ != nullptr)
+    {
+      stack_.push(node_);
+      node_ = node_->left;
+    }
+    curr_ = stack_.top();
+    stack_.pop();
+    node_ = curr_->right;
+  }
+  else
+  {
+    throw std::out_of_range("Error: unable to increment");
+  }
+  return *this;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename redko::BSTree< Key, Value, Compare >::LnRIterator redko::BSTree< Key, Value, Compare >::LnRIterator::operator++(int)
+{
+  LnRIterator result(*this);
+  ++(*this);
+  return result;
+}
+
+template < typename Key, typename Value, typename Compare >
+value_t< Key, Value > & redko::BSTree< Key, Value, Compare >::LnRIterator::operator*()
+{
+  return curr_->elem;
+}
+
+template < typename Key, typename Value, typename Compare >
+value_t< Key, Value > * redko::BSTree< Key, Value, Compare >::LnRIterator::operator->()
+{
+  return std::addressof(curr_->elem);
+}
+
+template < typename Key, typename Value, typename Compare >
+const value_t< Key, Value > & redko::BSTree< Key, Value, Compare >::LnRIterator::operator*() const
+{
+  return curr_->elem;
+}
+
+template < typename Key, typename Value, typename Compare >
+const value_t< Key, Value > * redko::BSTree< Key, Value, Compare >::LnRIterator::operator->() const
+{
+  return std::addressof(curr_->elem);
+}
+
+template < typename Key, typename Value, typename Compare >
+bool redko::BSTree< Key, Value, Compare >::LnRIterator::operator==(const this_t & rhs) const
+{
+  return curr_ == rhs.curr_;
+}
+
+template < typename Key, typename Value, typename Compare >
+bool redko::BSTree< Key, Value, Compare >::LnRIterator::operator!=(const this_t & rhs) const
+{
+  return !(rhs == *this);
+}
+
+template < typename Key, typename Value, typename Compare >
+class redko::BSTree< Key, Value, Compare >::RnLIterator: public std::iterator< std::forward_iterator_tag, value_t >
+{
+  friend class BSTree;
+public:
+  using this_t = RnLIterator;
+  RnLIterator();
+  RnLIterator(const this_t &) = default;
+  ~RnLIterator() = default;
+
+  this_t & operator=(const this_t &) = default;
+  this_t & operator++();
+  this_t operator++(int);
+
+  value_t & operator*();
+  value_t * operator->();
+  const value_t & operator*() const;
+  const value_t * operator->() const;
+
+  bool operator!=(const this_t &) const;
+  bool operator==(const this_t &) const;
+
+private:
+  Node * node_;
+  Node * curr_;
+  Stack< Node * > stack_;
+  explicit RnLIterator(Node * ptr);
+};
+
+template < typename Key, typename Value, typename Compare >
+redko::BSTree< Key, Value, Compare >::RnLIterator::RnLIterator():
+  node_(nullptr),
+  curr_(nullptr),
+  stack_(Stack< Node * >())
+{}
+
+template < typename Key, typename Value, typename Compare >
+redko::BSTree< Key, Value, Compare >::RnLIterator::RnLIterator(Node * ptr):
+  node_(ptr),
+  curr_(nullptr),
+  stack_(Stack< Node * >())
+{}
+
+template < typename Key, typename Value, typename Compare >
+typename redko::BSTree< Key, Value, Compare >::RnLIterator & redko::BSTree< Key, Value, Compare >::RnLIterator::operator++()
+{
+  if (node_ != nullptr || !stack_.empty())
+  {
+    while (node_ != nullptr)
+    {
+      stack_.push(node_);
+      node_ = node_->right;
+    }
+    curr_ = stack_.top();
+    stack_.pop();
+    node_ = curr_->left;
+  }
+  else
+  {
+    throw std::out_of_range("Error: unable to increment");
+  }
+  return *this;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename redko::BSTree< Key, Value, Compare >::RnLIterator redko::BSTree< Key, Value, Compare >::RnLIterator::operator++(int)
+{
+  RnLIterator result(*this);
+  ++(*this);
+  return result;
+}
+
+template < typename Key, typename Value, typename Compare >
+value_t< Key, Value > & redko::BSTree< Key, Value, Compare >::RnLIterator::operator*()
+{
+  return curr_->elem;
+}
+
+template < typename Key, typename Value, typename Compare >
+value_t< Key, Value > * redko::BSTree< Key, Value, Compare >::RnLIterator::operator->()
+{
+  return std::addressof(curr_->elem);
+}
+
+template < typename Key, typename Value, typename Compare >
+const value_t< Key, Value > & redko::BSTree< Key, Value, Compare >::RnLIterator::operator*() const
+{
+  return curr_->elem;
+}
+
+template < typename Key, typename Value, typename Compare >
+const value_t< Key, Value > * redko::BSTree< Key, Value, Compare >::RnLIterator::operator->() const
+{
+  return std::addressof(curr_->elem);
+}
+
+template < typename Key, typename Value, typename Compare >
+bool redko::BSTree< Key, Value, Compare >::RnLIterator::operator==(const this_t & rhs) const
+{
+  return curr_ == rhs.curr_;
+}
+
+template < typename Key, typename Value, typename Compare >
+bool redko::BSTree< Key, Value, Compare >::RnLIterator::operator!=(const this_t & rhs) const
+{
+  return !(rhs == *this);
+}
+template < typename Key, typename Value, typename Compare >
+class redko::BSTree< Key, Value, Compare >::BreadthIterator: public std::iterator< std::forward_iterator_tag, value_t >
+{
+  friend class BSTree;
+public:
+  using this_t = BreadthIterator;
+  BreadthIterator();
+  BreadthIterator(const this_t &) = default;
+  ~BreadthIterator() = default;
+
+  this_t & operator=(const this_t &) = default;
+  this_t & operator++();
+  this_t operator++(int);
+
+  value_t & operator*();
+  value_t * operator->();
+  const value_t & operator*() const;
+  const value_t * operator->() const;
+
+  bool operator!=(const this_t &) const;
+  bool operator==(const this_t &) const;
+
+private:
+  Node * node_;
+  Queue< Node * > queue_;
+  explicit BreadthIterator(Node * ptr);
+};
+
+template < typename Key, typename Value, typename Compare >
+redko::BSTree< Key, Value, Compare >::BreadthIterator::BreadthIterator():
+  node_(nullptr),
+  queue_(Queue< Node * >())
+{}
+
+template < typename Key, typename Value, typename Compare >
+redko::BSTree< Key, Value, Compare >::BreadthIterator::BreadthIterator(Node * ptr):
+  node_(ptr),
+  queue_({ptr})
+{}
+
+template < typename Key, typename Value, typename Compare >
+typename redko::BSTree< Key, Value, Compare >::BreadthIterator & redko::BSTree< Key, Value, Compare >::BreadthIterator::operator++()
+{
+  if (!queue_.empty())
+  {
+    node_ = queue_.front();
+    queue_.pop();
+    if (node_->left != nullptr)
+    {
+      queue_.push(node_->left);
+    }
+    if (node_->right != nullptr)
+    {
+      queue_.push(node_->right);
+    }
+  }
+  else
+  {
+    throw std::out_of_range("Error: unable to increment");
+  }
+  return *this;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename redko::BSTree< Key, Value, Compare >::BreadthIterator redko::BSTree< Key, Value, Compare >::BreadthIterator::operator++(int)
+{
+  BreadthIterator result(*this);
+  ++(*this);
+  return result;
+}
+
+template < typename Key, typename Value, typename Compare >
+value_t< Key, Value > & redko::BSTree< Key, Value, Compare >::BreadthIterator::operator*()
+{
+  return node_->elem;
+}
+
+template < typename Key, typename Value, typename Compare >
+value_t< Key, Value > * redko::BSTree< Key, Value, Compare >::BreadthIterator::operator->()
+{
+  return std::addressof(node_->elem);
+}
+
+template < typename Key, typename Value, typename Compare >
+const value_t< Key, Value > & redko::BSTree< Key, Value, Compare >::BreadthIterator::operator*() const
+{
+  return node_->elem;
+}
+
+template < typename Key, typename Value, typename Compare >
+const value_t< Key, Value > * redko::BSTree< Key, Value, Compare >::BreadthIterator::operator->() const
+{
+  return std::addressof(node_->elem);
+}
+
+template < typename Key, typename Value, typename Compare >
+bool redko::BSTree< Key, Value, Compare >::BreadthIterator::operator==(const this_t & rhs) const
+{
+  return node_ == rhs.node_();
+}
+
+template < typename Key, typename Value, typename Compare >
+bool redko::BSTree< Key, Value, Compare >::BreadthIterator::operator!=(const this_t & rhs) const
+{
+  return !(rhs == *this);
+}
+
 
 template < typename Key, typename Value, typename Compare >
 redko::BSTree< Key, Value, Compare >::BSTree():
@@ -747,6 +1110,146 @@ typename redko::BSTree< Key, Value, Compare >::const_iterator redko::BSTree< Key
     }
   }
   return cend();
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F redko::BSTree< Key, Value, Compare >::ctraverseLR(F func) const
+{
+  Stack< Node * > stack;
+  Node * curr = root_;
+  while (curr != nullptr || !stack.empty())
+  {
+    while (curr != nullptr)
+    {
+      stack.push(curr);
+      curr = curr->left;
+    }
+    curr = stack.top();
+    stack.pop();
+    func(curr->elem);
+    curr = curr->right;
+  }
+  return func;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F redko::BSTree< Key, Value, Compare >::traverseLR(F func)
+{
+  Stack< Node * > stack;
+  Node * curr = root_;
+  while (curr != nullptr || !stack.empty())
+  {
+    while (curr != nullptr)
+    {
+      stack.push(curr);
+      curr = curr->left;
+    }
+    curr = stack.top();
+    stack.pop();
+    func(curr->elem);
+    curr = curr->right;
+  }
+  return func;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F redko::BSTree< Key, Value, Compare >::ctraverseRL(F func) const
+{
+  Stack< Node * > stack;
+  Node * curr = root_;
+  while (curr != nullptr || !stack.empty())
+  {
+    while (curr != nullptr)
+    {
+      stack.push(curr);
+      curr = curr->right;
+    }
+    curr = stack.top();
+    stack.pop();
+    func(curr->elem);
+    curr = curr->left;
+  }
+  return func;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F redko::BSTree< Key, Value, Compare >::traverseRL(F func)
+{
+  Stack< Node * > stack;
+  Node * curr = root_;
+  while (curr != nullptr || !stack.empty())
+  {
+    while (curr != nullptr)
+    {
+      stack.push(curr);
+      curr = curr->right;
+    }
+    curr = stack.top();
+    stack.pop();
+    func(curr->elem);
+    curr = curr->left;
+  }
+  return func;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F redko::BSTree< Key, Value, Compare >::ctraverseBreadth(F func) const
+{
+  if (empty())
+  {
+     return func;
+  }
+  Queue< Node * > queue;
+  queue.push(root_);
+
+  while (!queue.empty())
+  {
+    Node * node = queue.front();
+    func(node->elem);
+    queue.pop();
+    if (node->left != nullptr)
+    {
+      queue.push(node->left);
+    }
+    if (node->right != nullptr)
+    {
+      queue.push(node->right);
+    }
+  }
+  return func;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F redko::BSTree< Key, Value, Compare >::traverseBreadth(F func)
+{
+  if (empty())
+  {
+     return func;
+  }
+  Queue< Node * > queue;
+  queue.push(root_);
+
+  while (!queue.empty())
+  {
+    Node * node = queue.front();
+    func(node->elem);
+    queue.pop();
+    if (node->left != nullptr)
+    {
+      queue.push(node->left);
+    }
+    if (node->right != nullptr)
+    {
+      queue.push(node->right);
+    }
+  }
+  return func;
 }
 
 template < typename Key, typename Value, typename Compare >
