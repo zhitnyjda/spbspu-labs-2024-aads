@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
       std::ifstream file(argv[1]);
       if (!file)
       {
-        std::cerr << "Cannot open file: " << argv[1] << std::endl;
+        std::cerr << "Cannot open file: " << argv[1] << "\n";
         return 1;
       }
       while (std::getline(file, line))
@@ -56,7 +56,7 @@ int main(int argc, char* argv[])
   }
   catch (const std::exception& e)
   {
-    std::cerr << "Error: " << e.what() << std::endl;
+    std::cerr << "Error: " << e.what() << "\n";
     return 1;
   }
 
