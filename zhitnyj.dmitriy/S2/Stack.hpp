@@ -11,8 +11,8 @@ public:
     Stack() = default;
     ~Stack() = default;
 
-    bool empty() const;
-    size_t size() const;
+    bool empty() const noexcept;
+    size_t size() const noexcept;
     void push(T value) noexcept;
     void push_back(T value) noexcept;
     void pop();
@@ -67,13 +67,13 @@ T& Stack< T >::back()
 }
 
 template< typename T >
-bool Stack< T >::empty() const
+bool Stack< T >::empty() const noexcept
 {
   return list.empty();
 }
 
 template< typename T >
-size_t Stack< T >::size() const
+size_t Stack< T >::size() const noexcept
 {
   return list.size();
 }
