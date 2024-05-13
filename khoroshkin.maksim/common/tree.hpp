@@ -6,6 +6,8 @@
 #include <iterator>
 #include <cmath>
 #include <initializer_list>
+#include "stack.hpp"
+#include "queue.hpp"
 
 namespace khoroshkin
 {
@@ -46,6 +48,13 @@ namespace khoroshkin
     iterator end() noexcept;
     const_iterator cbegin() const noexcept;
     const_iterator cend() const noexcept;
+
+    template< typename F >
+    F traverse_lnr(F f) const;
+    template< typename F >
+    F traverse_rnl(F f) const;
+    template< typename F >
+    F traverse_breadth(F f) const;
 
   private:
     Node * root;
@@ -835,6 +844,99 @@ template< class... Args >
 void khoroshkin::Tree< Key, Value, Comp >::emplace(Args&&... args)
 {
   insert(std::forward< Args >(args)...);
+}
+
+template< typename Key, typename Value, typename Comp >
+template< typename F >
+F khoroshkin::Tree< Key, Value, Comp >::traverse_lnr(F f) const
+{
+  Stack< Node * > parents;
+  Node * iterative = root;
+  while (iterative != nullptr || !parents.isEmpty())
+  {
+    while (iterative != nullptr)
+    {
+      parents.push(iterative);
+      iterative = iterative->left;
+    }
+    if (!parents.isEmpty())
+    {
+      Node * poppedNode = parents.top();
+      try
+      {
+        f(poppedNode->kv_pair);
+      }
+      catch(const std::exception & e)
+      {
+        throw e;
+      }
+      parents.pop();
+      iterative = poppedNode->right;
+    }
+  }
+  return f;
+}
+
+template< typename Key, typename Value, typename Comp >
+template< typename F >
+F khoroshkin::Tree< Key, Value, Comp >::traverse_rnl(F f) const
+{
+  Stack< Node * > parents;
+  Node * iterative = root;
+  while (iterative != nullptr || !parents.isEmpty())
+  {
+    while (iterative != nullptr)
+    {
+      parents.push(iterative);
+      iterative = iterative->right;
+    }
+    if (!parents.isEmpty())
+    {
+      Node * poppedNode = parents.top();
+      try
+      {
+        f(poppedNode->kv_pair);
+      }
+      catch(const std::exception & e)
+      {
+        throw e;
+      }
+      parents.pop();
+      iterative = poppedNode->left;
+    }
+  }
+  return f;
+}
+
+template< typename Key, typename Value, typename Comp >
+template< typename F >
+F khoroshkin::Tree< Key, Value, Comp >::traverse_breadth(F f) const
+{
+  Queue< Node * > currentLevel;
+  currentLevel.push(root);
+  while (!currentLevel.isEmpty())
+  {
+    if (currentLevel.front() != nullptr)
+    {
+      Node * poppedNode = currentLevel.front();
+      try
+      {
+        f(poppedNode->kv_pair);
+      }
+      catch(const std::exception & e)
+      {
+        throw e;
+      }
+      currentLevel.pop();
+      currentLevel.push(poppedNode->left);
+      currentLevel.push(poppedNode->right);
+    }
+    else
+    {
+      currentLevel.pop();
+    }
+  }
+  return f;
 }
 
 #endif
