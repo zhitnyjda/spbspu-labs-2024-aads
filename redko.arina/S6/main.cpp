@@ -17,12 +17,8 @@ int main(int argc, char ** argv)
     return 2;
   }
 
-  int size = 0;
-  try
-  {
-    size = std::stoi(argv[3]);
-  }
-  catch (const std::invalid_argument &)
+  int size = std::atoi(argv[3]);
+  if (size == 0)
   {
       std::cerr << "Error: wrong size parameter\n";
       return 1;
