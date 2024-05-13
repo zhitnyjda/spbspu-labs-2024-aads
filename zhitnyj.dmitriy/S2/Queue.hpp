@@ -61,12 +61,6 @@ Queue< T >& Queue< T >::operator=(const Queue& other)
 }
 
 template< typename T >
-bool Queue< T >::empty() const noexcept
-{
-  return list.empty();
-}
-
-template< typename T >
 Queue< T >& Queue< T >::operator=(Queue&& other) noexcept
 {
   if (this != &other)
@@ -74,6 +68,12 @@ Queue< T >& Queue< T >::operator=(Queue&& other) noexcept
     list = std::move(other.list);
   }
   return *this;
+}
+
+template< typename T >
+bool Queue< T >::empty() const noexcept
+{
+  return list.empty();
 }
 
 template< typename T >
