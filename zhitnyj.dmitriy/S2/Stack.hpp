@@ -10,11 +10,16 @@ class Stack
 public:
     Stack() = default;
     ~Stack() = default;
+    Stack(const Queue& other) noexcept;
+    Stack(Queue&& other) noexcept;
+    Stack& operator=(const Stack& other);
+    Stack& operator=(Stack&& other) noexcept;
 
     bool empty() const noexcept;
     size_t size() const noexcept;
-    void push(T value) noexcept;
-    void push_back(T value) noexcept;
+    void clear() noexcept;
+    void push(const T &value) noexcept;
+    void push_back(const T &value) noexcept;
     void pop();
 
     T& top();
@@ -23,6 +28,34 @@ public:
 private:
     List< T > list;
 };
+
+template< typename T >
+Stack< T >::Stack(const Stack& other) noexcept: list(other.list)
+{}
+
+template< typename T >
+Stack< T >::Stack(Stack&& other) noexcept : list(std::move(other.list))
+{}
+
+template< typename T >
+Stack< T >& Stack< T >::operator=(const Stack& other)
+{
+  if (this != &other)
+  {
+    list = other.list;
+  }
+  return *this;
+}
+
+template< typename T >
+Stack< T >& Stack< T >::operator=(Stack&& other) noexcept
+{
+  if (this != &other)
+  {
+    list = std::move(other.list);
+  }
+  return *this;
+}
 
 template< typename T >
 void Stack< T >::push(T value) noexcept
@@ -70,6 +103,12 @@ template< typename T >
 bool Stack< T >::empty() const noexcept
 {
   return list.empty();
+}
+
+template< typename T >
+void Stack< T >::clear() noexcept
+{
+  list.clear();
 }
 
 template< typename T >
