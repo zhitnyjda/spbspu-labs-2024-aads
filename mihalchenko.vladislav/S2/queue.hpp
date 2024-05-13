@@ -1,7 +1,7 @@
 #ifndef QUEUE_HPP
 #define QUEUE_HPP
 
-#include "list.hpp"
+#include <list.hpp>
 // #include <queue>
 
 namespace mihalchenko
@@ -43,7 +43,8 @@ void mihalchenko::Queue<T>::push(const T &data)
 template <typename T>
 T mihalchenko::Queue<T>::pop()
 {
-  T res = containQueue.pop_front();
+  T res = containQueue.getT();
+  containQueue.pop_front();
   return res;
 }
 

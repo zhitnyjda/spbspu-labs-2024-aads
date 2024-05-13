@@ -1,6 +1,6 @@
 #ifndef STACK_HPP
 #define STACK_HPP
-#include "list.hpp"
+#include <list.hpp>
 // #include <stddef.h>
 // #include <unistd.h>
 // #include <iostream>
@@ -46,7 +46,8 @@ void mihalchenko::Stack<T>::push(const T &data)
 template <typename T>
 T mihalchenko::Stack<T>::pop()
 {
-  T res = containStack.pop_front();
+  T res = containStack.getT();
+  containStack.pop_front();
   return res;
 }
 

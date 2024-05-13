@@ -1,7 +1,7 @@
 #ifndef TYPES_HPP
 #define TYPES_HPP
-#include "stack.hpp"
 #include <set>
+#include "stack.hpp"
 
 namespace mihalchenko
 {

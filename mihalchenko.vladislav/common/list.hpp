@@ -7,7 +7,7 @@
 
 namespace mihalchenko
 {
-  template <typename T>
+  template < typename T >
   class List
   {
   public:
@@ -17,21 +17,24 @@ namespace mihalchenko
     List();
     explicit List(size_t count);
     List(size_t count, const T &value);
-    List(std::initializer_list<T> ilist);
+    List(std::initializer_list< T > ilist);
     List(const List &copy);
-    List<T> &operator=(const List &copy);
     List(List &&move);
-    List<T> &operator=(List &&move);
     ~List();
 
-    void swap(List<T> &other) noexcept;
+    List< T > &operator=(const List &copy);
+    List< T > &operator=(List &&move);
+
+    void swap(List< T > &other) noexcept;
 
     void push_front(const T &data);
     void push_back(const T &data);
+
+    void pop_front();
+    void pop_back();
+
     T watch(size_t index);
 
-    T pop_front();
-    void pop_back();
     void insert(T value, size_t ind);
     void erase(size_t i);
     T &operator[](const size_t ind);
@@ -41,17 +44,18 @@ namespace mihalchenko
     T &front();
 
     size_t getSize();
+    T getT();
 
     void assign(size_t count, const T &value);
     void assign(Iterator first, Iterator last);
-    void assign(std::initializer_list<T> ilist);
+    void assign(std::initializer_list< T > ilist);
 
     Iterator insert_after(Iterator position, const T &value);
     Iterator insert_after(Iterator position, size_t count, const T &value);
     Iterator erase_after(Iterator position);
     Iterator erase_after(Iterator first, Iterator last);
 
-    void splice(Iterator pos, List<T> &other);
+    void splice(Iterator pos, List< T > &other);
     void reverse(Iterator first, Iterator last);
 
     ConstIterator cbegin() const noexcept;
@@ -62,7 +66,7 @@ namespace mihalchenko
     void eraseAfter(Iterator iterator);
 
     void remove(const T &iterValue);
-    template <typename F>
+    template < typename F >
     void remove_if(F functor);
 
     size_t size_ = 0;
@@ -80,11 +84,11 @@ namespace mihalchenko
   };
 }
 
-template <typename T>
-class mihalchenko::List<T>::ConstIterator : public std::iterator<std::forward_iterator_tag, T>
+template < typename T >
+class mihalchenko::List< T >::ConstIterator : public std::iterator< std::forward_iterator_tag, T >
 {
 public:
-  friend class List<T>;
+  friend class List< T >;
   ConstIterator();
   ConstIterator(Node *ind);
   ConstIterator(const ConstIterator &) = default;
@@ -102,11 +106,11 @@ private:
   Node *node_;
 };
 
-template <typename T>
-class mihalchenko::List<T>::Iterator : public std::iterator<std::forward_iterator_tag, T>
+template < typename T >
+class mihalchenko::List< T >::Iterator : public std::iterator< std::forward_iterator_tag, T >
 {
 public:
-  friend class List<T>;
+  friend class List< T >;
   Iterator();
   Iterator(ConstIterator value);
   Iterator(const Iterator &) = default;
@@ -118,111 +122,107 @@ public:
   T *operator->();
   bool operator==(const Iterator &rhs) const;
   bool operator!=(const Iterator &rhs) const;
-  List<T> &operator+(size_t num);
+  List< T > &operator+(size_t num);
 
 private:
   ConstIterator constIter_;
 };
 
-template <typename T>
-mihalchenko::List<T>::ConstIterator::ConstIterator() : node_(nullptr)
-{
-}
+template < typename T >
+mihalchenko::List< T >::ConstIterator::ConstIterator() : node_(nullptr)
+{}
 
-template <typename T>
-mihalchenko::List<T>::ConstIterator::ConstIterator(Node *node) : node_(node)
-{
-}
+template < typename T >
+mihalchenko::List< T >::ConstIterator::ConstIterator(Node *node) : node_(node)
+{}
 
-template <typename T>
-typename mihalchenko::List<T>::ConstIterator &mihalchenko::List<T>::ConstIterator::operator++()
+template < typename T >
+typename mihalchenko::List< T >::ConstIterator &mihalchenko::List< T >::ConstIterator::operator++()
 {
   node_ = node_->pNext_;
   return *this;
 }
 
-template <typename T>
-typename mihalchenko::List<T>::ConstIterator mihalchenko::List<T>::ConstIterator::operator++(int)
+template < typename T >
+typename mihalchenko::List< T >::ConstIterator mihalchenko::List< T >::ConstIterator::operator++(int)
 {
   ConstIterator result(*this);
   ++(*this);
   return result;
 }
 
-template <typename T>
-const T &mihalchenko::List<T>::ConstIterator::operator*() const
+template < typename T >
+const T &mihalchenko::List< T >::ConstIterator::operator*() const
 {
   return node_->data_;
 }
 
-template <typename T>
-const T *mihalchenko::List<T>::ConstIterator::operator->() const
+template < typename T >
+const T *mihalchenko::List< T >::ConstIterator::operator->() const
 {
   return std::addressof(node_->data_);
 }
 
-template <typename T>
-bool mihalchenko::List<T>::ConstIterator::operator==(const ConstIterator &rhs) const
+template < typename T >
+bool mihalchenko::List< T >::ConstIterator::operator==(const ConstIterator &rhs) const
 {
   return node_ == rhs.node_;
 }
 
-template <typename T>
-bool mihalchenko::List<T>::ConstIterator::operator!=(const ConstIterator &rhs) const
+template < typename T >
+bool mihalchenko::List< T >::ConstIterator::operator!=(const ConstIterator &rhs) const
 {
   return !(rhs == *this);
 }
 
-template <typename T>
-mihalchenko::List<T>::Iterator::Iterator() : constIter_(nullptr)
-{
-}
+template < typename T >
+mihalchenko::List< T >::Iterator::Iterator() : constIter_(nullptr)
+{}
 
-template <typename T>
-mihalchenko::List<T>::Iterator::Iterator(ConstIterator value) : constIter_(value)
-{
-}
+template < typename T >
+mihalchenko::List< T >::Iterator::Iterator(ConstIterator value) : constIter_(value)
+{}
 
-template <typename T>
-typename mihalchenko::List<T>::Iterator &mihalchenko::List<T>::Iterator::operator++()
+template < typename T >
+typename mihalchenko::List< T >::Iterator &mihalchenko::List< T >::Iterator::operator++()
 {
   ++constIter_;
   return *this;
 }
 
-template <typename T>
-typename mihalchenko::List<T>::Iterator mihalchenko::List<T>::Iterator::operator++(int)
+template < typename T >
+typename mihalchenko::List< T >::Iterator mihalchenko::List< T >::Iterator::operator++(int)
 {
   constIter_++;
   return *this;
 }
 
-template <typename T>
-T &mihalchenko::List<T>::Iterator::operator*()
+template < typename T >
+T &mihalchenko::List< T >::Iterator::operator*()
 {
   return constIter_.node_->data_;
 }
 
-template <typename T>
-T *mihalchenko::List<T>::Iterator::operator->()
+template < typename T >
+T *mihalchenko::List< T >::Iterator::operator->()
 {
   return std::addressof(constIter_.node_->data_);
 }
 
-template <typename T>
-bool mihalchenko::List<T>::Iterator::operator==(const Iterator &rhs) const
+template < typename T >
+bool mihalchenko::List< T >::Iterator::operator==(const Iterator &rhs) const
 {
   return constIter_ == rhs.constIter_;
 }
 
-template <typename T>
-bool mihalchenko::List<T>::Iterator::operator!=(const Iterator &rhs) const
+template < typename T >
+bool mihalchenko::List< T >::Iterator::operator!=(const Iterator &rhs) const
 {
   return !(rhs.constIter_ == constIter_);
 }
 
-template <typename T>
-mihalchenko::List<T> &mihalchenko::List<T>::Iterator::operator+(size_t num)
+template < typename T >
+mihalchenko::List< T > &mihalchenko::List< T >::Iterator::operator+(size_t num)
 {
   for (size_t i = 0; i < num; i++)
   {
@@ -231,39 +231,39 @@ mihalchenko::List<T> &mihalchenko::List<T>::Iterator::operator+(size_t num)
   return *this;
 }
 
-template <typename T>
-typename mihalchenko::List<T>::ConstIterator mihalchenko::List<T>::cbegin() const noexcept
+template < typename T >
+typename mihalchenko::List< T >::ConstIterator mihalchenko::List< T >::cbegin() const noexcept
 {
   return ConstIterator(begin_);
 }
 
-template <typename T>
-typename mihalchenko::List<T>::ConstIterator mihalchenko::List<T>::cend() const noexcept
+template < typename T >
+typename mihalchenko::List< T >::ConstIterator mihalchenko::List< T >::cend() const noexcept
 {
   return ConstIterator(nullptr);
 }
 
-template <typename T>
-typename mihalchenko::List<T>::Iterator mihalchenko::List<T>::begin() noexcept
+template < typename T >
+typename mihalchenko::List< T >::Iterator mihalchenko::List< T >::begin() noexcept
 {
   return Iterator(begin_);
 }
 
-template <typename T>
-typename mihalchenko::List<T>::Iterator mihalchenko::List<T>::end() noexcept
+template < typename T >
+typename mihalchenko::List< T >::Iterator mihalchenko::List< T >::end() noexcept
 {
   return Iterator(nullptr);
 }
 
-template <typename T>
-mihalchenko::List<T>::List()
+template < typename T >
+mihalchenko::List< T >::List()
 {
-  size_ = 0;
+  this->size_ = 0;
   begin_ = nullptr;
 }
 
-template <typename T>
-mihalchenko::List<T>::List(size_t num)
+template < typename T >
+mihalchenko::List< T >::List(size_t num)
 {
   for (size_t i = 0; i < num; i++)
   {
@@ -271,8 +271,8 @@ mihalchenko::List<T>::List(size_t num)
   }
 }
 
-template <typename T>
-mihalchenko::List<T>::List(size_t num, const T &value) : begin_(nullptr)
+template < typename T >
+mihalchenko::List< T >::List(size_t num, const T &value) : begin_(nullptr)
 {
   for (size_t i = 0; i < num; i++)
   {
@@ -280,14 +280,14 @@ mihalchenko::List<T>::List(size_t num, const T &value) : begin_(nullptr)
   }
 }
 
-template <typename T>
-mihalchenko::List<T>::List(std::initializer_list<T> init_list)
+template < typename T >
+mihalchenko::List< T >::List(std::initializer_list< T > init_list)
 {
   assign(init_list);
 }
 
-template <typename T>
-mihalchenko::List<T>::List(const List<T> &copy)
+template < typename T >
+mihalchenko::List< T >::List(const List< T > &copy)
 {
   if (copy.begin_ == nullptr)
   {
@@ -300,15 +300,15 @@ mihalchenko::List<T>::List(const List<T> &copy)
   size_ = copy.size_;
 }
 
-template <typename T>
-mihalchenko::List<T> &mihalchenko::List<T>::operator=(const List &copy)
+template < typename T >
+mihalchenko::List< T > &mihalchenko::List< T >::operator=(const List &copy)
 {
   if (this == &copy)
   {
     return *this;
   }
-  clear();
   size_ = copy.size_;
+  clear();
   Node *pointer = copy.begin_;
   while (pointer)
   {
@@ -318,19 +318,17 @@ mihalchenko::List<T> &mihalchenko::List<T>::operator=(const List &copy)
   return *this;
 }
 
-template <typename T>
-mihalchenko::List<T>::List(List<T> &&move)
+template < typename T >
+mihalchenko::List< T >::List(List< T > &&move)
 {
   this->begin_ = move.begin_;
   move.begin_ = nullptr;
-  /*this->end_ = move.begin_;
-  move.end_ = nullptr;*/
   this->size_ = move.size_;
   move.size_ = 0;
 }
 
-template <typename T>
-mihalchenko::List<T> &mihalchenko::List<T>::operator=(List &&move)
+template < typename T >
+mihalchenko::List< T > &mihalchenko::List< T >::operator=(List &&move)
 {
   if (this == &move)
   {
@@ -338,20 +336,20 @@ mihalchenko::List<T> &mihalchenko::List<T>::operator=(List &&move)
     return *this;
   }
   clear();
-  List<T> temp = std::move(move);
+  List< T > temp = std::move(move);
   swap(temp);
   move.clear();
   return *this;
 }
 
-template <typename T>
-mihalchenko::List<T>::~List()
+template < typename T >
+mihalchenko::List< T >::~List()
 {
   clear();
 }
 
-template <typename T>
-void mihalchenko::List<T>::swap(List<T> &other) noexcept
+template < typename T >
+void mihalchenko::List< T >::swap(List< T > &other) noexcept
 {
   Node *temp = begin_;
   begin_ = other.begin_;
@@ -361,16 +359,16 @@ void mihalchenko::List<T>::swap(List<T> &other) noexcept
   other.size_ = tempSize;
 }
 
-template <typename T>
-void mihalchenko::List<T>::push_front(const T &data)
+template < typename T >
+void mihalchenko::List< T >::push_front(const T &data)
 {
   Node *newNode = new Node(data, begin_);
   begin_ = newNode;
   size_++;
 }
 
-template <typename T>
-void mihalchenko::List<T>::push_back(const T &data)
+template < typename T >
+void mihalchenko::List< T >::push_back(const T &data)
 {
   if (begin_ == nullptr)
   {
@@ -389,24 +387,23 @@ void mihalchenko::List<T>::push_back(const T &data)
   size_++;
 }
 
-template <typename T>
-T mihalchenko::List<T>::pop_front()
+template < typename T >
+void mihalchenko::List< T >::pop_front()
 {
   if (begin_ == nullptr)
   {
-    // throw StackEmptyException();// должен быть определён
     std::cerr << "StackEmptyException!\n";
   }
   Node *temp = begin_;
-  T res = begin_->data_;
+  // T res = begin_->data_;
   begin_ = begin_->pNext_;
   delete temp;
   size_--;
-  return res;
+  // return res;
 }
 
-template <typename T>
-void mihalchenko::List<T>::pop_back()
+template < typename T >
+void mihalchenko::List< T >::pop_back()
 {
   if (size_ > 0)
   {
@@ -418,18 +415,18 @@ void mihalchenko::List<T>::pop_back()
   }
 }
 
-template <typename T>
-T mihalchenko::List<T>::watch(size_t index)
+template < typename T >
+T mihalchenko::List < T >::watch(size_t index)
 {
-  size_t ullMax = std::numeric_limits<size_t>::max();
-  if (index == ullMax)
+  size_t ullMax = std::numeric_limits< size_t >::max();
+  if (index ==  ullMax)
   {
     std::cerr << "Index out of range!\n";
     return 0;
   }
   Node *temp = begin_;
   size_t k = 0;
-  while (temp != nullptr)
+  while  (temp != nullptr)
   {
     if (k == index)
     {
@@ -440,14 +437,14 @@ T mihalchenko::List<T>::watch(size_t index)
     {
       std::cerr << "Index out of range in watch!\n";
     }
-    k = k + 1;
+    k= k+1;
   }
   throw std::out_of_range("Index out of range");
   return 0;
 }
 
-template <typename T>
-void mihalchenko::List<T>::insert(T data, size_t index)
+template < typename T >
+void mihalchenko::List< T >::insert(T data, size_t index)
 {
   if (index == 0)
   {
@@ -466,8 +463,8 @@ void mihalchenko::List<T>::insert(T data, size_t index)
   }
 }
 
-template <typename T>
-void mihalchenko::List<T>::erase(size_t index)
+template < typename T >
+void mihalchenko::List< T >::erase(size_t index)
 {
   if (index == 0)
   {
@@ -487,8 +484,8 @@ void mihalchenko::List<T>::erase(size_t index)
   }
 }
 
-template <typename T>
-T &mihalchenko::List<T>::operator[](const size_t index)
+template < typename T >
+T &mihalchenko::List< T >::operator[](const size_t index)
 {
   size_t c = 0;
   Node *actual = begin_;
@@ -504,24 +501,23 @@ T &mihalchenko::List<T>::operator[](const size_t index)
   throw std::out_of_range("Index out of range");
 }
 
-template <typename T>
-void mihalchenko::List<T>::clear()
+template < typename T >
+void mihalchenko::List< T >::clear()
 {
-  size_t ullMax = std::numeric_limits<size_t>::max();
-  while ((size_ > 0) && (size_ != ullMax))
+  while (size_)
   {
     pop_front();
   }
 }
 
-template <typename T>
-bool mihalchenko::List<T>::empty() noexcept
+template < typename T >
+bool mihalchenko::List< T >::empty() noexcept
 {
   return (begin_ == nullptr);
 }
 
-template <typename T>
-T &mihalchenko::List<T>::front()
+template < typename T >
+T &mihalchenko::List< T >::front()
 {
   if (empty())
   {
@@ -530,8 +526,8 @@ T &mihalchenko::List<T>::front()
   return begin_->data_;
 }
 
-template <typename T>
-void mihalchenko::List<T>::assign(size_t count, const T &value)
+template < typename T >
+void mihalchenko::List< T >::assign(size_t count, const T &value)
 {
   clear();
   for (size_t i = 0; i < count; i++)
@@ -540,8 +536,8 @@ void mihalchenko::List<T>::assign(size_t count, const T &value)
   }
 }
 
-template <typename T>
-void mihalchenko::List<T>::assign(Iterator first, Iterator last)
+template < typename T >
+void mihalchenko::List< T >::assign(Iterator first, Iterator last)
 {
   clear();
   while (first != last)
@@ -551,8 +547,8 @@ void mihalchenko::List<T>::assign(Iterator first, Iterator last)
   }
 }
 
-template <typename T>
-void mihalchenko::List<T>::assign(std::initializer_list<T> init_list)
+template < typename T >
+void mihalchenko::List< T >::assign(std::initializer_list< T > init_list)
 {
   clear();
   for (auto iter = init_list.begin(); iter != init_list.end(); ++iter)
@@ -561,8 +557,8 @@ void mihalchenko::List<T>::assign(std::initializer_list<T> init_list)
   }
 }
 
-template <typename T>
-typename mihalchenko::List<T>::Iterator mihalchenko::List<T>::insert_after(Iterator position, const T &value)
+template < typename T >
+typename mihalchenko::List< T >::Iterator mihalchenko::List< T >::insert_after(Iterator position, const T &value)
 {
   Node *newPosition = position.constIter_.node_;
   if (position == begin())
@@ -580,8 +576,8 @@ typename mihalchenko::List<T>::Iterator mihalchenko::List<T>::insert_after(Itera
   }
 }
 
-template <typename T>
-typename mihalchenko::List<T>::Iterator mihalchenko::List<T>::insert_after(Iterator position, size_t count, const T &value)
+template < typename T >
+typename mihalchenko::List< T >::Iterator mihalchenko::List< T >::insert_after(Iterator position, size_t count, const T &value)
 {
   if (count == 0)
   {
@@ -594,8 +590,8 @@ typename mihalchenko::List<T>::Iterator mihalchenko::List<T>::insert_after(Itera
   return Iterator(position);
 }
 
-template <typename T>
-typename mihalchenko::List<T>::Iterator mihalchenko::List<T>::erase_after(Iterator position)
+template < typename T >
+typename mihalchenko::List< T >::Iterator mihalchenko::List< T >::erase_after(Iterator position)
 {
   if (position.constIter_.node_ != end())
   {
@@ -608,8 +604,8 @@ typename mihalchenko::List<T>::Iterator mihalchenko::List<T>::erase_after(Iterat
   return end();
 }
 
-template <typename T>
-typename mihalchenko::List<T>::Iterator mihalchenko::List<T>::erase_after(Iterator first, Iterator last)
+template < typename T >
+typename mihalchenko::List< T >::Iterator mihalchenko::List< T >::erase_after(Iterator first, Iterator last)
 {
   Iterator newPosition = begin();
   if (first == last)
@@ -626,8 +622,8 @@ typename mihalchenko::List<T>::Iterator mihalchenko::List<T>::erase_after(Iterat
   return Iterator(newPosition);
 }
 
-template <typename T>
-void mihalchenko::List<T>::splice(Iterator position, List &other)
+template < typename T >
+void mihalchenko::List< T >::splice(Iterator position, List &other)
 {
   if (other.empty() == false)
   {
@@ -641,10 +637,10 @@ void mihalchenko::List<T>::splice(Iterator position, List &other)
   }
 }
 
-template <typename T>
-void mihalchenko::List<T>::reverse(Iterator first, Iterator last)
+template < typename T >
+void mihalchenko::List< T >::reverse(Iterator first, Iterator last)
 {
-  List<T> temp;
+  List< T > temp;
   Node *actual = first;
   Iterator iterator = first;
   while (actual != last)
@@ -666,8 +662,8 @@ void mihalchenko::List<T>::reverse(Iterator first, Iterator last)
   assign(temp.first, temp.last);
 }
 
-template <typename T>
-void mihalchenko::List<T>::eraseAfter(Iterator iterator)
+template < typename T >
+void mihalchenko::List< T >::eraseAfter(Iterator iterator)
 {
   Node *valueBegin = iterator.data_;
   Node *valueDel = valueBegin->pNext_;
@@ -677,8 +673,8 @@ void mihalchenko::List<T>::eraseAfter(Iterator iterator)
   iterator = begin_;
 }
 
-template <typename T>
-void mihalchenko::List<T>::remove(const T &iterValue)
+template < typename T >
+void mihalchenko::List< T >::remove(const T &iterValue)
 {
   for (Node iterator = begin(); iterator != end(); ++iterator)
   {
@@ -694,9 +690,9 @@ void mihalchenko::List<T>::remove(const T &iterValue)
   }
 }
 
-template <typename T>
-template <typename F>
-void mihalchenko::List<T>::remove_if(F functor)
+template < typename T >
+template < typename F >
+void mihalchenko::List< T >::remove_if(F functor)
 {
   for (Node iterator = begin(); iterator != end(); ++iterator)
   {
@@ -709,9 +705,15 @@ void mihalchenko::List<T>::remove_if(F functor)
 }
 
 template <typename T>
-size_t mihalchenko::List<T>::getSize()
+size_t mihalchenko::List< T >::getSize()
 {
   return size_;
+}
+
+template < typename T >
+T mihalchenko::List< T >::getT()
+{
+  return begin_->data_;
 }
 
 #endif
