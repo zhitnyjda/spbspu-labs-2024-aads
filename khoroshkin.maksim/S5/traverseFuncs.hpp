@@ -3,8 +3,8 @@
 
 #include <iosfwd>
 #include <string>
+#include <tree.hpp>
 #include "functionalObject.hpp"
-#include "tree.hpp"
 
 namespace khoroshkin
 {
