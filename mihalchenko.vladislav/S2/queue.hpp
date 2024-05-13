@@ -13,7 +13,7 @@ namespace mihalchenko
     Queue(const Queue< T > &copy);
     void push(const T &data);
     T pop();
-    T watch(size_t index);
+    T &operator[](const size_t ind);
     void clear();
     size_t getSize();
     void setSize(const size_t size);
@@ -44,10 +44,9 @@ T mihalchenko::Queue< T >::pop()
 }
 
 template < typename T >
-T mihalchenko::Queue< T >::watch(size_t index)
+T &mihalchenko::Queue< T >::operator[](size_t index)
 {
-  T res = containQueue.watch(index);
-  return res;
+  return containQueue[index];
 }
 
 template < typename T >

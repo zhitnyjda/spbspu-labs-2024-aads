@@ -33,8 +33,6 @@ namespace mihalchenko
     void pop_front();
     void pop_back();
 
-    T watch(size_t index);
-
     void insert(T value, size_t ind);
     void erase(size_t i);
     T &operator[](const size_t ind);
@@ -413,34 +411,6 @@ void mihalchenko::List< T >::pop_back()
   {
     std::cerr << "StackEmptyException!\n";
   }
-}
-
-template < typename T >
-T mihalchenko::List < T >::watch(size_t index)
-{
-  size_t ullMax = std::numeric_limits< size_t >::max();
-  if (index ==  ullMax)
-  {
-    std::cerr << "Index out of range!\n";
-    return 0;
-  }
-  Node *temp = begin_;
-  size_t k = 0;
-  while  (temp != nullptr)
-  {
-    if (k == index)
-    {
-      return temp->data_;
-    }
-    temp = temp->pNext_;
-    if (temp == nullptr)
-    {
-      std::cerr << "Index out of range in watch!\n";
-    }
-    k= k+1;
-  }
-  throw std::out_of_range("Index out of range");
-  return 0;
 }
 
 template < typename T >

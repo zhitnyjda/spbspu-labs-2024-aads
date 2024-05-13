@@ -13,7 +13,7 @@ namespace mihalchenko
     Stack(const Stack< T > &copy);
     void push(const T &data);
     T pop();
-    T watch(size_t index);
+    T &operator[](const size_t ind);
     void clear();
     size_t getSize();
     void setSize(const size_t size);
@@ -44,10 +44,9 @@ T mihalchenko::Stack< T >::pop()
 }
 
 template < typename T >
-T mihalchenko::Stack< T >::watch(size_t index)
+T &mihalchenko::Stack< T >::operator[](size_t index)
 {
-  T res = containStack.watch(index);
-  return res;
+  return containStack[index];
 }
 
 template < typename T >

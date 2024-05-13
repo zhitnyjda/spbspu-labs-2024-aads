@@ -35,7 +35,7 @@ size_t mihalchenko::calculatePostFix(Queue< std::string > &resiveDigit, Stack< l
     bool flag = false;
     for (size_t j = 0; j < list.getSize(); j++)
     {
-      if (list[j] == resiveDigit.watch(i - 1)[0])
+      if (list[j] == resiveDigit[i - 1][0])
       {
         flag = true;
         break;
@@ -43,12 +43,12 @@ size_t mihalchenko::calculatePostFix(Queue< std::string > &resiveDigit, Stack< l
     }
     if (!flag)
     {
-      finTrans.calcRezult.push(stoll(resiveDigit.watch(i - 1)));
+      finTrans.calcRezult.push(stoll(resiveDigit[i - 1]));
       finTrans.commands.push('.');
     }
     else
     {
-      finTrans.commands.push(resiveDigit.watch(i - 1)[0]);
+      finTrans.commands.push(resiveDigit[i - 1][0]);
     }
     i -= 1;
   }
@@ -60,7 +60,7 @@ size_t mihalchenko::calculatePostFix(Queue< std::string > &resiveDigit, Stack< l
 
   if (finTrans.calcRezult.getSize() > 0)
   {
-    calculateResult.push(finTrans.calcRezult.watch(0).resultCalc);
+    calculateResult.push(finTrans.calcRezult[0].resultCalc);
   }
   resiveDigit.clear();
   resiveDigit.setSize(0);
