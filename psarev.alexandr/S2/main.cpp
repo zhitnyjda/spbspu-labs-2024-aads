@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
     }
     std::cout << '\n';
   }
-  catch (std::exception& e)
+  catch (const std::exception& e)
   {
     std::cout << e.what();
     return 1;
