@@ -11,7 +11,7 @@ namespace anikanov {
   public:
     Stack() = default;
     ~Stack() = default;
-    Stack(const Stack &rhs);
+    Stack(const Stack &rhs) noexcept;
     Stack(const Stack &&rhs) noexcept;
 
     T &top() noexcept;
