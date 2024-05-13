@@ -1,12 +1,6 @@
 #ifndef STACK_HPP
 #define STACK_HPP
-#include <list.hpp>
-// #include <stddef.h>
-// #include <unistd.h>
-#include <iostream>
-// #include <string>
-// #include <memory>
-// #include <stack>
+#include "list.hpp"
 
 namespace mihalchenko
 {
@@ -15,18 +9,18 @@ namespace mihalchenko
   {
   public:
     Stack() = default;
-    Stack(const Stack<T> &copy);
     ~Stack() = default;
-    // Stack & operator=(const Stack & copy);
+    Stack(const Stack<T> &copy);
     void push(const T &data);
     T pop();
     T watch(size_t index);
     void clear();
     size_t getSize();
-    size_t size_;
+    void setSize(const size_t size);
 
   private:
     List<T> containStack;
+    // size_t size_;
   };
 }
 
@@ -56,24 +50,6 @@ T mihalchenko::Stack<T>::watch(size_t index)
   T res = containStack.watch(index);
   return res;
 }
-/*template <typename T>
-mihalchenko::Stack<T> &mihalchenko::Stack<T>::operator=(const Stack &copy)
-{
-  if (this == &copy)
-  {
-    return *this;
-  }
-  size_ = copy.size_;
-  clear();
-  Node *pointer = copy.begin_;
-  while (pointer)
-  {
-    push_back(pointer->data_);
-    pointer = pointer->pNext_;
-  }
-  return *this;
-}
-*/
 
 template <typename T>
 void mihalchenko::Stack<T>::clear()
@@ -85,6 +61,12 @@ template <typename T>
 size_t mihalchenko::Stack<T>::getSize()
 {
   return containStack.getSize();
+}
+
+template <typename T>
+void mihalchenko::Stack<T>::setSize(const size_t size)
+{
+  containStack.setSize(size);
 }
 
 #endif

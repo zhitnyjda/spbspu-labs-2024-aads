@@ -1,11 +1,5 @@
 #include "func.hpp"
-// #include <iostream>
-// #include <fstream>
-// #include <set>
-#include <limits>
 #include "types.hpp"
-// #include "stack.hpp"
-// #include "queue.hpp"
 
 void mihalchenko::printedResult(std::ostream &out, Stack<long long> &stack, size_t &num)
 {
@@ -22,9 +16,8 @@ void mihalchenko::printedResult(std::ostream &out, Stack<long long> &stack, size
 
 size_t mihalchenko::calculatePostFix(Queue<std::string> &resiveDigit, Stack<long long> &calculateResult)
 {
-  finalTransform finTrans;
+  FinalTransform finTrans;
   std::set<char> controlSet{'(', ')', '+', '-', '*', '/', '%'};
-  // bool flgStart = false;
   long long llMax = std::numeric_limits<long long>::max();
   long long i = resiveDigit.getSize();
   while ((i > 0) && (i != llMax))
@@ -51,7 +44,7 @@ size_t mihalchenko::calculatePostFix(Queue<std::string> &resiveDigit, Stack<long
     calculateResult.push(finTrans.calcRezult.watch(0).resultCalc);
   }
   resiveDigit.clear();
-  resiveDigit.size_ = 0;
+  resiveDigit.setSize(0);
   return calculateResult.getSize();
 }
 
@@ -59,9 +52,9 @@ bool mihalchenko::bildStrPostFix(std::string &currentStr, size_t currentStrSize,
   Queue<std::string> &resiveDigit, Stack<std::string> &resiveControl)
 {
   size_t ullMax = std::numeric_limits<size_t>::max();
-  if (resiveControl.size_ == ullMax)
+  if (resiveControl.getSize() == ullMax)
   {
-    resiveControl.size_ = 0;
+    resiveControl.setSize(0);
   }
   bool flgResult = true;
   size_t i = 0;
@@ -104,7 +97,7 @@ bool mihalchenko::bildStrPostFix(std::string &currentStr, size_t currentStrSize,
           {
             if ((resiveControl.getSize() == 0) || (resiveControl.getSize() == ullMax))
             {
-              std::cout << "ЛОГИКА НАРУШЕНА" << std::endl;
+              std::cout << "The logic is broken" << std::endl;
               flgResult = false;
             }
             strFS = resiveControl.pop();
@@ -139,13 +132,13 @@ bool mihalchenko::bildStrPostFix(std::string &currentStr, size_t currentStrSize,
     }
     else
     {
-      std::cerr << "ЛОГИКА НАРУШЕНА" << std::endl;
+      std::cerr << "The logic is broken" << std::endl;
       flgResult = false;
     }
   }
   if (counterSc != 0)
   {
-    std::cerr << "количество скобок не бьется" << std::endl;
+    std::cerr << "Incorrect number of brackets" << std::endl;
     flgResult = false;
   }
   while ((resiveControl.getSize() > 0) && (resiveControl.getSize() != ullMax))

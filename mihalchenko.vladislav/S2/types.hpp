@@ -14,10 +14,11 @@ namespace mihalchenko
     CalcRez operator*(const CalcRez &rhs);
     CalcRez operator/(const CalcRez &rhs);
     CalcRez operator%(const CalcRez &rhs);
+    bool operator==(const char &rhs) const;
     long long resultCalc;
   };
 
-  struct finalTransform
+  struct FinalTransform
   {
     bool calculate();
     Stack<CalcRez> calcRezult;

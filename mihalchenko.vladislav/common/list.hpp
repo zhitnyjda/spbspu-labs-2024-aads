@@ -44,6 +44,7 @@ namespace mihalchenko
     T &front();
 
     size_t getSize();
+    void setSize(const size_t size);
     T getT();
 
     void assign(size_t count, const T &value);
@@ -69,8 +70,6 @@ namespace mihalchenko
     template < typename F >
     void remove_if(F functor);
 
-    size_t size_ = 0;
-
   private:
     class Node
     {
@@ -81,6 +80,7 @@ namespace mihalchenko
       Node(T value, Node *pointer) : data_(value), pNext_(pointer) {}
     };
     Node *begin_;
+    size_t size_ = 0;
   };
 }
 
@@ -708,6 +708,12 @@ template <typename T>
 size_t mihalchenko::List< T >::getSize()
 {
   return size_;
+}
+
+template <typename T>
+void mihalchenko::List< T >::setSize(const size_t size)
+{
+  size_ = size;
 }
 
 template < typename T >

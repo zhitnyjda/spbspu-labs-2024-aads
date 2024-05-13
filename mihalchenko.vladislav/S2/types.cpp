@@ -13,24 +13,28 @@ mihalchenko::CalcRez mihalchenko::CalcRez::operator+(const CalcRez &rhs)
   result.resultCalc = resultCalc + rhs.resultCalc;
   return result;
 }
+
 mihalchenko::CalcRez mihalchenko::CalcRez::operator-(const CalcRez &rhs)
 {
   CalcRez result;
   result.resultCalc = resultCalc - rhs.resultCalc;
   return result;
 }
+
 mihalchenko::CalcRez mihalchenko::CalcRez::operator*(const CalcRez &rhs)
 {
   CalcRez result;
   result.resultCalc = resultCalc * rhs.resultCalc;
   return result;
 }
+
 mihalchenko::CalcRez mihalchenko::CalcRez::operator/(const CalcRez &rhs)
 {
   CalcRez result;
   result.resultCalc = resultCalc / rhs.resultCalc;
   return result;
 }
+
 mihalchenko::CalcRez mihalchenko::CalcRez::operator%(const CalcRez &rhs)
 {
   CalcRez result;
@@ -44,7 +48,7 @@ mihalchenko::CalcRez mihalchenko::CalcRez::operator%(const CalcRez &rhs)
   return result;
 }
 
-bool mihalchenko::finalTransform::calculate()
+bool mihalchenko::FinalTransform::calculate()
 {
   std::set<char> controlSet{'(', ')', '+', '-', '*', '/', '%'};
   long long llMax = std::numeric_limits<long long>::max();
@@ -52,16 +56,13 @@ bool mihalchenko::finalTransform::calculate()
   CalcRez wremSave;
   CalcRez firstVal;
   CalcRez secondVal;
-  // long long valWrem;
-  // bool flgSave = false;
+
   if (calcRezult.getSize() == 1)
   {
-    // std::cout << "введено одно число в строке"  << std::endl;
     return true;
   }
   else if ((calcRezult.getSize() == 0) && (commands.getSize() == 1))
   {
-    // std::cout << "в строке один элемент" << valWrem << std::endl;
     return true;
   }
 
@@ -69,7 +70,7 @@ bool mihalchenko::finalTransform::calculate()
   {
     size_t stepCounter = 0;
     codOperation = '.';
-    while (/*(commands.getSize() >= 0) &&*/ (!controlSet.count(codOperation)))
+    while (!controlSet.count(codOperation))
     {
       codOperation = commands.pop();
       stepCounter++;
@@ -82,8 +83,7 @@ bool mihalchenko::finalTransform::calculate()
 
     if (calcRezult.getSize() < 2)
     {
-      // std::cout << "ВНИМАНИЕ чисел меньше 2"  << std::endl;
-      std::cerr << "Ошибка данных!\n";
+      std::cerr << "Data error!\n";
       return false;
     }
     else
@@ -96,7 +96,7 @@ bool mihalchenko::finalTransform::calculate()
       if ((llMax - firstVal.resultCalc) < secondVal.resultCalc)
       {
         throw std::logic_error("Error: overflow!");
-        std::cerr << "Переполнение!\n";
+        std::cerr << "Overflow!\n";
         return false;
       }
       calcRezult.push(firstVal + secondVal);
@@ -110,7 +110,7 @@ bool mihalchenko::finalTransform::calculate()
       if (llMax / firstVal.resultCalc < secondVal.resultCalc)
       {
         throw std::logic_error("Error: overflow!");
-        std::cerr << "Переполнение!\n";
+        std::cerr << "Overflow!\n";
         return false;
       }
       calcRezult.push(firstVal * secondVal);
@@ -127,12 +127,10 @@ bool mihalchenko::finalTransform::calculate()
     {
       commands.push('.');
     }
-    // else {std::cout << calcRezult.watch(0).resultCalc << "\n" ;}
     if (stepCounter == 4)
     {
       calcRezult.push(wremSave);
       commands.push('.');
-      // flgSave = true;
     }
   }
   return true;

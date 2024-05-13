@@ -9,17 +9,13 @@ using namespace mihalchenko;
 
 int main(int argc, char *argv[])
 {
-  std::set<char> controlSet{'(', ')', '+', '-', '*', '/', '%'};
   Queue<std::string> resiveDigit;
   Stack<std::string> resiveControl;
   Stack<long long> calculateResult;
-  size_t llMax = std::numeric_limits<long long>::max();
-
   std::string currentStr;
-  resiveControl.size_ = 0;
-  calculateResult.size_ = 0;
-  resiveDigit.size_ = 0;
-
+  resiveControl.setSize(0);
+  calculateResult.setSize(0);
+  resiveDigit.setSize(0);
   if (argc == 1)
   {
     while (std::getline(std::cin, currentStr, '\n'))
@@ -28,10 +24,11 @@ int main(int argc, char *argv[])
       {
         if (!bildStrPostFix(currentStr, currentStr.size(), resiveDigit, resiveControl))
         {
-          std::cerr << "Ошибка входных данных!\n";
+          std::cerr << "Error: wrong input!\n";
           return 1;
         }
-        calculateResult.size_ = calculatePostFix(resiveDigit, calculateResult);
+        calculateResult.setSize(calculatePostFix(resiveDigit, calculateResult));
+        size_t llMax = std::numeric_limits<long long>::max();
         if (calculateResult.getSize() == llMax)
         {
           return 1;
@@ -54,10 +51,11 @@ int main(int argc, char *argv[])
       {
         if (!bildStrPostFix(currentStr, currentStr.size(), resiveDigit, resiveControl))
         {
-          std::cerr << "Ошибка входных данных!\n";
+          std::cerr << "Error: wrong input!\n";
           return 1;
         }
-        calculateResult.size_ = calculatePostFix(resiveDigit, calculateResult);
+        calculateResult.setSize(calculatePostFix(resiveDigit, calculateResult));
+        size_t llMax = std::numeric_limits<long long>::max();
         if (calculateResult.getSize() == llMax)
         {
           return 1;
