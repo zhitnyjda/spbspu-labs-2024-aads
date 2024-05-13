@@ -13,9 +13,9 @@ public:
 
     bool empty() const;
     size_t size() const;
-    void push(T value) noexcept;
-    void push_back(T value) noexcept;
-    void pop() noexcept;
+    void push(T value);
+    void push_back(T value);
+    void pop();
 
     T& top();
     T& back();
@@ -25,19 +25,19 @@ private:
 };
 
 template< typename T >
-void Stack< T >::push(T value) noexcept
+void Stack< T >::push(T value)
 {
   list.push_front(value);
 }
 
 template< typename T >
-void Stack< T >::push_back(T value) noexcept
+void Stack< T >::push_back(T value)
 {
   list.push_back(value);
 }
 
 template< typename T >
-void Stack< T >::pop() noexcept
+void Stack< T >::pop()
 {
   if (list.empty())
   {
