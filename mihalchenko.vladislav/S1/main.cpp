@@ -1,59 +1,52 @@
-#include "list.hpp"
 #include <utility>
 #include <limits>
-
-using namespace mihalchenko;
+#include "list.hpp"
+#include "InpOutpProcessing.hpp"
 
 int main()
 {
-  using mainList = mihalchenko::List<std::pair<std::string, mihalchenko::List<size_t>>>;
-  mainList mixedList;
-  using integerList = mihalchenko::List<size_t>;
-  integerList tempIntList;
-
-  std::string inputStr;
-  std::string slovo;
-
-  bool overflow = false;
-
-  size_t ullMax = std::numeric_limits<size_t>::max();
+  using namespace mihalchenko;
 
   size_t maxLenOfSecondList = 0;
   size_t CountSecondList = 0;
   size_t CountmixedList = 0;
-
+  using mainList = mihalchenko::List<std::pair<std::string, mihalchenko::List<size_t>>>;
+  using integerList = mihalchenko::List<size_t>;
+  mainList mixedList;
+  integerList tempIntList;
+  std::string inputStr;
+  bool flgNamed = false;
   while (std::cin >> inputStr)
   {
     if (!isdigit(inputStr[0]))
     {
-      slovo = inputStr;
+      std::string str;
+      str = inputStr;
+      flgNamed = true;
       tempIntList.clear();
-      CountSecondList = 0;
-
-      mixedList.push_back(std::make_pair(slovo, tempIntList));
-      CountmixedList++;
-
-      if (std::cin.peek() == '\n')
+      if (maxLenOfSecondList < CountSecondList)
       {
-        continue;
+        maxLenOfSecondList = CountSecondList;
       }
+      CountSecondList = 0;
+      mixedList.push_back(std::make_pair(str, tempIntList));
+      CountmixedList++;
     }
     else
     {
       size_t wrem = 0;
       sscanf(inputStr.c_str(), "%zu", &wrem);
+      if (!flgNamed)
+      {
+        std::cerr << "No correct input!";
+        std::cout << wrem << '\n';
+        std::cout << 0 << '\n';
+        return 0;
+      }
       mixedList[CountmixedList - 1].second.push_back(wrem);
       if (inputStr == std::to_string(wrem))
       {
         CountSecondList++;
-        if (std::cin.peek() == '\n')
-        {
-          if (maxLenOfSecondList < CountSecondList)
-          {
-            maxLenOfSecondList = CountSecondList;
-          }
-          continue;
-        }
       }
       else
       {
@@ -62,75 +55,29 @@ int main()
       }
     }
   }
-
   if (mixedList.getSize() == 0)
   {
-    std::cout << 0 << std::endl;
+    std::cout << 0 << '\n';
     return 0;
   }
 
-  for (size_t ind = 0; ind < mixedList.getSize(); ind++)
-  {
-    std::cout << mixedList[ind].first;
-    if (ind != mixedList.getSize() - 1)
-    {
-      std::cout << " ";
-    }
-  }
+  mihalchenko::printName(mixedList, mixedList.getSize(), maxLenOfSecondList);
 
-  if (maxLenOfSecondList == 0)
-  {
-    std::cout << std::endl;
-    std::cout << 0 << std::endl;
-    return 0;
-  }
-  std::cout << std::endl;
-
-  size_t summa = 0;
   bool flgNewStr = false;
+  size_t ullMax = std::numeric_limits<size_t>::max();
   for (size_t numericView = 0; numericView < maxLenOfSecondList; numericView++)
   {
-    flgNewStr = true;
-    summa = 0;
-    for (size_t i = 0; i < mixedList.getSize(); i++)
+    size_t summa = mihalchenko::printMixedList(mixedList, mixedList.getSize(), numericView, flgNewStr);
+    if (summa == ullMax)
     {
-      if (mixedList[i].second.getSize() > numericView)
-      {
-        if (flgNewStr)
-        {
-          std::cout << mixedList[i].second[numericView];
-          flgNewStr = false;
-        }
-        else
-        {
-          std::cout << " " << mixedList[i].second[numericView];
-        }
-        if (ullMax - mixedList[i].second[numericView] >= summa)
-        {
-          summa = summa + mixedList[i].second[numericView];
-        }
-        else
-        {
-          overflow = true;
-        }
-      }
+      std::cerr << "Input overflow!";
+      return 1;
     }
-    std::cout << std::endl;
-    tempIntList.push_back(summa);
-  }
-  if (overflow)
-  {
-    std::cerr << "Input overflow!";
-    return 1;
-  }
-  for (size_t i = 0; i < tempIntList.getSize(); i++)
-  {
-    std::cout << tempIntList[i];
-    if (i != tempIntList.getSize() - 1)
+    else
     {
-      std::cout << " ";
+      tempIntList.push_back(summa);
     }
   }
-  std::cout << std::endl;
+  mihalchenko::printSumDigit(tempIntList, tempIntList.getSize());
   return 0;
 }
