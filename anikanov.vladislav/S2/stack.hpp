@@ -10,9 +10,9 @@ namespace anikanov {
   class Stack {
   public:
     Stack() = default;
-    ~Stack() = default;
     Stack(const Stack &rhs);
     Stack(const Stack &&rhs) noexcept;
+    ~Stack() = default;
 
     T &top() noexcept;
     const T &top() const noexcept;

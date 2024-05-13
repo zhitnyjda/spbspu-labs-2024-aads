@@ -10,9 +10,10 @@ namespace anikanov {
   class Queue {
   public:
     Queue() = default;
-    ~Queue() = default;
     Queue(const Queue &rhs);
     Queue(const Queue &&rhs) noexcept;
+    ~Queue() = default;
+
     Queue &operator=(Queue &&rhs) noexcept;
 
     T &front() noexcept;
