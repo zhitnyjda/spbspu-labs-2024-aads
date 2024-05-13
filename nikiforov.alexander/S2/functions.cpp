@@ -112,12 +112,14 @@ void nikiforov::operations(Initialization elemSeq, nikiforov::Stack< long long >
     {
       throw std::overflow_error("Error: overflow");
     }
-    if (rNum < 0 && lNum < 0 && (rNum < minValue - lNum))
+    else if (rNum < 0 && lNum < 0 && (rNum < minValue - lNum))
     {
       throw std::overflow_error("Error: overflow");
     }
-
-    stack.push_back(lNum + rNum);
+    else
+    {
+      stack.push_back(lNum + rNum);
+    }
   }
   else if (elemSeq.operation_.data == '-')
   {
@@ -125,16 +127,14 @@ void nikiforov::operations(Initialization elemSeq, nikiforov::Stack< long long >
     {
       throw std::overflow_error("Error: overflow");
     }
-    if (lNum < 0 && rNum > 0 && (lNum < minValue + rNum))
+    else if (lNum < 0 && rNum > 0 && (lNum < minValue + rNum))
     {
       throw std::overflow_error("Error: overflow");
     }
-
-    stack.push_back(lNum - rNum);
-  }
-  else if (elemSeq.operation_.data == '/')
-  {
-    stack.push_back(lNum / rNum);
+    else
+    {
+      stack.push_back(lNum - rNum);
+    }
   }
   else if (elemSeq.operation_.data == '*')
   {
@@ -142,12 +142,18 @@ void nikiforov::operations(Initialization elemSeq, nikiforov::Stack< long long >
     {
       throw std::overflow_error("Error: overflow");
     }
-    if (((lNum > 0 && rNum < 0) || (lNum < 0 && rNum > 0)) && (abs(rNum) > abs(minValue / lNum)))
+    else if (((lNum > 0 && rNum < 0) || (lNum < 0 && rNum > 0)) && (abs(rNum) > abs(minValue / lNum)))
     {
       throw std::overflow_error("Error: overflow");
     }
-
-    stack.push_back(lNum * rNum);
+    else
+    {
+      stack.push_back(lNum * rNum);
+    }
+  }
+  else if (elemSeq.operation_.data == '/')
+  {
+    stack.push_back(lNum / rNum);
   }
   else if (elemSeq.operation_.data == '%')
   {
