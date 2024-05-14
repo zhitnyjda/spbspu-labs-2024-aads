@@ -17,7 +17,7 @@ std::string khoroshkin::getString(std::string & line, size_t & pos)
 long long khoroshkin::getKey(std::string & line, size_t & pos)
 {
   std::string result = "";
-  while (pos < line.length() && line[pos] != ' ' && std::isdigit(line[pos]))
+  while (pos < line.length() && line[pos] != ' ' && (std::isdigit(line[pos]) || line[pos] == '-'))
   {
     result += line[pos++];
   }
