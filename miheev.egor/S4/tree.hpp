@@ -115,70 +115,33 @@ public:
   bool operator==(const Iterator&) const;
 
 private:
-  Tree* top_;
-  Tree* base_;
   Tree* cur_;
 
-  void processDeadlock();
-  void updateTop();
+  bool weAreOnRight();
 };
 
 template< typename Key, typename Value, typename Comparator >
 miheev::Tree< Key, Value, Comparator >::Iterator::Iterator():
-  top_(nullptr),
-  base_(nullptr),
   cur_(nullptr)
 {}
 
 template< typename Key, typename Value, typename Comparator >
 miheev::Tree< Key, Value, Comparator >::Iterator::Iterator(Tree* init):
-  top_(nullptr),
-  base_(nullptr),
   cur_(nullptr)
 {
   if (!init)
   {
+    cur_ = init;
     return;
   }
   cur_ = init->getMinNode();
-  base_ = cur_->parrent_;
-  top_ = cur_;
 }
 
 template< typename Key, typename Value, typename Comparator >
-void miheev::Tree< Key, Value, Comparator >::Iterator::processDeadlock()
+bool miheev::Tree< Key, Value, Comparator >::Iterator::weAreOnRight()
 {
-  if (!base_)
-  {
-    cur_ = nullptr;
-    return;
-  }
-  bool weAreOnTheLeft = cur_->parrent_->key_ > cur_->key_;
-  if (weAreOnTheLeft)
-  {
-    cur_ = cur_->parrent_;
-  }
-  else
-  {
-    if (!top_)
-    {
-      base_ = nullptr;
-      cur_ = nullptr;
-    }
-    base_ = top_->parrent_;
-    cur_ = base_;
-  }
-}
-
-template< typename Key, typename Value, typename Comparator >
-void miheev::Tree< Key, Value, Comparator >::Iterator::updateTop()
-{
-  if (!base_ || !top_)
-  {
-    top_ = nullptr;
-    return;
-  }
-  top_ = base_->height_ > top_->height_ ? base_ : top_;
+  Comparator comparator;
+  return comparator(cur_->parrent_->key_, cur_->key_);
 }
 
 template< typename Key, typename Value, typename Comparator >
@@ -188,31 +151,17 @@ typename miheev::Tree< Key, Value, Comparator >::Iterator& miheev::Tree< Key, Va
   {
     throw std::out_of_range("iterator is out of range");
   }
-  if (!cur_->left_ && !cur_->right_)
-  {
-    processDeadlock();
-  }
-  else if (cur_ == base_)
-  {
-    if (base_ == top_)
-    {
-      base_ = base_->parrent_;
-      cur_ = base_;
-    }
-    else if (cur_->right_)
-    {
-      updateTop();
-      cur_ = cur_->right_->getMinNode();
-      base_ = cur_->parrent_;
-    }
-    else
-    {
-      base_ = base_->parrent_;
-    }
-  }
-  else if (cur_->right_)
+  if (cur_->right_)
   {
     cur_ = cur_->right_->getMinNode();
+  }
+  else
+  {
+    while (cur_->parrent_ && weAreOnRight())
+    {
+      cur_ = cur_->parrent_;
+    }
+    cur_ = cur_->parrent_;
   }
   return *this;
 }
@@ -436,7 +385,7 @@ void miheev::Tree< Key, Value, Comparator>::rawInsert(const Key& key, const Valu
     else
     {
       left_ = new Tree(key, value);
-      left_->parrent_ = this;
+      // left_->parrent_ = this;
     }
   }
   else
@@ -448,7 +397,7 @@ void miheev::Tree< Key, Value, Comparator>::rawInsert(const Key& key, const Valu
     else
     {
       right_ = new Tree(key, value);
-      right_->parrent_ = this;
+      // right_->parrent_ = this;
     }
   }
   updateHeight();
@@ -490,7 +439,7 @@ void miheev::Tree< Key, Value, Comparator>::erase(const Key& key)
 {
   rawDelete(key);
   updateHeight();
-  updateParrentsLocally();
+  // updateParrentsLocally();
 }
 
 template< typename Key, typename Value, typename Comparator >
@@ -577,6 +526,7 @@ void miheev::Tree< Key, Value, Comparator>::rebalanceSelf()
     }
     rotateLL();
   }
+  updateParrentsLocally();
 }
 
 template< typename Key, typename Value, typename Comparator >
