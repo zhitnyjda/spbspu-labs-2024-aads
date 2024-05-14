@@ -116,38 +116,61 @@ public:
 
 private:
   Tree* cur_;
+  bool isDeadEnd_;
+
+  Iterator(Tree*, bool);
 
   bool weAreOnRight();
 };
 
 template< typename Key, typename Value, typename Comparator >
 miheev::Tree< Key, Value, Comparator >::Iterator::Iterator():
-  cur_(nullptr)
+  cur_(nullptr),
+  isDeadEnd_(true)
 {}
 
 template< typename Key, typename Value, typename Comparator >
 miheev::Tree< Key, Value, Comparator >::Iterator::Iterator(Tree* init):
   cur_(nullptr)
 {
-  if (!init)
+  cur_ = init;
+  if (init)
   {
-    cur_ = init;
-    return;
+    isDeadEnd_ = false;
   }
-  cur_ = init->getMinNode();
+  else
+  {
+    isDeadEnd_ = true;
+  }
+}
+
+template< typename Key, typename Value, typename Comparator >
+miheev::Tree< Key, Value, Comparator >::Iterator::Iterator(Tree* init, bool isDeadEnd):
+  cur_(init),
+  isDeadEnd_(isDeadEnd)
+{
+  if (isDeadEnd)
+  {
+    cur_ = init->getMaxNode();
+  }
 }
 
 template< typename Key, typename Value, typename Comparator >
 bool miheev::Tree< Key, Value, Comparator >::Iterator::weAreOnRight()
 {
   Comparator comparator;
+  if (!cur_->parrent_)
+  {
+    return false;
+  }
   return comparator(cur_->parrent_->key_, cur_->key_);
 }
 
 template< typename Key, typename Value, typename Comparator >
 typename miheev::Tree< Key, Value, Comparator >::Iterator& miheev::Tree< Key, Value, Comparator >::Iterator::operator++()
 {
-  if (cur_ == nullptr)
+  // if (cur_ == nullptr)
+  if (isDeadEnd_)
   {
     throw std::out_of_range("iterator is out of range");
   }
@@ -161,9 +184,57 @@ typename miheev::Tree< Key, Value, Comparator >::Iterator& miheev::Tree< Key, Va
     {
       cur_ = cur_->parrent_;
     }
-    cur_ = cur_->parrent_;
+    if (!cur_->parrent_)
+    {
+      isDeadEnd_ = true;
+    }
+    else
+    {
+      cur_ = cur_->parrent_;
+    }
   }
   return *this;
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename miheev::Tree< Key, Value, Comparator >::Iterator miheev::Tree< Key, Value, Comparator >::Iterator::operator++(int)
+{
+  Iterator iter(*this);
+  ++(*this);
+  return iter;
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename miheev::Tree< Key, Value, Comparator >::Iterator& miheev::Tree< Key, Value, Comparator >::Iterator::operator--()
+{
+  if (isDeadEnd_)
+  {
+    isDeadEnd_ = false;
+  }
+  else if (cur_->left_)
+  {
+    cur_ = cur_->left_->getMaxNode();
+  }
+  else
+  {
+    while (cur_->parrent_ && !weAreOnRight())
+    {
+      cur_ = cur_->parrent_;
+    }
+    if (cur_->parrent_)
+    {
+      cur_ = cur_->parrent_;
+    }
+  }
+  return *this;
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename miheev::Tree< Key, Value, Comparator >::Iterator& miheev::Tree< Key, Value, Comparator >::Iterator::operator--()
+{
+  Iterator iter(*this);
+  --(*this);
+  return iter;
 }
 
 template< typename Key, typename Value, typename Comparator >
@@ -180,13 +251,13 @@ typename miheev::Tree< Key, Value, Comparator >::Iterator::kv_pair* miheev::Tree
 template< typename Key, typename Value, typename Comparator >
 bool miheev::Tree< Key, Value, Comparator >::Iterator::operator==(const Iterator& rhs) const
 {
-  return cur_ == rhs.cur_;
+  return cur_ == rhs.cur_ && isDeadEnd_ == rhs.isDeadEnd_;
 }
 
 template< typename Key, typename Value, typename Comparator >
 bool miheev::Tree< Key, Value, Comparator >::Iterator::operator!=(const Iterator& rhs) const
 {
-  return cur_ != rhs.cur_;
+  return !(*this == rhs);
 }
 
 template< typename Key, typename Value, typename Comparator >
@@ -611,7 +682,7 @@ typename miheev::Tree< Key, Value, Comparator >::Iterator miheev::Tree< Key, Val
 template< typename Key, typename Value, typename Comparator >
 typename miheev::Tree< Key, Value, Comparator >::Iterator miheev::Tree< Key, Value, Comparator >::end()
 {
-  return nullptr;
+  return Iterator(this, true);
 }
 
 #endif
