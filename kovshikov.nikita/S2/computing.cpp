@@ -143,7 +143,7 @@ void kovshikov::getPostfix(doubleQ oldQ, doubleQ& newQ)
   }
 }
 
-long long kovshikov::getComputing(Queue< std::string > queue)
+long long kovshikov::getComputation(Queue< std::string > queue)
 {
   long long min = std::numeric_limits< long long >::min();
   long long max = std::numeric_limits< long long >::max();
@@ -214,7 +214,7 @@ long long kovshikov::getComputing(Queue< std::string > queue)
   return stack.top();
 }
 
-void kovshikov::getComputing(doubleQ data, Stack< long long >& result)
+void kovshikov::getComputation(doubleQ data, Stack< long long >& result)
 {
   long long outcome;
   size_t size = data.getSize();

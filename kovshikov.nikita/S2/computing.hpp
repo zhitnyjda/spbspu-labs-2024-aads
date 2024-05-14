@@ -15,8 +15,8 @@ namespace kovshikov
   bool isDigit(std::string str);
   void getPostfix(Queue< std::string >& oldQ, Queue< std::string >& newQ);
   void getPostfix(doubleQ oldQ, doubleQ& newQ);
-  long long getComputing(Queue< std::string > queue);
-  void getComputing(doubleQ data, Stack< long long >& result);
+  long long getComputation(Queue< std::string > queue);
+  void getComputation(doubleQ data, Stack< long long >& result);
   void output(std::ostream& out, Stack< long long > result);
 }
 

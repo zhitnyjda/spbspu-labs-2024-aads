@@ -28,7 +28,7 @@ int main(int argc, char ** argv)
   try
   {
     getPostfix(separateData, postfixQ);
-    getComputing(postfixQ, result);
+    getComputation(postfixQ, result);
   }
   catch(const std::exception &error)
   {
