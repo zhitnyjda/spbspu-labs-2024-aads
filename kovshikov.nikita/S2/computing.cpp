@@ -1,5 +1,5 @@
 #include <cstring>
-#include "getComputation.hpp"
+#include "computing.hpp"
 
 void kovshikov::readData(std::istream& in, Queue< std::string >& allData)
 {
