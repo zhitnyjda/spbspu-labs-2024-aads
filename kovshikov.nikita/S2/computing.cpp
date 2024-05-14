@@ -224,7 +224,7 @@ void kovshikov::getComputation(doubleQ data, Stack< long long >& result)
     data.pop();
     try
     {
-      outcome = getComputing(temp);
+      outcome = getComputation(temp);
     }
     catch(const std::exception &error)
     {
