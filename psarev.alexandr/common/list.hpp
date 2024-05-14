@@ -26,12 +26,14 @@ namespace psarev
     void popBack();
     void pushFront(T& data);
     void pushBack(T& data);
+    void pushFront(const T& data);
+    void pushBack(const T& data);
     void pushFront(T&& data);
     void pushBack(T&& data);
 
     void assign(size_t amount, T& data);
     void assign(iter beginThat, iter endThat);
-    void assign(std::initializer_list<T> ilThat);
+    void assign(std::initializer_list< T > ilThat);
 
     iter insert(iter& pos, T& data);
     iter insert(iter& pos, T&& data);
@@ -413,6 +415,34 @@ void psarev::List< T >::pushBack(T& data)
   size++;
 }
 
+template< typename T >
+void psarev::List< T >::pushFront(const T& data)
+{
+  head = new Unit(data, head);
+  if (size != 0)
+  {
+    head->next->prev = head;
+  }
+  size++;
+}
+
+template< typename T >
+void psarev::List< T >::pushBack(const T& data)
+{
+  if (head == nullptr)
+  {
+    head = new Unit(data);
+    tail = head;
+  }
+  else
+  {
+    Unit* adUnit = new Unit(data, nullptr, tail);
+    tail->next = adUnit;
+    tail = adUnit;
+  }
+  size++;
+}
+
 template<typename T>
 void psarev::List<T>::pushFront(T&& data)
 {
@@ -679,7 +709,7 @@ void psarev::List< T >::swap(List< T >& targetList) noexcept
 template< typename T >
 void psarev::List< T >::splice(iter pos, List< T >& other)
 {
-  if(!(other.empty()))
+  if (!(other.empty()))
   {
     iter thatIt = other.begin();
     while (thatIt != other.end())
