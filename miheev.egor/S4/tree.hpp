@@ -248,6 +248,7 @@ typename miheev::Tree< Key, Value, Comparator >::Iterator::kv_pair* miheev::Tree
 {
   return std::addressof(cur_->pair_);
 }
+
 template< typename Key, typename Value, typename Comparator >
 bool miheev::Tree< Key, Value, Comparator >::Iterator::operator==(const Iterator& rhs) const
 {
@@ -258,6 +259,75 @@ template< typename Key, typename Value, typename Comparator >
 bool miheev::Tree< Key, Value, Comparator >::Iterator::operator!=(const Iterator& rhs) const
 {
   return !(*this == rhs);
+}
+
+template< typename Key, typename Value, typename Comparator >
+class miheev::Tree< Key, Value, Comparator >::ConstIterator
+{
+public:
+
+  using kv_pair = std::pair< Key&, Value& >;
+
+  ConstIterator();
+  ConstIterator(Iterator);
+  ConstIterator(const ConstIterator&) = default;
+  ~ConstIterator() = default;
+
+  ConstIterator& operator=(const ConstIterator&) = default;
+  ConstIterator& operator++();
+  ConstIterator operator++(int);
+  ConstIterator& operator--();
+  ConstIterator operator--(int);
+
+  const kv_pair& operator*() const;
+  const kv_pair* operator->() const;
+
+  bool operator!=(const ConstIterator&) const;
+  bool operator==(const ConstIterator&) const;
+
+private:
+  Iterator iter_;
+};
+
+template< typename Key, typename Value, typename Comparator >
+miheev::Tree< Key, Value, Comparator >::ConstIterator::ConstIterator(Iterator iter):
+  iter_(iter)
+{}
+
+template< typename Key, typename Value, typename Comparator >
+typename miheev::Tree< Key, Value, Comparator >::ConstIterator& miheev::Tree< Key, Value, Comparator >::ConstIterator::operator++()
+{
+  return ++iter_;
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename miheev::Tree< Key, Value, Comparator >::ConstIterator miheev::Tree< Key, Value, Comparator >::ConstIterator::operator++(int)
+{
+  return iter_++;
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename miheev::Tree< Key, Value, Comparator >::ConstIterator& miheev::Tree< Key, Value, Comparator >::ConstIterator::operator--()
+{
+  return --iter_;
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename miheev::Tree< Key, Value, Comparator >::ConstIterator miheev::Tree< Key, Value, Comparator >::ConstIterator::operator--(int)
+{
+  return iter_--;
+}
+
+template< typename Key, typename Value, typename Comparator >
+bool miheev::Tree< Key, Value, Comparator >::ConstIterator::operator==(const ConstIterator& rhs) const
+{
+  return *this == rhs.iter_;
+}
+
+template< typename Key, typename Value, typename Comparator >
+bool miheev::Tree< Key, Value, Comparator >::ConstIterator::operator!=(const ConstIterator& rhs) const
+{
+  return *this != rhs.iter_;
 }
 
 template< typename Key, typename Value, typename Comparator >
