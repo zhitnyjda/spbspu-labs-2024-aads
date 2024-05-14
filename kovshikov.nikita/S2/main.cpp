@@ -1,6 +1,6 @@
 #include <cstring>
 #include <fstream>
-#include "getComputation.hpp"
+#include "computing.hpp"
 #include "queue.hpp"
 #include "stack.hpp"
 
