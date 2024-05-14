@@ -46,6 +46,7 @@ namespace miheev
     //operations
     Iterator find(const Key&);
     ConstIterator find(const Key&) const;
+    bool contains(const Key&) const;
 
     Iterator begin();
     Iterator end();
@@ -64,6 +65,9 @@ namespace miheev
     Tree* right_;
 
     Tree* parrent_;
+
+    // search
+    Tree* findNextNode(const Key&) const;
 
     // balancing
     size_t getHeight() const;
@@ -525,7 +529,6 @@ void miheev::Tree< Key, Value, Comparator>::rawInsert(const Key& key, const Valu
     else
     {
       left_ = new Tree(key, value);
-      // left_->parrent_ = this;
     }
   }
   else
@@ -537,7 +540,6 @@ void miheev::Tree< Key, Value, Comparator>::rawInsert(const Key& key, const Valu
     else
     {
       right_ = new Tree(key, value);
-      // right_->parrent_ = this;
     }
   }
   updateHeight();
@@ -683,6 +685,20 @@ void miheev::Tree< Key, Value, Comparator>::updateParrentsLocally()
 }
 
 template< typename Key, typename Value, typename Comparator >
+miheev::Tree< Key, Value, Comparator >* miheev::Tree< Key, Value, Comparator>::findNextNode(const Key& key) const
+{
+  Comparator comparator;
+  if (comparator(key_, key))
+  {
+    return right_;
+  }
+  else
+  {
+    return left_;
+  }
+}
+
+template< typename Key, typename Value, typename Comparator >
 size_t miheev::Tree< Key, Value, Comparator>::getHeight() const
 {
   return height_;
@@ -757,33 +773,86 @@ typename miheev::Tree< Key, Value, Comparator >::Iterator miheev::Tree< Key, Val
 template< typename Key, typename Value, typename Comparator >
 typename miheev::Tree< Key, Value, Comparator >::Iterator miheev::Tree< Key, Value, Comparator >::find(const Key& key)
 {
-  Comparator comparator;
   if (key == key_)
   {
     return this;
   }
-  else if (comparator(key_, key))
+  Tree* next = findNextNode(key);
+  if (next)
   {
-    if (!right_)
-    {
-      throw std::out_of_range("No such key in list");
-    }
-    return right_->find(key);
+    return next->find(key);
   }
   else
   {
-    if (!left_)
-    {
-      throw std::out_of_range("No such key in list");
-    }
-    return left_->find(key);
+    throw std::out_of_range("No such key in list");
   }
+  // else if (comparator(key_, key))
+  // {
+  //   if (!right_)
+  //   {
+  //     throw std::out_of_range("No such key in list");
+  //   }
+  //   return right_->find(key);
+  // }
+  // else
+  // {
+  //   if (!left_)
+  //   {
+  //     throw std::out_of_range("No such key in list");
+  //   }
+  //   return left_->find(key);
+  // }
 }
 
 template< typename Key, typename Value, typename Comparator >
 typename miheev::Tree< Key, Value, Comparator >::ConstIterator miheev::Tree< Key, Value, Comparator >::find(const Key& key) const
 {
   return find(key);
+}
+
+template< typename Key, typename Value, typename Comparator >
+bool miheev::Tree< Key, Value, Comparator >::contains(const Key& key) const
+{
+  if (key == key_)
+  {
+    return true;
+  }
+  const Tree* next = findNextNode(key);
+  if (next)
+  {
+    return next->contains(key);
+  }
+  else
+  {
+    return false;
+  }
+}
+
+template< typename Key, typename Value, typename Comparator >
+Value& miheev::Tree< Key, Value, Comparator >::operator[](const Key& key)
+{
+  try
+  {
+    return find(key)->second;
+  }
+  catch (const std::out_of_range&)
+  {
+    insert(key, Value());
+    return find(key)->second;
+  }
+}
+
+template< typename Key, typename Value, typename Comparator >
+const Value& miheev::Tree< Key, Value, Comparator >::operator[](const Key& key) const
+{
+  try
+  {
+    return find(key)->second;
+  }
+  catch (const std::out_of_range&)
+  {
+    return Value();
+  }
 }
 
 #endif
