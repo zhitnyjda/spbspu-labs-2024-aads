@@ -13,8 +13,8 @@ namespace ponomarev
     Stack(Stack< T > && other);
     ~Stack() = default;
 
-    Stack & operator=(const Stack & other);
-    Stack & operator=(Stack && other);
+    Stack< T > & operator=(const Stack & other);
+    Stack< T > & operator=(Stack && other);
 
     T & getUp() const;
 
@@ -65,7 +65,7 @@ ponomarev::Stack< T > & ponomarev::Stack< T >::operator=(Stack && other)
 template < typename T >
 T & ponomarev::Stack< T >::getUp() const
 {
-  return container_->head->data;
+  return container_.getFront();
 }
 
 template < typename T >

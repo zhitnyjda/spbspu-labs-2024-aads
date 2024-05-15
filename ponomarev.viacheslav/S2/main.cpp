@@ -7,7 +7,7 @@
 int main(int argc, char ** argv)
 {
   ponomarev::Queue< std::string > expressions;
-  ponomarev::Stack< long long > results;
+  ponomarev::Stack< int > results;
 
   if (argc == 1)
   {
@@ -21,6 +21,16 @@ int main(int argc, char ** argv)
   else
   {
     std::cerr << "Error: wrong input";
+    return 1;
+  }
+
+  try
+  {
+    ponomarev::getResults(expressions, results);
+  }
+  catch (const std::exception & e)
+  {
+    std::cout << e.what();
     return 1;
   }
 

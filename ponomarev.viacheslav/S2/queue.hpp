@@ -19,6 +19,7 @@ namespace ponomarev
     bool empty() const;
     size_t size() const;
 
+    T getElem() const;
     void push(T & value);
     void push(T && value);
     void pop();
@@ -70,6 +71,12 @@ template < typename T >
 size_t ponomarev::Queue< T >::size() const
 {
   return container_.getSize();
+}
+
+template < typename T >
+T ponomarev::Queue< T >::getElem() const
+{
+  return container_.getFront();
 }
 
 template < typename T >
