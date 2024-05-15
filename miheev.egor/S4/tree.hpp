@@ -120,9 +120,9 @@ public:
 
 private:
   Tree* cur_;
-  bool isDeadEnd_;
+  Tree* max_;
 
-  Iterator(Tree*, bool);
+  Iterator(Tree* cur, Tree* max);
 
   bool weAreOnRight();
 };
@@ -130,28 +130,28 @@ private:
 template< typename Key, typename Value, typename Comparator >
 miheev::Tree< Key, Value, Comparator >::Iterator::Iterator():
   cur_(nullptr),
-  isDeadEnd_(true)
+  max_(nullptr)
 {}
 
 template< typename Key, typename Value, typename Comparator >
 miheev::Tree< Key, Value, Comparator >::Iterator::Iterator(Tree* init):
-  cur_(nullptr)
+  cur_(init)
 {
-  cur_ = init;
-  if (init)
+  Tree* top = init;
+  if (top && !weAreOnRight())
   {
-    isDeadEnd_ = false;
+    while (top->parrent_)
+    {
+      top = top->parrent_;
+    }
   }
-  else
-  {
-    isDeadEnd_ = true;
-  }
+  max_ = top->getMaxNode();
 }
 
 template< typename Key, typename Value, typename Comparator >
-miheev::Tree< Key, Value, Comparator >::Iterator::Iterator(Tree* init, bool isDeadEnd):
+miheev::Tree< Key, Value, Comparator >::Iterator::Iterator(Tree* init, Tree* max):
   cur_(init),
-  isDeadEnd_(isDeadEnd)
+  max_(max)
 {}
 
 template< typename Key, typename Value, typename Comparator >
@@ -168,7 +168,7 @@ bool miheev::Tree< Key, Value, Comparator >::Iterator::weAreOnRight()
 template< typename Key, typename Value, typename Comparator >
 typename miheev::Tree< Key, Value, Comparator >::Iterator& miheev::Tree< Key, Value, Comparator >::Iterator::operator++()
 {
-  if (isDeadEnd_)
+  if (!cur_)
   {
     throw std::out_of_range("iterator is out of range");
   }
@@ -182,14 +182,7 @@ typename miheev::Tree< Key, Value, Comparator >::Iterator& miheev::Tree< Key, Va
     {
       cur_ = cur_->parrent_;
     }
-    if (!cur_->parrent_)
-    {
-      isDeadEnd_ = true;
-    }
-    else
-    {
-      cur_ = cur_->parrent_;
-    }
+    cur_ = cur_->parrent_;
   }
   return *this;
 }
@@ -205,9 +198,9 @@ typename miheev::Tree< Key, Value, Comparator >::Iterator miheev::Tree< Key, Val
 template< typename Key, typename Value, typename Comparator >
 typename miheev::Tree< Key, Value, Comparator >::Iterator& miheev::Tree< Key, Value, Comparator >::Iterator::operator--()
 {
-  if (isDeadEnd_)
+  if (!cur_)
   {
-    isDeadEnd_ = false;
+    cur_ = max_;
   }
   else if (cur_->left_)
   {
@@ -238,7 +231,7 @@ typename miheev::Tree< Key, Value, Comparator >::Iterator miheev::Tree< Key, Val
 template< typename Key, typename Value, typename Comparator >
 typename miheev::Tree< Key, Value, Comparator >::Iterator::kv_pair& miheev::Tree< Key, Value, Comparator >::Iterator::operator*() const
 {
-  if (isDeadEnd_)
+  if (!cur_)
   {
     throw std::out_of_range("dereferencing end ptr");
   }
@@ -248,7 +241,7 @@ typename miheev::Tree< Key, Value, Comparator >::Iterator::kv_pair& miheev::Tree
 template< typename Key, typename Value, typename Comparator >
 typename miheev::Tree< Key, Value, Comparator >::Iterator::kv_pair* miheev::Tree< Key, Value, Comparator >::Iterator::operator->() const
 {
-  if (isDeadEnd_)
+  if (!cur_)
   {
     throw std::out_of_range("dereferencing end ptr");
   }
@@ -258,7 +251,7 @@ typename miheev::Tree< Key, Value, Comparator >::Iterator::kv_pair* miheev::Tree
 template< typename Key, typename Value, typename Comparator >
 bool miheev::Tree< Key, Value, Comparator >::Iterator::operator==(const Iterator& rhs) const
 {
-  return cur_ == rhs.cur_ && isDeadEnd_ == rhs.isDeadEnd_;
+  return cur_ == rhs.cur_;
 }
 
 template< typename Key, typename Value, typename Comparator >
@@ -613,7 +606,7 @@ void miheev::Tree< Key, Value, Comparator>::rawDelete(const Key& key)
     }
     else if (!comparator(key, key_) && right_)
     {
-      right_ = right_->rawDelete(key);
+      right_->rawDelete(key);
       if (right_->empty())
       {
         Tree* temp = right_;
@@ -785,7 +778,7 @@ typename miheev::Tree< Key, Value, Comparator >::Iterator miheev::Tree< Key, Val
 template< typename Key, typename Value, typename Comparator >
 typename miheev::Tree< Key, Value, Comparator >::Iterator miheev::Tree< Key, Value, Comparator >::end()
 {
-  return Iterator(this, true);
+  return Iterator(nullptr, getMaxNode());
 }
 
 template< typename Key, typename Value, typename Comparator >

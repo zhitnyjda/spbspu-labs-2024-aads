@@ -19,7 +19,7 @@ int main()
   tree.insert(6, 6);
 
   tree.erase(2);
-  // tree.erase(2);
+  tree.erase(3);
   // std::cout << tree.contains(2) << '\n';
   // tree[111] = 112;
   // std::cout << tree.at(111) << '\n';
