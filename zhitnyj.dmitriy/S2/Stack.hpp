@@ -1,7 +1,7 @@
 #ifndef STACK_HPP
 #define STACK_HPP
 
-#include <iostream>
+#include <stdexcept>
 #include <List.hpp>
 
 template< typename T >
