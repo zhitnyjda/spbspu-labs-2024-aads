@@ -1,3 +1,8 @@
+#include <limits>
+#include <stdexcept>
+#include <memory>
+#include <string>
+#include <cctype>
 #include "ExpressionEvaluator.hpp"
 
 void ExpressionEvaluator::parseExpression(Queue< std::shared_ptr< ExpressionItem > >& queue, const std::string& expression)
