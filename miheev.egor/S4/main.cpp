@@ -18,9 +18,11 @@ int main()
   tree.insert(2, 2);
   tree.insert(6, 6);
 
+  tree.erase(2);
+  // tree.erase(2);
   // std::cout << tree.contains(2) << '\n';
-  tree[111] = 112;
-  std::cout << tree.at(111) << '\n';
+  // tree[111] = 112;
+  // std::cout << tree.at(111) << '\n';
 
   // std::map< int, int > m;
   // m.insert({1, 1});
@@ -40,12 +42,12 @@ int main()
   // tree.insert(9, 9);
   // tree.insert(10, 10);
   // tree.insert(11, 11);
-  // Tree< int, int >::Iterator iter = tree.begin();
-  // for (; iter != tree.end();)
-  // {
-  //   std::cout << iter->first << '\n';
-  //   ++iter;
-  // }
+  Tree< int, int >::Iterator iter = tree.begin();
+  for (; iter != tree.end();)
+  {
+    std::cout << iter->first << '\n';
+    ++iter;
+  }
   // tree.clear();
   // tree.printKeys();
   // std::cout << "\n";

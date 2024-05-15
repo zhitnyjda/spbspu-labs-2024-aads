@@ -86,7 +86,7 @@ namespace miheev
     void safeInsert(const Key&, const Value&, Tree* ptr);
     void rawInsert(const Key&, const Value&);
     void rawDelete(const Key&);
-    void rawDeleteSelf();
+    Tree* rawDeleteSelf();
 
     // rotations
     void rotateRR();
@@ -152,12 +152,7 @@ template< typename Key, typename Value, typename Comparator >
 miheev::Tree< Key, Value, Comparator >::Iterator::Iterator(Tree* init, bool isDeadEnd):
   cur_(init),
   isDeadEnd_(isDeadEnd)
-{
-  if (isDeadEnd)
-  {
-    cur_ = init->getMaxNode();
-  }
-}
+{}
 
 template< typename Key, typename Value, typename Comparator >
 bool miheev::Tree< Key, Value, Comparator >::Iterator::weAreOnRight()
@@ -243,12 +238,20 @@ typename miheev::Tree< Key, Value, Comparator >::Iterator miheev::Tree< Key, Val
 template< typename Key, typename Value, typename Comparator >
 typename miheev::Tree< Key, Value, Comparator >::Iterator::kv_pair& miheev::Tree< Key, Value, Comparator >::Iterator::operator*() const
 {
+  if (isDeadEnd_)
+  {
+    throw std::out_of_range("dereferencing end ptr");
+  }
   return cur_->pair_;
 }
 
 template< typename Key, typename Value, typename Comparator >
 typename miheev::Tree< Key, Value, Comparator >::Iterator::kv_pair* miheev::Tree< Key, Value, Comparator >::Iterator::operator->() const
 {
+  if (isDeadEnd_)
+  {
+    throw std::out_of_range("dereferencing end ptr");
+  }
   return std::addressof(cur_->pair_);
 }
 
@@ -601,10 +604,22 @@ void miheev::Tree< Key, Value, Comparator>::rawDelete(const Key& key)
     if (comparator(key, key_) && left_)
     {
       left_->rawDelete(key);
+      if (left_->empty())
+      {
+        Tree* temp = left_;
+        left_ = nullptr;
+        delete temp;
+      }
     }
     else if (!comparator(key, key_) && right_)
     {
-      right_->rawDelete(key);
+      right_ = right_->rawDelete(key);
+      if (right_->empty())
+      {
+        Tree* temp = right_;
+        right_ = nullptr;
+        delete temp;
+      }
     }
   }
   updateHeight();
@@ -613,12 +628,13 @@ void miheev::Tree< Key, Value, Comparator>::rawDelete(const Key& key)
 }
 
 template< typename Key, typename Value, typename Comparator >
-void miheev::Tree< Key, Value, Comparator>::rawDeleteSelf()
+miheev::Tree< Key, Value, Comparator >* miheev::Tree< Key, Value, Comparator>::rawDeleteSelf()
 {
   // о да, минимум 10 тестов на покрытие этого кода)
   if (!left_ && !right_)
   {
     clear();
+    return nullptr;
   }
   else if (!left_ && right_)
   {
@@ -637,6 +653,8 @@ void miheev::Tree< Key, Value, Comparator>::rawDeleteSelf()
     key_ = temp.key_;
     value_ = temp.value_;
   }
+  updateParrentsLocally();
+  return this;
 }
 
 // rebalancings
@@ -786,22 +804,6 @@ typename miheev::Tree< Key, Value, Comparator >::Iterator miheev::Tree< Key, Val
   {
     throw std::out_of_range("No such key in list");
   }
-  // else if (comparator(key_, key))
-  // {
-  //   if (!right_)
-  //   {
-  //     throw std::out_of_range("No such key in list");
-  //   }
-  //   return right_->find(key);
-  // }
-  // else
-  // {
-  //   if (!left_)
-  //   {
-  //     throw std::out_of_range("No such key in list");
-  //   }
-  //   return left_->find(key);
-  // }
 }
 
 template< typename Key, typename Value, typename Comparator >
