@@ -137,7 +137,7 @@ long long ExpressionEvaluator::evaluateExpression(Queue< std::shared_ptr< Expres
       evaluationStack.pop();
 
       if ((op->getOperator() == '+' && (left > (std::numeric_limits< long long >::max() - right)))
-        || (op->getOperator() == '*' && (left > (std::numeric_limits< long long >::max() / std::abs(right)))))
+        || (op->getOperator() == '*' && (std::abs(left) > (std::numeric_limits< long long >::max() / right))))
       {
         throw std::overflow_error("There was an overflow error!");
       }
