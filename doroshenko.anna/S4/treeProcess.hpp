@@ -1,6 +1,6 @@
 #ifndef TREE_PROCESS_HPP
 #define TREE_PROCESS_HPP
-#include <iostream>
+#include <iosfwd>
 #include <string>
 #include "BinarySearchTree.hpp"
 
@@ -12,6 +12,7 @@ namespace doroshenko
   void complement(BST< std::string, BST< long long, std::string > >& treeOfDicts);
   void intersect(BST< std::string, BST< long long, std::string > >& treeOfDicts);
   void unify(BST< std::string, BST< long long, std::string > >& treeOfDicts);
+  void warning(std::ostream& output, const std::string& mes);
 }
 
 #endif

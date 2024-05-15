@@ -1,5 +1,6 @@
 #include "treeProcess.hpp"
 #include <functional>
+#include <iostream>
 
 void doroshenko::strToTree(std::string expression, BST< std::string, BST< long long, std::string > >& result)
 {
@@ -73,14 +74,16 @@ void doroshenko::print(BST< std::string, BST< long long, std::string > >& treeOf
   std::string nameOfDict;
   std::cin >> nameOfDict;
   BST< std::string, BST< long long, std::string > >::Iterator iter = treeOfDicts.find(nameOfDict);
+  auto warningInvCom = std::bind(warning, std::placeholders::_1, "<INVALID COMMAND>\n");
+  auto warningEmpty = std::bind(warning, std::placeholders::_1, "<EMPTY>\n");
   if (iter == treeOfDicts.end())
   {
-    std::cout << "<INVALID COMMAND>\n";
+    warningInvCom(std::cout);
     return;
   }
   else if ((iter->second).isEmpty())
   {
-    std::cout << "<EMPTY>\n";
+    warningEmpty(std::cout);
     return;
   }
   else
@@ -113,9 +116,10 @@ void doroshenko::intersect(BST< std::string, BST< long long, std::string > >& tr
   std::cin >> newDictName >> firstDictName >> secondDictName;
   BST< std::string, BST< long long, std::string > >::Iterator fDictIt = treeOfDicts.find(firstDictName);
   BST< std::string, BST< long long, std::string > >::Iterator sDictIt = treeOfDicts.find(secondDictName);
+  auto warningInvCom = std::bind(warning, std::placeholders::_1, "<INVALID COMMAND>\n");
   if (fDictIt == treeOfDicts.end() || sDictIt == treeOfDicts.end())
   {
-    std::cout << "<INVALID COMMAND>\n";
+    warningInvCom(std::cout);
     return;
   }
   for (BST< long long, std::string >::Iterator it = (fDictIt->second).begin(); it != (fDictIt->second).end(); ++it)
@@ -146,9 +150,10 @@ void doroshenko::complement(BST< std::string, BST< long long, std::string > >& t
   std::cin >> newDictName >> firstDictName >> secondDictName;
   BST< std::string, BST< long long, std::string > >::Iterator fDictIt = treeOfDicts.find(firstDictName);
   BST< std::string, BST< long long, std::string > >::Iterator sDictIt = treeOfDicts.find(secondDictName);
+  auto warningInvCom = std::bind(warning, std::placeholders::_1, "<INVALID COMMAND>\n");
   if (fDictIt == treeOfDicts.end() || sDictIt == treeOfDicts.end())
   {
-    std::cout << "<INVALID COMMAND>\n";
+    warningInvCom(std::cout);
     return;
   }
   for (tree::Iterator fIt = (fDictIt->second).begin(); fIt != (fDictIt->second).end(); ++fIt)
@@ -168,6 +173,7 @@ void doroshenko::complement(BST< std::string, BST< long long, std::string > >& t
     treeOfDicts.insert(newDictName, newDataset);
   }
 }
+
 void doroshenko::unify(BST< std::string, BST< long long, std::string > >& treeOfDicts)
 {
   BST< long long, std::string > newDataset;
@@ -178,9 +184,10 @@ void doroshenko::unify(BST< std::string, BST< long long, std::string > >& treeOf
   std::cin >> newDictName >> firstDictName >> secondDictName;
   BST< std::string, BST< long long, std::string > >::Iterator fDictIt = treeOfDicts.find(firstDictName);
   BST< std::string, BST< long long, std::string > >::Iterator sDictIt = treeOfDicts.find(secondDictName);
+  auto warningInvCom = std::bind(warning, std::placeholders::_1, "<INVALID COMMAND>\n");
   if (fDictIt == treeOfDicts.end() || sDictIt == treeOfDicts.end())
   {
-    std::cout << "<INVALID COMMAND>\n";
+    warningInvCom(std::cout);
     return;
   }
   for (tree::Iterator fIt = (fDictIt->second).begin(); fIt != (fDictIt->second).end(); ++fIt)
@@ -206,4 +213,9 @@ void doroshenko::unify(BST< std::string, BST< long long, std::string > >& treeOf
   {
     treeOfDicts.insert(newDictName, newDataset);
   }
+}
+
+void doroshenko::warning(std::ostream& output, const std::string& mes)
+{
+  output << mes;
 }
