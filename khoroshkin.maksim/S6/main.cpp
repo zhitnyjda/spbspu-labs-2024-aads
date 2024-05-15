@@ -10,7 +10,7 @@ int main(int argc, char * argv[])
   using namespace khoroshkin;
   srand(time(0));
 
-  if (argc != 4)
+  if (argc != 4 || std::stoull(argv[3]) < 1)
   {
     std::cerr << "Error: wrong input!\n";
     return 1;
