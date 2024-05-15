@@ -135,11 +135,13 @@ long long ExpressionEvaluator::evaluateExpression(Queue< std::shared_ptr< Expres
       long long left = evaluationStack.top();
       evaluationStack.pop();
 
-      if (op->getOperator() == '+' && (left > (std::numeric_limits< long long >::max() - right)) || (op->getOperator() == '*' && (left > (std::numeric_limits< long long >::max() / right))))
+      if (op->getOperator() == '+' && (left > (std::numeric_limits< long long >::max() - right))
+        || (op->getOperator() == '*' && (left > (std::numeric_limits< long long >::max() / right))))
       {
         throw std::overflow_error("There was an overflow error!");
       }
-      else if (op->getOperator() == '-' && (left < (std::numeric_limits< long long >::min() + right)) || (op->getOperator() == '/' && ((left == std::numeric_limits< long long >::min()) && right == -1)))
+      else if (op->getOperator() == '-' && (left < (std::numeric_limits< long long >::min() + right))
+        || (op->getOperator() == '/' && ((left == std::numeric_limits< long long >::min()) && right == -1)))
       {
         throw std::overflow_error("There was an underflow error!");
       }
