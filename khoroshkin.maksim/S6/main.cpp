@@ -10,7 +10,7 @@ int main(int argc, char * argv[])
   using namespace khoroshkin;
   srand(time(0));
 
-  if (argc != 4 || std::stoull(argv[3]) < 1)
+  if (argc != 4)
   {
     std::cerr << "Error: wrong input!\n";
     return 1;
@@ -18,6 +18,11 @@ int main(int argc, char * argv[])
 
   try
   {
+    if (std::stoull(argv[3]) < 1)
+    {
+      std::cerr << "Error: size must be >0\n";
+      return 1;
+    }
     if (std::string(argv[1]) == "ascending")
     {
       if (std::string(argv[2]) == "ints")
@@ -45,7 +50,7 @@ int main(int argc, char * argv[])
       }
     }
   }
-  catch(const std::exception & e)
+  catch(const std::invalid_argument & e)
   {
     std::cerr << e.what() << '\n';
     return 1;
