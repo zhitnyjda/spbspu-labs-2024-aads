@@ -20,8 +20,8 @@ namespace sobolevsky
 template< typename T >
 sobolevsky::Node< T >::Node(T dataIn, std::string nameIn)
 {
-  name = nameIn;
   data = dataIn;
+  name = nameIn;
   prev = nullptr;
   next = nullptr;
 }
