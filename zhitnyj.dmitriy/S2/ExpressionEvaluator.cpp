@@ -72,8 +72,7 @@ Queue< std::shared_ptr< ExpressionItem > > ExpressionEvaluator::toPostfix(Queue<
       }
       else if (operator_->isRightParenthesis())
       {
-        while (!operatorStack.empty()
-            && !std::dynamic_pointer_cast< Operator >(operatorStack.top())->isLeftParenthesis())
+        while (!operatorStack.empty() && !std::dynamic_pointer_cast< Operator >(operatorStack.top())->isLeftParenthesis())
         {
           postfixQueue.push(operatorStack.top());
           operatorStack.pop();
@@ -84,8 +83,7 @@ Queue< std::shared_ptr< ExpressionItem > > ExpressionEvaluator::toPostfix(Queue<
       {
         while (!operatorStack.empty()
             && std::dynamic_pointer_cast< Operator >(operatorStack.top())->precedence() >= operator_->precedence()
-            &&
-                !std::dynamic_pointer_cast< Operator >(operatorStack.top())->isLeftParenthesis())
+            && !std::dynamic_pointer_cast< Operator >(operatorStack.top())->isLeftParenthesis())
         {
           postfixQueue.push(operatorStack.top());
           operatorStack.pop();
