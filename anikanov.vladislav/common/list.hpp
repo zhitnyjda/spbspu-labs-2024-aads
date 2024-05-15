@@ -529,8 +529,8 @@ void anikanov::List< T >::clear()
 template< typename T >
 void anikanov::List< T >::swap(const List &other) noexcept
 {
-  std::swap(head, other.head);
-  std::swap(tail, other.tail);
+  head = std::move(other.head);
+  tail = std::move(other.tail);
 }
 
 template< typename T >
