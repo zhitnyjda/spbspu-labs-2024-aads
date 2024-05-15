@@ -4,6 +4,7 @@
 #include <iostream>
 #include <deque>
 #include <algorithm>
+#include <iomanip>
 #include <list>
 #include "list.hpp"
 
@@ -17,7 +18,7 @@ namespace khoroshkin
 }
 
 template< typename T >
-std::ostream & khoroshkin::outContainer(std::ostream & out, const T & container)
+std::ostream & khoroshkin::outGothContainer(std::ostream & out, const T & container)
 {
   for (auto it = container.begin(); it != container.end(); it++)
   {
@@ -40,21 +41,21 @@ void khoroshkin::sortDataStructures(std::ostream & stream, size_t size, Compare 
   std::copy(forwardList.begin(), forwardList.end(), std::back_inserter(list));
   std::copy(forwardList.begin(), forwardList.end(), std::back_inserter(deque));
 
-  outContainer(stream, forwardList);
+  outGothContainer(stream, forwardList);
   timSort(forwardList.begin(), forwardList.end(), comp);
-  outContainer(stream, forwardList);
+  outGothContainer(stream, forwardList);
 
   shellSort(list.begin(), list.end(), comp);
-  outContainer(stream, list);
+  outGothContainer(stream, list);
   timSort(list.begin(), list.end(), comp);
-  outContainer(stream, list);
+  outGothContainer(stream, list);
 
   shellSort(deque.begin(), deque.end(), comp);
-  outContainer(stream, deque);
+  outGothContainer(stream, deque);
   timSort(deque.begin(), deque.end(), comp);
-  outContainer(stream, deque);
+  outGothContainer(stream, deque);
   std::sort(deque.begin(), deque.end(), comp);
-  outContainer(stream, deque);
+  outGothContainer(stream, deque);
 }
 
 #endif
