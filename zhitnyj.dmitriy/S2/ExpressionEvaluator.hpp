@@ -2,10 +2,6 @@
 #define EXPRESSION_EVALUATOR_HPP
 
 #include <string>
-#include <cctype>
-#include <cmath>
-#include <stdexcept>
-#include <limits>
 #include "Queue.hpp"
 #include "Stack.hpp"
 #include "ExpressionItem.hpp"
