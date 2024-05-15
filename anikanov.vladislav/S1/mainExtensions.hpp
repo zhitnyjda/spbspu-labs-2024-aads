@@ -2,7 +2,7 @@
 #define MAINEXTENSIONS_HPP
 
 #include <iomanip>
-#include "../common/list.hpp"
+#include <list.hpp>
 
 namespace anikanov {
   using list = List< unsigned long long >;
