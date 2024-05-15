@@ -1,6 +1,7 @@
 #include <limits>
 #include <stdexcept>
 #include <memory>
+#include <cmath>
 #include <string>
 #include <cctype>
 #include "ExpressionEvaluator.hpp"
@@ -136,7 +137,7 @@ long long ExpressionEvaluator::evaluateExpression(Queue< std::shared_ptr< Expres
       evaluationStack.pop();
 
       if ((op->getOperator() == '+' && (left > (std::numeric_limits< long long >::max() - right)))
-        || (op->getOperator() == '*' && (left > (std::numeric_limits< long long >::max() / right))))
+        || (op->getOperator() == '*' && (left > std::abs(std::numeric_limits< long long >::max() / right))))
       {
         throw std::overflow_error("There was an overflow error!");
       }
