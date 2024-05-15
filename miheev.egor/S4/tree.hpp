@@ -56,7 +56,7 @@ namespace miheev
   private:
     Key key_;
     Value value_;
-    std::pair< Key&, Value& > pair_;
+    // std::pair< const Key&, Value& > pair_;
 
     size_t height_;
     bool isEmpty_;
@@ -86,7 +86,7 @@ namespace miheev
     void safeInsert(const Key&, const Value&, Tree* ptr);
     void rawInsert(const Key&, const Value&);
     void rawDelete(const Key&);
-    Tree* rawDeleteSelf();
+    void rawDeleteSelf();
 
     // rotations
     void rotateRR();
@@ -98,9 +98,6 @@ template< typename Key, typename Value, typename Comparator >
 class miheev::Tree< Key, Value, Comparator >::Iterator
 {
 public:
-
-  using kv_pair = std::pair< Key&, Value& >;
-
   Iterator();
   Iterator(Tree*);
   Iterator(const Iterator&) = default;
@@ -112,8 +109,8 @@ public:
   Iterator& operator--();
   Iterator operator--(int);
 
-  kv_pair& operator*() const;
-  kv_pair* operator->() const;
+  Value& operator*() const;
+  Value* operator->() const;
 
   bool operator!=(const Iterator&) const;
   bool operator==(const Iterator&) const;
@@ -229,23 +226,23 @@ typename miheev::Tree< Key, Value, Comparator >::Iterator miheev::Tree< Key, Val
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename miheev::Tree< Key, Value, Comparator >::Iterator::kv_pair& miheev::Tree< Key, Value, Comparator >::Iterator::operator*() const
+Value& miheev::Tree< Key, Value, Comparator >::Iterator::operator*() const
 {
   if (!cur_)
   {
     throw std::out_of_range("dereferencing end ptr");
   }
-  return cur_->pair_;
+  return cur_->value_;
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename miheev::Tree< Key, Value, Comparator >::Iterator::kv_pair* miheev::Tree< Key, Value, Comparator >::Iterator::operator->() const
+Value* miheev::Tree< Key, Value, Comparator >::Iterator::operator->() const
 {
   if (!cur_)
   {
     throw std::out_of_range("dereferencing end ptr");
   }
-  return std::addressof(cur_->pair_);
+  return std::addressof(cur_->value_);
 }
 
 template< typename Key, typename Value, typename Comparator >
@@ -265,8 +262,6 @@ class miheev::Tree< Key, Value, Comparator >::ConstIterator
 {
 public:
 
-  using kv_pair = std::pair< Key&, Value& >;
-
   ConstIterator();
   ConstIterator(Iterator);
   ConstIterator(const ConstIterator&) = default;
@@ -278,8 +273,8 @@ public:
   ConstIterator& operator--();
   ConstIterator operator--(int);
 
-  const kv_pair& operator*() const;
-  const kv_pair* operator->() const;
+  const Value& operator*() const;
+  const Value* operator->() const;
 
   bool operator!=(const ConstIterator&) const;
   bool operator==(const ConstIterator&) const;
@@ -330,6 +325,18 @@ bool miheev::Tree< Key, Value, Comparator >::ConstIterator::operator!=(const Con
 }
 
 template< typename Key, typename Value, typename Comparator >
+const Value& miheev::Tree< Key, Value, Comparator >::ConstIterator::operator*() const
+{
+  return *iter_;
+}
+
+template< typename Key, typename Value, typename Comparator >
+const Value* miheev::Tree< Key, Value, Comparator >::ConstIterator::operator->() const
+{
+  return std::addressof(*iter_);
+}
+
+template< typename Key, typename Value, typename Comparator >
 miheev::Tree< Key, Value, Comparator >::~Tree()
 {
   clear();
@@ -339,7 +346,7 @@ template< typename Key, typename Value, typename Comparator >
 miheev::Tree< Key, Value, Comparator>::Tree():
   key_(Key()),
   value_(Value()),
-  pair_(key_, value_),
+  // pair_(key_, value_),
   height_(0),
   isEmpty_(true),
   left_(nullptr),
@@ -351,7 +358,7 @@ template< typename Key, typename Value, typename Comparator >
 miheev::Tree< Key, Value, Comparator>::Tree(const Key& key, const Value& value):
   key_(key),
   value_(value),
-  pair_(key_, value_),
+  // pair_(key_, value_),
   height_(1),
   isEmpty_(false),
   left_(nullptr),
@@ -363,7 +370,7 @@ template< typename Key, typename Value, typename Comparator >
 miheev::Tree< Key, Value, Comparator>::Tree(const miheev::Tree< Key, Value, Comparator >& rhs):
   key_(rhs.key_),
   value_(rhs.value_),
-  pair_(key_, value_),
+  // pair_(key_, value_),
   height_(rhs.height_),
   isEmpty_(rhs.isEmpty_),
   left_(nullptr),
@@ -388,10 +395,10 @@ miheev::Tree< Key, Value, Comparator >& miheev::Tree< Key, Value, Comparator>::o
   clear();
   key_ = rhs.key_;
   value_ = rhs.value_;
-  pair_.first = key_;
-  pair_.second = value_;
   height_ = rhs.height_;
   isEmpty_ = rhs.isEmpty_;
+  // pair_.first = key_;
+  // pair_.second = value_;
   if (rhs.left_)
   {
     left_ = new Tree(*rhs.left_);
@@ -513,7 +520,10 @@ void miheev::Tree< Key, Value, Comparator>::rawInsert(const Key& key, const Valu
   Comparator comparator;
   if (isEmpty_)
   {
-    *this = Tree(key, value);
+    Tree temp(key, value);
+    *this = temp;
+    temp.key_ = '9';
+    std::cout << "DEBUG: here comes the past\n";
     return;
   }
   if(comparator(key, key_))
@@ -621,13 +631,12 @@ void miheev::Tree< Key, Value, Comparator>::rawDelete(const Key& key)
 }
 
 template< typename Key, typename Value, typename Comparator >
-miheev::Tree< Key, Value, Comparator >* miheev::Tree< Key, Value, Comparator>::rawDeleteSelf()
+void miheev::Tree< Key, Value, Comparator>::rawDeleteSelf()
 {
   // о да, минимум 10 тестов на покрытие этого кода)
   if (!left_ && !right_)
   {
     clear();
-    return nullptr;
   }
   else if (!left_ && right_)
   {
@@ -647,7 +656,6 @@ miheev::Tree< Key, Value, Comparator >* miheev::Tree< Key, Value, Comparator>::r
     value_ = temp.value_;
   }
   updateParrentsLocally();
-  return this;
 }
 
 // rebalancings
