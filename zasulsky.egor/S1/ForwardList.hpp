@@ -112,6 +112,8 @@ namespace zasulsky
 
     iter insert_after(constIter it, T  data)
     {
+      constIter res;
+      checkFakeNode(it);
       checkIt(it);
       iter noConstIt(it);
       auto temp = noConstIt.current_->next;
@@ -241,6 +243,16 @@ namespace zasulsky
       if (it.current_ == nullptr)
       {
         throw std::runtime_error("iterator is empty");
+      }
+    }
+    
+    void checkFakeNode(constIter & it)
+    {
+      if (fakeNode_ == nullptr)
+      {
+        fakeNode_ = new detail::Node<T>;
+        constIter iter(fakeNode_);
+        it = iter;
       }
     }
   };
