@@ -37,6 +37,8 @@ namespace miheev
     void insert(const Key&, const Value&);
     void insert(const std::pair< Key, Value >& pair);
     void erase(const Key&);
+    void erase(Iterator);
+    void erase(ConstIterator);
     void clear();
     void swap(Tree&);
 
@@ -74,6 +76,8 @@ namespace miheev
     const Tree* getMaxNode() const;
     Tree* getMinNode();
     const Tree* getMinNode() const;
+    Tree* getRoot();
+    const Tree* getRoot() const;
 
     void safeInsert(const Key&, const Value&, Tree* ptr);
     void rawInsert(const Key&, const Value&);
@@ -114,6 +118,7 @@ private:
   Tree* max_;
 
   Iterator(Tree* cur, Tree* max);
+  void erase();
 
   bool weAreOnRight();
 };
@@ -257,6 +262,15 @@ bool miheev::Tree< Key, Value, Comparator >::Iterator::operator!=(const Iterator
 }
 
 template< typename Key, typename Value, typename Comparator >
+void miheev::Tree< Key, Value, Comparator >::Iterator::erase()
+{
+  Tree* top = cur_->getRoot();
+  cur_->rawDeleteSelf();
+  top->rebalanceSelf();
+  max_ = top->getMaxNode();
+}
+
+template< typename Key, typename Value, typename Comparator >
 class miheev::Tree< Key, Value, Comparator >::ConstIterator
 {
 public:
@@ -280,6 +294,7 @@ public:
 
 private:
   Iterator iter_;
+  void erase();
 };
 
 template< typename Key, typename Value, typename Comparator >
@@ -337,6 +352,12 @@ const typename miheev::Tree< Key, Value, Comparator >::kv_pair* miheev::Tree< Ke
 }
 
 template< typename Key, typename Value, typename Comparator >
+void miheev::Tree< Key, Value, Comparator >::ConstIterator::erase()
+{
+  iter_->erase();
+}
+
+template< typename Key, typename Value, typename Comparator >
 miheev::Tree< Key, Value, Comparator >::~Tree()
 {
   clear();
@@ -360,9 +381,7 @@ miheev::Tree< Key, Value, Comparator>::Tree(const Key& key, const Value& value):
   left_(nullptr),
   right_(nullptr),
   parrent_(nullptr)
-{
-
-}
+{}
 
 template< typename Key, typename Value, typename Comparator >
 miheev::Tree< Key, Value, Comparator>::Tree(const miheev::Tree< Key, Value, Comparator >& rhs):
@@ -583,6 +602,28 @@ miheev::Tree< Key, Value, Comparator >* miheev::Tree< Key, Value, Comparator>::g
 }
 
 template< typename Key, typename Value, typename Comparator >
+miheev::Tree< Key, Value, Comparator >* miheev::Tree< Key, Value, Comparator>::getRoot()
+{
+  Tree* temp = this;
+  while (temp->parrent_)
+  {
+    temp = temp->parrent_;
+  }
+  return temp;
+}
+
+template< typename Key, typename Value, typename Comparator >
+const miheev::Tree< Key, Value, Comparator >* miheev::Tree< Key, Value, Comparator>::getRoot() const
+{
+  Tree* temp = this;
+  while (temp->parrent_)
+  {
+    temp = temp->parrent_;
+  }
+  return temp;
+}
+
+template< typename Key, typename Value, typename Comparator >
 const miheev::Tree< Key, Value, Comparator >* miheev::Tree< Key, Value, Comparator>::getMinNode() const
 {
   return left_ ? left_->getMinNode() : this;
@@ -607,6 +648,18 @@ void miheev::Tree< Key, Value, Comparator>::erase(const Key& key)
 {
   rawDelete(key);
   updateHeight();
+}
+
+template< typename Key, typename Value, typename Comparator >
+void miheev::Tree< Key, Value, Comparator >::erase(Iterator iter)
+{
+  iter->erase();
+}
+
+template< typename Key, typename Value, typename Comparator >
+void miheev::Tree< Key, Value, Comparator >::erase(ConstIterator citer)
+{
+  citer->erase();
 }
 
 template< typename Key, typename Value, typename Comparator >
@@ -907,6 +960,7 @@ typename miheev::Tree< Key, Value, Comparator >::ConstIterator miheev::Tree< Key
 {
   return isEmpty_ ? Iterator (nullptr) : Iterator(const_cast< Tree* >(getMinNode()));
 }
+
 template< typename Key, typename Value, typename Comparator >
 typename miheev::Tree< Key, Value, Comparator >::ConstIterator miheev::Tree< Key, Value, Comparator >::cend() const
 {
