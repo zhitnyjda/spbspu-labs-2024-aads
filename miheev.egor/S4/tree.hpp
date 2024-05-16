@@ -139,10 +139,15 @@ miheev::Tree< Key, Value, Comparator >::Iterator::Iterator():
 
 template< typename Key, typename Value, typename Comparator >
 miheev::Tree< Key, Value, Comparator >::Iterator::Iterator(Tree* init):
-  cur_(init)
+  cur_(init),
+  max_(nullptr)
 {
+  if (!init)
+  {
+    return;
+  }
   Tree* top = init;
-  if (top && !weAreOnRight())
+  if (!weAreOnRight())
   {
     while (top->parrent_)
     {
@@ -938,7 +943,7 @@ void miheev::Tree< Key, Value, Comparator >::replacePair(const kv_pair& substitu
 template< typename Key, typename Value, typename Comparator >
 typename miheev::Tree< Key, Value, Comparator >::ConstIterator miheev::Tree< Key, Value, Comparator >::cbegin() const
 {
-  return Iterator(const_cast< Tree* >(getMinNode()));
+  return isEmpty_ ? Iterator (nullptr): Iterator(const_cast< Tree* >(getMinNode()));
 }
 template< typename Key, typename Value, typename Comparator >
 typename miheev::Tree< Key, Value, Comparator >::ConstIterator miheev::Tree< Key, Value, Comparator >::cend() const

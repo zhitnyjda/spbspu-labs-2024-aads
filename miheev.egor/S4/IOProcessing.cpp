@@ -14,10 +14,10 @@ std::string miheev::getWord(std::string& s)
   return symbol;
 }
 
-void miheev::inputData(std::istream& in, miheev::Data& container)
+void miheev::inputData(std::string& line, miheev::Data& container)
 {
-  std::string line = "";
-  std::getline(in, line);
+  // std::string line = "";
+  // std::getline(in >> std::ws, line);
   int key = 0;
   std::string value = "";
   while (line != "")
@@ -30,13 +30,15 @@ void miheev::inputData(std::istream& in, miheev::Data& container)
 
 void miheev::inputDatasets(std::istream& in, miheev::Tree< std::string, miheev::Data >& container)
 {
-  std::string datasetName = "";
-  in >> datasetName >> std::ws;
+  std::string line = "";
+  getline(in, line);
+  std::string datasetName = getWord(line);
+  // in >> datasetName >> std::ws;
   if (datasetName == "")
   {
     return;
   }
   miheev::Data datasetData;
-  inputData(in, datasetData);
+  inputData(line, datasetData);
   container.insert(datasetName, datasetData);
 }

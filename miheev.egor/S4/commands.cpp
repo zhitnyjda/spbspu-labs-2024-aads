@@ -8,6 +8,7 @@ void miheev::commands::print(std::istream& in, std::ostream& out, const miheev::
 
   if (data.empty())
   {
+    out << "<EMPTY>\n";
     return;
   }
 
