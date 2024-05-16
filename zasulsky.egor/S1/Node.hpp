@@ -3,25 +3,27 @@
 #include <utility>
 #include <stdexcept>
 
-namespace detail
+namespace zasulsky
 {
-  template < class T >
-  struct Node
+  namespace detail
   {
-    Node()
+    template < class T >
+    struct Node
     {
-      next = nullptr;
-    }
+      Node()
+      {
+        next = nullptr;
+      }
 
-    Node(T data, Node< T >* next = nullptr)
-    {
-      this->data = data;
-      this->next = next;
-    }
+      Node(T data, Node< T >* next = nullptr)
+      {
+        this->data = data;
+        this->next = next;
+      }
 
-    T data;
-    Node< T >* next;
-  };
+      T data;
+      Node< T >* next;
+    };
+  }
 }
-
 #endif
