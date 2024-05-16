@@ -20,22 +20,10 @@ int main(int argc, char* argv[])
     return 2;
   }
 
-  using namespace psarev;
-  avlTree< std::string, avlTree< int, std::string > > dataSets;
-  avlTree< std::string, std::function< void(avlTree< std::string, avlTree< int, std::string > >&, std::string&) > > taskCmds;
+  using base_t = psarev::avlTree< int, std::string >;
+  avlTree< std::string, base_t > dataSets;
+  
+  psarev::fillTree(input, dataSets);
 
-  std::string cmd;
-  while (!std::cin.eof())
-  {
-    try
-    {
-      taskCmds[command](dataSets);
-    }
-    catch (const std::logic_error&)
-    {
-      psarev::outError(std::cout, "<INVALID COMMAND>");
-      std::cin.clear();
-      std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
-    }
-  }
+  psarev::avlTree< std::string, std::function< void(psarev::avlTree< std::string, base_t >&, std::string&) > > taskCmds;
 }
