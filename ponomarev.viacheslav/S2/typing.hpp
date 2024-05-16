@@ -10,39 +10,48 @@ namespace ponomarev
   {
     explicit Bracket(char symbol);
 
-    bool isBracket(char symbol);
     bool isOpenBracket(char symbol);
 
-    char bracket;
-  }
+    char bracket_;
+  };
 
   struct Operation
   {
     explicit Operation(char elem);
 
+    void putOperation(char symbol);
+
     char operation_;
-  }
+  };
 
   struct Operand
   {
     Operand();
     explicit Operand(int num);
 
-    int num;
-  }
+    void putValue(int value);
+
+    int num_;
+  };
 
   struct ExpressionElement
   {
-    Bracket bracket_;
-    Operand operand_;
-    Operation operation_;
-    std::string type_;
+    ExpressionElement();
+
+    void putOperand(int value);
+    void putOperation(char symbol);
+    void putBracket(char symbol);
+
+    std::string type;
+    Bracket bracket;
+    Operation operation;
+    Operand operand;
   };
 
   struct Postfix
   {
     Queue< ExpressionElement > postfix;
-  }
+  };
 }
 
 #endif
