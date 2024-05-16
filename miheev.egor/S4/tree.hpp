@@ -373,19 +373,22 @@ miheev::Tree< Key, Value, Comparator>::Tree(const Key& key, const Value& value):
   left_(nullptr),
   right_(nullptr),
   parrent_(nullptr)
-{}
+{
+
+}
 
 template< typename Key, typename Value, typename Comparator >
 miheev::Tree< Key, Value, Comparator>::Tree(const miheev::Tree< Key, Value, Comparator >& rhs):
   // key_(rhs.key_),
   // value_(rhs.value_),
-  pair_(new kv_pair(*rhs.pair_)),
+  pair_(nullptr),
   height_(rhs.height_),
   isEmpty_(rhs.isEmpty_),
   left_(nullptr),
   right_(nullptr),
   parrent_(nullptr)
 {
+  pair_ = rhs.pair_ ? new kv_pair(*rhs.pair_) : nullptr;
   if (rhs.left_)
   {
     left_ = new Tree(*rhs.left_);
@@ -404,7 +407,7 @@ miheev::Tree< Key, Value, Comparator >& miheev::Tree< Key, Value, Comparator>::o
   clear();
   // key_ = rhs.key_;
   // value_ = rhs.value_;
-  pair_ = new kv_pair(*rhs.pair_);
+  pair_ = rhs.pair_ ? new kv_pair(*rhs.pair_) : nullptr;
   height_ = rhs.height_;
   isEmpty_ = rhs.isEmpty_;
   // pair_.first = key_;
