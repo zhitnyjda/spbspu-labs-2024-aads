@@ -10,7 +10,7 @@ namespace ponomarev
   {
     explicit Bracket(char symbol);
 
-    bool isOpenBracket(char symbol);
+    bool isOpenBracket();
 
     char bracket_;
   };
@@ -22,6 +22,7 @@ namespace ponomarev
     void putOperation(char symbol);
 
     char operation_;
+    int priority_;
   };
 
   struct Operand
@@ -41,6 +42,10 @@ namespace ponomarev
     void putOperand(int value);
     void putOperation(char symbol);
     void putBracket(char symbol);
+    const std::string getType() const;
+    const Operand & getOperand() const;
+    const Operation & getOperation() const;
+    const Bracket & getBracket() const;
 
     std::string type;
     Bracket bracket;

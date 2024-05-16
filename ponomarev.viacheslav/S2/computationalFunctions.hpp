@@ -7,9 +7,11 @@
 
 namespace ponomarev
 {
-  void getPostfix(std::string expression, Queue< std::string > & postfix);
+  void getPostfix(std::string expression, Postfix & postfix);
   bool isNum(const std::string & str);
   ExpressionElement getElem(std::string & expression);
+  bool isOpenBracketUp(const Stack< ExpressionElement > & stack);
+  bool shouldPushOpToStack(const Stack< ExpressionElement > & stack, const ExpressionElement & elem);
 }
 
 #endif

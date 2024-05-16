@@ -1,5 +1,6 @@
 #include "inputFunctions.hpp"
 #include <istream>
+#include "typing.hpp"
 
 void ponomarev::inputExpressions(std::istream & input, Queue< std::string > & expressions)
 {
@@ -18,7 +19,7 @@ void ponomarev::getResults(Queue< std::string > & expressions, Stack< int > & re
 {
   std::string expression;
   int resOfExpression = 0;
-  Queue< std::string > postfix;
+  Postfix postfix;
 
   while (!expressions.empty())
   {

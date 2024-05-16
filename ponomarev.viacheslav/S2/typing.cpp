@@ -2,11 +2,25 @@
 
 ponomarev::Bracket::Bracket(char symbol):
   bracket(symbol)
-{}
+{
+  if (symbol == '+' || symbol == '-')
+  {
+    priority_ = 1;
+  }
+  else if (symbol == '*' || symbol == '/')
+  {
+    priority_ = 2;
+  }
+  else
+  {
+    priority_ = 0;
+  }
+}
+}
 
 bool ponomarev::isOpenBracket(char symbol)
 {
-  return (symbol == "(");
+  return (bracket_ == "(");
 }
 
 ponomarev::Operation::Operation(char elem):
@@ -54,4 +68,22 @@ void ponomarev::ExpressionElement::putBracket(char symbol)
 {
   bracket.bracket = symbol;
   type = "Bracket";
+}
+
+const std::string ponomarev::ExpressionElement::getType() const
+{
+  return type;
+}
+
+const ponomarev::Operand & ponomarev::ExpressionElement::getOperand() const
+{
+  return operand;
+}
+const ponomarev::Operation & ponomarev::ExpressionElement::getOperation() const
+{
+  return operation;
+}
+const ponomarev::Bracket & ponomarev::ExpressionElement::getBracket() const
+{
+  return bracket;
 }
