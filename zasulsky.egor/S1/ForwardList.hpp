@@ -82,7 +82,11 @@ namespace zasulsky
 
     iter begin()
     {
-      return iter(fakeNode_->next);
+      if (fakeNode_ != nullptr)
+      {
+        return iter(fakeNode_->next);
+      }
+      return iter(nullptr);
     }
 
     iter beforeBegin()
@@ -97,7 +101,11 @@ namespace zasulsky
 
     constIter cbegin() const
     {
-      return constIter(fakeNode_->next);
+      if (fakeNode_ != nullptr)
+      {
+        return constIter(fakeNode_->next);
+      }
+      return constIter(nullptr);
     }
 
     constIter cbeforeBegin() const
