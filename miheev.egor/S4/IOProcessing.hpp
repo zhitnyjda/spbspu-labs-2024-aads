@@ -12,6 +12,8 @@ namespace miheev
   std::string getWord(std::string&);
   void inputData(std::string&, Data&);
   void inputDatasets(std::istream&, Datasets&);
+  void sendInvalidCommand(std::ostream&);
+  void sendEmpty(std::ostream&);
 }
 
 #endif

@@ -5,7 +5,6 @@
 #include "IOProcessing.hpp"
 #include "commands.hpp"
 
-// int main()
 int main(int argc, char* argv[])
 {
   using namespace miheev;
@@ -41,7 +40,6 @@ int main(int argc, char* argv[])
   commands["union"] = commands::unite;
 
   std::string command = "";
-  // std::cout << "-> ";
   while(std::cin >> command)
   {
     try
@@ -50,11 +48,10 @@ int main(int argc, char* argv[])
     }
     catch (const std::out_of_range& e)
     {
-      std::cout << "<INVALID COMMAND>" << '\n';
+      sendInvalidCommand(std::cout);
       std::cin.clear();
       std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
     }
-    // std::cout << "-> ";
   }
 
   return 0;

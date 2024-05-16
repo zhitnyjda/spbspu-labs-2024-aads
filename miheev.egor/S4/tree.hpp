@@ -23,28 +23,23 @@ namespace miheev
 
     Tree& operator=(const Tree&);
 
-    // lookup
     void printKeys(std::ostream& = std::cout) const;
     void printValues(std::ostream& = std::cout) const;
 
-    // element access
     Value& operator[](const Key&);
     const Value& operator[](const Key&) const;
     Value& at(const Key&);
     const Value& at (const Key&) const;
 
-    // capacity
     size_t size() const;
     bool empty() const noexcept;
 
-    //modifiers
     void insert(const Key&, const Value&);
     void insert(const std::pair< Key, Value >& pair);
     void erase(const Key&);
     void clear();
     void swap(Tree&);
 
-    //operations
     Iterator find(const Key&);
     ConstIterator find(const Key&) const;
     bool contains(const Key&) const;
@@ -55,8 +50,6 @@ namespace miheev
     ConstIterator cend() const;
 
   private:
-    // Key key_;
-    // Value value_;
     kv_pair* pair_;
 
     size_t height_;
@@ -397,13 +390,12 @@ miheev::Tree< Key, Value, Comparator>::Tree(const miheev::Tree< Key, Value, Comp
   if (rhs.left_)
   {
     left_ = new Tree(*rhs.left_);
-    left_->parrent_ = this;
   }
   if (rhs.right_)
   {
     right_ = new Tree(*rhs.right_);
-    right_->parrent_ = this;
   }
+  updateParrentsLocally();
 }
 
 template< typename Key, typename Value, typename Comparator >
@@ -425,6 +417,7 @@ miheev::Tree< Key, Value, Comparator >& miheev::Tree< Key, Value, Comparator>::o
   {
     right_ = new Tree(*rhs.right_);
   }
+  updateParrentsLocally();
   return *this;
 }
 
@@ -890,6 +883,10 @@ typename miheev::Tree< Key, Value, Comparator >::ConstIterator miheev::Tree< Key
 template< typename Key, typename Value, typename Comparator >
 bool miheev::Tree< Key, Value, Comparator >::contains(const Key& key) const
 {
+  if (isEmpty_)
+  {
+    return false;
+  }
   if (key == pair_->first)
   {
     return true;
@@ -943,7 +940,7 @@ void miheev::Tree< Key, Value, Comparator >::replacePair(const kv_pair& substitu
 template< typename Key, typename Value, typename Comparator >
 typename miheev::Tree< Key, Value, Comparator >::ConstIterator miheev::Tree< Key, Value, Comparator >::cbegin() const
 {
-  return isEmpty_ ? Iterator (nullptr): Iterator(const_cast< Tree* >(getMinNode()));
+  return isEmpty_ ? Iterator (nullptr) : Iterator(const_cast< Tree* >(getMinNode()));
 }
 template< typename Key, typename Value, typename Comparator >
 typename miheev::Tree< Key, Value, Comparator >::ConstIterator miheev::Tree< Key, Value, Comparator >::cend() const

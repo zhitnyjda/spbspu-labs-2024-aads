@@ -16,8 +16,6 @@ std::string miheev::getWord(std::string& s)
 
 void miheev::inputData(std::string& line, miheev::Data& container)
 {
-  // std::string line = "";
-  // std::getline(in >> std::ws, line);
   int key = 0;
   std::string value = "";
   while (line != "")
@@ -33,7 +31,6 @@ void miheev::inputDatasets(std::istream& in, miheev::Tree< std::string, miheev::
   std::string line = "";
   getline(in, line);
   std::string datasetName = getWord(line);
-  // in >> datasetName >> std::ws;
   if (datasetName == "")
   {
     return;
@@ -41,4 +38,14 @@ void miheev::inputDatasets(std::istream& in, miheev::Tree< std::string, miheev::
   miheev::Data datasetData;
   inputData(line, datasetData);
   container.insert(datasetName, datasetData);
+}
+
+void miheev::sendInvalidCommand(std::ostream& out)
+{
+  out << "<INVALID COMMAND>\n";
+}
+
+void miheev::sendEmpty(std::ostream& out)
+{
+  out << "<EMPTY>\n";
 }

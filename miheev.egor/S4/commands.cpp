@@ -8,7 +8,7 @@ void miheev::commands::print(std::istream& in, std::ostream& out, const miheev::
 
   if (data.empty())
   {
-    out << "<EMPTY>\n";
+    sendEmpty(out);
     return;
   }
 
@@ -43,7 +43,7 @@ void miheev::commands::complement(std::istream& in, std::ostream&, miheev::Datas
   in >> newName >> dataset1 >> dataset2;
   Data container;
   generateComplement(datasets.at(dataset1), datasets.at(dataset2), container);
-  datasets.insert(newName, container);
+  datasets[newName] = container;
 }
 
 void generateIntersection(const miheev::Data& lhs, const miheev::Data& rhs, miheev::Data& container)
@@ -64,7 +64,7 @@ void miheev::commands::intersect(std::istream& in, std::ostream&, miheev::Datase
   in >> newName >> dataset1 >> dataset2;
   Data container;
   generateIntersection(datasets.at(dataset1), datasets.at(dataset2), container);
-  datasets.insert(newName, container);
+  datasets[newName] = container;
 }
 
 void generateUnion(const miheev::Data& lhs, const miheev::Data& rhs, miheev::Data& container)
@@ -86,5 +86,5 @@ void miheev::commands::unite(std::istream& in, std::ostream&, miheev::Datasets& 
   in >> newName >> dataset1 >> dataset2;
   Data container;
   generateUnion(datasets.at(dataset1), datasets.at(dataset2), container);
-  datasets.insert(newName, container);
+  datasets[newName] = container;
 }
