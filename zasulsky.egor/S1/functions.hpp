@@ -141,6 +141,7 @@ namespace zasulsky
     size_t max = getMaxSize(list);
     ForwardList<int> res;
     ForwardList<int> sumsa;
+
     ForwardList<int> sums;
     size_t num = 0;
     for (size_t i = 0; i <= max; i++)

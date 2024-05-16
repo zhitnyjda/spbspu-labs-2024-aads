@@ -171,9 +171,12 @@ namespace zasulsky
 
     void clear()
     {
-      while (!empty())
+      if (fakeNode_ != nullptr)
       {
-        popFront();
+        while (!empty())
+        {
+          popFront();
+        }
       }
     }
 
