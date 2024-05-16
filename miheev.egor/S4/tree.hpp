@@ -60,10 +60,8 @@ namespace miheev
 
     Tree* parrent_;
 
-    // search
     Tree* findNextNode(const Key&) const;
 
-    // balancing
     size_t getHeight() const;
     void rebalanceSelf();
     bool isBalanced() const;
@@ -72,22 +70,18 @@ namespace miheev
     void updateHeight();
     void updateParrentsLocally();
 
-    // lookups and node search
     Tree* getMaxNode();
     const Tree* getMaxNode() const;
     Tree* getMinNode();
     const Tree* getMinNode() const;
 
-    // insertions
     void safeInsert(const Key&, const Value&, Tree* ptr);
     void rawInsert(const Key&, const Value&);
     void rawDelete(const Key&);
     void rawDeleteSelf();
 
-    // replacement
     void replacePair(const kv_pair&);
 
-    // rotations
     void rotateRR();
     void rotateLL();
   };
@@ -350,9 +344,6 @@ miheev::Tree< Key, Value, Comparator >::~Tree()
 
 template< typename Key, typename Value, typename Comparator >
 miheev::Tree< Key, Value, Comparator>::Tree():
-  // key_(Key()),
-  // value_(Value()),
-  // pair_(key_, value_),
   pair_(nullptr),
   height_(0),
   isEmpty_(true),
@@ -363,8 +354,6 @@ miheev::Tree< Key, Value, Comparator>::Tree():
 
 template< typename Key, typename Value, typename Comparator >
 miheev::Tree< Key, Value, Comparator>::Tree(const Key& key, const Value& value):
-  // key_(key),
-  // value_(value),
   pair_(new kv_pair(key, value)),
   height_(1),
   isEmpty_(false),
@@ -377,8 +366,6 @@ miheev::Tree< Key, Value, Comparator>::Tree(const Key& key, const Value& value):
 
 template< typename Key, typename Value, typename Comparator >
 miheev::Tree< Key, Value, Comparator>::Tree(const miheev::Tree< Key, Value, Comparator >& rhs):
-  // key_(rhs.key_),
-  // value_(rhs.value_),
   pair_(nullptr),
   height_(rhs.height_),
   isEmpty_(rhs.isEmpty_),
@@ -402,13 +389,9 @@ template< typename Key, typename Value, typename Comparator >
 miheev::Tree< Key, Value, Comparator >& miheev::Tree< Key, Value, Comparator>::operator=(const miheev::Tree< Key, Value, Comparator >& rhs)
 {
   clear();
-  // key_ = rhs.key_;
-  // value_ = rhs.value_;
   pair_ = rhs.pair_ ? new kv_pair(*rhs.pair_) : nullptr;
   height_ = rhs.height_;
   isEmpty_ = rhs.isEmpty_;
-  // pair_.first = key_;
-  // pair_.second = value_;
   if (rhs.left_)
   {
     left_ = new Tree(*rhs.left_);
@@ -421,7 +404,6 @@ miheev::Tree< Key, Value, Comparator >& miheev::Tree< Key, Value, Comparator>::o
   return *this;
 }
 
-// element access
 template< typename Key, typename Value, typename Comparator >
 Value& miheev::Tree< Key, Value, Comparator>::at(const Key& key)
 {
@@ -474,7 +456,6 @@ const Value& miheev::Tree< Key, Value, Comparator>::at(const Key& key) const
   }
 }
 
-// modifyers
 template< typename Key, typename Value, typename Comparator >
 void miheev::Tree< Key, Value, Comparator>::clear()
 {
@@ -518,7 +499,6 @@ void miheev::Tree< Key, Value, Comparator>::swap(Tree& tree)
   *this = temp;
 }
 
-// printings
 template< typename Key, typename Value, typename Comparator >
 void miheev::Tree< Key, Value, Comparator>::printKeys(std::ostream& out) const
 {
@@ -547,7 +527,6 @@ void miheev::Tree< Key, Value, Comparator>::printValues(std::ostream& out) const
   right_->printValues(out);
 }
 
-// insertions
 template< typename Key, typename Value, typename Comparator >
 void miheev::Tree< Key, Value, Comparator>::rawInsert(const Key& key, const Value& value)
 {
@@ -585,7 +564,6 @@ void miheev::Tree< Key, Value, Comparator>::rawInsert(const Key& key, const Valu
   updateParrentsLocally();
 }
 
-//lookups
 template< typename Key, typename Value, typename Comparator >
 miheev::Tree< Key, Value, Comparator >* miheev::Tree< Key, Value, Comparator>::getMaxNode()
 {
@@ -624,13 +602,11 @@ size_t miheev::Tree< Key, Value, Comparator>::size() const
   return leftSize + rightSize + 1;
 }
 
-//delitions
 template< typename Key, typename Value, typename Comparator >
 void miheev::Tree< Key, Value, Comparator>::erase(const Key& key)
 {
   rawDelete(key);
   updateHeight();
-  // updateParrentsLocally();
 }
 
 template< typename Key, typename Value, typename Comparator >
@@ -676,7 +652,6 @@ void miheev::Tree< Key, Value, Comparator>::rawDelete(const Key& key)
 template< typename Key, typename Value, typename Comparator >
 void miheev::Tree< Key, Value, Comparator>::rawDeleteSelf()
 {
-  // о да, минимум 10 тестов на покрытие этого кода)
   if (!left_ && !right_)
   {
     clear();
@@ -695,14 +670,11 @@ void miheev::Tree< Key, Value, Comparator>::rawDeleteSelf()
   {
     Tree temp = *left_->getMaxNode();
     rawDelete(temp.pair_->first);
-    // key_ = temp.key_;
-    // value_ = temp.value_;
     replacePair(*temp.pair_);
   }
   updateParrentsLocally();
 }
 
-// rebalancings
 template< typename Key, typename Value, typename Comparator >
 void miheev::Tree< Key, Value, Comparator>::rebalanceSelf()
 {
@@ -786,21 +758,14 @@ void miheev::Tree< Key, Value, Comparator>::updateHeight()
 template< typename Key, typename Value, typename Comparator >
 void miheev::Tree< Key, Value, Comparator>::swapNodes(Tree* lhs, Tree* rhs)
 {
-  // Key tempKey = lhs->key_;
-  // lhs->key_ = rhs->key_;
-  // rhs->key_ = tempKey;
-  // Value tempValue = lhs->value_;
-  // lhs->value_ = rhs->value_;
-  // rhs->value_ = tempValue;
   kv_pair temp = kv_pair(*lhs->pair_);
   lhs->replacePair(*rhs->pair_);
   rhs->replacePair(temp);
 }
 
-//rotations
 template< typename Key, typename Value, typename Comparator >
 void miheev::Tree< Key, Value, Comparator>::rotateRR()
-{ // нужен только тогда, когда в левом дереве как минимум 2 элемента слева
+{
   swapNodes(left_, this);
   Tree* buff = right_;
   right_ = left_;
@@ -813,7 +778,7 @@ void miheev::Tree< Key, Value, Comparator>::rotateRR()
 
 template< typename Key, typename Value, typename Comparator >
 void miheev::Tree< Key, Value, Comparator>::rotateLL()
-{ // нужен только тогда, когда в левом дереве как минимум 2 элемента справа
+{
   swapNodes(right_, this);
   Tree* buff = left_;
   left_ = right_;
