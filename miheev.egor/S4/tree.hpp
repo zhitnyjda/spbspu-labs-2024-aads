@@ -16,6 +16,9 @@ namespace miheev
     class Iterator;
     class ConstIterator;
 
+    using iter_pair = std::pair< Iterator, Iterator >;
+    using const_iter_pair = std::pair< ConstIterator, ConstIterator >;
+
     Tree();
     Tree(const Key& key, const Value& value);
     Tree(const Tree&);
@@ -45,6 +48,8 @@ namespace miheev
     Iterator find(const Key&);
     ConstIterator find(const Key&) const;
     bool contains(const Key&) const;
+    std::pair< Iterator, Iterator > equalRange(const Key&);
+    std::pair< ConstIterator, ConstIterator > equalRange(const Key&) const;
 
     Iterator begin();
     Iterator end();
