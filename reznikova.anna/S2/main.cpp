@@ -50,7 +50,7 @@ int main(int argc, char ** argv)
       return 1;
     }
   }
-  catch (std::exception & e)
+  catch (const std::exception & e)
   {
     std::cerr << e.what();
     return 1;

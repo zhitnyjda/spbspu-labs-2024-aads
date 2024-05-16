@@ -9,7 +9,8 @@
 namespace reznikova
 {
   void readLine(std::istream & is, Queue< Element > & infix);
-  bool ifNoLessImportant(Stack< Element > & stack, Element & element);
+  bool ifFirstPriority(Element & element);
+  bool ifPriorityNotHigher(Stack< Element > & stack, Element & element);
   void makePostfix(Queue< Element > & infix, Postfix & postfix);
   long long int calculate(Postfix & postfix);
 }

@@ -53,13 +53,18 @@ void reznikova::readLine(std::istream & is, reznikova::Queue< reznikova::Element
   }
 }
 
-bool reznikova::ifNoLessImportant(reznikova::Stack< reznikova::Element > & stack, reznikova::Element & element)
+bool reznikova::ifFirstPriority(reznikova::Element & element)
+{
+  return (element.elem_.operator_.operator_ == '+' or element.elem_.operator_.operator_ == '-');
+}
+
+bool reznikova::ifPriorityNotHigher(reznikova::Stack< reznikova::Element > & stack, reznikova::Element & element)
 {
   while(!stack.empty())
   {
-    if (element.elem_.operator_.operator_ == '+' or element.elem_.operator_.operator_ == '-')
+    if (ifFirstPriority(element))
     {
-      if (stack.getValue().elem_.operator_.operator_ == '+' or stack.getValue().elem_.operator_.operator_ == '-')
+      if (ifFirstPriority(stack.getValue()))
       {
         return true;
       }
@@ -101,7 +106,7 @@ void reznikova::makePostfix(reznikova::Queue< reznikova::Element > & infix, rezn
     }
     else if (element.types_ == operator_type)
     {
-      while (!stack.empty() and stack.getValue().types_ == operator_type and ifNoLessImportant(stack, element))
+      while (!stack.empty() and stack.getValue().types_ == operator_type and ifPriorityNotHigher(stack, element))
       {
         postfix.postfix_.push(stack.getValue());
         stack.pop();
@@ -124,7 +129,6 @@ void reznikova::makePostfix(reznikova::Queue< reznikova::Element > & infix, rezn
 long long int reznikova::calculate(reznikova::Postfix & postfix)
 {
   const long long int maximum = std::numeric_limits< long long int >::max();
- // const long long int minimum = std::numeric_limits< long long int >::min();
   Stack< Element > stack;
   while(!postfix.postfix_.empty())
   {

@@ -1,6 +1,6 @@
 #ifndef QUEUE_HPP
 #define QUEUE_HPP
-#include "List.hpp"
+#include <List.hpp>
 
 namespace reznikova
 {
@@ -9,9 +9,9 @@ namespace reznikova
   {
   public:
     Queue();
-    ~Queue() = default;
     Queue(const Queue & other);
     Queue(Queue && other);
+    ~Queue() = default;
     void push(const T & value);
     void pop();
     bool empty() noexcept;

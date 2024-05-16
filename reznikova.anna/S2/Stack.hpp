@@ -1,6 +1,6 @@
 #ifndef STACK_HPP
 #define STACK_HPP
-#include "List.hpp"
+#include <List.hpp>
 
 namespace reznikova
 {
@@ -9,9 +9,9 @@ namespace reznikova
   {
   public:
     Stack();
-    ~Stack() = default;
     Stack(const Stack & other);
     Stack(Stack && other);
+    ~Stack() = default;
     void push(const T & value);
     void pop();
     bool empty() noexcept;
