@@ -20,11 +20,9 @@ namespace zasulsky
     using iter = iterator< T >;
     using constIter = constIterator< T >;
 
-    ForwardList() :
-      fakeNode_(new detail::Node < T >)
-    {
-      fakeNode_->next = nullptr;
-    }
+    ForwardList() : 
+      fakeNode_(nullptr) 
+    {}
 
     explicit ForwardList(detail::Node< T >* head) :
       fakeNode_(new detail::Node< T >)
