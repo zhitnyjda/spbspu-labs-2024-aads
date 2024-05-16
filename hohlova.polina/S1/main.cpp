@@ -16,10 +16,10 @@ int main()
     std::string word;
     size_t pos = 0;
     const auto size = line.size();
-    std::vector<unsigned long long> nums;
+    std::vector< unsigned long long > nums;
     while (pos < size)
     {
-      unsigned char symbol = static_cast<unsigned char>(line[pos]);
+      unsigned char symbol = static_cast< unsigned char >(line[pos]);
       if (std::isspace(symbol))
       {
         ++pos;
@@ -106,7 +106,7 @@ int main()
         {
           if (i < (*it).second.size())
           {
-            if (sum > std::numeric_limits<unsigned long long>::max() - (*it).second[i])
+            if (sum > std::numeric_limits< unsigned long long >::max() - (*it).second[i])
             {
               throw std::overflow_error("Overflow");
             }

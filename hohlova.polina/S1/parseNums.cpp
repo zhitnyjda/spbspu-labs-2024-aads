@@ -2,7 +2,7 @@
 
 unsigned long long hohlova::ParseNum(const std::string& str, size_t& pos)
 {
-  auto symbol = static_cast<unsigned char>(str[pos]);
+  auto symbol = static_cast< unsigned char >(str[pos]);
   unsigned long long result = 0;
   while (std::isdigit(symbol))
   {
@@ -12,16 +12,16 @@ unsigned long long hohlova::ParseNum(const std::string& str, size_t& pos)
       ++pos;
       break;
     }
-    symbol = static_cast<unsigned char>(str[++pos]);
+    symbol = static_cast< unsigned char >(str[++pos]);
   }
   return result;
 }
 
 template< typename T >
-std::ostream& hohlova::operator<<(std::ostream& os, const hohlova::List<T>& list)
+std::ostream& hohlova::operator<<(std::ostream& os, const hohlova::List< T >& list)
 {
   std::vector<std::string> names;
-  std::vector<std::vector<unsigned long long>> values;
+  std::vector< std::vector< unsigned long long > > values;
 
   for (auto it = list.begin(); it != list.end(); ++it)
   {
