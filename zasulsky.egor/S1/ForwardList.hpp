@@ -245,7 +245,7 @@ namespace zasulsky
         throw std::runtime_error("iterator is empty");
       }
     }
-    
+
     void checkFakeNode(constIter & it)
     {
       if (fakeNode_ == nullptr)
