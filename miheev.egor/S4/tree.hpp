@@ -113,13 +113,14 @@ public:
   Iterator& operator--();
   Iterator operator--(int);
 
-  Value& operator*() const;
-  Value* operator->() const;
+  kv_pair& operator*() const;
+  kv_pair* operator->() const;
 
   bool operator!=(const Iterator&) const;
   bool operator==(const Iterator&) const;
 
 private:
+  friend class Tree;
   Tree* cur_;
   Tree* max_;
 
@@ -230,23 +231,23 @@ typename miheev::Tree< Key, Value, Comparator >::Iterator miheev::Tree< Key, Val
 }
 
 template< typename Key, typename Value, typename Comparator >
-Value& miheev::Tree< Key, Value, Comparator >::Iterator::operator*() const
+typename miheev::Tree< Key, Value, Comparator >::kv_pair& miheev::Tree< Key, Value, Comparator >::Iterator::operator*() const
 {
   if (!cur_)
   {
     throw std::out_of_range("dereferencing end ptr");
   }
-  return cur_->pair_->second;
+  return *cur_->pair_;
 }
 
 template< typename Key, typename Value, typename Comparator >
-Value* miheev::Tree< Key, Value, Comparator >::Iterator::operator->() const
+typename miheev::Tree< Key, Value, Comparator >::kv_pair* miheev::Tree< Key, Value, Comparator >::Iterator::operator->() const
 {
   if (!cur_)
   {
     throw std::out_of_range("dereferencing end ptr");
   }
-  return std::addressof(cur_->value_);
+  return std::addressof(*cur_->pair_);
 }
 
 template< typename Key, typename Value, typename Comparator >
