@@ -174,8 +174,8 @@ bool hohlova::List< T >::Iterator::operator==(const Iterator& other)
 template< typename T >
 hohlova::List< T >::List()
 {
-  int s = 0;
-  Node< T >* head = nullptr;
+  s = 0;
+  head = nullptr;
 }
 
 template< typename T >
