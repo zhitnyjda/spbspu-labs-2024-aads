@@ -783,7 +783,7 @@ void miheev::Tree< Key, Value, Comparator>::updateHeight()
 }
 
 template< typename Key, typename Value, typename Comparator >
-void miheev::Tree< Key, Value, Comparator>::swapNodes(miheev::Tree< Key, Value, Comparator >* lhs, miheev::Tree< Key, Value, Comparator >* rhs)
+void miheev::Tree< Key, Value, Comparator>::swapNodes(Tree* lhs, Tree* rhs)
 {
   // Key tempKey = lhs->key_;
   // lhs->key_ = rhs->key_;
