@@ -7,7 +7,7 @@
 namespace ponomarev
 {
   void getPostfix(std::string expression, Queue< std::string > & postfix);
-  int calculate(Queue< std::string > & postfix);
+  bool isNum(const std::string & str);
 }
 
 #endif
