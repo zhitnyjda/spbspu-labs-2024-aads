@@ -292,7 +292,6 @@ khoroshkin::List< T > & khoroshkin::List< T >::operator=(const List & obj)
 {
   if (this != &obj)
   {
-    this->size = obj.size;
     clear();
     Node * temp = obj.head;
     while (temp)
@@ -305,10 +304,12 @@ khoroshkin::List< T > & khoroshkin::List< T >::operator=(const List & obj)
 }
 
 template< typename T >
-khoroshkin::List< T >::List(khoroshkin::List< T > && obj) :
-  size(obj.size), head(obj.head)
+khoroshkin::List< T >::List(khoroshkin::List< T > && obj)
 {
-  obj.clear();
+  size = std::move(obj.size);
+  head = std::move(obj.head);
+  obj.head = nullptr;
+  obj.size = 0;
 }
 
 template< typename T >
@@ -317,13 +318,14 @@ khoroshkin::List< T > & khoroshkin::List< T >::operator=(List && obj)
   if (this != &obj)
   {
     clear();
-    this->size = obj.size;
-    while (obj.head)
+    Node * temp = obj.head;
+    while (temp)
     {
       push_back(obj.head->data);
-      obj.head = obj.head->pNext;
+      temp = temp->pNext;
     }
   }
+  this->size = obj.size;
   obj.clear();
   return *this;
 }
