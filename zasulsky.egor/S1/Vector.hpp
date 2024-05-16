@@ -11,17 +11,17 @@ namespace zasulsky
   class Iterator;
 
   template < typename T >
-  class Vector
+  class VectorReplica
   {
     using Iter = Iterator <T>;
   public:
-    Vector() :
+    VectorReplica() :
       data(nullptr),
       capacity(0),
       size(0)
     {}
 
-    Vector(const Vector& other)
+    VectorReplica(const VectorReplica& other)
     {
       data = new T[other.capacity];
       capacity = other.capacity;
@@ -32,12 +32,12 @@ namespace zasulsky
       }
     }
 
-    ~Vector()
+    ~VectorReplica()
     {
       delete[] data;
     }
 
-    Vector& operator=(const Vector& other)
+    VectorReplica& operator=(const VectorReplica& other)
     {
       if (this != &other)
       {
@@ -53,7 +53,7 @@ namespace zasulsky
       return *this;
     }
 
-    bool operator==(const Vector& other) const
+    bool operator==(const VectorReplica& other) const
     {
       if (size != other.size)
       {
@@ -213,7 +213,7 @@ namespace zasulsky
     {
       if (size == 0)
       {
-        throw std::out_of_range("Vector is empty");
+        throw std::out_of_range("VectorReplica is empty");
       }
       return data[size - 1];
     }
@@ -222,7 +222,7 @@ namespace zasulsky
     {
       if (size == 0)
       {
-        throw std::out_of_range("Vector is empty");
+        throw std::out_of_range("VectorReplica is empty");
       }
       return data[0];
     }
@@ -251,7 +251,7 @@ namespace zasulsky
   class Iterator : public std::iterator < std::bidirectional_iterator_tag, T >
   {
   public:
-    friend class Vector< T >;
+    friend class VectorReplica< T >;
 
     T* ptr;
 

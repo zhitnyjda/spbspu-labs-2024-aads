@@ -9,7 +9,7 @@
 
 namespace zasulsky
 {
-  using fList = ForwardList < std::pair < std::string, Vector < std::string > > >;
+  using fList = ForwardList < std::pair < std::string, VectorReplica < std::string > > >;
 
   void getSequence(fList& list, std::string str)
   {
@@ -18,7 +18,7 @@ namespace zasulsky
       return;
     }
 
-    Vector< std::string > vec;
+    VectorReplica< std::string > vec;
     std::string name;
     std::string numbers;
     if (std::string::npos != str.find_first_of(' '))
@@ -86,9 +86,9 @@ namespace zasulsky
     }
     return max;
   }
-  Vector < size_t > getSizes(fList list)
+  VectorReplica < size_t > getSizes(fList list)
   {
-    Vector<size_t> res;
+    VectorReplica<size_t> res;
     for (auto el : list)
     {
       res.push_back(el.second.getSize());
@@ -132,7 +132,7 @@ namespace zasulsky
   }
   void outputSequence(fList& listo, std::ostream& out, bool isOver)
   {
-    Vector < size_t > sizes = getSizes(listo);
+    VectorReplica < size_t > sizes = getSizes(listo);
     fList list;
     for (auto el : listo)
     {
@@ -156,7 +156,7 @@ namespace zasulsky
       }
       int ind = 0;
       int sum = 0;
-      for (iterator < std::pair< std::string, Vector< std::string > > > it = list.begin(); it != list.end(); it++)
+      for (iterator < std::pair< std::string, VectorReplica< std::string > > > it = list.begin(); it != list.end(); it++)
       {
         if (num < it->second.getSize())
         {

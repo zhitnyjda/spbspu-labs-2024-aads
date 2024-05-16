@@ -11,7 +11,7 @@ int main()
   {
     std::string str;
     bool isOver = false;
-    zasulsky::ForwardList < std::pair< std::string, zasulsky::Vector< std::string > > > list;
+    zasulsky::ForwardList < std::pair< std::string, zasulsky::VectorReplica< std::string > > > list;
     while (!std::cin.eof())
     {
       std::getline(std::cin, str);
