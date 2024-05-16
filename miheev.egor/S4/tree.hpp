@@ -51,8 +51,8 @@ namespace miheev
 
     Iterator begin();
     Iterator end();
-    ConstIterator cbegin();
-    ConstIterator cend();
+    ConstIterator cbegin() const;
+    ConstIterator cend() const;
 
   private:
     // Key key_;
@@ -81,7 +81,9 @@ namespace miheev
 
     // lookups and node search
     Tree* getMaxNode();
+    const Tree* getMaxNode() const;
     Tree* getMinNode();
+    const Tree* getMinNode() const;
 
     // insertions
     void safeInsert(const Key&, const Value&, Tree* ptr);
@@ -278,8 +280,8 @@ public:
   ConstIterator& operator--();
   ConstIterator operator--(int);
 
-  const Value& operator*() const;
-  const Value* operator->() const;
+  const kv_pair& operator*() const;
+  const kv_pair* operator->() const;
 
   bool operator!=(const ConstIterator&) const;
   bool operator==(const ConstIterator&) const;
@@ -296,7 +298,8 @@ miheev::Tree< Key, Value, Comparator >::ConstIterator::ConstIterator(Iterator it
 template< typename Key, typename Value, typename Comparator >
 typename miheev::Tree< Key, Value, Comparator >::ConstIterator& miheev::Tree< Key, Value, Comparator >::ConstIterator::operator++()
 {
-  return ++iter_;
+  ++iter_;
+  return *this;
 }
 
 template< typename Key, typename Value, typename Comparator >
@@ -320,23 +323,23 @@ typename miheev::Tree< Key, Value, Comparator >::ConstIterator miheev::Tree< Key
 template< typename Key, typename Value, typename Comparator >
 bool miheev::Tree< Key, Value, Comparator >::ConstIterator::operator==(const ConstIterator& rhs) const
 {
-  return *this == rhs.iter_;
+  return this->iter_ == rhs.iter_;
 }
 
 template< typename Key, typename Value, typename Comparator >
 bool miheev::Tree< Key, Value, Comparator >::ConstIterator::operator!=(const ConstIterator& rhs) const
 {
-  return *this != rhs.iter_;
+  return this->iter_ != rhs.iter_;
 }
 
 template< typename Key, typename Value, typename Comparator >
-const Value& miheev::Tree< Key, Value, Comparator >::ConstIterator::operator*() const
+const typename miheev::Tree< Key, Value, Comparator >::kv_pair& miheev::Tree< Key, Value, Comparator >::ConstIterator::operator*() const
 {
   return *iter_;
 }
 
 template< typename Key, typename Value, typename Comparator >
-const Value* miheev::Tree< Key, Value, Comparator >::ConstIterator::operator->() const
+const typename miheev::Tree< Key, Value, Comparator >::kv_pair* miheev::Tree< Key, Value, Comparator >::ConstIterator::operator->() const
 {
   return std::addressof(*iter_);
 }
@@ -447,7 +450,27 @@ Value& miheev::Tree< Key, Value, Comparator>::at(const Key& key)
 template< typename Key, typename Value, typename Comparator >
 const Value& miheev::Tree< Key, Value, Comparator>::at(const Key& key) const
 {
-  return at(key);
+  Comparator comparator;
+  if (key == pair_->first)
+  {
+    return pair_->second;
+  }
+  if (comparator(pair_->first, key))
+  {
+    if (!right_)
+    {
+      throw std::out_of_range("No key");
+    }
+    return right_->at(key);
+  }
+  else
+  {
+    if (!left_)
+    {
+      throw std::out_of_range("No key");
+    }
+    return left_->at(key);
+  }
 }
 
 // modifyers
@@ -483,7 +506,7 @@ void miheev::Tree< Key, Value, Comparator>::insert(const Key& key, const Value& 
 template< typename Key, typename Value, typename Comparator >
 void miheev::Tree< Key, Value, Comparator>::insert(const std::pair< Key, Value >& pair)
 {
-  insert(pair->first, pair->second);
+  insert(pair.first, pair.second);
 }
 
 template< typename Key, typename Value, typename Comparator >
@@ -569,7 +592,19 @@ miheev::Tree< Key, Value, Comparator >* miheev::Tree< Key, Value, Comparator>::g
 }
 
 template< typename Key, typename Value, typename Comparator >
+const miheev::Tree< Key, Value, Comparator >* miheev::Tree< Key, Value, Comparator>::getMaxNode() const
+{
+  return right_ ? right_->getMaxNode() : this;
+}
+
+template< typename Key, typename Value, typename Comparator >
 miheev::Tree< Key, Value, Comparator >* miheev::Tree< Key, Value, Comparator>::getMinNode()
+{
+  return left_ ? left_->getMinNode() : this;
+}
+
+template< typename Key, typename Value, typename Comparator >
+const miheev::Tree< Key, Value, Comparator >* miheev::Tree< Key, Value, Comparator>::getMinNode() const
 {
   return left_ ? left_->getMinNode() : this;
 }
@@ -589,7 +624,6 @@ size_t miheev::Tree< Key, Value, Comparator>::size() const
 }
 
 //delitions
-
 template< typename Key, typename Value, typename Comparator >
 void miheev::Tree< Key, Value, Comparator>::erase(const Key& key)
 {
@@ -804,6 +838,10 @@ typename miheev::Tree< Key, Value, Comparator >::Iterator miheev::Tree< Key, Val
 template< typename Key, typename Value, typename Comparator >
 typename miheev::Tree< Key, Value, Comparator >::Iterator miheev::Tree< Key, Value, Comparator >::find(const Key& key)
 {
+  if (isEmpty_)
+  {
+    throw std::out_of_range("Searching in empty tree");
+  }
   if (key == pair_->first)
   {
     return this;
@@ -822,7 +860,23 @@ typename miheev::Tree< Key, Value, Comparator >::Iterator miheev::Tree< Key, Val
 template< typename Key, typename Value, typename Comparator >
 typename miheev::Tree< Key, Value, Comparator >::ConstIterator miheev::Tree< Key, Value, Comparator >::find(const Key& key) const
 {
-  return find(key);
+  if (isEmpty_)
+  {
+    throw std::out_of_range("Searching in empty tree");
+  }
+  if (key == pair_->first)
+  {
+    return Iterator(const_cast< Tree* >(this));
+  }
+  Tree* next = findNextNode(key);
+  if (next)
+  {
+    return next->find(key);
+  }
+  else
+  {
+    throw std::out_of_range("No such key in list");
+  }
 }
 
 template< typename Key, typename Value, typename Comparator >
@@ -876,6 +930,17 @@ void miheev::Tree< Key, Value, Comparator >::replacePair(const kv_pair& substitu
   kv_pair* temp = pair_;
   pair_ = new kv_pair(substitution);
   delete temp;
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename miheev::Tree< Key, Value, Comparator >::ConstIterator miheev::Tree< Key, Value, Comparator >::cbegin() const
+{
+  return Iterator(const_cast< Tree* >(getMinNode()));
+}
+template< typename Key, typename Value, typename Comparator >
+typename miheev::Tree< Key, Value, Comparator >::ConstIterator miheev::Tree< Key, Value, Comparator >::cend() const
+{
+  return Iterator(nullptr, const_cast< Tree* >(getMaxNode()));
 }
 
 #endif

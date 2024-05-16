@@ -1,9 +1,9 @@
 #include <iostream>
 #include <limits>
 #include <fstream>
-#include <map> // TODO: delete
 #include "tree.hpp"
 #include "IOProcessing.hpp"
+#include "commands.hpp"
 
 // int main()
 int main(int argc, char* argv[])
@@ -19,6 +19,7 @@ int main(int argc, char* argv[])
   if (!file)
   {
     std::cerr << "Error while opening file\n";
+    return 1;
   }
 
   Tree< std::string, Data > datasets;
@@ -30,6 +31,30 @@ int main(int argc, char* argv[])
       file.clear();
       file.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
     }
+  }
+
+  Tree< std::string, commands::Command > commands;
+
+  commands["print"] = commands::print;
+  commands["complement"] = commands::complement;
+  commands["intersect"] = commands::intersect;
+  commands["union"] = commands::unite;
+
+  std::string command = "";
+  std::cout << "-> ";
+  while(std::cin >> command)
+  {
+    try
+    {
+      commands.at(command)(std::cin, std::cout, datasets);
+    }
+    catch (const std::out_of_range& e)
+    {
+      std::cerr << "INVALID COMMAND" << '\n';
+      std::cin.clear();
+      std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+    }
+    std::cout << "-> ";
   }
 
   return 0;

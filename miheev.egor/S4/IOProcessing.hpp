@@ -8,9 +8,10 @@
 namespace miheev
 {
   using Data = Tree< int, std::string >;
+  using Datasets = Tree< std::string, Data >;
   std::string getWord(std::string&);
   void inputData(std::istream&, Data&);
-  void inputDatasets(std::istream&, Tree< std::string, Data >&);
+  void inputDatasets(std::istream&, Datasets&);
 }
 
 #endif
