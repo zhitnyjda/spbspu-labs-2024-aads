@@ -139,7 +139,7 @@ long long ExpressionEvaluator::evaluateExpression(Queue< std::shared_ptr< Expres
       bool multiply_overflow = op->getOperator() == '*' && (std::abs(left) > (std::numeric_limits< long long >::max() / right));
       bool minus_overflow = op->getOperator() == '-' && (left < (std::numeric_limits< long long >::min() + right));
       bool divide_overflow = op->getOperator() == '/' && ((left == std::numeric_limits< long long >::min()) && right == -1);
-      
+
       if (add_overflow || multiply_overflow)
       {
         throw std::overflow_error("There was an overflow error!");
