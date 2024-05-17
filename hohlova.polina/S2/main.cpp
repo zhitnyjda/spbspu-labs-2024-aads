@@ -28,5 +28,6 @@ int main(int argc, char** argv)
     std::cout << results.top() << ' ';
     results.pop();
   }
+  std::cout << "\n";
   return 0;
 }
