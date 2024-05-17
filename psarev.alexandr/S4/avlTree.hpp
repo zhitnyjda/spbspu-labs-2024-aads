@@ -140,6 +140,31 @@ namespace psarev
     --(*this);
     return deked;
   }
+
+  template < typename Key, typename Value, typename Compare >
+  const typename psarev::avlTree< Key, Value, Compare >::dataType& psarev::avlTree< Key, Value, Compare >::ConstIterator::operator*() const
+  {
+    return unit->data;
+  }
+
+  template < typename Key, typename Value, typename Compare >
+  const typename psarev::avlTree< Key, Value, Compare >::dataType* psarev::avlTree< Key, Value, Compare >::ConstIterator::operator->() const
+  {
+    return &(unit->data);
+  }
+
+  template < typename Key, typename Value, typename Compare >
+  bool psarev::avlTree< Key, Value, Compare >::ConstIterator::operator==(const this_t& that) const
+  {
+    return unit == that.unit;
+  }
+
+  template < typename Key, typename Value, typename Compare >
+  bool psarev::avlTree< Key, Value, Compare >::ConstIterator::operator!=(const this_t& that) const
+  {
+    return !(that == *this);
+  }
+
 }
 
 #endif
