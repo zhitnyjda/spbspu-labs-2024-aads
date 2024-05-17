@@ -31,19 +31,17 @@ int main(int argc, char* argv[])
   taskCmds.insert("intersect", intersect);
   taskCmds.insert("union", unite);
 
-  while (!std::cin.eof())
+  std::string taskCmd = "";
+  while (std::cin >> taskCmd)
   {
-    std::string cmd;
-    std::cin >> cmd;
-
-    auto cmdsIter = taskCmds.find(cmd);
-    if (cmdsIter != taskCmds.end() && !cmd.empty())
+    try
     {
-      cmdsIter->second(dataSets);
+      taskCmds.at(taskCmd)(std::cin, std::cout, dataSets);
     }
-    else if (!cmd.empty())
+    catch (const std::out_of_range& e)
     {
       psarev::outError(std::cout, "<INVALID COMMAND>");
+      std::cin.clear();
       std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
     }
   }

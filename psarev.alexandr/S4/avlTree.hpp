@@ -18,7 +18,6 @@ namespace psarev
     avlTree();
     avlTree(const avlTree& that);
     avlTree(size_t& initSize, dataType& initData);
-    avlTree(std::initializer_list< dataType > initlList);
     ~avlTree();
 
     //void push(Key k, Value v);
@@ -45,10 +44,15 @@ namespace psarev
         this->right = right_;
         this->hgt = hgt_;
       }
-
-      Unit* treeRoot;
-      size_t treeSize;
     };
+
+    Unit* treeRoot;
+    size_t treeSize;
+
+    size_t getHeight(Unit* unit);
+
+    Unit* updData(Unit* unit, const dataType& data);
+    Unit* updData(Unit* unit, dataType&& data);
   };
 }
 
@@ -305,17 +309,6 @@ psarev::avlTree< Key, Value, Compare >::avlTree(size_t& initSize, dataType& init
   }
 }
 
-template < typename Key, typename Value, typename Compare >
-psarev::avlTree< Key, Value, Compare >::avlTree(std::initializer_list< dataType > initlList)
-{
-  treeRoot = nullptr;
-  treeSize = 0;
-  for (auto data : initList)
-  {
-    insert(data);
-  }
-}
-
 template< typename Key, typename Value, typename Compare >
 psarev::avlTree< Key, Value, Compare >::~avlTree()
 {
@@ -323,6 +316,81 @@ psarev::avlTree< Key, Value, Compare >::~avlTree()
   root = nullptr;
 }
 
+template < typename Key, typename Value, typename Compare >
+size_t psarev::avlTree< Key, Value, Compare >::getHeight(Unit* unit)
+{
+  size_t height = 0;
+  if (unit != nullptr)
+  {
+    size_t heightL = getHeight(unit->left);
+    size_t heightR = getHeight(unit->right);
+    height = std::max(heightL, heightR) + 1;
+  }
+  return height;
+}
 
+template < typename Key, typename Value, typename Compare >
+typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Value, Compare >::updData(Unit* unit, const dataType& newData)
+{
+  Compare compare
+  if (unit == nullptr)
+  {
+    unit = new Unit(newData);
+    return unit;
+  }
+  else
+  {
+    if (compare(newData.first, unit->data.first))
+    {
+      unit->left = updData(unit->left, newData);
+      unit->left->ancest = unit;
+    }
+    else if (compare(unit->data.first, newData.first))
+    {
+      unit->right = updData(unit->right, newData);
+      unit->right->ancest = unit;
+    }
+  }
+
+  size_t differ = 0;
+  if (unit->left != nullptr)
+  {
+    differ = getHeight(unit->left) - getHeight(unit->right);
+  }
+
+  if (differ == 2)
+  {
+    differ = 0;
+    if (unit->left != nullptr)
+    {
+      differ = getHeight(unit->left) - getHeight(unit->right);
+    }
+    if (differ > 0)
+    {
+      unit = rrTurn(unit);
+    }
+    else
+    {
+      unit = lrTurn(unit);
+    }
+  }
+  else if (differ == -2)
+  {
+    differ = 0;
+    if (unit->left != nullptr)
+    {
+      differ = getHeight(unit->left) - getHeight(unit->right);
+    }
+    if (differ > 0)
+    {
+      unit = rlTurn(unit);
+    }
+    else
+    {
+      unit = llTurn(unit);
+    }
+  }
+  return unit;
+}
 
 #endif
