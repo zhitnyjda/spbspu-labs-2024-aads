@@ -1,6 +1,5 @@
 #ifndef TYPES_HPP
 #define TYPES_HPP
-#include <set>
 #include "stack.hpp"
 
 namespace mihalchenko
@@ -16,6 +15,11 @@ namespace mihalchenko
     CalcRez operator%(const CalcRez &rhs);
     bool operator==(const char &rhs) const;
     long long resultCalc;
+  };
+
+  struct Parenthesis
+  {
+    char parenthesis;
   };
 
   struct FinalTransform

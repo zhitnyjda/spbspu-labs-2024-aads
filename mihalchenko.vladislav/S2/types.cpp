@@ -1,6 +1,8 @@
 #include "types.hpp"
 #include <limits>
 #include <cmath>
+#include <list.hpp>
+#include "processing.hpp"
 
 mihalchenko::CalcRez::CalcRez(long long value)
 {
@@ -50,7 +52,7 @@ mihalchenko::CalcRez mihalchenko::CalcRez::operator%(const CalcRez &rhs)
 
 bool mihalchenko::FinalTransform::calculate()
 {
-  std::set< char > controlSet{'(', ')', '+', '-', '*', '/', '%'};
+  mihalchenko::List< char > list = mihalchenko::getListFromString("()+-*/%");
   long long llMax = std::numeric_limits< long long >::max();
   char codOperation;
   CalcRez wremSave;
@@ -70,12 +72,28 @@ bool mihalchenko::FinalTransform::calculate()
   {
     size_t stepCounter = 0;
     codOperation = '.';
-    while (!controlSet.count(codOperation))
+    bool flag = false;
+    bool flag1;
+    while(!flag)
     {
-      codOperation = commands.pop();
-      stepCounter++;
+      flag1 = false;
+      for(size_t i = 0; i < list.getSize(); i++)
+      {
+        if (list[i] == codOperation)
+        {
+          flag1 = true;
+        }
+      }
+      if (flag1)
+      {
+        flag = true;
+      }
+      else
+      {
+        codOperation = commands.pop();
+        stepCounter++;
+      }
     }
-
     if (stepCounter == 4)
     {
       wremSave = calcRezult.pop();
@@ -122,6 +140,10 @@ bool mihalchenko::FinalTransform::calculate()
     if (codOperation == '%')
     {
       calcRezult.push(firstVal % secondVal);
+    }
+    if (codOperation == '(' || codOperation == ')')
+    {
+      calcRezult.push(codOperation);
     }
     if (commands.getSize() != 0)
     {

@@ -1,4 +1,4 @@
-#include "func.hpp"
+#include "processing.hpp"
 #include "types.hpp"
 
 mihalchenko::List< char > mihalchenko::getListFromString(const std::string strToList)
