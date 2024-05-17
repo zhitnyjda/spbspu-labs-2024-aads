@@ -393,4 +393,68 @@ typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Val
   return unit;
 }
 
+template < typename Key, typename Value, typename Compare >
+typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Value, Compare >::updData(Unit* unit, dataType&& newData)
+{
+  Compare compare
+    if (unit == nullptr)
+    {
+      unit = new Unit(std::move(newData));
+      return unit;
+    }
+    else
+    {
+      if (compare(newData.first, unit->data.first))
+      {
+        unit->left = updData(unit->left, std::move(newData));
+        unit->left->ancest = unit;
+      }
+      else if (compare(unit->data.first, newData.first))
+      {
+        unit->right = updData(unit->right, std::move(newData));
+        unit->right->ancest = unit;
+      }
+    }
+
+  size_t differ = 0;
+  if (unit->left != nullptr)
+  {
+    differ = getHeight(unit->left) - getHeight(unit->right);
+  }
+
+  if (differ == 2)
+  {
+    differ = 0;
+    if (unit->left != nullptr)
+    {
+      differ = getHeight(unit->left) - getHeight(unit->right);
+    }
+    if (differ > 0)
+    {
+      unit = rrTurn(unit);
+    }
+    else
+    {
+      unit = lrTurn(unit);
+    }
+  }
+  else if (differ == -2)
+  {
+    differ = 0;
+    if (unit->left != nullptr)
+    {
+      differ = getHeight(unit->left) - getHeight(unit->right);
+    }
+    if (differ > 0)
+    {
+      unit = rlTurn(unit);
+    }
+    else
+    {
+      unit = llTurn(unit);
+    }
+  }
+  return unit;
+}
+
 #endif
