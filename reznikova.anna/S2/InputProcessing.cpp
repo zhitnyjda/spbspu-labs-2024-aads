@@ -58,20 +58,13 @@ bool reznikova::ifFirstPriority(reznikova::Element & element)
   return (element.elem_.operator_.operator_ == '+' or element.elem_.operator_.operator_ == '-');
 }
 
-bool reznikova::ifPriorityNotHigher(reznikova::Stack< reznikova::Element > & stack, reznikova::Element & element)
+bool reznikova::ifEquallyImportant(reznikova::Stack< reznikova::Element > & stack, reznikova::Element & element)
 {
   while(!stack.empty())
   {
     if (ifFirstPriority(element))
     {
-      if (ifFirstPriority(stack.getValue()))
-      {
-        return true;
-      }
-      else
-      {
-        return false;
-      }
+      return ifFirstPriority(stack.getValue()) ? true : false;
     }
     else
     {
@@ -106,7 +99,7 @@ void reznikova::makePostfix(reznikova::Queue< reznikova::Element > & infix, rezn
     }
     else if (element.types_ == operator_type)
     {
-      while (!stack.empty() and stack.getValue().types_ == operator_type and ifPriorityNotHigher(stack, element))
+      while (!stack.empty() and stack.getValue().types_ == operator_type and ifEquallyImportant(stack, element))
       {
         postfix.postfix_.push(stack.getValue());
         stack.pop();
