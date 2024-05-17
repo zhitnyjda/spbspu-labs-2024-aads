@@ -40,6 +40,106 @@ namespace psarev
       }
     };
   };
+
+  template < typename Key, typename Value, typename Compare >
+  class psarev::avlTree< Key, Value, Compare >::ConstIterator : public std::iterator< std::bidirectional_iterator_tag, dataType >
+  {
+  public:
+    friend class avlTree< Key, Value, Compare >;
+    using this_t = ConstIterator;
+
+    ConstIterator()
+    {
+      unit(nullptr), root(nullptr)
+    }
+    ~ConstIterator() = default;
+
+    this_t& operator=(const this_t&) = default;
+
+    this_t& operator++();
+    this_t operator++(int);
+    this_t& operator--();
+    this_t operator--(int);
+
+    const dataType& operator*() const;
+    const dataType* operator->() const;
+
+    bool operator==(const this_t& rhs) const;
+    bool operator!=(const this_t& rhs) const;
+
+  private:
+    Unit* unit;
+    Unit* root;
+    ConstIterator(Unit* unit, Unit* root);
+  };
+
+  template < typename Key, typename Value, typename Compare >
+  typename psarev::avlTree< Key, Value, Compare >::ConstIterator& psarev::avlTree< Key, Value, Compare >::ConstIterator::operator++()
+  {
+    if (unit->right != nullptr)
+    {
+      unit = unit->right;
+      while (unit->left != nullptr)
+      {
+        unit = unit->left;
+      }
+    }
+    else
+    {
+      while ((unit == unit->ancest->right) && (unit->ancest != nullptr))
+      {
+        unit = unit->ancest;
+      }
+      unit = unit->ancest;
+    }
+    return *this;
+  }
+
+  template< typename Key, typename Value, typename Compare >
+  typename psarev::avlTree< Key, Value, Compare >::ConstIterator psarev::avlTree< Key, Value, Compare >::ConstIterator::operator++(int)
+  {
+    this_t inked(*this);
+    ++(*this);
+    return inked;
+  }
+
+  template < typename Key, typename Value, typename Compare >
+  typename psarev::avlTree< Key, Value, Compare >::ConstIterator& psarev::avlTree< Key, Value, Compare >::ConstIterator::operator--()
+  {
+    if (unit == nullptr)
+    {
+      unit = root;
+      while (unit->right != nullptr)
+      {
+        unit = unit->right;
+      }
+    }
+    else if (unit->left != nullptr)
+    {
+      unit = unit->left;
+      while (unit->right != nullptr)
+      {
+        unit = unit->right;
+      }
+    }
+    else
+    {
+      while ((unit == unit->ancest->left) && (unit->ancest != nullptr))
+      {
+        unit = unit->ancest;
+      }
+      unit = unit->ancest;
+    }
+    return *this;
+  }
+
+  template< typename Key, typename Value, typename Compare >
+  typename psarev::avlTree< Key, Value, Compare >::ConstIterator psarev::avlTree< Key, Value, Compare >::ConstIterator::operator--(int)
+  {
+    this_t deked(*this);
+    --(*this);
+    return deked;
+  }
 }
 
 #endif

@@ -7,7 +7,7 @@ std::ostream& psarev::outError(std::ostream& out, const std::string& errText)
   return out;
 }
 
-void fillTree(std::istream& in, avlTree< std::string, base_t >& dataSets)
+void psarev::fillTree(std::istream& in, avlTree< std::string, base_t >& dataSets)
 {
   std::string strData;
   while (getline(in, strData))
@@ -26,7 +26,7 @@ void fillTree(std::istream& in, avlTree< std::string, base_t >& dataSets)
       std::string strKey = "";
       while ((strData[trekPt] != ' ') && (trekPt < strData.length()) && (std::isdigit(strData[trekPt])))
       {
-        result += strData[trekPt++];
+        strKey += strData[trekPt++];
       }
       trekPt++;
       int key = std::stoi(strKey);
