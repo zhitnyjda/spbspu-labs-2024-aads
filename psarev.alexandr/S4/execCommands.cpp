@@ -37,8 +37,8 @@ void psarev::fillTree(std::istream& in, avlTree< std::string, base_t >& dataSets
       }
       trekPt++;
 
-      curSet.insert(key, value);
+      curSet.insert(std::make_pair(key, value));
     }
-    dataSets.insert(dataName, curSet);
+    dataSets.insert(std::make_pair(dataName, curSet));
   }
 }
