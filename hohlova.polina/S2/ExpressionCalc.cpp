@@ -107,7 +107,7 @@ namespace hohlova
   {
     if (expressions.empty())
     {
-      throw std::runtime_error("Error!Not expression");
+      throw std::logic_error("Error!Not expression");
     }
     while (!expressions.empty())
     {
