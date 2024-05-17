@@ -20,6 +20,8 @@ namespace psarev
     avlTree(size_t& initSize, dataType& initData);
     ~avlTree();
 
+    iter insert(dataType& data);
+    iter insert(dataType&& data);
     //void push(Key k, Value v);
     //Value get(Key k);
     //Value drop(Key k);
@@ -317,6 +319,20 @@ psarev::avlTree< Key, Value, Compare >::~avlTree()
 }
 
 template < typename Key, typename Value, typename Compare >
+typename psarev::avlTree< Key, Value, Compare >::iterator psarev::avlTree< Key, Value, Compare >::insert(dataType& data)
+{
+  treeRoot = updData(treeRoot, data);
+  return find(data.first);
+}
+
+template < typename Key, typename Value, typename Compare >
+typename psarev::avlTree< Key, Value, Compare >::iterator psarev::avlTree< Key, Value, Compare >::insert(dataType&& data)
+{
+  treeRoot = updData(treeRoot, std::move(data));
+  return find(data.first);
+}
+
+template < typename Key, typename Value, typename Compare >
 size_t psarev::avlTree< Key, Value, Compare >::getHeight(Unit* unit)
 {
   size_t height = 0;
@@ -397,24 +413,24 @@ template < typename Key, typename Value, typename Compare >
 typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Value, Compare >::updData(Unit* unit, dataType&& newData)
 {
   Compare compare
-    if (unit == nullptr)
+  if (unit == nullptr)
+  {
+    unit = new Unit(std::move(newData));
+    return unit;
+  }
+  else
+  {
+    if (compare(newData.first, unit->data.first))
     {
-      unit = new Unit(std::move(newData));
-      return unit;
+      unit->left = updData(unit->left, std::move(newData));
+      unit->left->ancest = unit;
     }
-    else
+    else if (compare(unit->data.first, newData.first))
     {
-      if (compare(newData.first, unit->data.first))
-      {
-        unit->left = updData(unit->left, std::move(newData));
-        unit->left->ancest = unit;
-      }
-      else if (compare(unit->data.first, newData.first))
-      {
-        unit->right = updData(unit->right, std::move(newData));
-        unit->right->ancest = unit;
-      }
+      unit->right = updData(unit->right, std::move(newData));
+      unit->right->ancest = unit;
     }
+  }
 
   size_t differ = 0;
   if (unit->left != nullptr)
