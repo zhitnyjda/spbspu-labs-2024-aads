@@ -1,7 +1,6 @@
 #include "computationalFunctions.hpp"
 #include "stack.hpp"
 #include "cutFunctions.hpp"
-#include <iostream>
 
 void ponomarev::getPostfix(std::string expression, Postfix & queue)
 {
@@ -52,29 +51,6 @@ bool ponomarev::isNum(const std::string & elem)
   return elem.find_first_not_of("0123456789") == std::string::npos && elem.size() != 0;
 }
 
-ponomarev::ExpressionElement ponomarev::getElem(std::string & expression)
-{
-  ponomarev::ExpressionElement elem;
-  std::string arg = getName(expression);
-  if (isNum(arg))
-  {
-    elem.putOperand(std::stoll(arg));
-  }
-  else if (arg == "+" || arg == "-" || arg == "%" || arg == "*" || arg == "/")
-  {
-    elem.putOperation(arg[0]);
-  }
-  else if (arg == "(" || arg == ")")
-  {
-    elem.putBracket(arg[0]);
-  }
-  else
-  {
-    throw std::invalid_argument("Error: wrong expression");
-  }
-  return elem;
-}
-
 bool ponomarev::isOpenBracketUp(const Stack< ExpressionElement > & stack)
 {
   if (stack.empty())
@@ -116,6 +92,29 @@ bool ponomarev::shouldPushOpToStack(const Stack< ExpressionElement > & stack, co
   }
 
   return false;
+}
+
+ponomarev::ExpressionElement ponomarev::getElem(std::string & expression)
+{
+  ponomarev::ExpressionElement elem;
+  std::string arg = getName(expression);
+  if (isNum(arg))
+  {
+    elem.putOperand(std::stoll(arg));
+  }
+  else if (arg == "+" || arg == "-" || arg == "%" || arg == "*" || arg == "/")
+  {
+    elem.putOperation(arg[0]);
+  }
+  else if (arg == "(" || arg == ")")
+  {
+    elem.putBracket(arg[0]);
+  }
+  else
+  {
+    throw std::invalid_argument("Error: wrong expression");
+  }
+  return elem;
 }
 
 long long ponomarev::calculate(std::string & expression)

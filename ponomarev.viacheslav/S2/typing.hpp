@@ -42,6 +42,7 @@ namespace ponomarev
     void putOperand(long long value);
     void putOperation(char symbol);
     void putBracket(char symbol);
+
     const std::string getType() const;
     const Operand & getOperand() const;
     const Operation & getOperation() const;

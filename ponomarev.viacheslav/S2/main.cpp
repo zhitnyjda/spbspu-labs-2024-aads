@@ -1,8 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include "inputFunctions.hpp"
-#include "queue.hpp"
-#include "stack.hpp"
 
 int main(int argc, char ** argv)
 {
