@@ -34,5 +34,16 @@ int main(int argc, char ** argv)
     return 1;
   }
 
+  while (!results.empty())
+  {
+    std::cout << results.getUp();
+    results.pop();
+    if (!results.empty())
+    {
+      std::cout << ' ';
+    }
+  }
+  std::cout << '\n';
+
   return 0;
 }

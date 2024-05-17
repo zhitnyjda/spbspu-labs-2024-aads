@@ -10,19 +10,7 @@ namespace ponomarev
   {
     explicit Bracket(char symbol);
 
-    bool isOpenBracket();
-
     char bracket_;
-  };
-
-  struct Operation
-  {
-    explicit Operation(char elem);
-
-    void putOperation(char symbol);
-
-    char operation_;
-    int priority_;
   };
 
   struct Operand
@@ -31,8 +19,20 @@ namespace ponomarev
     explicit Operand(int num);
 
     void putValue(int value);
+    int getValue();
 
     int num_;
+  };
+
+  struct Operation
+  {
+    explicit Operation(char symbol);
+
+    void putOperation(char symbol);
+    Operand useOperation(const Operand left, const Operand right) const;
+
+    char operation_;
+    int priority_;
   };
 
   struct ExpressionElement
@@ -55,7 +55,7 @@ namespace ponomarev
 
   struct Postfix
   {
-    Queue< ExpressionElement > postfix;
+    Queue< ExpressionElement > postfix_;
   };
 }
 

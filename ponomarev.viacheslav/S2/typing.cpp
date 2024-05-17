@@ -1,7 +1,29 @@
 #include "typing.hpp"
 
 ponomarev::Bracket::Bracket(char symbol):
-  bracket(symbol)
+  bracket_(symbol)
+{}
+
+ponomarev::Operand::Operand():
+  num_(0)
+{}
+
+ponomarev::Operand::Operand(int num):
+  num_(num)
+{}
+
+void ponomarev::Operand::putValue(int value)
+{
+  num_ = value;
+}
+
+int ponomarev::Operand::getValue()
+{
+  return num_;
+}
+
+ponomarev::Operation::Operation(char symbol):
+  operation_(symbol)
 {
   if (symbol == '+' || symbol == '-')
   {
@@ -16,39 +38,50 @@ ponomarev::Bracket::Bracket(char symbol):
     priority_ = 0;
   }
 }
-}
 
-bool ponomarev::isOpenBracket(char symbol)
-{
-  return (bracket_ == "(");
-}
-
-ponomarev::Operation::Operation(char elem):
-  operation_(elem);
-{}
-
-void ponomarev::putOperation(char symbol)
+void ponomarev::Operation::putOperation(char symbol)
 {
   operation_ = symbol;
 }
 
-ponomarev::Operand::Operand():
-  num(0)
-{}
-
-ponomarev::Operand::Operand(int num):
-  num(num)
-{}
-
-void ponomarev::putValue(int value)
+ponomarev::Operand ponomarev::Operation::useOperation(const Operand left, const Operand right) const
 {
-  num_ = value;
+  Operand res;
+  if (operation_ == '+')
+  {
+    res.num_ = left.num_ + right.num_;
+    return res;
+  }
+  else if (operation_ == '-')
+  {
+    res.num_ = left.num_ - right.num_;
+    return res;
+  }
+  else if (operation_ == '*')
+  {
+    res.num_ = left.num_ * right.num_;
+    return res;
+  }
+  else if (operation_ == '/')
+  {
+    res.num_ = left.num_ / right.num_;
+    return res;
+  }
+  else if (operation_ == '%')
+  {
+    res.num_ = left.num_ % right.num_;
+    return res;
+  }
+  else
+  {
+    throw std::logic_error("Unsupported operation");
+  }
 }
 
 ponomarev::ExpressionElement::ExpressionElement():
-  type(" "),
-  brac(" "),
-  operation(" "),
+  type("none"),
+  bracket('a'),
+  operation('+'),
   operand(0)
 {}
 
@@ -66,7 +99,7 @@ void ponomarev::ExpressionElement::putOperation(char symbol)
 
 void ponomarev::ExpressionElement::putBracket(char symbol)
 {
-  bracket.bracket = symbol;
+  bracket.bracket_ = symbol;
   type = "Bracket";
 }
 

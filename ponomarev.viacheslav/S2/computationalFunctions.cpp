@@ -11,7 +11,7 @@ void ponomarev::getPostfix(std::string expression, Postfix & queue)
     ExpressionElement elem = getElem(expression);
     if (elem.getType() == "Bracket")
     {
-      if (elem.bracket.isOpenBracket())
+      if (elem.getBracket().bracket_ == '(')
       {
         stack.push(elem);
       }
@@ -19,7 +19,7 @@ void ponomarev::getPostfix(std::string expression, Postfix & queue)
       {
         while (!(isOpenBracketUp(stack)))
         {
-          queue.postfix.push(stack.getUp());
+          queue.postfix_.push(stack.getUp());
           stack.pop();
         }
         stack.pop();
@@ -27,13 +27,13 @@ void ponomarev::getPostfix(std::string expression, Postfix & queue)
     }
     else if (elem.getType() == "Operand")
     {
-      queue.postfix.push(elem);
+      queue.postfix_.push(elem);
     }
     else if (elem.getType() == "operation")
     {
       while (!shouldPushOpToStack(stack, elem))
       {
-        queue.postfix.push(stack.getUp());
+        queue.postfix_.push(stack.getUp());
         stack.pop();
       }
       stack.push(elem);
@@ -41,7 +41,7 @@ void ponomarev::getPostfix(std::string expression, Postfix & queue)
   }
   while (!stack.empty())
   {
-    queue.postfix.push(stack.getUp());
+    queue.postfix_.push(stack.getUp());
     stack.pop();
   }
 }
@@ -109,10 +109,42 @@ bool ponomarev::shouldPushOpToStack(const Stack< ExpressionElement > & stack, co
     return true;
   }
 
-  if (elem.getBracket().priority_ < stack.getUp().getBracket().priority_)
+  if (elem.getOperation().priority_ < stack.getUp().getOperation().priority_)
   {
     return true;
   }
 
   return false;
+}
+
+int ponomarev::calculate(std::string & expression)
+{
+  Postfix postfix;
+  getPostfix(expression, postfix);
+  Stack< Operand > stack;
+
+  while (!postfix.postfix_.empty())
+  {
+    ExpressionElement elem = postfix.postfix_.getElem();
+    postfix.postfix_.pop();
+    if (elem.getType() == "operand")
+    {
+      stack.push(elem.getOperand());
+    }
+    else if (elem.getType() == "operation")
+    {
+      Operand left = stack.getUp();
+      stack.pop();
+      Operand right = stack.getUp();
+      stack.pop();
+      Operand res = elem.getOperation().useOperation(left, right);
+      stack.push(res);
+    }
+    else
+    {
+      throw std::logic_error("Unsupported expression element occured while calculating expr\n");
+    }
+  }
+
+  return stack.getUp().getValue();
 }
