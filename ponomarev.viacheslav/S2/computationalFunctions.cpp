@@ -1,6 +1,7 @@
 #include "computationalFunctions.hpp"
 #include "stack.hpp"
 #include "cutFunctions.hpp"
+#include <iostream>
 
 void ponomarev::getPostfix(std::string expression, Postfix & queue)
 {
@@ -29,7 +30,7 @@ void ponomarev::getPostfix(std::string expression, Postfix & queue)
     {
       queue.postfix_.push(elem);
     }
-    else if (elem.getType() == "operation")
+    else if (elem.getType() == "Operation")
     {
       while (!shouldPushOpToStack(stack, elem))
       {
@@ -103,7 +104,7 @@ bool ponomarev::shouldPushOpToStack(const Stack< ExpressionElement > & stack, co
     return true;
   }
 
-  bool isOperationUp = stack.getUp().getType() != "operation";
+  bool isOperationUp = stack.getUp().getType() != "Operation";
   if (isOperationUp)
   {
     return true;
@@ -127,11 +128,11 @@ int ponomarev::calculate(std::string & expression)
   {
     ExpressionElement elem = postfix.postfix_.getElem();
     postfix.postfix_.pop();
-    if (elem.getType() == "operand")
+    if (elem.getType() == "Operand")
     {
       stack.push(elem.getOperand());
     }
-    else if (elem.getType() == "operation")
+    else if (elem.getType() == "Operation")
     {
       Operand left = stack.getUp();
       stack.pop();
