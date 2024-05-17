@@ -19,6 +19,7 @@ int main(int argc, char** argv)
   else
   {
     std::cerr << "Invalid number of command line arguments";
+    return 1;
   }
 
   calculator.CalculateExpressions(results);
