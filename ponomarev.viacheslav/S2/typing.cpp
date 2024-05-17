@@ -1,4 +1,5 @@
 #include "typing.hpp"
+#include <limits>
 
 ponomarev::Bracket::Bracket(char symbol):
   bracket_(symbol)
@@ -47,29 +48,44 @@ void ponomarev::Operation::putOperation(char symbol)
 ponomarev::Operand ponomarev::Operation::useOperation(const Operand left, const Operand right) const
 {
   Operand res;
+  long long first = left.num_;
+  long long second = right.num_;
+
   if (operation_ == '+')
   {
-    res.num_ = left.num_ + right.num_;
+    if ((std::numeric_limits< long long >::max() - first) < second)
+    {
+      throw std::overflow_error("overflow error");
+    }
+    res.num_ = first + second;
     return res;
   }
   else if (operation_ == '-')
   {
-    res.num_ = left.num_ - right.num_;
+    if (first < (std::numeric_limits< long long >::min() + second))
+    {
+      throw std::overflow_error("underflow error");
+    }
+    res.num_ = first - second;
     return res;
   }
   else if (operation_ == '*')
   {
-    res.num_ = left.num_ * right.num_;
+    if ((std::numeric_limits< long long >::max() / first) < second)
+    {
+      throw std::overflow_error("overflow error");
+    }
+    res.num_ = first * second;
     return res;
   }
   else if (operation_ == '/')
   {
-    res.num_ = left.num_ / right.num_;
+    res.num_ = first / second;
     return res;
   }
   else if (operation_ == '%')
   {
-    res.num_ = left.num_ % right.num_;
+    res.num_ = first < 0 ? (first % second + second) : first % second;
     return res;
   }
   else

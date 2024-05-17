@@ -58,7 +58,7 @@ ponomarev::ExpressionElement ponomarev::getElem(std::string & expression)
   std::string arg = getName(expression);
   if (isNum(arg))
   {
-    elem.putOperand(std::stoi(arg));
+    elem.putOperand(std::stoll(arg));
   }
   else if (arg == "+" || arg == "-" || arg == "%" || arg == "*" || arg == "/")
   {
