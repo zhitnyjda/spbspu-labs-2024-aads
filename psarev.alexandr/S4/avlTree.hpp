@@ -165,6 +165,112 @@ namespace psarev
     return !(that == *this);
   }
 
+  template< typename Key, typename Value, typename Compare >
+  class psarev::avlTree< Key, Value, Compare >::Iterator : public std::iterator< std::bidirectional_iterator_tag, dataType >
+  {
+  public:
+    friend class Tree< Key, Value, Compare >;
+    using this_t = Iterator;
+    Iterator();
+    Iterator(ConstIterator constIter);
+    Iterator(const this_t&) = default;
+    ~Iterator() = default;
+
+    this_t& operator=(const this_t&) = default;
+    this_t& operator++();
+    this_t operator++(int);
+    this_t& operator--();
+    this_t operator--(int);
+    this_t operator+(size_t index);
+
+    dataType& operator*();
+    dataType* operator->();
+    const dataType& operator*() const;
+    const dataType* operator->() const;
+
+    bool operator==(const this_t&) const;
+    bool operator!=(const this_t&) const;
+
+  private:
+    ConstIterator imIter;
+  };
+
+  template< typename Key, typename Value, typename Compare >
+  psarev::avlTree< Key, Value, Compare >::Iterator::Iterator() :
+    imIter(ConstIterator())
+  {}
+
+  template< typename Key, typename Value, typename Compare >
+  psarev::avlTree< Key, Value, Compare >::Iterator::Iterator(ConstIterator constIter) :
+    imIter(constIter)
+  {}
+
+  template< typename Key, typename Value, typename Compare >
+  typename psarev::avlTree< Key, Value, Compare >::Iterator& psarev::avlTree< Key, Value, Compare >::Iterator::operator++()
+  {
+    assert(imIter != ConstIterator());
+    imIter++;
+    return imIter;
+  }
+
+  template< typename Key, typename Value, typename Compare >
+  typename psarev::avlTree< Key, Value, Compare >::Iterator psarev::avlTree< Key, Value, Compare >::Iterator::operator++(int)
+  {
+    ++imIter;
+    return imIter;
+  }
+
+  template< typename Key, typename Value, typename Compare >
+  typename psarev::avlTree< Key, Value, Compare >::Iterator& psarev::avlTree< Key, Value, Compare >::Iterator::operator--()
+  {
+    assert(imIter != nullptr);
+    --imIter;
+    return imIter;
+  }
+
+  template< typename Key, typename Value, typename Compare >
+  typename psarev::avlTree< Key, Value, Compare >::Iterator psarev::avlTree< Key, Value, Compare >::Iterator::operator--(int)
+  {
+    --imIter;
+    return imIter;
+  }
+
+  template< typename Key, typename Value, typename Compare >
+  typename psarev::avlTree< Key, Value, Compare >::dataType& psarev::avlTree< Key, Value, Compare >::Iterator::operator*()
+  {
+    return imIter.unit->data;
+  }
+
+  template< typename Key, typename Value, typename Compare >
+  typename psarev::avlTree< Key, Value, Compare >::dataType* psarev::avlTree< Key, Value, Compare >::Iterator::operator->()
+  {
+    return &(imIter.unit->data);
+  }
+
+  template< typename Key, typename Value, typename Compare >
+  const typename psarev::avlTree< Key, Value, Compare >::dataType& psarev::avlTree< Key, Value, Compare >::Iterator::operator*() const
+  {
+    return imIter.node_->data;
+  }
+
+  template< typename Key, typename Value, typename Compare >
+  const typename psarev::avlTree< Key, Value, Compare >::dataType* psarev::avlTree< Key, Value, Compare >::Iterator::operator->() const
+  {
+    return &(imIter.unit->data);
+  }
+
+  template< typename Key, typename Value, typename Compare >
+  bool psarev::avlTree< Key, Value, Compare >::Iterator::operator==(const this_t& that) const
+  {
+    return imIter == that.imIter;
+  }
+
+  template< typename Key, typename Value, typename Compare >
+  bool psarev::avlTree< Key, Value, Compare >::Iterator::operator!=(const this_t& that) const
+  {
+    return !(that == *this);
+  }
+
 }
 
 #endif
