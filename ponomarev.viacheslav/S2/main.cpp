@@ -7,7 +7,7 @@
 int main(int argc, char ** argv)
 {
   ponomarev::Queue< std::string > expressions;
-  ponomarev::Stack< int > results;
+  ponomarev::Stack< long long > results;
 
   if (argc == 1)
   {

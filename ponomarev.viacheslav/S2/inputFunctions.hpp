@@ -9,7 +9,7 @@
 namespace ponomarev
 {
   void inputExpressions(std::istream & input, Queue< std::string > & expressions);
-  void getResults(Queue< std::string > & expressions, Stack< int > & res);
+  void getResults(Queue< std::string > & expressions, Stack< long long > & res);
 }
 
 #endif

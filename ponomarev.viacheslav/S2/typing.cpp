@@ -8,16 +8,16 @@ ponomarev::Operand::Operand():
   num_(0)
 {}
 
-ponomarev::Operand::Operand(int num):
+ponomarev::Operand::Operand(long long num):
   num_(num)
 {}
 
-void ponomarev::Operand::putValue(int value)
+void ponomarev::Operand::putValue(long long value)
 {
   num_ = value;
 }
 
-int ponomarev::Operand::getValue()
+long long ponomarev::Operand::getValue()
 {
   return num_;
 }
@@ -85,7 +85,7 @@ ponomarev::ExpressionElement::ExpressionElement():
   operand(0)
 {}
 
-void ponomarev::ExpressionElement::putOperand(int value)
+void ponomarev::ExpressionElement::putOperand(long long value)
 {
   operand.putValue(value);
   type = "Operand";

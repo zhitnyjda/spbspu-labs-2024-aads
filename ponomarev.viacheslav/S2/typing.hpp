@@ -16,12 +16,12 @@ namespace ponomarev
   struct Operand
   {
     Operand();
-    explicit Operand(int num);
+    explicit Operand(long long num);
 
-    void putValue(int value);
-    int getValue();
+    void putValue(long long value);
+    long long getValue();
 
-    int num_;
+    long long num_;
   };
 
   struct Operation
@@ -32,14 +32,14 @@ namespace ponomarev
     Operand useOperation(const Operand left, const Operand right) const;
 
     char operation_;
-    int priority_;
+    long long priority_;
   };
 
   struct ExpressionElement
   {
     ExpressionElement();
 
-    void putOperand(int value);
+    void putOperand(long long value);
     void putOperation(char symbol);
     void putBracket(char symbol);
     const std::string getType() const;

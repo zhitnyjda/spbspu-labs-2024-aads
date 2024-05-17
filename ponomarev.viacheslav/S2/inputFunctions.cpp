@@ -16,10 +16,10 @@ void ponomarev::inputExpressions(std::istream & input, Queue< std::string > & ex
   }
 }
 
-void ponomarev::getResults(Queue< std::string > & expressions, Stack< int > & res)
+void ponomarev::getResults(Queue< std::string > & expressions, Stack< long long > & res)
 {
   std::string expression;
-  int resOfExpression = 0;
+  long long resOfExpression = 0;
   Postfix postfix;
 
   while (!expressions.empty())

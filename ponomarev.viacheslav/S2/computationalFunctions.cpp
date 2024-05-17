@@ -118,7 +118,7 @@ bool ponomarev::shouldPushOpToStack(const Stack< ExpressionElement > & stack, co
   return false;
 }
 
-int ponomarev::calculate(std::string & expression)
+long long ponomarev::calculate(std::string & expression)
 {
   Postfix postfix;
   getPostfix(expression, postfix);
@@ -134,9 +134,9 @@ int ponomarev::calculate(std::string & expression)
     }
     else if (elem.getType() == "Operation")
     {
-      Operand left = stack.getUp();
-      stack.pop();
       Operand right = stack.getUp();
+      stack.pop();
+      Operand left = stack.getUp();
       stack.pop();
       Operand res = elem.getOperation().useOperation(left, right);
       stack.push(res);
