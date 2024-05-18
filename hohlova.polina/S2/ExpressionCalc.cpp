@@ -8,10 +8,48 @@ namespace hohlova
 {
   std::unordered_map< char, int > priority = { {'-', 0}, {'+', 0}, {'*', 1}, {'/', 1}, {'%', 1}, {'(', -1}, {')', -1} };
   using Func = long long (*)(long long, long long);
-  long long sum(long long a, long long b) { return a + b; }
-  long long mult(long long a, long long b) { return a * b; }
-  long long div(long long a, long long b) { return a - b; }
-  long long sub(long long a, long long b) { return a / b; }
+  long long sum(long long a, long long b)
+  {
+    long long max = LONG_LONG_MAX;
+    if (a > max - b)
+    {
+      throw std::runtime_error("Overflow");
+    }
+    return a + b;
+  }
+  long long mult(long long a, long long b)
+  {
+    long long max = LLONG_MAX;
+    if (a > max / b)
+    {
+      throw std::runtime_error("Overflow");
+    }
+    return a * b;
+  }
+  long long div(long long a, long long b)
+  {
+    if (b == 0)
+    {
+      throw std::runtime_error("");
+    }
+    if (a == LLONG_MIN && b == -1)
+    {
+      throw std::runtime_error("Overflow");
+    }
+    return a / b;
+  }
+  long long sub(long long a, long long b)
+  {
+    if (b > 0 && a > LLONG_MAX - b)
+    {
+      throw std::runtime_error("Overflow");
+    }
+    if (b < 0 && a < LLONG_MIN - b)
+    {
+      throw std::runtime_error("Overflow");
+    }
+    return a - b;
+  }
   long long mod(long long a, long long b) { return a % b; }
   std::unordered_map< char, Func > operation = { {'+', sum}, {'-', div}, {'%', mod}, {'*', mult}, {'/', sub} };
 
