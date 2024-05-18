@@ -63,6 +63,7 @@ namespace psarev
     Unit* treeRoot;
     size_t treeSize;
 
+    size_t count(Unit* root) const;
     void undercut(Unit* unit);
     Unit* delUnit(Unit* node, const Key& key);
     size_t getHeight(Unit* unit);
@@ -497,6 +498,96 @@ void psarev::avlTree<Key, Value, Compare>::undercut(Unit* unit)
     delete treeRoot;
     treeRoot = nullptr;
   }
+}
+
+template<typename Key, typename Value, typename Compare>
+typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Value, Compare >::delUnit(Unit* unit, const Key& key)
+{
+  Compare compare;
+  if (unit == nullptr)
+  {
+    return unit;
+  }
+
+  if (cmp_(key, unit->data.first))
+  {
+    unit->left = delUnit(unit->left, key);
+  }
+  else if (compare(unit->data.first, key))
+  {
+    unit->right = delUnit(unit->right, key);
+  }
+  else
+  {
+    Unit* tempo = nullptr;
+    if ((unit->left == nullptr) && (unit->right == nullptr))
+    {
+      delete unit;
+      return nullptr;
+    }
+    else if (unit->right == nullptr)
+    {
+      tempo = unit->left;
+      *unit = *tempo;
+      delete tempo;
+    }
+    else if (tempo->left == nullptr)
+    {
+      tempo = unit->right;
+      *unit = *tempo;
+      delete tempo;
+    }
+    else
+    {
+      tempo = unit->right;
+      while (tempo->left != nullptr)
+      {
+        tempo = tempo->left;
+      }
+      unit->data = tempo->data;
+      unit->right = delUnit(unit->right, tempo->data.first);
+    }
+  }
+
+  size_t differ = 0;
+  if (unit->left != nullptr)
+  {
+    differ = getHeight(unit->left) - getHeight(unit->right);
+  }
+
+  if (differ == 2)
+  {
+    differ = 0;
+    if (unit->left != nullptr)
+    {
+      differ = getHeight(unit->left) - getHeight(unit->right);
+    }
+    if (differ > 0)
+    {
+      unit = rrTurn(unit);
+    }
+    else
+    {
+      unit = lrTurn(unit);
+    }
+  }
+  else if (differ == -2)
+  {
+    differ = 0;
+    if (unit->left != nullptr)
+    {
+      differ = getHeight(unit->left) - getHeight(unit->right);
+    }
+    if (differ > 0)
+    {
+      unit = rlTurn(unit);
+    }
+    else
+    {
+      unit = llTurn(unit);
+    }
+  }
+  return unit;
 }
 
 template < typename Key, typename Value, typename Compare >
