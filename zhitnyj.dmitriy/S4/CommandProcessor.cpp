@@ -3,38 +3,46 @@
 #include <stdexcept>
 #include "CommandProcessor.hpp"
 
-void processLine(const std::string &line, bsTree< std::string, bsTree< long long, std::string>> &dicts) {
-  std::string dataset;
-  bsTree< long long, std::string > tree;
-  bool isFirstToken = true;
-  std::string lastKey;
-
-  size_t start = 0;
-  size_t end = line.find(' ');
-
-  while (end != std::string::npos) {
-    std::string token = line.substr(start, end - start);
-    if (isFirstToken) {
-      dataset = token;
-      isFirstToken = false;
-    }
-    else if (lastKey.empty()) {
-      lastKey = token;
-    }
-    else {
-      long long key = std::stoll(lastKey);
-      tree.push(key, token);
-      lastKey.clear();
-    }
-    start = end + 1;
-    end = line.find(' ', start);
+void parseLineToTree(const std::string &line, bsTree< std::string, bsTree< long long, std::string>> &dicts) {
+  if (line.empty()) {
+    return;
   }
 
-  if (start < line.size()) {
-    std::string token = line.substr(start);
-    if (!lastKey.empty()) {
-      long long key = std::stoll(lastKey);
-      tree.push(key, token);
+  size_t pos = 0;
+  size_t spacePos = line.find(' ');
+  std::string dataset = line.substr(0, spacePos);
+  bsTree< long long, std::string > tree;
+
+  if (spacePos != std::string::npos) {
+    pos = spacePos + 1;
+    std::string lastKey;
+
+    while (pos < line.length()) {
+      size_t nextSpace = line.find(' ', pos);
+
+      if (nextSpace == std::string::npos) {
+        if (lastKey.empty()) {
+          lastKey = line.substr(pos);
+        }
+        else {
+          long long key = std::stoll(lastKey);
+          std::string value = line.substr(pos);
+          tree.push(key, value);
+        }
+        break;
+      }
+      else {
+        if (lastKey.empty()) {
+          lastKey = line.substr(pos, nextSpace - pos);
+        }
+        else {
+          long long key = std::stoll(lastKey);
+          std::string value = line.substr(pos, nextSpace - pos);
+          tree.push(key, value);
+          lastKey.clear();
+        }
+        pos = nextSpace + 1;
+      }
     }
   }
 
@@ -49,9 +57,7 @@ void loadTreeFromFile(const std::string &filename, bsTree< std::string, bsTree< 
 
   std::string line;
   while (std::getline(file, line)) {
-    if (!line.empty()) {
-      processLine(line, dicts);
-    }
+    parseLineToTree(line, dicts);
   }
   file.close();
 }
