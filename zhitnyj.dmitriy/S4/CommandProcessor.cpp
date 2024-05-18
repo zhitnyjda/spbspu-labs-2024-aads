@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include "CommandProcessor.hpp"
 
-void parseLineToTree(const std::string &line, bsTree< std::string, bsTree< long long, std::string>> &dicts) {
+void processLineToTree(const std::string &line, bsTree< std::string, bsTree< long long, std::string>> &dicts) {
   if (line.empty()) {
     return;
   }
@@ -57,7 +57,7 @@ void loadTreeFromFile(const std::string &filename, bsTree< std::string, bsTree< 
 
   std::string line;
   while (std::getline(file, line)) {
-    parseLineToTree(line, dicts);
+    processLineToTree(line, dicts);
   }
   file.close();
 }
