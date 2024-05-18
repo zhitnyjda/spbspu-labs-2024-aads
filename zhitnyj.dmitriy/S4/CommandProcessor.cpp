@@ -84,7 +84,7 @@ void handleComplement(bsTree< std::string, bsTree< long long, std::string>> &dic
   std::cin >> newDataset >> dataset1 >> dataset2;
 
   auto emptyWarning = std::bind(displayWarning, std::ref(std::cout), "<EMPTY>\n");
-  
+
   try {
     const auto &tree1 = dicts.get(dataset1);
     const auto &tree2 = dicts.get(dataset2);
