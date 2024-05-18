@@ -152,7 +152,6 @@ namespace hohlova
     {
       auto& expr = expressions.front();
       expr = InfixToPostfix(expr);
-      results.push(Calculate(expr));
       if (expr.empty())
       {
         expressions.pop();
