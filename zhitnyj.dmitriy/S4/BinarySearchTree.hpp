@@ -11,7 +11,6 @@ template< typename Key, typename Value, typename Compare = std::less< Key>>
 class bsTree {
 public:
   class Iterator;
-
   class ConstIterator;
 
   bsTree();
@@ -56,11 +55,11 @@ private:
     Node *parent;
 
     Node(Key k, Value v, Node *p = nullptr) :
-    data(std::make_pair(k, v)),
-    left(nullptr),
-    right(nullptr),
-    parent(p)
-    {}
+      data(std::make_pair(k, v)),
+      left(nullptr),
+      right(nullptr),
+      parent(p) {
+    }
   };
 
   Node *root;
@@ -207,7 +206,7 @@ bsTree< Key, Value, Compare >::Iterator::operator++() {
 }
 
 template< typename Key, typename Value, typename Compare >
-typename bsTree< Key, Value, Compare >::Iterator 
+typename bsTree< Key, Value, Compare >::Iterator
 bsTree< Key, Value, Compare >::Iterator::operator++(int) {
   Iterator temp = *this;
   ++(*this);
@@ -245,14 +244,14 @@ bsTree< Key, Value, Compare >::bsTree() : root(nullptr), node_count(0) {
 
 template< typename Key, typename Value, typename Compare >
 bsTree< Key, Value, Compare >::bsTree(const bsTree &other):
-root(copyTree(other.root, nullptr)),
-node_count(other.node_count)
-{}
+  root(copyTree(other.root, nullptr)),
+  node_count(other.node_count) {
+}
 
 template< typename Key, typename Value, typename Compare >
 bsTree< Key, Value, Compare >::bsTree(bsTree &&other) noexcept:
-root(other.root),
-node_count(other.node_count) {
+  root(other.root),
+  node_count(other.node_count) {
   other.root = nullptr;
   other.node_count = 0;
 }
