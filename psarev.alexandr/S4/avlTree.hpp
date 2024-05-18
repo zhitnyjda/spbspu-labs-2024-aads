@@ -66,6 +66,11 @@ namespace psarev
     void delUnit(Unit* unit);
     size_t getHeight(Unit* unit);
 
+    Unit* llTurn(Unit* moveU);
+    Unit* lrTurn(Unit* moveU);
+    Unit* rrTurn(Unit* moveU);
+    Unit* rlTurn(Unit* moveU);
+
     Unit* updData(Unit* unit, const dataType& data);
     Unit* updData(Unit* unit, dataType&& data);
   };
@@ -80,6 +85,7 @@ public:
 
   ConstIterator();
   ConstIterator(Iterator that);
+  ConstIterator(const this_t&) = default;
   ~ConstIterator() = default;
 
   this_t& operator=(const this_t&) = default;
@@ -426,7 +432,7 @@ typename psarev::avlTree< Key, Value, Compare >::Iterator psarev::avlTree<Key, V
     }
     else
     {
-      return ConstIterator(Iterator(tempo, treeRoot));
+      return ConstIterator(tempo, treeRoot);
     }
   }
   return end();
@@ -469,6 +475,60 @@ size_t psarev::avlTree< Key, Value, Compare >::getHeight(Unit* unit)
     height = std::max(heightL, heightR) + 1;
   }
   return height;
+}
+
+template<typename Key, typename Value, typename Compare>
+typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree<Key, Value, Compare>::llTurn(Unit* moveU)
+{
+  Unit* tempo = moveU->right;
+  Unit* ancest = moveU->ancest;
+  moveU->right = tempo->left;
+
+  if (moveU->right != nullptr)
+  {
+    moveU->right->ancest = moveU;
+  }
+
+  tempo->left = moveU;
+  tempo->left->ancest = tempo;
+  tempo->ancest = ancest;
+  return tempo;
+}
+
+template<typename Key, typename Value, typename Compare>
+typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree<Key, Value, Compare>::lrTurn(Unit* moveU)
+{
+  moveU->left = llTurn(moveU->left);
+  Unit* moved = rrTurn(moveU);
+
+  return moved;
+}
+
+template<typename Key, typename Value, typename Compare>
+typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree<Key, Value, Compare>::rrTurn(Unit* moveU)
+{
+  Unit* tempo = moveU->left;
+  Unit* ancest = moveU->ancest;
+  moveU->left = tempo->right;
+
+  if (moveU->left != nullptr)
+  {
+    moveU->left->ancest = moveU;
+  }
+
+  tempo->right = moveU;
+  tempo->right->ancest = tempo;
+  tempo->ancest = ancest;
+  return tempo;
+}
+
+template<typename Key, typename Value, typename Compare>
+typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree<Key, Value, Compare>::rlTurn(Unit* moveU)
+{
+  moveU->right = rrTurn(moveU->right);
+  Unit* moved = llTurn(moveU);
+
+  return moved;
 }
 
 template < typename Key, typename Value, typename Compare >
