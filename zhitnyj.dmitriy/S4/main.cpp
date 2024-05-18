@@ -11,14 +11,14 @@ int main(int argc, char *argv[]) {
   }
 
   bsTree< std::string, bsTree< long long, std::string > > dictionaries;
-  bsTree< std::string, std::function< void(bsTree< std::string, bsTree< long long, std::string> > &) > > cmds;
+  bsTree< std::string, std::function< void(bsTree< std::string, bsTree< long long, std::string > > &) > > cmds;
 
   cmds.insert(std::make_pair("print", handlePrint));
   cmds.insert(std::make_pair("complement", handleComplement));
   cmds.insert(std::make_pair("intersect", handleIntersect));
   cmds.insert(std::make_pair("union", handleUnion));
 
-  auto invalidCommandWarning = std::bind(displayWarning, std::ref(std::cerr), "<INVALID COMMAND>\n");
+  auto invalidCommandWarning = std::bind(displayWarning, std::ref(std::cout), "<INVALID COMMAND>\n");
 
   try {
     loadTreeFromFile(argv[1], dictionaries);
