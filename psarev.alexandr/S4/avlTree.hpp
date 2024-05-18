@@ -21,6 +21,7 @@ namespace psarev
     ~avlTree();
 
     avlTree& operator=(const avlTree& that);
+    void clear();
 
     iter begin() noexcept;
     cIter begin() const noexcept;
@@ -62,6 +63,7 @@ namespace psarev
     Unit* treeRoot;
     size_t treeSize;
 
+    void delUnit(Unit* unit);
     size_t getHeight(Unit* unit);
 
     Unit* updData(Unit* unit, const dataType& data);
@@ -354,6 +356,13 @@ psarev::avlTree< Key, Value, Compare >& psarev::avlTree<Key, Value, Compare>::op
 }
 
 template<typename Key, typename Value, typename Compare>
+void psarev::avlTree<Key, Value, Compare>::clear()
+{
+  delUnit(treeRoot);
+  treeRoot = nullptr;
+}
+
+template<typename Key, typename Value, typename Compare>
 typename psarev::avlTree< Key, Value, Compare >::Iterator psarev::avlTree<Key, Value, Compare>::begin() noexcept
 {
   Unit* tempo = treeRoot;
@@ -435,6 +444,18 @@ typename psarev::avlTree< Key, Value, Compare >::Iterator psarev::avlTree< Key, 
 {
   treeRoot = updData(treeRoot, std::move(data));
   return find(data.first);
+}
+
+template<typename Key, typename Value, typename Compare>
+void psarev::avlTree<Key, Value, Compare>::delUnit(Unit* unit)
+{
+  if (treeRoot != nullptr)
+  {
+    delUnit(treeRoot->left);
+    delUnit(treeRoot->right);
+    delete treeRoot;
+    treeRoot = nullptr;
+  }
 }
 
 template < typename Key, typename Value, typename Compare >
