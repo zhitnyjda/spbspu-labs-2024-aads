@@ -31,9 +31,9 @@ int main(int argc, char** argv)
 
   while(!results.empty())
   {
-    std::cout << results.top() << ' ';
+    std::cout << results.top();
     results.pop();
   }
-  return 0;
   std::cout << "\n";
+  return 0;
 }
