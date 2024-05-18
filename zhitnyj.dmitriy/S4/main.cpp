@@ -1,5 +1,6 @@
 #include <iostream>
 #include <functional>
+#include <limits>
 #include "BinarySearchTree.hpp"
 #include "CommandProcessor.hpp"
 
@@ -30,7 +31,7 @@ int main(int argc, char *argv[]) {
     std::string command;
     std::cin >> command;
 
-    auto commandIter = commands.find(command);
+    auto commandIter = cmds.find(command);
     if (commandIter != cmds.end() && !command.empty()) {
       commandIter->second(dictionaries);
     }
