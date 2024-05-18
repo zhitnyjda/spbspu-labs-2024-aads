@@ -1,7 +1,7 @@
 #include <iostream>
 #include "ExpressionCalc.hpp"
 #include <fstream>
-#include <limits>
+#include <climits>
 
 int main(int argc, char** argv)
 {
