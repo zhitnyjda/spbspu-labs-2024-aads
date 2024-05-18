@@ -130,15 +130,21 @@ void handleUnion(bsTree< std::string, bsTree< long long, std::string>> &dicts) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
 
-  auto invalidCommandWarning = std::bind(displayWarning, std::ref(std::cout), "<INVALID COMMAND>\n");
+  auto invalidCommandWarning = std::bind(displayWarning, std::ref(std::cerr), "<INVALID COMMAND>\n");
 
   try {
     const auto &tree1 = dicts.get(dataset1);
     const auto &tree2 = dicts.get(dataset2);
-    bsTree< long long, std::string > result = tree1;
+    bsTree< long long, std::string > result;
+
+    for (auto it = tree1.begin(); it != tree1.end(); ++it) {
+      result.push(it->first, it->second);
+    }
 
     for (auto it = tree2.begin(); it != tree2.end(); ++it) {
-      result.push(it->first, it->second);
+      if (result.count(it->first) == 0) {
+        result.push(it->first, it->second);
+      }
     }
 
     dicts.push(newDataset, result);
