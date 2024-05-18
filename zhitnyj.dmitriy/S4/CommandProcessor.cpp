@@ -128,10 +128,16 @@ void handleUnion(bsTree< std::string, bsTree< long long, std::string > > &dicts)
   else {
     const auto &tree1 = it1->second;
     const auto &tree2 = it2->second;
-    bsTree< long long, std::string > result = tree1;
+    bsTree< long long, std::string > result;
+
+    for (auto it = tree1.begin(); it != tree1.end(); ++it) {
+      result.push(it->first, it->second);
+    }
 
     for (auto it = tree2.begin(); it != tree2.end(); ++it) {
-      result.push(it->first, it->second);
+      if (result.count(it->first) == 0) {
+        result.push(it->first, it->second);
+      }
     }
 
     dicts.push(newDataset, result);
