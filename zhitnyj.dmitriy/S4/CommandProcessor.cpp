@@ -62,20 +62,16 @@ void handlePrint(bsTree< std::string, bsTree< long long, std::string>> &dicts) {
 
   auto emptyWarning = std::bind(displayWarning, std::ref(std::cout), "<EMPTY>\n");
 
-  try {
-    const auto &tree = dicts.get(dataset);
-    if (tree.empty()) {
-      emptyWarning();
-    }
-    else {
-      std::cout << dataset;
-      for (auto it = tree.begin(); it != tree.end(); ++it) {
-        std::cout << " " << it->first << " " << it->second;
-      }
-      std::cout << "\n";
-    }
-  } catch (const std::runtime_error &) {
+  const auto &tree = dicts.get(dataset);
+  if (tree.empty()) {
     emptyWarning();
+  }
+  else {
+    std::cout << dataset;
+    for (auto it = tree.begin(); it != tree.end(); ++it) {
+      std::cout << " " << it->first << " " << it->second;
+    }
+    std::cout << "\n";
   }
 }
 
@@ -85,71 +81,58 @@ void handleComplement(bsTree< std::string, bsTree< long long, std::string>> &dic
 
   auto invalidCommandWarning = std::bind(displayWarning, std::ref(std::cout), "<INVALID COMMAND>\n");
 
-  try {
-    const auto &tree1 = dicts.get(dataset1);
-    const auto &tree2 = dicts.get(dataset2);
-    bsTree< long long, std::string > result;
-
-    for (auto it = tree1.begin(); it != tree1.end(); ++it) {
-      if (tree2.count(it->first) == 0) {
-        result.push(it->first, it->second);
-      }
-    }
-
-    dicts.push(newDataset, result);
-  } catch (const std::runtime_error &) {
+  const auto &tree1 = dicts.get(dataset1);
+  const auto &tree2 = dicts.get(dataset2);
+  if (tree1.empty() || tree2.empty()) {
     invalidCommandWarning();
   }
+  bsTree< long long, std::string > result;
+
+  for (auto it = tree1.begin(); it != tree1.end(); ++it) {
+    if (tree2.count(it->first) == 0) {
+      result.push(it->first, it->second);
+    }
+  }
+
+  dicts.push(newDataset, result);
 }
 
-void handleIntersect(bsTree< std::string, bsTree< long long, std::string>> &dicts) {
+void handleIntersect(bsTree< std::string, bsTree< long long, std::string > > &dicts) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
 
-  auto invalidCommandWarning = std::bind(displayWarning, std::ref(std::cout), "<INVALID COMMAND>\n");
+  const auto &tree1 = dicts.get(dataset1);
+  const auto &tree2 = dicts.get(dataset2);
+  bsTree< long long, std::string > result;
 
-  try {
-    const auto &tree1 = dicts.get(dataset1);
-    const auto &tree2 = dicts.get(dataset2);
-    bsTree< long long, std::string > result;
-
-    for (auto it = tree1.begin(); it != tree1.end(); ++it) {
-      if (tree2.count(it->first) == 1) {
-        result.push(it->first, it->second);
-      }
+  for (auto it = tree1.begin(); it != tree1.end(); ++it) {
+    if (tree2.count(it->first) == 1) {
+      result.push(it->first, it->second);
     }
-
-    dicts.push(newDataset, result);
-  } catch (const std::runtime_error &) {
-    invalidCommandWarning();
   }
+
+  dicts.push(newDataset, result);
 }
 
 void handleUnion(bsTree< std::string, bsTree< long long, std::string>> &dicts) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
 
-  auto invalidCommandWarning = std::bind(displayWarning, std::ref(std::cout), "<INVALID COMMAND>\n");
+  const auto &tree1 = dicts.get(dataset1);
+  const auto &tree2 = dicts.get(dataset2);
+  bsTree< long long, std::string > result;
 
-  try {
-    const auto &tree1 = dicts.get(dataset1);
-    const auto &tree2 = dicts.get(dataset2);
-    bsTree< long long, std::string > result;
+  for (auto it = tree1.begin(); it != tree1.end(); ++it) {
+    result.push(it->first, it->second);
+  }
 
-    for (auto it = tree1.begin(); it != tree1.end(); ++it) {
+  for (auto it = tree2.begin(); it != tree2.end(); ++it) {
+    if (result.count(it->first) == 0) {
       result.push(it->first, it->second);
     }
-
-    for (auto it = tree2.begin(); it != tree2.end(); ++it) {
-      if (result.count(it->first) == 0) {
-        result.push(it->first, it->second);
-      }
-    }
-
-    dicts.push(newDataset, result);
-  } catch (const std::runtime_error &) {
-    invalidCommandWarning();
   }
+
+  dicts.push(newDataset, result);
 }
 
 void displayWarning(std::ostream &out, const std::string &message) {
