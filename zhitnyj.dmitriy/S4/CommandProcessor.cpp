@@ -56,15 +56,92 @@ void loadTreeFromFile(const std::string &filename, bsTree< std::string, bsTree< 
   file.close();
 }
 
-void handlePrint(bsTree< std::string, bsTree< long long, std::string>> &dicts) {
+void handleIntersect(bsTree< std::string, bsTree< long long, std::string > > &dicts) {
+  std::string newDataset, dataset1, dataset2;
+  std::cin >> newDataset >> dataset1 >> dataset2;
+
+  auto invalidCommandWarning = std::bind(displayWarning, std::placeholders::_1, "<INVALID COMMAND>\n");
+
+  auto it1 = dicts.find(dataset1);
+  auto it2 = dicts.find(dataset2);
+  if (it1 == dicts.end() || it2 == dicts.end()) {
+    invalidCommandWarning(std::cout);
+  }
+  else {
+    const auto &tree1 = it1->second;
+    const auto &tree2 = it2->second;
+    bsTree< long long, std::string > result;
+
+    for (auto it = tree1.begin(); it != tree1.end(); ++it) {
+      if (tree2.count(it->first) == 1) {
+        result.push(it->first, it->second);
+      }
+    }
+
+    dicts.push(newDataset, result);
+  }
+}
+
+void handleComplement(bsTree< std::string, bsTree< long long, std::string > > &dicts) {
+  std::string newDataset, dataset1, dataset2;
+  std::cin >> newDataset >> dataset1 >> dataset2;
+
+  auto invalidCommandWarning = std::bind(displayWarning, std::placeholders::_1, "<INVALID COMMAND>\n");
+
+  auto it1 = dicts.find(dataset1);
+  auto it2 = dicts.find(dataset2);
+  if (it1 == dicts.end() || it2 == dicts.end()) {
+    invalidCommandWarning(std::cout);
+  }
+  else {
+    const auto &tree1 = it1->second;
+    const auto &tree2 = it2->second;
+    bsTree< long long, std::string > result;
+
+    for (auto it = tree1.begin(); it != tree1.end(); ++it) {
+      if (tree2.count(it->first) == 0) {
+        result.push(it->first, it->second);
+      }
+    }
+
+    dicts.push(newDataset, result);
+  }
+}
+
+void handleUnion(bsTree< std::string, bsTree< long long, std::string > > &dicts) {
+  std::string newDataset, dataset1, dataset2;
+  std::cin >> newDataset >> dataset1 >> dataset2;
+
+  auto invalidCommandWarning = std::bind(displayWarning, std::placeholders::_1, "<INVALID COMMAND>\n");
+
+  auto it1 = dicts.find(dataset1);
+  auto it2 = dicts.find(dataset2);
+  if (it1 == dicts.end() || it2 == dicts.end()) {
+    invalidCommandWarning(std::cout);
+  }
+  else {
+    const auto &tree1 = it1->second;
+    const auto &tree2 = it2->second;
+    bsTree< long long, std::string > result = tree1;
+
+    for (auto it = tree2.begin(); it != tree2.end(); ++it) {
+      result.push(it->first, it->second);
+    }
+
+    dicts.push(newDataset, result);
+  }
+}
+
+void handlePrint(bsTree< std::string, bsTree< long long, std::string > > &dicts) {
   std::string dataset;
   std::cin >> dataset;
 
-  auto emptyWarning = std::bind(displayWarning, std::ref(std::cout), "<EMPTY>\n");
+  auto emptyCommandWarning = std::bind(displayWarning, std::placeholders::_1, "<EMPTY>\n");
 
-  const auto &tree = dicts.get(dataset);
+  auto it = dicts.find(dataset);
+  const auto &tree = it->second;
   if (tree.empty()) {
-    emptyWarning();
+    emptyCommandWarning(std::cout);
   }
   else {
     std::cout << dataset;
@@ -73,66 +150,6 @@ void handlePrint(bsTree< std::string, bsTree< long long, std::string>> &dicts) {
     }
     std::cout << "\n";
   }
-}
-
-void handleComplement(bsTree< std::string, bsTree< long long, std::string>> &dicts) {
-  std::string newDataset, dataset1, dataset2;
-  std::cin >> newDataset >> dataset1 >> dataset2;
-
-  auto invalidCommandWarning = std::bind(displayWarning, std::ref(std::cout), "<INVALID COMMAND>\n");
-
-  const auto &tree1 = dicts.get(dataset1);
-  const auto &tree2 = dicts.get(dataset2);
-  if (tree1.empty() || tree2.empty()) {
-    invalidCommandWarning();
-  }
-  bsTree< long long, std::string > result;
-
-  for (auto it = tree1.begin(); it != tree1.end(); ++it) {
-    if (tree2.count(it->first) == 0) {
-      result.push(it->first, it->second);
-    }
-  }
-
-  dicts.push(newDataset, result);
-}
-
-void handleIntersect(bsTree< std::string, bsTree< long long, std::string > > &dicts) {
-  std::string newDataset, dataset1, dataset2;
-  std::cin >> newDataset >> dataset1 >> dataset2;
-
-  const auto &tree1 = dicts.get(dataset1);
-  const auto &tree2 = dicts.get(dataset2);
-  bsTree< long long, std::string > result;
-
-  for (auto it = tree1.begin(); it != tree1.end(); ++it) {
-    if (tree2.count(it->first) == 1) {
-      result.push(it->first, it->second);
-    }
-  }
-
-  dicts.push(newDataset, result);
-}
-
-void handleUnion(bsTree< std::string, bsTree< long long, std::string>> &dicts) {
-  std::string newDataset, dataset1, dataset2;
-  std::cin >> newDataset >> dataset1 >> dataset2;
-
-  const auto &tree1 = dicts.get(dataset1);
-  const auto &tree2 = dicts.get(dataset2);
-  bsTree< long long, std::string > result;
-
-  for (auto it = tree1.begin(); it != tree1.end(); ++it) {
-    result.push(it->first, it->second);
-  }
-
-  for (auto it = tree2.begin(); it != tree2.end(); ++it) {
-    if (result.count(it->first) == 0) {
-      result.push(it->first, it->second);
-    }
-  }
-
-  dicts.push(newDataset, result);
 }
 
 void displayWarning(std::ostream &out, const std::string &message) {
