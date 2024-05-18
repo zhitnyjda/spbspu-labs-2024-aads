@@ -972,4 +972,25 @@ typename miheev::Tree< Key, Value, Comparator >::ConstIterator miheev::Tree< Key
   return Iterator(nullptr, const_cast< Tree* >(getMaxNode()));
 }
 
+
+template< typename Key, typename Value, typename Comparator >
+typename miheev::Tree< Key, Value, Comparator >::iter_pair miheev::Tree< Key, Value, Comparator >::equalRange(const Key& key)
+{
+  Iterator start = find(key);
+  Iterator end = start;
+  for (; end->first == key; end++)
+  {}
+  return iter_pair(start, end);
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename miheev::Tree< Key, Value, Comparator >::const_iter_pair miheev::Tree< Key, Value, Comparator >::equalRange(const Key& key) const
+{
+  ConstIterator start = find(key);
+  ConstIterator end = start;
+  for (; end->first == key; end++)
+  {}
+  return const_iter_pair(start, end);
+}
+
 #endif
