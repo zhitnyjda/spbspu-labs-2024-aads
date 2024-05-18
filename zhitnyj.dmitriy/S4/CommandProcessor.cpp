@@ -60,6 +60,7 @@ void handlePrint(bsTree< std::string, bsTree< long long, std::string>> &dicts) {
   std::string dataset;
   std::cin >> dataset;
 
+  auto invalidCommandWarning = std::bind(displayWarning, std::ref(std::cout), "<INVALID COMMAND>\n");
   auto emptyWarning = std::bind(displayWarning, std::ref(std::cout), "<EMPTY>\n");
 
   try {
@@ -75,7 +76,7 @@ void handlePrint(bsTree< std::string, bsTree< long long, std::string>> &dicts) {
       std::cout << "\n";
     }
   } catch (const std::runtime_error &e) {
-    emptyWarning();
+    invalidCommandWarning();
   }
 }
 
@@ -83,7 +84,7 @@ void handleComplement(bsTree< std::string, bsTree< long long, std::string>> &dic
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
 
-  auto emptyWarning = std::bind(displayWarning, std::ref(std::cout), "<EMPTY>\n");
+  auto invalidCommandWarning = std::bind(displayWarning, std::ref(std::cout), "<INVALID COMMAND>\n");
 
   try {
     const auto &tree1 = dicts.get(dataset1);
@@ -98,7 +99,7 @@ void handleComplement(bsTree< std::string, bsTree< long long, std::string>> &dic
 
     dicts.push(newDataset, result);
   } catch (const std::runtime_error &) {
-    emptyWarning();
+    invalidCommandWarning();
   }
 }
 
@@ -106,7 +107,7 @@ void handleIntersect(bsTree< std::string, bsTree< long long, std::string>> &dict
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
 
-  auto emptyWarning = std::bind(displayWarning, std::ref(std::cout), "<EMPTY>\n");
+  auto invalidCommandWarning = std::bind(displayWarning, std::ref(std::cout), "<INVALID COMMAND>\n");
 
   try {
     const auto &tree1 = dicts.get(dataset1);
@@ -121,7 +122,7 @@ void handleIntersect(bsTree< std::string, bsTree< long long, std::string>> &dict
 
     dicts.push(newDataset, result);
   } catch (const std::runtime_error &) {
-    emptyWarning();
+    invalidCommandWarning();
   }
 }
 
@@ -129,7 +130,7 @@ void handleUnion(bsTree< std::string, bsTree< long long, std::string>> &dicts) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
 
-  auto emptyWarning = std::bind(displayWarning, std::ref(std::cout), "<EMPTY>\n");
+  auto invalidCommandWarning = std::bind(displayWarning, std::ref(std::cout), "<INVALID COMMAND>\n");
 
   try {
     const auto &tree1 = dicts.get(dataset1);
@@ -142,7 +143,7 @@ void handleUnion(bsTree< std::string, bsTree< long long, std::string>> &dicts) {
 
     dicts.push(newDataset, result);
   } catch (const std::runtime_error &) {
-    emptyWarning();
+    invalidCommandWarning();
   }
 }
 
