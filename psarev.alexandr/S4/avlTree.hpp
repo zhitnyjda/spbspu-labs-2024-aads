@@ -1,6 +1,7 @@
 #ifndef AVL_TREE_HPP
 #define AVL_TREE_HPP
 #include <utility>
+#include <assert.h>
 
 namespace psarev
 {
@@ -35,10 +36,6 @@ namespace psarev
     iter insert(dataType& data);
     iter insert(dataType&& data);
     Value& at(const Key& key);
-    Value& operator[](const Key& key);
-    //void push(Key k, Value v);
-    //Value get(Key k);
-    //Value drop(Key k);
 
   private:
 
@@ -258,7 +255,7 @@ typename psarev::avlTree< Key, Value, Compare >::Iterator& psarev::avlTree< Key,
 {
   assert(imIter != ConstIterator());
   imIter++;
-  return imIter;
+  return *this;
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -389,13 +386,13 @@ typename psarev::avlTree< Key, Value, Compare >::ConstIterator psarev::avlTree<K
   {
     tempo = tempo->left;
   }
-  return Iterator(tempo, treeRoot);
+  return ConstIterator(tempo, treeRoot);
 }
 
 template<typename Key, typename Value, typename Compare>
 typename psarev::avlTree< Key, Value, Compare >::Iterator psarev::avlTree<Key, Value, Compare>::end() noexcept
 {
-  return Iterator(nullptr, treeRoot);
+  return Iterator(ConstIterator(nullptr, treeRoot));
 }
 
 template<typename Key, typename Value, typename Compare>
@@ -459,13 +456,14 @@ Value& psarev::avlTree<Key, Value, Compare>::at(const Key& key)
 {
   Compare compare;
   Unit* tempo = treeRoot;
+
   while (tempo != nullptr)
   {
     if (compare(tempo->data.first, key))
     {
       tempo = tempo->right;
     }
-    else if (compare(key, tempo->data.first))
+    else if (comapre(key, tempo->data.first))
     {
       tempo = tempo->left;
     }
@@ -474,12 +472,6 @@ Value& psarev::avlTree<Key, Value, Compare>::at(const Key& key)
       return tempo->data.second;
     }
   }
-}
-
-template<typename Key, typename Value, typename Compare>
-Value& psarev::avlTree<Key, Value, Compare>::operator[](const Key& key)
-{
-  // TODO: insert return statement here
 }
 
 template<typename Key, typename Value, typename Compare>

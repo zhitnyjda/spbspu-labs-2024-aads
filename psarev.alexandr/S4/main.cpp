@@ -25,23 +25,25 @@ int main(int argc, char* argv[])
   
   psarev::fillTree(input, dataSets);
 
-  psarev::avlTree< std::string, std::function< void(psarev::avlTree< std::string, base_t >&, std::string&) > > taskCmds;
+  psarev::avlTree< std::string, std::function< void(psarev::avlTree< std::string, base_t >&) > > taskCmds;
   taskCmds.insert({ "print", print });
   taskCmds.insert({ "complement", complement });
   taskCmds.insert({ "intersect", intersect });
   taskCmds.insert({ "union", unite });
 
-  std::string taskCmd = "";
-  while (std::cin >> taskCmd)
+  while (!std::cin.eof())
   {
-    try
+    std::string cmd;
+    std::cin >> cmd;
+
+    auto cmdIter = taskCmds.find(cmd);
+    if (cmdIter != taskCmds.end() && !cmd.empty())
     {
-      taskCmds.at(taskCmd)(std::cin, std::cout, dataSets);
+      (*cmdIter).second(dataSets);
     }
-    catch (const std::out_of_range& e)
+    else if (!cmd.empty())
     {
       psarev::outError(std::cout, "<INVALID COMMAND>");
-      std::cin.clear();
       std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
     }
   }
