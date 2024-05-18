@@ -9,8 +9,8 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  BinarySearchTree< std::string, BinarySearchTree< long long, std::string > > dictionaries;
-  BinarySearchTree< std::string, std::function< void(BinarySearchTree< std::string, BinarySearchTree< long long, std::string> > &) > > cmds;
+  bsTree< std::string, bsTree< long long, std::string > > dictionaries;
+  bsTree< std::string, std::function< void(bsTree< std::string, bsTree< long long, std::string> > &) > > cmds;
 
   cmds.insert(std::make_pair("print", handlePrint));
   cmds.insert(std::make_pair("complement", handleComplement));
