@@ -11,6 +11,7 @@ template< typename Key, typename Value, typename Compare = std::less< Key>>
 class bsTree {
 public:
   class Iterator;
+
   class ConstIterator;
 
   bsTree();
@@ -308,7 +309,7 @@ void bsTree< Key, Value, Compare >::push(Key k, Value v) {
 template< typename Key, typename Value, typename Compare >
 Value bsTree< Key, Value, Compare >::get(Node *node, Key k) const {
   if (node == nullptr) {
-    throw std::runtime_error("");
+    return Value();
   }
   else if (comp(k, node->data.first)) {
     return get(node->left, k);
@@ -430,6 +431,9 @@ void bsTree< Key, Value, Compare >::swap(bsTree &other) {
 template< typename Key, typename Value, typename Compare >
 typename bsTree< Key, Value, Compare >::ConstIterator
 bsTree< Key, Value, Compare >::begin() const {
+  if (root == nullptr) {
+    return end();
+  }
   Node *root_ = root;
   while (root_->left) {
     root_ = root_->left;
@@ -446,6 +450,9 @@ bsTree< Key, Value, Compare >::end() const {
 template< typename Key, typename Value, typename Compare >
 typename bsTree< Key, Value, Compare >::Iterator
 bsTree< Key, Value, Compare >::begin() {
+  if (root == nullptr) {
+    return end();
+  }
   Node *root_ = root;
   while (root_->left) {
     root_ = root_->left;
