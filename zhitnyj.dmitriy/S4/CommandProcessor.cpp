@@ -76,7 +76,7 @@ void handlePrint(bsTree< std::string, bsTree< long long, std::string>> &dicts) {
       std::cout << "\n";
     }
   } catch (const std::runtime_error &e) {
-    invalidCommandWarning();
+    emptyWarning();
   }
 }
 
