@@ -3,9 +3,9 @@
 #include <stdexcept>
 #include "CommandProcessor.hpp"
 
-void processLine(const std::string &line, BinarySearchTree< std::string, BinarySearchTree< long long, std::string>> &dicts) {
+void processLine(const std::string &line, bsTree< std::string, bsTree< long long, std::string>> &dicts) {
   std::string dataset;
-  BinarySearchTree< long long, std::string > tree;
+  bsTree< long long, std::string > tree;
   bool isFirstToken = true;
   std::string lastKey;
 
@@ -41,7 +41,7 @@ void processLine(const std::string &line, BinarySearchTree< std::string, BinaryS
   dicts.push(dataset, tree);
 }
 
-void loadTreeFromFile(const std::string &filename, BinarySearchTree< std::string, BinarySearchTree< long long, std::string>> &dicts) {
+void loadTreeFromFile(const std::string &filename, bsTree< std::string, bsTree< long long, std::string>> &dicts) {
   std::ifstream file(filename);
   if (!file) {
     throw std::runtime_error("Unable to open file");
@@ -56,7 +56,7 @@ void loadTreeFromFile(const std::string &filename, BinarySearchTree< std::string
   file.close();
 }
 
-void handlePrint(BinarySearchTree< std::string, BinarySearchTree< long long, std::string>> &dicts) {
+void handlePrint(bsTree< std::string, bsTree< long long, std::string>> &dicts) {
   std::string dataset;
   std::cin >> dataset;
 
@@ -80,7 +80,7 @@ void handlePrint(BinarySearchTree< std::string, BinarySearchTree< long long, std
   }
 }
 
-void handleComplement(BinarySearchTree< std::string, BinarySearchTree< long long, std::string>> &dicts) {
+void handleComplement(bsTree< std::string, bsTree< long long, std::string>> &dicts) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
 
@@ -89,7 +89,7 @@ void handleComplement(BinarySearchTree< std::string, BinarySearchTree< long long
   try {
     const auto &tree1 = dicts.get(dataset1);
     const auto &tree2 = dicts.get(dataset2);
-    BinarySearchTree< long long, std::string > result;
+    bsTree< long long, std::string > result;
 
     for (auto it = tree1.begin(); it != tree1.end(); ++it) {
       if (tree2.count(it->first) == 0) {
@@ -103,7 +103,7 @@ void handleComplement(BinarySearchTree< std::string, BinarySearchTree< long long
   }
 }
 
-void handleIntersect(BinarySearchTree< std::string, BinarySearchTree< long long, std::string>> &dicts) {
+void handleIntersect(bsTree< std::string, bsTree< long long, std::string>> &dicts) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
 
@@ -112,7 +112,7 @@ void handleIntersect(BinarySearchTree< std::string, BinarySearchTree< long long,
   try {
     const auto &tree1 = dicts.get(dataset1);
     const auto &tree2 = dicts.get(dataset2);
-    BinarySearchTree< long long, std::string > result;
+    bsTree< long long, std::string > result;
 
     for (auto it = tree1.begin(); it != tree1.end(); ++it) {
       if (tree2.count(it->first) == 1) {
@@ -126,7 +126,7 @@ void handleIntersect(BinarySearchTree< std::string, BinarySearchTree< long long,
   }
 }
 
-void handleUnion(BinarySearchTree< std::string, BinarySearchTree< long long, std::string>> &dicts) {
+void handleUnion(bsTree< std::string, bsTree< long long, std::string>> &dicts) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
 
@@ -135,7 +135,7 @@ void handleUnion(BinarySearchTree< std::string, BinarySearchTree< long long, std
   try {
     const auto &tree1 = dicts.get(dataset1);
     const auto &tree2 = dicts.get(dataset2);
-    BinarySearchTree< long long, std::string > result = tree1;
+    bsTree< long long, std::string > result = tree1;
 
     for (auto it = tree2.begin(); it != tree2.end(); ++it) {
       result.push(it->first, it->second);
