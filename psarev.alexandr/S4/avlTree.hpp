@@ -20,10 +20,15 @@ namespace psarev
     avlTree(size_t& initSize, dataType& initData);
     ~avlTree();
 
+    avlTree& operator=(const avlTree& that);
+
     iter begin() noexcept;
     cIter begin() const noexcept;
     iter end() noexcept;
     cIter end() const noexcept;
+
+    bool isEmpty() const noexcept;
+    size_t getSize() const noexcept;
 
     iter find(Key& key);
     iter insert(dataType& data);
@@ -228,7 +233,7 @@ private:
   ConstIterator imIter;
 };
 
-template< typename Key, typename Value, typename Compare >
+template < typename Key, typename Value, typename Compare >
 psarev::avlTree< Key, Value, Compare >::Iterator::Iterator() :
   imIter(ConstIterator())
 {}
@@ -236,11 +241,6 @@ psarev::avlTree< Key, Value, Compare >::Iterator::Iterator() :
 template < typename Key, typename Value, typename Compare >
 psarev::avlTree< Key, Value, Compare >::Iterator::Iterator(ConstIterator that) :
   imIter(that)
-{}
-
-template< typename Key, typename Value, typename Compare >
-psarev::avlTree< Key, Value, Compare >::Iterator::Iterator(ConstIterator constIter) :
-  imIter(constIter)
 {}
 
 template< typename Key, typename Value, typename Compare >
@@ -340,6 +340,20 @@ psarev::avlTree< Key, Value, Compare >::~avlTree()
 }
 
 template<typename Key, typename Value, typename Compare>
+psarev::avlTree< Key, Value, Compare >& psarev::avlTree<Key, Value, Compare>::operator=(const avlTree& that)
+{
+  if (this != &that)
+  {
+    clear();
+    for (Iterator iterator = that.begin(); iterator != end(); ++iterator)
+    {
+      insert(*iterator);
+    }
+  }
+  return *this;
+}
+
+template<typename Key, typename Value, typename Compare>
 typename psarev::avlTree< Key, Value, Compare >::Iterator psarev::avlTree<Key, Value, Compare>::begin() noexcept
 {
   Unit* tempo = treeRoot;
@@ -371,6 +385,18 @@ template<typename Key, typename Value, typename Compare>
 typename psarev::avlTree< Key, Value, Compare >::ConstIterator psarev::avlTree<Key, Value, Compare>::end() const noexcept
 {
   return Iterator(nullptr, treeRoot);
+}
+
+template< typename Key, typename Value, typename Compare >
+bool psarev::avlTree< Key, Value, Compare >::isEmpty() const noexcept
+{
+  return (treeSize == 0);
+}
+
+template<typename Key, typename Value, typename Compare>
+size_t psarev::avlTree< Key, Value, Compare >::getSize() const noexcept
+{
+  return treeSize;
 }
 
 template<typename Key, typename Value, typename Compare>
