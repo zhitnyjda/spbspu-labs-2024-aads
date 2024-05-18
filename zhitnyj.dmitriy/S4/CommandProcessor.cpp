@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include "CommandProcessor.hpp"
 
-void processLine(const std::string &line, BinarySearchTree< std::string, BinarySearchTree< long long, std::string>> &dictionaries) {
+void processLine(const std::string &line, BinarySearchTree< std::string, BinarySearchTree< long long, std::string>> &dicts) {
   std::string dataset;
   BinarySearchTree< long long, std::string > tree;
   bool isFirstToken = true;
@@ -38,10 +38,10 @@ void processLine(const std::string &line, BinarySearchTree< std::string, BinaryS
     }
   }
 
-  dictionaries.push(dataset, tree);
+  dicts.push(dataset, tree);
 }
 
-void loadTreeFromFile(const std::string &filename, BinarySearchTree< std::string, BinarySearchTree< long long, std::string>> &dictionaries) {
+void loadTreeFromFile(const std::string &filename, BinarySearchTree< std::string, BinarySearchTree< long long, std::string>> &dicts) {
   std::ifstream file(filename);
   if (!file) {
     throw std::runtime_error("Unable to open file");
@@ -50,13 +50,13 @@ void loadTreeFromFile(const std::string &filename, BinarySearchTree< std::string
   std::string line;
   while (std::getline(file, line)) {
     if (!line.empty()) {
-      processLine(line, dictionaries);
+      processLine(line, dicts);
     }
   }
   file.close();
 }
 
-void handlePrint(BinarySearchTree< std::string, BinarySearchTree< long long, std::string>> &dictionaries) {
+void handlePrint(BinarySearchTree< std::string, BinarySearchTree< long long, std::string>> &dicts) {
   std::string dataset;
   std::cin >> dataset;
 
@@ -64,7 +64,7 @@ void handlePrint(BinarySearchTree< std::string, BinarySearchTree< long long, std
   auto emptyWarning = std::bind(displayWarning, std::ref(std::cout), "<EMPTY>\n");
 
   try {
-    const auto &tree = dictionaries.get(dataset);
+    const auto &tree = dicts.get(dataset);
     if (tree.empty()) {
       emptyWarning();
     }
@@ -80,15 +80,15 @@ void handlePrint(BinarySearchTree< std::string, BinarySearchTree< long long, std
   }
 }
 
-void handleComplement(BinarySearchTree< std::string, BinarySearchTree< long long, std::string>> &dictionaries) {
+void handleComplement(BinarySearchTree< std::string, BinarySearchTree< long long, std::string>> &dicts) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
 
   auto invalidCommandWarning = std::bind(displayWarning, std::ref(std::cout), "<INVALID COMMAND>\n");
 
   try {
-    const auto &tree1 = dictionaries.get(dataset1);
-    const auto &tree2 = dictionaries.get(dataset2);
+    const auto &tree1 = dicts.get(dataset1);
+    const auto &tree2 = dicts.get(dataset2);
     BinarySearchTree< long long, std::string > result;
 
     for (auto it = tree1.begin(); it != tree1.end(); ++it) {
@@ -97,21 +97,21 @@ void handleComplement(BinarySearchTree< std::string, BinarySearchTree< long long
       }
     }
 
-    dictionaries.push(newDataset, result);
+    dicts.push(newDataset, result);
   } catch (const std::runtime_error &) {
     invalidCommandWarning();
   }
 }
 
-void handleIntersect(BinarySearchTree< std::string, BinarySearchTree< long long, std::string>> &dictionaries) {
+void handleIntersect(BinarySearchTree< std::string, BinarySearchTree< long long, std::string>> &dicts) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
 
   auto invalidCommandWarning = std::bind(displayWarning, std::ref(std::cout), "<INVALID COMMAND>\n");
 
   try {
-    const auto &tree1 = dictionaries.get(dataset1);
-    const auto &tree2 = dictionaries.get(dataset2);
+    const auto &tree1 = dicts.get(dataset1);
+    const auto &tree2 = dicts.get(dataset2);
     BinarySearchTree< long long, std::string > result;
 
     for (auto it = tree1.begin(); it != tree1.end(); ++it) {
@@ -120,28 +120,28 @@ void handleIntersect(BinarySearchTree< std::string, BinarySearchTree< long long,
       }
     }
 
-    dictionaries.push(newDataset, result);
+    dicts.push(newDataset, result);
   } catch (const std::runtime_error &) {
     invalidCommandWarning();
   }
 }
 
-void handleUnion(BinarySearchTree< std::string, BinarySearchTree< long long, std::string>> &dictionaries) {
+void handleUnion(BinarySearchTree< std::string, BinarySearchTree< long long, std::string>> &dicts) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
 
   auto invalidCommandWarning = std::bind(displayWarning, std::ref(std::cout), "<INVALID COMMAND>\n");
 
   try {
-    const auto &tree1 = dictionaries.get(dataset1);
-    const auto &tree2 = dictionaries.get(dataset2);
+    const auto &tree1 = dicts.get(dataset1);
+    const auto &tree2 = dicts.get(dataset2);
     BinarySearchTree< long long, std::string > result = tree1;
 
     for (auto it = tree2.begin(); it != tree2.end(); ++it) {
       result.push(it->first, it->second);
     }
 
-    dictionaries.push(newDataset, result);
+    dicts.push(newDataset, result);
   } catch (const std::runtime_error &) {
     invalidCommandWarning();
   }
