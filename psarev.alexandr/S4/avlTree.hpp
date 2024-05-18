@@ -34,6 +34,8 @@ namespace psarev
     iter find(Key& key);
     iter insert(dataType& data);
     iter insert(dataType&& data);
+    Value& at(const Key& key);
+    Value& operator[](const Key& key);
     //void push(Key k, Value v);
     //Value get(Key k);
     //Value drop(Key k);
@@ -450,6 +452,34 @@ typename psarev::avlTree< Key, Value, Compare >::Iterator psarev::avlTree< Key, 
 {
   treeRoot = updData(treeRoot, std::move(data));
   return find(data.first);
+}
+
+template<typename Key, typename Value, typename Compare>
+Value& psarev::avlTree<Key, Value, Compare>::at(const Key& key)
+{
+  Compare compare;
+  Unit* tempo = treeRoot;
+  while (tempo != nullptr)
+  {
+    if (compare(tempo->data.first, key))
+    {
+      tempo = tempo->right;
+    }
+    else if (compare(key, tempo->data.first))
+    {
+      tempo = tempo->left;
+    }
+    else
+    {
+      return tempo->data.second;
+    }
+  }
+}
+
+template<typename Key, typename Value, typename Compare>
+Value& psarev::avlTree<Key, Value, Compare>::operator[](const Key& key)
+{
+  // TODO: insert return statement here
 }
 
 template<typename Key, typename Value, typename Compare>
