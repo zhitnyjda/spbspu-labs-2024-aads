@@ -32,10 +32,13 @@ namespace psarev
     bool isEmpty() const noexcept;
     size_t getSize() const noexcept;
 
+    std::pair< Iterator, Iterator > equalRange(const Key& key);
+
     iter find(Key& key);
     iter insert(dataType& data);
     iter insert(dataType&& data);
     size_t erase(const Key& key);
+
     Value& at(const Key& key);
 
   private:
@@ -414,6 +417,38 @@ template<typename Key, typename Value, typename Compare>
 size_t psarev::avlTree< Key, Value, Compare >::getSize() const noexcept
 {
   return treeSize;
+}
+
+template < typename Key, typename Value, typename Compare >
+using it = typename psarev::avlTree< Key, Value, Compare >::Iterator;
+
+template < typename Key, typename Value, typename Compare >
+using iterPair = std::pair< it< Key, Value, Compare >, it< Key, Value, Compare > >;
+
+template<typename Key, typename Value, typename Compare>
+iterPair< Key, Value, Compare > psarev::avlTree<Key, Value, Compare>::equalRange(const Key& key)
+{
+  Unit* unit = treeRoot;
+  Iterator startIt = begin();
+  Iterator tempo = begin();
+  Iterator finIt = ++tempo;
+  while (startIt != end())
+  {
+    if (startIt->first == key)
+    {
+      return(std::make_pair(startIt, finIt));
+    }
+    else if (startIt->first < key)
+    {
+      startIt++;
+      finIt++;
+    }
+    else
+    {
+      return(std::make_pair(startIt, startIt));
+    }
+  }
+  return std::make_pair(Iterator(nullptr), Iterator(nullptr));
 }
 
 template<typename Key, typename Value, typename Compare>
