@@ -148,11 +148,15 @@ void handlePrint(bsTree< std::string, bsTree< long long, std::string > > &dicts)
   std::string dataset;
   std::cin >> dataset;
 
+  auto invalidCommandWarning = std::bind(displayWarning, std::placeholders::_1, "<INVALID COMMAND>\n");
   auto emptyCommandWarning = std::bind(displayWarning, std::placeholders::_1, "<EMPTY>\n");
 
   auto it = dicts.find(dataset);
   const auto &tree = it->second;
-  if (tree.empty()) {
+  if (it == dicts.end()) {
+    invalidCommandWarning(std::cout);
+  }
+  else if (tree.empty()) {
     emptyCommandWarning(std::cout);
   }
   else {
