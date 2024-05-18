@@ -10,12 +10,12 @@ int main(int argc, char *argv[]) {
   }
 
   BinarySearchTree< std::string, BinarySearchTree< long long, std::string > > dictionaries;
-  BinarySearchTree< std::string, std::function< void(BinarySearchTree< std::string, BinarySearchTree< long long, std::string> > &) > > commands;
+  BinarySearchTree< std::string, std::function< void(BinarySearchTree< std::string, BinarySearchTree< long long, std::string> > &) > > cmds;
 
-  commands.insert(std::make_pair("print", handlePrint));
-  commands.insert(std::make_pair("complement", handleComplement));
-  commands.insert(std::make_pair("intersect", handleIntersect));
-  commands.insert(std::make_pair("union", handleUnion));
+  cmds.insert(std::make_pair("print", handlePrint));
+  cmds.insert(std::make_pair("complement", handleComplement));
+  cmds.insert(std::make_pair("intersect", handleIntersect));
+  cmds.insert(std::make_pair("union", handleUnion));
 
   auto invalidCommandWarning = std::bind(displayWarning, std::ref(std::cerr), "<INVALID COMMAND>\n");
 
@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
     std::cin >> command;
 
     auto commandIter = commands.find(command);
-    if (commandIter != commands.end() && !command.empty()) {
+    if (commandIter != cmds.end() && !command.empty()) {
       commandIter->second(dictionaries);
     }
     else if (!command.empty()) {
