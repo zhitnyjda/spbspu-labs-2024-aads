@@ -22,11 +22,11 @@ int main(int argc, char* argv[])
 
   using base_t = psarev::avlTree< int, std::string >;
   psarev::avlTree< std::string, base_t > dataSets;
-  
+
   psarev::fillTree(input, dataSets);
 
   psarev::avlTree< std::string, std::function< void(psarev::avlTree< std::string, base_t >&) > > taskCmds;
-  taskCmds.insert({"print", psarev::print });
+  taskCmds.insert({ "print", psarev::print });
   taskCmds.insert({ "complement", psarev::complement });
   taskCmds.insert({ "intersect", psarev::intersect });
   taskCmds.insert({ "union", psarev::unite });
