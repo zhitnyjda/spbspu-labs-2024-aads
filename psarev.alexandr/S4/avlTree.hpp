@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <algorithm>
 #include <iterator>
+#include <functional>
 #include <assert.h>
 
 namespace psarev
@@ -512,12 +513,12 @@ size_t psarev::avlTree<Key, Value, Compare>::count(Unit* unit) const
 template<typename Key, typename Value, typename Compare>
 void psarev::avlTree<Key, Value, Compare>::undercut(Unit* unit)
 {
-  if (treeRoot != nullptr)
+  if (unit != nullptr)
   {
-    undercut(treeRoot->left);
-    undercut(treeRoot->right);
-    delete treeRoot;
-    treeRoot = nullptr;
+    undercut(unit->left);
+    undercut(unit->right);
+    delete unit;
+    unit = nullptr;
   }
 }
 
