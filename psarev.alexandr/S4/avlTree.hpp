@@ -39,8 +39,6 @@ namespace psarev
     iter insert(dataType&& data);
     size_t erase(const Key& key);
 
-    Value& at(const Key& key);
-
   private:
 
     struct Unit
@@ -66,7 +64,7 @@ namespace psarev
     Unit* treeRoot;
     size_t treeSize;
 
-    size_t count(Unit* root) const;
+    size_t count(Unit* unit) const;
     void undercut(Unit* unit);
     Unit* delUnit(Unit* node, const Key& key);
     size_t getHeight(Unit* unit);
@@ -322,8 +320,6 @@ bool psarev::avlTree< Key, Value, Compare >::Iterator::operator!=(const this_t& 
   return !(that == *this);
 }
 
-//-----------------------------------------------------------------------------------------------------------------------------------
-
 template< typename Key, typename Value, typename Compare >
 psarev::avlTree< Key, Value, Compare >::avlTree() :
   treeRoot(nullptr), treeSize(0)
@@ -381,7 +377,7 @@ typename psarev::avlTree< Key, Value, Compare >::Iterator psarev::avlTree<Key, V
   {
     tempo = tempo->left;
   }
-  return Iterator(tempo, treeRoot);
+  return Iterator(ConstIterator(tempo, treeRoot));
 }
 
 template<typename Key, typename Value, typename Compare>
@@ -501,26 +497,13 @@ size_t psarev::avlTree<Key, Value, Compare>::erase(const Key& key)
 }
 
 template<typename Key, typename Value, typename Compare>
-Value& psarev::avlTree<Key, Value, Compare>::at(const Key& key)
+size_t psarev::avlTree<Key, Value, Compare>::count(Unit* unit) const
 {
-  Compare compare;
-  Unit* tempo = treeRoot;
-
-  while (tempo != nullptr)
+  if (unit == nullptr)
   {
-    if (compare(tempo->data.first, key))
-    {
-      tempo = tempo->right;
-    }
-    else if (comapre(key, tempo->data.first))
-    {
-      tempo = tempo->left;
-    }
-    else
-    {
-      return tempo->data.second;
-    }
+    return 0;
   }
+  return (count(unit->left) + count(unit->right) + 1);
 }
 
 template<typename Key, typename Value, typename Compare>

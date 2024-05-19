@@ -25,8 +25,8 @@ int main(int argc, char* argv[])
   
   psarev::fillTree(input, dataSets);
 
-  psarev::avlTree< std::string, std::function< void(psarev::avlTree< std::string, base_t >&) > > taskCmds;
-  taskCmds.insert({ "print", print });
+  psarev::avlTree< std::string, std::function< void(psarev::avlTree< std::string, base_t >&, std::string&) > > taskCmds;
+  taskCmds.insert({ "print", psarev::print });
   taskCmds.insert({ "complement", complement });
   taskCmds.insert({ "intersect", intersect });
   taskCmds.insert({ "union", unite });
