@@ -16,7 +16,7 @@ int main(int argc, char * argv[])
     std::cerr << "Error: wrong input!\n";
     return 1;
   }
-  if (std::stoull(argv[3]) < 1)
+  if (std::isdigit(std::string(argv[3])[0]) && std::stoull(argv[3]) < 1)
   {
     std::cerr << "Error: size must be >0\n";
     return 1;
@@ -24,6 +24,7 @@ int main(int argc, char * argv[])
 
   Tree< std::string, std::function< void (std::ostream & stream, size_t size) > > insideBranchingLess;
   Tree< std::string, std::function< void (std::ostream & stream, size_t size) > > insideBranchingGreater;
+  Tree< std::string, Tree< std::string, std::function< void (std::ostream & stream, size_t size) > > > sortTree;
   {
     using namespace std::placeholders;
     insideBranchingLess.insert("ints", std::bind(sortData< int, std::less< int > >, _1, _2, std::less< int >{}));
@@ -31,11 +32,7 @@ int main(int argc, char * argv[])
 
     insideBranchingGreater.insert("ints", std::bind(sortData< int, std::greater< int > >, _1, _2, std::greater< int >{}));
     insideBranchingGreater.insert("floats", std::bind(sortData< double, std::greater< double > >, _1, _2, std::greater< double >{}));
-  }
 
-  Tree< std::string, Tree< std::string, std::function< void (std::ostream & stream, size_t size) > > > sortTree;
-  {
-    using namespace std::placeholders;
     sortTree.insert("ascending", insideBranchingLess);
     sortTree.insert("descending", insideBranchingGreater);
   }
