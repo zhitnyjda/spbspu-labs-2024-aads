@@ -2,6 +2,8 @@
 #define AVL_TREE_HPP
 #include <utility>
 #include <cstddef>
+#include <algorithm>
+#include <iterator>
 #include <assert.h>
 
 namespace psarev
