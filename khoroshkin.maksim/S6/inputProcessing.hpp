@@ -25,7 +25,7 @@ std::ostream & khoroshkin::outGothContainer(std::ostream & out, const T & contai
 {
   for (auto it = container.begin(); it != container.end(); it++)
   {
-    out << *it;
+    out << std::fixed << std::setprecision(1) << *it;
     out << ((std::next(it) == container.end()) ? "\n" : " ");
   }
   return out;
