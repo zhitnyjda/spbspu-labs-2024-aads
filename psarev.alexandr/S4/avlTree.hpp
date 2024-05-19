@@ -698,7 +698,7 @@ typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Val
     }
   }
 
-  int differ = 0;
+  size_t differ = 0;
   if (unit->left != nullptr)
   {
     differ = getHeight(unit->left) - getHeight(unit->right);
@@ -762,7 +762,7 @@ typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Val
     }
   }
 
-  int differ = 0;
+  size_t differ = 0;
   if (unit->left != nullptr)
   {
     differ = getHeight(unit->left) - getHeight(unit->right);

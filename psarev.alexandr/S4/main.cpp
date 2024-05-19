@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 #include <functional>
-#include "AVLtree.hpp"
+#include "avlTree.hpp"
 #include "execCommands.hpp"
 
 int main(int argc, char* argv[])
