@@ -71,7 +71,7 @@ namespace psarev
     size_t count(Unit* unit) const;
     void undercut(Unit* unit);
     Unit* delUnit(Unit* node, const Key& key);
-    size_t getHeight(Unit* unit);
+    int getHeight(Unit* unit);
 
     Unit* llTurn(Unit* moveU);
     Unit* lrTurn(Unit* moveU);
@@ -571,7 +571,7 @@ typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Val
     }
   }
 
-  size_t differ = 0;
+  int differ = 0;
   if (unit->left != nullptr)
   {
     differ = getHeight(unit->left) - getHeight(unit->right);
@@ -613,13 +613,13 @@ typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Val
 }
 
 template < typename Key, typename Value, typename Compare >
-size_t psarev::avlTree< Key, Value, Compare >::getHeight(Unit* unit)
+int psarev::avlTree< Key, Value, Compare >::getHeight(Unit* unit)
 {
-  size_t height = 0;
+  int height = 0;
   if (unit != nullptr)
   {
-    size_t heightL = getHeight(unit->left);
-    size_t heightR = getHeight(unit->right);
+    int heightL = getHeight(unit->left);
+    int heightR = getHeight(unit->right);
     height = std::max(heightL, heightR) + 1;
   }
   return height;
@@ -702,7 +702,7 @@ typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Val
     }
   }
 
-  size_t differ = 0;
+  int differ = 0;
   if (unit->left != nullptr)
   {
     differ = getHeight(unit->left) - getHeight(unit->right);
@@ -766,7 +766,7 @@ typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Val
     }
   }
 
-  size_t differ = 0;
+  int differ = 0;
   if (unit->left != nullptr)
   {
     differ = getHeight(unit->left) - getHeight(unit->right);
