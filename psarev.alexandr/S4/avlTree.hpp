@@ -34,7 +34,7 @@ namespace psarev
 
     std::pair< Iterator, Iterator > equalRange(const Key& key);
 
-    iter find(Key& key);
+    iter find(const Key& key);
     iter insert(dataType& data);
     iter insert(dataType&& data);
     size_t erase(const Key& key);
@@ -448,7 +448,7 @@ iterPair< Key, Value, Compare > psarev::avlTree<Key, Value, Compare>::equalRange
 }
 
 template<typename Key, typename Value, typename Compare>
-typename psarev::avlTree< Key, Value, Compare >::Iterator psarev::avlTree<Key, Value, Compare>::find(Key& key)
+typename psarev::avlTree< Key, Value, Compare >::Iterator psarev::avlTree<Key, Value, Compare>::find(const Key& key)
 {
   Compare compare;
   Unit* tempo = treeRoot;
@@ -527,7 +527,7 @@ typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Val
     return unit;
   }
 
-  if (cmp_(key, unit->data.first))
+  if (compare(key, unit->data.first))
   {
     unit->left = delUnit(unit->left, key);
   }

@@ -27,9 +27,9 @@ int main(int argc, char* argv[])
 
   psarev::avlTree< std::string, std::function< void(psarev::avlTree< std::string, base_t >&) > > taskCmds;
   taskCmds.insert({"print", psarev::print });
-  taskCmds.insert({ "complement", complement });
-  taskCmds.insert({ "intersect", intersect });
-  taskCmds.insert({ "union", unite });
+  taskCmds.insert({ "complement", psarev::complement });
+  taskCmds.insert({ "intersect", psarev::intersect });
+  taskCmds.insert({ "union", psarev::unite });
 
   while (!std::cin.eof())
   {
@@ -39,7 +39,8 @@ int main(int argc, char* argv[])
     auto cmdIter = taskCmds.find(cmd);
     if (cmdIter != taskCmds.end() && !cmd.empty())
     {
-      *cmdIter.second(dataSets);
+      /*(*cmdIter).second(dataSets);*/
+      std::cout << "cmd\n";
     }
     else if (!cmd.empty())
     {
