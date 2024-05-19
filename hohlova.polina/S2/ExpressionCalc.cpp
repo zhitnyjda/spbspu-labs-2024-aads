@@ -4,20 +4,27 @@
 #include <stack>
 #include <unordered_map>
 #include <climits>
-
 namespace hohlova
 {
-  std::unordered_map< char, int > priority = { {'-', 0}, {'+', 0}, {'*', 1}, {'/', 1}, {'%', 1}, {'(', -1}, {')', -1} };
+  std::unordered_map<char, int> priority = { {'-', 0},
+                                             {'+', 0},
+                                             {'*', 1},
+                                             {'/', 1},
+                                             {'%', 1},
+                                             {'(', -1},
+                                             {')', -1} };
   using Func = long long (*)(long long, long long);
+
   long long sum(long long a, long long b)
   {
-    long long max = LONG_LONG_MAX;
+    long long max = LLONG_MAX;
     if (a > max - b)
     {
       throw std::runtime_error("Overflow");
     }
     return a + b;
   }
+
   long long mult(long long a, long long b)
   {
     long long max = LLONG_MAX;
@@ -27,6 +34,7 @@ namespace hohlova
     }
     return a * b;
   }
+
   long long div(long long a, long long b)
   {
     if (b == 0)
@@ -39,6 +47,7 @@ namespace hohlova
     }
     return a / b;
   }
+
   long long sub(long long a, long long b)
   {
     if (b > 0 && a > LLONG_MAX - b)
@@ -51,21 +60,25 @@ namespace hohlova
     }
     return a - b;
   }
+
   long long mod(long long a, long long b) { return a % b; }
-  std::unordered_map< char, Func > operation = { {'+', sum}, {'-', div}, {'%', mod}, {'*', mult}, {'/', sub} };
+
+  std::unordered_map< char, Func > operation = { {'+', sum},
+                                               {'-', sub},
+                                               {'%', mod},
+                                               {'*', mult},
+                                               {'/', div} };
 
   std::string ExpressionCalc::InfixToPostfix(const std::string& expr)
   {
     std::string res;
     res.reserve(expr.size());
     std::stack< char > operators;
-
     size_t pos = 0;
 
     while (pos < expr.size())
     {
       unsigned char symbol = static_cast< unsigned char >(expr[pos]);
-
       if (std::isdigit(symbol))
       {
         res.push_back(symbol);
@@ -101,9 +114,8 @@ namespace hohlova
           auto isOperand = priority.find(oper);
 
           if (isOperand == priority.end())
-          {
             throw std::runtime_error("Error!Invalid operand");
-          }
+
           if (priority[oper] >= priority[symbol])
           {
             res.push_back(' ');
@@ -142,12 +154,11 @@ namespace hohlova
     }
   }
 
-  void ExpressionCalc::CalculateExpressions(Stack< long long >& results)
+  void ExpressionCalc::CalculateExpressions(Stack<long long>& results)
   {
     if (expressions.empty())
-    {
-      throw std::logic_error("Error!Not expression");
-    }
+      throw std::runtime_error("Error!Not expression");
+
     while (!expressions.empty())
     {
       auto& expr = expressions.front();
@@ -169,11 +180,13 @@ namespace hohlova
     while (std::isdigit(symbol))
     {
       result = result * 10 + (symbol - '0');
+
       if (pos == str.size() - 1)
       {
         pos++;
         break;
       }
+
       symbol = static_cast< unsigned char >(str[++pos]);
     }
     return result;
@@ -182,6 +195,7 @@ namespace hohlova
   long long ExpressionCalc::Calculate(const std::string& postfix)
   {
     std::stack< long long > result;
+
     size_t pos = 0;
 
     while (pos < postfix.size())
@@ -199,9 +213,8 @@ namespace hohlova
       {
         auto oprt = operation.find(symbol);
         if (oprt == operation.end())
-        {
           throw std::runtime_error("Error!Invalid operand");
-        }
+
         auto roperand = result.top();
         result.pop();
         auto loperand = result.top();
