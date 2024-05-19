@@ -46,8 +46,8 @@ void khoroshkin::selectionSort(ForwardIt first, ForwardIt last, Compare comp)
 template< typename ForwardIt, typename Compare >
 void khoroshkin::mergeRuns(ForwardIt first1, ForwardIt last1, ForwardIt first2, ForwardIt last2, Compare comp)
 {
-  List< int > fRange{ first1, last1 };
-  List< int > sRange{ first2, last2 };
+  List< double > fRange{ first1, last1 };
+  List< double > sRange{ first2, last2 };
   auto fIt = fRange.begin();
   auto sIt = sRange.begin();
   while (fIt != fRange.end() && sIt != sRange.end())
