@@ -43,13 +43,13 @@ void psarev::fillTree(std::istream& in, avlTree< std::string, base_t >& dataSets
   }
 }
 
-void psarev::print(avlTree< std::string, avlTree< long long, std::string > >& Tree)
+void psarev::print(avlTree< std::string, avlTree< int, std::string > >& dataSets)
 {
-  std::string name;
-  std::cin >> name;
+  std::string cmd;
+  std::cin >> cmd;
 
-  auto dataSet = Tree.find(name);
-  if (dataSet == Tree.end())
+  auto dataSet = dataSets.find(cmd);
+  if (dataSet == dataSets.end())
   {
     outError(std::cout, "<INVALID COMMAND>");
     return;

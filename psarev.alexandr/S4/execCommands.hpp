@@ -10,7 +10,7 @@ namespace psarev
   std::ostream& outError(std::ostream& out, const std::string& errText);
   void fillTree(std::istream& in, avlTree< std::string, base_t >& dataSets);
 
-  void print(avlTree< std::string, avlTree< long long, std::string > >& Tree);
+  void print(avlTree< std::string, avlTree< int, std::string > >& Tree);
 }
 
 #endif
