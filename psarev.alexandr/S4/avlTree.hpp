@@ -25,13 +25,13 @@ namespace psarev
     avlTree(size_t& initSize, dataType& initData);
     ~avlTree();
 
-    avlTree& operator=(const avlTree& that);
+    avlTree& operator=(avlTree& that);
     void clear();
 
     iter begin() noexcept;
-    cIter begin() const noexcept;
+    cIter cbegin() const noexcept;
     iter end() noexcept;
-    cIter end() const noexcept;
+    cIter cend() const noexcept;
 
     bool isEmpty() const noexcept;
     size_t getSize() const noexcept;
@@ -353,7 +353,7 @@ psarev::avlTree< Key, Value, Compare >::~avlTree()
 }
 
 template<typename Key, typename Value, typename Compare>
-psarev::avlTree< Key, Value, Compare >& psarev::avlTree<Key, Value, Compare>::operator=(const avlTree& that)
+psarev::avlTree< Key, Value, Compare >& psarev::avlTree<Key, Value, Compare>::operator=(avlTree& that)
 {
   if (this != &that)
   {
@@ -376,8 +376,12 @@ void psarev::avlTree<Key, Value, Compare>::clear()
 template<typename Key, typename Value, typename Compare>
 typename psarev::avlTree< Key, Value, Compare >::Iterator psarev::avlTree<Key, Value, Compare>::begin() noexcept
 {
+  if (isEmpty())
+  {
+    return cend();
+  }
   Unit* tempo = treeRoot;
-  while ((tempo != nullptr) && (tempo->left != nullptr))
+  while (tempo->left != nullptr)
   {
     tempo = tempo->left;
   }
@@ -385,10 +389,14 @@ typename psarev::avlTree< Key, Value, Compare >::Iterator psarev::avlTree<Key, V
 }
 
 template<typename Key, typename Value, typename Compare>
-typename psarev::avlTree< Key, Value, Compare >::ConstIterator psarev::avlTree<Key, Value, Compare>::begin() const noexcept
+typename psarev::avlTree< Key, Value, Compare >::ConstIterator psarev::avlTree<Key, Value, Compare>::cbegin() const noexcept
 {
+  if (isEmpty())
+  {
+    return cend();
+  }
   Unit* tempo = treeRoot;
-  while ((tempo != nullptr) && (tempo->left != nullptr))
+  while (tempo->left != nullptr)
   {
     tempo = tempo->left;
   }
@@ -402,9 +410,9 @@ typename psarev::avlTree< Key, Value, Compare >::Iterator psarev::avlTree<Key, V
 }
 
 template<typename Key, typename Value, typename Compare>
-typename psarev::avlTree< Key, Value, Compare >::ConstIterator psarev::avlTree<Key, Value, Compare>::end() const noexcept
+typename psarev::avlTree< Key, Value, Compare >::ConstIterator psarev::avlTree<Key, Value, Compare>::cend() const noexcept
 {
-  return Iterator(nullptr, treeRoot);
+  return ConstIterator(nullptr, treeRoot);
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -452,7 +460,7 @@ iterPair< Key, Value, Compare > psarev::avlTree<Key, Value, Compare>::equalRange
 }
 
 template<typename Key, typename Value, typename Compare>
-typename psarev::avlTree< Key, Value, Compare >::Iterator psarev::avlTree<Key, Value, Compare>::find(const Key& key)
+typename psarev::avlTree< Key, Value, Compare >::Iterator psarev::avlTree< Key, Value, Compare >::find(const Key& key)
 {
   Compare compare;
   Unit* tempo = treeRoot;
@@ -469,7 +477,7 @@ typename psarev::avlTree< Key, Value, Compare >::Iterator psarev::avlTree<Key, V
     }
     else
     {
-      return ConstIterator(tempo, treeRoot);
+      return Iterator(ConstIterator(tempo, treeRoot));
     }
   }
   return end();

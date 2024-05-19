@@ -1,6 +1,7 @@
 #ifndef EXEC_COMMANDS_HPP
 #define EXEC_COMMANDS_HPP
 #include <iostream>
+#include <string>
 #include "avlTree.hpp"
 
 namespace psarev

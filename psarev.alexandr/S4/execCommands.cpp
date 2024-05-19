@@ -1,5 +1,4 @@
 #include "execCommands.hpp"
-#include <string>
 
 std::ostream& psarev::outError(std::ostream& out, const std::string& errText)
 {
