@@ -73,9 +73,6 @@ private:
   Node *findMin(Node *node) const;
   Node *removeMin(Node *node);
   Node *copyTree(Node *node, Node *parent) const;
-
-  template< typename Func >
-  void inorder(Node *node, Func func) const;
 };
 
 template< typename Key, typename Value, typename Compare >
