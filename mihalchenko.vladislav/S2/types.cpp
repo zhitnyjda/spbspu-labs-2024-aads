@@ -98,6 +98,7 @@ bool mihalchenko::FinalTransform::calculate()
     return true;
   }
 
+  const size_t restrictionOfFormation = 4;
   while (commands.getSize() > 0)
   {
     size_t stepCounter = 0;
@@ -124,7 +125,7 @@ bool mihalchenko::FinalTransform::calculate()
         stepCounter++;
       }
     }
-    if (stepCounter == 4)
+    if (stepCounter == restrictionOfFormation)
     {
       wremSave = calcRezult.pop();
     }
