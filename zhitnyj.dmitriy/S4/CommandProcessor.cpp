@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include "CommandProcessor.hpp"
 
-void processLineToTree(const std::string &line, bsTree< std::string, bsTree< long long, std::string>> &dicts) {
+void processLineToTree(const std::string &line, bsTree< std::string, bsTree< long long, std::string > > &dicts) {
   if (line.empty()) {
     return;
   }
@@ -49,7 +49,7 @@ void processLineToTree(const std::string &line, bsTree< std::string, bsTree< lon
   dicts.push(dataset, tree);
 }
 
-void loadTreeFromFile(const std::string &filename, bsTree< std::string, bsTree< long long, std::string>> &dicts) {
+void loadTreeFromFile(const std::string &filename, bsTree< std::string, bsTree< long long, std::string > > &dicts) {
   std::ifstream file(filename);
   if (!file) {
     throw std::runtime_error("Unable to open file");
