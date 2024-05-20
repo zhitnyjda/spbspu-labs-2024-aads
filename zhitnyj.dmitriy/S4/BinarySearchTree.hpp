@@ -7,11 +7,10 @@
 #include <string>
 #include <utility>
 
-template< typename Key, typename Value, typename Compare = std::less< Key>>
+template< typename Key, typename Value, typename Compare = std::less< Key > >
 class bsTree {
 public:
   class Iterator;
-
   class ConstIterator;
 
   bsTree();
@@ -100,8 +99,8 @@ private:
 };
 
 template< typename Key, typename Value, typename Compare >
-bsTree< Key, Value, Compare >::ConstIterator::ConstIterator() : current(nullptr) {
-}
+bsTree< Key, Value, Compare >::ConstIterator::ConstIterator() : current(nullptr) 
+{}
 
 template< typename Key, typename Value, typename Compare >
 bsTree< Key, Value, Compare >::ConstIterator::ConstIterator(Node *node) : current(node) {
@@ -246,8 +245,8 @@ bsTree< Key, Value, Compare >::bsTree() : root(nullptr), node_count(0) {
 template< typename Key, typename Value, typename Compare >
 bsTree< Key, Value, Compare >::bsTree(const bsTree &other):
   root(copyTree(other.root, nullptr)),
-  node_count(other.node_count) {
-}
+  node_count(other.node_count)
+{}
 
 template< typename Key, typename Value, typename Compare >
 bsTree< Key, Value, Compare >::bsTree(bsTree &&other) noexcept:
