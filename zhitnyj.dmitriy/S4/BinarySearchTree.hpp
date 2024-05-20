@@ -116,9 +116,6 @@ template< typename Key, typename Value, typename Compare >
 typename bsTree< Key, Value, Compare >::ConstIterator &
 bsTree< Key, Value, Compare >::ConstIterator::operator++() {
   current = findNext(current);
-  if (current) {
-    pair = current->data;
-  }
   return *this;
 }
 
