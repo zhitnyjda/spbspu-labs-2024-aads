@@ -85,6 +85,9 @@ public:
   const std::pair< Key, Value > &operator*() const;
   const std::pair< Key, Value > *operator->() const;
   ConstIterator &operator++();
+  ConstIterator operator++(int);
+  ConstIterator &operator--();
+  ConstIterator operator--(int);
   bool operator==(const ConstIterator &other) const;
   bool operator!=(const ConstIterator &other) const;
 
@@ -92,6 +95,7 @@ private:
   Node *current;
 
   Node *findNext(Node *node) const;
+  Node *findPrev(Node *node) const;
 };
 
 template< typename Key, typename Value, typename Compare >
@@ -120,6 +124,29 @@ bsTree< Key, Value, Compare >::ConstIterator::operator++() {
 }
 
 template< typename Key, typename Value, typename Compare >
+typename bsTree< Key, Value, Compare >::ConstIterator
+bsTree< Key, Value, Compare >::ConstIterator::operator++(int) {
+  ConstIterator temp = *this;
+  ++(*this);
+  return temp;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename bsTree< Key, Value, Compare >::ConstIterator &
+bsTree< Key, Value, Compare >::ConstIterator::operator--() {
+  current = findPrev(current);
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename bsTree< Key, Value, Compare >::ConstIterator
+bsTree< Key, Value, Compare >::ConstIterator::operator--(int) {
+  ConstIterator temp = *this;
+  --(*this);
+  return temp;
+}
+
+template< typename Key, typename Value, typename Compare >
 bool bsTree< Key, Value, Compare >::ConstIterator::operator==(const ConstIterator &other) const {
   return current == other.current;
 }
@@ -143,6 +170,25 @@ bsTree< Key, Value, Compare >::ConstIterator::findNext(Node *node) const {
     return node;
   }
   while (node->parent && node->parent->right == node) {
+    node = node->parent;
+  }
+  return node->parent;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename bsTree< Key, Value, Compare >::Node *
+bsTree< Key, Value, Compare >::ConstIterator::findPrev(Node *node) const {
+  if (node == nullptr) {
+    return nullptr;
+  }
+  if (node->left) {
+    node = node->left;
+    while (node->right) {
+      node = node->right;
+    }
+    return node;
+  }
+  while (node->parent && node->parent->left == node) {
     node = node->parent;
   }
   return node->parent;
