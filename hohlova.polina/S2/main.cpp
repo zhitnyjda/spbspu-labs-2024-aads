@@ -6,22 +6,24 @@ int main(int argc, char** argv)
 {
   hohlova::ExpressionCalc calculator;
   hohlova::Stack< long long > results;
-  if (argc == 1)
-  {
-    calculator.readExpression(std::cin);
-  }
-  else if (argc == 2)
-  {
-    std::ifstream stream(argv[1]);
-    calculator.readExpression(stream);
-  }
-  else
-  {
-    std::cerr << "Invalid number of command line arguments\n";
-  }
-
   try
   {
+    if (argc == 1)
+    {
+      calculator.readExpression(std::cin);
+    }
+    else if (argc == 2)
+    {
+      std::ifstream stream(argv[1]);
+      if (stream.eof() == 0)
+        throw std::runtime_error("File is empty!\n");
+
+      calculator.readExpression(stream);
+    }
+    else
+    {
+      std::cerr << "Invalid number of command line arguments\n";
+    }
     calculator.CalculateExpressions(results);
   }
   catch (const std::runtime_error& err)
@@ -38,6 +40,5 @@ int main(int argc, char** argv)
     }
     results.pop();
   }
-  std::cout << "\n";
   return 0;
 }

@@ -3,7 +3,7 @@
 #include <string>
 #include <stack>
 #include <unordered_map>
-#include <climits>
+#include <limits>
 
 namespace hohlova
 {
@@ -67,11 +67,7 @@ namespace hohlova
 
   long long sub(long long a, long long b)
   {
-    if (b > 0 && a > LLONG_MAX - b)
-    {
-      throw std::runtime_error("Sub overflow\n");
-    }
-    if (b < 0 && a < LLONG_MIN - b)
+    if ((b > 0 && a < LLONG_MIN + b) || (b < 0 && a > LLONG_MAX + b))
     {
       throw std::runtime_error("Sub overflow\n");
     }
@@ -103,7 +99,7 @@ namespace hohlova
 
     while (pos < expr.size())
     {
-      unsigned char symbol = static_cast< unsigned char >(expr[pos]);
+      unsigned char symbol = static_cast<unsigned char>(expr[pos]);
       if (std::isdigit(symbol))
       {
         res.push_back(symbol);
@@ -137,9 +133,8 @@ namespace hohlova
         {
           char oper = operators.top();
           auto isOperand = priority.find(oper);
-
           if (isOperand == priority.end())
-            throw std::runtime_error("Error!Invalid operand");
+            throw std::runtime_error("Error!Invalid operand\n");
 
           if (priority[oper] >= priority[symbol])
           {
@@ -150,13 +145,11 @@ namespace hohlova
           }
           break;
         }
-
         res.push_back(' ');
         operators.push(symbol);
         ++pos;
       }
     }
-
     while (!operators.empty())
     {
       res.push_back(' ');
@@ -182,8 +175,7 @@ namespace hohlova
   void ExpressionCalc::CalculateExpressions(Stack< long long >& results)
   {
     if (expressions.empty())
-      throw std::runtime_error("Error!Not expression");
-
+      throw std::runtime_error("Error!Not expression\n");
     while (!expressions.empty())
     {
       auto& expr = expressions.front();
@@ -205,7 +197,6 @@ namespace hohlova
     while (std::isdigit(symbol))
     {
       result = result * 10 + (symbol - '0');
-
       if (pos == str.size() - 1)
       {
         pos++;
@@ -248,4 +239,4 @@ namespace hohlova
     }
     return result.top();
   }
-}
+};
