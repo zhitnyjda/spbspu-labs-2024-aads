@@ -2,6 +2,7 @@
 #define OUTPUTFUNCTIONS_HPP
 #include <ostream>
 #include <iomanip>
+#include <limits>
 #include <deque>
 #include <list>
 #include "list.hpp"
@@ -20,16 +21,28 @@ namespace redko
     }
   }
 
+  void fillRandom(List< int > & list, int size)
+  {
+    for (auto i = 0; i < size; ++i)
+    {
+      list.pushBack((rand() - rand()) % 10000);
+    }
+  }
+
+  void fillRandom(List< double > & list, int size)
+  {
+    for (auto i = 0; i < size; ++i)
+    {
+      list.pushBack((rand() - rand()) % 10000 + (double(rand()) / rand()));
+    }
+  }
+
   template< typename T, typename Compare >
   void sortData(std::ostream & out, int size, Compare comp)
   {
     srand(time(0));
-
-    redko::List< T > forwardList{};
-    for (auto i = 0; i < size; ++i)
-    {
-      forwardList.pushBack(T(rand()) / 10);
-    }
+    List< T > forwardList{};
+    fillRandom(forwardList, size);
 
     std::list< T > firstList(size);
     std::copy_n(forwardList.cbegin(), size, firstList.begin());
@@ -42,22 +55,21 @@ namespace redko
     std::deque< T > thirdDeque(size);
     std::copy_n(forwardList.cbegin(), size, thirdDeque.begin());
 
-    out << std::fixed << std::setprecision(1);
-    redko::printSorted(out, forwardList.begin(), forwardList.end());
+    printSorted(out, forwardList.begin(), forwardList.end());
 
-    redko::sortBucket(forwardList.begin(), forwardList.end(), comp);
-    redko::sortBucket(firstList.begin(), firstList.end(), comp);
-    redko::sortQuick(secondList.begin(), secondList.end(), comp);
-    redko::sortBucket(firstDeque.begin(), firstDeque.end(), comp);
-    redko::sortQuick(secondDeque.begin(), secondDeque.end(), comp);
+    sortBucket(forwardList.begin(), forwardList.end(), comp);
+    sortBucket(firstList.begin(), firstList.end(), comp);
+    sortQuick(secondList.begin(), secondList.end(), comp);
+    sortBucket(firstDeque.begin(), firstDeque.end(), comp);
+    sortQuick(secondDeque.begin(), secondDeque.end(), comp);
     std::sort(thirdDeque.begin(), thirdDeque.end(), comp);
 
-    redko::printSorted(out, forwardList.begin(), forwardList.end());
-    redko::printSorted(out, firstList.begin(), firstList.end());
-    redko::printSorted(out, secondList.begin(), secondList.end());
-    redko::printSorted(out, firstDeque.begin(), firstDeque.end());
-    redko::printSorted(out, secondDeque.begin(), secondDeque.end());
-    redko::printSorted(out, thirdDeque.begin(), thirdDeque.end());
+    printSorted(out, forwardList.begin(), forwardList.end());
+    printSorted(out, firstList.begin(), firstList.end());
+    printSorted(out, secondList.begin(), secondList.end());
+    printSorted(out, firstDeque.begin(), firstDeque.end());
+    printSorted(out, secondDeque.begin(), secondDeque.end());
+    printSorted(out, thirdDeque.begin(), thirdDeque.end());
   }
 }
 

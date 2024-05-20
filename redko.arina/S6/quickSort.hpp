@@ -18,13 +18,13 @@ namespace redko
       {
         if (std::next(first) != last)
         {
-          std::swap(*last, *(std::next(first)));
-          std::swap(*first, *(std::next(first)));
+          std::iter_swap(last, std::next(first));
+          std::iter_swap(first, std::next(first));
           ++first;
         }
         else
         {
-          std::swap(*first, *(std::next(first)));
+          std::iter_swap(first, std::next(first));
           return ++first;
         }
       }
