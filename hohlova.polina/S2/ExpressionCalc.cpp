@@ -174,8 +174,8 @@ namespace hohlova
 
   void ExpressionCalc::CalculateExpressions(Stack< long long >& results)
   {
-    if (expressions.empty())
-      throw std::runtime_error("Error!Not expression\n");
+//    if (expressions.empty())
+//      throw std::runtime_error("Error!Not expression\n");
     while (!expressions.empty())
     {
       auto& expr = expressions.front();
