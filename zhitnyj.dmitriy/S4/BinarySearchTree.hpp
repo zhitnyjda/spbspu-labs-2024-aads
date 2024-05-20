@@ -569,7 +569,7 @@ bsTree< Key, Value, Compare >::equal_range(const Key &k) {
   }
   Iterator next = it;
   ++next;
-  return std::pair(it, next);
+  return std::make_pair(it, next);
 }
 
 template< typename Key, typename Value, typename Compare >
