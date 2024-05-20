@@ -199,12 +199,12 @@ bsTree< Key, Value, Compare >::Iterator::Iterator(ConstIterator constIter) : con
 
 template< typename Key, typename Value, typename Compare >
 std::pair< Key, Value > &bsTree< Key, Value, Compare >::Iterator::operator*() const {
-  return const_cast<std::pair< Key, Value > &>(*constIter_);
+  return current->data;
 }
 
 template< typename Key, typename Value, typename Compare >
 std::pair< Key, Value > *bsTree< Key, Value, Compare >::Iterator::operator->() const {
-  return const_cast<std::pair< Key, Value > *>(constIter_.operator->());
+  return std::addressof(current->data);
 }
 
 template< typename Key, typename Value, typename Compare >
