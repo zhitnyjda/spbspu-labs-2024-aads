@@ -4,17 +4,32 @@
 
 namespace mihalchenko
 {
-  struct CalcRez
+  struct Operand
   {
-    CalcRez() = default;
-    CalcRez(long long value);
-    CalcRez operator+(const CalcRez &rhs);
-    CalcRez operator-(const CalcRez &rhs);
-    CalcRez operator*(const CalcRez &rhs);
-    CalcRez operator/(const CalcRez &rhs);
-    CalcRez operator%(const CalcRez &rhs);
-    bool operator==(const char &rhs) const;
-    long long resultCalc;
+    Operand() = default;
+    Operand(long long data);
+    Operand operator+(const Operand &rhs);
+    Operand operator-(const Operand &rhs);
+    Operand operator*(const Operand &rhs);
+    Operand operator/(const Operand &rhs);
+    Operand operator%(const Operand &rhs);
+    long long data_;
+  };
+
+  struct Operation
+  {
+  public:
+    Operation() = default;
+    explicit Operation(char command);
+    bool operator==(const Operation &rhs) const;
+    bool operator<(const Operation &rhs) const;
+    bool operator>(const Operation &rhs) const;
+    void setOperation(const char command);
+    char getOperation() const;
+
+  private:
+    char command_;
+    short weightOfCommand_;
   };
 
   struct Parenthesis
@@ -25,7 +40,8 @@ namespace mihalchenko
   struct FinalTransform
   {
     bool calculate();
-    Stack< CalcRez > calcRezult;
+    Stack< Operand > calcRezult;
+    Stack< Operation > compRez;
     Stack< char > commands;
   };
 }

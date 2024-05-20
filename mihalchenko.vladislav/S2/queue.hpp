@@ -1,6 +1,6 @@
 #ifndef QUEUE_HPP
 #define QUEUE_HPP
-#include <list.hpp>
+#include "list.hpp"
 
 namespace mihalchenko
 {
@@ -9,10 +9,10 @@ namespace mihalchenko
   {
   public:
     Queue() = default;
-    ~Queue() = default;
     Queue(const Queue< T > &copy);
+    ~Queue() = default;
     void push(const T &data);
-    T pop();
+    const T pop();
     T &operator[](const size_t ind);
     void clear();
     size_t getSize();
@@ -36,7 +36,7 @@ void mihalchenko::Queue< T >::push(const T &data)
 }
 
 template < typename T >
-T mihalchenko::Queue< T >::pop()
+const T mihalchenko::Queue< T >::pop()
 {
   T res = containQueue.getT();
   containQueue.pop_front();

@@ -60,7 +60,7 @@ size_t mihalchenko::calculatePostFix(Queue< std::string > &resiveDigit, Stack< l
 
   if (finTrans.calcRezult.getSize() > 0)
   {
-    calculateResult.push(finTrans.calcRezult[0].resultCalc);
+    calculateResult.push(finTrans.calcRezult[0].data_);
   }
   resiveDigit.clear();
   resiveDigit.setSize(0);

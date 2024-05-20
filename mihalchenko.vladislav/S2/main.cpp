@@ -4,10 +4,9 @@
 #include <cctype>
 #include "processing.hpp"
 
-using namespace mihalchenko;
-
 int main(int argc, char *argv[])
 {
+  using namespace mihalchenko;
   Queue< std::string > resiveDigit;
   Stack< std::string > resiveControl;
   Stack< long long > calculateResult;

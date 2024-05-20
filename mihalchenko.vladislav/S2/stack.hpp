@@ -1,6 +1,6 @@
 #ifndef STACK_HPP
 #define STACK_HPP
-#include <list.hpp>
+#include "list.hpp"
 
 namespace mihalchenko
 {
@@ -9,10 +9,10 @@ namespace mihalchenko
   {
   public:
     Stack() = default;
-    ~Stack() = default;
     Stack(const Stack< T > &copy);
+    ~Stack() = default;
     void push(const T &data);
-    T pop();
+    const T pop();
     T &operator[](const size_t ind);
     void clear();
     size_t getSize();
@@ -36,7 +36,7 @@ void mihalchenko::Stack< T >::push(const T &data)
 }
 
 template < typename T >
-T mihalchenko::Stack< T >::pop()
+const T mihalchenko::Stack< T >::pop()
 {
   T res = containStack.getT();
   containStack.pop_front();
