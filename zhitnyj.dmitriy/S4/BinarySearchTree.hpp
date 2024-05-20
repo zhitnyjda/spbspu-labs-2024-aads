@@ -55,11 +55,11 @@ private:
     Node *parent;
 
     Node(Key k, Value v, Node *p = nullptr) :
-      data(std::make_pair(k, v)),
-      left(nullptr),
-      right(nullptr),
-      parent(p)
-      {}
+    data(std::make_pair(k, v)),
+    left(nullptr),
+    right(nullptr),
+    parent(p)
+    {}
   };
 
   Node *root;
@@ -95,12 +95,12 @@ private:
 };
 
 template< typename Key, typename Value, typename Compare >
-bsTree< Key, Value, Compare >::ConstIterator::ConstIterator() : current(nullptr)
-{}
+bsTree< Key, Value, Compare >::ConstIterator::ConstIterator() : current(nullptr) {
+}
 
 template< typename Key, typename Value, typename Compare >
-bsTree< Key, Value, Compare >::ConstIterator::ConstIterator(Node *node) : current(node)
-{}
+bsTree< Key, Value, Compare >::ConstIterator::ConstIterator(Node *node) : current(node) {
+}
 
 template< typename Key, typename Value, typename Compare >
 const std::pair< Key, Value > &bsTree< Key, Value, Compare >::ConstIterator::operator*() const {
@@ -146,18 +146,6 @@ bsTree< Key, Value, Compare >::ConstIterator::findNext(Node *node) const {
     node = node->parent;
   }
   return node->parent;
-}
-
-template< typename Key, typename Value, typename Compare >
-std::pair< typename bsTree< Key, Value, Compare >::ConstIterator, typename bsTree< Key, Value, Compare >::ConstIterator >
-bsTree< Key, Value, Compare >::equal_range(const Key &k) const {
-  ConstIterator it = find(k);
-  if (it == end()) {
-    return {end(), end()};
-  }
-  ConstIterator next = it;
-  ++next;
-  return {it, next};
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -241,17 +229,19 @@ bool bsTree< Key, Value, Compare >::Iterator::operator!=(const Iterator &other) 
 }
 
 template< typename Key, typename Value, typename Compare >
-bsTree< Key, Value, Compare >::bsTree() : root(nullptr), node_count(0) {
-}
-
-template< typename Key, typename Value, typename Compare >
-bsTree< Key, Value, Compare >::bsTree(const bsTree &other):
-  root(copyTree(other.root, nullptr)),
-  node_count(other.node_count)
+bsTree< Key, Value, Compare >::bsTree() :
+root(nullptr),
+node_count(0)
 {}
 
 template< typename Key, typename Value, typename Compare >
-bsTree< Key, Value, Compare >::bsTree(bsTree &&other) noexcept:
+bsTree< Key, Value, Compare >::bsTree(const bsTree &other) :
+  root(copyTree(other.root, nullptr)),
+  node_count(other.node_count)
+  {}
+
+template< typename Key, typename Value, typename Compare >
+bsTree< Key, Value, Compare >::bsTree(bsTree &&other) noexcept :
   root(other.root),
   node_count(other.node_count) {
   other.root = nullptr;
@@ -521,7 +511,7 @@ bsTree< Key, Value, Compare >::insert(const std::pair< Key, Value > &kv) {
       isLeftChild = false;
     }
     else {
-      return {Iterator(ConstIterator(current)), false};
+      return std::make_pair(Iterator(ConstIterator(current)), false);
     }
   }
 
@@ -537,7 +527,7 @@ bsTree< Key, Value, Compare >::insert(const std::pair< Key, Value > &kv) {
   }
 
   ++node_count;
-  return {Iterator(ConstIterator(newNode)), true};
+  return std::make_pair(Iterator(ConstIterator(newNode)), true);
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -551,6 +541,18 @@ void bsTree< Key, Value, Compare >::erase(Iterator pos, const Key &k) {
     return;
   }
   root = drop(root, k);
+}
+
+template< typename Key, typename Value, typename Compare >
+std::pair< typename bsTree< Key, Value, Compare >::ConstIterator, typename bsTree< Key, Value, Compare >::ConstIterator >
+bsTree< Key, Value, Compare >::equal_range(const Key &k) const {
+  ConstIterator it = find(k);
+  if (it == end()) {
+    return {end(), end()};
+  }
+  ConstIterator next = it;
+  ++next;
+  return std::make_pair(it, next);
 }
 
 template< typename Key, typename Value, typename Compare >
