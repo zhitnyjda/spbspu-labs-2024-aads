@@ -41,10 +41,10 @@ public:
 
   std::pair< Iterator, bool > insert(const std::pair< Key, Value > &kv);
   void insert(const Key &k, const Value &v);
-  void erase(Iterator pos);
-  size_t erase(const Key &k);
+  void erase(Iterator pos, const Key &k);
 
   std::pair< ConstIterator, ConstIterator > equal_range(const Key &k) const;
+  std::pair< Iterator, Iterator > equal_range(const Key &k);
   size_t count(const Key &k) const;
 
 private:
@@ -156,6 +156,18 @@ bsTree< Key, Value, Compare >::ConstIterator::findNext(Node *node) const {
     node = node->parent;
   }
   return node->parent;
+}
+
+template< typename Key, typename Value, typename Compare >
+std::pair< typename bsTree< Key, Value, Compare >::ConstIterator, typename bsTree< Key, Value, Compare >::ConstIterator >
+bsTree< Key, Value, Compare >::equal_range(const Key &k) const {
+  ConstIterator it = find(k);
+  if (it == end()) {
+    return {end(), end()};
+  }
+  ConstIterator next = it;
+  ++next;
+  return {it, next};
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -544,42 +556,28 @@ void bsTree< Key, Value, Compare >::insert(const Key &k, const Value &v) {
 }
 
 template< typename Key, typename Value, typename Compare >
-void bsTree< Key, Value, Compare >::erase(Iterator pos) {
-  if (pos.constIter.current == nullptr) {
+void bsTree< Key, Value, Compare >::erase(Iterator pos, const Key &k) {
+  if (pos == end() || pos.constIter_.current == nullptr || pos.constIter_.current->data.first != k) {
     return;
   }
-  root = drop(root, pos.constIter.current->data.first);
+  root = drop(root, k);
 }
 
 template< typename Key, typename Value, typename Compare >
-size_t bsTree< Key, Value, Compare >::erase(const Key &k) {
-  if (find(k) == end()) {
-    return 0;
+std::pair< typename bsTree< Key, Value, Compare >::Iterator, typename bsTree< Key, Value, Compare >::Iterator >
+bsTree< Key, Value, Compare >::equal_range(const Key &k) {
+  Iterator it = find(k);
+  if (it == end()) {
+    return {end(), end()};
   }
-  drop(root, k);
-  return 1;
-}
-
-template< typename Key, typename Value, typename Compare >
-std::pair< typename bsTree< Key, Value, Compare >::ConstIterator, typename bsTree< Key, Value, Compare >::ConstIterator >
-bsTree< Key, Value, Compare >::equal_range(const Key &k) const {
-  return {find(k), find(k)};
+  Iterator next = it;
+  ++next;
+  return std::pair(it, next);
 }
 
 template< typename Key, typename Value, typename Compare >
 size_t bsTree< Key, Value, Compare >::count(const Key &k) const {
   return find(k) != end() ? 1 : 0;
-}
-
-template< typename Key, typename Value, typename Compare >
-template< typename Func >
-void bsTree< Key, Value, Compare >::inorder(Node *node, Func func) const {
-  if (node == nullptr) {
-    return;
-  }
-  inorder(node->left, func);
-  func(node->data.first, node->data.second);
-  inorder(node->right, func);
 }
 
 #endif
