@@ -134,8 +134,9 @@ namespace hohlova
           char oper = operators.top();
           auto isOperand = priority.find(oper);
           if (isOperand == priority.end())
+          {
             throw std::runtime_error("Error!Invalid operand\n");
-
+          }
           if (priority[oper] >= priority[symbol])
           {
             res.push_back(' ');
@@ -174,8 +175,6 @@ namespace hohlova
 
   void ExpressionCalc::CalculateExpressions(Stack< long long >& results)
   {
-//    if (expressions.empty())
-//      throw std::runtime_error("Error!Not expression\n");
     while (!expressions.empty())
     {
       auto& expr = expressions.front();
@@ -226,8 +225,9 @@ namespace hohlova
       {
         auto oprt = operation.find(symbol);
         if (oprt == operation.end())
+        {
           throw std::runtime_error("Error!Invalid operand\n");
-
+        }
         auto roperand = result.top();
         result.pop();
         auto loperand = result.top();
