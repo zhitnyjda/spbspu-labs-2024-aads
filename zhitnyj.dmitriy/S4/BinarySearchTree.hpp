@@ -113,7 +113,7 @@ const std::pair< Key, Value > &bsTree< Key, Value, Compare >::ConstIterator::ope
 
 template< typename Key, typename Value, typename Compare >
 const std::pair< Key, Value > *bsTree< Key, Value, Compare >::ConstIterator::operator->() const {
-  return &pair;
+  return std::addressof(pair);
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -199,12 +199,12 @@ bsTree< Key, Value, Compare >::Iterator::Iterator(ConstIterator constIter) : con
 
 template< typename Key, typename Value, typename Compare >
 std::pair< Key, Value > &bsTree< Key, Value, Compare >::Iterator::operator*() const {
-  return current->data;
+  return pair;
 }
 
 template< typename Key, typename Value, typename Compare >
 std::pair< Key, Value > *bsTree< Key, Value, Compare >::Iterator::operator->() const {
-  return std::addressof(current->data);
+  return std::addressof(pair);
 }
 
 template< typename Key, typename Value, typename Compare >
