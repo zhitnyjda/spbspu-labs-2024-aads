@@ -40,5 +40,6 @@ int main(int argc, char** argv)
     }
     results.pop();
   }
+  std::cout << "\n";
   return 0;
 }
