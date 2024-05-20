@@ -3,71 +3,95 @@
 #include <string>
 #include <stack>
 #include <unordered_map>
-#include <climits>
+
 namespace hohlova
 {
-  std::unordered_map<char, int> priority = { {'-', 0},
-                                             {'+', 0},
-                                             {'*', 1},
-                                             {'/', 1},
-                                             {'%', 1},
-                                             {'(', -1},
-                                             {')', -1} };
+  std::unordered_map< char, int > priority = { {'-', 0},
+                                               {'+', 0},
+                                               {'*', 1},
+                                               {'/', 1},
+                                               {'%', 1},
+                                               {'(', -1},
+                                               {')', -1} };
   using Func = long long (*)(long long, long long);
-
   long long sum(long long a, long long b)
   {
     long long max = LLONG_MAX;
     if (a > max - b)
     {
-      throw std::runtime_error("Overflow");
+      throw std::runtime_error("Sum overflow\n");
     }
     return a + b;
   }
 
   long long mult(long long a, long long b)
   {
-    long long max = LLONG_MAX;
-    if (a > max / b)
+    if (a == 0 || b == 0)
     {
-      throw std::runtime_error("Overflow");
+      return 0;
     }
-    return a * b;
+
+    bool sign = ((a < 0) ^ (b < 0));
+    a = std::abs(a);
+    b = std::abs(b);
+
+    if (a > (std::numeric_limits< long long >::max() / b))
+    {
+      throw std::runtime_error("Mult overflow\n");
+    }
+
+    long long result = a * b;
+    return sign ? -result : result;
   }
 
   long long div(long long a, long long b)
   {
     if (b == 0)
     {
-      throw std::runtime_error("");
+      throw std::runtime_error("Division by zero\n");
     }
-    if (a == LLONG_MIN && b == -1)
+
+    bool sign = ((a < 0) ^ (b < 0));
+    a = std::abs(a);
+    b = std::abs(b);
+
+    if (a > std::numeric_limits< long long >::max() - std::abs(b) + 1)
     {
-      throw std::runtime_error("Overflow");
+      throw std::runtime_error("Division overflow\n");
     }
-    return a / b;
+
+    long long result = a / b;
+    return sign ? -result : result;
   }
 
   long long sub(long long a, long long b)
   {
     if (b > 0 && a > LLONG_MAX - b)
     {
-      throw std::runtime_error("Overflow");
+      throw std::runtime_error("Sub overflow\n");
     }
     if (b < 0 && a < LLONG_MIN - b)
     {
-      throw std::runtime_error("Overflow");
+      throw std::runtime_error("Sub overflow\n");
     }
     return a - b;
   }
 
-  long long mod(long long a, long long b) { return a % b; }
+  long long mod(long long a, long long b)
+  {
+    auto res = a % b;
+    if (res < 0)
+    {
+      res += abs(b);
+    }
+    return res;
+  }
 
   std::unordered_map< char, Func > operation = { {'+', sum},
-                                               {'-', sub},
-                                               {'%', mod},
-                                               {'*', mult},
-                                               {'/', div} };
+                                                 {'-', sub},
+                                                 {'%', mod},
+                                                 {'*', mult},
+                                                 {'/', div} };
 
   std::string ExpressionCalc::InfixToPostfix(const std::string& expr)
   {
@@ -154,7 +178,7 @@ namespace hohlova
     }
   }
 
-  void ExpressionCalc::CalculateExpressions(Stack<long long>& results)
+  void ExpressionCalc::CalculateExpressions(Stack< long long >& results)
   {
     if (expressions.empty())
       throw std::runtime_error("Error!Not expression");
@@ -186,7 +210,6 @@ namespace hohlova
         pos++;
         break;
       }
-
       symbol = static_cast< unsigned char >(str[++pos]);
     }
     return result;
@@ -195,9 +218,7 @@ namespace hohlova
   long long ExpressionCalc::Calculate(const std::string& postfix)
   {
     std::stack< long long > result;
-
     size_t pos = 0;
-
     while (pos < postfix.size())
     {
       auto symbol = static_cast< unsigned char >(postfix[pos]);
@@ -213,7 +234,7 @@ namespace hohlova
       {
         auto oprt = operation.find(symbol);
         if (oprt == operation.end())
-          throw std::runtime_error("Error!Invalid operand");
+          throw std::runtime_error("Error!Invalid operand\n");
 
         auto roperand = result.top();
         result.pop();

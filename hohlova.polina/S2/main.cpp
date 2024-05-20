@@ -5,20 +5,21 @@
 int main(int argc, char** argv)
 {
   hohlova::ExpressionCalc calculator;
-  hohlova::Stack<long long> results;
-  if(argc == 1)
+  hohlova::Stack< long long > results;
+  if (argc == 1)
   {
     calculator.readExpression(std::cin);
   }
-  else if(argc == 2)
+  else if (argc == 2)
   {
     std::ifstream stream(argv[1]);
     calculator.readExpression(stream);
   }
   else
   {
-    std::cerr << "Invalid number of command line arguments";
+    std::cerr << "Invalid number of command line arguments\n";
   }
+
   try
   {
     calculator.CalculateExpressions(results);
@@ -28,10 +29,13 @@ int main(int argc, char** argv)
     std::cout << err.what();
     return 1;
   }
-
-  while(!results.empty())
+  while (!results.empty())
   {
     std::cout << results.top();
+    if (results.size() != 1)
+    {
+      std::cout << ' ';
+    }
     results.pop();
   }
   std::cout << "\n";
