@@ -3,6 +3,7 @@
 #include <string>
 #include <stack>
 #include <unordered_map>
+#include <climits>
 
 namespace hohlova
 {

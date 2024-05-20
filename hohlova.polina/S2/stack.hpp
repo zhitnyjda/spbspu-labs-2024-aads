@@ -80,7 +80,7 @@ namespace hohlova
   size_t Stack< T >::size() const
   {
     size_t size = 0;
-    typename List< T >::iterator curr = _list.begin();
+    typename List< T >::Iterator curr = _list.begin();
     while (curr != _list.end())
     {
       ++size;
