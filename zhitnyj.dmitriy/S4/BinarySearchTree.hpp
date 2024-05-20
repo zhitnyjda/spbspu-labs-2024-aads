@@ -548,7 +548,7 @@ std::pair< typename bsTree< Key, Value, Compare >::ConstIterator, typename bsTre
 bsTree< Key, Value, Compare >::equal_range(const Key &k) const {
   ConstIterator it = find(k);
   if (it == end()) {
-    return {end(), end()};
+    return std::make_pair(end(), end());
   }
   ConstIterator next = it;
   ++next;
@@ -560,7 +560,7 @@ std::pair< typename bsTree< Key, Value, Compare >::Iterator, typename bsTree< Ke
 bsTree< Key, Value, Compare >::equal_range(const Key &k) {
   Iterator it = find(k);
   if (it == end()) {
-    return {end(), end()};
+    return std::make_pair(end(), end());
   }
   Iterator next = it;
   ++next;
