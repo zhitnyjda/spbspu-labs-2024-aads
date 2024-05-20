@@ -90,7 +90,6 @@ public:
 
 private:
   Node *current;
-  std::pair< Key, Value > pair;
 
   Node *findNext(Node *node) const;
 };
@@ -100,20 +99,17 @@ bsTree< Key, Value, Compare >::ConstIterator::ConstIterator() : current(nullptr)
 {}
 
 template< typename Key, typename Value, typename Compare >
-bsTree< Key, Value, Compare >::ConstIterator::ConstIterator(Node *node) : current(node) {
-  if (current) {
-    pair = current->data;
-  }
-}
+bsTree< Key, Value, Compare >::ConstIterator::ConstIterator(Node *node) : current(node)
+{}
 
 template< typename Key, typename Value, typename Compare >
 const std::pair< Key, Value > &bsTree< Key, Value, Compare >::ConstIterator::operator*() const {
-  return pair;
+  return current->data;
 }
 
 template< typename Key, typename Value, typename Compare >
 const std::pair< Key, Value > *bsTree< Key, Value, Compare >::ConstIterator::operator->() const {
-  return std::addressof(pair);
+  return std::addressof(current->data);
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -199,12 +195,12 @@ bsTree< Key, Value, Compare >::Iterator::Iterator(ConstIterator constIter) : con
 
 template< typename Key, typename Value, typename Compare >
 std::pair< Key, Value > &bsTree< Key, Value, Compare >::Iterator::operator*() const {
-  return constIter_.pair;
+  return constIter_.current->data;
 }
 
 template< typename Key, typename Value, typename Compare >
 std::pair< Key, Value > *bsTree< Key, Value, Compare >::Iterator::operator->() const {
-  return std::addressof(constIter_.pair);
+  return std::addressof(constIter_.current->data);
 }
 
 template< typename Key, typename Value, typename Compare >
