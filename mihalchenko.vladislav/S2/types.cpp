@@ -103,7 +103,7 @@ bool mihalchenko::FinalTransform::calculate()
     size_t stepCounter = 0;
     codOperation = '.';
     bool flag = false;
-    bool flag1;
+    bool flag1 = false;
     while (!flag)
     {
       flag1 = false;

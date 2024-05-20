@@ -68,7 +68,7 @@ size_t mihalchenko::calculatePostFix(Queue< std::string > &resiveDigit, Stack< l
 }
 
 bool mihalchenko::bildStrPostFix(std::string &currentStr, size_t currentStrSize,
-                                 Queue< std::string > &resiveDigit, Stack< std::string > &resiveControl)
+  Queue< std::string > &resiveDigit, Stack< std::string > &resiveControl)
 {
   size_t ullMax = std::numeric_limits< size_t >::max();
   if (resiveControl.getSize() == ullMax)
