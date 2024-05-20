@@ -58,8 +58,8 @@ private:
       data(std::make_pair(k, v)),
       left(nullptr),
       right(nullptr),
-      parent(p) {
-    }
+      parent(p)
+      {}
   };
 
   Node *root;
@@ -99,7 +99,7 @@ private:
 };
 
 template< typename Key, typename Value, typename Compare >
-bsTree< Key, Value, Compare >::ConstIterator::ConstIterator() : current(nullptr) 
+bsTree< Key, Value, Compare >::ConstIterator::ConstIterator() : current(nullptr)
 {}
 
 template< typename Key, typename Value, typename Compare >
