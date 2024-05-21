@@ -32,7 +32,7 @@ namespace zheleznyakov
     void remove(size_t i);
     template < typename UnaryPredicate >
     void removeIf(UnaryPredicate predicate);
-    T &operator[](const size_t index);
+    T &operator[](const size_t index) const;
     Iterator begin() noexcept;
     Iterator end() noexcept;
     ConstIterator cBegin() const noexcept;
@@ -202,7 +202,7 @@ void zheleznyakov::List< T >::popBack()
 }
 
 template < typename T >
-T &zheleznyakov::List< T >::operator[](const size_t index)
+T &zheleznyakov::List< T >::operator[](const size_t index) const
 {
   details::Node< T >*currentElement = head;
   size_t currentIndex = 0;
