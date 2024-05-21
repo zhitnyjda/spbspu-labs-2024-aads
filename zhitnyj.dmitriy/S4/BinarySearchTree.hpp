@@ -412,9 +412,9 @@ BSTree< Key, Value, Compare >::drop(Node *&node, Key k) {
 
 template< typename Key, typename Value, typename Compare >
 Value BSTree< Key, Value, Compare >::drop(Key k) {
-  Value v = get(k);
+  Value value_ = get(k);
   root = drop(root, k);
-  return v;
+  return value_;
 }
 
 template< typename Key, typename Value, typename Compare >
