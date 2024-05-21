@@ -7,7 +7,7 @@
 
 namespace hohlova
 {
-  std::unordered_map< char, int > priority = { {'-', 0}, {'+', 0}, {'*', 1}, {'/', 1}, {'%', 1}, {'(', -1}, {')', -1};
+  std::unordered_map< char, int > priority = { {'-', 0}, {'+', 0}, {'*', 1}, {'/', 1}, {'%', 1}, {'(', -1}, {')', -1}};
   using Func = long long (*)(long long, long long);
   long long sum(long long a, long long b)
   {
