@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include "CommandProcessor.hpp"
 
-void processLineToTree(const std::string &line, bsTree< std::string, bsTree< long long, std::string > > &dicts) {
+void processLineToTree(const std::string &line, BSTree< std::string, BSTree< long long, std::string > > &dicts) {
   if (line.empty()) {
     return;
   }
@@ -11,7 +11,7 @@ void processLineToTree(const std::string &line, bsTree< std::string, bsTree< lon
   size_t pos = 0;
   size_t spacePos = line.find(' ');
   std::string dataset = line.substr(0, spacePos);
-  bsTree< long long, std::string > tree;
+  BSTree< long long, std::string > tree;
 
   if (spacePos != std::string::npos) {
     pos = spacePos + 1;
@@ -49,7 +49,7 @@ void processLineToTree(const std::string &line, bsTree< std::string, bsTree< lon
   dicts.push(dataset, tree);
 }
 
-void loadTreeFromFile(const std::string &filename, bsTree< std::string, bsTree< long long, std::string > > &dicts) {
+void loadTreeFromFile(const std::string &filename, BSTree< std::string, BSTree< long long, std::string > > &dicts) {
   std::ifstream file(filename);
   if (!file) {
     throw std::runtime_error("Unable to open file");
@@ -62,7 +62,7 @@ void loadTreeFromFile(const std::string &filename, bsTree< std::string, bsTree< 
   file.close();
 }
 
-void handleIntersect(bsTree< std::string, bsTree< long long, std::string > > &dicts) {
+void handleIntersect(BSTree< std::string, BSTree< long long, std::string > > &dicts) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
   
@@ -74,7 +74,7 @@ void handleIntersect(bsTree< std::string, bsTree< long long, std::string > > &di
   else {
     const auto &tree1 = it1->second;
     const auto &tree2 = it2->second;
-    bsTree< long long, std::string > result;
+    BSTree< long long, std::string > result;
 
     for (auto it = tree1.begin(); it != tree1.end(); ++it) {
       if (tree2.count(it->first) == 1) {
@@ -86,7 +86,7 @@ void handleIntersect(bsTree< std::string, bsTree< long long, std::string > > &di
   }
 }
 
-void handleComplement(bsTree< std::string, bsTree< long long, std::string > > &dicts) {
+void handleComplement(BSTree< std::string, BSTree< long long, std::string > > &dicts) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
   
@@ -98,7 +98,7 @@ void handleComplement(bsTree< std::string, bsTree< long long, std::string > > &d
   else {
     const auto &tree1 = it1->second;
     const auto &tree2 = it2->second;
-    bsTree< long long, std::string > result;
+    BSTree< long long, std::string > result;
 
     for (auto it = tree1.begin(); it != tree1.end(); ++it) {
       if (tree2.count(it->first) == 0) {
@@ -110,7 +110,7 @@ void handleComplement(bsTree< std::string, bsTree< long long, std::string > > &d
   }
 }
 
-void handleUnion(bsTree< std::string, bsTree< long long, std::string > > &dicts) {
+void handleUnion(BSTree< std::string, BSTree< long long, std::string > > &dicts) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
   
@@ -122,7 +122,7 @@ void handleUnion(bsTree< std::string, bsTree< long long, std::string > > &dicts)
   else {
     const auto &tree1 = it1->second;
     const auto &tree2 = it2->second;
-    bsTree< long long, std::string > result;
+    BSTree< long long, std::string > result;
 
     for (auto it = tree1.begin(); it != tree1.end(); ++it) {
       result.push(it->first, it->second);
@@ -138,7 +138,7 @@ void handleUnion(bsTree< std::string, bsTree< long long, std::string > > &dicts)
   }
 }
 
-void handlePrint(bsTree< std::string, bsTree< long long, std::string > > &dicts) {
+void handlePrint(BSTree< std::string, BSTree< long long, std::string > > &dicts) {
   std::string dataset;
   std::cin >> dataset;
   
