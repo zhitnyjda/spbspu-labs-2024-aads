@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include "CommandProcessor.hpp"
 
-void processLineToTree(const std::string &line, BSTree< std::string, BSTree< long long, std::string > > &dicts) {
+void processLineToTree(const std::string &line, BSTree <std::string, BSTree< long long, std::string >> &dicts) {
   if (line.empty()) {
     return;
   }
@@ -49,7 +49,7 @@ void processLineToTree(const std::string &line, BSTree< std::string, BSTree< lon
   dicts.push(dataset, tree);
 }
 
-void loadTreeFromFile(const std::string &filename, BSTree< std::string, BSTree< long long, std::string > > &dicts) {
+void loadTreeFromFile(const std::string &filename, BSTree <std::string, BSTree< long long, std::string >> &dicts) {
   std::ifstream file(filename);
   if (!file) {
     throw std::runtime_error("Unable to open file");
@@ -62,10 +62,10 @@ void loadTreeFromFile(const std::string &filename, BSTree< std::string, BSTree< 
   file.close();
 }
 
-void handleIntersect(BSTree< std::string, BSTree< long long, std::string > > &dicts) {
+void handleIntersect(BSTree <std::string, BSTree< long long, std::string >> &dicts) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
-  
+
   auto it1 = dicts.find(dataset1);
   auto it2 = dicts.find(dataset2);
   if (it1 == dicts.end() || it2 == dicts.end()) {
@@ -86,10 +86,10 @@ void handleIntersect(BSTree< std::string, BSTree< long long, std::string > > &di
   }
 }
 
-void handleComplement(BSTree< std::string, BSTree< long long, std::string > > &dicts) {
+void handleComplement(BSTree <std::string, BSTree< long long, std::string >> &dicts) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
-  
+
   auto it1 = dicts.find(dataset1);
   auto it2 = dicts.find(dataset2);
   if (it1 == dicts.end() || it2 == dicts.end()) {
@@ -110,10 +110,10 @@ void handleComplement(BSTree< std::string, BSTree< long long, std::string > > &d
   }
 }
 
-void handleUnion(BSTree< std::string, BSTree< long long, std::string > > &dicts) {
+void handleUnion(BSTree <std::string, BSTree< long long, std::string >> &dicts) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
-  
+
   auto it1 = dicts.find(dataset1);
   auto it2 = dicts.find(dataset2);
   if (it1 == dicts.end() || it2 == dicts.end()) {
@@ -138,10 +138,10 @@ void handleUnion(BSTree< std::string, BSTree< long long, std::string > > &dicts)
   }
 }
 
-void handlePrint(BSTree< std::string, BSTree< long long, std::string > > &dicts) {
+void handlePrint(BSTree <std::string, BSTree< long long, std::string >> &dicts) {
   std::string dataset;
   std::cin >> dataset;
-  
+
   auto it = dicts.find(dataset);
   const auto &tree = it->second;
   if (it == dicts.end()) {
