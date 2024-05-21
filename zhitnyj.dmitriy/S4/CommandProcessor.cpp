@@ -65,9 +65,7 @@ void loadTreeFromFile(const std::string &filename, bsTree< std::string, bsTree< 
 void handleIntersect(bsTree< std::string, bsTree< long long, std::string > > &dicts) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
-
-  auto invalidCommandWarning = std::bind(displayWarning, std::placeholders::_1, "<INVALID COMMAND>\n");
-
+  
   auto it1 = dicts.find(dataset1);
   auto it2 = dicts.find(dataset2);
   if (it1 == dicts.end() || it2 == dicts.end()) {
@@ -91,9 +89,7 @@ void handleIntersect(bsTree< std::string, bsTree< long long, std::string > > &di
 void handleComplement(bsTree< std::string, bsTree< long long, std::string > > &dicts) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
-
-  auto invalidCommandWarning = std::bind(displayWarning, std::placeholders::_1, "<INVALID COMMAND>\n");
-
+  
   auto it1 = dicts.find(dataset1);
   auto it2 = dicts.find(dataset2);
   if (it1 == dicts.end() || it2 == dicts.end()) {
@@ -117,9 +113,7 @@ void handleComplement(bsTree< std::string, bsTree< long long, std::string > > &d
 void handleUnion(bsTree< std::string, bsTree< long long, std::string > > &dicts) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
-
-  auto invalidCommandWarning = std::bind(displayWarning, std::placeholders::_1, "<INVALID COMMAND>\n");
-
+  
   auto it1 = dicts.find(dataset1);
   auto it2 = dicts.find(dataset2);
   if (it1 == dicts.end() || it2 == dicts.end()) {
@@ -147,10 +141,7 @@ void handleUnion(bsTree< std::string, bsTree< long long, std::string > > &dicts)
 void handlePrint(bsTree< std::string, bsTree< long long, std::string > > &dicts) {
   std::string dataset;
   std::cin >> dataset;
-
-  auto invalidCommandWarning = std::bind(displayWarning, std::placeholders::_1, "<INVALID COMMAND>\n");
-  auto emptyCommandWarning = std::bind(displayWarning, std::placeholders::_1, "<EMPTY>\n");
-
+  
   auto it = dicts.find(dataset);
   const auto &tree = it->second;
   if (it == dicts.end()) {
@@ -168,6 +159,10 @@ void handlePrint(bsTree< std::string, bsTree< long long, std::string > > &dicts)
   }
 }
 
-void displayWarning(std::ostream &out, const std::string &message) {
-  out << message;
+void emptyCommandWarning(std::ostream &out) {
+  out << "<EMPTY>\n";
+}
+
+void invalidCommandWarning(std::ostream &out) {
+  out << "<INVALID COMMAND>\n";
 }
