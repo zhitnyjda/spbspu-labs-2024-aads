@@ -11,6 +11,7 @@ void handlePrint(bsTree< std::string, bsTree< long long, std::string > > &dicts)
 void handleComplement(bsTree< std::string, bsTree< long long, std::string > > &dicts);
 void handleIntersect(bsTree< std::string, bsTree< long long, std::string > > &dicts);
 void handleUnion(bsTree< std::string, bsTree< long long, std::string > > &dicts);
-void displayWarning(std::ostream &out, const std::string &message);
+void displayEmptyWarning(std::ostream &out);
+void displayInvalidCommand(std::ostream &out);
 
 #endif
