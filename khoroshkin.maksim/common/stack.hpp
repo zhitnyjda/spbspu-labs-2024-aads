@@ -9,10 +9,13 @@ namespace khoroshkin
   class Stack
   {
   public:
-    Stack() = default;
-    ~Stack() = default;
+    Stack();
     Stack(const Stack & rhs);
     Stack(Stack && rhs);
+    ~Stack();
+
+    Stack< T > & operator=(const Stack & rhs);
+    Stack< T > & operator=(Stack && rhs);
 
     T & top() noexcept;
     const T & top() const noexcept;
@@ -28,15 +31,39 @@ namespace khoroshkin
 }
 
 template< typename T >
+khoroshkin::Stack< T >::Stack() :
+  stack(List< T >())
+{}
+
+template< typename T >
 khoroshkin::Stack< T >::Stack(const Stack & rhs)
 {
   stack = rhs.stack;
 }
 
 template< typename T >
-khoroshkin::Stack< T >::Stack(Stack && rhs)
+khoroshkin::Stack< T >::Stack(Stack && rhs) :
+  stack(std::move(rhs.stack))
+{}
+
+template< typename T >
+khoroshkin::Stack< T > & khoroshkin::Stack< T >::operator=(const Stack & rhs)
 {
-  stack(std::move(rhs.stack));
+  stack = rhs.stack;
+  return *this;
+}
+
+template< typename T >
+khoroshkin::Stack< T > & khoroshkin::Stack< T >::operator=(Stack && rhs)
+{
+  stack = std::move(rhs.stack);
+  return *this;
+}
+
+template< typename T >
+khoroshkin::Stack< T >::~Stack()
+{
+  stack.clear();
 }
 
 template< typename T >
