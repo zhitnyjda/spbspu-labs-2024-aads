@@ -10,8 +10,8 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  bsTree< std::string, bsTree< long long, std::string > > dictionaries;
-  bsTree< std::string, std::function< void(bsTree< std::string, bsTree< long long, std::string > > &) > > cmds;
+  BSTree< std::string, BSTree< long long, std::string > > dictionaries;
+  BSTree< std::string, std::function< void(BSTree< std::string, BSTree< long long, std::string > > &) > > cmds;
 
   cmds.insert(std::make_pair("print", handlePrint));
   cmds.insert(std::make_pair("complement", handleComplement));
