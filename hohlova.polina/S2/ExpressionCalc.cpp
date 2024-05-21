@@ -7,13 +7,7 @@
 
 namespace hohlova
 {
-  std::unordered_map< char, int > priority = { {'-', 0},
-                                               {'+', 0},
-                                               {'*', 1},
-                                               {'/', 1},
-                                               {'%', 1},
-                                               {'(', -1},
-                                               {')', -1} };
+  std::unordered_map< char, int > priority = { {'-', 0}, {'+', 0}, {'*', 1}, {'/', 1}, {'%', 1}, {'(', -1}, {')', -1};
   using Func = long long (*)(long long, long long);
   long long sum(long long a, long long b)
   {
@@ -84,11 +78,7 @@ namespace hohlova
     return res;
   }
 
-  std::unordered_map< char, Func > operation = { {'+', sum},
-                                                 {'-', sub},
-                                                 {'%', mod},
-                                                 {'*', mult},
-                                                 {'/', div} };
+  std::unordered_map< char, Func > operation = { {'+', sum}, {'-', sub}, {'%', mod}, {'*', mult}, {'/', div} };
 
   std::string ExpressionCalc::InfixToPostfix(const std::string& expr)
   {
@@ -99,7 +89,7 @@ namespace hohlova
 
     while (pos < expr.size())
     {
-      unsigned char symbol = static_cast<unsigned char>(expr[pos]);
+      unsigned char symbol = static_cast< unsigned char >(expr[pos]);
       if (std::isdigit(symbol))
       {
         res.push_back(symbol);
