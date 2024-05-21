@@ -22,7 +22,7 @@ namespace hohlova
     T& back();
     const T& back() const;
 
-    bool empty() const;
+    bool empty() const noexcept;
     size_t size() const;
 
     void push(const T& value);
@@ -107,7 +107,7 @@ namespace hohlova
   }
 
   template< typename T >
-  bool  Queue< T >::empty() const
+  bool  Queue< T >::empty() const noexcept
   {
     return _list.size() > 0 ? false : true;
   }
