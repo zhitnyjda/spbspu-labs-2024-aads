@@ -15,7 +15,8 @@ void mihalchenko::printedResult(std::ostream &out, Stack< long long > &stack, si
 {
   for (size_t i = 0; i < num; i++)
   {
-    out << stack.pop();
+    out << stack.getT();
+    stack.pop();
     if (i != num - 1)
     {
       out << " ";
@@ -127,7 +128,8 @@ bool mihalchenko::bildStrPostFix(std::string &currentStr, size_t currentStrSize,
               std::cout << "The logic is broken" << std::endl;
               flgResult = false;
             }
-            strFS = resiveControl.pop();
+            strFS = resiveControl.getT();
+            resiveControl.pop();
             if (strFS != "(")
             {
               resiveDigit.push(strFS);
@@ -146,7 +148,8 @@ bool mihalchenko::bildStrPostFix(std::string &currentStr, size_t currentStrSize,
         {
           if ((resiveControl.getSize() > 0) && (resiveControl.getSize() != ullMax))
           {
-            resiveDigit.push(resiveControl.pop());
+            resiveDigit.push(resiveControl.getT());
+            resiveControl.pop();
           }
           resiveControl.push(elementStr);
         }
@@ -170,7 +173,8 @@ bool mihalchenko::bildStrPostFix(std::string &currentStr, size_t currentStrSize,
   }
   while ((resiveControl.getSize() > 0) && (resiveControl.getSize() != ullMax))
   {
-    resiveDigit.push(resiveControl.pop());
+    resiveDigit.push(resiveControl.getT());
+    resiveControl.pop();
   }
   return flgResult;
 }

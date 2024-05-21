@@ -104,10 +104,9 @@ bool mihalchenko::FinalTransform::calculate()
     size_t stepCounter = 0;
     codOperation = '.';
     bool flag = false;
-    bool flag1 = false;
     while (!flag)
     {
-      flag1 = false;
+      bool flag1 = false;
       for (size_t i = 0; i < list.getSize(); i++)
       {
         if (list[i] == codOperation)
@@ -121,13 +120,15 @@ bool mihalchenko::FinalTransform::calculate()
       }
       else
       {
-        codOperation = commands.pop();
+        codOperation = commands.getT();
+        commands.pop();
         stepCounter++;
       }
     }
     if (stepCounter == restrictionOfFormation)
     {
-      wremSave = calcRezult.pop();
+      wremSave = calcRezult.getT();
+      calcRezult.pop();
     }
 
     if (calcRezult.getSize() < 2)
@@ -137,8 +138,10 @@ bool mihalchenko::FinalTransform::calculate()
     }
     else
     {
-      firstVal = calcRezult.pop();
-      secondVal = calcRezult.pop();
+      firstVal = calcRezult.getT();
+      calcRezult.pop();
+      secondVal = calcRezult.getT();
+      calcRezult.pop();
     }
     if (codOperation == '+')
     {
@@ -168,7 +171,7 @@ bool mihalchenko::FinalTransform::calculate()
     {
       commands.push('.');
     }
-    if (stepCounter == 4)
+    if (stepCounter == restrictionOfFormation)
     {
       calcRezult.push(wremSave);
       commands.push('.');

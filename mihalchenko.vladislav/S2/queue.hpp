@@ -12,7 +12,8 @@ namespace mihalchenko
     Queue(const Queue< T > &copy);
     ~Queue() = default;
     void push(const T &data);
-    const T pop();
+    void pop();
+    const T getT();
     T &operator[](const size_t ind);
     void clear();
     size_t getSize();
@@ -36,10 +37,15 @@ void mihalchenko::Queue< T >::push(const T &data)
 }
 
 template < typename T >
-const T mihalchenko::Queue< T >::pop()
+void mihalchenko::Queue< T >::pop()
+{
+  containQueue.pop_front();
+}
+
+template < typename T >
+const T mihalchenko::Queue< T >::getT()
 {
   T res = containQueue.getT();
-  containQueue.pop_front();
   return res;
 }
 
