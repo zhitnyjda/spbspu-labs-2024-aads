@@ -9,9 +9,9 @@ namespace hohlova
   {
   public:
     Queue() : _list(List< T >()) {}
-    explicit Queue(const List< T >& cont);
     Queue(const Queue& other);
     Queue(Queue&& other);
+    explicit Queue(const List< T >& cont);
     ~Queue() = default;
 
     Queue< T >& operator=(const Queue& other);

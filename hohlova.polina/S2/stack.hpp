@@ -9,9 +9,9 @@ namespace hohlova
   {
   public:
     Stack() : _list(List< T >()) {}
-    explicit Stack(const List< T >& cont);
     Stack(const Stack< T >& other);
     Stack(Stack< T >&& other);
+    explicit Stack(const List< T >& cont);
     ~Stack() = default;
 
     Stack& operator=(const Stack& other);
