@@ -8,18 +8,18 @@ namespace ponomarev
   class Stack {
   public:
     Stack();
-    explicit Stack(const List< T > & data);
     Stack(const Stack< T > & other);
     Stack(Stack< T > && other);
+    explicit Stack(const List< T > & data);
     ~Stack() = default;
 
     Stack< T > & operator=(const Stack & other);
     Stack< T > & operator=(Stack && other);
 
-    T & getUp() const;
+    T & getUp() const noexcept;
 
-    bool empty() const;
-    size_t size() const;
+    bool isEmpty() const noexcept;
+    size_t getSize() const noexcept;
 
     void push(const T & value);
     void push(T && value);
@@ -63,19 +63,19 @@ ponomarev::Stack< T > & ponomarev::Stack< T >::operator=(Stack && other)
 }
 
 template < typename T >
-T & ponomarev::Stack< T >::getUp() const
+T & ponomarev::Stack< T >::getUp() const noexcept
 {
   return container_.getFront();
 }
 
 template < typename T >
-bool ponomarev::Stack< T >::empty() const
+bool ponomarev::Stack< T >::isEmpty() const noexcept
 {
   return container_.isEmpty();
 }
 
 template < typename T >
-size_t ponomarev::Stack< T >::size() const
+size_t ponomarev::Stack< T >::getSize() const noexcept
 {
   return container_.getSize();
 }

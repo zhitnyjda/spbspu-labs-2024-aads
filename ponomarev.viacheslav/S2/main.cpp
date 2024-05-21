@@ -32,11 +32,11 @@ int main(int argc, char ** argv)
     return 1;
   }
 
-  while (!results.empty())
+  while (!results.isEmpty())
   {
     std::cout << results.getUp();
     results.pop();
-    if (!results.empty())
+    if (!results.isEmpty())
     {
       std::cout << ' ';
     }

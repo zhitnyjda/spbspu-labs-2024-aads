@@ -39,7 +39,7 @@ void ponomarev::getPostfix(std::string expression, Postfix & queue)
       stack.push(elem);
     }
   }
-  while (!stack.empty())
+  while (!stack.isEmpty())
   {
     queue.postfix_.push(stack.getUp());
     stack.pop();
@@ -53,7 +53,7 @@ bool ponomarev::isNum(const std::string & elem)
 
 bool ponomarev::isOpenBracketUp(const Stack< ExpressionElement > & stack)
 {
-  if (stack.empty())
+  if (stack.isEmpty())
   {
     return false;
   }
@@ -75,7 +75,7 @@ bool ponomarev::isOpenBracketUp(const Stack< ExpressionElement > & stack)
 
 bool ponomarev::shouldPushOpToStack(const Stack< ExpressionElement > & stack, const ExpressionElement & elem)
 {
-  if (stack.empty())
+  if (stack.isEmpty())
   {
     return true;
   }
@@ -123,7 +123,7 @@ long long ponomarev::calculate(std::string & expression)
   getPostfix(expression, postfix);
   Stack< Operand > stack;
 
-  while (!postfix.postfix_.empty())
+  while (!postfix.postfix_.isEmpty())
   {
     ExpressionElement elem = postfix.postfix_.getElem();
     postfix.postfix_.pop();

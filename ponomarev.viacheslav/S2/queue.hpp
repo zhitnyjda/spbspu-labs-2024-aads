@@ -8,18 +8,19 @@ namespace ponomarev
   class Queue {
   public:
     Queue();
-    explicit Queue(const List< T > & data);
     Queue(const Queue< T > & other);
     Queue(Queue< T > && other);
+    explicit Queue(const List< T > & data);
     ~Queue() = default;
 
     Queue< T > & operator=(const Queue & other);
     Queue< T > & operator=(Queue && other);
 
-    bool empty() const;
-    size_t size() const;
+    T & getElem() const noexcept;
 
-    T getElem() const;
+    bool isEmpty() const noexcept;
+    size_t getSize() const noexcept;
+
     void push(T & value);
     void push(T && value);
     void pop();
@@ -62,19 +63,19 @@ ponomarev::Queue< T > & ponomarev::Queue< T >::operator=(Queue && other)
 }
 
 template < typename T >
-bool ponomarev::Queue< T >::empty() const
+bool ponomarev::Queue< T >::isEmpty() const noexcept
 {
   return container_.isEmpty();
 }
 
 template < typename T >
-size_t ponomarev::Queue< T >::size() const
+size_t ponomarev::Queue< T >::getSize() const noexcept
 {
   return container_.getSize();
 }
 
 template < typename T >
-T ponomarev::Queue< T >::getElem() const
+T & ponomarev::Queue< T >::getElem() const noexcept
 {
   return container_.getFront();
 }

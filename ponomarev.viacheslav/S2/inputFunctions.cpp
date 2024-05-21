@@ -22,7 +22,7 @@ void ponomarev::getResults(Queue< std::string > & expressions, Stack< long long 
   long long resOfExpression = 0;
   Postfix postfix;
 
-  while (!expressions.empty())
+  while (!expressions.isEmpty())
   {
     expression = expressions.getElem();
     expressions.pop();
