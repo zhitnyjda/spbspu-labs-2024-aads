@@ -57,10 +57,10 @@ private:
     Node *parent;
 
     Node(Key k, Value v, Node *p = nullptr):
-    data(std::make_pair(k, v)),
-    left(nullptr),
-    right(nullptr),
-    parent(p)
+     data(std::make_pair(k, v)),
+     left(nullptr),
+     right(nullptr),
+     parent(p)
     {}
   };
 
