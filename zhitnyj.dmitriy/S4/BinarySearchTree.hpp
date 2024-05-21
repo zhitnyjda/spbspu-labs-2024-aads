@@ -77,6 +77,9 @@ private:
   Node *copyTree(Node *node, Node *parent) const;
 };
 
+template< typename Key, typename Value >
+using kvPair = std::pair< Key, Value >;
+
 template< typename Key, typename Value, typename Compare >
 class BSTree< Key, Value, Compare >::ConstIterator : public std::iterator< std::bidirectional_iterator_tag, kvPair > {
 public:
@@ -109,12 +112,12 @@ BSTree< Key, Value, Compare >::ConstIterator::ConstIterator(Node *node) : curren
 }
 
 template< typename Key, typename Value, typename Compare >
-const BSTree< Key, Value, Compare >::kvPair &BSTree< Key, Value, Compare >::ConstIterator::operator*() const {
+const kvPair< Key, Value > &BSTree< Key, Value, Compare >::ConstIterator::operator*() const {
   return current->data;
 }
 
 template< typename Key, typename Value, typename Compare >
-const BSTree< Key, Value, Compare >::kvPair *BSTree< Key, Value, Compare >::ConstIterator::operator->() const {
+const kvPair< Key, Value > *BSTree< Key, Value, Compare >::ConstIterator::operator->() const {
   return std::addressof(current->data);
 }
 
@@ -227,12 +230,12 @@ BSTree< Key, Value, Compare >::Iterator::Iterator(ConstIterator constIter) : con
 }
 
 template< typename Key, typename Value, typename Compare >
-BSTree< Key, Value, Compare >::kvPair &BSTree< Key, Value, Compare >::Iterator::operator*() const {
+kvPair< Key, Value > &BSTree< Key, Value, Compare >::Iterator::operator*() const {
   return constIter_.current->data;
 }
 
 template< typename Key, typename Value, typename Compare >
-BSTree< Key, Value, Compare >::kvPair *BSTree< Key, Value, Compare >::Iterator::operator->() const {
+kvPair< Key, Value > *BSTree< Key, Value, Compare >::Iterator::operator->() const {
   return std::addressof(constIter_.current->data);
 }
 
@@ -279,14 +282,14 @@ bool BSTree< Key, Value, Compare >::Iterator::operator!=(const Iterator &other) 
 template< typename Key, typename Value, typename Compare >
 BSTree< Key, Value, Compare >::BSTree() :
   root(nullptr),
-  node_count(0)
-{}
+  node_count(0) {
+}
 
 template< typename Key, typename Value, typename Compare >
 BSTree< Key, Value, Compare >::BSTree(const BSTree &other) :
   root(copyTree(other.root, nullptr)),
-  node_count(other.node_count)
-{}
+  node_count(other.node_count) {
+}
 
 template< typename Key, typename Value, typename Compare >
 BSTree< Key, Value, Compare >::BSTree(BSTree &&other) noexcept :
