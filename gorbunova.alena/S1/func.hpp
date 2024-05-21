@@ -22,7 +22,8 @@ void gorbunova::printSums(const gorbunova::List< unsigned long long > &sums)
   std::cout << std::endl;
 }
 
-void gorbunova::printSequences(const gorbunova::List< std::pair< std::string, std::vector< unsigned long long > > > &sequences, size_t max_size)
+void gorbunova::printSequences(const gorbunova::List< std::pair< std::string, std::vector< unsigned long long > > > &sequences, 
+size_t max_size)
 {
   for (auto it = sequences.begin(); it != sequences.end(); ++it)
   {
@@ -81,7 +82,8 @@ std::vector< std::string > gorbunova::splitString(const std::string &input)
   return result;
 }
 
-void gorbunova::calculateSums(gorbunova::List< std::pair< std::string, std::vector< unsigned long long > > > &sequences, gorbunova::List< unsigned long long > &sums, size_t max_size)
+void gorbunova::calculateSums(gorbunova::List< std::pair< std::string, std::vector< unsigned long long > > > &sequences, gorbunova::List< unsigned long long > &sums,
+size_t max_size)
 {
   for (size_t i = 0; i < max_size; ++i)
   {
