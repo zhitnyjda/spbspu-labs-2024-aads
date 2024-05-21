@@ -25,10 +25,10 @@ public:
   Value get(Key k) const;
   Value drop(Key k);
 
-  bool empty() const;
+  bool empty() const noexcept;
   size_t size() const;
-  void clear();
-  void swap(bsTree &other);
+  void clear() noexcept;
+  void swap(bsTree &other) noexcept;
 
   ConstIterator begin() const;
   ConstIterator end() const;
@@ -438,7 +438,7 @@ bsTree< Key, Value, Compare >::copyTree(Node *node, Node *parent) const {
 }
 
 template< typename Key, typename Value, typename Compare >
-bool bsTree< Key, Value, Compare >::empty() const {
+bool bsTree< Key, Value, Compare >::empty() const noexcept {
   return node_count == 0;
 }
 
@@ -448,14 +448,14 @@ size_t bsTree< Key, Value, Compare >::size() const {
 }
 
 template< typename Key, typename Value, typename Compare >
-void bsTree< Key, Value, Compare >::clear() {
+void bsTree< Key, Value, Compare >::clear() noexcept {
   deleteTree(root);
   root = nullptr;
   node_count = 0;
 }
 
 template< typename Key, typename Value, typename Compare >
-void bsTree< Key, Value, Compare >::swap(bsTree &other) {
+void bsTree< Key, Value, Compare >::swap(bsTree &other) noexcept {
   Node *tempRoot = root;
   root = other.root;
   other.root = tempRoot;
