@@ -1,8 +1,8 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include "tree.hpp"
-#include "commands.hpp"
+#include <tree.hpp>
+#include <commands.hpp>
 #include "traverseFuncs.hpp"
 
 int main(int argc, char * argv[])
