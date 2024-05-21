@@ -33,7 +33,7 @@ mihalchenko::Operand mihalchenko::Operand::operator-(const Operand &rhs)
 mihalchenko::Operand mihalchenko::Operand::operator*(const Operand &rhs)
 {
   Operand result;
-  long long llMax = std::numeric_limits< long long >::max();
+  long long llMax = std::numeric_limits<long long>::max();
   if (llMax / data_ < rhs.data_)
   {
     throw std::logic_error("Error: overflow!");
@@ -106,19 +106,14 @@ bool mihalchenko::FinalTransform::calculate()
     bool flag = false;
     while (!flag)
     {
-      bool flag1 = false;
       for (size_t i = 0; i < list.getSize(); i++)
       {
         if (list[i] == codOperation)
         {
-          flag1 = true;
+          flag = true;
         }
       }
-      if (flag1)
-      {
-        flag = true;
-      }
-      else
+      if (!flag)
       {
         codOperation = commands.getT();
         commands.pop();
