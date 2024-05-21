@@ -3,9 +3,11 @@
 namespace gorbunova
 {
   void printSums(const gorbunova::List< unsigned long long > &sums);
-  void printSequences(const gorbunova::List< std::pair< std::string, std::vector< unsigned long long > > > &sequences, size_t max_size);
+  void printSequences(const gorbunova::List< std::pair< std::string, std::vector< unsigned long long > > > &sequences,
+  size_t max_size);
   std::vector< std::string > splitString(const std::string &input);
-  void calculateSums(gorbunova::List< std::pair< std::string, std::vector< unsigned long long > > > &sequences, gorbunova::List< unsigned long long > &sums, size_t max_size);
+  void calculateSums(gorbunova::List< std::pair< std::string, std::vector< unsigned long long > > > &sequences, gorbunova::List< unsigned long long > &sums,
+  size_t max_size);
 }
 void gorbunova::printSums(const gorbunova::List< unsigned long long > &sums)
 {
