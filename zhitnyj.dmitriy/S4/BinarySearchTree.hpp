@@ -13,6 +13,8 @@ public:
   class Iterator;
   class ConstIterator;
 
+  using kvPair = std::pair< Key, Value >;
+
   BSTree();
   BSTree(const BSTree &other);
   BSTree(BSTree &&other) noexcept;
@@ -76,14 +78,14 @@ private:
 };
 
 template< typename Key, typename Value, typename Compare >
-class BSTree< Key, Value, Compare >::ConstIterator {
+class BSTree< Key, Value, Compare >::ConstIterator : public std::iterator< std::bidirectional_iterator_tag, kvPair > {
 public:
   friend class BSTree< Key, Value, Compare >;
 
   ConstIterator();
   explicit ConstIterator(Node *node);
-  const std::pair< Key, Value > &operator*() const;
-  const std::pair< Key, Value > *operator->() const;
+  const kvPair &operator*() const;
+  const kvPair *operator->() const;
   ConstIterator &operator++();
   ConstIterator operator++(int);
   ConstIterator &operator--();
@@ -107,12 +109,12 @@ BSTree< Key, Value, Compare >::ConstIterator::ConstIterator(Node *node) : curren
 }
 
 template< typename Key, typename Value, typename Compare >
-const std::pair< Key, Value > &BSTree< Key, Value, Compare >::ConstIterator::operator*() const {
+const kvPair &BSTree< Key, Value, Compare >::ConstIterator::operator*() const {
   return current->data;
 }
 
 template< typename Key, typename Value, typename Compare >
-const std::pair< Key, Value > *BSTree< Key, Value, Compare >::ConstIterator::operator->() const {
+const kvPair *BSTree< Key, Value, Compare >::ConstIterator::operator->() const {
   return std::addressof(current->data);
 }
 
@@ -195,15 +197,15 @@ BSTree< Key, Value, Compare >::ConstIterator::findPrev(Node *node) const {
 }
 
 template< typename Key, typename Value, typename Compare >
-class BSTree< Key, Value, Compare >::Iterator {
+class BSTree< Key, Value, Compare >::Iterator : public std::iterator< std::bidirectional_iterator_tag, kvPair > {
 public:
   friend class BSTree< Key, Value, Compare >;
 
   Iterator();
   explicit Iterator(ConstIterator constIter);
 
-  std::pair< Key, Value > &operator*() const;
-  std::pair< Key, Value > *operator->() const;
+  kvPair &operator*() const;
+  kvPair *operator->() const;
   Iterator &operator++();
   Iterator operator++(int);
   Iterator &operator--();
@@ -225,12 +227,12 @@ BSTree< Key, Value, Compare >::Iterator::Iterator(ConstIterator constIter) : con
 }
 
 template< typename Key, typename Value, typename Compare >
-std::pair< Key, Value > &BSTree< Key, Value, Compare >::Iterator::operator*() const {
+kvPair &BSTree< Key, Value, Compare >::Iterator::operator*() const {
   return constIter_.current->data;
 }
 
 template< typename Key, typename Value, typename Compare >
-std::pair< Key, Value > *BSTree< Key, Value, Compare >::Iterator::operator->() const {
+kvPair *BSTree< Key, Value, Compare >::Iterator::operator->() const {
   return std::addressof(constIter_.current->data);
 }
 
