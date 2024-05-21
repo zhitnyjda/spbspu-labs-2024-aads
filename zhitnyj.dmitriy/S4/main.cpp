@@ -18,8 +18,6 @@ int main(int argc, char *argv[]) {
   cmds.insert(std::make_pair("intersect", handleIntersect));
   cmds.insert(std::make_pair("union", handleUnion));
 
-  auto invalidCommandWarning = std::bind(displayWarning, std::ref(std::cout), "<INVALID COMMAND>\n");
-
   try {
     loadTreeFromFile(argv[1], dictionaries);
   } catch (const std::exception &e) {
