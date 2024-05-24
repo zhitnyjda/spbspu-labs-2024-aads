@@ -94,7 +94,7 @@ sobolevsky::AVLtree< Key, Value, Compare >::AVLtree(const AVLtree< Key, Value, C
 template< typename Key, typename Value, typename Compare >
 sobolevsky::AVLtree< Key, Value, Compare >::AVLtree(AVLtree< Key, Value, Compare > &&rhs) noexcept
 {
-  root(rhs.root);
+  root = rhs.root;
   size_ = std::move(rhs.size_);
 }
 

@@ -43,7 +43,7 @@ void sobolevsky::getPrint(std::istream &in, std::ostream &out, AVLtree< std::str
   }
 }
 
-void sobolevsky::getComplement(std::istream &in, std::ostream &out, AVLtree< std::string, AVLtree< int, std::string, int >,  int > &data)
+void sobolevsky::getComplement(std::istream &in, AVLtree< std::string, AVLtree< int, std::string, int >,  int > &data)
 {
   std::string newName;
   std::string name1;
@@ -60,7 +60,7 @@ void sobolevsky::getComplement(std::istream &in, std::ostream &out, AVLtree< std
   data.insert(std::make_pair(newName, newTree));
 }
 
-void sobolevsky::getIntersect(std::istream &in, std::ostream &out, AVLtree< std::string, AVLtree< int, std::string, int >,  int > &data)
+void sobolevsky::getIntersect(std::istream &in, AVLtree< std::string, AVLtree< int, std::string, int >,  int > &data)
 {
   std::string newName;
   std::string name1;
@@ -77,7 +77,7 @@ void sobolevsky::getIntersect(std::istream &in, std::ostream &out, AVLtree< std:
   data.insert(std::make_pair(newName, newTree));
 }
 
-void sobolevsky::getUnion(std::istream &in, std::ostream &out, AVLtree< std::string, AVLtree< int, std::string, int >,  int > &data)
+void sobolevsky::getUnion(std::istream &in, AVLtree< std::string, AVLtree< int, std::string, int >,  int > &data)
 {
   std::string newName;
   std::string name1;

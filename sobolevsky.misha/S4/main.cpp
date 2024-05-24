@@ -28,9 +28,9 @@ int main(int argc, char *argv[])
   sobolevsky::AVLtree< int, std::string, int >, int > &) >, int > cmds;
 
   cmds["print"] = sobolevsky::getPrint;
-  cmds["complement"] = sobolevsky::getComplement;
-  cmds["intersect"] = sobolevsky::getIntersect;
-  cmds["union"] = sobolevsky::getUnion;
+  cmds["complement"] = std::bind(sobolevsky::getComplement, std::placeholders::_1, std::placeholders::_3);
+  cmds["intersect"] = std::bind(sobolevsky::getIntersect, std::placeholders::_1, std::placeholders::_3);
+  cmds["union"] = std::bind(sobolevsky::getUnion, std::placeholders::_1, std::placeholders::_3);
   std::string cmd;
   while (std::cin >> cmd)
   {
