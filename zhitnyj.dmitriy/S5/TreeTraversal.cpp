@@ -1,6 +1,6 @@
+#include <iostream>
 #include "TreeTraversal.hpp"
 #include "KeySum.hpp"
-#include <iostream>
 
 void traverseAscending(const BSTree< long long, std::string > &tree) {
   if (tree.empty()) {
