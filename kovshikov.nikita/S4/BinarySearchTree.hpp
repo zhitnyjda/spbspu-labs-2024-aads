@@ -19,6 +19,10 @@ namespace kovshikov
 
     using Pair = std::pair< Key, Value >;
     Compare comp;
+
+    bool isEmpty() const noexcept;
+    void insert(const Key& key, const Value& value);
+
   private:
     Node* root_;
   };
@@ -267,6 +271,50 @@ const typename kovshikov::Tree< Key, Value, Compare >::Pair* kovshikov::Tree< Ke
 {
   assert(iterator_.node_ != nullptr);
   return std::addressof(iterator_.node_ -> element_);
+}
+
+template< typename Key, typename Value, typename Compare >
+bool kovshikov::Tree< Key, Value, Compare >::isEmpty() const noexcept
+{
+  return (root_ == nullptr) ? true : false;
+}
+
+template< typename Key, typename Value, typename Compare >
+void kovshikov::Tree< Key, Value, Compare >::insert(const Key& key, const Value& value)
+{
+  //нет проверки на то что такой ключ уже есть
+  Node* newNode = new Node(key, value);
+  if(isEmpty())
+  {
+    root_ = newNode;
+  }
+  else
+  {
+    Node* current = root_;
+    Node* father = nullptr;
+    while(current != nullptr)
+    {
+      father = current;
+      if(comp(key, current -> element_.first))
+      {
+        current = current -> left;
+      }
+      else
+      {
+        current = current -> right;
+      }
+    }
+    newNode -> father = father;
+    if(comp(key, father -> element_.first))
+    {
+      father -> left = newNode;
+    }
+    else
+    {
+      father -> right = newNode;
+    }
+  }
+  //нужна балансировка
 }
 
 #endif
