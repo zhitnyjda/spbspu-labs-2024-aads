@@ -2,7 +2,7 @@
 #include <functional>
 #include <limits>
 #include <fstream>
-#include <BinarySearchTree.hpp>
+#include "BinarySearchTree.hpp"
 #include "TreeTraversal.hpp"
 
 int main(int argc, char *argv[]) {
@@ -37,13 +37,18 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  std::string command = argv[1];
-  auto commandIter = cmds.find(command);
-  if (commandIter != cmds.end() && !command.empty()) {
-    commandIter->second(dictionaries);
-  }
-  else if (!command.empty()) {
-    invalidCommandError(std::cerr);
+  try {
+    std::string command = argv[1];
+    auto commandIter = cmds.find(command);
+    if (commandIter != cmds.end() && !command.empty()) {
+      commandIter->second(dictionaries);
+    }
+    else if (!command.empty()) {
+      invalidCommandError(std::cerr);
+      return 1;
+    }
+  } catch (const std::overflow_error &e) {
+    std::cerr << e.what() << "\n";
     return 1;
   }
 
