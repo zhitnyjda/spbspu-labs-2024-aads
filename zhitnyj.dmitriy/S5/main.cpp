@@ -29,9 +29,6 @@ int main(int argc, char *argv[]) {
     while (file >> key >> value) {
       dictionaries.push(key, value);
     }
-    if (!file.eof()) {
-      throw std::overflow_error("There must be overflow or underflow!");
-    }
   } catch (const std::exception &e) {
     std::cerr << "Error loading file: " << e.what() << "\n";
     return 1;
