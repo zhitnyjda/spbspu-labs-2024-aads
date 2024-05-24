@@ -45,7 +45,8 @@ int main(int argc, char *argv[])
       std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
     }
   }
-  for (sobolevsky::AVLtree< std::string, sobolevsky::AVLtree< int, std::string, int >,  int >::Iterator iter = tree.begin(); iter != tree.end(); iter++)
+  for (sobolevsky::AVLtree< std::string, sobolevsky::AVLtree< int, std::string, int >,  int >::Iterator iter =
+  tree.begin(); iter != tree.end(); iter++)
   {
     iter->second.clear();
   }
