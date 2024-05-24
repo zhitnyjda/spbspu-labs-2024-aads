@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
     std::cerr << "Error loading file: " << e.what() << "\n";
     return 1;
   }
-
+  
   std::string command = argv[1];
   auto commandIter = cmds.find(command);
   if (commandIter != cmds.end() && !command.empty()) {
@@ -43,6 +43,6 @@ int main(int argc, char *argv[]) {
     invalidCommandWarning(std::cout);
     std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
   }
-  
+
   return 0;
 }
