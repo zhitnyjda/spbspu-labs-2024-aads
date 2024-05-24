@@ -6,6 +6,8 @@
 #include <stdexcept>
 #include <string>
 #include <utility>
+#include <Queue.hpp>
+#include <Stack.hpp>
 
 template< typename Key, typename Value, typename Compare = std::less< Key > >
 class BSTree {
