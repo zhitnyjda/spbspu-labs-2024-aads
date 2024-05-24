@@ -14,7 +14,6 @@ int main(int argc, char* argv[])
   treeOfFuncs.insert("complement", complement);
   treeOfFuncs.insert("intersect", intersect);
   treeOfFuncs.insert("union", unify);
-  auto warningInvCom = std::bind(warning, std::placeholders::_1, "<INVALID COMMAND>\n");
   if (argc != 2)
   {
     std::cerr << "Wrong input\n";

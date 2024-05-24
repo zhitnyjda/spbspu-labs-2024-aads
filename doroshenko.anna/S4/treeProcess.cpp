@@ -74,8 +74,6 @@ void doroshenko::print(BST< std::string, BST< long long, std::string > >& treeOf
   std::string nameOfDict;
   std::cin >> nameOfDict;
   BST< std::string, BST< long long, std::string > >::Iterator iter = treeOfDicts.find(nameOfDict);
-  auto warningInvCom = std::bind(warning, std::placeholders::_1, "<INVALID COMMAND>\n");
-  auto warningEmpty = std::bind(warning, std::placeholders::_1, "<EMPTY>\n");
   if (iter == treeOfDicts.end())
   {
     warningInvCom(std::cout);
@@ -116,7 +114,6 @@ void doroshenko::intersect(BST< std::string, BST< long long, std::string > >& tr
   std::cin >> newDictName >> firstDictName >> secondDictName;
   BST< std::string, BST< long long, std::string > >::Iterator fDictIt = treeOfDicts.find(firstDictName);
   BST< std::string, BST< long long, std::string > >::Iterator sDictIt = treeOfDicts.find(secondDictName);
-  auto warningInvCom = std::bind(warning, std::placeholders::_1, "<INVALID COMMAND>\n");
   if (fDictIt == treeOfDicts.end() || sDictIt == treeOfDicts.end())
   {
     warningInvCom(std::cout);
@@ -150,7 +147,6 @@ void doroshenko::complement(BST< std::string, BST< long long, std::string > >& t
   std::cin >> newDictName >> firstDictName >> secondDictName;
   BST< std::string, BST< long long, std::string > >::Iterator fDictIt = treeOfDicts.find(firstDictName);
   BST< std::string, BST< long long, std::string > >::Iterator sDictIt = treeOfDicts.find(secondDictName);
-  auto warningInvCom = std::bind(warning, std::placeholders::_1, "<INVALID COMMAND>\n");
   if (fDictIt == treeOfDicts.end() || sDictIt == treeOfDicts.end())
   {
     warningInvCom(std::cout);
@@ -184,7 +180,6 @@ void doroshenko::unify(BST< std::string, BST< long long, std::string > >& treeOf
   std::cin >> newDictName >> firstDictName >> secondDictName;
   BST< std::string, BST< long long, std::string > >::Iterator fDictIt = treeOfDicts.find(firstDictName);
   BST< std::string, BST< long long, std::string > >::Iterator sDictIt = treeOfDicts.find(secondDictName);
-  auto warningInvCom = std::bind(warning, std::placeholders::_1, "<INVALID COMMAND>\n");
   if (fDictIt == treeOfDicts.end() || sDictIt == treeOfDicts.end())
   {
     warningInvCom(std::cout);
@@ -215,7 +210,12 @@ void doroshenko::unify(BST< std::string, BST< long long, std::string > >& treeOf
   }
 }
 
-void doroshenko::warning(std::ostream& output, const std::string& mes)
+void doroshenko::warningInvCom(std::ostream& output)
 {
-  output << mes;
+  output << "<INVALID COMMAND>\n";
+}
+
+void doroshenko::warningEmpty(std::ostream& output)
+{
+  output << "<EMPTY>\n";
 }

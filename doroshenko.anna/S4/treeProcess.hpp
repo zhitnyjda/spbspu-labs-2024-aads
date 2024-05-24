@@ -12,7 +12,8 @@ namespace doroshenko
   void complement(BST< std::string, BST< long long, std::string > >& treeOfDicts);
   void intersect(BST< std::string, BST< long long, std::string > >& treeOfDicts);
   void unify(BST< std::string, BST< long long, std::string > >& treeOfDicts);
-  void warning(std::ostream& output, const std::string& mes);
+  void warningInvCom(std::ostream& output);
+  void warningEmpty(std::ostream& output);
 }
 
 #endif
