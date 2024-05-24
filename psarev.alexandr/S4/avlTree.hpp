@@ -109,7 +109,7 @@ public:
 private:
   Unit* unit;
   Unit* root;
-  ConstIterator(Unit* unit, Unit* root);
+  ConstIterator(Unit* unit_, Unit* root_);
 };
 
 template < typename Key, typename Value, typename Compare >
@@ -122,6 +122,11 @@ template < typename Key, typename Value, typename Compare >
 psarev::avlTree< Key, Value, Compare >::ConstIterator::ConstIterator(Iterator that) :
   unit(that.imIter.unit),
   root(that.imIter.root)
+{}
+
+template< typename Key, typename Value, typename Compare >
+psarev::avlTree< Key, Value, Compare >::ConstIterator::ConstIterator(Unit* unit_, Unit* root_) :
+  unit(unit_), root(root_)
 {}
 
 template < typename Key, typename Value, typename Compare >
@@ -232,7 +237,6 @@ public:
   this_t operator++(int);
   this_t& operator--();
   this_t operator--(int);
-  this_t operator+(size_t index);
 
   dataType& operator*();
   dataType* operator->();
@@ -556,13 +560,13 @@ typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Val
     else if (unit->right == nullptr)
     {
       tempo = unit->left;
-      /**unit = *tempo;*/
+      *unit = *tempo;
       delete tempo;
     }
     else if (tempo->left == nullptr)
     {
       tempo = unit->right;
-      /**unit = *tempo;*/
+      *unit = *tempo;
       delete tempo;
     }
     else
@@ -572,7 +576,7 @@ typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Val
       {
         tempo = tempo->left;
       }
-      /*unit->data = tempo->data;*/
+      unit->data = tempo->data;
       unit->right = delUnit(unit->right, tempo->data.first);
     }
   }
