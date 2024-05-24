@@ -149,6 +149,16 @@ void sobolevsky::getUnion(std::istream &in, AVLtree< std::string, AVLtree< int, 
     {
       newTree.insert(std::make_pair(iter->first, iter->second));
     }
+    if (data.find(newName) != data.end())
+    {
+      data.at(newName).swap(newTree);
+      newTree.clear();
+    }
+    else
+    {
+      data.insert(std::make_pair(newName, newTree));
+    }
+    return;
   }
   else if (data.at(name1).size() == 0 && data.at(name2).size() != 0)
   {
@@ -156,6 +166,16 @@ void sobolevsky::getUnion(std::istream &in, AVLtree< std::string, AVLtree< int, 
     {
       newTree.insert(std::make_pair(iter->first, iter->second));
     }
+    if (data.find(newName) != data.end())
+    {
+      data.at(newName).swap(newTree);
+      newTree.clear();
+    }
+    else
+    {
+      data.insert(std::make_pair(newName, newTree));
+    }
+    return;
   }
 
   for (AVLtree< int, std::string, int >::ConstIterator iter(data.at(name1).cbegin()); iter != data.at(name1).cend(); iter++)
