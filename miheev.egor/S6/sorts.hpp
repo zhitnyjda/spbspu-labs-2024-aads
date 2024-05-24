@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <algorithm>
+#include <iterator>
 
 namespace miheev
 {
@@ -14,14 +15,15 @@ namespace miheev
 }
 
 template < typename BidirectIt, typename Comparator >
-void shakeSort(BidirectIt start, BidirectIt finish, Comparator comp)
+void miheev::shakeSort(BidirectIt start, BidirectIt finish, Comparator comp)
 {
-  bool swapped = false;
   BidirectIt second = start;
   BidirectIt first = second++;
 
+  bool swapped = false;
   do
   {
+    swapped = false;
     while (second != finish)
     {
       if (comp(*second, *first))
@@ -32,7 +34,7 @@ void shakeSort(BidirectIt start, BidirectIt finish, Comparator comp)
       ++first;
       ++second;
     }
-    while (first)
+    while (first != start)
     {
       --first;
       --second;
@@ -42,8 +44,20 @@ void shakeSort(BidirectIt start, BidirectIt finish, Comparator comp)
         swapped = true;
       }
     }
-  } while (swapped)
+  } while (swapped);
 }
 
+template < typename BidirectIt, typename Comparator >
+void miheev::shellSort(BidirectIt start, BidirectIt finish, Comparator comp)
+{
+  for (size_t gap = std::distance(start, finish); gap > 0; gap /= 2)
+  {
+    BidirectIt cur = std::next(start, gap);
+    for (BidirectIt base = cur; ;)
+    {
+
+    }
+  }
+}
 
 #endif
