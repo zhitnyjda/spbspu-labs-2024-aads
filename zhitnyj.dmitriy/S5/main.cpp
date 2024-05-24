@@ -14,9 +14,9 @@ int main(int argc, char *argv[]) {
   BSTree< long long, std::string > dictionaries;
   BSTree< std::string, std::function< void(BSTree< long long, std::string > &) > > cmds;
 
-  cmds.insert(std::make_pair("ascending", traverseAndPrintAscending));
-  cmds.insert(std::make_pair("descending", traverseAndPrintDescending));
-  cmds.insert(std::make_pair("breadth", traverseAndPrintBreadth));
+  cmds.insert(std::make_pair("ascending", traverseAscending));
+  cmds.insert(std::make_pair("descending", traverseDescending));
+  cmds.insert(std::make_pair("breadth", traverseBreadth));
 
   try {
     std::ifstream file(argv[2]);
@@ -29,6 +29,9 @@ int main(int argc, char *argv[]) {
     while (file >> key >> value) {
       dictionaries.push(key, value);
     }
+    if (!file.eof()) {
+      throw std::overflow_error("There must be overflow or underflow!");
+    }
   } catch (const std::exception &e) {
     std::cerr << "Error loading file: " << e.what() << "\n";
     return 1;
@@ -40,8 +43,8 @@ int main(int argc, char *argv[]) {
     commandIter->second(dictionaries);
   }
   else if (!command.empty()) {
-    invalidCommandWarning(std::cout);
-    std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+    invalidCommandError(std::cerr);
+    return 1;
   }
 
   return 0;
