@@ -56,7 +56,15 @@ void sobolevsky::getComplement(std::istream &in, AVLtree< std::string, AVLtree< 
   AVLtree< int, std::string, int > newTree;
   if (data.at(name1).size() == 0 || data.at(name2).size() == 0)
   {
-    data.insert(std::make_pair(newName, newTree));
+    if (data.find(newName) != data.end())
+    {
+      data.at(newName).swap(newTree);
+      newTree.clear();
+    }
+    else
+    {
+      data.insert(std::make_pair(newName, newTree));
+    }
     return;
   }
   for (AVLtree< int, std::string, int >::ConstIterator iter(data.at(name1).cbegin()); iter != data.at(name1).cend(); iter++)
@@ -86,7 +94,15 @@ void sobolevsky::getIntersect(std::istream &in, AVLtree< std::string, AVLtree< i
   AVLtree< int, std::string, int > newTree;
   if (data.at(name1).size() == 0 || data.at(name2).size() == 0)
   {
-    data.insert(std::make_pair(newName, newTree));
+    if (data.find(newName) != data.end())
+    {
+      data.at(newName).swap(newTree);
+      newTree.clear();
+    }
+    else
+    {
+      data.insert(std::make_pair(newName, newTree));
+    }
     return;
   }
   for (AVLtree< int, std::string, int >::ConstIterator iter(data.at(name1).cbegin()); iter != data.at(name1).cend(); iter++)
@@ -114,11 +130,6 @@ void sobolevsky::getUnion(std::istream &in, AVLtree< std::string, AVLtree< int, 
   std::string name2;
   in >> newName >> name1 >> name2;
   AVLtree< int, std::string, int > newTree;
-  if (data.at(name1).size() == 0 || data.at(name2).size() == 0)
-  {
-    data.insert(std::make_pair(newName, newTree));
-    return;
-  }
   for (AVLtree< int, std::string, int >::ConstIterator iter(data.at(name1).cbegin()); iter != data.at(name1).cend(); iter++)
   {
     newTree.insert(std::make_pair(iter->first, iter->second));
