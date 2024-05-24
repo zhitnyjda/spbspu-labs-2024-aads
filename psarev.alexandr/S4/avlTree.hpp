@@ -55,14 +55,13 @@ namespace psarev
       Unit* right;
       size_t hgt;
 
-      Unit(dataType data_, Unit* ancest_ = nullptr, int hgt_ = 0, Unit* left_ = nullptr, Unit* right_ = nullptr)
-      {
-        this->data = data_;
-        this->ancest = ancest_;
-        this->left = left_;
-        this->right = right_;
-        this->hgt = hgt_;
-      }
+      Unit(dataType data_, Unit* ancest_ = nullptr, int hgt_ = 0, Unit* left_ = nullptr, Unit* right_ = nullptr) :
+        data(data_),
+        ancest(ancest_),
+        hgt(hgt_),
+        left(left_),
+        right(right_)
+      {}
     };
 
     Unit* treeRoot;
@@ -72,6 +71,7 @@ namespace psarev
     void undercut(Unit* unit);
     Unit* delUnit(Unit* node, const Key& key);
     int getHeight(Unit* unit);
+    int getIneq(Unit* unit);
 
     Unit* llTurn(Unit* moveU);
     Unit* lrTurn(Unit* moveU);
@@ -558,13 +558,13 @@ typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Val
     else if (unit->right == nullptr)
     {
       tempo = unit->left;
-      *unit = *tempo;
+      /**unit = *tempo;*/
       delete tempo;
     }
     else if (tempo->left == nullptr)
     {
       tempo = unit->right;
-      *unit = *tempo;
+      /**unit = *tempo;*/
       delete tempo;
     }
     else
@@ -574,25 +574,15 @@ typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Val
       {
         tempo = tempo->left;
       }
-      unit->data = tempo->data;
+      /*unit->data = tempo->data;*/
       unit->right = delUnit(unit->right, tempo->data.first);
     }
   }
 
-  int differ = 0;
-  if (unit->left != nullptr)
+  int checkIneq = getIneq(unit);
+  if (checkIneq == 2)
   {
-    differ = getHeight(unit->left) - getHeight(unit->right);
-  }
-
-  if (differ == 2)
-  {
-    differ = 0;
-    if (unit->left != nullptr)
-    {
-      differ = getHeight(unit->left) - getHeight(unit->right);
-    }
-    if (differ > 0)
+    if (getIneq(unit->left) > 0)
     {
       unit = rrTurn(unit);
     }
@@ -601,14 +591,9 @@ typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Val
       unit = lrTurn(unit);
     }
   }
-  else if (differ == -2)
+  else if (checkIneq == -2)
   {
-    differ = 0;
-    if (unit->left != nullptr)
-    {
-      differ = getHeight(unit->left) - getHeight(unit->right);
-    }
-    if (differ > 0)
+    if (getIneq(unit->right) > 0)
     {
       unit = rlTurn(unit);
     }
@@ -631,6 +616,16 @@ int psarev::avlTree< Key, Value, Compare >::getHeight(Unit* unit)
     height = std::max(heightL, heightR) + 1;
   }
   return height;
+}
+
+template<typename Key, typename Value, typename Compare>
+int psarev::avlTree<Key, Value, Compare>::getIneq(Unit* unit)
+{
+  if (unit == nullptr)
+  {
+    return 0;
+  }
+  return getHeight(unit->left) - getHeight(unit->right);
 }
 
 template<typename Key, typename Value, typename Compare>
@@ -710,20 +705,10 @@ typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Val
     }
   }
 
-  int differ = 0;
-  if (unit->left != nullptr)
+  int checkIneq = getIneq(unit);
+  if (checkIneq == 2)
   {
-    differ = getHeight(unit->left) - getHeight(unit->right);
-  }
-
-  if (differ == 2)
-  {
-    differ = 0;
-    if (unit->left != nullptr)
-    {
-      differ = getHeight(unit->left) - getHeight(unit->right);
-    }
-    if (differ > 0)
+    if (getIneq(unit->left) > 0)
     {
       unit = rrTurn(unit);
     }
@@ -732,14 +717,9 @@ typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Val
       unit = lrTurn(unit);
     }
   }
-  else if (differ == -2)
+  else if (checkIneq == -2)
   {
-    differ = 0;
-    if (unit->left != nullptr)
-    {
-      differ = getHeight(unit->left) - getHeight(unit->right);
-    }
-    if (differ > 0)
+    if (getIneq(unit->right) > 0)
     {
       unit = rlTurn(unit);
     }
@@ -774,20 +754,10 @@ typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Val
     }
   }
 
-  int differ = 0;
-  if (unit->left != nullptr)
+  int checkIneq = getIneq(unit);
+  if (checkIneq == 2)
   {
-    differ = getHeight(unit->left) - getHeight(unit->right);
-  }
-
-  if (differ == 2)
-  {
-    differ = 0;
-    if (unit->left != nullptr)
-    {
-      differ = getHeight(unit->left) - getHeight(unit->right);
-    }
-    if (differ > 0)
+    if (getIneq(unit->left) > 0)
     {
       unit = rrTurn(unit);
     }
@@ -796,14 +766,9 @@ typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Val
       unit = lrTurn(unit);
     }
   }
-  else if (differ == -2)
+  else if (checkIneq == -2)
   {
-    differ = 0;
-    if (unit->left != nullptr)
-    {
-      differ = getHeight(unit->left) - getHeight(unit->right);
-    }
-    if (differ > 0)
+    if (getIneq(unit->right) > 0)
     {
       unit = rlTurn(unit);
     }
