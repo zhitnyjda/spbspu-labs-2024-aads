@@ -51,6 +51,19 @@ namespace miheev
     std::pair< Iterator, Iterator > equalRange(const Key&);
     std::pair< ConstIterator, ConstIterator > equalRange(const Key&) const;
 
+    template < typename PairPred >
+    PairPred ctraverseLnR(PairPred) const;
+    template < typename PairPred >
+    PairPred ctraverseRnL(PairPred) const;
+    template < typename PairPred >
+    PairPred traverseLnR(PairPred);
+    template < typename PairPred >
+    PairPred traverseRnL(PairPred);
+    template < typename PairPred >
+    PairPred ctraverseBreadth(PairPred);
+    template < typename PairPred >
+    PairPred traverseBreadth(PairPred);
+
     Iterator begin();
     Iterator end();
     ConstIterator cbegin() const;
