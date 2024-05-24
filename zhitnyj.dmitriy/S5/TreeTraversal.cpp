@@ -1,103 +1,59 @@
-#include <iostream>
 #include "TreeTraversal.hpp"
+#include "KeySum.hpp"
+#include <iostream>
 
-void traverseAndPrintAscending(const BSTree< long long, std::string > &tree) {
+void traverseAscending(const BSTree< long long, std::string > &tree) {
   if (tree.empty()) {
-    std::cout << "<EMPTY>\n";
-    return;
+    emptyCommandWarning(std::cout);
   }
+  else {
+    KeySum keySumCounter;
+    KeySum keySumCounter_ = tree.traverse_lnr(keySumCounter);
 
-  long long keySum = 0;
-
-  auto f = [&](const std::pair< const long long, std::string > &kv) {
-    keySum += kv.first;
-  };
-
-  tree.traverse_lnr(f);
-
-  std::cout << keySum;
-  bool first = true;
-
-  auto print = [&](const std::pair< const long long, std::string > &kv) {
-    if (first) {
-      std::cout << " " << kv.second;
-      first = false;
-    }
-    else {
-      std::cout << " " << kv.second;
-    }
-  };
-
-  tree.traverse_lnr(print);
-  std::cout << "\n";
+    printResult(keySumCounter_, std::cout);
+  }
 }
 
-void traverseAndPrintDescending(const BSTree< long long, std::string > &tree) {
+void traverseDescending(const BSTree< long long, std::string > &tree) {
   if (tree.empty()) {
-    std::cout << "<EMPTY>\n";
-    return;
+    emptyCommandWarning(std::cout);
   }
+  else {
+    KeySum keySumCounter;
+    KeySum keySumCounter_ = tree.traverse_rnl(keySumCounter);
 
-  long long keySum = 0;
-
-  auto f = [&](const std::pair< const long long, std::string > &kv) {
-    keySum += kv.first;
-  };
-
-  tree.traverse_rnl(f);
-
-  std::cout << keySum;
-  bool first = true;
-
-  auto print = [&](const std::pair< const long long, std::string > &kv) {
-    if (first) {
-      std::cout << " " << kv.second;
-      first = false;
-    }
-    else {
-      std::cout << " " << kv.second;
-    }
-  };
-
-  tree.traverse_rnl(print);
-  std::cout << "\n";
+    printResult(keySumCounter_, std::cout);
+  }
 }
 
-void traverseAndPrintBreadth(const BSTree< long long, std::string > &tree) {
+void traverseBreadth(const BSTree< long long, std::string > &tree) {
   if (tree.empty()) {
-    std::cout << "<EMPTY>\n";
-    return;
+    emptyCommandWarning(std::cout);
+  }
+  else {
+    KeySum keySumCounter;
+    KeySum keySumCounter_ = tree.traverse_breadth(keySumCounter);
+
+    printResult(keySumCounter_, std::cout);
+  }
+}
+
+void printResult(KeySum &keySumCounter, std::ostream &os) {
+  os << keySumCounter.result_;
+
+  while (!keySumCounter.queue.empty()) {
+    const auto &kv = keySumCounter.queue.front();
+    os << " " << kv.second;
+    keySumCounter.queue.pop();
   }
 
-  long long keySum = 0;
-
-  auto f = [&](const std::pair< const long long, std::string > &kv) {
-    keySum += kv.first;
-  };
-
-  tree.traverse_breadth(f);
-
-  std::cout << keySum;
-  bool first = true;
-
-  auto print = [&](const std::pair< const long long, std::string > &kv) {
-    if (first) {
-      std::cout << " " << kv.second;
-      first = false;
-    }
-    else {
-      std::cout << " " << kv.second;
-    }
-  };
-
-  tree.traverse_breadth(print);
-  std::cout << "\n";
+  os << "\n";
 }
 
 void emptyCommandWarning(std::ostream &out) {
   out << "<EMPTY>\n";
 }
 
-void invalidCommandWarning(std::ostream &out) {
+void invalidCommandError(std::ostream &out) {
   out << "<INVALID COMMAND>\n";
 }
