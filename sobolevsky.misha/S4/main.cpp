@@ -24,7 +24,8 @@ int main(int argc, char *argv[])
   sobolevsky::AVLtree< std::string, sobolevsky::AVLtree< int, std::string, int >,  int > tree;
   sobolevsky::inputFromFile(file, tree);
 
-  sobolevsky::AVLtree< std::string, std::function< void(std::istream &, std::ostream &, sobolevsky::AVLtree< std::string, sobolevsky::AVLtree< int, std::string, int >, int > &) >, int > cmds;
+  sobolevsky::AVLtree< std::string, std::function< void(std::istream &, std::ostream &, sobolevsky::AVLtree< std::string,
+  sobolevsky::AVLtree< int, std::string, int >, int > &) >, int > cmds;
 
   cmds["print"] = sobolevsky::getPrint;
   cmds["complement"] = sobolevsky::getComplement;

@@ -363,7 +363,8 @@ size_t sobolevsky::AVLtree< Key, Value, Compare >::count(const Key &key)
 }
 
 template< typename Key, typename Value, typename Compare >
-std::pair< typename sobolevsky::AVLtree< Key, Value, Compare >::Iterator, typename sobolevsky::AVLtree< Key, Value, Compare >::Iterator > sobolevsky::AVLtree< Key, Value, Compare >::equal_range (const Key &key)
+std::pair< typename sobolevsky::AVLtree< Key, Value, Compare >::Iterator,typename sobolevsky::AVLtree< Key, Value,
+Compare >::Iterator > sobolevsky::AVLtree< Key, Value, Compare >::equal_range (const Key &key)
 {
   if (find(key) == end())
   {
@@ -427,14 +428,16 @@ sobolevsky::AVLtree< Key, Value, Compare >::Iterator::Iterator(const Iterator &i
 }
 
 template< typename Key, typename Value, typename Compare >
-typename sobolevsky::AVLtree< Key, Value, Compare >::Iterator &sobolevsky::AVLtree< Key, Value, Compare >::Iterator::operator=(const Iterator &iter)
+typename sobolevsky::AVLtree< Key, Value, Compare >::Iterator &sobolevsky::AVLtree< Key, Value,
+Compare >::Iterator::operator=(const Iterator &iter)
 {
   node_ = iter.node_;
   return *this;
 }
 
 template< typename Key, typename Value, typename Compare >
-typename sobolevsky::AVLtree< Key, Value, Compare >::Iterator &sobolevsky::AVLtree< Key, Value, Compare >::Iterator::operator=(Iterator &&rhs)
+typename sobolevsky::AVLtree< Key, Value, Compare >::Iterator &sobolevsky::AVLtree< Key, Value,
+Compare >::Iterator::operator=(Iterator &&rhs)
 {
   node_ = rhs.node_;
   return *this;
@@ -641,14 +644,16 @@ sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator::ConstIterator(const C
 }
 
 template< typename Key, typename Value, typename Compare >
-typename sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator &sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator::operator=(const ConstIterator &iter)
+typename sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator &sobolevsky::AVLtree< Key, Value,
+Compare >::ConstIterator::operator=(const ConstIterator &iter)
 {
   node_ = iter.node_;
   return *this;
 }
 
 template< typename Key, typename Value, typename Compare >
-typename sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator &sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator::operator=(ConstIterator &&rhs)
+typename sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator &sobolevsky::AVLtree< Key, Value,
+Compare >::ConstIterator::operator=(ConstIterator &&rhs)
 {
   node_(rhs.node_);
   return *this;
@@ -700,7 +705,8 @@ typename sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator &sobolevsky::
 }
 
 template< typename Key, typename Value, typename Compare >
-typename sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator::operator++(int)
+typename sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator sobolevsky::AVLtree< Key, Value,
+Compare >::ConstIterator::operator++(int)
 {
   ConstIterator temp(*this);
   ++(*this);
@@ -737,7 +743,8 @@ typename sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator &sobolevsky::
 }
 
 template< typename Key, typename Value, typename Compare >
-typename sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator::operator--(int)
+typename sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator sobolevsky::AVLtree< Key, Value,
+Compare >::ConstIterator::operator--(int)
 {
   ConstIterator temp(*this);
   --(*this);
