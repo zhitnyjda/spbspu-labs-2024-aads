@@ -18,7 +18,7 @@ namespace sobolevsky
     AVLtree();
     AVLtree(const AVLtree< Key, Value, Compare > &tree);
     AVLtree(AVLtree< Key, Value, Compare > &&rhs) noexcept;
-    ~AVLtree();
+    ~AVLtree() = default;
 
     Iterator begin() noexcept;
     Iterator end() noexcept;
@@ -96,12 +96,6 @@ sobolevsky::AVLtree< Key, Value, Compare >::AVLtree(AVLtree< Key, Value, Compare
 {
   root = rhs.root;
   size_ = std::move(rhs.size_);
-}
-
-template< typename Key, typename Value, typename Compare >
-sobolevsky::AVLtree< Key, Value, Compare >::~AVLtree()
-{
-  clear();
 }
 
 template< typename Key, typename Value, typename Compare >
