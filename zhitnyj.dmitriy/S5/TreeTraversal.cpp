@@ -1,20 +1,16 @@
-#include <iostream>
 #include "TreeTraversal.hpp"
 #include "KeySum.hpp"
+#include <iostream>
 
 void traverseAscending(const BSTree< long long, std::string > &tree) {
   if (tree.empty()) {
     emptyCommandWarning(std::cout);
   }
   else {
-    try {
-      KeySum keySumCounter;
-      KeySum keySumCounter_ = tree.traverse_lnr(keySumCounter);
+    KeySum keySumCounter;
+    KeySum keySumCounter_ = tree.traverse_lnr(keySumCounter);
 
-      printResult(keySumCounter_, std::cout);
-    } catch (const std::exception &e) {
-      std::cerr << e.what() << "\n";
-    }
+    printResult(keySumCounter_, std::cout);
   }
 }
 
@@ -23,14 +19,10 @@ void traverseDescending(const BSTree< long long, std::string > &tree) {
     emptyCommandWarning(std::cout);
   }
   else {
-    try {
-      KeySum keySumCounter;
-      KeySum keySumCounter_ = tree.traverse_rnl(keySumCounter);
+    KeySum keySumCounter;
+    KeySum keySumCounter_ = tree.traverse_rnl(keySumCounter);
 
-      printResult(keySumCounter_, std::cout);
-    } catch (const std::exception &e) {
-      std::cerr << e.what() << "\n";
-    }
+    printResult(keySumCounter_, std::cout);
   }
 }
 
@@ -39,16 +31,11 @@ void traverseBreadth(const BSTree< long long, std::string > &tree) {
     emptyCommandWarning(std::cout);
   }
   else {
-    try {
-      KeySum keySumCounter;
-      KeySum keySumCounter_ = tree.traverse_breadth(keySumCounter);
+    KeySum keySumCounter;
+    KeySum keySumCounter_ = tree.traverse_breadth(keySumCounter);
 
-      printResult(keySumCounter_, std::cout);
-    } catch (const std::exception &e) {
-      std::cerr << e.what() << "\n";
-    }
+    printResult(keySumCounter_, std::cout);
   }
-
 }
 
 void printResult(KeySum &keySumCounter, std::ostream &os) {
