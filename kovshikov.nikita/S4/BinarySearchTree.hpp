@@ -4,6 +4,7 @@
 #include <functional>
 #include <iterator>
 #include <cassert>
+#include <memory>
 
 namespace kovshikov
 {
@@ -16,7 +17,7 @@ namespace kovshikov
     class Iterator;
     class ConstIterator;
 
-    using pair = std::pair< Key, Value >;
+    using Pair = std::pair< Key, Value >;
     Compare comp;
   private:
     *Node root_;
@@ -36,7 +37,7 @@ private:
   *Node right_;
   *Node father_;
   size_t height_;
-  pair element;
+  Pair element;
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -49,30 +50,39 @@ kovshikov::Tree< Key, Value, Compare >::Node::Node(Key key, Value value, *Node f
 {};
 
 template< typename Key, typename Value, typename Compare >
-kovshikov::Tree< Key, Value, Compare >::Iterator : public std::iterator< std::bidirectional_iterator_tag, pair >
+kovshikov::Tree< Key, Value, Compare >::Iterator : public std::iterator< std::bidirectional_iterator_tag, Pair >
 {
 public:
+
   friend class Tree< Key, Value, Compare >;
   using this_t = Iterator;
 
   Iterator(): node_(nullptr), root_(nullptr) {};
+  Iterator(Node* node, Node* root): node_(node), root_(root);
   Iterator(const this_t&) = default;
   ~Iterator() = default;
 
-  this_t& operator=(const this_t &) = default;
+  this_t& operator=(const this_t&) = default;
 
   this_t& operator++();
   this_t operator++(int);
 
   this_t& operator--();
   this_t& operator--(int);
+
+  bool operator==(const this_t& other) const;
+  bool operator!=(const this_t& other) const;
+
+  Pair& operator*() const;
+  Pair* operator->() const;
+
 private:
   *Node node_;
   *Node root_;
 }
 
 template< typename Key, typename Value, typename Compare >
-kovshikov::Tree< Key, Value, Compare >::Iterator::this_t& kovshikov::Tree< Key, Value, Compare >::Iterator::operator++()
+typename kovshikov::Tree< Key, Value, Compare >::Iterator::this_t& kovshikov::Tree< Key, Value, Compare >::Iterator::operator++()
 {
   assert(node_ != nullptr);
   Node* current = node_;
@@ -99,7 +109,7 @@ kovshikov::Tree< Key, Value, Compare >::Iterator::this_t& kovshikov::Tree< Key, 
 }
 
 template< typename Key, typename Value, typename Compare >
-kovshikov::Tree< Key, Value, Compare >::Iterator::this_t& kovshikov::Tree< Key, Value, Compare >::Iterator::operator++(int)
+typename kovshikov::Tree< Key, Value, Compare >::Iterator::this_t& kovshikov::Tree< Key, Value, Compare >::Iterator::operator++(int)
 {
   assert(node_ != nullptr);
   this_t currentIterator = *this;
@@ -108,7 +118,7 @@ kovshikov::Tree< Key, Value, Compare >::Iterator::this_t& kovshikov::Tree< Key, 
 }
 
 template< typename Key, typename Value, typename Compare >
-kovshikov::Tree< Key, Value, Compare >::Iterator::this_t& kovshikov::Tree< Key, Value, Compare >::Iterator::operator--()
+typename kovshikov::Tree< Key, Value, Compare >::Iterator::this_t& kovshikov::Tree< Key, Value, Compare >::Iterator::operator--()
 {
   assert(node_ != nullptr);
   Node* current = node_;
@@ -135,12 +145,38 @@ kovshikov::Tree< Key, Value, Compare >::Iterator::this_t& kovshikov::Tree< Key, 
 }
 
 template< typename Key, typename Value, typename Compare >
-kovshikov::Tree< Key, Value, Compare >::Iterator::this_t& kovshikov::Tree< Key, Value, Compare >::Iterator::operator--(int)
+typename kovshikov::Tree< Key, Value, Compare >::Iterator::this_t& kovshikov::Tree< Key, Value, Compare >::Iterator::operator--(int)
 {
   assert(node_ != nullptr);
   this_t currentIterator = *this;
   --(*this);
   return currentIterator;
+}
+
+template< typename Key, typename Value, typename Compare >
+bool kovshikov::Tree< Key, Value, Compare >::Iterator::operator==(const this_t& other) const
+{
+  return node_ == other.node_;
+}
+
+template< typename Key, typename Value, typename Compare >
+bool kovshikov::Tree< Key, Value, Compare >::Iterator::operator!=(const this_t& other) const
+{
+  return !(*this == other);
+}
+
+template< typename Key, typename Value, typename Compare >
+typename kovshikov::Tree< Key, Value, Compare >::Pair kovshikov::Tree< Key, Value, Compare >::Iterator::operator*() const
+{
+  assert(node_ != nullptr);
+  return node_ -> element;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename kovshikov::Tree< Key, Value, Compare >::Pair kovshikov::Tree< Key, Value, Compare >::Iterator::operator->() const
+{
+  assert(node_ != nullptr);
+  return std::addressof(node_ -> element);
 }
 
 #endif
