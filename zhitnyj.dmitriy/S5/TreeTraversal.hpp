@@ -1,12 +1,14 @@
 #ifndef TREETRAVERSAL_HPP
 #define TREETRAVERSAL_HPP
 
-#include <BinarySearchTree.hpp>
+#include "BinarySearchTree.hpp"
+#include "KeySum.hpp"
 
-void traverseAndPrintAscending(const BSTree< long long, std::string > &tree);
-void traverseAndPrintDescending(const BSTree< long long, std::string > &tree);
-void traverseAndPrintBreadth(const BSTree< long long, std::string > &tree);
-void invalidCommandWarning(std::ostream &out);
+void traverseAscending(const BSTree< long long, std::string > &tree);
+void traverseDescending(const BSTree< long long, std::string > &tree);
+void traverseBreadth(const BSTree< long long, std::string > &tree);
+void printResult(KeySum &keySumCounter, std::ostream &os);
+void invalidCommandError(std::ostream &out);
 void emptyCommandWarning(std::ostream &out);
 
 #endif
