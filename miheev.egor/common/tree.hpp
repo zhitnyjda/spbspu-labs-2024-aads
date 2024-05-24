@@ -1024,10 +1024,7 @@ PairPred miheev::Tree< Key, Value, Comparator >::ctraverseLnR(PairPred p) const
     current = stack.top();
     stack.pop();
     p(*current->pair_);
-    if (current->right_)
-    {
-      current = current->right_;
-    }
+    current = current->right_;
   }
   return p;
 }
@@ -1048,10 +1045,7 @@ PairPred miheev::Tree< Key, Value, Comparator >::ctraverseRnL(PairPred p) const
     current = stack.top();
     stack.pop();
     p(*current->pair_);
-    if (current->left_)
-    {
-      current = current->left_;
-    }
+    current = current->left_;
   }
   return p;
 }
@@ -1073,7 +1067,7 @@ PairPred miheev::Tree< Key, Value, Comparator >::ctraverseBreadth(PairPred p) co
       queue.push(current->right_);
     }
     p(*current->pair_);
-    current = queue.front();
+    current = queue.empty() ? nullptr : queue.front();
     queue.pop();
   }
   return p;
