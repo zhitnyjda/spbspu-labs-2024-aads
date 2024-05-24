@@ -2,7 +2,7 @@
 #include <functional>
 #include <limits>
 #include <fstream>
-#include "BinarySearchTree.hpp"
+#include <BinarySearchTree.hpp>
 #include "TreeTraversal.hpp"
 
 int main(int argc, char *argv[]) {
