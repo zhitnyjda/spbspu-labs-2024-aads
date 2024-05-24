@@ -5,6 +5,8 @@
 #include <cstddef>
 #include <iostream>
 #include <functional>
+#include <stack.hpp>
+#include <queue.hpp>
 
 namespace miheev
 {
@@ -60,7 +62,7 @@ namespace miheev
     template < typename PairPred >
     PairPred traverseRnL(PairPred);
     template < typename PairPred >
-    PairPred ctraverseBreadth(PairPred);
+    PairPred ctraverseBreadth(PairPred) const;
     template < typename PairPred >
     PairPred traverseBreadth(PairPred);
 
@@ -1004,6 +1006,77 @@ typename miheev::Tree< Key, Value, Comparator >::const_iter_pair miheev::Tree< K
   for (; end->first == key; end++)
   {}
   return const_iter_pair(start, end);
+}
+
+template< typename Key, typename Value, typename Comparator >
+template< typename PairPred >
+PairPred miheev::Tree< Key, Value, Comparator >::ctraverseLnR(PairPred p) const
+{
+  Stack< const Tree* > stack;
+  const Tree* current = this;
+  while (current || !stack.empty())
+  {
+    while (current)
+    {
+      stack.push(current);
+      current = current->left_;
+    }
+    current = stack.top();
+    stack.pop();
+    p(*current->pair_);
+    if (current->right_)
+    {
+      current = current->right_;
+    }
+  }
+  return p;
+}
+
+template< typename Key, typename Value, typename Comparator >
+template< typename PairPred >
+PairPred miheev::Tree< Key, Value, Comparator >::ctraverseRnL(PairPred p) const
+{
+  Stack< const Tree* > stack;
+  const Tree* current = this;
+  while (current || !stack.empty())
+  {
+    while (current)
+    {
+      stack.push(current);
+      current = current->right_;
+    }
+    current = stack.top();
+    stack.pop();
+    p(*current->pair_);
+    if (current->left_)
+    {
+      current = current->left_;
+    }
+  }
+  return p;
+}
+
+template< typename Key, typename Value, typename Comparator >
+template< typename PairPred >
+PairPred miheev::Tree< Key, Value, Comparator >::ctraverseBreadth(PairPred p) const
+{
+  Queue< Tree * > queue;
+  const Tree* current = this;
+  while (current || !queue.empty())
+  {
+    if (current->left_)
+    {
+      queue.push(current->left_);
+    }
+    if (current->right_)
+    {
+      queue.push(current->right_);
+    }
+    p(*current->pair_);
+    current = queue.front();
+    queue.pop();
+  }
+  return p;
 }
 
 #endif
