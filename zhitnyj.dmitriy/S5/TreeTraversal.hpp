@@ -1,7 +1,7 @@
 #ifndef TREETRAVERSAL_HPP
 #define TREETRAVERSAL_HPP
 
-#include "BinarySearchTree.hpp"
+#include <BinarySearchTree.hpp>
 #include "KeySum.hpp"
 
 void traverseAscending(const BSTree< long long, std::string > &tree);
