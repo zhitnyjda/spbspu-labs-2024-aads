@@ -2,11 +2,11 @@
 #include <functional>
 #include <limits>
 #include <fstream>
-#include <BinarySearchTree.hpp>
+#include "BinarySearchTree.hpp"
 #include "TreeTraversal.hpp"
 
 int main(int argc, char *argv[]) {
-  if (argc != 2) {
+  if (argc != 3) {
     std::cerr << "Wrong input\n";
     return 1;
   }
@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
   cmds.insert(std::make_pair("breadth", traverseAndPrintBreadth));
 
   try {
-    std::ifstream file(argv[1]);
+    std::ifstream file(argv[2]);
     if (!file) {
       throw std::runtime_error("Unable to open file");
     }
@@ -34,19 +34,15 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  while (!std::cin.eof()) {
-    std::string command;
-    std::cin >> command;
-
-    auto commandIter = cmds.find(command);
-    if (commandIter != cmds.end() && !command.empty()) {
-      commandIter->second(dictionaries);
-    }
-    else if (!command.empty()) {
-      invalidCommandWarning(std::cout);
-      std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
-    }
+  std::string command = argv[1];
+  auto commandIter = cmds.find(command);
+  if (commandIter != cmds.end() && !command.empty()) {
+    commandIter->second(dictionaries);
   }
-
+  else if (!command.empty()) {
+    invalidCommandWarning(std::cout);
+    std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+  }
+  
   return 0;
 }
