@@ -1,5 +1,5 @@
-#include "TreeTraversal.hpp"
 #include <iostream>
+#include "TreeTraversal.hpp"
 
 void traverseAndPrintAscending(const BSTree< long long, std::string > &tree) {
   if (tree.empty()) {
