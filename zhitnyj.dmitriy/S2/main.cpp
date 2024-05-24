@@ -1,8 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "Queue.hpp"
-#include "Stack.hpp"
+#include <Queue.hpp>
+#include <Stack.hpp>
 #include "ExpressionItem.hpp"
 #include "ExpressionEvaluator.hpp"
 
