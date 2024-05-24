@@ -53,12 +53,10 @@ namespace psarev
       Unit* ancest;
       Unit* left;
       Unit* right;
-      size_t hgt;
 
-      Unit(dataType data_, Unit* ancest_ = nullptr, Unit* left_ = nullptr, Unit* right_ = nullptr, int hgt_ = 0) :
+      Unit(dataType data_, Unit* ancest_ = nullptr, Unit* left_ = nullptr, Unit* right_ = nullptr) :
         data(data_),
         ancest(ancest_),
-        hgt(hgt_),
         left(left_),
         right(right_)
       {}
