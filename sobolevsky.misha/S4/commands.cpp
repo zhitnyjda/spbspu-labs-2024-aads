@@ -35,6 +35,10 @@ void sobolevsky::getPrint(std::istream &in, std::ostream &out, AVLtree< std::str
   in >> name;
   out << name << " ";
   AVLtree< int, std::string, int > currTree(data.at(name));
+  if (currTree.size() == 0)
+  {
+    throw std::invalid_argument("<EMPTY>");
+  }
   for (AVLtree< int, std::string, int >::ConstIterator iter(currTree.cbegin()); iter != currTree.cend();)
   {
     out << iter->first << " " << iter->second;

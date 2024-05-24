@@ -38,9 +38,15 @@ int main(int argc, char *argv[])
     {
       cmds.at(cmd)(std::cin, std::cout, tree);
     }
-    catch(const std::exception & e)
+    catch(const std::out_of_range & e)
     {
       sobolevsky::getError(std::cout, "<INVALID COMMAND>");
+      std::cin.clear();
+      std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+    }
+    catch(const std::invalid_argument & e)
+    {
+      sobolevsky::getError(std::cout, e.what());
       std::cin.clear();
       std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
     }
