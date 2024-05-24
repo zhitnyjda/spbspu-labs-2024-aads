@@ -11,8 +11,11 @@ struct KeySum {
     bool isOverflow = result_ > std::numeric_limits< long long >::max() - key_value.first;
     bool isUndeflow = (key_value.first < 0) && (result_ < std::numeric_limits< long long >::min() - key_value.first);
 
-    if (isOverflow || isUndeflow) {
-      throw std::overflow_error("Key sum overflow");
+    if (isOverflow) {
+      throw std::overflow_error("Key sum overflow!");
+    }
+    else if (isUndeflow) {
+      throw std::overflow_error("Key sum undeflow!");
     }
     result_ += key_value.first;
   }
