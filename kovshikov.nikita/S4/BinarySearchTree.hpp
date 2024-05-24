@@ -3,6 +3,7 @@
 #include <utility>
 #include <functional>
 #include <iterator>
+#include <cassert>
 
 namespace kovshikov
 {
@@ -62,6 +63,9 @@ public:
 
   this_t& operator++();
   this_t operator++(int);
+
+  this_t& operator--();
+  this_t& operator--(int);
 private:
   *Node node_;
   *Node root_;
@@ -70,7 +74,8 @@ private:
 template< typename Key, typename Value, typename Compare >
 kovshikov::Tree< Key, Value, Compare >::Iterator::this_t& kovshikov::Tree< Key, Value, Compare >::Iterator::operator++()
 {
-  Node* current = node;
+  assert(node_ != nullptr);
+  Node* current = node_;
   if(current -> right)
   {
     current = current -> right;
@@ -89,15 +94,52 @@ kovshikov::Tree< Key, Value, Compare >::Iterator::this_t& kovshikov::Tree< Key, 
     }
     current = currentFather;
   }
-  node = current;
+  node_ = current;
   return *this;
 }
 
 template< typename Key, typename Value, typename Compare >
 kovshikov::Tree< Key, Value, Compare >::Iterator::this_t& kovshikov::Tree< Key, Value, Compare >::Iterator::operator++(int)
 {
+  assert(node_ != nullptr);
   this_t currentIterator = *this;
   ++(*this)
+  return currentIterator;
+}
+
+template< typename Key, typename Value, typename Compare >
+kovshikov::Tree< Key, Value, Compare >::Iterator::this_t& kovshikov::Tree< Key, Value, Compare >::Iterator::operator--()
+{
+  assert(node_ != nullptr);
+  Node* current = node_;
+  if(current -> left)
+  {
+    current = current -> left;
+    while(current -> right)
+    {
+      current = current -> right;
+    }
+  }
+  else
+  {
+    Node* currentFather = current -> father;
+    while(currentFather && current == left)
+    {
+      current = currentFather;
+      currentFather = currentFather -> father;
+    }
+    current = currentFather;
+  }
+  node_ = current;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+kovshikov::Tree< Key, Value, Compare >::Iterator::this_t& kovshikov::Tree< Key, Value, Compare >::Iterator::operator--(int)
+{
+  assert(node_ != nullptr);
+  this_t currentIterator = *this;
+  --(*this);
   return currentIterator;
 }
 
