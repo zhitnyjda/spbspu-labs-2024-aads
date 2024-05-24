@@ -25,6 +25,7 @@ namespace kovshikov
  // using Tree = BinarySearchTree;
 }
 
+
 template< typename Key, typename Value, typename Compare >
 class kovshikov::Tree< Key, Value, Compare >::Node
 {
@@ -211,7 +212,7 @@ private:
 };
 
 template< typename Key, typename Value, typename Compare >
-typename kovshikov::Tree< Key, Value, Compare >::ConstIterator::this_t& kovshikov::Tree< Key, Value, Compare >::ConstIterator::operator++()
+typename kovshikov::Tree< Key, Value, Compare >::ConstIterator& kovshikov::Tree< Key, Value, Compare >::ConstIterator::operator++()
 {
   assert(iterator_.node_ != nullptr);
   iterator_++;
@@ -219,7 +220,7 @@ typename kovshikov::Tree< Key, Value, Compare >::ConstIterator::this_t& kovshiko
 }
 
 template< typename Key, typename Value, typename Compare >
-typename kovshikov::Tree< Key, Value, Compare >::ConstIterator::this_t kovshikov::Tree< Key, Value, Compare >::ConstIterator::operator++(int)
+typename kovshikov::Tree< Key, Value, Compare >::ConstIterator kovshikov::Tree< Key, Value, Compare >::ConstIterator::operator++(int)
 {
   assert(iterator_.node_ != nullptr);
   ++iterator_;
@@ -227,7 +228,7 @@ typename kovshikov::Tree< Key, Value, Compare >::ConstIterator::this_t kovshikov
 }
 
 template< typename Key, typename Value, typename Compare >
-typename kovshikov::Tree< Key, Value, Compare >::ConstIterator::this_t& kovshikov::Tree< Key, Value, Compare >::ConstIterator::operator--()
+typename kovshikov::Tree< Key, Value, Compare >::ConstIterator& kovshikov::Tree< Key, Value, Compare >::ConstIterator::operator--()
 {
   assert(iterator_.node_ != nullptr);
   iterator_--;
@@ -235,7 +236,7 @@ typename kovshikov::Tree< Key, Value, Compare >::ConstIterator::this_t& kovshiko
 }
 
 template< typename Key, typename Value, typename Compare >
-typename kovshikov::Tree< Key, Value, Compare >::ConstIterator::this_t kovshikov::Tree< Key, Value, Compare >::ConstIterator::operator--(int)
+typename kovshikov::Tree< Key, Value, Compare >::ConstIterator kovshikov::Tree< Key, Value, Compare >::ConstIterator::operator--(int)
 {
   assert(iterator_.node_ != nullptr);
   --iterator_;
