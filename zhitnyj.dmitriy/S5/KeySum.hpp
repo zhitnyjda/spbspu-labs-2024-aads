@@ -3,7 +3,7 @@
 
 #include <limits>
 #include <stdexcept>
-#include "Queue.hpp"
+#include <Queue.hpp>
 
 struct KeySum {
   void operator()(const std::pair< const long long, std::string > &key_value) {
