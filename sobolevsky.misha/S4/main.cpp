@@ -51,5 +51,6 @@ int main(int argc, char *argv[])
     iter->second.clear();
   }
   tree.clear();
+  cmds.clear();
   return 0;
 }
