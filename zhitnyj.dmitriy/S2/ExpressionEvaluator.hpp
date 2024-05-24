@@ -2,8 +2,8 @@
 #define EXPRESSION_EVALUATOR_HPP
 
 #include <string>
-#include "Queue.hpp"
-#include "Stack.hpp"
+#include <Queue.hpp>
+#include <Stack.hpp>
 #include "ExpressionItem.hpp"
 #include "Operand.hpp"
 #include "Operator.hpp"
