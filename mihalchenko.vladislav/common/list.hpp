@@ -3,6 +3,7 @@
 #include <stddef.h>
 #include <iostream>
 #include <string>
+#include <limits>
 
 namespace mihalchenko
 {
@@ -31,6 +32,7 @@ namespace mihalchenko
 
     void pop_front();
     void pop_back();
+
     void insert(T value, size_t ind);
     void erase(size_t i);
     T &operator[](const size_t ind);
@@ -39,7 +41,9 @@ namespace mihalchenko
 
     T &front();
 
-    size_t getSize() { return size_; };
+    size_t getSize();
+    void setSize(const size_t size);
+    T getT();
 
     void assign(size_t count, const T &value);
     void assign(Iterator first, Iterator last);
@@ -71,9 +75,10 @@ namespace mihalchenko
       T data_;
       Node *pNext_;
       Node(T value) : data_(value), pNext_(nullptr) {}
+      Node(T value, Node *pointer) : data_(value), pNext_(pointer) {}
     };
     Node *begin_;
-    size_t size_;
+    size_t size_ = 0;
   };
 }
 
@@ -355,7 +360,8 @@ void mihalchenko::List< T >::swap(List< T > &other) noexcept
 template < typename T >
 void mihalchenko::List< T >::push_front(const T &data)
 {
-  begin_ = new Node(data, begin_);
+  Node *newNode = new Node(data, begin_);
+  begin_ = newNode;
   size_++;
 }
 
@@ -365,6 +371,7 @@ void mihalchenko::List< T >::push_back(const T &data)
   if (begin_ == nullptr)
   {
     begin_ = new Node(data);
+    size_ = 0;
   }
   else
   {
@@ -381,16 +388,29 @@ void mihalchenko::List< T >::push_back(const T &data)
 template < typename T >
 void mihalchenko::List< T >::pop_front()
 {
+  if (begin_ == nullptr)
+  {
+    std::cerr << "StackEmptyException!\n";
+  }
   Node *temp = begin_;
+  // T res = begin_->data_;
   begin_ = begin_->pNext_;
   delete temp;
   size_--;
+  // return res;
 }
 
 template < typename T >
 void mihalchenko::List< T >::pop_back()
 {
-  erase(size_ - 1);
+  if (size_ > 0)
+  {
+    erase(size_ - 1);
+  }
+  else
+  {
+    std::cerr << "StackEmptyException!\n";
+  }
 }
 
 template < typename T >
@@ -652,6 +672,24 @@ void mihalchenko::List< T >::remove_if(F functor)
       iterator = begin_;
     }
   }
+}
+
+template <typename T>
+size_t mihalchenko::List< T >::getSize()
+{
+  return size_;
+}
+
+template <typename T>
+void mihalchenko::List< T >::setSize(const size_t size)
+{
+  size_ = size;
+}
+
+template < typename T >
+T mihalchenko::List< T >::getT()
+{
+  return begin_->data_;
 }
 
 #endif
