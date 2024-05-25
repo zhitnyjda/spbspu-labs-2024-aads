@@ -121,6 +121,8 @@ class miheev::Tree< Key, Value, Comparator >::Iterator
 public:
   Iterator();
   Iterator(Tree*);
+  explicit Iterator(LnRIterator);
+  explicit Iterator(RnLIterator);
   Iterator(const Iterator&) = default;
   ~Iterator() = default;
 
@@ -171,6 +173,18 @@ miheev::Tree< Key, Value, Comparator >::Iterator::Iterator(Tree* init):
     }
   }
   max_ = top->getMaxNode();
+}
+
+template< typename Key, typename Value, typename Comparator >
+miheev::Tree< Key, Value, Comparator >::Iterator::Iterator(LnRIterator rhs)
+{
+  *this = Iterator(rhs.cur_);
+}
+
+template< typename Key, typename Value, typename Comparator >
+miheev::Tree< Key, Value, Comparator >::Iterator::Iterator(RnLIterator rhs)
+{
+  *this = Iterator(rhs.cur_);
 }
 
 template< typename Key, typename Value, typename Comparator >
@@ -301,6 +315,8 @@ public:
 
   ConstIterator();
   ConstIterator(Iterator);
+  explicit ConstIterator(LnRIterator);
+  explicit ConstIterator(RnLIterator);
   ConstIterator(const ConstIterator&) = default;
   ~ConstIterator() = default;
 
@@ -322,8 +338,23 @@ private:
 };
 
 template< typename Key, typename Value, typename Comparator >
+miheev::Tree< Key, Value, Comparator >::ConstIterator::ConstIterator():
+  iter_(Iterator())
+{}
+
+template< typename Key, typename Value, typename Comparator >
 miheev::Tree< Key, Value, Comparator >::ConstIterator::ConstIterator(Iterator iter):
   iter_(iter)
+{}
+
+template< typename Key, typename Value, typename Comparator >
+miheev::Tree< Key, Value, Comparator >::ConstIterator::ConstIterator(LnRIterator rhs):
+  iter_(Iterator(rhs.cur_))
+{}
+
+template< typename Key, typename Value, typename Comparator >
+miheev::Tree< Key, Value, Comparator >::ConstIterator::ConstIterator(RnLIterator rhs):
+  iter_(Iterator(rhs.cur_))
 {}
 
 template< typename Key, typename Value, typename Comparator >
@@ -532,6 +563,9 @@ private:
 
   void goDownRight();
   void dropToCurFromStack();
+
+  friend class Iterator;
+  friend class ConstIterator;
 };
 
 template< typename Key, typename Value, typename Comparator >
