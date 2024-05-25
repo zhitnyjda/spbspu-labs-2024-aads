@@ -46,6 +46,7 @@ namespace zheleznyakov {
     Node * root_;
 
     size_t size(Node * node) const;
+    void clear(Node * node);
   };
 }
 
@@ -191,5 +192,23 @@ void zheleznyakov::Tree<Key, Value, Compare>::push(const Key & k, const Value & 
   {
     parent->right = new_node;
   }
+}
+
+template < typename Key, typename Value, typename Compare >
+zheleznyakov::Tree< Key, Value, Compare >::~Tree()
+{
+  clear(root_);
+}
+
+template < typename Key, typename Value, typename Compare >
+void zheleznyakov::Tree< Key, Value, Compare >::clear(Node * node)
+{
+  if (!node)
+  {
+    return;
+  }
+  clear(node->left);
+  clear(node->right);
+  delete node;
 }
 #endif
