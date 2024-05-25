@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
     std::cerr << "missed filename\n";
     return 1;
   }
+
   std::ifstream file(argv[1]);
   if (!file)
   {
@@ -51,6 +52,7 @@ int main(int argc, char *argv[])
       std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
     }
   }
+
   for (sobolevsky::AVLtree< std::string, sobolevsky::AVLtree< int, std::string, int >,  int >::Iterator iter =
   tree.begin(); iter != tree.end(); iter++)
   {
@@ -58,5 +60,6 @@ int main(int argc, char *argv[])
   }
   tree.clear();
   cmds.clear();
+
   return 0;
 }

@@ -39,7 +39,7 @@ namespace sobolevsky
 
     Iterator find(const Key &key);
     size_t count(const Key &key);
-    std::pair<Iterator,Iterator> equal_range (const Key &key);
+    std::pair< Iterator, Iterator > equal_range(const Key &key);
   private:
     class Node;
 
@@ -363,8 +363,8 @@ size_t sobolevsky::AVLtree< Key, Value, Compare >::count(const Key &key)
 }
 
 template< typename Key, typename Value, typename Compare >
-std::pair< typename sobolevsky::AVLtree< Key, Value, Compare >::Iterator,typename sobolevsky::AVLtree< Key, Value,
-Compare >::Iterator > sobolevsky::AVLtree< Key, Value, Compare >::equal_range (const Key &key)
+std::pair< typename sobolevsky::AVLtree< Key, Value, Compare >::Iterator, typename sobolevsky::AVLtree< Key, Value,
+Compare >::Iterator > sobolevsky::AVLtree< Key, Value, Compare >::equal_range(const Key &key)
 {
   if (find(key) == end())
   {
