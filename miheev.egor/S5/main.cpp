@@ -4,6 +4,7 @@
 #include <functional>
 #include "IOFunctions.hpp"
 #include "keySumm.hpp"
+#include <limits> //debug
 
 int main(int argc, char* argv[])
 {
@@ -24,6 +25,7 @@ int main(int argc, char* argv[])
   readTree(input, data);
   if (data.empty())
   {
+    std::cout << "<EMPTY>\n";
     return 0;
   }
 
@@ -42,6 +44,16 @@ int main(int argc, char* argv[])
   {
     std::cerr << e.what() << '\n';
     return 2;
+  }
+  catch (const std::overflow_error& e)
+  {
+    std::cerr << e.what() << '\n';
+    return 3;
+  }
+  catch (const std::underflow_error& e)
+  {
+    std::cerr << e.what() << '\n';
+    return 3;
   }
 
   std::cout << result.getResults() << '\n';
