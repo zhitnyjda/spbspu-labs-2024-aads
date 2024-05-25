@@ -21,7 +21,15 @@ namespace kovshikov
     Compare comp;
 
     bool isEmpty() const noexcept;
+    size_t getSize(); //нужно через итераторы сделать(пока не реализовано)
+
     void insert(const Key& key, const Value& value);
+
+    Iterator end() const noexcept;
+    Iterator begin() const noexcept;
+
+    ConstIterator cend() const noexcept;
+    ConstIterator cbegin() const noexcept;
 
   private:
     Node* root_;
@@ -271,6 +279,51 @@ const typename kovshikov::Tree< Key, Value, Compare >::Pair* kovshikov::Tree< Ke
 {
   assert(iterator_.node_ != nullptr);
   return std::addressof(iterator_.node_ -> element_);
+}
+
+template< typename Key, typename Value, typename Compare >
+typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, Value, Compare >::end() const noexcept
+{
+  Node* current = root_;
+  if(current == nullptr)
+  {
+    return Iterator(nullptr, nullptr);
+  }
+  while(current != nullptr)
+  {
+    current = current -> right;
+  }
+  current += 1;
+  return Iterator(current, root_);
+}
+
+template< typename Key, typename Value, typename Compare >
+typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, Value, Compare >::begin() const noexcept
+{
+  Node* current = root_;
+  if(current == nullptr)
+  {
+    return end();
+  }
+  while(current != nullptr)
+  {
+    current = current -> left;
+  }
+  return Iterator(current, root_);
+}
+
+template< typename Key, typename Value, typename Compare >
+typename kovshikov::Tree< Key, Value, Compare >::ConstIterator kovshikov::Tree< Key, Value, Compare >::cend() const noexcept
+{
+  Iterator iterator = this->end();
+  return ConstIterator(iterator);
+}
+
+template< typename Key, typename Value, typename Compare >
+typename kovshikov::Tree< Key, Value, Compare >::ConstIterator kovshikov::Tree< Key, Value, Compare >::cbegin() const noexcept
+{
+  Iterator iterator = this->begin();
+  return ConstIterator(iterator);
 }
 
 template< typename Key, typename Value, typename Compare >
