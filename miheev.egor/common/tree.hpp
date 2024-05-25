@@ -408,13 +408,40 @@ private:
   Stack< Tree* > stack_;
 
   void goDownLeft();
+  void dropToCurFromStack();
 };
 
 template< typename Key, typename Value, typename Comparator >
 miheev::Tree< Key, Value, Comparator >::LnRIterator::LnRIterator():
   cur_(nullptr),
+  temp_(nullptr),
   stack_(Stack< Tree* >())
 {}
+
+template< typename Key, typename Value, typename Comparator >
+miheev::Tree< Key, Value, Comparator >::LnRIterator::LnRIterator(Tree* ptr):
+  cur_(ptr),
+  temp_(nullptr),
+  stack_(Stack< Tree* >())
+{
+  goDownLeft();
+  dropToCurFromStack();
+  temp_ = cur_->right_;
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename miheev::Tree< Key, Value, Comparator >::LnRIterator& miheev::Tree< Key, Value, Comparator >::LnRIterator::operator++()
+{
+  if (!cur_ && stack_.empty())
+  {
+    throw std::runtime_error("LnR iterator already reached the end of the tree");
+  }
+  cur_ = temp_;
+  goDownLeft();
+  dropToCurFromStack();
+  temp_ = cur_->right_;
+  return *this;
+}
 
 template< typename Key, typename Value, typename Comparator >
 void miheev::Tree< Key, Value, Comparator >::LnRIterator::goDownLeft()
@@ -427,30 +454,10 @@ void miheev::Tree< Key, Value, Comparator >::LnRIterator::goDownLeft()
 }
 
 template< typename Key, typename Value, typename Comparator >
-miheev::Tree< Key, Value, Comparator >::LnRIterator::LnRIterator(Tree* ptr):
-  cur_(ptr),
-  stack_(Stack< Tree* >())
+void miheev::Tree< Key, Value, Comparator >::LnRIterator::dropToCurFromStack()
 {
-  goDownLeft();
-}
-
-template< typename Key, typename Value, typename Comparator >
-typename miheev::Tree< Key, Value, Comparator >::LnRIterator& miheev::Tree< Key, Value, Comparator >::LnRIterator::operator++()
-{
-  if (!cur_ && stack_.empty())
-  {
-    throw std::runtime_error("LnR iterator already reached the end of the tree");
-  }
-  if (temp_)
-  {
-    cur_ = temp_;
-    temp_ = nullptr;
-  }
-  goDownLeft();
   cur_ = stack_.top();
   stack_.pop();
-  temp_ = cur_->right_;
-  return *this;
 }
 
 template< typename Key, typename Value, typename Comparator >
