@@ -24,6 +24,7 @@ namespace zheleznyakov {
 
     void push(const Key &, const Value &);
     void clear();
+
   private:
     struct Node
     {
@@ -34,7 +35,8 @@ namespace zheleznyakov {
       ):
         parent(newParent),
         left(newLeft),
-        right(newRight)
+        right(newRight),
+        height(1)
       {}
       ~Node() = default;
 
@@ -42,12 +44,14 @@ namespace zheleznyakov {
       Node * parent;
       Node * left;
       Node * right;
+      size_t height;
     };
 
     Node * root_;
 
     size_t size(Node * node) const;
     void clear(Node * node);
+    size_t getHeight(Node* node);
   };
 }
 
@@ -121,19 +125,19 @@ zheleznyakov::Tree< Key, Value, Compare >::Tree():
 {}
 
 template < typename Key, typename Value, typename Compare >
-size_t zheleznyakov::Tree<Key, Value, Compare>::size(Node* node) const
+size_t zheleznyakov::Tree< Key, Value, Compare >::size(Node* node) const
 {
   return node != nullptr ? 1 + size(node->left) + size(node->right) : 0;
 }
 
 template < typename Key, typename Value, typename Compare >
-size_t zheleznyakov::Tree<Key, Value, Compare>::size() const
+size_t zheleznyakov::Tree< Key, Value, Compare >::size() const
 {
   return size(root_);
 }
 
 template < typename Key, typename Value, typename Compare >
-bool zheleznyakov::Tree<Key, Value, Compare>::empty() const
+bool zheleznyakov::Tree< Key, Value, Compare >::empty() const
 {
   return root_ == nullptr;
 }
@@ -162,8 +166,8 @@ Value zheleznyakov::Tree< Key, Value, Compare >::at(const Key & k) {
 }
 
 template < typename Key, typename Value, typename Compare >
-void zheleznyakov::Tree<Key, Value, Compare>::push(const Key & k, const Value & v) {
-  Node * new_node = new Node();
+void zheleznyakov::Tree< Key, Value, Compare >::push(const Key& k, const Value& v) {
+  Node* new_node = new Node();
   new_node->data = std::make_pair(k, v);
 
   Compare cmp;
@@ -220,5 +224,10 @@ void zheleznyakov::Tree< Key, Value, Compare >::clear(Node * node)
   clear(node->left);
   clear(node->right);
   delete node;
+}
+
+template <typename Key, typename Value, typename Compare>
+size_t zheleznyakov::Tree< Key, Value, Compare >::getHeight(Node* node) {
+  return node == nullptr ? 0 : node->height;
 }
 #endif

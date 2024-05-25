@@ -5,16 +5,14 @@
 int main()
 {
   using namespace zheleznyakov;
-  using subtree_t = Tree< std::string, int >;
-  subtree_t tree;
-  std::cout << tree.size() << ' ' << (tree.empty() ? "Empty" : "Not empty") << '\n';
-  tree.push("key1", 1);
-  tree.push("key2", 2);
-  std::cout << tree.at("key1") << '\n';
-  std::cout << tree.at("key2") << '\n';
-  std::cout << tree.size() << ' ' << (tree.empty() ? "Empty" : "Not empty") << '\n';
-  Tree< std::string, subtree_t > uptree;
-  uptree.push("key3", tree);
-  std::cout << uptree.at("key3").at("key1") << '\n';
+  zheleznyakov::Tree< std::string, int > tree;
+  tree.push("key5", 3);
+  tree.push("key2", 5);
+  tree.push("key4", 15);
+  tree.push("key6", 12);
+  tree.push("key3", 7);
+  tree.push("key1", 10);
+  tree.push("key7", 17);
+  std::cout << tree.size() << std::endl;
   return 0;
 }
