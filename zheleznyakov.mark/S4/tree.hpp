@@ -13,6 +13,9 @@ namespace zheleznyakov {
     Tree();
     ~Tree() = default;
 
+    size_t size() const;
+    bool empty() const;
+
     Value at(const Key & k);
 
     void push(const Key &, const Value &);
@@ -36,6 +39,8 @@ namespace zheleznyakov {
     };
 
     Node * root_;
+
+    size_t size(Node* node) const;
   };
 }
 
@@ -45,8 +50,26 @@ zheleznyakov::Tree< Key, Value, Compare >::Tree():
 {}
 
 template < typename Key, typename Value, typename Compare >
+size_t zheleznyakov::Tree<Key, Value, Compare>::size(Node* node) const
+{
+  return node != nullptr ? 1 + size(node->left) + size(node->right) : 0;
+}
+
+template < typename Key, typename Value, typename Compare >
+size_t zheleznyakov::Tree<Key, Value, Compare>::size() const
+{
+  return size(root_);
+}
+
+template < typename Key, typename Value, typename Compare >
+bool zheleznyakov::Tree<Key, Value, Compare>::empty() const
+{
+  return root_ == nullptr;
+}
+
+template < typename Key, typename Value, typename Compare >
 Value zheleznyakov::Tree< Key, Value, Compare >::at(const Key & k) {
-  Node* current = root_;
+  Node * current = root_;
   Compare cmp;
 
   while (current != nullptr)
@@ -67,9 +90,9 @@ Value zheleznyakov::Tree< Key, Value, Compare >::at(const Key & k) {
   throw std::out_of_range("No such key");
 }
 
-template <typename Key, typename Value, typename Compare>
+template < typename Key, typename Value, typename Compare >
 void zheleznyakov::Tree<Key, Value, Compare>::push(const Key & k, const Value & v) {
-  Node* new_node = new Node();
+  Node * new_node = new Node();
   new_node->data = std::make_pair(k, v);
 
   Compare cmp;
