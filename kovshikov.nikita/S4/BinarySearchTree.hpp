@@ -41,7 +41,7 @@ namespace kovshikov
     size_t getDifference(Node* node);
     void updateHeight(Node* node);
     void RightRight(Node* node);
-    void RightRight(Node* node);
+    void LeftLeft(Node* node);
   };
  // using Tree = BinarySearchTree;
 }
@@ -410,9 +410,9 @@ void kovshikov::Tree< Key, Value, Compare >::RightRight(Node* node) // пред�
   Node* newFather = node -> left_;
   Node* lastRight = newFather -> right_;
 
+  node -> father_ = newFather;
   if(bigFather != nullptr)
   {
-    node -> father_ = newFather;
     if(comp(node -> element_.first, bigFather -> element_.first))
     {
       bigFather -> left_ = newFather;
@@ -422,10 +422,14 @@ void kovshikov::Tree< Key, Value, Compare >::RightRight(Node* node) // пред�
       bigFather -> right_ = newFather;
     }
   }
-  //обновить root_
-
+  else
+  {
+    root_ = newFather;
+  }
+  newFather -> father_ = bigFather;
   newFather -> right_ = node;
   node ->left_ = lastRight;
+  lastRight -> father_ = node;
   updateHeight(node);
 }
 
@@ -448,9 +452,15 @@ void kovshikov::Tree< Key, Value, Compare >::LeftLeft(Node* node)
       bigFather -> right_ = newFather;
     }
   }
+  else
+  {
+    root_ = newFather;
+  }
 
+  newFather -> father_ = bigFather;
   newFather -> left_ = node;
   node -> right_ = lastLeft;
+  lastLeft -> father_ = node;
   updateHeight(node); //должно хватить обновления только этого узла
 }
 
