@@ -20,7 +20,6 @@ namespace miheev
 
     class LnRIterator;
     class RnLIterator;
-    class BreadthIterator;
 
     using iter_pair = std::pair< Iterator, Iterator >;
     using const_iter_pair = std::pair< ConstIterator, ConstIterator >;
