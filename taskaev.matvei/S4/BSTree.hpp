@@ -10,6 +10,9 @@ namespace taskaev
   {
   public:
     class ConstIterator;
+    class Iterator;
+    using iter = Iterator;
+    using constIter = ConstIterator;
     class Node;
     {
     public:
