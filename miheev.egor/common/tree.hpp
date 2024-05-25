@@ -395,12 +395,12 @@ public:
   LnRIterator operator++(int);
 
   kv_pair& operator*();
-  kv_pair& operator->();
+  kv_pair* operator->();
   const kv_pair& operator*() const;
-  const kv_pair& operator->() const;
+  const kv_pair* operator->() const;
 
-  bool operator != (const LnRIterator&);
-  bool operator == (const LnRIterator&);
+  bool operator!=(const LnRIterator&) const;
+  bool operator==(const LnRIterator&) const;
 
 private:
   Tree* cur_;
@@ -444,6 +444,50 @@ typename miheev::Tree< Key, Value, Comparator >::LnRIterator& miheev::Tree< Key,
 }
 
 template< typename Key, typename Value, typename Comparator >
+typename miheev::Tree< Key, Value, Comparator >::LnRIterator miheev::Tree< Key, Value, Comparator >::LnRIterator::operator++(int)
+{
+  LnRIterator temp = *this;
+  (*this)++;
+  return temp;
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename miheev::Tree< Key, Value, Comparator >::kv_pair& miheev::Tree< Key, Value, Comparator >::LnRIterator::operator*()
+{
+  return *cur_->pair_;
+}
+
+template< typename Key, typename Value, typename Comparator >
+const typename miheev::Tree< Key, Value, Comparator >::kv_pair& miheev::Tree< Key, Value, Comparator >::LnRIterator::operator*() const
+{
+  return *cur_->pair_;
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename miheev::Tree< Key, Value, Comparator >::kv_pair* miheev::Tree< Key, Value, Comparator >::LnRIterator::operator->()
+{
+  return std::addressof(*cur_->pair_);
+}
+
+template< typename Key, typename Value, typename Comparator >
+const typename miheev::Tree< Key, Value, Comparator >::kv_pair* miheev::Tree< Key, Value, Comparator >::LnRIterator::operator->() const
+{
+  return std::addressof(*cur_->pair_);
+}
+
+template< typename Key, typename Value, typename Comparator >
+bool miheev::Tree< Key, Value, Comparator >::LnRIterator::operator!=(const LnRIterator& rhs) const
+{
+  return cur_ != rhs.cur_;
+}
+
+template< typename Key, typename Value, typename Comparator >
+bool miheev::Tree< Key, Value, Comparator >::LnRIterator::operator==(const LnRIterator& rhs) const
+{
+  return cur_ == rhs.cur_;
+}
+
+template< typename Key, typename Value, typename Comparator >
 void miheev::Tree< Key, Value, Comparator >::LnRIterator::goDownLeft()
 {
   while (cur_)
@@ -461,14 +505,132 @@ void miheev::Tree< Key, Value, Comparator >::LnRIterator::dropToCurFromStack()
 }
 
 template< typename Key, typename Value, typename Comparator >
+class miheev::Tree< Key, Value, Comparator >::RnLIterator
+{
+public:
+  RnLIterator();
+  explicit RnLIterator(Tree* ptr);
+  RnLIterator(const RnLIterator&) = default;
+  ~RnLIterator() = default;
+
+  RnLIterator& operator=(const RnLIterator&) = default;
+  RnLIterator& operator++();
+  RnLIterator operator++(int);
+
+  kv_pair& operator*();
+  kv_pair* operator->();
+  const kv_pair& operator*() const;
+  const kv_pair* operator->() const;
+
+  bool operator!=(const RnLIterator&) const;
+  bool operator==(const RnLIterator&) const;
+
+private:
+  Tree* cur_;
+  Tree* temp_;
+  Stack< Tree* > stack_;
+
+  void goDownRight();
+  void dropToCurFromStack();
+};
+
+template< typename Key, typename Value, typename Comparator >
+miheev::Tree< Key, Value, Comparator >::RnLIterator::RnLIterator():
+  cur_(nullptr),
+  temp_(nullptr),
+  stack_(Stack< Tree* >())
+{}
+
+template< typename Key, typename Value, typename Comparator >
+miheev::Tree< Key, Value, Comparator >::RnLIterator::RnLIterator(Tree* ptr):
+  cur_(ptr),
+  temp_(nullptr),
+  stack_(Stack< Tree* >())
+{
+  goDownRight();
+  dropToCurFromStack();
+  temp_ = cur_->left_;
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename miheev::Tree< Key, Value, Comparator >::RnLIterator& miheev::Tree< Key, Value, Comparator >::RnLIterator::operator++()
+{
+  if (!cur_ && stack_.empty())
+  {
+    throw std::runtime_error("RnL iterator already reached the end of the tree");
+  }
+  cur_ = temp_;
+  goDownRight();
+  dropToCurFromStack();
+  temp_ = cur_->left_;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename miheev::Tree< Key, Value, Comparator >::RnLIterator miheev::Tree< Key, Value, Comparator >::RnLIterator::operator++(int)
+{
+  RnLIterator temp = *this;
+  (*this)++;
+  return temp;
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename miheev::Tree< Key, Value, Comparator >::kv_pair& miheev::Tree< Key, Value, Comparator >::RnLIterator::operator*()
+{
+  return *cur_->pair_;
+}
+
+template< typename Key, typename Value, typename Comparator >
+const typename miheev::Tree< Key, Value, Comparator >::kv_pair& miheev::Tree< Key, Value, Comparator >::RnLIterator::operator*() const
+{
+  return *cur_->pair_;
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename miheev::Tree< Key, Value, Comparator >::kv_pair* miheev::Tree< Key, Value, Comparator >::RnLIterator::operator->()
+{
+  return std::addressof(*cur_->pair_);
+}
+
+template< typename Key, typename Value, typename Comparator >
+const typename miheev::Tree< Key, Value, Comparator >::kv_pair* miheev::Tree< Key, Value, Comparator >::RnLIterator::operator->() const
+{
+  return std::addressof(*cur_->pair_);
+}
+
+template< typename Key, typename Value, typename Comparator >
+bool miheev::Tree< Key, Value, Comparator >::RnLIterator::operator!=(const RnLIterator& rhs) const
+{
+  return cur_ != rhs.cur_;
+}
+
+template< typename Key, typename Value, typename Comparator >
+bool miheev::Tree< Key, Value, Comparator >::RnLIterator::operator==(const RnLIterator& rhs) const
+{
+  return cur_ == rhs.cur_;
+}
+
+template< typename Key, typename Value, typename Comparator >
+void miheev::Tree< Key, Value, Comparator >::RnLIterator::goDownRight()
+{
+  while (cur_)
+  {
+    stack_.push(cur_);
+    cur_ = cur_->right_;
+  }
+}
+
+template< typename Key, typename Value, typename Comparator >
+void miheev::Tree< Key, Value, Comparator >::RnLIterator::dropToCurFromStack()
+{
+  cur_ = stack_.top();
+  stack_.pop();
+}
+
+template< typename Key, typename Value, typename Comparator >
 miheev::Tree< Key, Value, Comparator >::~Tree()
 {
   clear();
-}
-template< typename Key, typename Value, typename Comparator >
-typename miheev::Tree< Key, Value, Comparator >::kv_pair& miheev::Tree< Key, Value, Comparator >::LnRIterator::operator*()
-{
-  return *cur_->pair_;
 }
 
 template< typename Key, typename Value, typename Comparator >
