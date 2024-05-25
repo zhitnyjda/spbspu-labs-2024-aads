@@ -52,6 +52,7 @@ namespace zheleznyakov {
     size_t size(Node * node) const;
     void clear(Node * node);
     size_t getHeight(Node* node);
+    int getBalance(Node* node);
   };
 }
 
@@ -229,5 +230,10 @@ void zheleznyakov::Tree< Key, Value, Compare >::clear(Node * node)
 template <typename Key, typename Value, typename Compare>
 size_t zheleznyakov::Tree< Key, Value, Compare >::getHeight(Node* node) {
   return node == nullptr ? 0 : node->height;
+}
+
+template <typename Key, typename Value, typename Compare>
+int zheleznyakov::Tree< Key, Value, Compare >::getBalance(Node* node) {
+  return node == nullptr ? 0 : getHeight(node->left) - getHeight(node->right);
 }
 #endif
