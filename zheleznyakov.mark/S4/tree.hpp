@@ -13,7 +13,9 @@ namespace zheleznyakov {
 
     Tree();
     Tree(const Tree & other);
-    ~Tree() = default;
+    ~Tree();
+
+    Tree & operator=(const Tree & other);
 
     size_t size() const;
     bool empty() const;
@@ -72,6 +74,37 @@ zheleznyakov::Tree< Key, Value, Compare >::Tree(const Tree & other):
       node_ = node_->parent;
     }
   }
+}
+
+template < typename Key, typename Value, typename Compare >
+zheleznyakov::Tree< Key, Value, Compare > & zheleznyakov::Tree< Key, Value, Compare >::operator=(const Tree & other)
+{
+  if (&other != this)
+  {
+    clear(root_);
+    Node * node_ = other.root_;
+    while (node_ != nullptr)
+    {
+      push(node_->data.first, node_->data.second);
+      if (node_->right != nullptr)
+      {
+        node_ = node_->right;
+        while (node_->left != nullptr)
+        {
+          node_ = node_->left;
+        }
+      }
+      else
+      {
+        while (node_->parent != nullptr && node_ == node_->parent->right)
+        {
+          node_ = node_->parent;
+        }
+        node_ = node_->parent;
+      }
+    }
+  }
+  return *this;
 }
 
 template < typename Key, typename Value, typename Compare >
