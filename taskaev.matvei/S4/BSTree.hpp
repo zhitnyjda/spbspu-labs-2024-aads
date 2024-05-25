@@ -243,7 +243,18 @@ bool BSTree< Key, Value, Comparator >::Iterator::operator==(const Iterator& rhs)
 
 
 
+template< typename Key, typename Value, typename Comparator >
+BSTree< Key, Value, Comparator >::BSTree():
+  root_(nullptr),
+  comp_(),
+  size_(0)
+{}
 
+template< typename Key, typename Value, typename Comparator >
+BSTree< Key, Value, Comparator >::~BSTree()
+{
+  // later mb metod - clear();
+}
 
 template< typename Key, typename Value, typename Comparator >
 bool BSTree< Key, Value, Comparator >::empty() const noexcept
