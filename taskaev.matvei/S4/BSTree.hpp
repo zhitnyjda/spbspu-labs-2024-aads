@@ -151,8 +151,6 @@ typename BSTree< Key, Value, Comparator >::ConstIterator BSTree< Key, Value, Com
   return result;
 }
 
-
-
 template< typename Key, typename Value, typename Comparator >
 bool BSTree< Key, Value, Comparator >::ConstIterator::operator!=(const ConstIterator& rhs) const
 {
@@ -163,4 +161,77 @@ template< typename Key, typename Value, typename Comparator >
 bool BSTree< Key, Value, Comparator >::ConstIterator::operator==(const ConstIterator& rhs) const
 {
   return node_ == rhs.node_;
+}
+
+template< typename Key, typename Value, typename Comparator >
+class BSTree< Key, Value, Comparator >::Iterator
+{
+public:
+  friend class BSTree;
+  Iterator();
+  Iterator(ConstIterator someIterator);
+  ~Iterator() = default;
+  Iterator(const Iterator&) = default;
+  Iterator& operator=(const Iterator&) = default;
+  Iterator operator++();
+  Iterator operator++(int);
+
+  Iterator operator--();
+  Iterator operator--(int);
+
+  bool operator!=(const Iterator& rhs) const;
+  bool operator==(const Iterator& rhs) const;
+private:
+  ConstIterator iterator_;
+};
+
+template< typename Key, typename Value, typename Comparator >
+BSTree< Key, Value, Comparator >::Iterator::Iterator() :
+  iterator_(nullptr)
+{};
+
+template< typename Key, typename Value, typename Comparator >
+BSTree< Key, Value, Comparator >::Iterator::Iterator(ConstIterator iter) :
+  iterator_(iter)
+{}
+
+template< typename Key, typename Value, typename Comparator >
+typename BSTree< Key, Value, Comparator >::Iterator::Iterator BSTree< Key, Value, Comparator >::Iterator::operator++()
+{
+  assert(iterator_.node_ != nullptr);
+  iterator_++;
+  return iterator_;
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename BSTree< Key, Value, Comparator >::Iterator::Iterator BSTree< Key, Value, Comparator >::Iterator::operator++(int)
+{
+  ++iterator_;
+  return iterator_;
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename BSTree< Key, Value, Comparator >::Iterator::Iterator BSTree< Key, Value, Comparator >::Iterator::operator--()
+{
+  iterator_--;
+  return iterator_;
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename BSTree< Key, Value, Comparator >::Iterator::Iterator BSTree< Key, Value, Comparator >::Iterator::operator--(int)
+{
+  --iterator_;
+  return iterator_;
+}
+
+template< typename Key, typename Value, typename Comparator >
+bool BSTree< Key, Value, Comparator >::Iterator::operator!=(const Iterator& rhs) const
+{
+  return !(rhs == *this);
+}
+
+template< typename Key, typename Value, typename Comparator >
+bool BSTree< Key, Value, Comparator >::Iterator::operator==(const Iterator& rhs) const
+{
+  return iterator_ == rhs.iterator_;
 }
