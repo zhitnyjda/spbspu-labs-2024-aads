@@ -23,6 +23,7 @@ namespace zheleznyakov {
     Value at(const Key & k);
 
     void push(const Key &, const Value &);
+    void clear();
   private:
     struct Node
     {
@@ -75,6 +76,12 @@ zheleznyakov::Tree< Key, Value, Compare >::Tree(const Tree & other):
       node_ = node_->parent;
     }
   }
+}
+
+template < typename Key, typename Value, typename Compare >
+zheleznyakov::Tree< Key, Value, Compare >::~Tree()
+{
+  clear(root_);
 }
 
 template < typename Key, typename Value, typename Compare >
@@ -195,9 +202,12 @@ void zheleznyakov::Tree<Key, Value, Compare>::push(const Key & k, const Value & 
 }
 
 template < typename Key, typename Value, typename Compare >
-zheleznyakov::Tree< Key, Value, Compare >::~Tree()
+void zheleznyakov::Tree< Key, Value, Compare>::clear()
 {
-  clear(root_);
+  if (!empty())
+  {
+    clear(root_);
+  }
 }
 
 template < typename Key, typename Value, typename Compare >
