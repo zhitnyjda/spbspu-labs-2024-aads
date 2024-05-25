@@ -1,5 +1,6 @@
 #ifndef BINARYSEARCHTREE_HPP
 #define BINARYSEARCHTREE_HPP
+#include <algorithm>
 #include <utility>
 #include <functional>
 #include <iterator>
@@ -35,6 +36,12 @@ namespace kovshikov
 
   private:
     Node* root_;
+    //балансировка
+    size_t getHeight(Node* node);
+    size_t getDifference(Node* node);
+    void updateHeight(Node* node);
+    void RightRight(Node* node);
+    void RightRight(Node* node);
   };
  // using Tree = BinarySearchTree;
 }
@@ -360,14 +367,91 @@ typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, 
     }
     else if(comp(key, current -> element_.first))
     {
-      current = current -> left;
+      current = current -> left_;
     }
     else
     {
-      current = current -> right;
+      current = current -> right_;
     }
   }
   return (isFind == true) ? Iterator(current, root_) : end();
+}
+
+template< typename Key, typename Value, typename Compare >
+size_t kovshikov::Tree< Key, Value, Compare >::getHeight(Node* node)
+{
+  if(node == nullptr)
+  {
+    return 0;
+  }
+  return std::max(getHeight(node -> left_), getHeight(node -> right_)) + 1;
+}
+
+template< typename Key, typename Value, typename Compare >
+size_t kovshikov::Tree< Key, Value, Compare >::getDifference(Node* node)
+{
+  return getHeight(node -> right_) - getHeight(node -> left_);
+}
+
+template< typename Key, typename Value, typename Compare >
+void kovshikov::Tree< Key, Value, Compare >::updateHeight(Node* node) // идем вверх по родителям и обновляем высоту
+{
+  while(node != nullptr)
+  {
+    node -> height_ = std::max(getHeight(node -> left_), getHeight(node -> right_)) + 1;
+    node = node -> father_;
+  }
+}
+
+template< typename Key, typename Value, typename Compare >          //нужно обновлять height_
+void kovshikov::Tree< Key, Value, Compare >::RightRight(Node* node) // предпологаю node != nullptr
+{
+  Node* bigFather = node -> father_;
+  Node* newFather = node -> left_;
+  Node* lastRight = newFather -> right_;
+
+  if(bigFather != nullptr)
+  {
+    node -> father_ = newFather;
+    if(comp(node -> element_.first, bigFather -> element_.first))
+    {
+      bigFather -> left_ = newFather;
+    }
+    else
+    {
+      bigFather -> right_ = newFather;
+    }
+  }
+  //обновить root_
+
+  newFather -> right_ = node;
+  node ->left_ = lastRight;
+  updateHeight(node);
+}
+
+template< typename Key, typename Value, typename Compare >
+void kovshikov::Tree< Key, Value, Compare >::LeftLeft(Node* node)
+{
+  Node* bigFather = node -> father_;
+  Node* newFather = node -> right_;
+  Node* lastLeft = newFather -> left_;
+
+  if(bigFather != nullptr)
+  {
+    node -> father = newFather;
+    if(comp(node -> element_.first, bigFather -> element_.first))
+    {
+      bigFather -> left_ = newFather;
+    }
+    else
+    {
+      bigFather -> right_ = newFather;
+    }
+  }
+
+  newFather -> left_ = node;
+  node -> right_ = lastLeft;
+  updateHeight(node); //должно хватить обновления только этого узла
 }
 
 template< typename Key, typename Value, typename Compare >
