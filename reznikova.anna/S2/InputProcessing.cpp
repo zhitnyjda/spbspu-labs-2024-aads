@@ -2,6 +2,7 @@
 #include <cstddef>
 #include <limits>
 #include <cmath>
+#include <iostream>
 
 void reznikova::readLine(std::istream & is, reznikova::Queue< reznikova::Element > & infix)
 {

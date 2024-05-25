@@ -1,6 +1,6 @@
 #ifndef INPUTPROCESSING_HPP
 #define INPUTPROCESSING_HPP
-#include <iostream>
+#include <iosfwd>
 #include <string>
 #include "ElementStructs.hpp"
 #include "Queue.hpp"
