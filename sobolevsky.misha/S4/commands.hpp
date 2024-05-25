@@ -12,7 +12,8 @@ namespace sobolevsky
 
   void inputFromFile(std::istream &in, AVLtree< std::string, AVLtree< int, std::string, int >,  int > &data);
   void getError(std::ostream &out, std::string text);
-  void checkName(AVLtree< std::string, AVLtree< int, std::string, int >,  int > &data, AVLtree< int, std::string, int > &newTree, std::string newName);
+  void checkName(AVLtree< std::string, AVLtree< int, std::string, int >,  int > &data, AVLtree< int, std::string, int > &newTree,
+  std::string newName);
 }
 
 #endif

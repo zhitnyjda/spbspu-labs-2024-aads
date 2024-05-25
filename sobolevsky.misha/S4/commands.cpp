@@ -47,7 +47,8 @@ void sobolevsky::getPrint(std::istream &in, std::ostream &out, AVLtree< std::str
   }
 }
 
-void sobolevsky::checkName(AVLtree< std::string, AVLtree< int, std::string, int >,  int > &data, AVLtree< int, std::string, int > &newTree, std::string newName)
+void sobolevsky::checkName(AVLtree< std::string, AVLtree< int, std::string, int >,  int > &data, AVLtree< int, std::string, int > &newTree,
+std::string newName)
 {
   if (data.find(newName) != data.end())
   {
