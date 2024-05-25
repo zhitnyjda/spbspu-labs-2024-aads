@@ -235,3 +235,22 @@ bool BSTree< Key, Value, Comparator >::Iterator::operator==(const Iterator& rhs)
 {
   return iterator_ == rhs.iterator_;
 }
+
+
+
+
+
+
+
+template< typename Key, typename Value, typename Comparator >
+bool BSTree< Key, Value, Comparator >::empty() const noexcept
+{
+  return root_ == nullptr;
+}
+
+template< typename Key, typename Value, typename Comparator >
+size_t BSTree< Key, Value, Comparator >::size() const noexcept
+{
+  return size_;
+}
+
