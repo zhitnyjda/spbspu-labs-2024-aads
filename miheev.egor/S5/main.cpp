@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
     return 1;
   }
 
-  Tree< int, std::string > data;
+  Tree< long long, std::string > data;
   readTree(input, data);
   if (data.empty())
   {
@@ -31,9 +31,9 @@ int main(int argc, char* argv[])
 
   using TraverseMethod = std::function< KeySumm(tree_t*, KeySumm) >;
   Tree< std::string, TraverseMethod > orders;
-  orders["ascending"] = &Tree< int, std::string >::traverseLnR< KeySumm >;
-  orders["descending"] = &Tree< int, std::string >::traverseRnL< KeySumm >;
-  orders["breadth"] = &Tree< int, std::string >::traverseBreadth< KeySumm >;
+  orders["ascending"] = &Tree< long long, std::string >::traverseLnR< KeySumm >;
+  orders["descending"] = &Tree< long long, std::string >::traverseRnL< KeySumm >;
+  orders["breadth"] = &Tree< long long, std::string >::traverseBreadth< KeySumm >;
 
   KeySumm result;
   try

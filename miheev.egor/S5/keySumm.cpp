@@ -7,16 +7,16 @@ miheev::KeySumm::KeySumm():
   values("")
 {}
 
-void miheev::KeySumm::operator()(const std::pair< const int, std::string >& keyValue)
+void miheev::KeySumm::operator()(const std::pair< const long long, std::string >& keyValue)
 {
   bool overflowIsPossible = result > 0 && keyValue.first > 0;
-  bool overflow = std::numeric_limits< int >::max() - result < keyValue.first;
+  bool overflow = std::numeric_limits< long long >::max() - result < keyValue.first;
   if (overflowIsPossible && overflow) //overflow
   {
     throw std::overflow_error("calculating sum of case encounter overflow");
   }
   bool underflowIsPossbile = result < 0 && keyValue.first < 0;
-  bool underflow = std::numeric_limits< int >::min() - result > keyValue.first;
+  bool underflow = std::numeric_limits< long long >::min() - result > keyValue.first;
   if (underflowIsPossbile && underflow) //underflow
   {
     throw std::underflow_error("calculating sum of case encounter underflow");

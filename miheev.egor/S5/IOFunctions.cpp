@@ -2,7 +2,7 @@
 
 void miheev::readTree(std::istream& in, tree_t& container)
 {
-  int tempKey = 0;
+  long long tempKey = 0;
   std::string tempValue = "";
   while (!in.eof())
   {

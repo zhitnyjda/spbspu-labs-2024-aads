@@ -6,7 +6,7 @@
 
 namespace miheev
 {
-  using tree_t = Tree< int, std::string >;
+  using tree_t = Tree< long long, std::string >;
   void readTree(std::istream&, tree_t&);
 }
 

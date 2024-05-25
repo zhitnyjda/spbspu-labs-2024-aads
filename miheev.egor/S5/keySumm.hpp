@@ -11,10 +11,10 @@ namespace miheev
   public:
     KeySumm();
     ~KeySumm() = default;
-    void operator()(const std::pair< const int, std::string >& keyValue);
+    void operator()(const std::pair< const long long, std::string >& keyValue);
     std::string getResults();
   private:
-    int result = 0;
+    long long result = 0;
     std::string values;
   };
 }
