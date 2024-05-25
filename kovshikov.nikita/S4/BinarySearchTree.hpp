@@ -21,9 +21,11 @@ namespace kovshikov
     Compare comp;
 
     bool isEmpty() const noexcept;
-    size_t getSize(); //нужно через итераторы сделать(пока не реализовано)
+    size_t getSize() const noexcept;
 
-    void insert(const Key& key, const Value& value);
+    Iterator find(const Key& key);
+
+    void insert(const Key& key, const Value& value); //не особо нравится сигнатура
 
     Iterator end() const noexcept;
     Iterator begin() const noexcept;
@@ -330,6 +332,42 @@ template< typename Key, typename Value, typename Compare >
 bool kovshikov::Tree< Key, Value, Compare >::isEmpty() const noexcept
 {
   return (root_ == nullptr) ? true : false;
+}
+
+template< typename Key, typename Value, typename Compare >
+size_t kovshikov::Tree< Key, Value, Compare >::getSize() const noexcept
+{
+  ConstIterator cstart = this->cbegin;
+  ConstIterator cfinish = this->cend;
+  size_t size = 0;
+  while(cstart != cfinish)
+  {
+    size += 1;
+  }
+  return size;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, Value, Compare >::find(const Key& key)
+{
+  bool isFind = false;
+  Node* current = root_;
+  while(current != nullptr)
+  {
+    if(current -> element_.first == key)
+    {
+      return Iterator(current, root_);
+    }
+    else if(comp(key, current -> element_.first))
+    {
+      current = current -> left;
+    }
+    else
+    {
+      current = current -> right;
+    }
+  }
+  return (isFind == true) ? Iterator(current, root_) : end();
 }
 
 template< typename Key, typename Value, typename Compare >
