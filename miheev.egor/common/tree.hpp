@@ -1315,6 +1315,27 @@ PairPred miheev::Tree< Key, Value, Comparator >::ctraverseLnR(PairPred p) const
 
 template< typename Key, typename Value, typename Comparator >
 template< typename PairPred >
+PairPred miheev::Tree< Key, Value, Comparator >::traverseLnR(PairPred p)
+{
+  Stack< Tree* > stack;
+  Tree* current = this;
+  while (current || !stack.empty())
+  {
+    while (current)
+    {
+      stack.push(current);
+      current = current->left_;
+    }
+    current = stack.top();
+    stack.pop();
+    p(*current->pair_);
+    current = current->right_;
+  }
+  return p;
+}
+
+template< typename Key, typename Value, typename Comparator >
+template< typename PairPred >
 PairPred miheev::Tree< Key, Value, Comparator >::ctraverseRnL(PairPred p) const
 {
   Stack< const Tree* > stack;
@@ -1336,10 +1357,54 @@ PairPred miheev::Tree< Key, Value, Comparator >::ctraverseRnL(PairPred p) const
 
 template< typename Key, typename Value, typename Comparator >
 template< typename PairPred >
+PairPred miheev::Tree< Key, Value, Comparator >::traverseRnL(PairPred p)
+{
+  Stack< Tree* > stack;
+  Tree* current = this;
+  while (current || !stack.empty())
+  {
+    while (current)
+    {
+      stack.push(current);
+      current = current->right_;
+    }
+    current = stack.top();
+    stack.pop();
+    p(*current->pair_);
+    current = current->left_;
+  }
+  return p;
+}
+
+template< typename Key, typename Value, typename Comparator >
+template< typename PairPred >
 PairPred miheev::Tree< Key, Value, Comparator >::ctraverseBreadth(PairPred p) const
 {
   Queue< Tree * > queue;
   const Tree* current = this;
+  while (current || !queue.empty())
+  {
+    if (current->left_)
+    {
+      queue.push(current->left_);
+    }
+    if (current->right_)
+    {
+      queue.push(current->right_);
+    }
+    p(*current->pair_);
+    current = queue.empty() ? nullptr : queue.front();
+    queue.pop();
+  }
+  return p;
+}
+
+template< typename Key, typename Value, typename Comparator >
+template< typename PairPred >
+PairPred miheev::Tree< Key, Value, Comparator >::traverseBreadth(PairPred p)
+{
+  Queue< Tree * > queue;
+  Tree* current = this;
   while (current || !queue.empty())
   {
     if (current->left_)
