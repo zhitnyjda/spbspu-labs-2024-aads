@@ -26,5 +26,17 @@ namespace taskaev
       size_t height_;
       std::pair< Key, Value > data_;
     };
+    BSTree();
+    BSTree(const BSTree& other) = default;
+    BSTree(BSTree&& other) = default;
+    ~BSTree();
+
+    bool empty() const noexcept;
+    void clear() noexcept;
+    size_t size() const noexcept;
+  private:
+    Node* root_;
+    Comparator comp_;
+    size_t size_;
   };
 }
