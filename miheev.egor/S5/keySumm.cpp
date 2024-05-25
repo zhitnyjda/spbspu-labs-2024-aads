@@ -11,13 +11,13 @@ void miheev::KeySumm::operator()(const std::pair< const long long, std::string >
 {
   bool overflowIsPossible = result > 0 && keyValue.first > 0;
   bool overflow = std::numeric_limits< long long >::max() - result < keyValue.first;
-  if (overflowIsPossible && overflow) //overflow
+  if (overflowIsPossible && overflow)
   {
     throw std::overflow_error("calculating sum of case encounter overflow");
   }
   bool underflowIsPossbile = result < 0 && keyValue.first < 0;
   bool underflow = std::numeric_limits< long long >::min() - result > keyValue.first;
-  if (underflowIsPossbile && underflow) //underflow
+  if (underflowIsPossbile && underflow)
   {
     throw std::underflow_error("calculating sum of case encounter underflow");
   }

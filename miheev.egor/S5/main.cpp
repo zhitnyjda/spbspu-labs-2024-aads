@@ -4,7 +4,6 @@
 #include <functional>
 #include "IOFunctions.hpp"
 #include "keySumm.hpp"
-#include <limits> //debug
 
 int main(int argc, char* argv[])
 {
@@ -38,7 +37,7 @@ int main(int argc, char* argv[])
   KeySumm result;
   try
   {
-    result = orders.at(argv[1])(&data, KeySumm()); // TODO: возмжоно получится убрать один из параметров
+    result = orders.at(argv[1])(&data, KeySumm());
   }
   catch (const std::out_of_range& e)
   {
