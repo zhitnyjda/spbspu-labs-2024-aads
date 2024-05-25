@@ -47,33 +47,8 @@ void sobolevsky::getPrint(std::istream &in, std::ostream &out, AVLtree< std::str
   }
 }
 
-void sobolevsky::getComplement(std::istream &in, AVLtree< std::string, AVLtree< int, std::string, int >,  int > &data)
+void sobolevsky::checkName(AVLtree< std::string, AVLtree< int, std::string, int >,  int > &data, AVLtree< int, std::string, int > &newTree, std::string newName)
 {
-  std::string newName;
-  std::string name1;
-  std::string name2;
-  in >> newName >> name1 >> name2;
-  AVLtree< int, std::string, int > newTree;
-  if (data.at(name1).size() == 0 || data.at(name2).size() == 0)
-  {
-    if (data.find(newName) != data.end())
-    {
-      data.at(newName).swap(newTree);
-      newTree.clear();
-    }
-    else
-    {
-      data.insert(std::make_pair(newName, newTree));
-    }
-    return;
-  }
-  for (AVLtree< int, std::string, int >::ConstIterator iter(data.at(name1).cbegin()); iter != data.at(name1).cend(); iter++)
-  {
-    if (data.at(name2).find(iter->first) == data.at(name2).end())
-    {
-      newTree.insert(std::make_pair(iter->first, iter->second));
-    }
-  }
   if (data.find(newName) != data.end())
   {
     data.at(newName).swap(newTree);
@@ -85,6 +60,29 @@ void sobolevsky::getComplement(std::istream &in, AVLtree< std::string, AVLtree< 
   }
 }
 
+void sobolevsky::getComplement(std::istream &in, AVLtree< std::string, AVLtree< int, std::string, int >,  int > &data)
+{
+  std::string newName;
+  std::string name1;
+  std::string name2;
+  in >> newName >> name1 >> name2;
+  AVLtree< int, std::string, int > newTree;
+  if (data.at(name1).size() == 0 || data.at(name2).size() == 0)
+  {}
+  else
+  {
+    for (AVLtree< int, std::string, int >::ConstIterator iter(data.at(name1).cbegin()); iter != data.at(name1).cend(); iter++)
+    {
+      if (data.at(name2).find(iter->first) == data.at(name2).end())
+      {
+        newTree.insert(std::make_pair(iter->first, iter->second));
+      }
+    }
+  }
+
+  checkName(data, newTree, newName);
+}
+
 void sobolevsky::getIntersect(std::istream &in, AVLtree< std::string, AVLtree< int, std::string, int >,  int > &data)
 {
   std::string newName;
@@ -93,34 +91,19 @@ void sobolevsky::getIntersect(std::istream &in, AVLtree< std::string, AVLtree< i
   in >> newName >> name1 >> name2;
   AVLtree< int, std::string, int > newTree;
   if (data.at(name1).size() == 0 || data.at(name2).size() == 0)
-  {
-    if (data.find(newName) != data.end())
-    {
-      data.at(newName).swap(newTree);
-      newTree.clear();
-    }
-    else
-    {
-      data.insert(std::make_pair(newName, newTree));
-    }
-    return;
-  }
-  for (AVLtree< int, std::string, int >::ConstIterator iter(data.at(name1).cbegin()); iter != data.at(name1).cend(); iter++)
-  {
-    if (data.at(name2).find(iter->first) != data.at(name2).end())
-    {
-      newTree.insert(std::make_pair(iter->first, iter->second));
-    }
-  }
-  if (data.find(newName) != data.end())
-  {
-    data.at(newName).swap(newTree);
-    newTree.clear();
-  }
+  {}
   else
   {
-    data.insert(std::make_pair(newName, newTree));
+    for (AVLtree< int, std::string, int >::ConstIterator iter(data.at(name1).cbegin()); iter != data.at(name1).cend(); iter++)
+    {
+      if (data.at(name2).find(iter->first) != data.at(name2).end())
+      {
+        newTree.insert(std::make_pair(iter->first, iter->second));
+      }
+    }
   }
+
+  checkName(data, newTree, newName);
 }
 
 void sobolevsky::getUnion(std::istream &in, AVLtree< std::string, AVLtree< int, std::string, int >,  int > &data)
@@ -162,13 +145,5 @@ void sobolevsky::getUnion(std::istream &in, AVLtree< std::string, AVLtree< int, 
     }
   }
 
-  if (data.find(newName) != data.end())
-  {
-    data.at(newName).swap(newTree);
-    newTree.clear();
-  }
-  else
-  {
-    data.insert(std::make_pair(newName, newTree));
-  }
+  checkName(data, newTree, newName);
 }
