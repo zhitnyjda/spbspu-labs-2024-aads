@@ -1,6 +1,7 @@
 #ifndef TREE_HPP
 #define TREE_HPP
 #include <utility>
+#include <iostream>
 #include <stdexcept>
 #include <functional>
 
@@ -11,6 +12,7 @@ namespace zheleznyakov {
     using data_t = typename std::pair< Key, Value >;
 
     Tree();
+    Tree(const Tree & other);
     ~Tree() = default;
 
     size_t size() const;
@@ -23,14 +25,15 @@ namespace zheleznyakov {
     struct Node
     {
       Node(
-        Node * parent = nullptr,
-        Node * left = nullptr,
-        Node * right = nullptr
+        Node * newParent = nullptr,
+        Node * newLeft = nullptr,
+        Node * newRight = nullptr
       ):
-        parent{parent},
-        left{left},
-        right{right}
+        parent(newParent),
+        left(newLeft),
+        right(newRight)
       {}
+      ~Node() = default;
 
       data_t data;
       Node * parent;
@@ -40,8 +43,35 @@ namespace zheleznyakov {
 
     Node * root_;
 
-    size_t size(Node* node) const;
+    size_t size(Node * node) const;
   };
+}
+
+template < typename Key, typename Value, typename Compare >
+zheleznyakov::Tree< Key, Value, Compare >::Tree(const Tree & other):
+  root_(nullptr)
+{
+  Node * node_ = other.root_;
+  while (node_ != nullptr)
+  {
+    push(node_->data.first, node_->data.second);
+    if (node_->right != nullptr)
+    {
+      node_ = node_->right;
+      while (node_->left != nullptr)
+      {
+        node_ = node_->left;
+      }
+    }
+    else
+    {
+      while (node_->parent != nullptr && node_ == node_->parent->right)
+      {
+        node_ = node_->parent;
+      }
+      node_ = node_->parent;
+    }
+  }
 }
 
 template < typename Key, typename Value, typename Compare >
