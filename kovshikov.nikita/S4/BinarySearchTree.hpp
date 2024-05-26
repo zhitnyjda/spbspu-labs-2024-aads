@@ -22,12 +22,15 @@ namespace kovshikov
     class ConstIterator;
 
     using Pair = std::pair< Key, Value >;
+    using Range = std::pair< Iterator, Iterator >;
     Compare comp;
 
     bool isEmpty() const noexcept;
     size_t getSize() const noexcept;
 
-    Iterator find(const Key& key);
+    Iterator find(const Key& key) const;
+    size_t count(const Key& key) const;
+    Range getEqualRange(const Key& key) const;
 
     void insert(const Key& key, const Value& value);
     void insert(Pair& pair);
@@ -372,7 +375,7 @@ size_t kovshikov::Tree< Key, Value, Compare >::getSize() const noexcept
 }
 
 template< typename Key, typename Value, typename Compare >
-typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, Value, Compare >::find(const Key& key)
+typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, Value, Compare >::find(const Key& key) const
 {
   Node* current = root_;
   while(current != nullptr)
@@ -391,6 +394,34 @@ typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, 
     }
   }
   return end();
+}
+
+template< typename Key, typename Value, typename Compare >
+size_t kovshikov::Tree< Key, Value, Compare >::count(const Key& key) const
+{
+  if(find(key) == end())
+  {
+    return 0;
+  }
+  else
+  {
+    return 1;
+  }
+}
+
+template< typename Key, typename Value, typename Compare >
+typename kovshikov::Tree< Key, Value, Compare >::Range kovshikov::Tree< Key, Value, Compare >::getEqualRange(const Key& key) const
+{
+  if(find(key) != begin())
+  {
+    Iterator start = find(key);
+    Iterator finish = start + 1;
+    return std::make_pair(start, finish);
+  }
+  else
+  {
+    return std::make_pair(end(), end());
+  }
 }
 
 template< typename Key, typename Value, typename Compare >
