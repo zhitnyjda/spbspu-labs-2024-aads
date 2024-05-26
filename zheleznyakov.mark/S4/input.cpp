@@ -1,0 +1,39 @@
+#include "input.hpp"
+#include <iostream>
+#include <string>
+
+std::string zheleznyakov::extractFirstWord(std::string & str)
+{
+  size_t pos = str.find(' ');
+  if (pos == std::string::npos) {
+    std::string firstWord = str;
+    str.clear();
+    return firstWord;
+  }
+  std::string firstWord = str.substr(0, pos);
+  str = str.substr(pos + 1);
+  return firstWord;
+}
+
+void zheleznyakov::readDictContents(std::string line, dict_t & dict)
+{
+  while (!line.empty())
+  {
+    int key = std::stoi(extractFirstWord(line));
+    std::string value = extractFirstWord(line);
+    std::cout << key << ' ' << value << '\n';
+    dict.insert(key, value);
+  }
+}
+
+void zheleznyakov::readDict(std::string line, dicts_t & dicts)
+{
+  if (line.empty())
+  {
+    return;
+  }
+  std::string currentTitle = extractFirstWord(line);
+  dict_t currentDict;
+  readDictContents(line, currentDict);
+  dicts.insert(currentTitle, currentDict);
+}

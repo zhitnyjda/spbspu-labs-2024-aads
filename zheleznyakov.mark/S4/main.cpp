@@ -2,6 +2,7 @@
 #include <fstream>
 #include <limits>
 #include "tree.hpp"
+#include "input.hpp"
 #include "commands.hpp"
 
 int main(int argc, char * argv[])
@@ -21,11 +22,17 @@ int main(int argc, char * argv[])
     return 2;
   }
 
-  dicts_t dicts;
-  dicts.insert("dict1", {});
-
   Tree< std::string, std::function< void(std::istream &, std::ostream &, dicts_t &) > > cmds;
   cmds["print"] = commands::print;
+  
+  dicts_t dicts;
+
+  while (!in.eof())
+  {
+    std::string currentLine = "";
+    std::getline(in, currentLine);
+    readDict(currentLine, dicts);
+  }
 
   std::string curremtCmd = "";
   while (std::cin >> curremtCmd)
