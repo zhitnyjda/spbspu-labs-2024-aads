@@ -26,8 +26,8 @@ int main() {
 
     zheleznyakov::Tree<std::string, subtree_t*> uptree;
 
-    uptree.push("mega1", &tree1);
-    uptree.push("mega2", &tree2);
+    uptree["mega1"] = &tree1;
+    uptree["mega2"] = &tree2;
 
     std::cout << tree2["key14"] << '\n';
 

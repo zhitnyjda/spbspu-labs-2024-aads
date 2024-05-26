@@ -29,7 +29,7 @@ namespace zheleznyakov
     Value & operator[](const Key& key);
     const Value & operator[](const Key& key) const;
 
-    void push(const Key &, const Value &);
+    void insert(const Key &, const Value &);
     void clear();
 
     Iterator begin();
@@ -81,7 +81,7 @@ zheleznyakov::Tree< Key, Value, Compare >::Tree(const Tree & other):
   Node * node_ = other.root_;
   while (node_ != nullptr)
   {
-    push(node_->data.first, node_->data.second);
+    insert(node_->data.first, node_->data.second);
     if (node_->right != nullptr)
     {
       node_ = node_->right;
@@ -110,7 +110,7 @@ zheleznyakov::Tree< Key, Value, Compare > & zheleznyakov::Tree< Key, Value, Comp
     Node * node_ = other.root_;
     while (node_ != nullptr)
     {
-      push(node_->data.first, node_->data.second);
+      insert(node_->data.first, node_->data.second);
       if (node_->right != nullptr)
       {
         node_ = node_->right;
@@ -323,7 +323,7 @@ Value zheleznyakov::Tree< Key, Value, Compare >::at(const Key & k)
 }
 
 template < typename Key, typename Value, typename Compare >
-void zheleznyakov::Tree< Key, Value, Compare >::push(const Key& k, const Value& v)
+void zheleznyakov::Tree< Key, Value, Compare >::insert(const Key& k, const Value& v)
 {
   Node* new_node = new Node();
   new_node->data = std::make_pair(k, v);
