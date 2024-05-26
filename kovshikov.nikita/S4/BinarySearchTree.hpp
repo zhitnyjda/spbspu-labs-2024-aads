@@ -26,7 +26,7 @@ namespace kovshikov
 
     Iterator find(const Key& key);
 
-    void insert(const Key& key, const Value& value); //не особо нравится сигнатура
+    void insert(const Key& key, const Value& value);
 
     Iterator end() const noexcept;
     Iterator begin() const noexcept;
@@ -392,11 +392,11 @@ size_t kovshikov::Tree< Key, Value, Compare >::getHeight(Node* node)
 template< typename Key, typename Value, typename Compare >
 size_t kovshikov::Tree< Key, Value, Compare >::getDifference(Node* node)
 {
-  return getHeight(node -> left_) - getHeight(node -> right_); //left - right
+  return getHeight(node -> left_) - getHeight(node -> right_);
 }
 
 template< typename Key, typename Value, typename Compare >
-void kovshikov::Tree< Key, Value, Compare >::updateHeight(Node* node) // идем вверх по родителям и обновляем высоту
+void kovshikov::Tree< Key, Value, Compare >::updateHeight(Node* node)
 {
   while(node != nullptr)
   {
@@ -405,8 +405,8 @@ void kovshikov::Tree< Key, Value, Compare >::updateHeight(Node* node) // иде�
   }
 }
 
-template< typename Key, typename Value, typename Compare >          //нужно обновлять height_
-void kovshikov::Tree< Key, Value, Compare >::RightRight(Node* node) // предпологаю node != nullptr
+template< typename Key, typename Value, typename Compare >
+void kovshikov::Tree< Key, Value, Compare >::RightRight(Node* node)
 {
   Node* bigFather = node -> father_;
   Node* newFather = node -> left_;
@@ -432,7 +432,7 @@ void kovshikov::Tree< Key, Value, Compare >::RightRight(Node* node) // пред�
   newFather -> right_ = node;
   node ->left_ = lastRight;
   lastRight -> father_ = node;
-  updateHeight(node); //обновив node мы обновим newFather, тк идем вверх
+  updateHeight(node);
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -463,7 +463,7 @@ void kovshikov::Tree< Key, Value, Compare >::LeftLeft(Node* node)
   newFather -> left_ = node;
   node -> right_ = lastLeft;
   lastLeft -> father_ = node;
-  updateHeight(node); //должно хватить обновления только этого узла
+  updateHeight(node);
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -521,7 +521,7 @@ void kovshikov::Tree< Key, Value, Compare >::balance(Node* node)
 template< typename Key, typename Value, typename Compare >
 void kovshikov::Tree< Key, Value, Compare >::insert(const Key& key, const Value& value)
 {
-  if(find(key) == end())//проверка на наличие ключа
+  if(find(key) == end())
   {
     Node* newNode = new Node(key, value);
     if(isEmpty())
