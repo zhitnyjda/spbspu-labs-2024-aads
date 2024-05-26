@@ -7,27 +7,29 @@ int main() {
     using subtree_t = zheleznyakov::Tree<std::string, int>;
 
     subtree_t tree1;
-    tree1.push("key5", 5);
-    tree1.push("key2", 2);
-    tree1.push("key4", 4);
-    tree1.push("key7", 7);
-    tree1.push("key6", 6);
-    tree1.push("key1", 1);
-    tree1.push("key3", 3);
+    tree1["key5"] = 5;
+    tree1["key2"] = 2;
+    tree1["key4"] = 4;
+    tree1["key7"] = 7;
+    tree1["key6"] = 6;
+    tree1["key1"] = 1;
+    tree1["key3"] = 3;
 
     subtree_t tree2;
-    tree2.push("key8", 8);
-    tree2.push("key9", 9);
-    tree2.push("key10", 10);
-    tree2.push("key11", 11);
-    tree2.push("key12", 12);
-    tree2.push("key13", 13);
-    tree2.push("key14", 14);
+    tree2["key8"] = 8;
+    tree2["key9"] = 9;
+    tree2["key10"] = 10;
+    tree2["key11"] = 11;
+    tree2["key12"] = 12;
+    tree2["key13"] = 13;
+    tree2["key14"] = 14;
 
     zheleznyakov::Tree<std::string, subtree_t*> uptree;
 
     uptree.push("mega1", &tree1);
     uptree.push("mega2", &tree2);
+
+    std::cout << tree2["key14"] << '\n';
 
     for (auto it = uptree.begin(); it != uptree.end(); ++it) {
       std::cout << "Key: " << it->first << "\nValues:\n";

@@ -26,6 +26,8 @@ namespace zheleznyakov
 
     Value at(const Key &);
 
+    Value & operator[](const Key& key);
+
     void push(const Key &, const Value &);
     void clear();
 
@@ -237,6 +239,48 @@ bool zheleznyakov::Tree< Key, Value, Compare >::empty() const
 {
   return root_ == nullptr;
 }
+
+template <typename Key, typename Value, typename Compare>
+Value& zheleznyakov::Tree<Key, Value, Compare>::operator[](const Key& key) {
+  Node* current = root_;
+  Node* parent = nullptr;
+
+  while (current != nullptr)
+  {
+    parent = current;
+    if (key == current->data.first)
+    {
+      return current->data.second;
+    }
+    else if (key < current->data.first)
+    {
+      current = current->left;
+    }
+    else
+    {
+      current = current->right;
+    }
+  }
+
+  current = new Node(parent, nullptr, nullptr);
+  current->data.first = key;
+  current->data.second = Value();
+  if (parent == nullptr)
+  {
+      root_ = current;
+  }
+  else if (key < parent->data.first)
+  {
+      parent->left = current;
+  }
+  else
+  {
+      parent->right = current;
+  }
+
+  return current->data.second;
+}
+
 
 template < typename Key, typename Value, typename Compare >
 Value zheleznyakov::Tree< Key, Value, Compare >::at(const Key & k)
