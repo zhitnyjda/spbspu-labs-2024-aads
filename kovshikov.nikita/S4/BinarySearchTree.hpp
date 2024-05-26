@@ -30,6 +30,7 @@ namespace kovshikov
     Iterator find(const Key& key);
 
     void insert(const Key& key, const Value& value);
+    void insert(Pair& pair);
     Value& operator[](const Key& key);
     Value& at(const Key& key);
 
@@ -572,6 +573,12 @@ void kovshikov::Tree< Key, Value, Compare >::insert(const Key& key, const Value&
 }
 
 template< typename Key, typename Value, typename Compare >
+void kovshikov::Tree< Key, Value, Compare >::insert(Pair& pair)
+{
+  insert(pair.first, pair.second);
+}
+
+template< typename Key, typename Value, typename Compare >
 Value& kovshikov::Tree< Key, Value, Compare >::operator[](const Key& key)
 {
   if(find(key) == end())
@@ -687,6 +694,21 @@ typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, 
   updateHeight(root_);
   balance(toBalance);
   return Iterator(changer, root_);
+}
+
+template< typename Key, typename Value, typename Compare >
+size_t kovshikov::Tree< Key, Value, Compare >::erase(const Key& key)
+{
+  Iterator iterator = find(key);
+  if(iterator == end())
+  {
+    return 0;
+  }
+  else
+  {
+    erase(iterator);
+    return 1;
+  }
 }
 
 #endif
