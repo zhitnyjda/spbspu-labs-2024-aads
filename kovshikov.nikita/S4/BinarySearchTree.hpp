@@ -39,7 +39,7 @@ namespace kovshikov
     size_t count(const Key& key) const;
     Range getEqualRange(const Key& key) const;
 
-    void insert(const Key& key, const Value& value);
+    void insert(const Key& key, const Value& value); //have Error
     void insert(Pair& pair);
     Value& operator[](const Key& key);
     Value& at(const Key& key);
@@ -60,7 +60,7 @@ namespace kovshikov
     Node* root_;
 
     size_t getHeight(Node* node);
-    size_t getDifference(Node* node);
+    long long getDifference(Node* node);
     void updateHeight(Node* node);
     void RightRight(Node* node);
     void LeftLeft(Node* node);
@@ -360,7 +360,7 @@ typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, 
   }
   while(current != nullptr)
   {
-    current = current -> right;
+    current = current -> right_;
   }
   current += 1;
   return Iterator(current, root_);
@@ -376,7 +376,7 @@ typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, 
   }
   while(current != nullptr)
   {
-    current = current -> left;
+    current = current -> left_;
   }
   return Iterator(current, root_);
 }
@@ -404,8 +404,8 @@ bool kovshikov::Tree< Key, Value, Compare >::isEmpty() const noexcept
 template< typename Key, typename Value, typename Compare >
 size_t kovshikov::Tree< Key, Value, Compare >::getSize() const noexcept
 {
-  ConstIterator cstart = this->cbegin;
-  ConstIterator cfinish = this->cend;
+  ConstIterator cstart = this->cbegin();
+  ConstIterator cfinish = this->cend();
   size_t size = 0;
   while(cstart != cfinish)
   {
@@ -475,7 +475,7 @@ size_t kovshikov::Tree< Key, Value, Compare >::getHeight(Node* node)
 }
 
 template< typename Key, typename Value, typename Compare >
-size_t kovshikov::Tree< Key, Value, Compare >::getDifference(Node* node)
+long long kovshikov::Tree< Key, Value, Compare >::getDifference(Node* node)
 {
   return getHeight(node -> left_) - getHeight(node -> right_);
 }
@@ -529,7 +529,7 @@ void kovshikov::Tree< Key, Value, Compare >::LeftLeft(Node* node)
 
   if(bigFather != nullptr)
   {
-    node -> father = newFather;
+    node -> father_ = newFather;
     if(comp(node -> element_.first, bigFather -> element_.first))
     {
       bigFather -> left_ = newFather;
@@ -556,7 +556,7 @@ typename kovshikov::Tree< Key, Value, Compare >::Node* kovshikov::Tree< Key, Val
 {
   while(node != nullptr)
   {
-    if(std::abs(getDifferense(node)) > 1)
+    if(std::abs(getDifference(node)) > 1)
     {
       return node;
     }
