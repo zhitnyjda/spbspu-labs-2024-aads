@@ -31,12 +31,16 @@ int main() {
     uptree["mega1"] = &tree1;
     uptree["mega2"] = &tree2;
 
-    std::cout << tree2["key14"] << '\n';
+    uptree.erase("mega2");
 
-    for (auto it = uptree.begin(); it != uptree.end(); ++it) {
+    std::cout << tree2["key1"] << '\n';
+
+    for (auto it = uptree.begin(); it != uptree.end(); ++it)
+    {
       std::cout << "Key: " << it->first << "\nValues:\n";
       auto subtree = it->second;
-      for (auto subit = subtree->begin(); subit != subtree->end(); ++subit) {
+      for (auto subit = subtree->begin(); subit != subtree->end(); ++subit)
+      {
         std::cout << subit->first << ' ';
       }
       std::cout << '\n';

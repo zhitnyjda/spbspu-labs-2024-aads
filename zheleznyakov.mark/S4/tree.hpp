@@ -1,7 +1,6 @@
 #ifndef TREE_HPP
 #define TREE_HPP
 #include <utility>
-#include <iostream>
 #include <stdexcept>
 #include <functional>
 
@@ -27,9 +26,10 @@ namespace zheleznyakov
 
     Value at(const Key &);
     void insert(const Key &, const Value &);
+    void erase(const Key &);
 
-    Value & operator[](const Key& key);
-    const Value & operator[](const Key& key) const;
+    Value & operator[](const Key &);
+    const Value & operator[](const Key &) const;
 
     void swap(Tree &);
     void clear();
@@ -68,6 +68,8 @@ namespace zheleznyakov
     Node * rotateRight(Node *);
     Node * rotateLeft(Node *);
     Node * balance(Node *);
+    Node * eraseNode(Node *, const Key &);
+    Node * minValueNode(Node *);
   };
 }
 
@@ -484,4 +486,61 @@ void zheleznyakov::Tree< Key, Value, Compare >::swap(Tree & other)
   root_ = other.root_;
   other.root_ = temp;
 }
+
+template < typename Key, typename Value, typename Compare >
+void zheleznyakov::Tree<Key, Value, Compare>::erase(const Key & key)
+{
+  root_ = eraseNode(root_, key);
+}
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree<Key, Value, Compare>::Node * zheleznyakov::Tree<Key, Value, Compare>::eraseNode(Node* node, const Key& key)
+{
+  if (node == nullptr)
+  {
+    return node;
+  }
+
+  if (key < node->data.first)
+  {
+    node->left = eraseNode(node->left, key);
+  }
+  else if (key > node->data.first)
+  {
+    node->right = eraseNode(node->right, key);
+  }
+  else
+  {
+    if (node->left == nullptr)
+    {
+      Node* temp = node->right;
+      delete node;
+      return temp;
+    }
+    else if (node->right == nullptr)
+    {
+      Node* temp = node->left;
+      delete node;
+      return temp;
+    }
+
+    Node* temp = minValueNode(node->right);
+    node->data = temp->data;
+    node->right = eraseNode(node->right, temp->data.first);
+  }
+
+  return node;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree<Key, Value, Compare>::Node * zheleznyakov::Tree<Key, Value, Compare>::minValueNode(Node * node)
+{
+  Node * current = node;
+  while (current->left != nullptr)
+  {
+    current = current->left;
+  }
+  return current;
+}
+
 #endif
