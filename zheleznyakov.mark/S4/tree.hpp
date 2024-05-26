@@ -9,6 +9,8 @@ namespace zheleznyakov {
   template < typename Key, typename Value, typename Compare = std::less< Key > >
   class Tree {
   public:
+    class Iterator;
+
     using data_t = typename std::pair< Key, Value >;
 
     Tree();
@@ -60,6 +62,11 @@ namespace zheleznyakov {
 }
 
 template < typename Key, typename Value, typename Compare >
+zheleznyakov::Tree< Key, Value, Compare >::Tree():
+  root_{nullptr}
+{}
+
+template < typename Key, typename Value, typename Compare >
 zheleznyakov::Tree< Key, Value, Compare >::Tree(const Tree & other):
   root_(nullptr)
 {
@@ -84,12 +91,6 @@ zheleznyakov::Tree< Key, Value, Compare >::Tree(const Tree & other):
       node_ = node_->parent;
     }
   }
-}
-
-template < typename Key, typename Value, typename Compare >
-zheleznyakov::Tree< Key, Value, Compare >::~Tree()
-{
-  clear(root_);
 }
 
 template < typename Key, typename Value, typename Compare >
@@ -124,8 +125,39 @@ zheleznyakov::Tree< Key, Value, Compare > & zheleznyakov::Tree< Key, Value, Comp
 }
 
 template < typename Key, typename Value, typename Compare >
-zheleznyakov::Tree< Key, Value, Compare >::Tree():
-  root_{nullptr}
+zheleznyakov::Tree< Key, Value, Compare >::~Tree()
+{
+  clear(root_);
+}
+
+template < typename Key, typename Value, typename Compare >
+class zheleznyakov::Tree< Key, Value, Compare >::Iterator {
+public:
+  Iterator();
+  Iterator(Node *);
+  Iterator(const Iterator&) = default;
+  ~Iterator() = default;
+
+  Iterator & operator++();
+  Iterator operator++(int);
+
+  bool operator==(const Iterator &) const;
+  bool operator!=(const Iterator &) const;
+
+  data_t & operator*();
+  data_t * operator->();
+private:
+  Node * current_;
+};
+
+template < typename Key, typename Value, typename Compare >
+zheleznyakov::Tree< Key, Value, Compare >::Iterator::Iterator():
+  current_(nullptr)
+{}
+
+template < typename Key, typename Value, typename Compare >
+zheleznyakov::Tree< Key, Value, Compare >::Iterator::Iterator(Node * newCurrent):
+  current_(newCurrent)
 {}
 
 template < typename Key, typename Value, typename Compare >
