@@ -30,6 +30,10 @@ namespace kovshikov
     Value& operator[](const Key& key);
     Value& at(const Key& key);
 
+    void clear();
+
+    void swap(Tree& other);
+
     Iterator end() const noexcept;
     Iterator begin() const noexcept;
 
@@ -47,6 +51,8 @@ namespace kovshikov
 
     Node* checkBalance(Node* node);
     void balance(Node* node);
+
+    void clear(Node* node);
   };
  // using Tree = BinarySearchTree;
 }
@@ -585,6 +591,34 @@ Value& kovshikov::Tree< Key, Value, Compare >::at(const Key& key)
   {
     return find(key) -> second;
   }
+}
+
+template< typename Key, typename Value, typename Compare >
+void kovshikov::Tree< Key, Value, Compare >::clear(Node* node)
+{
+  if(node != nullptr)
+  {
+    clear(node -> left_);
+    clear(node -> right_);
+    delete node;
+  }
+}
+
+template< typename Key, typename Value, typename Compare >
+void kovshikov::Tree< Key, Value, Compare >::clear()
+{
+  if(!isEmpty())
+  {
+    clear(root_);
+  }
+  root_ = nullptr;
+}
+
+template< typename Key, typename Value, typename Compare >
+void kovshikov::Tree< Key, Value, Compare >::swap(Tree& other)
+{
+  std::swap(comp, other.comp);
+  std::swap(root_, other.root_);
 }
 
 #endif
