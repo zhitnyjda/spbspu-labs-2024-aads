@@ -160,6 +160,36 @@ zheleznyakov::Tree< Key, Value, Compare >::Iterator::Iterator(Node * newCurrent)
   current_(newCurrent)
 {}
 
+template <typename Key, typename Value, typename Compare>
+typename zheleznyakov::Tree<Key, Value, Compare>::Iterator & zheleznyakov::Tree<Key, Value, Compare>::Iterator::operator++()
+{
+  if (current_ == nullptr) {
+    return *this;
+  }
+  if (current_->right != nullptr) {
+    current_ = current_->right;
+    while (current_->left != nullptr) {
+      current_ = current_->left;
+    }
+  } else {
+    Node * parent = current_->parent;
+    while (parent != nullptr && current_ == parent->right) {
+      current_ = parent;
+      parent = parent->parent;
+    }
+    current_ = parent;
+  }
+  return *this;
+}
+
+template <typename Key, typename Value, typename Compare>
+typename zheleznyakov::Tree<Key, Value, Compare>::Iterator zheleznyakov::Tree<Key, Value, Compare>::Iterator::operator++(int)
+{
+  Iterator temp = *this;
+  ++(*this);
+  return temp;
+}
+
 template < typename Key, typename Value, typename Compare >
 size_t zheleznyakov::Tree< Key, Value, Compare >::size(Node* node) const
 {
