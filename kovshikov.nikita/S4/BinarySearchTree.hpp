@@ -42,6 +42,9 @@ namespace kovshikov
     void updateHeight(Node* node);
     void RightRight(Node* node);
     void LeftLeft(Node* node);
+
+    Node* checkBalance(Node* node);
+    void balance(Node* node);
   };
  // using Tree = BinarySearchTree;
 }
@@ -390,7 +393,7 @@ size_t kovshikov::Tree< Key, Value, Compare >::getHeight(Node* node)
 template< typename Key, typename Value, typename Compare >
 size_t kovshikov::Tree< Key, Value, Compare >::getDifference(Node* node)
 {
-  return getHeight(node -> right_) - getHeight(node -> left_);
+  return getHeight(node -> left_) - getHeight(node -> right_); //left - right
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -462,6 +465,58 @@ void kovshikov::Tree< Key, Value, Compare >::LeftLeft(Node* node)
   node -> right_ = lastLeft;
   lastLeft -> father_ = node;
   updateHeight(node); //должно хватить обновления только этого узла
+}
+
+template< typename Key, typename Value, typename Compare >
+typename kovshikov::Tree< Key, Value, Compare >::Node* kovshikov::Tree< Key, Value, Compare >::checkBalance(Node* node)
+{
+  while(node != nullptr)
+  {
+    if(std::abs(getDifferense(node)) > 1)
+    {
+      return node;
+    }
+    else
+    {
+      node = node -> father_;
+    }
+  }
+  return node;
+}
+
+template< typename Key, typename Value, typename Compare >
+void kovshikov::Tree< Key, Value, Compare >::balance(Node* node)
+{
+  bool isBalance = false;
+  while(isBalance == false)
+  {
+    if(checkBalance(node) == nullptr)
+    {
+      isBalance = true;
+    }
+    else
+    {
+      if(getDifference(node) < -1 && getDifference(node -> right_) <= 0)
+      {
+        LeftLeft(node);
+      }
+      else if(getDifference(node) > 1 && getDifference(node -> left_) >= 0)
+      {
+        RightRight(node);
+      }
+      else if(getDifference(node) < -1 && getDifference(node -> right_) > 0)
+      {
+        RightRight(node -> right_);
+        LeftLeft(node);
+      }
+      else if(getDifference(node) > 1 && getDifference(node -> left_) < 0)
+      {
+        LeftLeft(node -> left_);
+        RightRight(node);
+      }
+    }
+    node = node -> father_;
+  }
 }
 
 template< typename Key, typename Value, typename Compare >
