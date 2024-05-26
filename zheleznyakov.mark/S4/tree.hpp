@@ -208,6 +208,18 @@ bool zheleznyakov::Tree<Key, Value, Compare>::Iterator::operator!=(const Iterato
   return current_ != other.current_;
 }
 
+template <typename Key, typename Value, typename Compare>
+typename zheleznyakov::Tree<Key, Value, Compare>::data_t & zheleznyakov::Tree<Key, Value, Compare>::Iterator::operator*()
+{
+  return current_->data;
+}
+
+template <typename Key, typename Value, typename Compare>
+typename zheleznyakov::Tree<Key, Value, Compare>::data_t * zheleznyakov::Tree<Key, Value, Compare>::Iterator::operator->()
+{
+  return &current_->data;
+}
+
 template < typename Key, typename Value, typename Compare >
 size_t zheleznyakov::Tree< Key, Value, Compare >::size(Node* node) const
 {
