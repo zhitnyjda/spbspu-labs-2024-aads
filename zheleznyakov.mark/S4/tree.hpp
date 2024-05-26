@@ -49,10 +49,12 @@ namespace zheleznyakov {
 
     Node * root_;
 
-    size_t size(Node * node) const;
-    void clear(Node * node);
-    size_t getHeight(Node* node);
-    int getBalance(Node* node);
+    size_t size(Node *) const;
+    void clear(Node *);
+    size_t getHeight(Node *);
+    int getBalance(Node *);
+    Node * rotateRight(Node *);
+    Node * rotateLeft(Node *);
   };
 }
 
@@ -235,5 +237,27 @@ size_t zheleznyakov::Tree< Key, Value, Compare >::getHeight(Node* node) {
 template <typename Key, typename Value, typename Compare>
 int zheleznyakov::Tree< Key, Value, Compare >::getBalance(Node* node) {
   return node == nullptr ? 0 : getHeight(node->left) - getHeight(node->right);
+}
+
+template <typename Key, typename Value, typename Compare>
+typename zheleznyakov::Tree< Key, Value, Compare >::Node * zheleznyakov::Tree< Key, Value, Compare >::rotateRight(Node * y) {
+  Node* x = y->left;
+  Node* T = x->right;
+  x->right = y;
+  y->left = T;
+  y->height = std::max(getHeight(y->left), getHeight(y->right)) + 1;
+  x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
+  return x;
+}
+
+template <typename Key, typename Value, typename Compare>
+typename zheleznyakov::Tree< Key, Value, Compare >::Node * zheleznyakov::Tree< Key, Value, Compare >::rotateLeft(Node * x) {
+  Node* y = x->right;
+  Node* T = y->left;
+  y->left = x;
+  x->right = T;
+  x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
+  y->height = std::max(getHeight(y->left), getHeight(y->right)) + 1;
+  return y;
 }
 #endif
