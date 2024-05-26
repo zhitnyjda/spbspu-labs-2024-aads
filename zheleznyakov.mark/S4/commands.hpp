@@ -1,5 +1,6 @@
 #ifndef COMMANDS_HPP
 #define COMMANDS_HPP
+#include <istream>
 #include "tree.hpp"
 
 namespace zheleznyakov

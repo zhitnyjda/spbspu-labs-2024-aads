@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
+#include <limits>
 #include "tree.hpp"
+#include "commands.hpp"
 
 int main(int argc, char * argv[])
 {
@@ -17,6 +19,26 @@ int main(int argc, char * argv[])
   {
     std::cerr << "Unable to read file\n";
     return 2;
+  }
+
+  dicts_t dicts;
+  dicts.insert("dict1", {});
+
+  Tree< std::string, std::function< void(std::istream &, std::ostream &, dicts_t &) > > cmds;
+  cmds["print"] = commands::print;
+
+  std::string curremtCmd = "";
+  while (std::cin >> curremtCmd)
+  {
+    try
+    {
+      cmds[curremtCmd](std::cin, std::cout, dicts);
+    }
+    catch (std::out_of_range &)
+    {
+      std::cin.clear();
+      std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+    }
   }
 
   return 0;
