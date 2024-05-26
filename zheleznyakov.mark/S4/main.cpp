@@ -32,10 +32,11 @@ int main(int argc, char * argv[])
   {
     try
     {
-      cmds[curremtCmd](std::cin, std::cout, dicts);
+      cmds.at(curremtCmd)(std::cin, std::cout, dicts);
     }
     catch (std::out_of_range &)
     {
+      outInvalidCommand(std::cout);
       std::cin.clear();
       std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
     }

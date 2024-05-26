@@ -12,5 +12,7 @@ namespace zheleznyakov
   {
     void print(std::istream &, std::ostream &, const dicts_t &);
   }
+
+  void outInvalidCommand(std::ostream &);
 }
 #endif
