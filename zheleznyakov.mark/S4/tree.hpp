@@ -29,6 +29,7 @@ namespace zheleznyakov
     Value & operator[](const Key& key);
     const Value & operator[](const Key& key) const;
 
+    void swap(Tree &);
     void insert(const Key &, const Value &);
     void clear();
 
@@ -169,8 +170,8 @@ zheleznyakov::Tree< Key, Value, Compare >::Iterator::Iterator(Node * newCurrent)
   current_(newCurrent)
 {}
 
-template <typename Key, typename Value, typename Compare>
-typename zheleznyakov::Tree<Key, Value, Compare>::Iterator & zheleznyakov::Tree<Key, Value, Compare>::Iterator::operator++()
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::Iterator & zheleznyakov::Tree< Key, Value, Compare >::Iterator::operator++()
 {
   if (current_ == nullptr) {
     return *this;
@@ -191,34 +192,34 @@ typename zheleznyakov::Tree<Key, Value, Compare>::Iterator & zheleznyakov::Tree<
   return *this;
 }
 
-template <typename Key, typename Value, typename Compare>
-typename zheleznyakov::Tree<Key, Value, Compare>::Iterator zheleznyakov::Tree<Key, Value, Compare>::Iterator::operator++(int)
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::Iterator zheleznyakov::Tree< Key, Value, Compare >::Iterator::operator++(int)
 {
   Iterator temp = *this;
   ++(*this);
   return temp;
 }
 
-template <typename Key, typename Value, typename Compare>
-bool zheleznyakov::Tree<Key, Value, Compare>::Iterator::operator==(const Iterator &other) const
+template < typename Key, typename Value, typename Compare >
+bool zheleznyakov::Tree< Key, Value, Compare >::Iterator::operator==(const Iterator &other) const
 {
   return current_ == other.current_;
 }
 
-template <typename Key, typename Value, typename Compare>
-bool zheleznyakov::Tree<Key, Value, Compare>::Iterator::operator!=(const Iterator &other) const
+template < typename Key, typename Value, typename Compare >
+bool zheleznyakov::Tree< Key, Value, Compare >::Iterator::operator!=(const Iterator &other) const
 {
   return current_ != other.current_;
 }
 
-template <typename Key, typename Value, typename Compare>
-typename zheleznyakov::Tree<Key, Value, Compare>::data_t & zheleznyakov::Tree<Key, Value, Compare>::Iterator::operator*()
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::data_t & zheleznyakov::Tree< Key, Value, Compare >::Iterator::operator*()
 {
   return current_->data;
 }
 
-template <typename Key, typename Value, typename Compare>
-typename zheleznyakov::Tree<Key, Value, Compare>::data_t * zheleznyakov::Tree<Key, Value, Compare>::Iterator::operator->()
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::data_t * zheleznyakov::Tree< Key, Value, Compare >::Iterator::operator->()
 {
   return &current_->data;
 }
@@ -241,8 +242,8 @@ bool zheleznyakov::Tree< Key, Value, Compare >::empty() const
   return root_ == nullptr;
 }
 
-template <typename Key, typename Value, typename Compare>
-Value& zheleznyakov::Tree<Key, Value, Compare>::operator[](const Key& key) {
+template < typename Key, typename Value, typename Compare >
+Value& zheleznyakov::Tree< Key, Value, Compare >::operator[](const Key& key) {
   Node* current = root_;
   Node* parent = nullptr;
 
@@ -282,8 +283,8 @@ Value& zheleznyakov::Tree<Key, Value, Compare>::operator[](const Key& key) {
   return current->data.second;
 }
 
-template <typename Key, typename Value, typename Compare>
-const Value & zheleznyakov::Tree<Key, Value, Compare>::operator[](const Key& key) const {
+template < typename Key, typename Value, typename Compare >
+const Value & zheleznyakov::Tree< Key, Value, Compare >::operator[](const Key& key) const {
   Node * current = root_;
   while (current != nullptr) {
     if (key == current->data.first) {
@@ -386,19 +387,19 @@ void zheleznyakov::Tree< Key, Value, Compare >::clear(Node * node)
   delete node;
 }
 
-template <typename Key, typename Value, typename Compare>
+template < typename Key, typename Value, typename Compare >
 size_t zheleznyakov::Tree< Key, Value, Compare >::getHeight(Node* node)
 {
   return node == nullptr ? 0 : node->height;
 }
 
-template <typename Key, typename Value, typename Compare>
+template < typename Key, typename Value, typename Compare >
 int zheleznyakov::Tree< Key, Value, Compare >::getBalance(Node* node)
 {
   return node == nullptr ? 0 : getHeight(node->left) - getHeight(node->right);
 }
 
-template <typename Key, typename Value, typename Compare>
+template < typename Key, typename Value, typename Compare >
 typename zheleznyakov::Tree< Key, Value, Compare >::Node * zheleznyakov::Tree< Key, Value, Compare >::rotateRight(Node * y)
 {
   Node* x = y->left;
@@ -410,7 +411,7 @@ typename zheleznyakov::Tree< Key, Value, Compare >::Node * zheleznyakov::Tree< K
   return x;
 }
 
-template <typename Key, typename Value, typename Compare>
+template < typename Key, typename Value, typename Compare >
 typename zheleznyakov::Tree< Key, Value, Compare >::Node * zheleznyakov::Tree< Key, Value, Compare >::rotateLeft(Node * x)
 {
   Node* y = x->right;
@@ -422,7 +423,7 @@ typename zheleznyakov::Tree< Key, Value, Compare >::Node * zheleznyakov::Tree< K
   return y;
 }
 
-template <typename Key, typename Value, typename Compare>
+template < typename Key, typename Value, typename Compare >
 typename zheleznyakov::Tree< Key, Value, Compare >::Node* zheleznyakov::Tree< Key, Value, Compare >::balance(Node * node)
 {
   if (node == nullptr)
@@ -451,8 +452,9 @@ typename zheleznyakov::Tree< Key, Value, Compare >::Node* zheleznyakov::Tree< Ke
   return node;
 }
 
-template <typename Key, typename Value, typename Compare>
-typename zheleznyakov::Tree<Key, Value, Compare>::Iterator zheleznyakov::Tree<Key, Value, Compare>::begin()
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::Iterator zheleznyakov::Tree< Key, Value, Compare >::begin()
 {
   Node* current = root_;
   while (current != nullptr && current->left != nullptr) {
@@ -461,9 +463,17 @@ typename zheleznyakov::Tree<Key, Value, Compare>::Iterator zheleznyakov::Tree<Ke
   return Iterator(current);
 }
 
-template <typename Key, typename Value, typename Compare>
-typename zheleznyakov::Tree<Key, Value, Compare>::Iterator zheleznyakov::Tree<Key, Value, Compare>::end()
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::Iterator zheleznyakov::Tree< Key, Value, Compare >::end()
 {
   return Iterator(nullptr);
+}
+
+template < typename Key, typename Value, typename Compare >
+void zheleznyakov::Tree< Key, Value, Compare >::swap(Tree & other)
+{
+  Node* temp = root_;
+  root_ = other.root_;
+  other.root_ = temp;
 }
 #endif

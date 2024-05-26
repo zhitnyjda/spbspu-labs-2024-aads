@@ -26,6 +26,8 @@ int main() {
 
     zheleznyakov::Tree<std::string, subtree_t*> uptree;
 
+    tree1.swap(tree2);
+
     uptree["mega1"] = &tree1;
     uptree["mega2"] = &tree2;
 
