@@ -17,6 +17,7 @@ namespace zheleznyakov
 
     Tree();
     Tree(const Tree &);
+    Tree(Tree &&) noexcept;
     ~Tree();
 
     Tree & operator=(const Tree &);
@@ -25,12 +26,12 @@ namespace zheleznyakov
     bool empty() const;
 
     Value at(const Key &);
+    void insert(const Key &, const Value &);
 
     Value & operator[](const Key& key);
     const Value & operator[](const Key& key) const;
 
     void swap(Tree &);
-    void insert(const Key &, const Value &);
     void clear();
 
     Iterator begin();
@@ -100,6 +101,13 @@ zheleznyakov::Tree< Key, Value, Compare >::Tree(const Tree & other):
       node_ = node_->parent;
     }
   }
+}
+
+template < typename Key, typename Value, typename Compare >
+zheleznyakov::Tree< Key, Value, Compare >::Tree(Tree&& other) noexcept:
+  root_(other.root_)
+{
+  other.root_ = nullptr;
 }
 
 template < typename Key, typename Value, typename Compare >
