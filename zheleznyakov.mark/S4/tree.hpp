@@ -27,6 +27,9 @@ namespace zheleznyakov {
     void push(const Key &, const Value &);
     void clear();
 
+    Iterator begin();
+    Iterator end();
+
   private:
     struct Node
     {
@@ -188,6 +191,16 @@ typename zheleznyakov::Tree<Key, Value, Compare>::Iterator zheleznyakov::Tree<Ke
   Iterator temp = *this;
   ++(*this);
   return temp;
+}
+
+template <typename Key, typename Value, typename Compare>
+bool zheleznyakov::Tree<Key, Value, Compare>::Iterator::operator==(const Iterator &other) const {
+  return current_ == other.current_;
+}
+
+template <typename Key, typename Value, typename Compare>
+bool zheleznyakov::Tree<Key, Value, Compare>::Iterator::operator!=(const Iterator &other) const {
+  return current_ != other.current_;
 }
 
 template < typename Key, typename Value, typename Compare >
@@ -352,5 +365,19 @@ typename zheleznyakov::Tree< Key, Value, Compare >::Node* zheleznyakov::Tree< Ke
     return rotateLeft(node);
   }
   return node;
+}
+
+template <typename Key, typename Value, typename Compare>
+typename zheleznyakov::Tree<Key, Value, Compare>::Iterator zheleznyakov::Tree<Key, Value, Compare>::begin() {
+  Node* current = root_;
+  while (current != nullptr && current->left != nullptr) {
+    current = current->left;
+  }
+  return Iterator(current);
+}
+
+template <typename Key, typename Value, typename Compare>
+typename zheleznyakov::Tree<Key, Value, Compare>::Iterator zheleznyakov::Tree<Key, Value, Compare>::end() {
+  return Iterator(nullptr);
 }
 #endif
