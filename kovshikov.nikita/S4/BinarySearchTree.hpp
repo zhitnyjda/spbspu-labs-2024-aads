@@ -7,6 +7,9 @@
 #include <cassert>
 #include <memory>
 
+//может быть updateHeight не надо использовать?
+// и height_ тоже??
+
 namespace kovshikov
 {
   template< typename Key, typename Value, typename Compare = std::less< Key > >
@@ -31,6 +34,8 @@ namespace kovshikov
     Value& at(const Key& key);
 
     void clear();
+    size_t erase(const Key& key);
+    Iterator erase(Iterator iterator);
 
     void swap(Tree& other);
 
@@ -619,6 +624,69 @@ void kovshikov::Tree< Key, Value, Compare >::swap(Tree& other)
 {
   std::swap(comp, other.comp);
   std::swap(root_, other.root_);
+}
+
+template< typename Key, typename Value, typename Compare >
+typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, Value, Compare >::erase(Iterator iterator)
+{
+  Node* toDelete = iterator.node_;
+  Node* bigFather = toDelete -> father;
+  Node* changer = nullptr;
+  Node* toBalance = nullptr;
+  if(toDelete == nullptr)
+  {
+    return end();
+  }
+  if(toDelete -> left_ == nullptr && toDelete -> right_ == nullptr)
+  {
+    if(bigFather != nullptr)
+    {
+      delete toDelete;
+      balance(bigFather);
+      return Iterator(bigFather, root_);
+    }
+    else
+    {
+      delete toDelete;
+      return end();
+    }
+  }
+  else if(toDelete -> left_ == nullptr && toDelete -> right_ != nullptr)
+  {
+    changer = toDelete -> right_;
+    while(changer != nullptr)
+    {
+      changer = changer -> left_;
+    }
+    toBalance = changer -> father_;
+  }
+  else
+  {
+    changer = toDelete -> left_;
+    while(changer != nullptr)
+    {
+      changer = changer -> right_;
+    }
+    toBalance - changer -> father_;
+  }
+  if(comp(toDelete -> element_.first, bigFather -> element_.first))
+  {
+    bigFather -> left_ = changer;
+  }
+  else
+  {
+    bigFather -> right_ = changer;
+  }
+  changer -> father_ = bigFather;
+  changer -> left_ = toDelete -> left_;
+  changer -> right_ = toDelete -> right_;
+  toDelete -> left_ -> father_ = changer;
+  toDelete -> right_ -> father_ = changer;
+
+  delete toDelete;
+  updateHeight(root_);
+  balance(toBalance);
+  return Iterator(changer, root_);
 }
 
 #endif
