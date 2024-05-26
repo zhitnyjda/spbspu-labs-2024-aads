@@ -36,7 +36,7 @@ namespace kovshikov
 
   private:
     Node* root_;
-    //балансировка
+
     size_t getHeight(Node* node);
     size_t getDifference(Node* node);
     void updateHeight(Node* node);
@@ -360,7 +360,6 @@ size_t kovshikov::Tree< Key, Value, Compare >::getSize() const noexcept
 template< typename Key, typename Value, typename Compare >
 typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, Value, Compare >::find(const Key& key)
 {
-  bool isFind = false;
   Node* current = root_;
   while(current != nullptr)
   {
@@ -377,7 +376,7 @@ typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, 
       current = current -> right_;
     }
   }
-  return (isFind == true) ? Iterator(current, root_) : end();
+  return end();
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -433,7 +432,7 @@ void kovshikov::Tree< Key, Value, Compare >::RightRight(Node* node) // пред�
   newFather -> right_ = node;
   node ->left_ = lastRight;
   lastRight -> father_ = node;
-  updateHeight(node);
+  updateHeight(node); //обновив node мы обновим newFather, тк идем вверх
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -522,39 +521,41 @@ void kovshikov::Tree< Key, Value, Compare >::balance(Node* node)
 template< typename Key, typename Value, typename Compare >
 void kovshikov::Tree< Key, Value, Compare >::insert(const Key& key, const Value& value)
 {
-  //нет проверки на то что такой ключ уже есть
-  Node* newNode = new Node(key, value);
-  if(isEmpty())
+  if(find(key) == end())//проверка на наличие ключа
   {
-    root_ = newNode;
-  }
-  else
-  {
-    Node* current = root_;
-    Node* father = nullptr;
-    while(current != nullptr)
+    Node* newNode = new Node(key, value);
+    if(isEmpty())
     {
-      father = current;
-      if(comp(key, current -> element_.first))
-      {
-        current = current -> left;
-      }
-      else
-      {
-        current = current -> right;
-      }
-    }
-    newNode -> father = father;
-    if(comp(key, father -> element_.first))
-    {
-      father -> left = newNode;
+      root_ = newNode;
     }
     else
     {
-      father -> right = newNode;
+      Node* current = root_;
+      Node* father = nullptr;
+      while(current != nullptr)
+      {
+        father = current;
+        if(comp(key, current -> element_.first))
+        {
+          current = current -> left_;
+        }
+        else
+        {
+          current = current -> right_;
+        }
+      }
+      newNode -> father_ = father;
+      if(comp(key, father_ -> element_.first))
+      {
+        father -> left_ = newNode;
+      }
+      else
+      {
+        father -> right_ = newNode;
+      }
     }
+    balance(newNode);
   }
-  //нужна балансировка
 }
 
 #endif
