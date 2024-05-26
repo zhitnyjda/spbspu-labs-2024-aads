@@ -17,6 +17,13 @@ namespace kovshikov
   class Tree
   {
   public:
+
+    Tree();
+    Tree(const Tree& tree);
+    Tree(Tree&& tree);
+
+    ~Tree();
+
     class Node;
     class Iterator;
     class ConstIterator;
@@ -308,6 +315,39 @@ const typename kovshikov::Tree< Key, Value, Compare >::Pair* kovshikov::Tree< Ke
 {
   assert(iterator_.node_ != nullptr);
   return std::addressof(iterator_.node_ -> element_);
+}
+
+template< typename Key, typename Value, typename Compare >
+kovshikov::Tree< Key, Value, Compare >::Tree():
+  comp(Compare()),
+  root_(nullptr)
+{};
+
+template< typename Key, typename Value, typename Compare >
+kovshikov::Tree< Key, Value, Compare >::Tree(const Tree& tree)
+{
+  root_ = nullptr;
+  comp = tree.comp_;
+  Iterator iterator = tree.begin();
+  while(iterator != tree.end())
+  {
+    insert(iterator -> first, iterator -> second);
+    iterator++;
+  }
+}
+
+template< typename Key, typename Value, typename Compare >
+kovshikov::Tree< Key, Value, Compare >::Tree(Tree&& tree):
+  root_(tree.root_),
+  comp(std::move(tree.comp))
+{
+  tree.root_ = nullptr;
+}
+
+template< typename Key, typename Value, typename Compare >
+kovshikov::Tree< Key, Value, Compare >::~Tree()
+{
+  clear();
 }
 
 template< typename Key, typename Value, typename Compare >
