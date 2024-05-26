@@ -27,6 +27,8 @@ namespace kovshikov
     Iterator find(const Key& key);
 
     void insert(const Key& key, const Value& value);
+    Value& operator[](const Key& key);
+    Value& at(const Key& key);
 
     Iterator end() const noexcept;
     Iterator begin() const noexcept;
@@ -545,7 +547,7 @@ void kovshikov::Tree< Key, Value, Compare >::insert(const Key& key, const Value&
         }
       }
       newNode -> father_ = father;
-      if(comp(key, father_ -> element_.first))
+      if(comp(key, father -> element_.first))
       {
         father -> left_ = newNode;
       }
@@ -555,6 +557,33 @@ void kovshikov::Tree< Key, Value, Compare >::insert(const Key& key, const Value&
       }
     }
     balance(newNode);
+  }
+}
+
+template< typename Key, typename Value, typename Compare >
+Value& kovshikov::Tree< Key, Value, Compare >::operator[](const Key& key)
+{
+  if(find(key) == end())
+  {
+    insert(key, Value());
+    return Value();
+  }
+  else
+  {
+    return find(key) -> second;
+  }
+}
+
+template< typename Key, typename Value, typename Compare >
+Value& kovshikov::Tree< Key, Value, Compare >::at(const Key& key)
+{
+  if(find(key) == end())
+  {
+    throw std::out_of_range("");
+  }
+  else
+  {
+    return find(key) -> second;
   }
 }
 
