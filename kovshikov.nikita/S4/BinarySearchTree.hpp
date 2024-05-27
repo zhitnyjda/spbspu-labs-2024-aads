@@ -7,6 +7,8 @@
 #include <cassert>
 #include <memory>
 
+#include <iostream> //
+
 //может быть updateHeight не надо использовать?
 // и height_ тоже??
 
@@ -96,7 +98,9 @@ kovshikov::Tree< Key, Value, Compare >::Node::Node(Key key, Value value, Node* f
   father_(father),
   height_(height),
   element_(std::make_pair(key, value))
-{};
+{
+  std::cout << "Node()\n"; //
+}
 
 template< typename Key, typename Value, typename Compare >
 class kovshikov::Tree< Key, Value, Compare >::Iterator : public std::iterator< std::bidirectional_iterator_tag, Pair >
@@ -321,7 +325,9 @@ template< typename Key, typename Value, typename Compare >
 kovshikov::Tree< Key, Value, Compare >::Tree():
   comp(Compare()),
   root_(nullptr)
-{};
+{
+  std::cout << "Tree()\n";
+}
 
 template< typename Key, typename Value, typename Compare >
 kovshikov::Tree< Key, Value, Compare >::Tree(const Tree& tree)
@@ -467,6 +473,7 @@ typename kovshikov::Tree< Key, Value, Compare >::Range kovshikov::Tree< Key, Val
 template< typename Key, typename Value, typename Compare >
 size_t kovshikov::Tree< Key, Value, Compare >::getHeight(Node* node)
 {
+  std::cout << "START GETHEIGHT\n"; //
   if(node == nullptr)
   {
     return 0;
@@ -477,12 +484,14 @@ size_t kovshikov::Tree< Key, Value, Compare >::getHeight(Node* node)
 template< typename Key, typename Value, typename Compare >
 long long kovshikov::Tree< Key, Value, Compare >::getDifference(Node* node)
 {
+  std::cout << "START GETDIFFERENCE\n"; //
   return getHeight(node -> left_) - getHeight(node -> right_);
 }
 
 template< typename Key, typename Value, typename Compare >
 void kovshikov::Tree< Key, Value, Compare >::updateHeight(Node* node)
 {
+  std::cout << "START UPDATE\n"; //
   while(node != nullptr)
   {
     node -> height_ = std::max(getHeight(node -> left_), getHeight(node -> right_)) + 1;
@@ -493,6 +502,7 @@ void kovshikov::Tree< Key, Value, Compare >::updateHeight(Node* node)
 template< typename Key, typename Value, typename Compare >
 void kovshikov::Tree< Key, Value, Compare >::RightRight(Node* node)
 {
+  std::cout << "START RIGHTRIGHT\n"; //
   Node* bigFather = node -> father_;
   Node* newFather = node -> left_;
   Node* lastRight = newFather -> right_;
@@ -515,14 +525,18 @@ void kovshikov::Tree< Key, Value, Compare >::RightRight(Node* node)
   }
   newFather -> father_ = bigFather;
   newFather -> right_ = node;
-  node ->left_ = lastRight;
-  lastRight -> father_ = node;
+  node ->left_ = lastRight; //странно
+  if(lastRight != nullptr)
+  {
+    lastRight -> father_ = node; //nullptr
+  }
   updateHeight(node);
 }
 
 template< typename Key, typename Value, typename Compare >
 void kovshikov::Tree< Key, Value, Compare >::LeftLeft(Node* node)
 {
+  std::cout << "START LEFTLEFT\n"; //
   Node* bigFather = node -> father_;
   Node* newFather = node -> right_;
   Node* lastLeft = newFather -> left_;
@@ -547,13 +561,17 @@ void kovshikov::Tree< Key, Value, Compare >::LeftLeft(Node* node)
   newFather -> father_ = bigFather;
   newFather -> left_ = node;
   node -> right_ = lastLeft;
-  lastLeft -> father_ = node;
+  if(lastLeft != nullptr)
+  {
+    lastLeft -> father_ = node; //проверка на nullptr;
+  }
   updateHeight(node);
 }
 
 template< typename Key, typename Value, typename Compare >
 typename kovshikov::Tree< Key, Value, Compare >::Node* kovshikov::Tree< Key, Value, Compare >::checkBalance(Node* node)
 {
+  std::cout << "START CHECKBALANCE\n"; //
   while(node != nullptr)
   {
     if(std::abs(getDifference(node)) > 1)
@@ -565,56 +583,64 @@ typename kovshikov::Tree< Key, Value, Compare >::Node* kovshikov::Tree< Key, Val
       node = node -> father_;
     }
   }
+  std::cout << "FINISH CHECKBALANCE\n"; //
   return node;
 }
 
 template< typename Key, typename Value, typename Compare >
 void kovshikov::Tree< Key, Value, Compare >::balance(Node* node)
 {
+  std::cout << "START BALANCE\n"; //
+  Node* toBalance = node; //
   bool isBalance = false;
   while(isBalance == false)
   {
-    if(checkBalance(node) == nullptr)
+    toBalance = checkBalance(toBalance); // заменил node на checkBalance и переприсваивал
+    if(toBalance == nullptr)
     {
       isBalance = true;
     }
     else
     {
-      if(getDifference(node) < -1 && getDifference(node -> right_) <= 0)
+      if(getDifference(toBalance) < -1 && getDifference(toBalance -> right_) <= 0)
       {
-        LeftLeft(node);
+        LeftLeft(toBalance);
       }
-      else if(getDifference(node) > 1 && getDifference(node -> left_) >= 0)
+      else if(getDifference(toBalance) > 1 && getDifference(toBalance -> left_) >= 0)
       {
-        RightRight(node);
+        RightRight(toBalance);
       }
-      else if(getDifference(node) < -1 && getDifference(node -> right_) > 0)
+      else if(getDifference(toBalance) < -1 && getDifference(toBalance -> right_) > 0)
       {
-        RightRight(node -> right_);
-        LeftLeft(node);
+        RightRight(toBalance -> right_);
+        LeftLeft(toBalance);
       }
-      else if(getDifference(node) > 1 && getDifference(node -> left_) < 0)
+      else if(getDifference(toBalance) > 1 && getDifference(toBalance -> left_) < 0)
       {
-        LeftLeft(node -> left_);
-        RightRight(node);
+        LeftLeft(toBalance -> left_);
+        RightRight(toBalance);
       }
+      toBalance = toBalance -> father_;
     }
-    node = node -> father_;
   }
+  std::cout << "FINISH BALANCE\n"; //
 }
 
 template< typename Key, typename Value, typename Compare >
 void kovshikov::Tree< Key, Value, Compare >::insert(const Key& key, const Value& value)
 {
+  std::cout << "INSERT\n"; //
   if(find(key) == end())
   {
     Node* newNode = new Node(key, value);
     if(isEmpty())
     {
       root_ = newNode;
+      std::cout << "GET ROOT\n"; //
     }
     else
     {
+      std::cout << "NO ROOT\n"; //
       Node* current = root_;
       Node* father = nullptr;
       while(current != nullptr)
@@ -639,8 +665,11 @@ void kovshikov::Tree< Key, Value, Compare >::insert(const Key& key, const Value&
         father -> right_ = newNode;
       }
     }
-    balance(newNode);
+    std::cout << "INSERT2\n"; //
+    balance(newNode); //можно засунуть в else
+    std::cout << "END INSERT\n"; //
   }
+  std::cout << "END END\n"; //
 }
 
 template< typename Key, typename Value, typename Compare >
