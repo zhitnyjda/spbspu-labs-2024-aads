@@ -6,6 +6,9 @@
 #include <limits>
 #include "tree.hpp"
 #include "commands.hpp"
+#include "utils.hpp"
+
+using treeDeclaration = sobolevsky::AVLtree< std::string, sobolevsky::AVLtree< int, std::string, int >, int >;
 
 int main(int argc, char *argv[])
 {
@@ -14,7 +17,6 @@ int main(int argc, char *argv[])
     std::cerr << "missed filename\n";
     return 1;
   }
-
   std::ifstream file(argv[1]);
   if (!file)
   {
@@ -22,12 +24,9 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  sobolevsky::AVLtree< std::string, sobolevsky::AVLtree< int, std::string, int >,  int > tree;
+  treeDeclaration tree;
   sobolevsky::inputFromFile(file, tree);
-
-  sobolevsky::AVLtree< std::string, std::function< void(std::istream &, std::ostream &, sobolevsky::AVLtree< std::string,
-  sobolevsky::AVLtree< int, std::string, int >, int > &) >, int > cmds;
-
+  sobolevsky::AVLtree< std::string, std::function< void(std::istream &, std::ostream &, treeDeclaration &) >, int > cmds;
   cmds["print"] = sobolevsky::getPrint;
   cmds["complement"] = std::bind(sobolevsky::getComplement, std::placeholders::_1, std::placeholders::_3);
   cmds["intersect"] = std::bind(sobolevsky::getIntersect, std::placeholders::_1, std::placeholders::_3);
@@ -41,20 +40,13 @@ int main(int argc, char *argv[])
     }
     catch(const std::out_of_range & e)
     {
-      sobolevsky::getError(std::cout, "<INVALID COMMAND>");
-      std::cin.clear();
-      std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
-    }
-    catch(const std::invalid_argument & e)
-    {
-      sobolevsky::getError(std::cout, e.what());
+      sobolevsky::errorInvalidCommand(std::cout);
       std::cin.clear();
       std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
     }
   }
 
-  for (sobolevsky::AVLtree< std::string, sobolevsky::AVLtree< int, std::string, int >,  int >::Iterator iter =
-  tree.begin(); iter != tree.end(); iter++)
+  for (treeDeclaration::Iterator iter = tree.begin(); iter != tree.end(); iter++)
   {
     iter->second.clear();
   }

@@ -5,6 +5,7 @@
 #include <utility>
 #include <algorithm>
 #include <stdexcept>
+#include <iterator>
 
 namespace sobolevsky
 {
@@ -25,8 +26,8 @@ namespace sobolevsky
     ConstIterator cbegin() const noexcept;
     ConstIterator cend() const noexcept;
 
-    size_t size();
-    bool empty();
+    size_t getSize() const noexcept;
+    bool isEmpty() const noexcept;
 
     Value &operator[](const Key &key);
     Value &at(const Key &key);
@@ -35,7 +36,7 @@ namespace sobolevsky
     void erase(const Key &key);
     void erase(ConstIterator position);
     void clear();
-    void swap(AVLtree &x);
+    void swap(AVLtree &x) noexcept;
 
     Iterator find(const Key &key);
     size_t count(const Key &key);
@@ -48,7 +49,7 @@ namespace sobolevsky
     Node *LeftRotate(Node *node_);
     Node *LeftRightRotate(Node *node_);
     Node *RightLeftRotate(Node *node_);
-    Node *delet(const Key &key, Node *node_);
+    Node *remove(const Key &key, Node *node_);
     size_t height(Node *node_);
     void recurionDeleteAll(Node *node);
 
@@ -99,13 +100,13 @@ sobolevsky::AVLtree< Key, Value, Compare >::AVLtree(AVLtree< Key, Value, Compare
 }
 
 template< typename Key, typename Value, typename Compare >
-size_t sobolevsky::AVLtree< Key, Value, Compare >::size()
+size_t sobolevsky::AVLtree< Key, Value, Compare >::getSize() const noexcept
 {
   return size_;
 }
 
 template< typename Key, typename Value, typename Compare >
-bool sobolevsky::AVLtree< Key, Value, Compare >::empty()
+bool sobolevsky::AVLtree< Key, Value, Compare >::isEmpty() const noexcept
 {
   return size_ == 0;
 }
@@ -204,7 +205,6 @@ typename sobolevsky::AVLtree< Key, Value, Compare >::Node *sobolevsky::AVLtree< 
   return temp;
 }
 
-
 template< typename Key, typename Value, typename Compare >
 typename sobolevsky::AVLtree< Key, Value, Compare >::Node *sobolevsky::AVLtree< Key, Value, Compare >::LeftRotate(Node *node_)
 {
@@ -239,19 +239,20 @@ typename sobolevsky::AVLtree< Key, Value, Compare >::Node *sobolevsky::AVLtree< 
 template< typename Key, typename Value, typename Compare >
 void sobolevsky::AVLtree< Key, Value, Compare >::erase(const Key &key)
 {
-  root = delet(key, root);
+  root = remove(key, root);
   size_--;
 }
 
 template< typename Key, typename Value, typename Compare >
 void sobolevsky::AVLtree< Key, Value, Compare >::erase(ConstIterator position)
 {
-  root = delet(position->data.first, root);
+  root = remove(position->data.first, root);
   size_--;
 }
 
 template< typename Key, typename Value, typename Compare >
-typename sobolevsky::AVLtree< Key, Value, Compare >::Node *sobolevsky::AVLtree< Key, Value, Compare >::delet(const Key &key, Node *node_)
+typename sobolevsky::AVLtree< Key, Value, Compare >::Node *sobolevsky::AVLtree< Key, Value, Compare >::remove
+(const Key &key, Node *node_)
 {
   if (node_ == nullptr)
   {
@@ -259,11 +260,11 @@ typename sobolevsky::AVLtree< Key, Value, Compare >::Node *sobolevsky::AVLtree< 
   }
   else if (key < node_->data.first)
   {
-    node_->left = delet(key, node_->left);
+    node_->left = remove(key, node_->left);
   }
   else if (key > node_->data.first)
   {
-    node_->right = delet(key, node_->right);
+    node_->right = remove(key, node_->right);
   }
   else if (node_->left && node_->right)
   {
@@ -273,7 +274,7 @@ typename sobolevsky::AVLtree< Key, Value, Compare >::Node *sobolevsky::AVLtree< 
       temp = temp->left;
     }
     node_->data = temp->data;
-    node_->right = delet(node_->data.first, node_->right);
+    node_->right = remove(node_->data.first, node_->right);
   }
   else
   {
@@ -346,10 +347,14 @@ void sobolevsky::AVLtree< Key, Value, Compare >::clear()
 }
 
 template< typename Key, typename Value, typename Compare >
-void sobolevsky::AVLtree< Key, Value, Compare >::swap(AVLtree &x)
+void sobolevsky::AVLtree< Key, Value, Compare >::swap(AVLtree &x) noexcept
 {
-  std::swap(root, x.root);
-  std::swap(size_, x.size_);
+  Node *temp = x.root;
+  x.root = root;
+  root = temp;
+  size_t tempSize = x.size_;
+  x.size_ = size_;
+  size_ = x.size_;
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -386,7 +391,7 @@ Compare >::Iterator > sobolevsky::AVLtree< Key, Value, Compare >::equal_range(co
 }
 
 template< typename Key, typename Value, typename Compare >
-class sobolevsky::AVLtree< Key, Value, Compare >::Iterator
+class sobolevsky::AVLtree< Key, Value, Compare >::Iterator : public std::iterator< std::input_iterator_tag, Key, Value, Compare >
 {
   friend class AVLtree;
 public:
@@ -563,7 +568,8 @@ typename sobolevsky::AVLtree< Key, Value, Compare >::Iterator sobolevsky::AVLtre
 }
 
 template< typename Key, typename Value, typename Compare >
-typename sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator sobolevsky::AVLtree< Key, Value, Compare >::cbegin() const noexcept
+typename sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator sobolevsky::AVLtree< Key, Value, Compare >::cbegin()
+const noexcept
 {
   Node *temp = root;
   while (temp->left != nullptr)
@@ -602,7 +608,7 @@ typename sobolevsky::AVLtree< Key, Value, Compare >::Iterator sobolevsky::AVLtre
 }
 
 template< typename Key, typename Value, typename Compare >
-class sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator
+class sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator : public std::iterator< std::input_iterator_tag, Key, Value, Compare >
 {
   friend class AVLtree;
 public:
@@ -672,7 +678,8 @@ const std::pair< Key, Value > *sobolevsky::AVLtree< Key, Value, Compare >::Const
 }
 
 template< typename Key, typename Value, typename Compare >
-typename sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator &sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator::operator++()
+typename sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator
+&sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator::operator++()
 {
   if (node_ == nullptr)
   {
@@ -714,7 +721,8 @@ Compare >::ConstIterator::operator++(int)
 }
 
 template< typename Key, typename Value, typename Compare >
-typename sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator &sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator::operator--()
+typename sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator
+&sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator::operator--()
 {
   if (node_ == nullptr)
   {
