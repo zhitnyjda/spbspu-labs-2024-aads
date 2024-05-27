@@ -354,7 +354,7 @@ void sobolevsky::AVLtree< Key, Value, Compare >::swap(AVLtree &x) noexcept
   root = temp;
   size_t tempSize = x.size_;
   x.size_ = size_;
-  size_ = x.size_;
+  size_ = tempSize;
 }
 
 template< typename Key, typename Value, typename Compare >
