@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
   readTree(input, data);
   if (data.empty())
   {
-    std::cout << "<EMPTY>\n";
+    sendEmpty(std::cout);
     return 0;
   }
 

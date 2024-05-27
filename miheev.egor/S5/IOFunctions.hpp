@@ -8,6 +8,7 @@ namespace miheev
 {
   using tree_t = Tree< long long, std::string >;
   void readTree(std::istream&, tree_t&);
+  void sendEmpty(std::ostream&);
 }
 
 #endif

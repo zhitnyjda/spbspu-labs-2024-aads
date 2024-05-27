@@ -14,3 +14,8 @@ void miheev::readTree(std::istream& in, tree_t& container)
     container.insert(tempKey, tempValue);
   }
 }
+
+void miheev::sendEmpty(std::ostream& out)
+{
+  out << "<EMPTY>\n";
+}
