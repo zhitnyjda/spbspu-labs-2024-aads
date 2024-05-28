@@ -5,7 +5,7 @@
 #include "commands.hpp"
 #include "errorsANDinput.hpp"
 
-int main(long long argc, char *argv[])
+int main(int argc, char *argv[])
 {
   if (argc != 3)
   {
