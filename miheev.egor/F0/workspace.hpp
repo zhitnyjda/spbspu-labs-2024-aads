@@ -8,7 +8,7 @@ namespace miheev
 {
   struct Workspace
   {
-    std::map< std::string, Graph > graphs;
+    Tree< std::string, Graph > graphs;
     Graph current;
     bool isActive;
   };

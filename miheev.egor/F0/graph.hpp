@@ -2,9 +2,9 @@
 #define GRAPH_HPP
 
 #include <unordered_set>
-#include <map>
-#include <unordered_map>
-#include <forward_list>
+// #include <map>
+#include <tree.hpp>
+#include <list.hpp>
 #include <iostream>
 
 namespace miheev
@@ -33,7 +33,7 @@ namespace miheev
     std::string name;
     std::string filename;
   private:
-    std::map< int, Node > nodes_;
+    Tree< int, Node > nodes_;
 
     struct Printer;
     struct Dextra;
@@ -42,14 +42,14 @@ namespace miheev
   struct Graph::Path
   {
     size_t lenght;
-    std::forward_list< int > path;
+    miheev::List< int > path;
   };
 
   struct Graph::Printer
   {
     std::ostream& printUniqueEdges(const Node&, std::ostream&);
     bool hasUniqueEdges(const Node&) const;
-    std::unordered_set< int > visitedNodes;
+    miheev::List< int > visitedNodes;
   };
 
   struct Graph::Dextra
@@ -61,14 +61,14 @@ namespace miheev
     void calcMinTimeToEach();
     int getNodeWithMinimumTimeToIt();
     void recalculateTimeToNeighboursOfTheNode(const Node&);
-    std::forward_list< int > findShortestPath(int start, int finish);
+    miheev::List< int > findShortestPath(int start, int finish);
 
     void updateNodeState(int node, size_t timeToNode, int parrentNode = -1);
 
     const Graph& graph;
-    std::unordered_set< int > unprocessedNodes;
-    std::map <int, int> nodesParrents;
-    std::map< int, size_t > timeToNodes;
+    miheev::List< int > unprocessedNodes;
+    Tree <int, int> nodesParrents;
+    Tree< int, size_t > timeToNodes;
   };
 
   struct Graph::Edge
@@ -87,8 +87,8 @@ namespace miheev
   struct Graph::Node
   {
     int name;
-    std::unordered_set< Edge, Edge::HashFunction > edges;
-    std::map< int, Edge > backLinks;
+    miheev::List< Edge > edges;
+    Tree< int, Edge > backLinks;
   };
   std::istream& operator>>(std::istream&, Graph&);
 }

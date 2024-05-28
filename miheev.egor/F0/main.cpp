@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
   Workspace workspace{{}, initialGraph, true};
   initWorkspace(argc, argv, workspace);
 
-  std::map< std::string, std::function< std::ostream&(std::ostream&, std::istream&, Workspace&) > > commands;
+  miheev::Tree< std::string, std::function< std::ostream&(std::ostream&, std::istream&, Workspace&) > > commands;
   {
     using namespace std::placeholders;
     commands["node"] = miheev::commands::node;
