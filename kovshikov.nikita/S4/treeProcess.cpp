@@ -62,12 +62,38 @@ void kovshikov::createTree(Tree< std::string, Tree< long long, std::string > >& 
     }
   }
   value = temp;
-  tree.insert(key, value);
+  if(!value.empty())
+  {
+    tree.insert(key, value);
+  }
   allTree.insert(name, tree); //вот тут вылетает жесткая ошибка;
 }
 
 void kovshikov::print(Tree< std::string, Tree< long long, std::string > >& allTree)
 {
-  std::cout << allTree.getSize() << "\n";
-  std::cout << "print\n";
+  std::string dictionary;
+  std::cin >> dictionary;
+  Tree< long long, std::string > tree = allTree.at(dictionary);
+  if(tree.isEmpty())
+  {
+    std::cout << "<EMPTY>" << "\n";
+  }
+  else
+  {
+    Tree< long long, std::string >::Iterator iterator = tree.begin();
+    Tree< long long, std::string >::Iterator end = tree.end();
+    std::cout << dictionary << " ";
+    while(iterator != end)
+    {
+      std::pair< long long, std::string > pair = *iterator;
+      if(++iterator == end)
+      {
+        std::cout << pair.first << " " << pair.second << "\n";
+      }
+      else
+      {
+        std::cout << pair.first << " " << pair.second << " ";
+      }
+    }
+  }
 }
