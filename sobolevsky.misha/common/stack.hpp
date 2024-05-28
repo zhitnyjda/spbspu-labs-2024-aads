@@ -1,23 +1,24 @@
-#ifndef QUEUE_HPP
-#define QUEUE_HPP
+#ifndef STACK_HPP
+#define STACK_HPP
 
 #include <utility>
 #include <stdexcept>
-#include <list.hpp>
+#include <memory>
+#include "list.hpp"
 
 namespace sobolevsky
 {
   template< typename T >
-  class Queue
+  class Stack
   {
   public:
-    Queue();
-    Queue(const Queue& rhs) noexcept;
-    Queue(Queue&& rhs);
-    ~Queue();
+    Stack();
+    Stack(const Stack& rhs) noexcept;
+    Stack(Stack&& rhs);
+    ~Stack();
 
-    void push(T data);
-    T back();
+    void push(const T& data);
+    T top();
     void pop();
     bool empty();
     long long size();
@@ -27,37 +28,37 @@ namespace sobolevsky
 }
 
 template< typename T >
-sobolevsky::Queue< T >::Queue()
+sobolevsky::Stack< T >::Stack()
 {
   list = List< T >();
 }
 
 template< typename T >
-sobolevsky::Queue< T >::Queue(const Queue& rhs) noexcept
+sobolevsky::Stack< T >::Stack(const Stack& rhs) noexcept
 {
   list = rhs.list;
 }
 
 template< typename T >
-sobolevsky::Queue< T >::Queue(Queue&& rhs)
+sobolevsky::Stack< T >::Stack(Stack&& rhs)
 {
   list = std::move(rhs.list);
 }
 
 template< typename T >
-sobolevsky::Queue< T >::~Queue()
+sobolevsky::Stack< T >::~Stack()
 {
   list.clear();
 }
 
 template< typename T >
-void sobolevsky::Queue< T >::push(T data)
+void sobolevsky::Stack< T >::push(const T& data)
 {
-  list.pushBack(data, "");
+  list.pushFront(data, "");
 }
 
 template< typename T >
-T sobolevsky::Queue< T >::back()
+T sobolevsky::Stack< T >::top()
 {
   if (list[0] == nullptr)
   {
@@ -67,19 +68,19 @@ T sobolevsky::Queue< T >::back()
 }
 
 template< typename T >
-void sobolevsky::Queue< T >::pop()
+void sobolevsky::Stack< T >::pop()
 {
   list.popFront();
 }
 
 template< typename T >
-bool sobolevsky::Queue< T >::empty()
+bool sobolevsky::Stack< T >::empty()
 {
   return (list.empty());
 }
 
 template< typename T >
-long long sobolevsky::Queue< T >::size()
+long long sobolevsky::Stack< T >::size()
 {
   return list.getSize();
 }

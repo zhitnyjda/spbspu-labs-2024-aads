@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include <iterator>
+#include "queue.hpp"
 
 namespace sobolevsky
 {
@@ -15,6 +16,8 @@ namespace sobolevsky
   public:
     class Iterator;
     class ConstIterator;
+    class LNRIterator;
+    class RNLIterator;
 
     AVLtree();
     AVLtree(const AVLtree< Key, Value, Compare > &tree);
@@ -25,6 +28,10 @@ namespace sobolevsky
     Iterator end() noexcept;
     ConstIterator cbegin() const noexcept;
     ConstIterator cend() const noexcept;
+    LNRIterator LNRbegin() noexcept;
+    LNRIterator LNRend() noexcept;
+    RNLIterator RNLbegin() noexcept;
+    RNLIterator RNLend() noexcept;
 
     size_t getSize() const noexcept;
     bool isEmpty() const noexcept;
@@ -41,6 +48,13 @@ namespace sobolevsky
     Iterator find(const Key &key);
     size_t count(const Key &key);
     std::pair< Iterator, Iterator > equal_range(const Key &key);
+
+    template< typename F >
+    F traverse_lnr(F f);
+    template< typename F >
+    F traverse_rnl(F f);
+    template< typename F >
+    F traverse_breadth(F f) const;
   private:
     class Node;
 
@@ -398,10 +412,16 @@ public:
   Iterator();
   Iterator(Node *node);
   Iterator(const Iterator &iter);
+  Iterator(const LNRIterator &iter);
+  Iterator(const RNLIterator &iter);
   ~Iterator() = default;
 
   Iterator &operator=(const Iterator &iter);
   Iterator &operator=(Iterator &&rhs);
+  Iterator &operator=(const LNRIterator &iter);
+  Iterator &operator=(LNRIterator &&rhs);
+  Iterator &operator=(const RNLIterator &iter);
+  Iterator &operator=(RNLIterator &&rhs);
   std::pair< Key, Value > &operator*();
   std::pair< Key, Value > *operator->();
   Iterator &operator++();
@@ -433,6 +453,18 @@ sobolevsky::AVLtree< Key, Value, Compare >::Iterator::Iterator(const Iterator &i
 }
 
 template< typename Key, typename Value, typename Compare >
+sobolevsky::AVLtree< Key, Value, Compare >::Iterator::Iterator(const LNRIterator &iter)
+{
+  node_ = iter.node_;
+}
+
+template< typename Key, typename Value, typename Compare >
+sobolevsky::AVLtree< Key, Value, Compare >::Iterator::Iterator(const RNLIterator &iter)
+{
+  node_ = iter.node_;
+}
+
+template< typename Key, typename Value, typename Compare >
 typename sobolevsky::AVLtree< Key, Value, Compare >::Iterator &sobolevsky::AVLtree< Key, Value,
 Compare >::Iterator::operator=(const Iterator &iter)
 {
@@ -443,6 +475,38 @@ Compare >::Iterator::operator=(const Iterator &iter)
 template< typename Key, typename Value, typename Compare >
 typename sobolevsky::AVLtree< Key, Value, Compare >::Iterator &sobolevsky::AVLtree< Key, Value,
 Compare >::Iterator::operator=(Iterator &&rhs)
+{
+  node_ = rhs.node_;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::Iterator &sobolevsky::AVLtree< Key, Value,
+Compare >::Iterator::operator=(const LNRIterator &iter)
+{
+  node_ = iter.node_;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::Iterator &sobolevsky::AVLtree< Key, Value,
+Compare >::Iterator::operator=(LNRIterator &&rhs)
+{
+  node_ = rhs.node_;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::Iterator &sobolevsky::AVLtree< Key, Value,
+Compare >::Iterator::operator=(const RNLIterator &iter)
+{
+  node_ = iter.node_;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::Iterator &sobolevsky::AVLtree< Key, Value,
+Compare >::Iterator::operator=(RNLIterator &&rhs)
 {
   node_ = rhs.node_;
   return *this;
@@ -586,6 +650,35 @@ typename sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator sobolevsky::A
 }
 
 template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator sobolevsky::AVLtree< Key, Value, Compare >::LNRbegin() noexcept
+{
+  return LNRIterator(begin());
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator sobolevsky::AVLtree< Key, Value, Compare >::LNRend() noexcept
+{
+  return LNRIterator(nullptr);
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator sobolevsky::AVLtree< Key, Value, Compare >::RNLbegin() noexcept
+{
+  Node *temp = root;
+  while (temp->right != nullptr)
+  {
+    temp = temp->right;
+  }
+  return RNLIterator(temp);
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator sobolevsky::AVLtree< Key, Value, Compare >::RNLend() noexcept
+{
+  return RNLIterator(nullptr);
+}
+
+template< typename Key, typename Value, typename Compare >
 typename sobolevsky::AVLtree< Key, Value, Compare >::Iterator sobolevsky::AVLtree< Key, Value, Compare >::find(const Key &key)
 {
   Node *temp = root;
@@ -615,10 +708,16 @@ public:
   ConstIterator();
   explicit ConstIterator(const Node *node);
   ConstIterator(const ConstIterator &iter);
+  ConstIterator(const LNRIterator &iter);
+  ConstIterator(const RNLIterator &iter);
   ~ConstIterator() = default;
 
   ConstIterator &operator=(const ConstIterator &iter);
   ConstIterator &operator=(ConstIterator &&rhs);
+  ConstIterator &operator=(const LNRIterator &iter);
+  ConstIterator &operator=(LNRIterator &&rhs);
+  ConstIterator &operator=(const RNLIterator &iter);
+  ConstIterator &operator=(RNLIterator &&rhs);
   const std::pair< Key, Value > &operator*() const;
   const std::pair< Key, Value > *operator->() const;
   ConstIterator &operator++();
@@ -650,6 +749,18 @@ sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator::ConstIterator(const C
 }
 
 template< typename Key, typename Value, typename Compare >
+sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator::ConstIterator(const LNRIterator &iter)
+{
+  node_ = iter.node_;
+}
+
+template< typename Key, typename Value, typename Compare >
+sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator::ConstIterator(const RNLIterator &iter)
+{
+  node_ = iter.node_;
+}
+
+template< typename Key, typename Value, typename Compare >
 typename sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator &sobolevsky::AVLtree< Key, Value,
 Compare >::ConstIterator::operator=(const ConstIterator &iter)
 {
@@ -660,6 +771,38 @@ Compare >::ConstIterator::operator=(const ConstIterator &iter)
 template< typename Key, typename Value, typename Compare >
 typename sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator &sobolevsky::AVLtree< Key, Value,
 Compare >::ConstIterator::operator=(ConstIterator &&rhs)
+{
+  node_(rhs.node_);
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator &sobolevsky::AVLtree< Key, Value,
+Compare >::ConstIterator::operator=(const LNRIterator &iter)
+{
+  node_ = iter.node_;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator &sobolevsky::AVLtree< Key, Value,
+Compare >::ConstIterator::operator=(LNRIterator &&rhs)
+{
+  node_(rhs.node_);
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator &sobolevsky::AVLtree< Key, Value,
+Compare >::ConstIterator::operator=(const RNLIterator &iter)
+{
+  node_ = iter.node_;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator &sobolevsky::AVLtree< Key, Value,
+Compare >::ConstIterator::operator=(RNLIterator &&rhs)
 {
   node_(rhs.node_);
   return *this;
@@ -767,6 +910,413 @@ bool sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator::operator==(const
 
 template< typename Key, typename Value, typename Compare >
 bool sobolevsky::AVLtree< Key, Value, Compare >::ConstIterator::operator!=(const ConstIterator &rhs) const
+{
+  return node_ != rhs.node_;
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename F >
+F sobolevsky::AVLtree< Key, Value, Compare >::traverse_lnr(F f)
+{
+  for (AVLtree<Key, Value, Compare>::LNRIterator iter = LNRbegin(); iter != LNRend(); iter++)
+  {
+    f(*iter);
+  }
+  return f;
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename F >
+F sobolevsky::AVLtree< Key, Value, Compare >::traverse_rnl(F f)
+{
+  for (AVLtree<Key, Value, Compare>::RNLIterator iter = RNLbegin(); iter != RNLend(); iter++)
+  {
+    f(*iter);
+  }
+  return f;
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename F >
+F sobolevsky::AVLtree< Key, Value, Compare >::traverse_breadth(F f) const
+{
+  Queue< Node* > queue;
+  queue.push(root);
+  while (!(queue.empty()))
+  {
+    Node *temp = queue.back();
+    queue.pop();
+    if (temp->left != nullptr)
+    {
+      queue.push(temp->left);
+    }
+    if (temp->right != nullptr)
+    {
+      queue.push(temp->right);
+    }
+    f(temp->data);
+  }
+  return f;
+}
+
+template< typename Key, typename Value, typename Compare >
+class sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator : public std::iterator< std::input_iterator_tag, Key, Value, Compare >
+{
+  friend class AVLtree;
+public:
+  LNRIterator();
+  LNRIterator(Node *node);
+  LNRIterator(const LNRIterator &iter);
+  LNRIterator(const Iterator &iter);
+  ~LNRIterator() = default;
+
+  LNRIterator &operator=(const LNRIterator &iter);
+  LNRIterator &operator=(LNRIterator &&rhs);
+  LNRIterator &operator=(const Iterator &iter);
+  LNRIterator &operator=(Iterator &&rhs);
+  std::pair< Key, Value > &operator*();
+  std::pair< Key, Value > *operator->();
+  LNRIterator &operator++();
+  LNRIterator operator++(int);
+  LNRIterator &operator--();
+  LNRIterator operator--(int);
+  bool operator==(const LNRIterator &rhs) const;
+  bool operator!=(const LNRIterator &rhs) const;
+private:
+  Node *node_;
+};
+
+template< typename Key, typename Value, typename Compare >
+sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator::LNRIterator()
+{
+  node_ = nullptr;
+}
+
+template< typename Key, typename Value, typename Compare >
+sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator::LNRIterator(Node *node)
+{
+  node_ = node;
+}
+
+template< typename Key, typename Value, typename Compare >
+sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator::LNRIterator(const LNRIterator &iter)
+{
+  node_ = iter.node_;
+}
+
+template< typename Key, typename Value, typename Compare >
+sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator::LNRIterator(const Iterator &iter)
+{
+  node_ = iter.node_;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator &sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator::operator=(const LNRIterator &iter)
+{
+  node_ = iter.node_;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator &sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator::operator=(LNRIterator &&rhs)
+{
+  node_ = rhs.node_;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator &sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator::operator=(const Iterator &iter)
+{
+  node_ = iter.node_;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator &sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator::operator=(Iterator &&rhs)
+{
+  node_ = rhs.node_;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+std::pair< Key, Value > &sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator::operator*()
+{
+  return node_->data;
+}
+
+template< typename Key, typename Value, typename Compare >
+std::pair< Key, Value > *sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator::operator->()
+{
+  return std::addressof(node_->data);
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator &sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator::operator++()
+{
+  if (node_ == nullptr)
+  {
+    return *this;
+  }
+  else if (node_->right == nullptr)
+  {
+    Node *temp = node_->parent;
+    while (temp != nullptr && node_ == temp->right)
+    {
+      node_ = temp;
+      temp = node_->parent;
+    }
+    node_ = temp;
+    return *this;
+  }
+  else
+  {
+    node_ = node_->right;
+    if (node_->left == nullptr)
+    {
+      return *this;
+    }
+    while (node_->left != nullptr)
+    {
+      node_ = node_->left;
+    }
+    return *this;
+  }
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator::operator++(int)
+{
+  LNRIterator temp(*this);
+  ++(*this);
+  return temp;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator &sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator::operator--()
+{
+  if (node_ == nullptr)
+  {
+    return *this;
+  }
+  else if (node_->left == nullptr)
+  {
+    Node *temp = node_->parent;
+    while (temp != nullptr && node_ == temp->left)
+    {
+      node_ = temp;
+      temp = node_->parent;
+    }
+    node_ = temp;
+    return *this;
+  }
+  else
+  {
+    node_ = node_->left;
+    while (node_->right != nullptr)
+    {
+      node_ = node_->right;
+    }
+    return *this;
+  }
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator::operator--(int)
+{
+  LNRIterator temp(*this);
+  --(*this);
+  return temp;
+}
+
+template< typename Key, typename Value, typename Compare >
+bool sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator::operator==(const LNRIterator &rhs) const
+{
+  return node_ == rhs.node_;
+}
+
+template< typename Key, typename Value, typename Compare >
+bool sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator::operator!=(const LNRIterator &rhs) const
+{
+  return node_ != rhs.node_;
+}
+
+template< typename Key, typename Value, typename Compare >
+class sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator : public std::iterator< std::input_iterator_tag, Key, Value, Compare >
+{
+  friend class AVLtree;
+public:
+  RNLIterator();
+  RNLIterator(Node *node);
+  RNLIterator(const RNLIterator &iter);
+  RNLIterator(const Iterator &iter);
+  ~RNLIterator() = default;
+
+  RNLIterator &operator=(const RNLIterator &iter);
+  RNLIterator &operator=(RNLIterator &&rhs);
+  RNLIterator &operator=(const Iterator &iter);
+  RNLIterator &operator=(Iterator &&rhs);
+  std::pair< Key, Value > &operator*();
+  std::pair< Key, Value > *operator->();
+  RNLIterator &operator++();
+  RNLIterator operator++(int);
+  RNLIterator &operator--();
+  RNLIterator operator--(int);
+  bool operator==(const RNLIterator &rhs) const;
+  bool operator!=(const RNLIterator &rhs) const;
+private:
+  Node *node_;
+};
+
+template< typename Key, typename Value, typename Compare >
+sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator::RNLIterator()
+{
+  node_ = nullptr;
+}
+
+template< typename Key, typename Value, typename Compare >
+sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator::RNLIterator(Node *node)
+{
+  node_ = node;
+}
+
+template< typename Key, typename Value, typename Compare >
+sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator::RNLIterator(const RNLIterator &iter)
+{
+  node_ = iter.node_;
+}
+
+template< typename Key, typename Value, typename Compare >
+sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator::RNLIterator(const Iterator &iter)
+{
+  node_ = iter.node_;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator &sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator::operator=(const RNLIterator &iter)
+{
+  node_ = iter.node_;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator &sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator::operator=(RNLIterator &&rhs)
+{
+  node_ = rhs.node_;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator &sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator::operator=(const Iterator &iter)
+{
+  node_ = iter.node_;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator &sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator::operator=(Iterator &&rhs)
+{
+  node_ = rhs.node_;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+std::pair< Key, Value > &sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator::operator*()
+{
+  return node_->data;
+}
+
+template< typename Key, typename Value, typename Compare >
+std::pair< Key, Value > *sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator::operator->()
+{
+  return std::addressof(node_->data);
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator &sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator::operator++()
+{
+  if (node_ == nullptr)
+  {
+    return *this;
+  }
+  else if (node_->left == nullptr)
+  {
+    Node *temp = node_->parent;
+    while (temp != nullptr && node_ == temp->left)
+    {
+      node_ = temp;
+      temp = node_->parent;
+    }
+    node_ = temp;
+    return *this;
+  }
+  else
+  {
+    node_ = node_->left;
+    while (node_->right != nullptr)
+    {
+      node_ = node_->right;
+    }
+    return *this;
+  }
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator::operator++(int)
+{
+  RNLIterator temp(*this);
+  ++(*this);
+  return temp;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator &sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator::operator--()
+{
+  if (node_ == nullptr)
+  {
+    return *this;
+  }
+  else if (node_->right == nullptr)
+  {
+    Node *temp = node_->parent;
+    while (temp != nullptr && node_ == temp->right)
+    {
+      node_ = temp;
+      temp = node_->parent;
+    }
+    node_ = temp;
+    return *this;
+  }
+  else
+  {
+    node_ = node_->right;
+    if (node_->left == nullptr)
+    {
+      return *this;
+    }
+    while (node_->left != nullptr)
+    {
+      node_ = node_->left;
+    }
+    return *this;
+  }
+}
+
+template< typename Key, typename Value, typename Compare >
+typename sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator::operator--(int)
+{
+  RNLIterator temp(*this);
+  --(*this);
+  return temp;
+}
+
+template< typename Key, typename Value, typename Compare >
+bool sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator::operator==(const RNLIterator &rhs) const
+{
+  return node_ == rhs.node_;
+}
+
+template< typename Key, typename Value, typename Compare >
+bool sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator::operator!=(const RNLIterator &rhs) const
 {
   return node_ != rhs.node_;
 }
