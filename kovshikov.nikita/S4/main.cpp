@@ -51,5 +51,25 @@ int main()
   std::cout << tree[100] << "\n";
   tree[75];
   std::cout << tree.count(75) << "\n";
+  try
+  {
+    tree.at(8);
+  }
+  catch(const std::out_of_range& error)
+  {
+    std::cout << "ERROR\n";
+  }
+  Tree< size_t, std::string > otherTree;
+  otherTree.insert(1, "one");
+  otherTree.insert(2, "two");
+  tree.swap(otherTree); //ok
+  std::cout << tree.getSize() << "\n";
+  std::cout << otherTree.getSize() << "\n";
+  otherTree.clear(); //ok
+  std::cout << otherTree.isEmpty() << "\n";
+  Tree< size_t, std::string > dub(tree);
+  std::cout << dub.getSize() << "\n";
+  tree.clear();
+  std::cout << dub.getSize() << "\n";
   return 0;
 }

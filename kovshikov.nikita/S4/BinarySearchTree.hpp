@@ -373,7 +373,7 @@ template< typename Key, typename Value, typename Compare >
 kovshikov::Tree< Key, Value, Compare >::Tree(const Tree& tree)
 {
   root_ = nullptr;
-  comp = tree.comp_;
+  comp = tree.comp;
   Iterator iterator = tree.begin();
   while(iterator != tree.end())
   {
