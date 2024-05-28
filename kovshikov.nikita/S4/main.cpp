@@ -5,7 +5,8 @@ int main()
 {
   using namespace kovshikov;
   Tree< size_t, std::string > tree;
-/*  std::cout << tree.getSize() << " " << tree.isEmpty() << "\n"; //ok
+/*
+  std::cout << tree.getSize() << " " << tree.isEmpty() << "\n"; //ok
   tree.insert(1, "one");
   tree.insert(3, "three");
   tree.insert(2, "two");
@@ -19,7 +20,9 @@ int main()
   std::cout << tree.at(6) << "\n"; //ok
 //  std::cout << tree[6] << "\n";
   tree.erase(3);
-  std::cout << tree.getSize() << "\n";*/
+  std::cout << tree.getSize() << "\n";
+*/
+
   tree.insert(10, "ten");
   tree.insert(8, "eight");
   tree.insert(15, "fifteen");
@@ -35,11 +38,18 @@ int main()
   tree.insert(19, "ninteen");
   tree.insert(18, "eighteen");
   tree.insert(20, "twenty");
-  std::cout << tree.getSize() << " " << tree.isEmpty() << "\n";
+  std::cout << tree.getSize() << " " << tree.isEmpty() << "\n"; //ok
+  tree.erase(10);
   tree.erase(13);
   tree.erase(16);
   tree.erase(8);
   tree.erase(20);
-  std::cout << tree.getSize() << " " << tree.isEmpty() << "\n";
+  tree.erase(18);
+  std::cout << tree.getSize() << " " << tree.isEmpty() << "\n"; //ok
+  std::cout << tree[5] << "\n";
+  tree[100] = "hangred";
+  std::cout << tree[100] << "\n";
+  tree[75];
+  std::cout << tree.count(75) << "\n";
   return 0;
 }
