@@ -32,16 +32,15 @@ void sobolevsky::Key_summ::operator()(const std::pair< const int, std::string > 
 {
   int limitMax = std::numeric_limits< int >::max();
   int limitMin = std::numeric_limits< int >::min();
-  int valFirst = key_value.first;
-  if (valFirst > 0 && limitMax - keyResult_ < valFirst)
+  if (key_value.first > 0 && limitMax - keyResult_ < key_value.first)
   {
     throw std::overflow_error("");
   }
-  else if (valFirst < 0 && limitMin - keyResult_ > valFirst)
+  else if (key_value.first < 0 && keyResult_ < 0 && limitMin - keyResult_ > key_value.first)
   {
     throw std::underflow_error("");
   }
-  keyResult_ += valFirst;
+  keyResult_ += key_value.first;
   valueResult_ += (" " + key_value.second);
 }
 

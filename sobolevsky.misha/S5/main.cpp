@@ -23,8 +23,8 @@ int main(int argc, char *argv[])
   sobolevsky::inputFromFile(file, tree);
   if (tree.isEmpty())
   {
-    sobolevsky::errorEmpty(std::cerr);
-    return 1;
+    sobolevsky::errorEmpty(std::cout);
+    return 0;
   }
   sobolevsky::AVLtree< std::string, std::function< void(std::ostream &, const sobolevsky::AVLtree< int, std::string, int > &) >, int > cmds;
   cmds["ascending"] = sobolevsky::ascending;
