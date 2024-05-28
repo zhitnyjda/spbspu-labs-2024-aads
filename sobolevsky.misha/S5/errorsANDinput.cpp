@@ -9,10 +9,11 @@ void sobolevsky::inputFromFile(std::istream &file, sobolevsky::AVLtree< int, std
       file.clear();
     }
     int key;
-    file >> key;
     std::string value;
-    file >> value;
-    data.insert(std::make_pair(key, value));
+    if (file >> key >> value)
+    {
+      data.insert(std::make_pair(key, value));
+    }
   }
 }
 

@@ -23,8 +23,8 @@ int main(int argc, char *argv[])
   sobolevsky::inputFromFile(file, tree);
   if (tree.isEmpty())
   {
-    sobolevsky::errorEmpty(std::cout);
-    return 0;
+    sobolevsky::errorEmpty(std::cerr);
+    return 1;
   }
   sobolevsky::AVLtree< std::string, std::function< void(std::ostream &, const sobolevsky::AVLtree< int, std::string, int > &) >, int > cmds;
   cmds["ascending"] = sobolevsky::ascending;
@@ -37,16 +37,22 @@ int main(int argc, char *argv[])
   catch(const std::out_of_range & e)
   {
     sobolevsky::errorInvalidCommand(std::cerr);
+    tree.clear();
+    cmds.clear();
     return 1;
   }
   catch(const std::overflow_error & e)
   {
     sobolevsky::errorOverflow(std::cerr);
+    tree.clear();
+    cmds.clear();
     return 1;
   }
   catch(const std::underflow_error & e)
   {
     sobolevsky::errorUnderflow(std::cerr);
+    tree.clear();
+    cmds.clear();
     return 1;
   }
   tree.clear();
