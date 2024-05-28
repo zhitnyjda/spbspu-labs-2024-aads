@@ -3,7 +3,6 @@
 #include <iterator>
 #include <cassert>
 #include <functional>
-#include <exception>
 #include <algorithm>
 
 namespace doroshenko
@@ -151,6 +150,7 @@ typename BST< Key, Value, Compare >::ConstIterator& BST< Key, Value, Compare >::
   }
   return *this;
 }
+
 template< typename Key, typename Value, typename Compare >
 typename BST< Key, Value, Compare >::ConstIterator BST< Key, Value, Compare >::ConstIterator::operator++(int)
 {
@@ -384,7 +384,7 @@ size_t BST< Key, Value, Compare >::getBalance(Node* root)
   }
   else
   {
-    return 0;
+    throw std::logic_error("can't get balance");
   }
 }
 
@@ -421,20 +421,13 @@ typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::insert(co
     }
   }
   Node* newNode = new Node({ key, value }, parent);
-  if (parent != nullptr)
+  if (cmp_(key, parent->data_.first))
   {
-    if (cmp_(key, parent->data_.first))
-    {
-      parent->left_ = newNode;
-    }
-    else
-    {
-      parent->right_ = newNode;
-    }
+    parent->left_ = newNode;
   }
   else
   {
-    root_ = newNode;
+    parent->right_ = newNode;
   }
   balance(newNode);
   return newNode;
@@ -477,11 +470,11 @@ typename BST< Key, Value, Compare >::Iterator BST< Key, Value, Compare >::erase(
   {
     parent->right_ = child;
   }
-  while (parent)
+  while(parent)
   {
     updateHeight(parent);
-    parent = balance(parent);
-    if ( parent != nullptr)
+    balance(parent);
+    if(parent != nullptr)
     {
       parent = parent->parent_;
     }
@@ -508,33 +501,36 @@ size_t BST< Key, Value, Compare >::erase(const Key& key)
 template < typename Key, typename Value, typename Compare >
 void BST< Key, Value, Compare >::updateHeight(Node* node)
 {
-  while (node)
-  {
-    node->height_ = 1 + std::max(getHeight(node->left_), getHeight(node->right_));
-    node = node->parent_;
-  }
+  node->height_ = getHeight(node);
 }
+
 template< typename Key, typename Value, typename Compare >
 typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::balance(Node* node)
 {
   int balanceFactor = getBalance(node);
-  if (balanceFactor > 1 && getBalance(node->right_) >= 0)
+  if (balanceFactor == 2)
   {
-    return turnLeft(node);
+    if (getBalance(node->right_) > 0)
+    {
+      return turnLeft(node);
+    }
+    else
+    {
+      node->right_ = turnRight(node->right_);
+      return turnLeft(node);
+    }
   }
-  else if (balanceFactor < -1 && getBalance(node->left_) <= 0)
+  else if(balanceFactor == -2)
   {
-    return turnRight(node);
-  }
-  else if (balanceFactor > 1 && getBalance(node->right_) < 0)
-  {
-    node->right_ = turnRight(node->right_);
-    return turnLeft(node);
-  }
-  else if (balanceFactor < -1 && getBalance(node->left_) > 0)
-  {
-    node->left_ = turnLeft(node->left_);
-    return turnRight(node);
+    if(getBalance(node->left_) > 0)
+    {
+      node->left_ = turnLeft(node->left_);
+      return turnRight(node);
+    }
+    else
+    {
+      return turnRight(node);
+    }
   }
   return node;
 }
@@ -542,15 +538,7 @@ typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::balance(N
 template< typename Key, typename Value, typename Compare >
 typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::turnRight(Node* root)
 {
-  if (root == nullptr)
-  {
-    return root;
-  }
   Node* leftSubtree = root->left_;
-  if (leftSubtree == nullptr)
-  {
-    return root;
-  }
   Node* leftSubtreeRightSubtree = leftSubtree->right_;
   leftSubtree->right_ = root;
   root->left_ = leftSubtreeRightSubtree;
@@ -567,15 +555,7 @@ typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::turnRight
 template< typename Key, typename Value, typename Compare >
 typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::turnLeft(Node* root)
 {
-  if (root == nullptr)
-  {
-    return root;
-  }
   Node* rightSubtree = root->right_;
-  if (rightSubtree == nullptr)
-  {
-    return root;
-  }
   Node* rightSubtreeLeftSubtree = rightSubtree->left_;
   rightSubtree->left_ = root;
   root->right_ = rightSubtreeLeftSubtree;
