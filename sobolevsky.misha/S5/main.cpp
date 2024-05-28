@@ -37,5 +37,7 @@ int main(int argc, char *argv[])
     std::cin.clear();
     std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
   }
+  tree.clear();
+  cmds.clear();
   return 0;
 }
