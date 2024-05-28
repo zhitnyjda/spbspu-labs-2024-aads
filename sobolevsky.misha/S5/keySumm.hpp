@@ -12,12 +12,12 @@ namespace sobolevsky
   {
   public:
     Key_summ();
-    void operator()(const std::pair< const int, std::string > &key_value);
+    void operator()(const std::pair< const long long, std::string > &key_value);
 
-    int getKeyResult();
+    long long getKeyResult();
     std::string getValueResult();
   private:
-    int keyResult_;
+    long long keyResult_;
     std::string valueResult_;
   };
 }
@@ -28,11 +28,11 @@ sobolevsky::Key_summ::Key_summ()
   valueResult_ = "";
 }
 
-void sobolevsky::Key_summ::operator()(const std::pair< const int, std::string > &key_value)
+void sobolevsky::Key_summ::operator()(const std::pair< const long long, std::string > &key_value)
 {
-  int limitMax = std::numeric_limits< int >::max();
-  int limitMin = std::numeric_limits< int >::min();
-  if (key_value.first > 0 && limitMax - keyResult_ < key_value.first)
+  long long limitMax = std::numeric_limits< int >::max();
+  long long limitMin = std::numeric_limits< int >::min();
+  if (key_value.first > 0 && keyResult_ > 0 && limitMax - keyResult_ < key_value.first)
   {
     throw std::overflow_error("");
   }
@@ -44,7 +44,7 @@ void sobolevsky::Key_summ::operator()(const std::pair< const int, std::string > 
   valueResult_ += (" " + key_value.second);
 }
 
-int sobolevsky::Key_summ::getKeyResult()
+long long sobolevsky::Key_summ::getKeyResult()
 {
   return keyResult_;
 }

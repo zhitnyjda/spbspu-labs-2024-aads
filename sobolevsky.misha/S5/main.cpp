@@ -5,7 +5,7 @@
 #include "commands.hpp"
 #include "errorsANDinput.hpp"
 
-int main(int argc, char *argv[])
+int main(long long argc, char *argv[])
 {
   if (argc != 3)
   {
@@ -19,14 +19,14 @@ int main(int argc, char *argv[])
     std::cerr << "file cannot be opened\n";
     return 1;
   }
-  sobolevsky::AVLtree< int, std::string, int > tree;
+  sobolevsky::AVLtree< long long, std::string, long long > tree;
   sobolevsky::inputFromFile(file, tree);
   if (tree.isEmpty())
   {
     sobolevsky::errorEmpty(std::cout);
     return 0;
   }
-  sobolevsky::AVLtree< std::string, std::function< void(std::ostream &, const sobolevsky::AVLtree< int, std::string, int > &) >, int > cmds;
+  sobolevsky::AVLtree< std::string, std::function< void(std::ostream &, const sobolevsky::AVLtree< long long, std::string, long long > &) >, long long > cmds;
   cmds["ascending"] = sobolevsky::ascending;
   cmds["descending"] = sobolevsky::descending;
   cmds["breadth"] = sobolevsky::breadth;

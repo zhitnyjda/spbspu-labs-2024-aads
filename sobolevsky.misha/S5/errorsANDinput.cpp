@@ -1,6 +1,6 @@
 #include "errorsANDinput.hpp"
 
-void sobolevsky::inputFromFile(std::istream &file, sobolevsky::AVLtree< int, std::string, int > &data)
+void sobolevsky::inputFromFile(std::istream &file, sobolevsky::AVLtree< long long, std::string, long long > &data)
 {
   while (!file.eof())
   {
@@ -8,7 +8,7 @@ void sobolevsky::inputFromFile(std::istream &file, sobolevsky::AVLtree< int, std
     {
       file.clear();
     }
-    int key;
+    long long key;
     std::string value;
     if (file >> key >> value)
     {
