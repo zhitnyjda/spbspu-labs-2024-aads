@@ -26,7 +26,8 @@ int main(long long argc, char *argv[])
     sobolevsky::errorEmpty(std::cout);
     return 0;
   }
-  sobolevsky::AVLtree< std::string, std::function< void(std::ostream &, const sobolevsky::AVLtree< long long, std::string, long long > &) >, long long > cmds;
+  sobolevsky::AVLtree< std::string, std::function< void(std::ostream &, const sobolevsky::AVLtree< long long, std::string, long long > &) >,
+  long long > cmds;
   cmds["ascending"] = sobolevsky::ascending;
   cmds["descending"] = sobolevsky::descending;
   cmds["breadth"] = sobolevsky::breadth;
