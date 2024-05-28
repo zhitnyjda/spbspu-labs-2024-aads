@@ -8,6 +8,8 @@ namespace kovshikov
   void readData(std::istream& in, Tree< std::string, Tree< long long, std::string > >& allTree);
   void createTree(Tree< std::string, Tree< long long, std::string > >& allTree, std::string dictionary);
   bool isDigit(std::string str);
+
+  void print(Tree< std::string, Tree< long long, std::string > >& allTree);
 }
 
 #endif

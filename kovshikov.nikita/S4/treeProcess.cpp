@@ -61,5 +61,13 @@ void kovshikov::createTree(Tree< std::string, Tree< long long, std::string > >& 
       }
     }
   }
+  value = temp;
+  tree.insert(key, value);
   allTree.insert(name, tree); //вот тут вылетает жесткая ошибка;
+}
+
+void kovshikov::print(Tree< std::string, Tree< long long, std::string > >& allTree)
+{
+  std::cout << allTree.getSize() << "\n";
+  std::cout << "print\n";
 }

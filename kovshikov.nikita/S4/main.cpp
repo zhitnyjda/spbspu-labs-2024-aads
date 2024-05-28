@@ -16,7 +16,29 @@ int main(int argc, char ** argv )
   Tree< std::string, Tree< long long, std::string > > allTree;
   std::ifstream file(argv[1]);
   readData(file, allTree);
+
+  Tree< std::string, std::function < void(Tree< std::string, Tree< long long, std::string > >&) > > commands;
+  commands.insert("print", print);
+  commands.at("print")(allTree);
+  //std::cout << allTree.getSize() << "\n";
+  return 0;
 }
+
+
+
+
+
+
+/*  long long size = allTree.getSize();
+  std::cout << size << "\n";
+  std::cout << allTree.at("first").getSize() << "\n";
+  std::cout << allTree.at("second").getSize() << "\n";
+  std::cout << allTree.at("third").getSize() << "\n";
+  std::cout << "__________________" << "\n";
+  std::cout << allTree.at("third").at(6) << " " << allTree.at("third").at(7) << " " << allTree.at("third").at(10) << "\n";
+  std::cout << allTree.at("third").at(11) << "\n";
+}
+*/
 
 
 
