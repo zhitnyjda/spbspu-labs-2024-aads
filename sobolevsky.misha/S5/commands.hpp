@@ -7,9 +7,9 @@
 
 namespace sobolevsky
 {
-  void ascending(std::ostream &out, sobolevsky::AVLtree< int, std::string, int > &tree);
-  void descending(std::ostream &out, sobolevsky::AVLtree< int, std::string, int > &tree);
-  void breadth(std::ostream &out, sobolevsky::AVLtree< int, std::string, int > &tree);
+  void ascending(std::ostream &out, const sobolevsky::AVLtree< int, std::string, int > &tree);
+  void descending(std::ostream &out, const sobolevsky::AVLtree< int, std::string, int > &tree);
+  void breadth(std::ostream &out, const sobolevsky::AVLtree< int, std::string, int > &tree);
 }
 
 #endif

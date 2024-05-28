@@ -20,10 +20,9 @@ int main(int argc, char *argv[])
     std::cerr << "file cannot be opened\n";
     return 1;
   }
-
   sobolevsky::AVLtree< int, std::string, int > tree;
   sobolevsky::inputFromFile(file, tree);
-  sobolevsky::AVLtree< std::string, std::function< void(std::ostream &, sobolevsky::AVLtree< int, std::string, int > &) >, int > cmds;
+  sobolevsky::AVLtree< std::string, std::function< void(std::ostream &, const sobolevsky::AVLtree< int, std::string, int > &) >, int > cmds;
   cmds["ascending"] = sobolevsky::ascending;
   cmds["descending"] = sobolevsky::descending;
   cmds["breadth"] = sobolevsky::breadth;

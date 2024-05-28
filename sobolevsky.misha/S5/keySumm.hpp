@@ -10,7 +10,7 @@ namespace sobolevsky
   {
   public:
     Key_summ();
-    void operator()(std::pair< int, std::string > &key_value);
+    void operator()(const std::pair< const int, std::string > &key_value);
 
     int getKeyResult();
     std::string getValueResult();
@@ -26,7 +26,7 @@ sobolevsky::Key_summ::Key_summ()
   valueResult_ = "";
 }
 
-void sobolevsky::Key_summ::operator()(std::pair< int, std::string > &key_value)
+void sobolevsky::Key_summ::operator()(const std::pair< const int, std::string > &key_value)
 {
   keyResult_ += key_value.first;
   valueResult_ += (" " + key_value.second);
