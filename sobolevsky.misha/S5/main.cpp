@@ -1,10 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include <functional>
-#include <limits>
 #include "../common/tree.hpp"
 #include "commands.hpp"
-#include "utils.hpp"
+#include "errorsANDinput.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -22,6 +21,11 @@ int main(int argc, char *argv[])
   }
   sobolevsky::AVLtree< int, std::string, int > tree;
   sobolevsky::inputFromFile(file, tree);
+  if (tree.isEmpty())
+  {
+    sobolevsky::errorEmpty(std::cout);
+    return 0;
+  }
   sobolevsky::AVLtree< std::string, std::function< void(std::ostream &, const sobolevsky::AVLtree< int, std::string, int > &) >, int > cmds;
   cmds["ascending"] = sobolevsky::ascending;
   cmds["descending"] = sobolevsky::descending;
@@ -32,9 +36,18 @@ int main(int argc, char *argv[])
   }
   catch(const std::out_of_range & e)
   {
-    sobolevsky::errorInvalidCommand(std::cout);
-    std::cin.clear();
-    std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+    sobolevsky::errorInvalidCommand(std::cerr);
+    return 1;
+  }
+  catch(const std::overflow_error & e)
+  {
+    sobolevsky::errorOverflow(std::cerr);
+    return 1;
+  }
+  catch(const std::underflow_error & e)
+  {
+    sobolevsky::errorUnderflow(std::cerr);
+    return 1;
   }
   tree.clear();
   cmds.clear();
