@@ -643,7 +643,7 @@ void kovshikov::Tree< Key, Value, Compare >::LeftLeft(Node* node)
 template< typename Key, typename Value, typename Compare >
 typename kovshikov::Tree< Key, Value, Compare >::Node* kovshikov::Tree< Key, Value, Compare >::checkBalance(Node* node)
 {
- // std::cout << "START CHECKBALANCE\n"; //
+  std::cout << "START CHECKBALANCE\n"; //
   while(node != nullptr)
   {
     if(std::abs(getDifference(node)) > 1)
@@ -655,14 +655,14 @@ typename kovshikov::Tree< Key, Value, Compare >::Node* kovshikov::Tree< Key, Val
       node = node -> father_;
     }
   }
- // std::cout << "FINISH CHECKBALANCE\n"; //
+  std::cout << "FINISH CHECKBALANCE\n"; //
   return node;
 }
 
 template< typename Key, typename Value, typename Compare >
 void kovshikov::Tree< Key, Value, Compare >::balance(Node* node)
 {
- // std::cout << "START BALANCE\n"; //
+  std::cout << "START BALANCE\n"; //
   Node* toBalance = node; //
   bool isBalance = false;
   while(isBalance == false)
@@ -674,11 +674,12 @@ void kovshikov::Tree< Key, Value, Compare >::balance(Node* node)
     }
     else
     {
-     // std::cout << "DO BALANCE\n"; //
+      std::cout << "DO BALANCE\n"; //
       if(getDifference(toBalance) < -1 && getDifference(toBalance -> right_) <= 0)
       {
+        std::cout << "START LEFTLEFT\n"; //
         LeftLeft(toBalance);
-       // std::cout << "LEFTLEFT\n"; //
+        std::cout << "LEFTLEFT\n"; //
       }
       else if(getDifference(toBalance) > 1 && getDifference(toBalance -> left_) >= 0)
       {
@@ -700,7 +701,7 @@ void kovshikov::Tree< Key, Value, Compare >::balance(Node* node)
       toBalance = toBalance -> father_;
     }
   }
- // std::cout << "FINISH BALANCE\n"; //
+  std::cout << "FINISH BALANCE\n"; //
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -829,9 +830,20 @@ typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, 
     std::cout << "if\n"; //
     if(bigFather != nullptr)
     {
+      std::cout << "if2\n"; //
+      if(comp(toDelete -> element_.first, bigFather -> element_.first))
+      {
+        bigFather -> left_ = nullptr;
+      }
+      else
+      {
+        bigFather -> right_ = nullptr;
+      }
       delete toDelete;
-      balance(bigFather);
-      return Iterator(bigFather, root_);
+      std::cout << "if3\n"; //
+      balance(bigFather); //ОШИБКА В БАЛАНСИРОВКЕ
+      std::cout << "f4\n"; //
+      return Iterator(bigFather, root_); //скорее всего не тот итератор возвращаю
     }
     else
     {
@@ -850,6 +862,10 @@ typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, 
       temp = temp -> left_;
     }
     toBalance = changer -> father_;
+    if(toBalance != toDelete)
+    {
+      toBalance -> left_ = nullptr;
+    }
   }
   else
   {
@@ -862,6 +878,10 @@ typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, 
       temp = temp -> right_;
     }
     toBalance = changer -> father_;
+    if(toBalance != toDelete)
+    {
+      toBalance -> right_ = nullptr;
+    }
   }
   if(comp(toDelete -> element_.first, bigFather -> element_.first))
   {
@@ -887,11 +907,13 @@ typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, 
 
   if(toBalance != toDelete)
   {
+    std::cout << "toBalance\n"; //
     delete toDelete;
     balance(toBalance);
   }
   else
   {
+    std::cout << "changer\n"; //
     delete toDelete;
     balance(changer);
   }

@@ -39,7 +39,7 @@ int main()
   tree.erase(13);
   tree.erase(16);
   tree.erase(8);
-  //tree.erase(10)
+  tree.erase(20);
   std::cout << tree.getSize() << " " << tree.isEmpty() << "\n";
   return 0;
 }
