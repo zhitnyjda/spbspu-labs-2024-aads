@@ -1,11 +1,28 @@
-#include "BinarySearchTree.hpp"
 #include <iostream>
+#include <string>
+#include <fstream>
+#include "BinarySearchTree.hpp"
+#include "treeProcess.hpp"
 
-int main()
+int main(int argc, char ** argv )
 {
+  if(argc != 2)
+  {
+    std::cerr << "NO FILE SPECIFIED" << "\n";
+    return 1;
+  }
+
   using namespace kovshikov;
+  Tree< std::string, Tree< long long, std::string > > allTree;
+  std::ifstream file(argv[1]);
+  readData(file, allTree);
+}
+
+
+
+/*  using namespace kovshikov;
   Tree< size_t, std::string > tree;
-/*
+
   std::cout << tree.getSize() << " " << tree.isEmpty() << "\n"; //ok
   tree.insert(1, "one");
   tree.insert(3, "three");
@@ -21,7 +38,7 @@ int main()
 //  std::cout << tree[6] << "\n";
   tree.erase(3);
   std::cout << tree.getSize() << "\n";
-*/
+
 
   tree.insert(10, "ten");
   tree.insert(8, "eight");
@@ -72,4 +89,4 @@ int main()
   tree.clear();
   std::cout << dub.getSize() << "\n";
   return 0;
-}
+*/

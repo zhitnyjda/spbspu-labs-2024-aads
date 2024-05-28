@@ -32,7 +32,7 @@ namespace kovshikov
 
     using Pair = std::pair< Key, Value >;
     using Range = std::pair< Iterator, Iterator >;
-    Compare comp;
+   // Compare comp;
 
    // void printStart(); /////////
 
@@ -62,6 +62,7 @@ namespace kovshikov
 
   private:
     Node* root_;
+    Compare comp;
 
     size_t getHeight(Node* node);
     long long getDifference(Node* node);
@@ -365,8 +366,8 @@ const typename kovshikov::Tree< Key, Value, Compare >::Pair* kovshikov::Tree< Ke
 
 template< typename Key, typename Value, typename Compare >
 kovshikov::Tree< Key, Value, Compare >::Tree():
-  comp(Compare()),
-  root_(nullptr)
+  root_(nullptr),
+  comp(Compare())
 {};
 
 template< typename Key, typename Value, typename Compare >
@@ -710,7 +711,7 @@ void kovshikov::Tree< Key, Value, Compare >::insert(const Key& key, const Value&
  // std::cout << "INSERT\n"; //
   if(find(key) == end())
   {
-    Node* newNode = new Node(key, value);
+    Node* newNode = new Node(key, value); //root добавить?
     if(isEmpty())
     {
       root_ = newNode;
