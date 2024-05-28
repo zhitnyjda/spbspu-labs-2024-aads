@@ -1011,28 +1011,32 @@ sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator::LNRIterator(const Itera
 }
 
 template< typename Key, typename Value, typename Compare >
-typename sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator &sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator::operator=(const LNRIterator &iter)
+typename sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator &sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator::operator=
+(const LNRIterator &iter)
 {
   node_ = iter.node_;
   return *this;
 }
 
 template< typename Key, typename Value, typename Compare >
-typename sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator &sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator::operator=(LNRIterator &&rhs)
+typename sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator &sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator::operator=
+(LNRIterator &&rhs)
 {
   node_ = rhs.node_;
   return *this;
 }
 
 template< typename Key, typename Value, typename Compare >
-typename sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator &sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator::operator=(const Iterator &iter)
+typename sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator &sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator::operator=
+(const Iterator &iter)
 {
   node_ = iter.node_;
   return *this;
 }
 
 template< typename Key, typename Value, typename Compare >
-typename sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator &sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator::operator=(Iterator &&rhs)
+typename sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator &sobolevsky::AVLtree< Key, Value, Compare >::LNRIterator::operator=
+(Iterator &&rhs)
 {
   node_ = rhs.node_;
   return *this;
@@ -1192,28 +1196,32 @@ sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator::RNLIterator(const Itera
 }
 
 template< typename Key, typename Value, typename Compare >
-typename sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator &sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator::operator=(const RNLIterator &iter)
+typename sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator &sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator::operator=
+(const RNLIterator &iter)
 {
   node_ = iter.node_;
   return *this;
 }
 
 template< typename Key, typename Value, typename Compare >
-typename sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator &sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator::operator=(RNLIterator &&rhs)
+typename sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator &sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator::operator=
+(RNLIterator &&rhs)
 {
   node_ = rhs.node_;
   return *this;
 }
 
 template< typename Key, typename Value, typename Compare >
-typename sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator &sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator::operator=(const Iterator &iter)
+typename sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator &sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator::operator=
+(const Iterator &iter)
 {
   node_ = iter.node_;
   return *this;
 }
 
 template< typename Key, typename Value, typename Compare >
-typename sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator &sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator::operator=(Iterator &&rhs)
+typename sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator &sobolevsky::AVLtree< Key, Value, Compare >::RNLIterator::operator=
+(Iterator &&rhs)
 {
   node_ = rhs.node_;
   return *this;
