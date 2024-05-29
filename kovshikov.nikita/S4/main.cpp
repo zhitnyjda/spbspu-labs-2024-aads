@@ -13,11 +13,11 @@ int main(int argc, char ** argv )
   }
 
   using namespace kovshikov;
-  Tree< std::string, Tree< long long, std::string > > allTree;
+  Tree< std::string, Tree< size_t, std::string > > allTree;
   std::ifstream file(argv[1]);
   readData(file, allTree);
 
-  Tree< std::string, std::function < void(Tree< std::string, Tree< long long, std::string > >&) > > commands;
+  Tree< std::string, std::function < void(Tree< std::string, Tree< size_t, std::string > >&) > > commands;
   commands.insert("print", print);
   commands.insert("complement", getComplement);
   commands.insert("intersect", getIntersect);

@@ -14,7 +14,7 @@ bool kovshikov::isDigit(std::string str)
   return true;
 }
 
-void kovshikov::readData(std::istream& in, Tree< std::string, Tree< long long, std::string > >& allTree)
+void kovshikov::readData(std::istream& in, Tree< std::string, Tree< size_t, std::string > >& allTree)
 {
   while(!in.eof())
   {
@@ -27,13 +27,13 @@ void kovshikov::readData(std::istream& in, Tree< std::string, Tree< long long, s
   }
 }
 
-void kovshikov::createTree(Tree< std::string, Tree< long long, std::string > >& allTree, std::string dictionary)
+void kovshikov::createTree(Tree< std::string, Tree< size_t, std::string > >& allTree, std::string dictionary)
 {
   std::string temp = "";
   std::string name = "";
-  long long key = 0;
+  size_t key = 0; //
   std::string value = "";
-  Tree< long long, std::string > tree;
+  Tree< size_t, std::string > tree;
   bool isName = true;
   for(size_t i = 0; i < dictionary.length(); i++)
   {
@@ -74,23 +74,23 @@ void kovshikov::createTree(Tree< std::string, Tree< long long, std::string > >& 
   allTree.insert(name, tree);
 }
 
-void kovshikov::print(Tree< std::string, Tree< long long, std::string > >& allTree)
+void kovshikov::print(Tree< std::string, Tree< size_t, std::string > >& allTree)
 {
   std::string dictionary;
   std::cin >> dictionary;
-  Tree< long long, std::string > tree = allTree.at(dictionary);
+  Tree< size_t, std::string > tree = allTree.at(dictionary);
   if(tree.isEmpty())
   {
     std::cout << "<EMPTY>" << "\n";
   }
   else
   {
-    Tree< long long, std::string >::Iterator iterator = tree.begin();
-    Tree< long long, std::string >::Iterator end = tree.end();
+    Tree< size_t, std::string >::Iterator iterator = tree.begin();
+    Tree< size_t, std::string >::Iterator end = tree.end();
     std::cout << dictionary << " ";
     while(iterator != end)
     {
-      std::pair< long long, std::string > pair = *iterator;
+      std::pair< size_t, std::string > pair = *iterator;
       if(++iterator == end)
       {
         std::cout << pair.first << " " << pair.second << "\n";
@@ -103,22 +103,22 @@ void kovshikov::print(Tree< std::string, Tree< long long, std::string > >& allTr
   }
 }
 
-void kovshikov::getComplement(Tree< std::string, Tree< long long, std::string > >& allTree)
+void kovshikov::getComplement(Tree< std::string, Tree< size_t, std::string > >& allTree)
 {
   std::string name;
   std::string  nameFirst;
   std::string  nameSecond;
   std:: cin >> name >> nameFirst >> nameSecond;
-  Tree< long long, std::string > newTree;
-  Tree< long long, std::string > firstDictionary = allTree.at(nameFirst);
-  Tree< long long, std::string > secondDictionary = allTree.at(nameSecond);
-  Tree< long long, std::string >::Iterator iteratorFirst = firstDictionary.begin();
-  Tree< long long, std::string >::Iterator endFirst = firstDictionary.end();
-  Tree< long long, std::string >::Iterator iteratorSecond = secondDictionary.begin();
-  Tree< long long, std::string >::Iterator endSecond = secondDictionary.end();
+  Tree< size_t, std::string > newTree;
+  Tree< size_t, std::string > firstDictionary = allTree.at(nameFirst);
+  Tree< size_t, std::string > secondDictionary = allTree.at(nameSecond);
+  Tree< size_t, std::string >::Iterator iteratorFirst = firstDictionary.begin();
+  Tree< size_t, std::string >::Iterator endFirst = firstDictionary.end();
+  Tree< size_t, std::string >::Iterator iteratorSecond = secondDictionary.begin();
+  Tree< size_t, std::string >::Iterator endSecond = secondDictionary.end();
   while(iteratorFirst != endFirst)
   {
-    std::pair< long long, std::string > pair = *iteratorFirst;
+    std::pair< size_t, std::string > pair = *iteratorFirst;
     if(secondDictionary.find(pair.first) == endSecond)
     {
       newTree.insert(pair);
@@ -127,7 +127,7 @@ void kovshikov::getComplement(Tree< std::string, Tree< long long, std::string > 
   }
   while(iteratorSecond != endSecond)
   {
-    std::pair< long long, std::string > pair = *iteratorSecond;
+    std::pair< size_t, std::string > pair = *iteratorSecond;
     if(firstDictionary.find(pair.first) == endFirst)
     {
       newTree.insert(pair);
@@ -137,21 +137,21 @@ void kovshikov::getComplement(Tree< std::string, Tree< long long, std::string > 
   allTree.insert(name, newTree);
 }
 
-void kovshikov::getIntersect(Tree< std::string, Tree< long long, std::string > >& allTree)
+void kovshikov::getIntersect(Tree< std::string, Tree< size_t, std::string > >& allTree)
 {
   std::string name;
   std::string  nameFirst;
   std::string  nameSecond;
   std:: cin >> name >> nameFirst >> nameSecond;
-  Tree< long long, std::string > newTree;
-  Tree< long long, std::string > firstDictionary = allTree.at(nameFirst);
-  Tree< long long, std::string > secondDictionary = allTree.at(nameSecond);
-  Tree< long long, std::string >::Iterator iteratorFirst = firstDictionary.begin();
-  Tree< long long, std::string >::Iterator endFirst = firstDictionary.end();
-  Tree< long long, std::string >::Iterator endSecond = secondDictionary.end();
+  Tree< size_t, std::string > newTree;
+  Tree< size_t, std::string > firstDictionary = allTree.at(nameFirst);
+  Tree< size_t, std::string > secondDictionary = allTree.at(nameSecond);
+  Tree< size_t, std::string >::Iterator iteratorFirst = firstDictionary.begin();
+  Tree< size_t, std::string >::Iterator endFirst = firstDictionary.end();
+  Tree< size_t, std::string >::Iterator endSecond = secondDictionary.end();
   while(iteratorFirst != endFirst)
   {
-    std::pair< long long, std::string > pair = *iteratorFirst;
+    std::pair< size_t, std::string > pair = *iteratorFirst;
     if(secondDictionary.find(pair.first) != endSecond)
     {
       newTree.insert(pair);
@@ -161,28 +161,28 @@ void kovshikov::getIntersect(Tree< std::string, Tree< long long, std::string > >
   allTree.insert(name, newTree);
 }
 
-void kovshikov::getUnion(Tree< std::string, Tree< long long, std::string > >& allTree)
+void kovshikov::getUnion(Tree< std::string, Tree< size_t, std::string > >& allTree)
 {
   std::string name;
   std::string  nameFirst;
   std::string  nameSecond;
   std:: cin >> name >> nameFirst >> nameSecond;
-  Tree< long long, std::string > newTree;
-  Tree< long long, std::string > firstDictionary = allTree.at(nameFirst);
-  Tree< long long, std::string > secondDictionary = allTree.at(nameSecond);
-  Tree< long long, std::string >::Iterator iteratorFirst = firstDictionary.begin();
-  Tree< long long, std::string >::Iterator endFirst = firstDictionary.end();
-  Tree< long long, std::string >::Iterator iteratorSecond = secondDictionary.begin();
-  Tree< long long, std::string >::Iterator endSecond = secondDictionary.end();
+  Tree< size_t, std::string > newTree;
+  Tree< size_t, std::string > firstDictionary = allTree.at(nameFirst);
+  Tree< size_t, std::string > secondDictionary = allTree.at(nameSecond);
+  Tree< size_t, std::string >::Iterator iteratorFirst = firstDictionary.begin();
+  Tree< size_t, std::string >::Iterator endFirst = firstDictionary.end();
+  Tree< size_t, std::string >::Iterator iteratorSecond = secondDictionary.begin();
+  Tree< size_t, std::string >::Iterator endSecond = secondDictionary.end();
   while(iteratorFirst != endFirst)
   {
-    std::pair< long long, std::string > pair = *iteratorFirst;
+    std::pair< size_t, std::string > pair = *iteratorFirst;
     newTree.insert(pair);
     iteratorFirst++;
   }
   while(iteratorSecond != endSecond)
   {
-    std::pair< long long, std::string > pair = *iteratorSecond;
+    std::pair< size_t, std::string > pair = *iteratorSecond;
     if(firstDictionary.find(pair.first) == endFirst)
     {
       newTree.insert(pair);
