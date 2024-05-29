@@ -15,7 +15,8 @@ void zheleznyakov::commands::print(std::istream & in, std::ostream & out, const 
   auto it = dict.begin();
   while (it != dict.end())
   {
-    out << it->first << ' ' << it->second << (++it == dict.end() ? '\n' : ' ');
+    out << it->first << ' ' << it->second;
+    out << (++it == dict.end() ? '\n' : ' ');
   }
 }
 

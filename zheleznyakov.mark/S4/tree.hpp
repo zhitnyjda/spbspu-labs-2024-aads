@@ -83,6 +83,10 @@ zheleznyakov::Tree< Key, Value, Compare >::Tree(const Tree & other):
   root_(nullptr)
 {
   Node * node_ = other.root_;
+  while (node_ != nullptr && node_->left != nullptr)
+  {
+    node_ = node_->left;
+  }
   while (node_ != nullptr)
   {
     insert(node_->data.first, node_->data.second);
