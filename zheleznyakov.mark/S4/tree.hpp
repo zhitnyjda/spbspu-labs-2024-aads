@@ -23,7 +23,7 @@ namespace zheleznyakov
     Tree & operator=(const Tree &);
 
     size_t size() const;
-    bool empty() const;
+    bool empty() const noexcept;
     size_t count(const Key &) const;
 
     Value at(const Key &);
@@ -33,7 +33,7 @@ namespace zheleznyakov
     Value & operator[](const Key &);
     const Value & operator[](const Key &) const;
 
-    void swap(Tree &);
+    void swap(Tree &) noexcept;
     void clear();
 
     Iterator begin() noexcept;
@@ -396,7 +396,7 @@ size_t zheleznyakov::Tree< Key, Value, Compare >::size() const
 }
 
 template < typename Key, typename Value, typename Compare >
-bool zheleznyakov::Tree< Key, Value, Compare >::empty() const
+bool zheleznyakov::Tree< Key, Value, Compare >::empty() const noexcept
 {
   return root_ == nullptr;
 }
@@ -408,7 +408,8 @@ size_t zheleznyakov::Tree< Key, Value, Compare >::count(const Key & key) const
 }
 
 template < typename Key, typename Value, typename Compare >
-Value& zheleznyakov::Tree< Key, Value, Compare >::operator[](const Key& key) {
+Value& zheleznyakov::Tree< Key, Value, Compare >::operator[](const Key& key)
+{
   Node* current = root_;
   Node* parent = nullptr;
 
@@ -449,7 +450,8 @@ Value& zheleznyakov::Tree< Key, Value, Compare >::operator[](const Key& key) {
 }
 
 template < typename Key, typename Value, typename Compare >
-const Value & zheleznyakov::Tree< Key, Value, Compare >::operator[](const Key& key) const {
+const Value & zheleznyakov::Tree< Key, Value, Compare >::operator[](const Key& key) const
+{
   Node * current = root_;
   while (current != nullptr)
   {
@@ -799,7 +801,7 @@ typename zheleznyakov::Tree< Key, Value, Compare >::ConstIterator zheleznyakov::
 }
 
 template < typename Key, typename Value, typename Compare >
-void zheleznyakov::Tree< Key, Value, Compare >::swap(Tree & other)
+void zheleznyakov::Tree< Key, Value, Compare >::swap(Tree & other) noexcept
 {
   Node* temp = root_;
   root_ = other.root_;
