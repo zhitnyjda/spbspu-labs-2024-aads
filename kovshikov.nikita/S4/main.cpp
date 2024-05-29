@@ -22,11 +22,21 @@ int main(int argc, char ** argv )
   commands.insert("complement", getComplement);
   commands.insert("intersect", getIntersect);
   commands.insert("union", getUnion);
-  commands.at("union")(allTree);
- // commands.at("intersect")(allTree);
- // commands.at("complement")(allTree);
-  commands.at("print")(allTree);
-  //std::cout << allTree.getSize() << "\n";
+
+  std::string command;
+  while(std::cin >> command)
+  {
+    try
+    {
+      commands.at(command)(allTree);
+    }
+    catch(const std::out_of_range& error)
+    {
+      std::cout << "<INVALID COMMAND>\n";
+      std::cin.clear();
+      std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+    }
+  }
   return 0;
 }
 
