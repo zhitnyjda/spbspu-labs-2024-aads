@@ -69,11 +69,22 @@ namespace mihalchenko
     Node *insertNode(Key k, Value v, Node *node, Node *prev);
     Iterator findNode(const Key &key, Node *node);
 
+    void leftSpin(Node *node);
+    void leftRightSpin(Node *node);
+    void rightSpin(Node *node);
+    void rightLeftSpin(Node *node);
+
+    int calcHeight(Node *node);
+    Node *SearchHiHeight(Node *node);
+
+    Node *copyTree(Node *node, Node *previous);
+    void doStableTree(Node *checkNode);
+    void clear(Node *node);
+
     Node *root_;
     size_t size_ = 0;
   };
 };
-
 
 template <typename Key, typename Value, typename Compare>
 mihalchenko::AVLTree<Key, Value, Compare>::Node::Node(Key key, Value data, int height, Node *left, Node *right, Node *previous) : pairOfKeyVal(std::make_pair(key, data)), height_(height), left_(left), right_(right), previous_(previous)
@@ -163,8 +174,8 @@ void mihalchenko::AVLTree<Key, Value, Compare>::insert(Key key, Value value)
   doStableTree(checkNode);
 }
 
-template< typename Key, typename Value, typename Compare >
-typename mihalchenko::AVLTree < Key, Value, Compare >::Iterator mihalchenko::AVLTree< Key, Value, Compare >::find(const Key & key)
+template <typename Key, typename Value, typename Compare>
+typename mihalchenko::AVLTree<Key, Value, Compare>::Iterator mihalchenko::AVLTree<Key, Value, Compare>::find(const Key &key)
 {
   return findNode(key, root_);
 }
