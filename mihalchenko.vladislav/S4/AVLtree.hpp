@@ -67,6 +67,7 @@ namespace mihalchenko
     };
 
     Node *insertNode(Key k, Value v, Node *node, Node *prev);
+    Iterator findNode(const Key &key, Node *node);
 
     Node *root_;
     size_t size_ = 0;
