@@ -103,6 +103,10 @@ void zheleznyakov::commands::append(std::istream & in, std::ostream & out, dicts
     return;
   }
   dict_t newDict;
+  for (auto it = secondDict->second.begin(); it != secondDict->second.end(); ++it)
+  {
+    newDict[it->first] = it->second;
+  }
   for (auto it = firstDict->second.begin(); it != firstDict->second.end(); ++it)
   {
     newDict[it->first] = it->second;
