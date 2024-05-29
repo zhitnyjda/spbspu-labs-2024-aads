@@ -1,7 +1,7 @@
 #ifndef ERRORSANDINPUT_HPP
 #define ERRORSANDINPUT_HPP
 
-#include "../common/tree.hpp"
+#include <tree.hpp>
 
 namespace sobolevsky
 {

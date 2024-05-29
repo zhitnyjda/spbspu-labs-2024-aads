@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <functional>
-#include "../common/tree.hpp"
+#include <tree.hpp>
 #include "commands.hpp"
 #include "errorsANDinput.hpp"
 

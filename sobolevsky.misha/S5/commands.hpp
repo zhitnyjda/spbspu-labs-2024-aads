@@ -3,7 +3,7 @@
 
 #include <fstream>
 #include <string>
-#include "../common/tree.hpp"
+#include <tree.hpp>
 
 namespace sobolevsky
 {
