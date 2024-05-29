@@ -129,10 +129,11 @@ void kovshikov::getComplement(Tree< std::string, Tree< long long, std::string > 
     }
     iteratorSecond++;
   }
-  if(allTree.find(name) != allTree.end())
+/*  if(allTree.find(name) != allTree.end())
   {
     allTree.erase(name);
   }
+*/
   allTree.insert(name, newTree);
 }
 

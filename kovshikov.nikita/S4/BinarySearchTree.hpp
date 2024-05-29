@@ -709,8 +709,12 @@ template< typename Key, typename Value, typename Compare >
 void kovshikov::Tree< Key, Value, Compare >::insert(const Key& key, const Value& value)
 {
  // std::cout << "INSERT\n"; //
-  if(find(key) == end())
+  if(find(key) != end())
   {
+    erase(key);
+  }
+ // if(find(key) == end())
+ // {
     Node* newNode = new Node(key, value); //root добавить?
     if(isEmpty())
     {
@@ -747,7 +751,7 @@ void kovshikov::Tree< Key, Value, Compare >::insert(const Key& key, const Value&
     //std::cout << "INSERT2\n"; //
     balance(newNode); //можно засунуть в else
     //std::cout << "END INSERT\n"; //
-  }
+ // }
  // std::cout << "END END\n"; //
 }
 
