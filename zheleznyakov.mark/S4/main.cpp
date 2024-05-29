@@ -26,6 +26,7 @@ int main(int argc, char * argv[])
   cmds["print"] = commands::print;
   cmds["complement"] = commands::complement;
   cmds["intersect"] = commands::intersect;
+  cmds["union"] = commands::append;
   
   dicts_t dicts;
 
