@@ -625,7 +625,7 @@ zheleznyakov::Tree< Key, Value, Compare >::find(const Key & low, const Key & hig
 
 template < typename Key, typename Value, typename Compare >
 std::pair< typename zheleznyakov::Tree< Key, Value, Compare >::Iterator, typename zheleznyakov::Tree< Key, Value, Compare >::Iterator >
-zheleznyakov::Tree< Key, Value, Compare >::equalRangeSearch(Node * node, const Key & low, const Key & high) 
+zheleznyakov::Tree< Key, Value, Compare >::equalRangeSearch(Node * node, const Key & low, const Key & high)
 {
   if (node == nullptr)
   {
