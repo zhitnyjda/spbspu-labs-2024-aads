@@ -11,6 +11,7 @@ namespace zheleznyakov
   {
   public:
     class Iterator;
+    class ConstIterator;
 
     using data_t = typename std::pair< Key, Value >;
 
@@ -36,6 +37,9 @@ namespace zheleznyakov
 
     Iterator begin();
     Iterator end();
+
+    ConstIterator cbegin();
+    ConstIterator cend();
 
     Iterator find(const Key &);
 
@@ -221,7 +225,8 @@ typename zheleznyakov::Tree< Key, Value, Compare >::Iterator zheleznyakov::Tree<
 template <typename Key, typename Value, typename Compare>
 typename zheleznyakov::Tree<Key, Value, Compare>::Iterator& zheleznyakov::Tree<Key, Value, Compare>::Iterator::operator--()
 {
-  if (current_ == nullptr) {
+  if (current_ == nullptr)
+  {
     return *this;
   }
 
@@ -277,6 +282,93 @@ template < typename Key, typename Value, typename Compare >
 typename zheleznyakov::Tree< Key, Value, Compare >::data_t * zheleznyakov::Tree< Key, Value, Compare >::Iterator::operator->()
 {
   return &current_->data;
+}
+
+template < typename Key, typename Value, typename Compare >
+class zheleznyakov::Tree< Key, Value, Compare >::ConstIterator
+{
+public:
+  ConstIterator();
+  ConstIterator(Iterator);
+  ConstIterator(const ConstIterator&) = default;
+  ~ConstIterator() = default;
+
+  ConstIterator & operator++();
+  ConstIterator operator++(int);
+  ConstIterator & operator--();
+  ConstIterator operator--(int);
+
+  bool operator==(const ConstIterator &) const;
+  bool operator!=(const ConstIterator &) const;
+
+  data_t & operator*();
+  data_t * operator->();
+private:
+  Iterator iter_;
+};
+
+template < typename Key, typename Value, typename Compare >
+zheleznyakov::Tree< Key, Value, Compare >::ConstIterator::ConstIterator():
+  iter_(Iterator())
+{}
+
+template < typename Key, typename Value, typename Compare >
+zheleznyakov::Tree< Key, Value, Compare >::ConstIterator::ConstIterator(Iterator newIterator):
+  iter_(newIterator)
+{}
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::ConstIterator & zheleznyakov::Tree< Key, Value, Compare >::ConstIterator::operator++()
+{
+  ++iter_;
+  return *this;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::ConstIterator zheleznyakov::Tree< Key, Value, Compare >::ConstIterator::operator++(int)
+{
+  ConstIterator temp(iter_);
+  ++iter_;
+  return temp;
+}
+
+template <typename Key, typename Value, typename Compare>
+typename zheleznyakov::Tree<Key, Value, Compare>::ConstIterator& zheleznyakov::Tree<Key, Value, Compare>::ConstIterator::operator--()
+{
+  --iter_;
+  return *this;
+}
+
+template <typename Key, typename Value, typename Compare>
+typename zheleznyakov::Tree<Key, Value, Compare>::ConstIterator zheleznyakov::Tree<Key, Value, Compare>::ConstIterator::operator--(int)
+{
+  ConstIterator temp(iter_);
+  --iter_;
+  return *this;
+}
+
+template < typename Key, typename Value, typename Compare >
+bool zheleznyakov::Tree< Key, Value, Compare >::ConstIterator::operator==(const ConstIterator &other) const
+{
+  return iter_.current_ == other.iter_.current_;
+}
+
+template < typename Key, typename Value, typename Compare >
+bool zheleznyakov::Tree< Key, Value, Compare >::ConstIterator::operator!=(const ConstIterator &other) const
+{
+  return !(other == *this);
+}
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::data_t & zheleznyakov::Tree< Key, Value, Compare >::ConstIterator::operator*()
+{
+  return *iter_;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::data_t * zheleznyakov::Tree< Key, Value, Compare >::ConstIterator::operator->()
+{
+  return &iter_.current_->data;
 }
 
 template < typename Key, typename Value, typename Compare >
@@ -550,6 +642,22 @@ typename zheleznyakov::Tree< Key, Value, Compare >::Iterator zheleznyakov::Tree<
 }
 
 template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::ConstIterator zheleznyakov::Tree< Key, Value, Compare >::cbegin()
+{
+  Node* current = root_;
+  while (current != nullptr && current->left != nullptr) {
+    current = current->left;
+  }
+  return Iterator(current);
+}
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::ConstIterator zheleznyakov::Tree< Key, Value, Compare >::cend()
+{
+  return Iterator(nullptr);
+}
+
+template < typename Key, typename Value, typename Compare >
 void zheleznyakov::Tree< Key, Value, Compare >::swap(Tree & other)
 {
   Node* temp = root_;
@@ -612,5 +720,4 @@ typename zheleznyakov::Tree<Key, Value, Compare>::Node * zheleznyakov::Tree<Key,
   }
   return current;
 }
-
 #endif
