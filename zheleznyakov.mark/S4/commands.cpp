@@ -54,6 +54,32 @@ void zheleznyakov::commands::complement(std::istream & in, std::ostream & out, d
   dicts.insert(newDictName, newDict);
 }
 
+void zheleznyakov::commands::intersect(std::istream & in, std::ostream & out, dicts_t & dicts)
+{
+  std::string newDictName;
+  in >> newDictName;
+  std::string firstDictName;
+  in >> firstDictName;
+  std::string secondDictName;
+  in >> secondDictName;
+  auto firstDict = dicts.find(firstDictName);
+  auto secondDict = dicts.find(secondDictName);
+  if (firstDict == dicts.end() || secondDict == dicts.end())
+  {
+    outInvalidCommand(out);
+    return;
+  }
+  dict_t newDict;
+  for (auto it = firstDict->second.begin(); it != firstDict->second.end(); ++it)
+  {
+    if (secondDict->second.find(it->first) != secondDict->second.end())
+    {
+      newDict[it->first] = it->second;
+    }
+  }
+  dicts.insert(newDictName, newDict);
+}
+
 void zheleznyakov::outInvalidCommand(std::ostream & out)
 {
   out << "<INVALID COMMAND>\n";

@@ -25,6 +25,7 @@ int main(int argc, char * argv[])
   Tree< std::string, std::function< void(std::istream &, std::ostream &, dicts_t &) > > cmds;
   cmds["print"] = commands::print;
   cmds["complement"] = commands::complement;
+  cmds["intersect"] = commands::intersect;
   
   dicts_t dicts;
 
