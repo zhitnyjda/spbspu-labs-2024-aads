@@ -2,7 +2,7 @@
 #define SEQUENCEHANDLER_H
 
 #include <string>
-#include "List.hpp"
+#include <List.hpp>
 
 class SequenceHandler {
 public:
