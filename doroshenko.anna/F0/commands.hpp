@@ -20,7 +20,10 @@ namespace doroshenko
   void openFile(dictionary& dict, std::istream& input, std::ostream& output);
   void writeToFile(const BST< std::string, dictionary >& dicts, std::istream& input, std::ostream& output);
   void printTop(BST< std::string, dictionary >& dicts, std::istream& in, std::ostream& out);
-  void warning(std::ostream& output, const std::string& mes);
+  void warningDict(std::ostream& output);
+  void warningElem(std::ostream& output);
+  void warningFile(std::ostream& output);
+  void warningInvCom(std::ostream& output);
 }
 
 #endif

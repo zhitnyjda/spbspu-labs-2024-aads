@@ -44,54 +44,59 @@ void doroshenko::createDict(BST< std::string, dictionary >& dicts, std::istream&
   cmdDict.insert("delete", std::bind(doroshenko::deleteKey, _1, _2, _3));
   cmdDict.insert("find", std::bind(doroshenko::findKey, _1, _2, _3));
   cmdDict.insert("open", std::bind(doroshenko::openFile, _1, _2, _3));
-  auto warningMes = std::bind(warning, std::placeholders::_1, "Dictionary does not exist\n");
   std::string cmdType;
   while (input >> cmdType && cmdType != "stop")
   {
     try
     {
-      cmdDict.at(cmdType).second(currentDict, input, output);
-      dicts.erase(dictName);
-      dicts.insert(dictName, currentDict);
+      if(cmdDict.find(cmdType) != cmdDict.cend())
+      {
+        cmdDict.at(cmdType).second(currentDict, input, output);
+        dicts.erase(dictName);
+        dicts.insert(dictName, currentDict);
+      }
+      else
+      {
+        warningDict(output);
+        input.clear();
+        input.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+      }
     }
     catch (const std::out_of_range& e)
     {
-      warningMes(output);
-      std::cin.clear();
-      std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+      warningDict(output);
+      input.clear();
+      input.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
     }
   }
 }
 
 void doroshenko::deleteKey(dictionary& dict, std::istream& input, std::ostream& output)
 {
-  auto warningMes = std::bind(warning, std::placeholders::_1, "Element does not exist\n");
   std::string key;
   input >> key;
   if (dict.find(key) == dict.cend())
   {
-    warningMes(output);
+    warningElem(output);
     return;
   }
-  dict.erase(dict.find(key));
+  dict.erase(key);
 }
 
 void doroshenko::findKey(dictionary& dict, std::istream& input, std::ostream& output)
 {
-  auto warningMes = std::bind(warning, std::placeholders::_1, "Element does not exist\n");
   std::string key;
   input >> key;
   if (dict.find(key) == dict.cend() || dict.find(key)->second.empty())
   {
-    warningMes(output);
+    warningElem(output);
     return;
   }
-  output << dict.find(key)->second;
+  output << dict.find(key)->second << "\n";
 }
 
 void doroshenko::openFile(dictionary& dict, std::istream& input, std::ostream& output)
 {
-  auto warningMes = std::bind(warning, std::placeholders::_1, "File does not exist\n");
   std::string word;
   List< std::string > words;
   std::string filename;
@@ -99,7 +104,7 @@ void doroshenko::openFile(dictionary& dict, std::istream& input, std::ostream& o
   std::ifstream in(filename);
   if (!in)
   {
-    warningMes(output);
+    warningFile(output);
     return;
   }
   while (in >> word)
@@ -138,22 +143,20 @@ void doroshenko::openFile(dictionary& dict, std::istream& input, std::ostream& o
 
 void doroshenko::writeToFile(const BST< std::string, dictionary >& dicts, std::istream& in, std::ostream& out)
 {
-  auto warningMes = std::bind(warning, std::placeholders::_1, "File does not exist\n");
   std::string filename;
   in >> filename;
   std::ofstream output;
   output.open(filename, std::ios::app);
   if (!output)
   {
-    warningMes(out);
+    warningFile(out);
     return;
   }
-  auto warningMesDict = std::bind(warning, std::placeholders::_1, "Dictionary does not exist\n");
   std::string dictName;
   in >> dictName;
   if (dicts.find(dictName) == dicts.cend())
   {
-    warningMesDict(out);
+    warningDict(out);
     return;
   }
   dictionary dict = dicts.find(dictName)->second;
@@ -167,12 +170,11 @@ void doroshenko::writeToFile(const BST< std::string, dictionary >& dicts, std::i
 
 void doroshenko::removeDict(BST< std::string, dictionary >& dicts, std::istream& in, std::ostream& out)
 {
-  auto warningMes = std::bind(warning, std::placeholders::_1, "Dictionary does not exist\n");
   std::string dictName;
   in >> dictName;
   if (dicts.find(dictName) == dicts.cend())
   {
-    warningMes(out);
+    warningDict(out);
     return;
   }
   dicts.erase(dictName);
@@ -180,12 +182,11 @@ void doroshenko::removeDict(BST< std::string, dictionary >& dicts, std::istream&
 
 void doroshenko::printDict(const BST< std::string, dictionary >& dicts, std::istream& in, std::ostream& out)
 {
-  auto warningMes = std::bind(warning, std::placeholders::_1, "Dictionary does not exist\n");
   std::string dictName;
   in >> dictName;
   if (dicts.find(dictName) == dicts.cend())
   {
-    warningMes(out);
+    warningDict(out);
     return;
   }
   dictionary dictToPrint = dicts.find(dictName)->second;
@@ -207,14 +208,13 @@ void doroshenko::sortDict(BST< std::string, dictionary >& dicts, std::istream& i
   BST< std::string, func > cmdSort;
   cmdSort.insert("frequency", std::bind(doroshenko::sortByFrequency, _1, _2, _3));
   cmdSort.insert("alphabet", std::bind(doroshenko::sortByAlphabet, _1, _2, _3));
-  auto warningMes = std::bind(warning, std::placeholders::_1, "Dictionary does not exist\n");
   std::string sortType;
   input >> sortType;
   try
   {
     if (dicts.isEmpty())
     {
-      warningMes(output);
+      warningDict(output);
     }
     else
     {
@@ -223,8 +223,7 @@ void doroshenko::sortDict(BST< std::string, dictionary >& dicts, std::istream& i
   }
   catch (const std::out_of_range& e)
   {
-    warningMes(output);
-    std::cout << "range";
+    warningDict(output);
     std::cin.clear();
     std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
   }
@@ -232,12 +231,11 @@ void doroshenko::sortDict(BST< std::string, dictionary >& dicts, std::istream& i
 
 void doroshenko::sortByFrequency(BST< std::string, dictionary >& dicts, std::istream& in, std::ostream& out)
 {
-  auto warningMes = std::bind(warning, std::placeholders::_1, "Dictionary does not exist\n");
   std::string dictName;
   in >> dictName;
   if (dicts.find(dictName) == dicts.cend())
   {
-    warningMes(out);
+    warningDict(out);
     return;
   }
   dictionary dictToSort = dicts.find(dictName)->second;
@@ -245,6 +243,7 @@ void doroshenko::sortByFrequency(BST< std::string, dictionary >& dicts, std::ist
   {
     return;
   }
+  out << dictName << "\n";
   BST< std::string, std::string > temp;
   for (auto it = dictToSort.begin(); it != dictToSort.end(); it++)
   {
@@ -269,12 +268,11 @@ void doroshenko::sortByFrequency(BST< std::string, dictionary >& dicts, std::ist
 
 void doroshenko::sortByAlphabet(BST< std::string, dictionary >& dicts, std::istream& in, std::ostream& out)
 {
-  auto warningMes = std::bind(warning, std::placeholders::_1, "Dictionary does not exist\n");
   std::string dictName;
   in >> dictName;
   if (dicts.find(dictName) == dicts.cend())
   {
-    warningMes(out);
+    warningDict(out);
     return;
   }
   dictionary dictToSort = dicts.find(dictName)->second;
@@ -288,51 +286,61 @@ void doroshenko::sortByAlphabet(BST< std::string, dictionary >& dicts, std::istr
   {
     temp.insert(it->second, it->first);
   }
+  out << dictName << "\n";
   for (auto it = temp.begin(); it != temp.end(); it++)
   {
     out << it->first << ": " << it->second << "\n";
   }
 }
 
-/*void doroshenko::printTop(std::map< std::string, dictionary >& dicts, std::istream& in, std::ostream& out)
+void doroshenko::printTop(BST< std::string, dictionary >& dicts, std::istream& in, std::ostream& out)
 {
-  auto warningMes = std::bind(warning, std::placeholders::_1, "Dictionary does not exist\n");
   std::string dictName;
   in >> dictName;
-  if (dicts.find(dictName) == dicts.end())
+  if (dicts.find(dictName) == dicts.cend())
   {
-    warningMes(out);
+    warningDict(out);
     return;
   }
   dictionary dictToSort = dicts.find(dictName)->second;
-  if (dictToSort.empty())
+  BST< std::string, std::string > temp;
+  for (auto it = dictToSort.begin(); it != dictToSort.end(); it++)
   {
-    return;
+    temp.insert(it->first, it->second);
   }
-  else if (std::isdigit(dictToSort.begin()->first[0]))
+  size_t i = 0;
+  while (i < 3)
   {
-    auto it = dictToSort.rbegin();
-    for (int i = 0; i < 3; ++i)
+    auto maxIter = temp.begin();
+    for (auto iter = temp.begin(); iter != temp.end(); ++iter)
     {
-      out << it->first << ": " << it->second << "\n";
-      ++it;
+      if (std::stoll(iter->second) > std::stoll(maxIter->second) && std::stoll(iter->second) != 0)
+      {
+        maxIter = iter;
+      }
     }
-    return;
+    out << maxIter->first << ": " << maxIter->second << "\n";
+    temp.at(maxIter->first).second = "0";
+    i++;
   }
-  std::multimap< std::string, std::string > temp;
-  for (const auto& pair : dictToSort)
-  {
-    temp.emplace(pair.second, pair.first);
-  }
-  auto it = temp.rbegin();
-  for (int i = 0; i < 3; ++i)
-  {
-    out << it->first << ": " << it->second << "\n";
-    ++it;
-  }
-}*/
+}
 
-void doroshenko::warning(std::ostream& output, const std::string& mes)
+void doroshenko::warningDict(std::ostream& output)
 {
-  output << mes;
+  output << "Dictionary does not exist\n";
+}
+
+void doroshenko::warningElem(std::ostream& output)
+{
+  output << "Element does not exist\n";
+}
+
+void doroshenko::warningFile(std::ostream& output)
+{
+  output << "File does not exist\n";
+}
+
+void doroshenko::warningInvCom(std::ostream& output)
+{
+  output << "<INVALID COMMAND>\n";
 }
