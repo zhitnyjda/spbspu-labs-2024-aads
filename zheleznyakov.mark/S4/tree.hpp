@@ -24,6 +24,7 @@ namespace zheleznyakov
 
     size_t size() const;
     bool empty() const;
+    size_t count(const Key &) const;
 
     Value at(const Key &);
     void insert(const Key &, const Value &);
@@ -394,6 +395,12 @@ template < typename Key, typename Value, typename Compare >
 bool zheleznyakov::Tree< Key, Value, Compare >::empty() const
 {
   return root_ == nullptr;
+}
+
+template < typename Key, typename Value, typename Compare >
+size_t zheleznyakov::Tree< Key, Value, Compare >::count(const Key & key) const
+{
+  return find(key) != cend() ? 1 : 0;
 }
 
 template < typename Key, typename Value, typename Compare >
