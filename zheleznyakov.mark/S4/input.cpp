@@ -28,11 +28,11 @@ void zheleznyakov::readDictContents(std::string line, dict_t & dict)
 
 void zheleznyakov::readDict(std::string line, dicts_t & dicts)
 {
-  if (line.empty())
+  std::string currentTitle = extractFirstWord(line);
+  if (currentTitle == "")
   {
     return;
   }
-  std::string currentTitle = extractFirstWord(line);
   dict_t currentDict;
   readDictContents(line, currentDict);
   dicts.insert(currentTitle, currentDict);
