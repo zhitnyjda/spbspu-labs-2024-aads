@@ -512,7 +512,7 @@ void miheev::List< T >::remove(T data)
   Iterator iter(begin());
   while(iter)
   {
-    if (*(iter.next()) == data)
+    if (iter.next() && *(iter.next()) == data)
     {
       iter.eraseAfter();
     }
