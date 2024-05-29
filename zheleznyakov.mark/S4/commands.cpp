@@ -1,5 +1,4 @@
 #include "commands.hpp"
-#include <iostream>
 #include <string>
 
 void zheleznyakov::commands::print(std::istream & in, std::ostream & out, const dicts_t & dicts)
@@ -51,6 +50,10 @@ void zheleznyakov::commands::complement(std::istream & in, std::ostream & out, d
       newDict[it->first] = it->second;
     }
   }
+  if (dicts.find(newDictName) != dicts.end())
+  {
+    dicts.erase(newDictName);
+  }
   dicts.insert(newDictName, newDict);
 }
 
@@ -77,6 +80,10 @@ void zheleznyakov::commands::intersect(std::istream & in, std::ostream & out, di
       newDict[it->first] = it->second;
     }
   }
+  if (dicts.find(newDictName) != dicts.end())
+  {
+    dicts.erase(newDictName);
+  }
   dicts.insert(newDictName, newDict);
 }
 
@@ -99,6 +106,10 @@ void zheleznyakov::commands::append(std::istream & in, std::ostream & out, dicts
   for (auto it = firstDict->second.begin(); it != firstDict->second.end(); ++it)
   {
     newDict[it->first] = it->second;
+  }
+  if (dicts.find(newDictName) != dicts.end())
+  {
+    dicts.erase(newDictName);
   }
   dicts.insert(newDictName, newDict);
 }
