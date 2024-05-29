@@ -21,7 +21,6 @@ void zheleznyakov::readDictContents(std::string line, dict_t & dict)
   {
     int key = std::stoi(extractFirstWord(line));
     std::string value = extractFirstWord(line);
-    std::cout << key << ' ' << value << '\n';
     dict.insert(key, value);
   }
 }

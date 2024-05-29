@@ -37,6 +37,8 @@ namespace zheleznyakov
     Iterator begin();
     Iterator end();
 
+    Iterator find(const Key &);
+
   private:
     struct Node
     {
@@ -379,6 +381,32 @@ void zheleznyakov::Tree< Key, Value, Compare >::insert(const Key& k, const Value
 
   root_ = balance(root_);
 }
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::Iterator zheleznyakov::Tree< Key, Value, Compare >::find(const Key & key)
+{
+  Node * current = root_;
+  Compare cmp;
+
+  while (current != nullptr)
+  {
+    if (cmp(current->data.first, key))
+    {
+      current = current->right;
+    }
+    else if (cmp(key, current->data.first))
+    {
+      current = current->left;
+    }
+    else
+    {
+      return Iterator(current);
+    }
+  }
+
+  return Iterator(nullptr);
+}
+
 
 template < typename Key, typename Value, typename Compare >
 void zheleznyakov::Tree< Key, Value, Compare>::clear()
