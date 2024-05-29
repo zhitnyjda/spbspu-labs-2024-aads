@@ -163,4 +163,10 @@ void mihalchenko::AVLTree<Key, Value, Compare>::insert(Key key, Value value)
   doStableTree(checkNode);
 }
 
+template< typename Key, typename Value, typename Compare >
+typename mihalchenko::AVLTree < Key, Value, Compare >::Iterator mihalchenko::AVLTree< Key, Value, Compare >::find(const Key & key)
+{
+  return findNode(key, root_);
+}
+
 #endif

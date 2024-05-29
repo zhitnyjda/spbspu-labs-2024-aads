@@ -27,3 +27,33 @@ void mihalchenko::print(mihalchenko::AVLTree<std::string, mihalchenko::AVLTree<l
     it--;
   }
 }
+
+void mihalchenko::complement(mihalchenko::AVLTree<std::string, mihalchenko::AVLTree<long long, std::string>> &AVLTree)
+{
+  std::string name, nameFirst, nameSecond;
+  std::cin >> name >> nameFirst >> nameSecond;
+  auto firstData = AVLTree.find(nameFirst);
+  auto secondData = AVLTree.find(nameSecond);
+  if (firstData == AVLTree.end() || secondData == AVLTree.end())
+  {
+    return;
+  }
+  mihalchenko::AVLTree<long long, std::string> datasets{};
+  for (auto it = (*firstData).second.begin(); it != (*firstData).second.end(); it++)
+  {
+    auto inSecondData = (*AVLTree.find(nameSecond)).second.find((*it).first);
+    if (inSecondData == (*AVLTree.find(nameSecond)).second.end())
+    {
+      datasets.insert(*it);
+    }
+  }
+  if (nameFirst == name)
+  {
+    AVLTree.erase(nameFirst);
+    AVLTree.insert(name, datasets);
+  }
+  else
+  {
+    AVLTree.insert(name, datasets);
+  }
+}
