@@ -12,12 +12,46 @@ void zheleznyakov::commands::print(std::istream & in, std::ostream & out, const 
     outEmpty(out);
     return;
   }
-  auto it = dict.begin();
-  while (it != dict.end())
+  out << dictName << ' ';
+  auto it = dict.cbegin();
+  while (it != dict.cend())
   {
     out << it->first << ' ' << it->second;
     out << (++it == dict.end() ? '\n' : ' ');
   }
+}
+
+void zheleznyakov::commands::complement(std::istream & in, std::ostream & out, dicts_t & dicts)
+{
+  std::string newDictName;
+  in >> newDictName;
+  std::string firstDictName;
+  in >> firstDictName;
+  std::string secondDictName;
+  in >> secondDictName;
+  auto firstDict = dicts.find(firstDictName);
+  auto secondDict = dicts.find(secondDictName);
+  if (firstDict == dicts.end() || secondDict == dicts.end())
+  {
+    outInvalidCommand(out);
+    return;
+  }
+  dict_t newDict;
+  for (auto it = firstDict->second.begin(); it != firstDict->second.end(); ++it)
+  {
+    if (secondDict->second.find(it->first) == secondDict->second.end())
+    {
+      newDict[it->first] = it->second;
+    }
+  }
+  for (auto it = secondDict->second.begin(); it != secondDict->second.end(); ++it)
+  {
+    if (firstDict->second.find(it->first) == firstDict->second.end())
+    {
+      newDict[it->first] = it->second;
+    }
+  }
+  dicts.insert(newDictName, newDict);
 }
 
 void zheleznyakov::outInvalidCommand(std::ostream & out)

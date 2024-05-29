@@ -9,6 +9,7 @@ namespace zheleznyakov
   namespace commands
   {
     void print(std::istream &, std::ostream &, const dicts_t &);
+    void complement(std::istream & in, std::ostream & out, dicts_t & dicts);
   }
 
   void outInvalidCommand(std::ostream &);
