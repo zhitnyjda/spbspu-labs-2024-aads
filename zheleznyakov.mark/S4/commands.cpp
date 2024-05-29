@@ -4,7 +4,7 @@
 
 void zheleznyakov::commands::print(std::istream & in, std::ostream & out, const dicts_t & dicts)
 {
-  std::string dictName = "";
+  std::string dictName;
   in >> dictName;
   auto dict = dicts[dictName];
   if (dict.empty())
