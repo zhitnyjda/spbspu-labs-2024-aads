@@ -115,6 +115,34 @@ private:
 };
 
 template <typename Key, typename Value, typename Compare>
+class mihalchenko::AVLTree<Key, Value, Compare>::Iterator : public std::iterator<std::bidirectional_iterator_tag, Key, Value, Compare>
+{
+public:
+  friend class AVLTree<Key, Value, Compare>;
+  Iterator();
+  Iterator(ConstIterator iter);
+  Iterator(const Iterator &) = default;
+  ~Iterator() = default;
+
+  Iterator &operator++();
+  Iterator operator++(int);
+  Iterator &operator--();
+  Iterator operator--(int);
+  Iterator &operator=(const Iterator &) = default;
+
+  std::pair<const Key, Value> &operator*();
+  std::pair<const Key, Value> *operator->();
+  const std::pair<const Key, Value> &operator*() const;
+  const std::pair<const Key, Value> *operator->() const;
+
+  bool operator!=(const Iterator &rhs) const;
+  bool operator==(const Iterator &rhs) const;
+
+private:
+  ConstIterator constIter_;
+};
+
+template <typename Key, typename Value, typename Compare>
 mihalchenko::AVLTree<Key, Value, Compare>::Node::Node(Key key, Value data, int height, Node *left, Node *right, Node *previous) : pairOfKeyVal(std::make_pair(key, data)), height_(height), left_(left), right_(right), previous_(previous)
 {
 }
