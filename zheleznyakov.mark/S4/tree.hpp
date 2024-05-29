@@ -44,6 +44,8 @@ namespace zheleznyakov
     Iterator find(const Key &);
     ConstIterator find(const Key &) const;
 
+    std::pair< Iterator, Iterator > equalRange(const Key &, const Key &);
+
   private:
     struct Node
     {
@@ -77,6 +79,9 @@ namespace zheleznyakov
     Node * balance(Node *);
     Node * eraseNode(Node *, const Key &);
     Node * minValueNode(Node *);
+    Iterator find(const Key &, const Key &);
+    ConstIterator find(const Key &, const Key &) const;
+    std::pair< Iterator, Iterator > equalRangeSearch(Node *, const Key &, const Key &);
   };
 }
 
@@ -563,6 +568,97 @@ typename zheleznyakov::Tree< Key, Value, Compare >::ConstIterator zheleznyakov::
   }
 
   return ConstIterator(nullptr);
+}
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::Iterator
+zheleznyakov::Tree< Key, Value, Compare >::find(const Key & low, const Key & high)
+{
+  Node * current = root_;
+  while (current != nullptr)
+  {
+    if (low < current->data.first && high > current->data.first)
+    {
+      return Iterator(current);
+    }
+    else if (high <= current->data.first)
+    {
+      return Iterator(nullptr);
+    }
+    else
+    {
+      current = current->right;
+    }
+  }
+  return end();
+}
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::ConstIterator
+zheleznyakov::Tree< Key, Value, Compare >::find(const Key & low, const Key & high) const
+{
+  Node * current = root_;
+  while (current != nullptr)
+  {
+    if (low < current->data.first && high > current->data.first)
+    {
+      return ConstIterator(current);
+    }
+    else if (high <= current->data.first)
+    {
+      return end();
+    }
+    else
+    {
+      current = current->right;
+    }
+  }
+  return end();
+}
+
+template < typename Key, typename Value, typename Compare >
+std::pair< typename zheleznyakov::Tree< Key, Value, Compare >::Iterator, typename zheleznyakov::Tree< Key, Value, Compare >::Iterator >
+zheleznyakov::Tree< Key, Value, Compare >::equalRangeSearch(Node * node, const Key & low, const Key & high) 
+{
+  if (node == nullptr)
+  {
+    return std::make_pair(end(), end());
+  }
+
+  if (low <= node->data.first && high >= node->data.first)
+  {
+    if (node->left != nullptr)
+    {
+      auto leftResult = equalRangeSearch(node->left, low, high);
+      return std::make_pair(leftResult.second, Iterator(node));
+    }
+    else
+    {
+      return std::make_pair(Iterator(node), end());
+    }
+  }
+  else if (high <= node->data.first)
+  {
+    if (node->left != nullptr)
+    {
+      return equalRangeSearch(node->left, low, high);
+    }
+    else
+    {
+      return std::make_pair(end(), end());
+    }
+  }
+  else
+  {
+    return equalRangeSearch(node->right, low, high);
+  }
+}
+
+template < typename Key, typename Value, typename Compare >
+std::pair< typename zheleznyakov::Tree< Key, Value, Compare >::Iterator, typename zheleznyakov::Tree< Key, Value, Compare >::Iterator >
+zheleznyakov::Tree<Key, Value, Compare>::equalRange(const Key & low, const Key & high)
+{
+  return equalRangeSearch(root_, low, high);
 }
 
 template < typename Key, typename Value, typename Compare >
