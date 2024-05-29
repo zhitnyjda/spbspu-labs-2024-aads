@@ -22,7 +22,7 @@ namespace zheleznyakov
 
     Tree & operator=(const Tree &);
 
-    size_t size() const;
+    size_t getSize() const;
     bool empty() const noexcept;
     size_t count(const Key &) const;
 
@@ -386,13 +386,13 @@ typename zheleznyakov::Tree< Key, Value, Compare >::data_t * zheleznyakov::Tree<
 template < typename Key, typename Value, typename Compare >
 size_t zheleznyakov::Tree< Key, Value, Compare >::size(Node* node) const
 {
-  return node != nullptr ? 1 + size(node->left) + size(node->right) : 0;
+  return node != nullptr ? 1 + getSize(node->left) + getSize(node->right) : 0;
 }
 
 template < typename Key, typename Value, typename Compare >
-size_t zheleznyakov::Tree< Key, Value, Compare >::size() const
+size_t zheleznyakov::Tree< Key, Value, Compare >::getSize() const
 {
-  return size(root_);
+  return getSize(root_);
 }
 
 template < typename Key, typename Value, typename Compare >
