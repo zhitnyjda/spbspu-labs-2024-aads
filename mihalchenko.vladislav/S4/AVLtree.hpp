@@ -33,6 +33,24 @@ namespace mihalchenko
     AVLTree(AVLTree &&move);
     ~AVLTree();
 
+    void insert(Key key, Value value);
+    using value_std_pair = std::pair<const Key, Value>;
+    void insert(std::pair<const Key, Value> pairKeyVal);
+    bool empty() const noexcept;
+    size_t getSize() const noexcept;
+    size_t erase(const Key &key);
+    void clear();
+
+    template <class... Args>
+    void emplace(Args &&...args);
+
+    Value &operator[](const Key &key);
+    Iterator find(const Key &key);
+    ConstIterator cbegin() const noexcept;
+    ConstIterator cend() const noexcept;
+    Iterator begin() noexcept;
+    Iterator end() noexcept;
+
   private:
     class Node
     {
@@ -47,6 +65,9 @@ namespace mihalchenko
       Node *right_;
       Node *previous_;
     };
+
+    Node *insertNode(Key k, Value v, Node *node, Node *prev);
+
     Node *root_;
     size_t size_ = 0;
   };
@@ -111,6 +132,34 @@ mihalchenko::AVLTree<Key, Value, Compare>::~AVLTree()
 {
   clear();
   root_ = nullptr;
+}
+
+template <typename Key, typename Value, typename Compare>
+void mihalchenko::AVLTree<Key, Value, Compare>::insert(mihalchenko::AVLTree<Key, Value, Compare>::value_std_pair pair)
+{
+  insert(pair.first, pair.second);
+}
+
+template <typename Key, typename Value, typename Compare>
+void mihalchenko::AVLTree<Key, Value, Compare>::insert(Key key, Value value)
+{
+  root_ = insertNode(key, value, root_, nullptr);
+  if (root_ != nullptr)
+  {
+    size_t value1 = 0;
+    size_t value2 = 0;
+    if (root_->left_)
+    {
+      value1 = root_->left_->height_;
+    }
+    if (root_->right_)
+    {
+      value2 = root_->right_->height_;
+    }
+    root_->height_ = std::max(value1, value2) + 1;
+  }
+  Node *checkNode = SearchHiHeight(find(key).constIter_.node_);
+  doStableTree(checkNode);
 }
 
 #endif
