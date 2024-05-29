@@ -219,7 +219,7 @@ void redko::save(const std::string & command, const std::string & descr, Huffman
   {
     throw std::logic_error("<unable to open the file>");
   }
-  
+
   if (command == "code")
   {
     output << obj.getEncoded();
