@@ -166,6 +166,8 @@ public:
 
   Iterator & operator++();
   Iterator operator++(int);
+  Iterator & operator--();
+  Iterator operator--(int);
 
   bool operator==(const Iterator &) const;
   bool operator!=(const Iterator &) const;
@@ -213,6 +215,43 @@ typename zheleznyakov::Tree< Key, Value, Compare >::Iterator zheleznyakov::Tree<
 {
   Iterator temp = *this;
   ++(*this);
+  return temp;
+}
+
+template <typename Key, typename Value, typename Compare>
+typename zheleznyakov::Tree<Key, Value, Compare>::Iterator& zheleznyakov::Tree<Key, Value, Compare>::Iterator::operator--()
+{
+  if (current_ == nullptr) {
+    return *this;
+  }
+
+  if (current_->left != nullptr)
+  {
+    current_ = current_->left;
+    while (current_->right != nullptr)
+    {
+      current_ = current_->right;
+    }
+  }
+  else
+  {
+    Node * parent = current_->parent;
+    while (parent != nullptr && current_ == parent->left)
+    {
+      current_ = parent;
+      parent = parent->parent;
+    }
+    current_ = parent;
+  }
+
+  return *this;
+}
+
+template <typename Key, typename Value, typename Compare>
+typename zheleznyakov::Tree<Key, Value, Compare>::Iterator zheleznyakov::Tree<Key, Value, Compare>::Iterator::operator--(int)
+{
+  Iterator temp = *this;
+  --(*this);
   return temp;
 }
 
@@ -493,7 +532,6 @@ typename zheleznyakov::Tree< Key, Value, Compare >::Node* zheleznyakov::Tree< Ke
   }
   return node;
 }
-
 
 template < typename Key, typename Value, typename Compare >
 typename zheleznyakov::Tree< Key, Value, Compare >::Iterator zheleznyakov::Tree< Key, Value, Compare >::begin()
