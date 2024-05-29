@@ -11,6 +11,7 @@ namespace kovshikov
 
   void print(Tree< std::string, Tree< long long, std::string > >& allTree);
   void getComplement(Tree< std::string, Tree< long long, std::string > >& allTree);
+  void getIntersect(Tree< std::string, Tree< long long, std::string > >& allTree);
 }
 
 #endif
