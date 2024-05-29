@@ -22,5 +22,12 @@ int main(int argc, char *argv[])
     return 1;
   }
 
+  using secondPar = AVLTree<std::string, AVLTree<long long, std::string>>;
+  AVLTree<std::string, std::function<void(secondPar & AVLTree)>> commands{};
+  commands.insert("print", print);
+  commands.insert("union", unionAVL);
+  commands.insert("intersect", intersect);
+  commands.insert("complement", complement);
+
   return 0;
 }

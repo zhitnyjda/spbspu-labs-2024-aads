@@ -6,7 +6,11 @@
 
 namespace mihalchenko
 {
-  
+  using typeParam = mihalchenko::AVLTree<std::string, mihalchenko::AVLTree<long long, std::string>>;
+  void print(typeParam &AVLTree);
+  void intersect(typeParam &AVLTree);
+  void unionAVL(typeParam &AVLTree);
+  void complement(typeParam &AVLTree);
 }
 
 #endif
