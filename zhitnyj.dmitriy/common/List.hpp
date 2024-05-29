@@ -8,99 +8,99 @@
 template< typename T >
 class List {
 public:
-  class Iterator;
-  class ConstIterator;
+    class Iterator;
+    class ConstIterator;
 
-  List();
-  ~List();
-  List(size_t count, const T &value);
-  List(std::initializer_list< T > init);
-  List(const List &other);
-  List(List &&other) noexcept;
+    List();
+    ~List();
+    List(size_t count, const T &value);
+    List(std::initializer_list< T > init);
+    List(const List &other);
+    List(List &&other) noexcept;
 
-  List &operator=(const List &other);
-  T &operator[](size_t index) const;
+    List &operator=(const List &other);
+    T &operator[](size_t index) const;
 
-  template< typename InputIterator >
-  void assign(InputIterator first, InputIterator last) noexcept;
-  void assign(size_t n, const T &val) noexcept;
-  void assign(std::initializer_list< T > il) noexcept;
+    template< typename InputIterator >
+    void assign(InputIterator first, InputIterator last) noexcept;
+    void assign(size_t n, const T &val) noexcept;
+    void assign(std::initializer_list< T > il) noexcept;
 
-  template< typename Predicate >
-  void remove_if(Predicate pred);
-  void pop() noexcept;
-  void clear() noexcept;
-  void reverse() noexcept;
-  void push_front(const T &data);
-  void swap(List &other) noexcept;
-  void push_back(const T &data);
-  void splice(List< T > &other) noexcept;
-  void insert(size_t index, const T &value) noexcept;
-  void erase(const T &value) noexcept;
-  size_t size() const;
-  bool empty() const noexcept;
+    template< typename Predicate >
+    void remove_if(Predicate pred);
+    void pop() noexcept;
+    void clear() noexcept;
+    void reverse() noexcept;
+    void push_front(const T &data);
+    void swap(List &other) noexcept;
+    void push_back(const T &data);
+    void splice(List< T > &other) noexcept;
+    void insert(size_t index, const T &value) noexcept;
+    void erase(const T &value) noexcept;
+    size_t size() const;
+    bool empty() const noexcept;
 
-  Iterator begin();
-  Iterator end();
+    Iterator begin();
+    Iterator end();
 
-  ConstIterator begin() const;
-  ConstIterator end() const;
+    ConstIterator begin() const;
+    ConstIterator end() const;
 
 private:
-  struct Node {
-    T data;
-    std::shared_ptr< Node > next;
+    struct Node {
+        T data;
+        std::shared_ptr< Node > next;
 
-    Node(const T &data, std::shared_ptr< Node > next = nullptr) : data(data), next(next) {}
-  };
+        Node(const T &data, std::shared_ptr< Node > next = nullptr) : data(data), next(next) {}
+    };
 
-  std::shared_ptr< Node > head;
+    std::shared_ptr< Node > head;
 };
 
 template< typename T >
 class List< T >::ConstIterator {
-  friend class List< T >;
+    friend class List< T >;
 
 public:
-  ConstIterator(std::shared_ptr< const Node > node) : node(node) {}
+    ConstIterator(std::shared_ptr< const Node > node) : node(node) {}
 
-  const T& operator*() const {
-    return node->data;
-  }
-
-  const T* operator->() const {
-    return std::addressof(node->data);
-  }
-
-  ConstIterator& operator++() {
-    node = node->next;
-    return *this;
-  }
-
-  ConstIterator operator++(int) {
-    ConstIterator tmp = *this;
-    ++(*this);
-    return tmp;
-  }
-
-  ConstIterator operator+(int n) const {
-    ConstIterator temp = *this;
-    while (n-- > 0 && temp.node != nullptr) {
-      temp.node = temp.node->next;
+    const T& operator*() const {
+      return node->data;
     }
-    return temp;
-  }
 
-  bool operator==(const ConstIterator& other) const {
-    return node == other.node;
-  }
+    const T* operator->() const {
+      return std::addressof(node->data);
+    }
 
-  bool operator!=(const ConstIterator& other) const {
-    return node != other.node;
-  }
+    ConstIterator& operator++() {
+      node = node->next;
+      return *this;
+    }
+
+    ConstIterator operator++(int) {
+      ConstIterator tmp = *this;
+      ++(*this);
+      return tmp;
+    }
+
+    ConstIterator operator+(int n) const {
+      ConstIterator temp = *this;
+      while (n-- > 0 && temp.node != nullptr) {
+        temp.node = temp.node->next;
+      }
+      return temp;
+    }
+
+    bool operator==(const ConstIterator& other) const {
+      return node == other.node;
+    }
+
+    bool operator!=(const ConstIterator& other) const {
+      return node != other.node;
+    }
 
 private:
-  std::shared_ptr< const Node > node;
+    std::shared_ptr< const Node > node;
 };
 
 template< typename T >
@@ -116,26 +116,26 @@ typename List< T >::ConstIterator List< T >::begin() const {
 template< typename T >
 class List< T >::Iterator : public List< T >::ConstIterator {
 public:
-  Iterator(std::shared_ptr< const Node > node) : ConstIterator(node) {}
+    Iterator(std::shared_ptr< const Node > node) : ConstIterator(node) {}
 
-  T& operator*() {
-    return const_cast< T& >(ConstIterator::operator*());
-  }
+    T& operator*() {
+      return const_cast< T& >(ConstIterator::operator*());
+    }
 
-  T* operator->() {
-    return const_cast< T* >(ConstIterator::operator->());
-  }
+    T* operator->() {
+      return const_cast< T* >(ConstIterator::operator->());
+    }
 
-  Iterator& operator++() {
-    ConstIterator::operator++();
-    return *this;
-  }
+    Iterator& operator++() {
+      ConstIterator::operator++();
+      return *this;
+    }
 
-  Iterator operator++(int) {
-    Iterator tmp = *this;
-    ++(*this);
-    return tmp;
-  }
+    Iterator operator++(int) {
+      Iterator tmp = *this;
+      ++(*this);
+      return tmp;
+    }
 };
 
 template< typename T >
