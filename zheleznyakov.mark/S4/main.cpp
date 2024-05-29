@@ -8,7 +8,7 @@
 int main(int argc, char * argv[])
 {
   using namespace zheleznyakov;
-  
+
   if (argc != 2)
   {
     std::cerr << "Wrong arguments count\n";
@@ -27,7 +27,7 @@ int main(int argc, char * argv[])
   cmds["complement"] = commands::complement;
   cmds["intersect"] = commands::intersect;
   cmds["union"] = commands::append;
-  
+
   dicts_t dicts;
 
   while (!in.eof())
