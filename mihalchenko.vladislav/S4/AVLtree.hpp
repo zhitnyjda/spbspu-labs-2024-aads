@@ -87,6 +87,34 @@ namespace mihalchenko
 };
 
 template <typename Key, typename Value, typename Compare>
+class mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator : public std::iterator<std::bidirectional_iterator_tag, std::pair<const Key, Value>>
+{
+public:
+  friend class AVLTree<Key, Value, Compare>;
+  ConstIterator();
+  ConstIterator(Node *node, Node *root);
+  ConstIterator(const ConstIterator &) = default;
+  ~ConstIterator() = default;
+
+  ConstIterator &operator++();
+  ConstIterator operator++(int);
+  ConstIterator &operator--();
+  ConstIterator operator--(int);
+
+  const std::pair<const Key, Value> &operator*() const;
+  const std::pair<const Key, Value> *operator->() const;
+
+  bool operator!=(const ConstIterator &rhs) const;
+  bool operator==(const ConstIterator &rhs) const;
+
+  ConstIterator &operator=(const ConstIterator &) = default;
+
+private:
+  Node *node_;
+  Node *root_;
+};
+
+template <typename Key, typename Value, typename Compare>
 mihalchenko::AVLTree<Key, Value, Compare>::Node::Node(Key key, Value data, int height, Node *left, Node *right, Node *previous) : pairOfKeyVal(std::make_pair(key, data)), height_(height), left_(left), right_(right), previous_(previous)
 {
 }
