@@ -155,3 +155,35 @@ void kovshikov::getIntersect(Tree< std::string, Tree< long long, std::string > >
   }
   allTree.insert(name, newTree);
 }
+
+void kovshikov::getUnion(Tree< std::string, Tree< long long, std::string > >& allTree)
+{
+  std::string name;
+  std::string  nameFirst;
+  std::string  nameSecond;
+  std:: cin >> name >> nameFirst >> nameSecond;
+  Tree< long long, std::string > newTree;
+  Tree< long long, std::string > firstDictionary = allTree.at(nameFirst);
+  Tree< long long, std::string > secondDictionary = allTree.at(nameSecond);
+  Tree< long long, std::string >::Iterator iteratorFirst = firstDictionary.begin();
+  Tree< long long, std::string >::Iterator endFirst = firstDictionary.end();
+  Tree< long long, std::string >::Iterator iteratorSecond = secondDictionary.begin();
+  Tree< long long, std::string >::Iterator endSecond = secondDictionary.end();
+  while(iteratorFirst != endFirst)
+  {
+    std::pair< long long, std::string > pair = *iteratorFirst;
+    newTree.insert(pair);
+    iteratorFirst++;
+  }
+  while(iteratorSecond != endSecond)
+  {
+    std::pair< long long, std::string > pair = *iteratorSecond;
+    if(firstDictionary.find(pair.first) == endFirst)
+    {
+      newTree.insert(pair);
+    }
+    iteratorSecond++;
+  }
+  allTree.insert(name, newTree);
+
+}

@@ -21,7 +21,9 @@ int main(int argc, char ** argv )
   commands.insert("print", print);
   commands.insert("complement", getComplement);
   commands.insert("intersect", getIntersect);
-  commands.at("intersect")(allTree);
+  commands.insert("union", getUnion);
+  commands.at("union")(allTree);
+ // commands.at("intersect")(allTree);
  // commands.at("complement")(allTree);
   commands.at("print")(allTree);
   //std::cout << allTree.getSize() << "\n";
