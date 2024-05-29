@@ -87,3 +87,42 @@ void mihalchenko::intersect(mihalchenko::AVLTree<std::string, mihalchenko::AVLTr
     AVLTree.insert(name, datasets);
   }
 }
+
+void mihalchenko::unionAVL(mihalchenko::AVLTree<std::string, mihalchenko::AVLTree<long long, std::string>> &AVLTree)
+{
+  std::string name, nameFirst, nameSecond;
+  std::cin >> name >> nameFirst >> nameSecond;
+  auto firstData = AVLTree.find(nameFirst);
+  auto secondData = AVLTree.find(nameSecond);
+  if (firstData == AVLTree.end() || secondData == AVLTree.end())
+  {
+    return;
+  }
+  mihalchenko::AVLTree<long long, std::string> datasets{};
+  for (auto it = (*firstData).second.begin(); it != (*firstData).second.end(); it++)
+  {
+    datasets.insert(*it);
+  }
+  for (auto it = (*secondData).second.begin(); it != (*secondData).second.end(); it++)
+  {
+    auto inSet = datasets.find((*it).first);
+    if (inSet == datasets.end())
+    {
+      datasets.insert(*it);
+    }
+  }
+  if (nameFirst == name)
+  {
+    AVLTree.erase(nameFirst);
+    AVLTree.insert(name, datasets);
+  }
+  else if (nameSecond == name)
+  {
+    AVLTree.erase(nameSecond);
+    AVLTree.insert(name, datasets);
+  }
+  else
+  {
+    AVLTree.insert(name, datasets);
+  }
+}
