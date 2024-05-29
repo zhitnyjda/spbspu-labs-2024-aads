@@ -30,7 +30,7 @@ void kovshikov::createTree(Tree< std::string, Tree< long long, std::string > >& 
 {
   std::string temp = "";
   std::string name = "";
-  long long key;
+  long long key = 0;
   std::string value = "";
   Tree< long long, std::string > tree;
   bool isName = true;
@@ -61,12 +61,32 @@ void kovshikov::createTree(Tree< std::string, Tree< long long, std::string > >& 
       }
     }
   }
-  value = temp;
+  if(key == 0)
+  {
+    name = temp;
+  }
   if(!value.empty())
   {
     tree.insert(key, value);
   }
-  allTree.insert(name, tree); //вот тут вылетает жесткая ошибка;
+ // std::cout << name << "\n"; ///
+  allTree.insert(name, tree);
+ /* if(key == 0)
+  {
+    std::cout << "empty\n"; ////
+    allTree[name] = tree;
+    std::cout << allTree.count(name) << "\n"; ///
+  }
+  else if(!value.empty())
+  {
+    tree.insert(key, value);
+    allTree.insert(name, tree);
+  }
+  else
+  {
+    allTree.insert(name, tree); //вот тут вылетает жесткая ошибка;
+  }
+  */
 }
 
 void kovshikov::print(Tree< std::string, Tree< long long, std::string > >& allTree)

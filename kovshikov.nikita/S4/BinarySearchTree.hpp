@@ -542,9 +542,10 @@ typename kovshikov::Tree< Key, Value, Compare >::Range kovshikov::Tree< Key, Val
 template< typename Key, typename Value, typename Compare >
 size_t kovshikov::Tree< Key, Value, Compare >::getHeight(Node* node)
 {
- // std::cout << "START GETHEIGHT\n"; //
+  //std::cout << "START GETHEIGHT\n"; //
   if(node == nullptr)
   {
+    //std::cout << "nullptr\n"; ///
     return 0;
   }
   return std::max(getHeight(node -> left_), getHeight(node -> right_)) + 1;
@@ -553,7 +554,7 @@ size_t kovshikov::Tree< Key, Value, Compare >::getHeight(Node* node)
 template< typename Key, typename Value, typename Compare >
 long long kovshikov::Tree< Key, Value, Compare >::getDifference(Node* node)
 {
- // std::cout << "START GETDIFFERENCE\n"; //
+//  std::cout << "START GETDIFFERENCE\n"; //
   return getHeight(node -> left_) - getHeight(node -> right_);
 }
 
@@ -649,11 +650,14 @@ typename kovshikov::Tree< Key, Value, Compare >::Node* kovshikov::Tree< Key, Val
   {
     if(std::abs(getDifference(node)) > 1)
     {
+     // std::cout << "nou\n"; //
       return node;
     }
     else
     {
+     // std::cout << "father\n"; //
       node = node -> father_;
+     // std::cout << "father2\n"; //
     }
   }
  // std::cout << "FINISH CHECKBALANCE\n"; //
@@ -702,7 +706,7 @@ void kovshikov::Tree< Key, Value, Compare >::balance(Node* node)
       toBalance = toBalance -> father_;
     }
   }
- // std::cout << "FINISH BALANCE\n"; //
+//  std::cout << "FINISH BALANCE\n"; //
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -713,44 +717,48 @@ void kovshikov::Tree< Key, Value, Compare >::insert(const Key& key, const Value&
   {
     erase(key);
   }
- // if(find(key) == end())
- // {
-    Node* newNode = new Node(key, value); //root добавить?
-    if(isEmpty())
+ // std::cout << "before new\n"; ////
+  Node* newNode = new Node(key, value); //root добавить?
+ // std::cout << "after new\n"; ////
+  if(isEmpty())
+  {
+   // std::cout << "get root\n"; //
+    root_ = newNode;
+   // std::cout << "GET ROOT\n"; //
+  }
+  else
+  {
+   // std::cout << "NO ROOT\n"; //
+    Node* current = root_;
+    Node* father = nullptr;
+    while(current != nullptr)
     {
-      root_ = newNode;
-      //std::cout << "GET ROOT\n"; //
-    }
-    else
-    {
-      //std::cout << "NO ROOT\n"; //
-      Node* current = root_;
-      Node* father = nullptr;
-      while(current != nullptr)
+      father = current;
+     // std::cout << "while\n"; //
+      if(comp(key, current -> element_.first))
       {
-        father = current;
-        if(comp(key, current -> element_.first))
-        {
-          current = current -> left_;
-        }
-        else
-        {
-          current = current -> right_;
-        }
-      }
-      newNode -> father_ = father;
-      if(comp(key, father -> element_.first))
-      {
-        father -> left_ = newNode;
+       // std::cout << "if\n"; //
+        current = current -> left_;
       }
       else
       {
-        father -> right_ = newNode;
+       // std::cout << "else\n"; //
+        current = current -> right_;
       }
     }
-    //std::cout << "INSERT2\n"; //
-    balance(newNode); //можно засунуть в else
-    //std::cout << "END INSERT\n"; //
+    newNode -> father_ = father;
+    if(comp(key, father -> element_.first))
+    {
+      father -> left_ = newNode;
+    }
+    else
+    {
+      father -> right_ = newNode;
+    }
+  }
+ // std::cout << "INSERT2\n"; //
+  balance(newNode); //можно засунуть в else
+ // std::cout << "END INSERT\n"; //
  // }
  // std::cout << "END END\n"; //
 }
