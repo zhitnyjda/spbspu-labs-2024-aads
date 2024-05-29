@@ -19,6 +19,8 @@ int main(int argc, char ** argv )
 
   Tree< std::string, std::function < void(Tree< std::string, Tree< long long, std::string > >&) > > commands;
   commands.insert("print", print);
+  commands.insert("complement", getComplement);
+  commands.at("complement")(allTree);
   commands.at("print")(allTree);
   //std::cout << allTree.getSize() << "\n";
   return 0;

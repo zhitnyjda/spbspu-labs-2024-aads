@@ -10,6 +10,7 @@ namespace kovshikov
   bool isDigit(std::string str);
 
   void print(Tree< std::string, Tree< long long, std::string > >& allTree);
+  void getComplement(Tree< std::string, Tree< long long, std::string > >& allTree);
 }
 
 #endif
