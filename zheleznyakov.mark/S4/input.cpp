@@ -5,7 +5,8 @@
 std::string zheleznyakov::extractFirstWord(std::string & str)
 {
   size_t pos = str.find(' ');
-  if (pos == std::string::npos) {
+  if (pos == std::string::npos)
+  {
     std::string firstWord = str;
     str.clear();
     return firstWord;

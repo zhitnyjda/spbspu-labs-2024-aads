@@ -203,17 +203,21 @@ zheleznyakov::Tree< Key, Value, Compare >::Iterator::Iterator(Node * newCurrent)
 template < typename Key, typename Value, typename Compare >
 typename zheleznyakov::Tree< Key, Value, Compare >::Iterator & zheleznyakov::Tree< Key, Value, Compare >::Iterator::operator++()
 {
-  if (currentIter_ == nullptr) {
+  if (currentIter_ == nullptr)
+  {
     return *this;
   }
-  if (currentIter_->right != nullptr) {
+  if (currentIter_->right != nullptr)
+  {
     currentIter_ = currentIter_->right;
-    while (currentIter_->left != nullptr) {
+    while (currentIter_->left != nullptr)
+    {
       currentIter_ = currentIter_->left;
     }
   } else {
     Node * parent = currentIter_->parent;
-    while (parent != nullptr && currentIter_ == parent->right) {
+    while (parent != nullptr && currentIter_ == parent->right)
+    {
       currentIter_ = parent;
       parent = parent->parent;
     }
@@ -447,12 +451,18 @@ Value& zheleznyakov::Tree< Key, Value, Compare >::operator[](const Key& key) {
 template < typename Key, typename Value, typename Compare >
 const Value & zheleznyakov::Tree< Key, Value, Compare >::operator[](const Key& key) const {
   Node * current = root_;
-  while (current != nullptr) {
-    if (key == current->data.first) {
+  while (current != nullptr)
+  {
+    if (key == current->data.first)
+    {
       return current->data.second;
-    } else if (key < current->data.first) {
+    }
+    else if (key < current->data.first)
+    {
       current = current->left;
-    } else {
+    }
+    else
+    {
       current = current->right;
     }
   }
@@ -758,7 +768,8 @@ template < typename Key, typename Value, typename Compare >
 typename zheleznyakov::Tree< Key, Value, Compare >::Iterator zheleznyakov::Tree< Key, Value, Compare >::begin() noexcept
 {
   Node* current = root_;
-  while (current != nullptr && current->left != nullptr) {
+  while (current != nullptr && current->left != nullptr)
+  {
     current = current->left;
   }
   return Iterator(current);
@@ -774,7 +785,8 @@ template < typename Key, typename Value, typename Compare >
 typename zheleznyakov::Tree< Key, Value, Compare >::ConstIterator zheleznyakov::Tree< Key, Value, Compare >::cbegin() const noexcept
 {
   Node* current = root_;
-  while (current != nullptr && current->left != nullptr) {
+  while (current != nullptr && current->left != nullptr)
+  {
     current = current->left;
   }
   return Iterator(current);
