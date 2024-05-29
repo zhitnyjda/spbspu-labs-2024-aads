@@ -67,6 +67,7 @@ void kovshikov::createTree(Tree< std::string, Tree< long long, std::string > >& 
   }
   if(!value.empty())
   {
+    value = temp;
     tree.insert(key, value);
   }
  // std::cout << name << "\n"; ///
