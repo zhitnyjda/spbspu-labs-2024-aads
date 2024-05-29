@@ -7,15 +7,9 @@
 #include <cassert>
 #include <memory>
 
-#include <iostream> //
-
-//может быть updateHeight не надо использовать?
-// и height_ тоже??
-
 namespace kovshikov
 {
   template< typename Key, typename Value, typename Compare = std::less< Key > >
- // class BinarySearchTree
   class Tree
   {
   public:
@@ -32,9 +26,6 @@ namespace kovshikov
 
     using Pair = std::pair< Key, Value >;
     using Range = std::pair< Iterator, Iterator >;
-   // Compare comp;
-
-   // void printStart(); /////////
 
     bool isEmpty() const noexcept;
     size_t getSize() const noexcept;
@@ -66,7 +57,6 @@ namespace kovshikov
 
     size_t getHeight(Node* node);
     long long getDifference(Node* node);
-    void updateHeight(Node* node);
     void RightRight(Node* node);
     void LeftLeft(Node* node);
 
@@ -75,7 +65,6 @@ namespace kovshikov
 
     void clear(Node* node);
   };
- // using Tree = BinarySearchTree;
 }
 
 
@@ -84,22 +73,20 @@ class kovshikov::Tree< Key, Value, Compare >::Node
 {
 public:
   friend class Tree< Key, Value, Compare >;
-  Node(Key key, Value value, Node* father = nullptr, size_t height = 0, Node* left = nullptr, Node* right = nullptr);
+  Node(Key key, Value value, Node* father = nullptr, Node* left = nullptr, Node* right = nullptr);
 
 private:
   Node* left_;
   Node* right_;
   Node* father_;
-  size_t height_;
   Pair element_;
 };
 
 template< typename Key, typename Value, typename Compare >
-kovshikov::Tree< Key, Value, Compare >::Node::Node(Key key, Value value, Node* father, size_t height, Node* left, Node* right):
+kovshikov::Tree< Key, Value, Compare >::Node::Node(Key key, Value value, Node* father, Node* left, Node* right):
   left_(left),
   right_(right),
   father_(father),
-  height_(height),
   element_(std::make_pair(key, value))
 {};
 
@@ -138,17 +125,10 @@ private:
 template< typename Key, typename Value, typename Compare >
 typename kovshikov::Tree< Key, Value, Compare >::Iterator::this_t& kovshikov::Tree< Key, Value, Compare >::Iterator::operator++()
 {
- // std::cout << "start ++\n"; //
   assert(node_ != nullptr);
   Node* current = node_;
- /* if(node_ -> father_ == nullptr)
-  {
-    std::cout << "next == nullptr\n"; //
-  }*/
- // std::cout << node_ ->element_.first << "\n"; //
   if(current -> right_)
   {
-   // std::cout << "A\n"; //
     current = current -> right_;
     while(current -> left_)
     {
@@ -157,38 +137,15 @@ typename kovshikov::Tree< Key, Value, Compare >::Iterator::this_t& kovshikov::Tr
   }
   else
   {
-   // std::cout << "B\n"; //
     Node* currentFather = current -> father_;
-   /* if(currentFather == nullptr)
-    {
-      std::cout << "currentFather\n"; ////
-    }*/
     while(currentFather && current == currentFather -> right_)
     {
-     // std::cout << "цикл\n"; //
       current = currentFather;
       currentFather = currentFather -> father_;
     }
     current = currentFather;
-   /* if(current == nullptr)
-    {
-      std::cout << "jwekfejwjewfiojeoeicjodsk\n"; //
-    }
-    else
-    {
-      std::cout << current -> element_.first << "\n"; //
-    }*/
   }
   node_ = current;
- /* if(node_ == nullptr)
-  {
-    std::cout << "ERRORRRO\n"; /////////
-  }
-  else
-  {
-    std::cout << node_ ->element_.first << "\n"; //////////
-  }
-  std::cout << "++ end\n"; //*/
   return *this;
 }
 
@@ -297,26 +254,14 @@ private:
 template< typename Key, typename Value, typename Compare >
 typename kovshikov::Tree< Key, Value, Compare >::ConstIterator& kovshikov::Tree< Key, Value, Compare >::ConstIterator::operator++()
 {
- // std::cout << "const ++1\n"; //
   assert(iterator_.node_ != nullptr);
- // std::cout << "const ++2\n"; //
   iterator_++;
- // std::cout << "const ++3\n"; //
   return *this;
 }
 
 template< typename Key, typename Value, typename Compare >
 typename kovshikov::Tree< Key, Value, Compare >::ConstIterator kovshikov::Tree< Key, Value, Compare >::ConstIterator::operator++(int)
 {
- // std::cout << "(int)const ++1\n"; //
-  if(iterator_.node_ == nullptr)
-  {
-   // std::cout << "wtf\n"; //
-  }
-  if(iterator_.root_ == nullptr)
-  {
-   // std::cout << "wtf2\n"; //
-  }
   assert(iterator_.node_ != nullptr);
   ++iterator_;
   return *this;
@@ -400,32 +345,25 @@ kovshikov::Tree< Key, Value, Compare >::~Tree()
 template< typename Key, typename Value, typename Compare >
 typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, Value, Compare >::end() const noexcept
 {
-//  return Iterator(nullptr, root_);
- // std::cout << "END\n"; //
   Node* current = root_;
   if(current == nullptr)
   {
-   // std::cout << "&&&\n"; //
     return Iterator(nullptr, nullptr);
   }
   while(current != nullptr)
   {
     current = current -> right_;
   }
-  //тут не надо прибавлять 1, тк current укаэет на элемент идущий за max
- // std::cout << "END END\n"; //
   return Iterator(current, root_);
 }
 
 template< typename Key, typename Value, typename Compare >
 typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, Value, Compare >::begin() const noexcept
 {
- // std::cout << "BEGIN\n"; //
   Node* current = root_;
   Node* returned = nullptr;
   if(current == nullptr)
   {
-   // std::cout << "??\n"; //
     return end();
   }
   while(current != nullptr)
@@ -433,26 +371,20 @@ typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, 
     returned = current;
     current = current -> left_;
   }
- // std::cout << returned -> element_.first;//////
- // std::cout << "BEGIN END\n"; //
-  return Iterator(returned, root_); //тут была ошибка с тем что возвращал пустой указатель
+  return Iterator(returned, root_);
 }
 
 template< typename Key, typename Value, typename Compare >
 typename kovshikov::Tree< Key, Value, Compare >::ConstIterator kovshikov::Tree< Key, Value, Compare >::cend() const noexcept
 {
- // std::cout << "CEND\n"; //
   Iterator iterator = this->end();
- // std::cout << "CEND END\n"; //
   return ConstIterator(iterator);
 }
 
 template< typename Key, typename Value, typename Compare >
 typename kovshikov::Tree< Key, Value, Compare >::ConstIterator kovshikov::Tree< Key, Value, Compare >::cbegin() const noexcept
 {
- // std::cout << "CBEGIN\n"; //
   Iterator iterator = this->begin();
- // std::cout << "CBEGIN END\n"; //
   return ConstIterator(iterator);
 }
 
@@ -465,27 +397,14 @@ bool kovshikov::Tree< Key, Value, Compare >::isEmpty() const noexcept
 template< typename Key, typename Value, typename Compare >
 size_t kovshikov::Tree< Key, Value, Compare >::getSize() const noexcept
 {
- // std::cout << "START GETSIZE\n"; //
   Iterator cstart = begin();
   Iterator cfinish = end();
-//  std::cout << (cstart.node_) -> element_.first << "\n"; //разыменовывание приводит к утечке памяти
- /* if(cstart.node_ == nullptr)
-  {
-    std::cout << "NULLPTR\n"; //
-  }*/
   size_t size = 0;
   while(cstart != cfinish)
   {
     size += 1;
-   // std::cout << "WHILE\n"; //
     cstart++;
-   // std::cout << "WHILE2\n"; //
-   /* if(cstart == cfinish)
-    {
-      std::cout << "FATALITY\n"; //
-    }*/
   }
- // std::cout << "FINISH GETSIZE\n"; //
   return size;
 }
 
@@ -542,10 +461,8 @@ typename kovshikov::Tree< Key, Value, Compare >::Range kovshikov::Tree< Key, Val
 template< typename Key, typename Value, typename Compare >
 size_t kovshikov::Tree< Key, Value, Compare >::getHeight(Node* node)
 {
-  //std::cout << "START GETHEIGHT\n"; //
   if(node == nullptr)
   {
-    //std::cout << "nullptr\n"; ///
     return 0;
   }
   return std::max(getHeight(node -> left_), getHeight(node -> right_)) + 1;
@@ -554,25 +471,12 @@ size_t kovshikov::Tree< Key, Value, Compare >::getHeight(Node* node)
 template< typename Key, typename Value, typename Compare >
 long long kovshikov::Tree< Key, Value, Compare >::getDifference(Node* node)
 {
-//  std::cout << "START GETDIFFERENCE\n"; //
   return getHeight(node -> left_) - getHeight(node -> right_);
-}
-
-template< typename Key, typename Value, typename Compare >
-void kovshikov::Tree< Key, Value, Compare >::updateHeight(Node* node)
-{
- // std::cout << "START UPDATE\n"; //
-  while(node != nullptr)
-  {
-    node -> height_ = std::max(getHeight(node -> left_), getHeight(node -> right_)) + 1;
-    node = node -> father_;
-  }
 }
 
 template< typename Key, typename Value, typename Compare >
 void kovshikov::Tree< Key, Value, Compare >::RightRight(Node* node)
 {
- // std::cout << "START RIGHTRIGHT\n"; //
   Node* bigFather = node -> father_;
   Node* newFather = node -> left_;
   Node* lastRight = newFather -> right_;
@@ -595,20 +499,16 @@ void kovshikov::Tree< Key, Value, Compare >::RightRight(Node* node)
   }
   newFather -> father_ = bigFather;
   newFather -> right_ = node;
-  node ->left_ = lastRight; //странно
+  node ->left_ = lastRight;
   if(lastRight != nullptr)
   {
-    lastRight -> father_ = node; //nullptr
+    lastRight -> father_ = node;
   }
- // updateHeight(node);
- // std::cout << newFather -> element_.first << "\n"; //
- // std::cout << node -> element_.first << "\n"; //
 }
 
 template< typename Key, typename Value, typename Compare >
 void kovshikov::Tree< Key, Value, Compare >::LeftLeft(Node* node)
 {
- // std::cout << "START LEFTLEFT\n"; //
   Node* bigFather = node -> father_;
   Node* newFather = node -> right_;
   Node* lastLeft = newFather -> left_;
@@ -635,114 +535,89 @@ void kovshikov::Tree< Key, Value, Compare >::LeftLeft(Node* node)
   node -> right_ = lastLeft;
   if(lastLeft != nullptr)
   {
-    lastLeft -> father_ = node; //проверка на nullptr;
+    lastLeft -> father_ = node;
   }
- // updateHeight(node);
- // std::cout << newFather -> element_.first << "\n"; //
- // std::cout << node -> element_.first << "\n"; //
 }
 
 template< typename Key, typename Value, typename Compare >
 typename kovshikov::Tree< Key, Value, Compare >::Node* kovshikov::Tree< Key, Value, Compare >::checkBalance(Node* node)
 {
- // std::cout << "START CHECKBALANCE\n"; //
   while(node != nullptr)
   {
     if(std::abs(getDifference(node)) > 1)
     {
-     // std::cout << "nou\n"; //
       return node;
     }
     else
     {
-     // std::cout << "father\n"; //
       node = node -> father_;
-     // std::cout << "father2\n"; //
     }
   }
- // std::cout << "FINISH CHECKBALANCE\n"; //
   return node;
 }
 
 template< typename Key, typename Value, typename Compare >
 void kovshikov::Tree< Key, Value, Compare >::balance(Node* node)
 {
- // std::cout << "START BALANCE\n"; //
-  Node* toBalance = node; //
+  Node* toBalance = node;
   bool isBalance = false;
   while(isBalance == false)
   {
-    toBalance = checkBalance(toBalance); // заменил node на checkBalance и переприсваивал
+    toBalance = checkBalance(toBalance);
     if(toBalance == nullptr)
     {
       isBalance = true;
     }
     else
     {
-     // std::cout << "DO BALANCE\n"; //
       if(getDifference(toBalance) < -1 && getDifference(toBalance -> right_) <= 0)
       {
-       // std::cout << "START LEFTLEFT\n"; //
         LeftLeft(toBalance);
-       // std::cout << "LEFTLEFT\n"; //
       }
       else if(getDifference(toBalance) > 1 && getDifference(toBalance -> left_) >= 0)
       {
         RightRight(toBalance);
-       // std::cout << "RIGHTRIGHT\n"; //
       }
       else if(getDifference(toBalance) < -1 && getDifference(toBalance -> right_) > 0)
       {
         RightRight(toBalance -> right_);
         LeftLeft(toBalance);
-       // std::cout << "RL\n"; //
       }
       else if(getDifference(toBalance) > 1 && getDifference(toBalance -> left_) < 0)
       {
         LeftLeft(toBalance -> left_);
         RightRight(toBalance);
-       // std::cout << "LR\n"; //
       }
       toBalance = toBalance -> father_;
     }
   }
-//  std::cout << "FINISH BALANCE\n"; //
 }
 
 template< typename Key, typename Value, typename Compare >
 void kovshikov::Tree< Key, Value, Compare >::insert(const Key& key, const Value& value)
 {
- // std::cout << "INSERT\n"; //
   if(find(key) != end())
   {
     erase(key);
   }
- // std::cout << "before new\n"; ////
-  Node* newNode = new Node(key, value); //root добавить?
- // std::cout << "after new\n"; ////
+  Node* newNode = new Node(key, value);
   if(isEmpty())
   {
-   // std::cout << "get root\n"; //
     root_ = newNode;
-   // std::cout << "GET ROOT\n"; //
   }
   else
   {
-   // std::cout << "NO ROOT\n"; //
     Node* current = root_;
     Node* father = nullptr;
     while(current != nullptr)
     {
       father = current;
-     // std::cout << "while\n"; //
       if(comp(key, current -> element_.first))
       {
-       // std::cout << "if\n"; //
         current = current -> left_;
       }
       else
       {
-       // std::cout << "else\n"; //
         current = current -> right_;
       }
     }
@@ -756,11 +631,7 @@ void kovshikov::Tree< Key, Value, Compare >::insert(const Key& key, const Value&
       father -> right_ = newNode;
     }
   }
- // std::cout << "INSERT2\n"; //
-  balance(newNode); //можно засунуть в else
- // std::cout << "END INSERT\n"; //
- // }
- // std::cout << "END END\n"; //
+  balance(newNode);
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -832,18 +703,14 @@ typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, 
   Node* changer = nullptr;
   Node* temp = nullptr;
   Node* toBalance = nullptr;
- // std::cout << toDelete ->element_.first << "\n"; //
- // std::cout << bigFather ->element_.first << "\n"; //
   if(toDelete == nullptr)
   {
     return end();
   }
   if(toDelete -> left_ == nullptr && toDelete -> right_ == nullptr)
   {
-   // std::cout << "if\n"; //
     if(bigFather != nullptr)
     {
-     // std::cout << "if2\n"; //
       if(comp(toDelete -> element_.first, bigFather -> element_.first))
       {
         bigFather -> left_ = nullptr;
@@ -853,9 +720,7 @@ typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, 
         bigFather -> right_ = nullptr;
       }
       delete toDelete;
-     // std::cout << "if3\n"; //
       balance(bigFather);
-     // std::cout << "f4\n"; //
       return Iterator(bigFather, root_);
     }
     else
@@ -866,7 +731,6 @@ typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, 
   }
   else if(toDelete -> left_ == nullptr && toDelete -> right_ != nullptr)
   {
-   // std::cout << "else if\n"; //
     changer = toDelete -> right_;
     temp = changer -> left_;
     while(temp != nullptr)
@@ -882,7 +746,6 @@ typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, 
   }
   else
   {
-   // std::cout << "else\n"; //
     changer = toDelete -> left_;
     temp = changer -> right_;
     while(temp != nullptr)
@@ -910,31 +773,25 @@ typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, 
   changer -> father_ = bigFather;
   if(toDelete -> left_ != nullptr && changer != toDelete -> left_)
   {
-   // std::cout << "A\n"; //
     changer -> left_ = toDelete -> left_;
     toDelete -> left_ -> father_ = changer;
   }
   if(toDelete -> right_ != nullptr && changer != toDelete -> right_)
   {
-   // std::cout << "B\n"; //
     changer -> right_ = toDelete -> right_;
     toDelete -> right_ -> father_ = changer;
   }
 
   if(toBalance != toDelete)
   {
-  //  std::cout << "toBalance\n"; //
     delete toDelete;
     balance(toBalance);
   }
   else
   {
-  //  std::cout << "changer\n"; //
     delete toDelete;
     balance(changer);
   }
-//updateHeight(root_);
-//  std::cout << "end of erase\n"; //
   if(bigFather == nullptr)
   {
     root_ = changer;
@@ -956,14 +813,5 @@ size_t kovshikov::Tree< Key, Value, Compare >::erase(const Key& key)
     return 1;
   }
 }
-/*
-template< typename Key, typename Value, typename Compare >
-void kovshikov::Tree< Key, Value, Compare >::printStart()
-{
-  std::cout << root_ -> element_.first << "\n";
-  std::cout << root_ -> left_ -> element_.first << "\n";
-  std::cout << root_ -> right_ -> element_.first << "\n";
-}
-*/
 
 #endif

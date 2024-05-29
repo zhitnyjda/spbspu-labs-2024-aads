@@ -1,4 +1,5 @@
 #include "treeProcess.hpp"
+#include <iostream>
 
 bool kovshikov::isDigit(std::string str)
 {
@@ -70,24 +71,7 @@ void kovshikov::createTree(Tree< std::string, Tree< long long, std::string > >& 
     value = temp;
     tree.insert(key, value);
   }
- // std::cout << name << "\n"; ///
   allTree.insert(name, tree);
- /* if(key == 0)
-  {
-    std::cout << "empty\n"; ////
-    allTree[name] = tree;
-    std::cout << allTree.count(name) << "\n"; ///
-  }
-  else if(!value.empty())
-  {
-    tree.insert(key, value);
-    allTree.insert(name, tree);
-  }
-  else
-  {
-    allTree.insert(name, tree); //вот тут вылетает жесткая ошибка;
-  }
-  */
 }
 
 void kovshikov::print(Tree< std::string, Tree< long long, std::string > >& allTree)
@@ -150,11 +134,6 @@ void kovshikov::getComplement(Tree< std::string, Tree< long long, std::string > 
     }
     iteratorSecond++;
   }
-/*  if(allTree.find(name) != allTree.end())
-  {
-    allTree.erase(name);
-  }
-*/
   allTree.insert(name, newTree);
 }
 
@@ -211,5 +190,4 @@ void kovshikov::getUnion(Tree< std::string, Tree< long long, std::string > >& al
     iteratorSecond++;
   }
   allTree.insert(name, newTree);
-
 }
