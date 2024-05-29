@@ -191,3 +191,8 @@ void kovshikov::getUnion(Tree< std::string, Tree< long long, std::string > >& al
   }
   allTree.insert(name, newTree);
 }
+
+void kovshikov::outInvalid()
+{
+  std::cout << "<INVALID COMMAND>" << "\n";
+}

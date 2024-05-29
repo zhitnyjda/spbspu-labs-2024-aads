@@ -1,11 +1,11 @@
 #ifndef BINARYSEARCHTREE_HPP
 #define BINARYSEARCHTREE_HPP
 #include <algorithm>
-#include <utility>
+#include <cassert>
 #include <functional>
 #include <iterator>
-#include <cassert>
 #include <memory>
+#include <utility>
 
 namespace kovshikov
 {

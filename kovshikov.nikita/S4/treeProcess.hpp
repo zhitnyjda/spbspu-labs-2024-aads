@@ -13,6 +13,8 @@ namespace kovshikov
   void getComplement(Tree< std::string, Tree< long long, std::string > >& allTree);
   void getIntersect(Tree< std::string, Tree< long long, std::string > >& allTree);
   void getUnion(Tree< std::string, Tree< long long, std::string > >& allTree);
+
+  void outInvalid();
 }
 
 #endif
