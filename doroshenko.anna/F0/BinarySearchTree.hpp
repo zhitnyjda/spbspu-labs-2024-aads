@@ -4,7 +4,6 @@
 #include <cassert>
 #include <functional>
 #include <algorithm>
-#include <iostream>
 
 namespace doroshenko
 {

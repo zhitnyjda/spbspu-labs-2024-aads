@@ -1,19 +1,12 @@
 #include "commands.hpp"
 #include <iostream>
-#include <functional>
-#include <algorithm>
 #include <fstream>
-#include <vector>
 #include "List.hpp"
 
 using dictionary = BST< std::string, std::string >;
 
 void doroshenko::help(std::istream& input, std::ostream& output)
 {
-  if (input.peek() != '\n')
-  {
-    throw std::exception();
-  }
   output << "1) help - output of available commands\n";
   output << "2) create <name> - create a dictionary named name\n";
   output << "3) remove <name> - delete a dictionary named name\n";
@@ -47,22 +40,13 @@ void doroshenko::createDict(BST< std::string, dictionary >& dicts, std::istream&
   std::string cmdType;
   while (input >> cmdType && cmdType != "stop")
   {
-    try
+    if(cmdDict.find(cmdType) != cmdDict.cend())
     {
-      if(cmdDict.find(cmdType) != cmdDict.cend())
-      {
-        cmdDict.at(cmdType).second(currentDict, input, output);
-        dicts.erase(dictName);
-        dicts.insert(dictName, currentDict);
-      }
-      else
-      {
-        warningDict(output);
-        input.clear();
-        input.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
-      }
+      cmdDict.at(cmdType).second(currentDict, input, output);
+      dicts.erase(dictName);
+      dicts.insert(dictName, currentDict);
     }
-    catch (const std::out_of_range& e)
+    else
     {
       warningDict(output);
       input.clear();
@@ -210,22 +194,13 @@ void doroshenko::sortDict(BST< std::string, dictionary >& dicts, std::istream& i
   cmdSort.insert("alphabet", std::bind(doroshenko::sortByAlphabet, _1, _2, _3));
   std::string sortType;
   input >> sortType;
-  try
-  {
-    if (dicts.isEmpty())
-    {
-      warningDict(output);
-    }
-    else
-    {
-      cmdSort.at(sortType).second(dicts, input, output);
-    }
-  }
-  catch (const std::out_of_range& e)
+  if (dicts.isEmpty())
   {
     warningDict(output);
-    std::cin.clear();
-    std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+  }
+  else
+  {
+    cmdSort.at(sortType).second(dicts, input, output);
   }
 }
 
