@@ -260,4 +260,25 @@ size_t mihalchenko::AVLTree<Key, Value, Compare>::getSize() const noexcept
   return size_;
 }
 
+template <typename Key, typename Value, typename Compare>
+typename mihalchenko::AVLTree<Key, Value, Compare>::Iterator mihalchenko::AVLTree<Key, Value, Compare>::begin() noexcept
+{
+  if (empty())
+  {
+    return cend();
+  }
+  Node *temp = root_;
+  while (temp->left_ != nullptr)
+  {
+    temp = temp->left_;
+  }
+  return Iterator(ConstIterator(temp, root_));
+}
+
+template <typename Key, typename Value, typename Compare>
+typename mihalchenko::AVLTree<Key, Value, Compare>::Iterator mihalchenko::AVLTree<Key, Value, Compare>::end() noexcept
+{
+  return ConstIterator(nullptr, root_);
+}
+
 #endif
