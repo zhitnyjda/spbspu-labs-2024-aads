@@ -281,4 +281,25 @@ typename mihalchenko::AVLTree<Key, Value, Compare>::Iterator mihalchenko::AVLTre
   return ConstIterator(nullptr, root_);
 }
 
+template <typename Key, typename Value, typename Compare>
+typename mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator mihalchenko::AVLTree<Key, Value, Compare>::cbegin() const noexcept
+{
+  if (empty())
+  {
+    return cend();
+  }
+  Node *temp = root_;
+  while (temp->left != nullptr)
+  {
+    temp = temp->left;
+  }
+  return ConstIterator(temp, root_);
+}
+
+template <typename Key, typename Value, typename Compare>
+typename mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator mihalchenko::AVLTree<Key, Value, Compare>::cend() const noexcept
+{
+  return ConstIterator(nullptr, root_);
+}
+
 #endif
