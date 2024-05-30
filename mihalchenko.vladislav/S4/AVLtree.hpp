@@ -302,4 +302,190 @@ typename mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator mihalchenko::A
   return ConstIterator(nullptr, root_);
 }
 
+template <typename Key, typename Value, typename Compare>
+mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator::ConstIterator()
+{
+  node_ = nullptr;
+  root_ = nullptr;
+}
+
+template <typename Key, typename Value, typename Compare>
+mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator::ConstIterator(Node *node, Node *root)
+{
+  node_ = node;
+  root_ = root;
+}
+
+template <typename Key, typename Value, typename Compare> //
+typename mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator &mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator::operator++()
+{
+  if (node_->right_)
+  {
+    node_ = node_->right_;
+    while (node_->left_)
+    {
+      node_ = node_->left_;
+    }
+  }
+  else
+  {
+    Node *tempNode = node_->previous_;
+    while (tempNode && node_ == tempNode->right_)
+    {
+      node_ = tempNode;
+      tempNode = node_->previous_;
+    }
+    node_ = tempNode;
+  }
+  return *this;
+}
+
+template <typename Key, typename Value, typename Compare>
+typename mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator::operator++(int)
+{
+  ConstIterator result(*this);
+  ++(*this);
+  return result;
+}
+
+template <typename Key, typename Value, typename Compare>
+typename mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator &mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator::operator--()
+{
+  if (node_ == nullptr)
+  {
+    node_ = root_;
+    while (node_->right_)
+    {
+      node_ = node_->right_;
+    }
+  }
+  else
+  {
+    if (node_->left_)
+    {
+      node_ = node_->left_;
+      while (node_->right_)
+      {
+        node_ = node_->right_;
+      }
+    }
+    else
+    {
+      Node *tempNode = node_->previous_;
+      while (tempNode && node_ == tempNode->left_)
+      {
+        node_ = tempNode;
+        tempNode = node_->previous_;
+      }
+      node_ = tempNode;
+    }
+  }
+  return *this;
+}
+
+template <typename Key, typename Value, typename Compare>
+typename mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator::operator--(int)
+{
+  ConstIterator result(*this);
+  --(*this);
+  return result;
+}
+
+template <typename Key, typename Value, typename Compare>
+const typename mihalchenko::AVLTree<Key, Value, Compare>::value_std_pair &mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator::operator*() const
+{
+  // return node_->data_;  - было
+  return node_->pairOfKeyVal;
+}
+
+template <typename Key, typename Value, typename Compare>
+const typename mihalchenko::AVLTree<Key, Value, Compare>::value_std_pair *mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator::operator->() const
+{
+  // return std::addressof(node_->data_);  - было
+  return std::addressof(node_->pairOfKeyVal);
+}
+
+template <typename Key, typename Value, typename Compare>
+bool mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator::operator==(const ConstIterator &rhs) const
+{
+  return node_ == rhs.node_;
+}
+
+template <typename Key, typename Value, typename Compare>
+bool mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator::operator!=(const ConstIterator &rhs) const
+{
+  return !(*this == rhs);
+}
+
+template <typename Key, typename Value, typename Compare>
+mihalchenko::AVLTree<Key, Value, Compare>::Iterator::Iterator() : constIter_(ConstIterator())
+// constIter_(value) - было
+{
+}
+
+template <typename Key, typename Value, typename Compare>
+mihalchenko::AVLTree<Key, Value, Compare>::Iterator::Iterator(ConstIterator iter) : constIter_(iter)
+{
+}
+
+template <typename Key, typename Value, typename Compare>
+typename mihalchenko::AVLTree<Key, Value, Compare>::Iterator &mihalchenko::AVLTree<Key, Value, Compare>::Iterator::operator++()
+//::Iterator::this_t &
+{
+  ++constIter_;
+  return *this;
+}
+
+template <typename Key, typename Value, typename Compare>
+// typename mihalchenko::AVLTree < Key, Value, Compare >::Iterator::this_t mihalchenko::Tree< Key, Value, Compare >::Iterator::operator++(int)
+typename mihalchenko::AVLTree<Key, Value, Compare>::Iterator mihalchenko::AVLTree<Key, Value, Compare>::Iterator::operator++(int)
+{
+  Iterator result = constIter_;
+  // this_t result = iter_;
+  ++constIter_;
+  return result;
+}
+
+template <typename Key, typename Value, typename Compare>
+typename mihalchenko::AVLTree<Key, Value, Compare>::Iterator &mihalchenko::AVLTree<Key, Value, Compare>::Iterator::operator--()
+{
+  --constIter_;
+  return *this;
+}
+
+template <typename Key, typename Value, typename Compare>
+typename mihalchenko::AVLTree<Key, Value, Compare>::Iterator mihalchenko::AVLTree<Key, Value, Compare>::Iterator::operator--(int)
+{
+  Iterator result = constIter_;
+  --constIter_;
+  return result;
+}
+
+template <typename Key, typename Value, typename Compare>
+typename mihalchenko::AVLTree<Key, Value, Compare>::value_std_pair &mihalchenko::AVLTree<Key, Value, Compare>::Iterator::operator*()
+{
+  return constIter_.node_->pairOfKeyVal;
+  // return constIter_.node_->data_;   std::pair< const Key, Value >
+}
+
+template <typename Key, typename Value, typename Compare>
+typename mihalchenko::AVLTree<Key, Value, Compare>::value_std_pair *mihalchenko::AVLTree<Key, Value, Compare>::Iterator::operator->()
+{
+  return std::addressof(constIter_.node_->pairOfKeyVal);
+  //  return std::addressof(constIter_.node_->data_);
+}
+
+template <typename Key, typename Value, typename Compare>
+bool mihalchenko::AVLTree<Key, Value, Compare>::Iterator::operator!=(const Iterator &rhs) const
+{
+  return !(rhs == *this);
+  // return !(rhs.constIter_ == constIter_);
+}
+
+template <typename Key, typename Value, typename Compare>
+bool mihalchenko::AVLTree<Key, Value, Compare>::Iterator::operator==(const Iterator &rhs) const
+{
+  return constIter_ == rhs.constIter_;
+}
+
 #endif
