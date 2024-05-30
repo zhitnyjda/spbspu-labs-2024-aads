@@ -236,4 +236,16 @@ typename mihalchenko::AVLTree<Key, Value, Compare>::Iterator mihalchenko::AVLTre
   return findNode(key, root_);
 }
 
+template< typename Key, typename Value, typename Compare >
+Value & mihalchenko::AVLTree < Key, Value, Compare >::operator[](const Key & key)
+{
+  return (*findNode(key, root_)).second;
+}
+ 
+template< typename Key, typename Value, typename Compare >
+void mihalchenko::AVLTree < Key, Value, Compare >::clear()
+{
+  clear(root_);
+}
+
 #endif
