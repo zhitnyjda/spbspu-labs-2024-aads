@@ -603,6 +603,11 @@ namespace sukacheva
     {
       node->right = push(node->right, k, v, node);
     }
+    else
+    {
+      node->data.second = v;
+      return node;
+    }
     return balance(node);
   }
 
