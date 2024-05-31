@@ -5,27 +5,24 @@
 
 namespace sukacheva
 {
-  void inputTree(treeOfTrees& treeOfDicts, std::istream& in) {
-    std::string treeStr;
-    while (std::getline(in, treeStr))
+  void inputTree(treeOfTrees& treeOfDicts, std::string& line)
+  {
+    std::istringstream iss(line);
+    std::string name;
+    iss >> name;
+    if (name.empty())
     {
-      if (!treeStr.empty())
-      {
-        BST< size_t, std::string > tree;
-        std::istringstream iss(treeStr);
-        size_t key;
-        std::string value;
-        std::string name;
-        iss >> name;
-        while (iss >> key >> value)
-        {
-          tree.insert(key, value);
-        }
-        treeOfDicts.insert(name, tree);
-      }
+      return;
     }
+    BST< size_t, std::string > currentDict;
+    size_t key;
+    std::string value;
+    while (iss >> key >> value)
+    {
+      currentDict.insert(key, value);
+    }
+    treeOfDicts.insert(name, currentDict);
   }
-
 
   void print(treeOfTrees& treeOfDicts, std::string name, std::ostream& out)
   {
@@ -96,7 +93,6 @@ namespace sukacheva
       }
     }
     treeOfDicts.insert(nameNew, newDict);
-    print(treeOfDicts, nameNew, out);
   }
 
   void intersect(treeOfTrees& treeOfDicts, std::istream& in, std::ostream& out)
@@ -126,7 +122,6 @@ namespace sukacheva
       }
     }
     treeOfDicts.insert(nameNew, newDict);
-    print(treeOfDicts, nameNew, out);
   }
 
   void unionCommand(treeOfTrees& treeOfDicts, std::istream& in, std::ostream& out)
@@ -155,6 +150,5 @@ namespace sukacheva
       }
     }
     treeOfDicts.insert(nameNew, newDict);
-    print(treeOfDicts, nameNew, out);
   }
 }

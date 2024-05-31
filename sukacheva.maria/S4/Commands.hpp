@@ -13,7 +13,7 @@ namespace sukacheva
   void intersect(treeOfTrees& treeOfDicts, std::istream& in, std::ostream& out);
   void unionCommand(treeOfTrees& treeOfDicts, std::istream& in, std::ostream& out);
 
-  void inputTree(treeOfTrees& treeOfDicts, std::istream& in);
+  void inputTree(treeOfTrees& treeOfDicts, std::string& line);
 }
 
 #endif

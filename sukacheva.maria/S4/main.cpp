@@ -1,8 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <functional>
-#include <iterator>
 #include <limits>
+#include <string>
 #include "BST.hpp"
 #include "Commands.hpp"
 #include "ErrorMessage.hpp"
@@ -24,7 +24,14 @@ int main(int argc, char* argv[])
   treeOfTrees treeOfDicts;
   while (!in.eof())
   {
-    inputTree(treeOfDicts, in);
+    std::string line = {};
+    while (std::getline(in, line))
+    {
+      if (!line.empty())
+      {
+        inputTree(treeOfDicts, line);
+      }
+    }
     if (in.fail())
     {
       in.clear();
