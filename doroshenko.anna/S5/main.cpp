@@ -28,6 +28,7 @@ int main(int argc, char* argv[])
   catch (std::out_of_range& e)
   {
     outRange(std::cerr);
+    return 1;
   }
   BST< std::string, std::function< void(std::ostream& out, BST< int, std::string >& tree) > > treeOfFuncs;
   treeOfFuncs.insert("ascending", ascending);
