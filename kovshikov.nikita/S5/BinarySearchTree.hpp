@@ -360,7 +360,8 @@ kovshikov::Tree< Key, Value, Compare >::~Tree()
 template< typename Key, typename Value, typename Compare >
 typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, Value, Compare >::end() const noexcept
 {
-  Node* current = root_;
+  return Iterator(nullptr, root_);
+ /* Node* current = root_;
   if(current == nullptr)
   {
     return Iterator(nullptr, nullptr);
@@ -369,7 +370,7 @@ typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, 
   {
     current = current -> right_;
   }
-  return Iterator(current, root_);
+  return Iterator(current, root_);*/
 }
 
 template< typename Key, typename Value, typename Compare >
