@@ -3,6 +3,7 @@
 #include <cassert>
 #include <utility>
 #include <functional>
+#include <stdexcept>
 #include "Node.hpp"
 
 namespace sukacheva
