@@ -21,7 +21,14 @@ int main(int argc, char* argv[])
   }
   std::string inputLine;
   std::getline(input, inputLine);
-  strToTree(inputLine, tree);
+  try
+  {
+    strToTree(inputLine, tree);
+  }
+  catch (std::out_of_range& e)
+  {
+    outRange(std::cerr);
+  }
   BST< std::string, std::function< void(std::ostream& out, BST< int, std::string >& tree) > > treeOfFuncs;
   treeOfFuncs.insert("ascending", ascending);
   treeOfFuncs.insert("descending", descending);

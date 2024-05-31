@@ -10,6 +10,7 @@ namespace doroshenko
   void breadth(std::ostream& out, const BST< int, std::string >& tree);
   void outEmpty(std::ostream& out);
   void outInvCom(std::ostream& out);
+  void outRange(std::ostream& out);
 }
 
 #endif
