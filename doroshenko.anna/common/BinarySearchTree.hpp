@@ -4,6 +4,8 @@
 #include <cassert>
 #include <functional>
 #include <algorithm>
+#include "stack.hpp"
+#include "queue.hpp"
 
 namespace doroshenko
 {
