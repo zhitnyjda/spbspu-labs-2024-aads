@@ -1,8 +1,8 @@
 #ifndef BST_HPP
 #define BST_HPP
 #include <cassert>
-#include <algorithm>
 #include <utility>
+#include <functional>
 #include "Node.hpp"
 
 namespace sukacheva
