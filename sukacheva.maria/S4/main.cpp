@@ -42,10 +42,10 @@ int main(int argc, char* argv[])
   BST< std::string, std::function < void(treeOfTrees&, std::istream&, std::ostream&) > > commands;
   {
     using namespace std::placeholders;
-    commands["print"] = std::bind(printCommand, _1, _2, _3);
-    commands["complement"] = std::bind(comlement, _1, _2, _3);
-    commands["intersect"] = std::bind(intersect, _1, _2, _3);
-    commands["union"] = std::bind(unionCommand, _1, _2, _3);
+    commands.insert("print", std::bind(printCommand, _1, _2, _3));
+    commands.insert("complement", std::bind(comlement, _1, _2, _3));
+    commands.insert("intersect", std::bind(intersect, _1, _2, _3));
+    commands.insert("union", std::bind(unionCommand, _1, _2, _3));
   }
   std::string inputCommand = {};
   while (std::cin >> inputCommand)
