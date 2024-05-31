@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
   treeOfFuncs.insert("descending", descending);
   treeOfFuncs.insert("breadth", breadth);
   std::string traverse = argv[1];
-  if (treeOfFuncs.find(traverse) != treeOfFuncs.cend())
+  if (treeOfFuncs.find(traverse) != treeOfFuncs.end())
   {
     if (tree.getSize() == 0)
     {
