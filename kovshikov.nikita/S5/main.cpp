@@ -24,7 +24,7 @@ int main(int argc, char ** argv)
 
   try
   {
-    commands.at(argv[2])(tree);
+    commands.at(argv[1])(tree);
   }
   catch(const std::out_of_range& e)
   {
