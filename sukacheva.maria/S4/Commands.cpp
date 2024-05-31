@@ -31,6 +31,10 @@ namespace sukacheva
       EmptyMessage(out);
       return;
     }
+    if (treeOfDicts.find(name) == nullptr)
+    {
+      throw std::logic_error("< WRONG INPUT >\n");
+    }
     BST< size_t, std::string > dict = treeOfDicts.find(name)->second;
     using iterator = BST< size_t, std::string >::Iterator;
     if (dict.empty())
@@ -81,6 +85,10 @@ namespace sukacheva
       EmptyMessage(out);
       return;
     }
+    if (treeOfDicts.find(nameSecond) == nullptr || treeOfDicts.find(nameFirst) == nullptr)
+    {
+      throw std::logic_error("< WRONG INPUT >\n");
+    }
     BST< size_t, std::string > secondDict = treeOfDicts.find(nameSecond)->second;
     BST< size_t, std::string > newDict = treeOfDicts.find(nameFirst)->second;;
     using iterator = BST< size_t, std::string >::Iterator;
@@ -108,6 +116,10 @@ namespace sukacheva
     {
       EmptyMessage(out);
       return;
+    }
+    if (treeOfDicts.find(nameSecond) == nullptr || treeOfDicts.find(nameFirst) == nullptr)
+    {
+      throw std::logic_error("< WRONG INPUT >\n");
     }
     BST< size_t, std::string > secondDict = treeOfDicts.find(nameSecond)->second;
     BST< size_t, std::string > firstDict = treeOfDicts.find(nameFirst)->second;
@@ -137,6 +149,10 @@ namespace sukacheva
     {
       EmptyMessage(out);
       return;
+    }
+    if (treeOfDicts.find(nameSecond) == nullptr || treeOfDicts.find(nameFirst) == nullptr)
+    {
+      throw std::logic_error("< WRONG INPUT >\n");
     }
     BST< size_t, std::string > secondDict = treeOfDicts.find(nameSecond)->second;
     BST< size_t, std::string > newDict = treeOfDicts.find(nameFirst)->second;;
