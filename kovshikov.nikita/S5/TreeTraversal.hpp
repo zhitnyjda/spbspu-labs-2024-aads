@@ -17,8 +17,7 @@ namespace kovshikov
       {
         throw std::overflow_error("<OVERFLOW>");
       }
-      if(element.first < 0 && result < std::numeric_limits< int >::min() - element.first)
-//(element.first < 0 && min - element.first > result)
+      else if(element.first < 0 && min - element.first > result)
       {
         throw std::underflow_error("<UNDERFLOW>");
       }
