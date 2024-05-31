@@ -66,7 +66,7 @@ void doroshenko::descending(std::ostream& out, const BST< int, std::string >& tr
 void doroshenko::breadth(std::ostream& out, const BST< int, std::string >& tree)
 {
   KeyValSumm result;
-  result = tree.traverse_rnl< KeyValSumm >(result);
+  result = tree.traverse_breadth< KeyValSumm >(result);
   out << result.keySum_ << " " << result.valSum_ << "\n";
 }
 
