@@ -787,7 +787,7 @@ F BST< Key, Value, Compare >::traverse_breadth(F f) const
 {
   Queue< Node* > queue;
   queue.push(root_);
-  while (!queue.empty())
+  while (!queue.isEmpty())
   {
     Node* current = queue.front();
     queue.drop();
