@@ -55,6 +55,7 @@ int main(int argc, char* argv[])
   else
   {
     outInvCom(std::cerr);
+    return 1;
   }
   return 0;
 }

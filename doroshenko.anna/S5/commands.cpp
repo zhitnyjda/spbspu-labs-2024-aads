@@ -77,7 +77,7 @@ void doroshenko::outEmpty(std::ostream& out)
 
 void doroshenko::outInvCom(std::ostream& out)
 {
-  out << "<INVALID COMMAND>";
+  out << "<INVALID COMMAND>\n";
 }
 
 void doroshenko::outRange(std::ostream& out)
