@@ -42,6 +42,14 @@ void kovshikov::createTree(Tree< int, std::string >& tree, std::string dictionar
       if(isDigit(temp) == true)
       {
         key = std::stoll(temp);
+        if(key > std::numeric_limits< int >::max())
+        {
+          throw std::overflow_error("<OVERFLOW>");
+        }
+        else if(key < std::numeric_limits< int >::min())
+        {
+          throw std::underflow_error("<UNDERFLOW>");
+        }
         temp = "";
       }
       else

@@ -15,7 +15,6 @@ int main(int argc, char ** argv)
   using namespace kovshikov;
   Tree< int, std::string > tree;
   std::fstream file(argv[2]);
-  readData(file, tree);
 
   Tree< std::string, std::function< void(Tree< int, std::string >&) > > commands;
   commands.insert("ascending", getAscending);
@@ -24,6 +23,7 @@ int main(int argc, char ** argv)
 
   try
   {
+    readData(file, tree);
     commands.at(argv[1])(tree);
   }
   catch(const std::exception& error)
