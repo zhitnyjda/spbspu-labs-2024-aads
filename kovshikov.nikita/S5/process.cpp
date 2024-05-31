@@ -21,7 +21,14 @@ void kovshikov::readData(std::istream& in, Tree< int, std::string >& tree)
     std::getline(in, dictionary);
     if(!dictionary.empty())
     {
-      createTree(tree, dictionary);
+      try
+      {
+        createTree(tree, dictionary);
+      }
+      catch(const std::exception& error)
+      {
+        throw;
+      }
     }
   }
 }
