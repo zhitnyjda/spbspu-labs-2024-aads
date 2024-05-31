@@ -111,13 +111,10 @@ namespace sukacheva
   using iterator = typename BST< Key, Value, Compare >::Iterator;
 
   template< typename Key, typename Value, typename Compare >
-  using constIterator = typename BST< Key, Value, Compare >::ConstIterator;
-
-  template< typename Key, typename Value, typename Compare >
   using iteratorsPair = std::pair< iterator< Key, Value, Compare >, iterator< Key, Value, Compare > >;
 
   template< typename Key, typename Value, typename Compare >
-  sukacheva::BST< Key, Value, Compare >::BST(const BST& other) noexcept
+  BST< Key, Value, Compare >::BST(const BST& other) noexcept
   {
     root = nullptr;
     cmp = other.cmp;
@@ -130,7 +127,7 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  sukacheva::BST< Key, Value, Compare >::BST(BST&& other) noexcept :
+  BST< Key, Value, Compare >::BST(BST&& other) noexcept :
     root(other.root),
     cmp(std::move(other.cmp))
   {
@@ -138,7 +135,7 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  iterator< Key, Value, Compare > sukacheva::BST< Key, Value, Compare >::lowerBound(const Key& key) const noexcept
+  typename BST< Key, Value, Compare >::Iterator BST< Key, Value, Compare >::lowerBound(const Key& key) const noexcept
   {
     Node* current = root;
     Node* result = nullptr;
@@ -158,7 +155,7 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  iterator< Key, Value, Compare > sukacheva::BST< Key, Value, Compare >::upperBound(const Key& key) const noexcept
+  typename BST< Key, Value, Compare >::Iterator BST< Key, Value, Compare >::upperBound(const Key& key) const noexcept
   {
     Node* current = root;
     Node* result = nullptr;
@@ -179,13 +176,13 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  iteratorsPair< Key, Value, Compare > sukacheva::BST< Key, Value, Compare >::equalRange(const Key& key) const noexcept
+  iteratorsPair< Key, Value, Compare > BST< Key, Value, Compare >::equalRange(const Key& key) const noexcept
   {
     return std::make_pair(lower_bound(key), upper_bound(key));
   }
 
   template< typename Key, typename Value, typename Compare >
-  typename sukacheva::BST< Key, Value, Compare >::Iterator BST< Key, Value, Compare >::find(const Key& k) const noexcept
+  typename BST< Key, Value, Compare >::Iterator BST< Key, Value, Compare >::find(const Key& k) const noexcept
   {
     using iterator = typename BST< Key, Value >::Iterator;
     for (iterator it = begin(); it != end(); it++)
@@ -199,7 +196,7 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  iterator< Key, Value, Compare > sukacheva::BST< Key, Value, Compare >::erase(Iterator& pos) noexcept
+  typename BST< Key, Value, Compare >::Iterator BST< Key, Value, Compare >::erase(Iterator& pos) noexcept
   {
     using iterator = typename BST< Key, Value >::Iterator;
     iterator it = pos;
@@ -208,7 +205,7 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  size_t sukacheva::BST< Key, Value, Compare >::count(const Key& k) const noexcept
+  size_t BST< Key, Value, Compare >::count(const Key& k) const noexcept
   {
     size_t counter = 0;
     using iterator = typename BST< Key, Value >::Iterator;
@@ -223,7 +220,7 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  typename Value sukacheva::BST< Key, Value, Compare >::at(const Key& k)
+  typename Value BST< Key, Value, Compare >::at(const Key& k)
   {
     using iterator = typename BST< Key, Value >::Iterator;
     for (iterator it = begin(); it != end(); it++)
@@ -237,25 +234,25 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  typename Value sukacheva::BST< Key, Value, Compare >::operator[](Key k)
+  typename Value BST< Key, Value, Compare >::operator[](Key k)
   {
     return at(k);
   }
 
   template< typename Key, typename Value, typename Compare >
-  sukacheva::BST< Key, Value, Compare >::BST():
+  BST< Key, Value, Compare >::BST():
     root(nullptr),
     cmp(Compare())
   {}
 
   template< typename Key, typename Value, typename Compare >
-  sukacheva::BST< Key, Value, Compare >::~BST()
+  BST< Key, Value, Compare >::~BST()
   {
     clear(root);
   }
 
   template< typename Key, typename Value, typename Compare >
-  void sukacheva::BST< Key, Value, Compare >::clear(Node* node)
+  void BST< Key, Value, Compare >::clear(Node* node)
   {
     if (node)
     {
@@ -266,7 +263,7 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  size_t sukacheva::BST< Key, Value, Compare >::size() const noexcept
+  size_t BST< Key, Value, Compare >::size() const noexcept
   {
     size_t size = 0;
     typename BST< Key, Value >::Iterator it = begin();
@@ -279,47 +276,47 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  bool sukacheva::BST< Key, Value, Compare >::empty() const noexcept
+  bool BST< Key, Value, Compare >::empty() const noexcept
   {
     return size() > 0 ? false : true;
   }
 
   template< typename Key, typename Value, typename Compare >
-  iterator< Key, Value, Compare > sukacheva::BST< Key, Value, Compare >::begin() const
+  typename BST< Key, Value, Compare >::Iterator BST< Key, Value, Compare >::begin() const
   {
     return Iterator(findMin(root));
   }
 
   template< typename Key, typename Value, typename Compare >
-  iterator< Key, Value, Compare > sukacheva::BST< Key, Value, Compare >::end() const
+  typename BST< Key, Value, Compare >::Iterator BST< Key, Value, Compare >::end() const
   {
     return Iterator(nullptr);
   }
 
   template< typename Key, typename Value, typename Compare >
-  constIterator< Key, Value, Compare > sukacheva::BST< Key, Value, Compare >::cbegin() const
+  typename BST< Key, Value, Compare >::ConstIterator BST< Key, Value, Compare >::cbegin() const
   {
     return ConstIterator(findMin(root));
   }
 
   template< typename Key, typename Value, typename Compare >
-  constIterator< Key, Value, Compare > sukacheva::BST< Key, Value, Compare >::cend() const
+  typename BST< Key, Value, Compare >::ConstIterator BST< Key, Value, Compare >::cend() const
   {
     return ConstIterator(nullptr);
   }
 
   template< typename Key, typename Value, typename Compare >
-  sukacheva::BST< Key, Value, Compare >::ConstIterator::ConstIterator():
+  BST< Key, Value, Compare >::ConstIterator::ConstIterator():
     node(nullptr)
   {}
 
   template< typename Key, typename Value, typename Compare >
-  sukacheva::BST< Key, Value, Compare >::ConstIterator::ConstIterator(Node* node_) :
+  BST< Key, Value, Compare >::ConstIterator::ConstIterator(Node* node_) :
     node(node_)
   {}
 
   template< typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::ConstIterator& sukacheva::BST< Key, Value, Compare >::ConstIterator::operator++()
+  typename BST< Key, Value, Compare >::ConstIterator& BST< Key, Value, Compare >::ConstIterator::operator++()
   {
     assert(node != nullptr);
     if (node->right != nullptr)
@@ -338,7 +335,7 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::ConstIterator sukacheva::BST< Key, Value, Compare >::ConstIterator::operator++(int)
+  typename BST< Key, Value, Compare >::ConstIterator BST< Key, Value, Compare >::ConstIterator::operator++(int)
   {
     ConstIterator temp = *this;
     ++(*this);
@@ -346,41 +343,41 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  const std::pair< Key, Value >& sukacheva::BST< Key, Value, Compare >::ConstIterator::operator*() const
+  const std::pair< Key, Value >& BST< Key, Value, Compare >::ConstIterator::operator*() const
   {
     return node->data;
   }
 
   template< typename Key, typename Value, typename Compare >
-  const std::pair< Key, Value >* sukacheva::BST< Key, Value, Compare >::ConstIterator::operator->() const
+  const std::pair< Key, Value >* BST< Key, Value, Compare >::ConstIterator::operator->() const
   {
     return std::addressof(node->data);
   }
 
   template< typename Key, typename Value, typename Compare >
-  bool sukacheva::BST< Key, Value, Compare >::ConstIterator::operator!=(const ConstIterator& other) const
+  bool BST< Key, Value, Compare >::ConstIterator::operator!=(const ConstIterator& other) const
   {
     return node != other.node;
   }
 
   template< typename Key, typename Value, typename Compare >
-  bool sukacheva::BST< Key, Value, Compare >::ConstIterator::operator==(const ConstIterator& other) const
+  bool BST< Key, Value, Compare >::ConstIterator::operator==(const ConstIterator& other) const
   {
     return node == other.node;
   }
 
   template< typename Key, typename Value, typename Compare >
-  sukacheva::BST< Key, Value, Compare >::Iterator::Iterator():
+  BST< Key, Value, Compare >::Iterator::Iterator():
     node(nullptr)
   {}
 
   template< typename Key, typename Value, typename Compare >
-  sukacheva::BST< Key, Value, Compare >::Iterator::Iterator(Node* node_):
+  BST< Key, Value, Compare >::Iterator::Iterator(Node* node_):
     node(node_)
   {}
 
   template< typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::Iterator& sukacheva::BST< Key, Value, Compare >::Iterator::operator++()
+  typename BST< Key, Value, Compare >::Iterator& BST< Key, Value, Compare >::Iterator::operator++()
   {
     assert(node != nullptr);
     if (node->right != nullptr)
@@ -399,7 +396,7 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::Iterator sukacheva::BST< Key, Value, Compare >::Iterator::operator++(int)
+  typename BST< Key, Value, Compare >::Iterator BST< Key, Value, Compare >::Iterator::operator++(int)
   {
     Iterator temp = *this;
     ++(*this);
@@ -407,31 +404,31 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  std::pair< Key, Value >& sukacheva::BST< Key, Value, Compare >::Iterator::operator*()
+  std::pair< Key, Value >& BST< Key, Value, Compare >::Iterator::operator*()
   {
     return node->data;
   }
 
   template< typename Key, typename Value, typename Compare >
-  std::pair< Key, Value >* sukacheva::BST< Key, Value, Compare >::Iterator::operator->()
+  std::pair< Key, Value >* BST< Key, Value, Compare >::Iterator::operator->()
   {
     return std::addressof(node->data);
   }
 
   template< typename Key, typename Value, typename Compare >
-  bool sukacheva::BST< Key, Value, Compare >::Iterator::operator!=(const Iterator& other) const
+  bool BST< Key, Value, Compare >::Iterator::operator!=(const Iterator& other) const
   {
     return node != other.node;
   }
 
   template< typename Key, typename Value, typename Compare >
-  bool sukacheva::BST< Key, Value, Compare >::Iterator::operator==(const Iterator& other) const
+  bool BST< Key, Value, Compare >::Iterator::operator==(const Iterator& other) const
   {
     return node == other.node;
   }
 
   template < typename Key, typename Value, typename Compare >
-  size_t sukacheva::BST< Key, Value, Compare >::getHeight(Node* node) const noexcept
+  size_t BST< Key, Value, Compare >::getHeight(Node* node) const noexcept
   {
     if (node == nullptr)
     {
@@ -441,7 +438,7 @@ namespace sukacheva
   }
 
   template < typename Key, typename Value, typename Compare >
-  void sukacheva::BST< Key, Value, Compare >::updateHeight(Node* node)
+  void BST< Key, Value, Compare >::updateHeight(Node* node)
   {
     if (node != nullptr)
     {
@@ -450,7 +447,7 @@ namespace sukacheva
   }
 
   template < typename Key, typename Value, typename Compare >
-  int sukacheva::BST< Key, Value, Compare >::getBalanceFactor(Node* node)
+  int BST< Key, Value, Compare >::getBalanceFactor(Node* node)
   {
     if (node == nullptr)
     {
@@ -460,7 +457,7 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::Node* sukacheva::BST< Key, Value, Compare >::Iterator::findMin(Node* node)
+  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::Iterator::findMin(Node* node)
   {
     while (node && node->left != nullptr)
     {
@@ -470,7 +467,7 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::Node* sukacheva::BST< Key, Value, Compare >::ConstIterator::findMin(Node* node)
+  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::ConstIterator::findMin(Node* node)
   {
     while (node && node->left != nullptr)
     {
@@ -480,7 +477,7 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::Node* sukacheva::BST< Key, Value, Compare >::findMax(Node* node) const
+  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::findMax(Node* node) const
   {
     while (node && node->right != nullptr)
     {
@@ -490,7 +487,7 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::Node* sukacheva::BST< Key, Value, Compare >::findMin(Node* node) const
+  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::findMin(Node* node) const
   {
     while (node && node->left != nullptr)
     {
@@ -500,7 +497,7 @@ namespace sukacheva
   }
 
   template < typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::Node* sukacheva::BST< Key, Value, Compare >::rotateLeft(Node* node)
+  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::rotateLeft(Node* node)
   {
     Node* newRoot = node->right;
     node->right = newRoot->left;
@@ -529,7 +526,7 @@ namespace sukacheva
   }
 
   template < typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::Node* sukacheva::BST< Key, Value, Compare >::rotateRight(Node* node)
+  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::rotateRight(Node* node)
   {
     Node* newRoot = node->left;
     node->left = newRoot->right;
@@ -558,7 +555,7 @@ namespace sukacheva
   }
 
   template < typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::Node* sukacheva::BST< Key, Value, Compare >::balance(Node* node)
+  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::balance(Node* node)
   {
     updateHeight(node);
     int balanceFactor = getBalanceFactor(node);
@@ -582,13 +579,13 @@ namespace sukacheva
   }
 
   template < typename Key, typename Value, typename Compare >
-  void sukacheva::BST< Key, Value, Compare >::insert(Key k, Value v)
+  void BST< Key, Value, Compare >::insert(Key k, Value v)
   {
     root = push(root, k, v, nullptr);
   }
 
   template < typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::Node* sukacheva::BST< Key, Value, Compare >::push(Node* node, Key k, Value v, Node* parent)
+  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::push(Node* node, Key k, Value v, Node* parent)
   {
     if (node == nullptr)
     {
@@ -606,13 +603,13 @@ namespace sukacheva
   }
 
   template < typename Key, typename Value, typename Compare >
-  void sukacheva::BST< Key, Value, Compare >::erase(const Key& k) noexcept
+  void BST< Key, Value, Compare >::erase(const Key& k) noexcept
   {
     root = deleteNode(root, k);
   }
 
   template < typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::Node* sukacheva::BST< Key, Value, Compare >::deleteNode(Node* node, const Key& k)
+  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::deleteNode(Node* node, const Key& k)
   {
     if (node == nullptr)
     {
