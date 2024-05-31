@@ -1,4 +1,5 @@
 #include <fstream>
+#include <functional>
 #include <iostream>
 #include <string>
 #include "BinarySearchTree.hpp"
@@ -23,6 +24,8 @@ int main(int argc, char ** argv )
   commands.insert("intersect", getIntersect);
   commands.insert("union", getUnion);
 
+  auto outInvalid = std::bind(outText, std::placeholders::_1, "<INVALID COMMAND>");
+
   std::string command;
   while(std::cin >> command)
   {
@@ -32,7 +35,7 @@ int main(int argc, char ** argv )
     }
     catch(const std::out_of_range& error)
     {
-      outInvalid();
+      outInvalid(std::cout);
       std::cin.clear();
       std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
     }

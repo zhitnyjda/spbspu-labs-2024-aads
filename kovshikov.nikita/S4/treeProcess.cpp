@@ -1,4 +1,5 @@
 #include "treeProcess.hpp"
+#include <functional>
 #include <iostream>
 
 bool kovshikov::isDigit(std::string str)
@@ -31,7 +32,7 @@ void kovshikov::createTree(Tree< std::string, Tree< size_t, std::string > >& all
 {
   std::string temp = "";
   std::string name = "";
-  size_t key = 0; //
+  size_t key = 0;
   std::string value = "";
   Tree< size_t, std::string > tree;
   bool isName = true;
@@ -79,9 +80,10 @@ void kovshikov::print(Tree< std::string, Tree< size_t, std::string > >& allTree)
   std::string dictionary;
   std::cin >> dictionary;
   Tree< size_t, std::string > tree = allTree.at(dictionary);
+  auto outEmpty = std::bind(outText, std::placeholders::_1, "<EMPTY>");
   if(tree.isEmpty())
   {
-    std::cout << "<EMPTY>" << "\n";
+    outEmpty(std::cout);
   }
   else
   {
@@ -192,7 +194,7 @@ void kovshikov::getUnion(Tree< std::string, Tree< size_t, std::string > >& allTr
   allTree.insert(name, newTree);
 }
 
-void kovshikov::outInvalid()
+void kovshikov::outText(std::ostream& out, std::string string)
 {
-  std::cout << "<INVALID COMMAND>" << "\n";
+  out << string << "\n";
 }
