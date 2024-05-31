@@ -2,6 +2,7 @@
 #define BINARYSEARCHTREE_HPP
 #include <algorithm>
 #include <cassert>
+#include <exception>
 #include <functional>
 #include <iterator>
 #include <memory>
@@ -673,7 +674,7 @@ Value& kovshikov::Tree< Key, Value, Compare >::at(const Key& key)
 {
   if(find(key) == end())
   {
-    throw std::out_of_range("");
+    throw std::out_of_range("out_of_range");
   }
   else
   {
@@ -845,7 +846,14 @@ F kovshikov::Tree< Key, Value, Compare >::traverse_lnr(F f) const
       current = current -> left_;
     }
     current = stack.top();
-    f(current -> element_);
+    try
+    {
+      f(current -> element_);
+    }
+    catch(const std::exception& error)
+    {
+      throw;
+    }
     stack.pop();
     current = current -> right_;
   }
@@ -867,7 +875,14 @@ F kovshikov::Tree< Key, Value, Compare >::traverse_rnl(F f) const
       current = current -> right_;
     }
     current = stack.top();
-    f(current -> element_);
+    try
+    {
+      f(current -> element_);
+    }
+    catch(const std::exception& error)
+    {
+      throw;
+    }
     stack.pop();
     current = current -> left_;
   }
@@ -886,7 +901,14 @@ F kovshikov::Tree< Key, Value, Compare >::traverse_breadth(F f) const
     {
       Node* current = queue.front();
       queue.pop();
-      f(current -> element_);
+      try
+      {
+        f(current -> element_);
+      }
+      catch(const std::exception& error)
+      {
+        throw;
+      }
       if (current -> left_)
       {
         queue.push(current -> left_);

@@ -26,9 +26,9 @@ int main(int argc, char ** argv)
   {
     commands.at(argv[1])(tree);
   }
-  catch(const std::out_of_range& e)
+  catch(const std::exception& error)
   {
-    std::cerr << "NO MATCH COMMANDS" << "\n";
+    std::cerr << error.what() << "\n";
     return 1;
   }
 }

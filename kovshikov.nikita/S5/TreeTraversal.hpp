@@ -1,6 +1,7 @@
 #ifndef STRUCTSUMMA_HPP
 #define STRUCTSUMMA_CPP
 #include <utility>
+#include <limits>
 #include "queue.hpp"
 
 namespace kovshikov
@@ -9,8 +10,21 @@ namespace kovshikov
   {
     void operator()(const std::pair< const int, std::string >& element)
     {
-      result += element.first;
-      allValue.push(element.second);
+      int max = std::numeric_limits< int >::max();
+      int min = std::numeric_limits< int >::min();
+      if(element.first > 0 && max - element.first < result)
+      {
+        throw std::overflow_error("<OVERFLOW>");
+      }
+      else if(element.first < 0 && min - element.first > result)
+      {
+        throw std::underflow_error("<UNDERFLOW>");
+      }
+      else
+      {
+        result += element.first;
+        allValue.push(element.second);
+      }
     }
     Queue< std::string > allValue;
     int result = 0;

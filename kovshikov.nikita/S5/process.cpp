@@ -69,8 +69,15 @@ void kovshikov::getAscending(Tree< int, std::string >& tree)
   else
   {
     TreeTraversal operation{};
-    TreeTraversal result = tree.traverse_lnr(operation);
-    outTraversal(result);
+    try
+    {
+      TreeTraversal result = tree.traverse_lnr(operation);
+      outTraversal(result);
+    }
+    catch(const std::exception& error)
+    {
+      throw;
+    }
   }
 }
 
@@ -84,8 +91,15 @@ void kovshikov::getDescending(Tree< int, std::string >& tree)
   else
   {
     TreeTraversal operation{};
-    TreeTraversal result = tree.traverse_rnl(operation);
-    outTraversal(result);
+    try
+    {
+      TreeTraversal result = tree.traverse_rnl(operation);
+      outTraversal(result);
+    }
+    catch(const std::exception& error)
+    {
+      throw;
+    }
   }
 }
 
@@ -99,8 +113,15 @@ void kovshikov::getBreadth(Tree< int, std::string >& tree)
   else
   {
     TreeTraversal operation{};
-    TreeTraversal result = tree.traverse_breadth(operation);
-    outTraversal(result);
+    try
+    {
+      TreeTraversal result = tree.traverse_breadth(operation);
+      outTraversal(result);
+    }
+    catch(const std::exception& error)
+    {
+      throw;
+    }
   }
 }
 
