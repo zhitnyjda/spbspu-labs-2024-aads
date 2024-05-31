@@ -365,7 +365,7 @@ typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, 
   {
     return Iterator(nullptr, nullptr);
   }
-  while(current != nullptr)
+  while(current -> right_ != nullptr) //
   {
     current = current -> right_;
   }
