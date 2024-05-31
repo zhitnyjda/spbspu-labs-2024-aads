@@ -13,7 +13,6 @@ namespace kovshikov
       int max = std::numeric_limits< int >::max();
       int min = std::numeric_limits< int >::min();
       if(max - element.first < result)
-//(element.first > 0 && max - element.first < result)
       {
         throw std::overflow_error("<OVERFLOW>");
       }

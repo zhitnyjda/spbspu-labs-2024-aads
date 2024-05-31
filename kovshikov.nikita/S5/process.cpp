@@ -29,7 +29,7 @@ void kovshikov::readData(std::istream& in, Tree< int, std::string >& tree)
 void kovshikov::createTree(Tree< int, std::string >& tree, std::string dictionary)
 {
   std::string temp = "";
-  size_t key = 0;
+  int key = 0;
   std::string value = "";
   for(size_t i = 0; i < dictionary.length(); i++)
   {
@@ -41,14 +41,13 @@ void kovshikov::createTree(Tree< int, std::string >& tree, std::string dictionar
     {
       if(isDigit(temp) == true)
       {
-        key = std::stoll(temp);
-        if(key > std::numeric_limits< int >::max())
+        try
         {
-          throw std::overflow_error("<OVERFLOW>");
+          key = std::stoi(temp);
         }
-        else if(key < std::numeric_limits< int >::min())
+        catch(const std::out_of_range& error)
         {
-          throw std::underflow_error("<UNDERFLOW>");
+          throw std::out_of_range("<OVER OR UNDER>");
         }
         temp = "";
       }
