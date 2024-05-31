@@ -33,13 +33,12 @@ namespace sukacheva
     }
     BST< size_t, std::string > dict = treeOfDicts.find(name)->second;
     using iterator = BST< size_t, std::string >::Iterator;
-    out << name;
     if (dict.empty())
     {
       EmptyMessage(out);
       return;
     }
-    out << " ";
+    out << name << " ";
     size_t counter = 0;
     for (iterator it = dict.begin(); it != dict.end(); it++)
     {
