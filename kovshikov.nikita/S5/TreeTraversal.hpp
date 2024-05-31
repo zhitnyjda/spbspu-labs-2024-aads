@@ -10,13 +10,15 @@ namespace kovshikov
   {
     void operator()(const std::pair< const int, std::string >& element)
     {
-      int max = std::numeric_limits< int >::max();
-      int min = std::numeric_limits< int >::min();
-      if(element.first > 0 && max - element.first < result)
+     // int max = std::numeric_limits< int >::max();
+     // int min = std::numeric_limits< int >::min();
+      if(result > std::numeric_limits< int >::max() - element.first)
+//(element.first > 0 && max - element.first < result)
       {
         throw std::overflow_error("<OVERFLOW>");
       }
-      else if(element.first < 0 && min - element.first > result)
+      else if(element.first < 0 && result < std::numeric_limits< int >::min() - element.first)
+//(element.first < 0 && min - element.first > result)
       {
         throw std::underflow_error("<UNDERFLOW>");
       }
