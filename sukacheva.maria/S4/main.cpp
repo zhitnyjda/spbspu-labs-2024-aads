@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
     }
   }
 
-  BinarySearchTree< std::string, std::function < void(treeOfTrees&, std::istream&, std::ostream&) > > commands;
+  BST< std::string, std::function < void(treeOfTrees&, std::istream&, std::ostream&) > > commands;
   {
     using namespace std::placeholders;
     commands["print"] = std::bind(printCommand, _1, _2, _3);

@@ -5,7 +5,7 @@
 
 namespace sukacheva
 {
-  using treeOfTrees = BinarySearchTree< std::string, BinarySearchTree< size_t, std::string > >;
+  using treeOfTrees = BST< std::string, BST< size_t, std::string > >;
 
   void printCommand(treeOfTrees& treeOfDicts, std::istream& in, std::ostream& out);
   void print(treeOfTrees& treeOfDicts, std::string name, std::ostream& out);

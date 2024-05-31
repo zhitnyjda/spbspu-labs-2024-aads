@@ -11,7 +11,7 @@ namespace sukacheva
     {
       if (!treeStr.empty())
       {
-        BinarySearchTree< size_t, std::string > tree;
+        BST< size_t, std::string > tree;
         std::istringstream iss(treeStr);
         size_t key;
         std::string value;
@@ -33,8 +33,8 @@ namespace sukacheva
       EmptyMessage(out);
       return;
     }
-    BinarySearchTree< size_t, std::string > dict = treeOfDicts.find(name)->second;
-    using iterator = BinarySearchTree< size_t, std::string >::Iterator;
+    BST< size_t, std::string > dict = treeOfDicts.find(name)->second;
+    using iterator = BST< size_t, std::string >::Iterator;
     out << name;
     if (dict.empty())
     {
@@ -84,9 +84,9 @@ namespace sukacheva
       EmptyMessage(out);
       return;
     }
-    BinarySearchTree< size_t, std::string > secondDict = treeOfDicts.find(nameSecond)->second;
-    BinarySearchTree< size_t, std::string > newDict = treeOfDicts.find(nameFirst)->second;;
-    using iterator = BinarySearchTree< size_t, std::string >::Iterator;
+    BST< size_t, std::string > secondDict = treeOfDicts.find(nameSecond)->second;
+    BST< size_t, std::string > newDict = treeOfDicts.find(nameFirst)->second;;
+    using iterator = BST< size_t, std::string >::Iterator;
     for (iterator it = secondDict.begin(); it != secondDict.end(); it++)
     {
       if (newDict.find(it->first) != nullptr)
@@ -113,10 +113,10 @@ namespace sukacheva
       EmptyMessage(out);
       return;
     }
-    BinarySearchTree< size_t, std::string > secondDict = treeOfDicts.find(nameSecond)->second;
-    BinarySearchTree< size_t, std::string > firstDict = treeOfDicts.find(nameFirst)->second;
-    BinarySearchTree< size_t, std::string > newDict;
-    using iterator = BinarySearchTree< size_t, std::string >::Iterator;
+    BST< size_t, std::string > secondDict = treeOfDicts.find(nameSecond)->second;
+    BST< size_t, std::string > firstDict = treeOfDicts.find(nameFirst)->second;
+    BST< size_t, std::string > newDict;
+    using iterator = BST< size_t, std::string >::Iterator;
     for (iterator it = secondDict.begin(); it != secondDict.end(); it++)
     {
       if (firstDict.find(it->first) != nullptr)
@@ -143,9 +143,9 @@ namespace sukacheva
       EmptyMessage(out);
       return;
     }
-    BinarySearchTree< size_t, std::string > secondDict = treeOfDicts.find(nameSecond)->second;
-    BinarySearchTree< size_t, std::string > newDict = treeOfDicts.find(nameFirst)->second;;
-    using iterator = BinarySearchTree< size_t, std::string >::Iterator;
+    BST< size_t, std::string > secondDict = treeOfDicts.find(nameSecond)->second;
+    BST< size_t, std::string > newDict = treeOfDicts.find(nameFirst)->second;;
+    using iterator = BST< size_t, std::string >::Iterator;
     for (iterator it = secondDict.begin(); it != secondDict.end(); it++)
     {
       if (newDict.find(it->first) == nullptr)
