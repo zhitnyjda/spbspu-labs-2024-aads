@@ -14,7 +14,7 @@ namespace kovshikov
   void getIntersect(Tree< std::string, Tree< size_t, std::string > >& allTree);
   void getUnion(Tree< std::string, Tree< size_t, std::string > >& allTree);
 
-  void outInvalid();
+  void outText(std::ostream& out, std::string string);
 }
 
 #endif

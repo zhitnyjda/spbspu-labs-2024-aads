@@ -79,7 +79,6 @@ namespace kovshikov
   };
 }
 
-
 template< typename Key, typename Value, typename Compare >
 class kovshikov::Tree< Key, Value, Compare >::Node
 {
