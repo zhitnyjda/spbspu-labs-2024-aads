@@ -97,7 +97,7 @@ namespace sukacheva
     {
       for (iterator itSec = firstDict.begin(); itSec != firstDict.end(); itSec++)
       {
-        if (it->first != itSec->first)
+        if (it->first == itSec->first)
         {
           newDict.insert(it->first, it->second);
         }
