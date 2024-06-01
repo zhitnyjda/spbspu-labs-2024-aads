@@ -121,7 +121,7 @@ namespace sukacheva
   using iteratorsPair = std::pair< iterator< Key, Value, Compare >, iterator< Key, Value, Compare > >;
 
   template< typename Key, typename Value, typename Compare >
-  typename BST<Key, Value, Compare>& BST< Key, Value, Compare >::operator=(const BST& other)
+  BST< Key, Value, Compare >& BST< Key, Value, Compare >::operator=(const BST& other)
   {
     if (this != &other)
     {
@@ -138,7 +138,7 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  typename BST<Key, Value, Compare>& BST< Key, Value, Compare >::operator=(BST&& other) noexcept
+  BST< Key, Value, Compare >& BST< Key, Value, Compare >::operator=(BST&& other) noexcept
   {
     if (this != &other)
     {
