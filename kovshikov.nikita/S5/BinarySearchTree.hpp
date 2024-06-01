@@ -848,14 +848,14 @@ F kovshikov::Tree< Key, Value, Compare >::traverse_lnr(F f) const
       current = current -> left_;
     }
     current = stack.top();
-    try
-    {
-      f(current -> element_);
-    }
-    catch(const std::exception& error)
-    {
-      throw;
-    }
+   // try
+   // {
+    f(current -> element_);
+   // }
+   // catch(const std::exception& error)
+   // {
+     // throw;
+   // }
     stack.pop();
     current = current -> right_;
   }
@@ -877,14 +877,14 @@ F kovshikov::Tree< Key, Value, Compare >::traverse_rnl(F f) const
       current = current -> right_;
     }
     current = stack.top();
-    try
-    {
-      f(current -> element_);
-    }
-    catch(const std::exception& error)
-    {
-      throw;
-    }
+   // try
+   // {
+    f(current -> element_);
+   // }
+   // catch(const std::exception& error)
+   // {
+     // throw;
+   // }
     stack.pop();
     current = current -> left_;
   }
@@ -903,14 +903,14 @@ F kovshikov::Tree< Key, Value, Compare >::traverse_breadth(F f) const
     {
       Node* current = queue.front();
       queue.pop();
-      try
-      {
-        f(current -> element_);
-      }
-      catch(const std::exception& error)
-      {
-        throw;
-      }
+     // try
+     // {
+      f(current -> element_);
+     // }
+     // catch(const std::exception& error)
+     // {
+      //  throw;
+     // }
       if (current -> left_)
       {
         queue.push(current -> left_);

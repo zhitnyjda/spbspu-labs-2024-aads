@@ -12,6 +12,8 @@ int main(int argc, char ** argv)
     return 1;
   }
 
+  std::cout << "START\n"; //
+
   using namespace kovshikov;
   Tree< int, std::string > tree;
   std::fstream file(argv[2]);
@@ -21,9 +23,12 @@ int main(int argc, char ** argv)
   commands.insert("descending", getDescending);
   commands.insert("breadth", getBreadth);
 
+  std::cout << "CURRENT\n"; //
   try
   {
+    std::cout << "befor\n"; //
     readData(file, tree);
+    std::cout << "after\n"; //
     commands.at(argv[1])(tree);
   }
   catch(const std::exception& error)

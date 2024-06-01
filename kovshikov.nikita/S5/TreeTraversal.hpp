@@ -10,7 +10,7 @@ namespace kovshikov
   {
     void operator()(const std::pair< const int, std::string >& element)
     {
-      int max = std::numeric_limits< int >::max();
+     /* int max = std::numeric_limits< int >::max();
       int min = std::numeric_limits< int >::min();
       if(max - element.first < result)
       {
@@ -19,7 +19,7 @@ namespace kovshikov
       else if(element.first < 0 && min - element.first > result)
       {
         throw std::underflow_error("<UNDERFLOW>");
-      }
+      }*/
       result += element.first;
       allValue.push(element.second);
     }
