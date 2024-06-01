@@ -11,7 +11,11 @@ namespace sobolevsky
   struct Key_summ
   {
   public:
-    Key_summ();
+    Key_summ():
+    keyResult_(0),
+    valueResult_("")
+    {}
+
     void operator()(const std::pair< const long long, std::string > &key_value);
 
     long long getKeyResult();
@@ -20,12 +24,6 @@ namespace sobolevsky
     long long keyResult_;
     std::string valueResult_;
   };
-}
-
-sobolevsky::Key_summ::Key_summ()
-{
-  keyResult_ = 0;
-  valueResult_ = "";
 }
 
 #endif
