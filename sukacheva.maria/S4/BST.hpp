@@ -43,7 +43,6 @@ namespace sukacheva
     ConstIterator cend() const;
 
     Value operator[](Key k);
-    BST& operator=(const BST&) = default;
   private:
     Node* root;
     Compare cmp;
@@ -254,7 +253,6 @@ namespace sukacheva
   BST< Key, Value, Compare >::~BST()
   {
     clear(root);
-    root = nullptr;
   }
 
   template< typename Key, typename Value, typename Compare >
@@ -591,26 +589,40 @@ namespace sukacheva
   }
 
   template < typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::push(Node* node, Key k, Value v, Node* parent)
+  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::push(Node* root, Key k, Value v, Node* parent)
   {
-    if (node == nullptr)
+    Node* current = root;
+    Node* prev = nullptr;
+    while (current != nullptr)
     {
-      return new Node(k, v, parent);
+      prev = current;
+      if (cmp(k, current->data.first))
+      {
+        current = current->left;
+      }
+      else if (cmp(current->data.first, k))
+      {
+        current = current->right;
+      }
+      else
+      {
+        return balance(root);
+      }
     }
-    if (cmp(k, node->data.first))
+    Node* newNode = new Node(k, v, prev);
+    if (prev == nullptr)
     {
-      node->left = push(node->left, k, v, node);
+      root = newNode;
     }
-    else if (cmp(node->data.first, k))
+    else if (cmp(k, prev->data.first))
     {
-      node->right = push(node->right, k, v, node);
+      prev->left = newNode;
     }
-    else if (node->data.first == k)
+    else
     {
-      node->data = std::make_pair(k, v);
-      return node;
+      prev->right = newNode;
     }
-    return balance(node);
+    return balance(root);
   }
 
   template < typename Key, typename Value, typename Compare >
