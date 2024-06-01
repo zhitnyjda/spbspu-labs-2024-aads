@@ -8,7 +8,7 @@ int main(int argc, char ** argv)
 {
   if(argc != 3)
   {
-    std::cerr << "NO SPECIFIED FILE" << "\n";
+    std::cerr << "<NO SPECIFIED FILE>" << "\n";
     return 1;
   }
 
