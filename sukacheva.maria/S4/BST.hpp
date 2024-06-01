@@ -606,7 +606,7 @@ namespace sukacheva
     }
     else if (node->data.first == k)
     {
-      node->data.second = v;
+      node->data = std::make_pair(k, v);
       return node;
     }
     return balance(node);
