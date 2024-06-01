@@ -7,7 +7,7 @@ namespace sobolevsky
 {
   void inputFromFile(std::istream &in, sobolevsky::AVLtree< long long, std::string, long long > &data);
   void errorEmpty(std::ostream &out);
-  void errorOverflow(std::ostream &out);
+  void errorOverflowOrOutOfRange(std::ostream &out);
 }
 
 #endif

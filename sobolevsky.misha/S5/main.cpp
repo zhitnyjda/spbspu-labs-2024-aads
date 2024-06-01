@@ -36,9 +36,9 @@ int main(int argc, char *argv[])
   {
     cmds.at(detourDirection)(std::cout, tree);
   }
-  catch(const std::overflow_error & e)
+  catch(const std::exception & e)
   {
-    sobolevsky::errorOverflow(std::cerr);
+    sobolevsky::errorOverflowOrOutOfRange(std::cerr);
     tree.clear();
     cmds.clear();
     return 1;

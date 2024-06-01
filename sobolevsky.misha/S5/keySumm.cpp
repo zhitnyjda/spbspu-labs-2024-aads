@@ -4,7 +4,7 @@ void sobolevsky::Key_summ::operator()(const std::pair< const long long, std::str
 {
   long long limitMax = std::numeric_limits< int >::max();
   long long limitMin = std::numeric_limits< int >::min();
-  if ((key_value.first > 0 && keyResult_ > 0 && limitMax - keyResult_ < key_value.first) &&
+  if ((key_value.first > 0 && keyResult_ > 0 && limitMax - keyResult_ < key_value.first) ||
   (key_value.first < 0 && keyResult_ < 0 && limitMin - keyResult_ > key_value.first))
   {
     throw std::overflow_error("");
