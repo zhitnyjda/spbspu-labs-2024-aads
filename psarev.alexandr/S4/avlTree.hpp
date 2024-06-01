@@ -353,7 +353,6 @@ template< typename Key, typename Value, typename Compare >
 psarev::avlTree< Key, Value, Compare >::~avlTree()
 {
   clear();
-  treeRoot = nullptr;
 }
 
 template<typename Key, typename Value, typename Compare>
@@ -552,27 +551,9 @@ typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Val
   }
   else
   {
-    Unit* tempo = nullptr;
-    if ((unit->left == nullptr) && (unit->right == nullptr))
+    if (unit->left != nullptr && unit->right != nullptr)
     {
-      delete unit;
-      return nullptr;
-    }
-    else if (unit->right == nullptr)
-    {
-      tempo = unit->left;
-      *unit = *tempo;
-      delete tempo;
-    }
-    else if (unit->left == nullptr)
-    {
-      tempo = unit->right;
-      *unit = *tempo;
-      delete tempo;
-    }
-    else
-    {
-      tempo = unit->right;
+      Unit* tempo = unit->right;
       while (tempo->left != nullptr)
       {
         tempo = tempo->left;
@@ -580,6 +561,26 @@ typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Val
       unit->data = tempo->data;
       unit->right = delUnit(unit->right, tempo->data.first);
     }
+    else
+    {
+      Unit* tempo = (unit->left != nullptr) ? unit->left : unit->right;
+      if (tempo != nullptr)
+      {
+        *unit = *tempo;
+        delete tempo;
+      }
+      else
+      {
+        tempo = unit;
+        unit = nullptr;
+        delete tempo;
+      }
+    }
+  }
+
+  if (unit == nullptr)
+  {
+    return unit;
   }
 
   int checkIneq = getIneq(unit);
