@@ -66,7 +66,7 @@ void kovshikov::createTree(Tree< int, std::string >& tree, std::string dictionar
         }
         catch(const std::out_of_range& error)
         {
-          throw std::out_of_range("<OVER OR UNDER>");
+          throw std::out_of_range("<VALUE IS OVERFLOW OR UNDERFLOW>");
         }
         temp = "";
       }
@@ -95,15 +95,8 @@ void kovshikov::getAscending(Tree< int, std::string >& tree)
   else
   {
     TreeTraversal operation;
-   // try
-   // {
     TreeTraversal result = tree.traverse_lnr(operation);
     outTraversal(result);
-   // }
-   // catch(const std::exception& error)
-   // {
-     // throw;
-   // }
   }
 }
 
@@ -117,15 +110,8 @@ void kovshikov::getDescending(Tree< int, std::string >& tree)
   else
   {
     TreeTraversal operation;
-   // try
-   // {
     TreeTraversal result = tree.traverse_rnl(operation);
     outTraversal(result);
-   // }
-   // catch(const std::exception& error)
-   // {
-     // throw;
-   // }
   }
 }
 
@@ -139,15 +125,8 @@ void kovshikov::getBreadth(Tree< int, std::string >& tree)
   else
   {
     TreeTraversal operation;
-   // try
-   // {
     TreeTraversal result = tree.traverse_breadth(operation);
     outTraversal(result);
-   // }
-   // catch(const std::exception& error)
-   // {
-     // throw;
-   // }
   }
 }
 

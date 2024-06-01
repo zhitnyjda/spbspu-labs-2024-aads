@@ -7,11 +7,8 @@
 #include <iterator>
 #include <memory>
 #include <utility>
-
-//
-#include "stack.hpp"
 #include "queue.hpp"
-//
+#include "stack.hpp"
 
 namespace kovshikov
 {
@@ -56,7 +53,7 @@ namespace kovshikov
 
     ConstIterator cend() const noexcept;
     ConstIterator cbegin() const noexcept;
-//
+
     template< typename F >
     F traverse_lnr(F f) const;
 
@@ -65,7 +62,7 @@ namespace kovshikov
 
     template< typename F >
     F traverse_breadth(F f) const;
-//
+
   private:
     Node* root_;
     Compare comp;
@@ -360,14 +357,12 @@ kovshikov::Tree< Key, Value, Compare >::~Tree()
 template< typename Key, typename Value, typename Compare >
 typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, Value, Compare >::end() const noexcept
 {
- // return Iterator(nullptr, root_);
   Node* current = root_;
   if(current == nullptr)
   {
     return Iterator(nullptr, nullptr);
   }
   while(current != nullptr)
- //eсли поставить current -> right_ то поведения программы некорректное
   {
     current = current -> right_;
   }
@@ -831,13 +826,10 @@ size_t kovshikov::Tree< Key, Value, Compare >::erase(const Key& key)
   }
 }
 
-//в функторе надо будет устроить проверку на то что дерево не пустое
 template< typename Key, typename Value, typename Compare >
 template< typename F >
 F kovshikov::Tree< Key, Value, Compare >::traverse_lnr(F f) const
 {
-  //инфиксный обход дерева слева-направо, значит сначало левое поддерево,
-  //затем узел, а потом правое поддерево
   Stack < Node* > stack;
   Node* current = root_;
   while(current != nullptr || !stack.isEmpty())
@@ -848,14 +840,7 @@ F kovshikov::Tree< Key, Value, Compare >::traverse_lnr(F f) const
       current = current -> left_;
     }
     current = stack.top();
-   // try
-   // {
     f(current -> element_);
-   // }
-   // catch(const std::exception& error)
-   // {
-     // throw;
-   // }
     stack.pop();
     current = current -> right_;
   }
@@ -866,7 +851,6 @@ template< typename Key, typename Value, typename Compare >
 template< typename F >
 F kovshikov::Tree< Key, Value, Compare >::traverse_rnl(F f) const
 {
-  //как слева-направо только сначала правое поддерево, затем левое
   Stack< Node* > stack;
   Node* current = root_;
   while(current != nullptr || !stack.isEmpty())
@@ -877,14 +861,7 @@ F kovshikov::Tree< Key, Value, Compare >::traverse_rnl(F f) const
       current = current -> right_;
     }
     current = stack.top();
-   // try
-   // {
     f(current -> element_);
-   // }
-   // catch(const std::exception& error)
-   // {
-     // throw;
-   // }
     stack.pop();
     current = current -> left_;
   }
@@ -903,14 +880,7 @@ F kovshikov::Tree< Key, Value, Compare >::traverse_breadth(F f) const
     {
       Node* current = queue.front();
       queue.pop();
-     // try
-     // {
       f(current -> element_);
-     // }
-     // catch(const std::exception& error)
-     // {
-      //  throw;
-     // }
       if (current -> left_)
       {
         queue.push(current -> left_);
@@ -923,5 +893,5 @@ F kovshikov::Tree< Key, Value, Compare >::traverse_breadth(F f) const
   }
   return f;
 }
-//
+
 #endif
