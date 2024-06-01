@@ -95,9 +95,12 @@ namespace sukacheva
     using iterator = BST< size_t, std::string >::Iterator;
     for (iterator it = secondDict.begin(); it != secondDict.end(); it++)
     {
-      if (firstDict.find(it->first) != nullptr)
+      for (iterator itSec = secondDict.begin(); itSec != secondDict.end(); itSec++)
       {
-        newDict.erase(it->first);
+        if (it->first == itSec->first)
+        {
+          newDict.erase(it->first);
+        }
       }
     }
     treeOfDicts.insert(nameNew, newDict);
