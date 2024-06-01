@@ -14,7 +14,7 @@ namespace psarev
   void print(avlTree< std::string, avlTree< int, std::string > >& dataSets);
   void complement(avlTree< std::string, avlTree< int, std::string > >& dataSets);
   void intersect(avlTree< std::string, avlTree< int, std::string > >& dataSets);
-  void unite(avlTree< std::string, avlTree< int, std::string > >& dataSets);
+  void unio(avlTree< std::string, avlTree< int, std::string > >& dataSets);
 }
 
 #endif

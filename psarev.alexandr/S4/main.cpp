@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
   taskCmds.insert({ "print", psarev::print });
   taskCmds.insert({ "complement", psarev::complement });
   taskCmds.insert({ "intersect", psarev::intersect });
-  taskCmds.insert({ "union", psarev::unite });
+  taskCmds.insert({ "union", psarev::unio });
 
   while (!std::cin.eof())
   {

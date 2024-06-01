@@ -27,7 +27,7 @@ void psarev::fillTree(std::istream& in, avlTree< std::string, base_t >& dataSets
       curSet.insert({ key, value });
     }
 
-    dataSets.insert({setName, curSet });
+    dataSets.insert({ setName, curSet });
   }
 }
 
@@ -113,23 +113,15 @@ void psarev::intersect(avlTree<std::string, psarev::avlTree<int, std::string>>& 
       resSet.insert(*iter);
     }
   }
-  if (fSet == newSet)
+  auto checkIter = dataSets.find(newSet);
+  if (checkIter != dataSets.end())
   {
-    dataSets.erase(fSet);
-    dataSets.insert({ newSet, resSet });
+    dataSets.erase(newSet);
   }
-  else
-  {
-    auto checkIter = dataSets.find(newSet);
-    if (checkIter != dataSets.end())
-    {
-      dataSets.erase(newSet);
-    }
-    dataSets.insert({ newSet, resSet });
-  }
+  dataSets.insert({ newSet, resSet });
 }
 
-void psarev::unite(avlTree<std::string, avlTree<int, std::string>>& dataSets)
+void psarev::unio(avlTree<std::string, avlTree<int, std::string>>& dataSets)
 {
   std::string newSet, fSet, sSet;
   std::cin >> newSet >> fSet >> sSet;
@@ -156,18 +148,10 @@ void psarev::unite(avlTree<std::string, avlTree<int, std::string>>& dataSets)
     }
   }
 
-  if (fSet == newSet)
+  auto checkIter = dataSets.find(newSet);
+  if (checkIter != dataSets.end())
   {
-    dataSets.erase(fSet);
-    dataSets.insert({ newSet, resSet });
+    dataSets.erase(newSet);
   }
-  else if (sSet == newSet)
-  {
-    dataSets.erase(sSet);
-    dataSets.insert({ newSet, resSet });
-  }
-  else
-  {
-    dataSets.insert({ newSet, resSet });
-  }
+  dataSets.insert({ newSet, resSet });
 }
