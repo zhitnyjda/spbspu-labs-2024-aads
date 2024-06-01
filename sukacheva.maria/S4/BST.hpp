@@ -658,14 +658,15 @@ namespace sukacheva
         }
         else
         {
-          *node = *temp;
+          node = temp;
         }
         delete temp;
       }
       else
       {
         Node* temp = findMin(node->right);
-        node->data = temp->data;
+        node->data.first = temp->data.first;
+        node->data.second = temp->data.second;
         node->right = deleteNode(node->right, temp->data.first);
       }
     }
