@@ -5,6 +5,8 @@
 #include "commands.hpp"
 #include "errorsANDinput.hpp"
 
+using treeDeclaration = sobolevsky::AVLtree< long long, std::string, long long >;
+
 int main(int argc, char *argv[])
 {
   if (argc != 3)
@@ -19,15 +21,14 @@ int main(int argc, char *argv[])
     std::cerr << "file cannot be opened\n";
     return 1;
   }
-  sobolevsky::AVLtree< long long, std::string, long long > tree;
+  treeDeclaration tree;
   sobolevsky::inputFromFile(file, tree);
   if (tree.isEmpty())
   {
     sobolevsky::errorEmpty(std::cout);
     return 0;
   }
-  sobolevsky::AVLtree< std::string, std::function< void(std::ostream &, const sobolevsky::AVLtree< long long, std::string, long long > &) >,
-  long long > cmds;
+  sobolevsky::AVLtree< std::string, std::function< void(std::ostream &, const treeDeclaration &) >, long long > cmds;
   cmds["ascending"] = sobolevsky::ascending;
   cmds["descending"] = sobolevsky::descending;
   cmds["breadth"] = sobolevsky::breadth;
@@ -35,23 +36,9 @@ int main(int argc, char *argv[])
   {
     cmds.at(detourDirection)(std::cout, tree);
   }
-  catch(const std::out_of_range & e)
-  {
-    sobolevsky::errorInvalidCommand(std::cerr);
-    tree.clear();
-    cmds.clear();
-    return 1;
-  }
   catch(const std::overflow_error & e)
   {
     sobolevsky::errorOverflow(std::cerr);
-    tree.clear();
-    cmds.clear();
-    return 1;
-  }
-  catch(const std::underflow_error & e)
-  {
-    sobolevsky::errorUnderflow(std::cerr);
     tree.clear();
     cmds.clear();
     return 1;

@@ -17,11 +17,6 @@ void sobolevsky::inputFromFile(std::istream &file, sobolevsky::AVLtree< long lon
   }
 }
 
-void sobolevsky::errorInvalidCommand(std::ostream &out)
-{
-  out << "<INVALID COMMAND>\n";
-}
-
 void sobolevsky::errorEmpty(std::ostream &out)
 {
   out << "<EMPTY>\n";
@@ -30,9 +25,4 @@ void sobolevsky::errorEmpty(std::ostream &out)
 void sobolevsky::errorOverflow(std::ostream &out)
 {
   out << "<OVERLFOW>\n";
-}
-
-void sobolevsky::errorUnderflow(std::ostream &out)
-{
-  out << "<UNDERFLOW>\n";
 }

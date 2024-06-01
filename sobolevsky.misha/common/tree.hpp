@@ -6,8 +6,8 @@
 #include <algorithm>
 #include <stdexcept>
 #include <iterator>
-#include "queue.hpp"
-#include "stack.hpp"
+#include <queue.hpp>
+#include <stack.hpp>
 
 namespace sobolevsky
 {
