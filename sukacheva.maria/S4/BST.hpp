@@ -254,6 +254,7 @@ namespace sukacheva
   BST< Key, Value, Compare >::~BST()
   {
     clear(root);
+    root = nullptr;
   }
 
   template< typename Key, typename Value, typename Compare >
