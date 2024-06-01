@@ -564,7 +564,7 @@ typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Val
       *unit = *tempo;
       delete tempo;
     }
-    else if (tempo->left == nullptr)
+    else if (unit->left == nullptr)
     {
       tempo = unit->right;
       *unit = *tempo;
