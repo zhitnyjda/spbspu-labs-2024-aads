@@ -20,7 +20,7 @@ void kovshikov::selectionSort(FwdIterator begin, FwdIterator end, Compare comp)
     FwdIterator current = begin;
     while(current != end)
     {
-      if(comp(*current, *extreme)
+      if(comp(*current, *extreme))
       {
         extreme = current;
       }
