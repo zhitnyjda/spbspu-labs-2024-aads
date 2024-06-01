@@ -92,11 +92,13 @@ namespace sukacheva
     BST< size_t, std::string > secondDict = treeOfDicts.find(nameSecond)->second;
     BST< size_t, std::string > firstDict = treeOfDicts.find(nameFirst)->second;
     BST< size_t, std::string > newDict;
+    BST< size_t, std::string > maxDict;
     secondDict.size() > firstDict.size() ? newDict = secondDict : newDict = firstDict;
+    secondDict.size() > firstDict.size() ? maxDict = secondDict : maxDict = firstDict;
     using iterator = BST< size_t, std::string >::Iterator;
-    for (iterator it = secondDict.begin(); it != secondDict.end(); it++)
+    for (iterator it = maxDict.begin(); it != maxDict.end(); it++)
     {
-      if (firstDict.find(it->first) != nullptr)
+      if (newDict.find(it->first) != nullptr)
       {
         newDict.erase(it->first);
       }
