@@ -43,19 +43,22 @@ namespace sukacheva
     ConstIterator cend() const;
 
     Value operator[](Key k);
+    BST& operator=(const BST& other);
+    BST& operator=(BST&& other) noexcept;
   private:
     Node* root;
     Compare cmp;
 
     Node* findMin(Node* node) const;
     Node* findMax(Node* node) const;
-    Node* push(Node* node, Key k, Value v);
+    Node* push(Node* node, Key k, Value v, Node* parent);
     Node* balance(Node* node);
     Node* rotateRight(Node* node);
     Node* rotateLeft(Node* node);
     Node* deleteNode(Node* node, const Key& k);
     void updateHeight(Node* node);
     int getBalanceFactor(Node* node);
+    void copyTree(Node* thisNode, Node* otherNode);
   };
 
   template < typename Key, typename Value, typename Compare >
@@ -116,6 +119,53 @@ namespace sukacheva
 
   template< typename Key, typename Value, typename Compare >
   using iteratorsPair = std::pair< iterator< Key, Value, Compare >, iterator< Key, Value, Compare > >;
+
+  template< typename Key, typename Value, typename Compare >
+  typename BST<Key, Value, Compare>& BST< Key, Value, Compare >::operator=(const BST& other)
+  {
+    if (this != &other)
+    {
+      clear(root);
+      root = nullptr;
+      if (other.root)
+      {
+        root = new Node(*other.root);
+        copyTree(root, other.root);
+      }
+      cmp = other.cmp;
+    }
+    return *this;
+  }
+
+  template< typename Key, typename Value, typename Compare >
+  typename BST<Key, Value, Compare>& BST< Key, Value, Compare >::operator=(BST&& other) noexcept
+  {
+    if (this != &other)
+    {
+      clear(root);
+      root = other.root;
+      cmp = std::move(other.cmp);
+      other.root = nullptr;
+    }
+    return *this;
+  }
+
+  template< typename Key, typename Value, typename Compare >
+  void BST< Key, Value, Compare >::copyTree(Node* thisNode, Node* otherNode)
+  {
+    if (otherNode->left)
+    {
+      thisNode->left = new Node(*otherNode->left);
+      thisNode->left->parent = thisNode;
+      copyTree(thisNode->left, otherNode->left);
+    }
+    if (otherNode->right)
+    {
+      thisNode->right = new Node(*otherNode->right);
+      thisNode->right->parent = thisNode;
+      copyTree(thisNode->right, otherNode->right);
+    }
+  }
 
   template< typename Key, typename Value, typename Compare >
   BST< Key, Value, Compare >::BST(const BST& other) noexcept
@@ -585,44 +635,29 @@ namespace sukacheva
   template < typename Key, typename Value, typename Compare >
   void BST< Key, Value, Compare >::insert(Key k, Value v)
   {
-    root = push(root, k, v);
+    root = push(root, k, v, nullptr);
   }
 
   template < typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::push(Node* root, Key k, Value v)
+  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::push(Node* node, Key k, Value v, Node* parent)
   {
-    Node* current = root;
-    Node* prev = nullptr;
-    while (current != nullptr)
+    if (node == nullptr)
     {
-      prev = current;
-      if (cmp(k, current->data.first))
-      {
-        current = current->left;
-      }
-      else if (cmp(current->data.first, k))
-      {
-        current = current->right;
-      }
-      else
-      {
-        return balance(root);
-      }
+      return new Node(k, v, parent);
     }
-    Node* newNode = new Node(k, v, prev);
-    if (prev == nullptr)
+    if (cmp(k, node->data.first))
     {
-      root = newNode;
+      node->left = push(node->left, k, v, node);
     }
-    else if (cmp(k, prev->data.first))
+    else if (cmp(node->data.first, k))
     {
-      prev->left = newNode;
+      node->right = push(node->right, k, v, node);
     }
-    else
+    else if (node->data.first == k)
     {
-      prev->right = newNode;
+      node->data.second = v;
     }
-    return balance(root);
+    return balance(node);
   }
 
   template < typename Key, typename Value, typename Compare >
@@ -658,15 +693,14 @@ namespace sukacheva
         }
         else
         {
-          node = temp;
+          *node = *temp;
         }
         delete temp;
       }
       else
       {
         Node* temp = findMin(node->right);
-        node->data.first = temp->data.first;
-        node->data.second = temp->data.second;
+        node->data = temp->data;
         node->right = deleteNode(node->right, temp->data.first);
       }
     }
