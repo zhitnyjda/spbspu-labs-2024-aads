@@ -510,25 +510,7 @@ void psarev::avlTree<Key, Value, Compare>::undercut(Unit* unit)
   {
     undercut(unit->left);
     undercut(unit->right);
-
-    if (unit != treeRoot)
-    {
-      Unit* curAnc = unit->ancest;
-      if (unit == curAnc->left)
-      {
-        delete unit;
-        curAnc->left = nullptr;
-      }
-      else if (unit == curAnc->right)
-      {
-        delete unit;
-        curAnc->right = nullptr;
-      }
-    }
-    else
-    {
-      delete unit;
-    }
+    delete unit;
   }
 }
 
