@@ -22,6 +22,13 @@ int main(int argc, char *argv[])
     return 1;
   }
 
+  std::string inputStr;
+  AVLTree<std::string, AVLTree<long long, std::string>> TreeAndLeaves{};
+  while (getline(input, inputStr))
+  {
+    insertDataToTree(input, TreeAndLeaves, inputStr);
+  }
+
   using secondPar = AVLTree<std::string, AVLTree<long long, std::string>>;
   AVLTree<std::string, std::function<void(secondPar & AVLTree)>> commands{};
   commands.insert("print", print);
