@@ -144,3 +144,17 @@ void mihalchenko::unionAVL(mihalchenko::AVLTree<std::string, mihalchenko::AVLTre
     AVLTree.insert(name, datasets);
   }
 }
+
+void mihalchenko::insertDataToTree(std::ifstream &input, typeParam &TreeAndLeaves, std::string &inputStr)
+{
+  AVLTree<long long, std::string> branchAndLeaves{};
+  size_t pos = 0;
+  std::string nameGlossary = resiveString(inputStr, pos, true);
+  while (pos < inputStr.length())
+  {
+    long long key = std::stoll(resiveString(inputStr, pos, false));
+    std::string value = resiveString(inputStr, pos, true);
+    branchAndLeaves.insert(key, value);
+  }
+  TreeAndLeaves.insert(nameGlossary, branchAndLeaves);
+}

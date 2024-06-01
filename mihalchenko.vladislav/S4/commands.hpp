@@ -12,6 +12,7 @@ namespace mihalchenko
   void intersect(typeParam &AVLTree);
   void unionAVL(typeParam &AVLTree);
   void complement(typeParam &AVLTree);
+  void insertDataToTree(std::ifstream &input, typeParam &TreeAndLeaves, std::string &inputStr);
 }
 
 #endif
