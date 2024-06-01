@@ -80,15 +80,12 @@ void psarev::complement(avlTree< std::string, avlTree< int, std::string > >& dat
     }
   }
 
-  if (fSet == newSet)
+  auto checkIter = dataSets.find(newSet);
+  if (checkIter != dataSets.end())
   {
-    dataSets.erase(fSet);
-    dataSets.insert({ newSet, resSet });
+    dataSets.erase(newSet);
   }
-  else
-  {
-    dataSets.insert({ newSet, resSet });
-  }
+  dataSets.insert({ newSet, resSet });
 }
 
 void psarev::intersect(avlTree<std::string, psarev::avlTree<int, std::string>>& dataSets)
@@ -113,6 +110,7 @@ void psarev::intersect(avlTree<std::string, psarev::avlTree<int, std::string>>& 
       resSet.insert(*iter);
     }
   }
+
   auto checkIter = dataSets.find(newSet);
   if (checkIter != dataSets.end())
   {
