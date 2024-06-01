@@ -10,11 +10,6 @@ void psarev::fillTree(std::istream& in, avlTree< std::string, base_t >& dataSets
 {
   while (!in.eof())
   {
-    if (in.fail())
-    {
-      in.clear();
-    }
-
     std::string dataName;
     int key;
     in >> dataName;
@@ -48,44 +43,45 @@ void psarev::print(avlTree< std::string, avlTree< int, std::string > >& dataSets
   }
 
   std::cout << (*dataIter).first << " ";
-  for (auto it = (*dataIter).second.begin(); it != (*dataIter).second.end(); ++it)
+  for (auto iter = (*dataIter).second.begin(); iter != (*dataIter).second.end(); ++iter)
   {
-    std::cout << (*it).first << " " << (*it).second;
-    ((++it) == (*dataIter).second.end()) ? std::cout << "\n" : std::cout << ' ';
-    it--;
+    std::cout << (*iter).first << " " << (*iter).second;
+    ((++iter) == (*dataIter).second.end()) ? std::cout << "\n" : std::cout << ' ';
+    iter--;
   }
 }
 
 void psarev::complement(avlTree< std::string, avlTree< int, std::string > >& dataSets)
 {
-  //std::string cmd, cmdF, cmdS;
-  //std::cin >> cmd >> cmdF >> cmdS;
+  std::string cmd, cmdF, cmdS;
+  std::cin >> cmd >> cmdF >> cmdS;
 
-  //auto cmdFIter = dataSets.find(cmdF);
-  //auto cmdSIter = dataSets.find(cmdS);
-  //if ((cmdFIter == dataSets.end()) || (cmdSIter == dataSets.end()))
-  //{
-  //  outError(std::cout, "<INVALID COMMAND>");
-  //  return;
-  //}
-  //avlTree< int, std::string > sets;
-  //for (auto iter = (*cmdFIter).second.begin(); iter != (*cmdFIter).second.end(); iter++)
-  //{
-  //  auto cmdIter = (*dataSets.find(cmdS)).second.find((*iter).first);
-  //  if (cmdIter == (*dataSets.find(cmdS)).second.end())
-  //  {
-  //    sets.insert(*iter);
-  //  }
-  //}
-  //if (cmdF == cmd)
-  //{
-  //  dataSets.erase(cmdF);
-  //  dataSets.insert({ cmd, sets });
-  //}
-  //else
-  //{
-  //  dataSets.insert({ cmd, sets });
-  //}
+  auto cmdFIter = dataSets.find(cmdF);
+  auto cmdSIter = dataSets.find(cmdS);
+  if ((cmdFIter == dataSets.end()) || (cmdSIter == dataSets.end()))
+  {
+    outError(std::cout, "<INVALID COMMAND>");
+    return;
+  }
+
+  avlTree< int, std::string > sets;
+  for (auto iter = (*cmdFIter).second.begin(); iter != (*cmdFIter).second.end(); iter++)
+  {
+    auto cmdIter = (*dataSets.find(cmdS)).second.find((*iter).first);
+    if (cmdIter == (*dataSets.find(cmdS)).second.end())
+    {
+      sets.insert(*iter);
+    }
+  }
+  if (cmdF == cmd)
+  {
+    dataSets.erase(cmdF);
+    dataSets.insert({ cmd, sets });
+  }
+  else
+  {
+    dataSets.insert({ cmd, sets });
+  }
 }
 
 void psarev::intersect(avlTree<std::string, psarev::avlTree<int, std::string>>& dataSets)
