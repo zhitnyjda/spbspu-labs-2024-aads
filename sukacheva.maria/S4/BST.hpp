@@ -43,6 +43,7 @@ namespace sukacheva
     ConstIterator cend() const;
 
     Value operator[](Key k);
+    BST& operator=(const BST&) = default;
   private:
     Node* root;
     Compare cmp;
