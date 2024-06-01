@@ -36,5 +36,21 @@ int main(int argc, char *argv[])
   commands.insert("intersect", intersect);
   commands.insert("complement", complement);
 
+  while (!std::cin.eof())
+  {
+    std::string inputCommand;
+    std::cin >> inputCommand;
+
+    if (commands.find(inputCommand) == commands.end() && !inputCommand.empty())
+    {
+      mihalchenko::printInvalidCommand(std::cout);
+      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+    else if (!inputCommand.empty())
+    {
+      (*commands.find(inputCommand)).second(TreeAndLeaves);
+    }
+  }
+
   return 0;
 }

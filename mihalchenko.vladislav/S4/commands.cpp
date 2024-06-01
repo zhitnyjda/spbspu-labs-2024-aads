@@ -158,3 +158,18 @@ void mihalchenko::insertDataToTree(std::ifstream &input, typeParam &TreeAndLeave
   }
   TreeAndLeaves.insert(nameGlossary, branchAndLeaves);
 }
+
+/*void mihalchenko::printErrorMessage(std::ostream & out)
+{
+  out << "ERROR\n";
+}*/
+
+void mihalchenko::printInvalidCommand(std::ostream &out)
+{
+  out << "<INVALID COMMAND>\n";
+}
+
+void mihalchenko::printEmptyMessage(std::ostream &out)
+{
+  out << "EMPTY\n";
+}
