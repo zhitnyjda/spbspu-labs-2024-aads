@@ -89,10 +89,6 @@ namespace sukacheva
     {
       throw std::logic_error("< WRONG INPUT >\n");
     }
-    if (treeOfDicts.find(nameNew) != nullptr)
-    {
-      treeOfDicts.erase(nameNew);
-    }
     BST< size_t, std::string > secondDict = treeOfDicts.find(nameSecond)->second;
     BST< size_t, std::string > newDict = treeOfDicts.find(nameFirst)->second;;
     using iterator = BST< size_t, std::string >::Iterator;
@@ -121,10 +117,6 @@ namespace sukacheva
     if (treeOfDicts.find(nameSecond) == nullptr || treeOfDicts.find(nameFirst) == nullptr)
     {
       throw std::logic_error("< WRONG INPUT >\n");
-    }
-    if (treeOfDicts.find(nameNew) != nullptr)
-    {
-      treeOfDicts.erase(nameNew);
     }
     BST< size_t, std::string > secondDict = treeOfDicts.find(nameSecond)->second;
     BST< size_t, std::string > firstDict = treeOfDicts.find(nameFirst)->second;
