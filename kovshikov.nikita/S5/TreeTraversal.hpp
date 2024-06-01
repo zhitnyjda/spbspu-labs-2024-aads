@@ -23,7 +23,7 @@ namespace kovshikov
       result += element.first;
       allValue.push(element.second);
     }
-    Queue< std::string > allValue{};
+    Queue< std::string > allValue;
     int result = 0;
   };
 }

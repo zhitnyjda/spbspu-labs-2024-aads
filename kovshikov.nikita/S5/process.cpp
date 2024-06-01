@@ -82,7 +82,7 @@ void kovshikov::getAscending(Tree< int, std::string >& tree)
   }
   else
   {
-    TreeTraversal operation{};
+    TreeTraversal operation;
     try
     {
       TreeTraversal result = tree.traverse_lnr(operation);
@@ -104,7 +104,7 @@ void kovshikov::getDescending(Tree< int, std::string >& tree)
   }
   else
   {
-    TreeTraversal operation{};
+    TreeTraversal operation;
     try
     {
       TreeTraversal result = tree.traverse_rnl(operation);
@@ -126,7 +126,7 @@ void kovshikov::getBreadth(Tree< int, std::string >& tree)
   }
   else
   {
-    TreeTraversal operation{};
+    TreeTraversal operation;
     try
     {
       TreeTraversal result = tree.traverse_breadth(operation);
