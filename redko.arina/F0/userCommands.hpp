@@ -11,7 +11,6 @@ namespace redko
   void print(const std::string & command, HuffmanCode obj);
   void save(const std::string & command, const std::string & descr, HuffmanCode obj);
   void compare(const std::string & descr);
-  void printInvalidMessage(std::ostream & out);
 }
 
 #endif

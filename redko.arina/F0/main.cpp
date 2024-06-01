@@ -1,6 +1,7 @@
 #include <functional>
 #include "userCommands.hpp"
 #include "inputFunctions.hpp"
+#include "messageFunctions.hpp"
 
 int main()
 {
@@ -26,10 +27,6 @@ int main()
     catch (const std::out_of_range &)
     {
       redko::printInvalidMessage(std::cout);
-    }
-    catch (const std::logic_error & e)
-    {
-      std::cerr << e.what() << '\n';
     }
   }
 

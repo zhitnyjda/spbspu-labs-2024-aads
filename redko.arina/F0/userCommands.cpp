@@ -3,6 +3,7 @@
 #include <iterator>
 #include <limits>
 #include "inputFunctions.hpp"
+#include "messageFunctions.hpp"
 
 void redko::help(const std::string & descr)
 {
@@ -39,7 +40,7 @@ void redko::help(const std::string & descr)
   }
   else
   {
-    redko::printInvalidMessage(std::cout);
+    printInvalidMessage(std::cout);
   }
 }
 
@@ -61,7 +62,8 @@ void redko::code(const std::string & descr)
     std::ifstream input(descr);
     if (!input)
     {
-      throw std::logic_error("<unable to open the file>");
+      printInvalidFile(std::cout);
+      return;
     }
     std::getline(input, res);
     while (std::getline(input, str))
@@ -72,7 +74,8 @@ void redko::code(const std::string & descr)
   }
   if (res.empty())
   {
-    throw std::logic_error("<empty input>");
+    printEmptyInput(std::cout);
+    return;
   }
   HuffmanCode obj(res);
   obj.encode();
@@ -92,7 +95,7 @@ void redko::code(const std::string & descr)
     }
     else
     {
-      redko::printInvalidMessage(std::cout);
+      printInvalidMessage(std::cout);
     }
   }
 }
@@ -107,7 +110,8 @@ void redko::decode(const std::string & descr)
     {
       std::cin.clear();
       std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
-      throw std::logic_error("<invalid Huffman format>");
+      printInvalidFormat(std::cout);
+      return;
     }
   }
   else
@@ -115,13 +119,15 @@ void redko::decode(const std::string & descr)
     std::ifstream input(descr);
     if (!input)
     {
-      throw std::logic_error("<unable to open the file>");
+      printInvalidFile(std::cout);
+      return;
     }
     if (!(input >> obj) && !input.eof())
     {
       input.clear();
       input.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
-      throw std::logic_error("<invalid Huffman format>");
+      printInvalidFormat(std::cout);
+      return;
     }
   }
 
@@ -142,7 +148,7 @@ void redko::decode(const std::string & descr)
     }
     else
     {
-      redko::printInvalidMessage(std::cout);
+      printInvalidMessage(std::cout);
     }
   }
 }
@@ -155,7 +161,8 @@ void redko::recode(const std::string & descr)
 
   if (!firstInput || !secondInput)
   {
-    throw std::logic_error("<unable to open the file>");
+    printInvalidFile(std::cout);
+    return;
   }
 
   HuffmanCode firstObj;
@@ -163,7 +170,8 @@ void redko::recode(const std::string & descr)
   {
     firstInput.clear();
     firstInput.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
-    throw std::logic_error("<invalid Huffman format>");
+    printInvalidFormat(std::cout);
+    return;
   }
   firstObj.decode();
 
@@ -172,7 +180,8 @@ void redko::recode(const std::string & descr)
   {
     secondInput.clear();
     secondInput.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
-    throw std::logic_error("<invalid Huffman format>");
+    printInvalidFormat(std::cout);
+    return;
   }
   secondObj.decode();
 
@@ -180,7 +189,7 @@ void redko::recode(const std::string & descr)
   HuffmanCode result(united);
   result.encode();
 
-  redko::printInvalidMessage(std::cout);
+  std::cout << "<succesfully recoded>\n";
 
   std::string description = "";
   while (std::getline(std::cin, description) && description != "quit")
@@ -195,7 +204,7 @@ void redko::recode(const std::string & descr)
     }
     else
     {
-      redko::printInvalidMessage(std::cout);
+      printInvalidMessage(std::cout);
     }
   }
 }
@@ -217,7 +226,8 @@ void redko::save(const std::string & command, const std::string & descr, Huffman
   std::ofstream output(descr);
   if (!output)
   {
-    throw std::logic_error("<unable to open the file>");
+    printInvalidFormat(std::cout);
+    return;
   }
 
   if (command == "code")
@@ -242,7 +252,8 @@ void redko::compare(const std::string & descr)
   std::fstream secondInput(cutName(d));
   if (!firstInput || !secondInput)
   {
-    throw std::logic_error("<unable to open the file>");
+    printInvalidFile(std::cout);
+    return;
   }
 
   HuffmanCode firstObj;
@@ -250,7 +261,8 @@ void redko::compare(const std::string & descr)
   {
     firstInput.clear();
     firstInput.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
-    throw std::logic_error("<invalid Huffman format>");
+    printInvalidFormat(std::cout);
+    return;
   }
   auto firstEncoding = firstObj.getEncoding();
 
@@ -259,7 +271,8 @@ void redko::compare(const std::string & descr)
   {
     secondInput.clear();
     secondInput.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
-    throw std::logic_error("<invalid Huffman format>");
+    printInvalidFormat(std::cout);
+    return;
   }
   auto secondEncoding = secondObj.getEncoding();
   size_t count = 0;
@@ -276,9 +289,4 @@ void redko::compare(const std::string & descr)
   {
     std::cout << "<no matching symbols>\n";
   }
-}
-
-void redko::printInvalidMessage(std::ostream & out)
-{
-  out << "<invalid command>\n";
 }

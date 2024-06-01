@@ -1,7 +1,6 @@
 #ifndef HUFFMANCODE_HPP
 #define HUFFMANCODE_HPP
 #include <iostream>
-#include <queue>
 #include "binarySearchTree.hpp"
 
 namespace redko
