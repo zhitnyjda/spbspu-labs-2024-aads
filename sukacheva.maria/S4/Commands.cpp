@@ -122,9 +122,9 @@ namespace sukacheva
     BST< size_t, std::string > firstDict = treeOfDicts.find(nameFirst)->second;
     BST< size_t, std::string > newDict;
     using iterator = BST< size_t, std::string >::Iterator;
-    for (iterator it = secondDict.begin(); it != secondDict.end(); it++)
+    for (iterator it = firstDict.begin(); it != firstDict.end(); it++)
     {
-      if (firstDict.find(it->first) != nullptr)
+      if (secondDict.find(it->first) != nullptr)
       {
         newDict.insert(it->first, it->second);
       }

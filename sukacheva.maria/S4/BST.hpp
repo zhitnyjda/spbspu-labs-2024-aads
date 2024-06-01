@@ -604,7 +604,7 @@ namespace sukacheva
     {
       node->right = push(node->right, k, v, node);
     }
-    else
+    else if (node->data.first == k)
     {
       node->data.second = v;
       return node;
