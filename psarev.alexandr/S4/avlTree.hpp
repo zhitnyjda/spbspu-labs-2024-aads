@@ -13,7 +13,6 @@ namespace psarev
   class avlTree
   {
   public:
-
     class ConstIterator;
     class Iterator;
 
@@ -26,7 +25,7 @@ namespace psarev
     avlTree(size_t& initSize, dataType& initData);
     ~avlTree();
 
-    avlTree& operator=(avlTree& that);
+    /*avlTree& operator=(avlTree& that);*/
     void clear();
 
     iter begin() noexcept;
@@ -355,21 +354,22 @@ template< typename Key, typename Value, typename Compare >
 psarev::avlTree< Key, Value, Compare >::~avlTree()
 {
   clear();
+  treeRoot = nullptr;
 }
 
-template<typename Key, typename Value, typename Compare>
-psarev::avlTree< Key, Value, Compare >& psarev::avlTree<Key, Value, Compare>::operator=(avlTree& that)
-{
-  if (this != &that)
-  {
-    clear();
-    for (Iterator iterator = that.begin(); iterator != end(); ++iterator)
-    {
-      insert(*iterator);
-    }
-  }
-  return *this;
-}
+//template<typename Key, typename Value, typename Compare>
+//psarev::avlTree< Key, Value, Compare >& psarev::avlTree<Key, Value, Compare>::operator=(avlTree& that)
+//{
+//  if (this != &that)
+//  {
+//    clear();
+//    for (Iterator iterator = that.begin(); iterator != end(); ++iterator)
+//    {
+//      insert(*iterator);
+//    }
+//  }
+//  return *this;
+//}
 
 template<typename Key, typename Value, typename Compare>
 void psarev::avlTree<Key, Value, Compare>::clear()
@@ -437,8 +437,6 @@ using it = typename psarev::avlTree< Key, Value, Compare >::Iterator;
 
 template < typename Key, typename Value, typename Compare >
 using iterPair = std::pair< it< Key, Value, Compare >, it< Key, Value, Compare > >;
-
-
 
 template<typename Key, typename Value, typename Compare>
 iterPair< Key, Value, Compare > psarev::avlTree<Key, Value, Compare>::equalRange(const Key& key)
@@ -578,19 +576,13 @@ typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Val
     else if (unit->right == nullptr)
     {
       tempo = unit->left;
-      unit->data = tempo->data;
-      unit->ancest = tempo->ancest;
-      unit->left = tempo->left;
-      unit->right = tempo->right;
+      *unit = *tempo;
       delete tempo;
     }
     else if (tempo->left == nullptr)
     {
       tempo = unit->right;
-      unit->data = tempo->data;
-      unit->ancest = tempo->ancest;
-      unit->left = tempo->left;
-      unit->right = tempo->right;
+      *unit = *tempo;
       delete tempo;
     }
     else

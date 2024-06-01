@@ -10,77 +10,84 @@ void psarev::fillTree(std::istream& in, avlTree< std::string, base_t >& dataSets
 {
   while (!in.eof())
   {
-    std::string dataName;
+    if (in.fail())
+    {
+      in.clear();
+    }
+
+    std::string setName;
     int key;
-    in >> dataName;
+    in >> setName;
     psarev::avlTree< int, std::string > curSet;
 
     while (in >> key)
     {
       std::string value;
       in >> value;
-      curSet.insert(std::make_pair(key, value));
+      curSet.insert({ key, value });
     }
-    dataSets.insert(std::make_pair(dataName, curSet));
+
+    dataSets.insert({setName, curSet });
   }
 }
 
 void psarev::print(avlTree< std::string, avlTree< int, std::string > >& dataSets)
 {
-  std::string cmd;
-  std::cin >> cmd;
+  std::string setName;
+  std::cin >> setName;
 
-  auto dataIter = dataSets.find(cmd);
-  if (dataIter == dataSets.end())
+  auto setIter = dataSets.find(setName);
+  if (setIter == dataSets.end())
   {
     outError(std::cout, "<INVALID COMMAND>");
     return;
   }
-  else if ((*dataIter).second.isEmpty())
+  else if ((*setIter).second.isEmpty())
   {
     outError(std::cout, "<EMPTY>");
     return;
   }
 
-  std::cout << (*dataIter).first << " ";
-  for (auto iter = (*dataIter).second.begin(); iter != (*dataIter).second.end(); ++iter)
+  std::cout << (*setIter).first << " ";
+  for (auto it = (*setIter).second.begin(); it != (*setIter).second.end(); ++it)
   {
-    std::cout << (*iter).first << " " << (*iter).second;
-    ((++iter) == (*dataIter).second.end()) ? std::cout << "\n" : std::cout << ' ';
-    iter--;
+    std::cout << (*it).first << " " << (*it).second;
+    ((++it) == (*setIter).second.end()) ? std::cout << "\n" : std::cout << ' ';
+    it--;
   }
 }
 
 void psarev::complement(avlTree< std::string, avlTree< int, std::string > >& dataSets)
 {
-  std::string cmd, cmdF, cmdS;
-  std::cin >> cmd >> cmdF >> cmdS;
+  std::string newSet, fSet, sSet;
+  std::cin >> newSet >> fSet >> sSet;
 
-  auto cmdFIter = dataSets.find(cmdF);
-  auto cmdSIter = dataSets.find(cmdS);
-  if ((cmdFIter == dataSets.end()) || (cmdSIter == dataSets.end()))
+  auto fSetIter = dataSets.find(fSet);
+  auto sSetIter = dataSets.find(sSet);
+  if ((fSetIter == dataSets.end()) || (sSetIter == dataSets.end()))
   {
     outError(std::cout, "<INVALID COMMAND>");
     return;
   }
 
   avlTree< int, std::string > sets;
-  for (auto iter = (*cmdFIter).second.begin(); iter != (*cmdFIter).second.end(); iter++)
+  for (auto iter = (*fSetIter).second.begin(); iter != (*fSetIter).second.end(); iter++)
   {
-    auto cmdIter = (*dataSets.find(cmdS)).second.find((*iter).first);
-    if (cmdIter == (*dataSets.find(cmdS)).second.end())
+    auto newIter = (*dataSets.find(sSet)).second.find((*iter).first);
+    if (newIter == (*dataSets.find(sSet)).second.end())
     {
       sets.insert(*iter);
     }
   }
-  if (cmdF == cmd)
+
+  if (fSet == newSet)
   {
-    dataSets.erase(cmdF);
-    dataSets.insert({ cmd, sets });
+    dataSets.erase(fSet);
+    dataSets.insert({ newSet, sets });
   }
   else
   {
-    dataSets.insert({ cmd, sets });
+    dataSets.insert({ newSet, sets });
   }
 }
 
@@ -156,4 +163,3 @@ void psarev::unite(avlTree<std::string, avlTree<int, std::string>>& dataSets)
   //  dataSets.insert({ cmd, sets });
   //}
 }
-
