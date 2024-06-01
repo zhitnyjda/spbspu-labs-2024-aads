@@ -50,13 +50,22 @@ void miheev::shakeSort(BidirectIt start, BidirectIt finish, Comparator comp)
 template < typename BidirectIt, typename Comparator >
 void miheev::shellSort(BidirectIt start, BidirectIt finish, Comparator comp)
 {
-  for (size_t gap = std::distance(start, finish); gap > 0; gap /= 2)
+  long long dist = std::distance(start, finish);
+  long long gap = 1;
+  while (gap < dist / 2)
   {
-    BidirectIt cur = std::next(start, gap);
-    for (BidirectIt base = cur; ;)
+    gap = 2 * gap + 1;
+  }
+  while (gap > 0)
+  {
+    for (auto i = std::next(start, gap); i != finish; i++)
     {
-
+      for (auto j = i; std::distance(start, j) >= gap && comp(*j, *std::prev(j, gap)); j = std::prev(j, gap))
+      {
+        std::iter_swap(j, std::prev(j, gap));
+      }
     }
+    gap /= 2;
   }
 }
 
