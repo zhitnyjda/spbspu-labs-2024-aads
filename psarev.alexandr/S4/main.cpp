@@ -5,21 +5,21 @@
 
 int main(int argc, char* argv[])
 {
-  //if (argc != 2)
-  //{
-  //  std::cerr << "Error: Wrong parameters amount!\n";
-  //  return 2;
-  //}
+  if (argc != 2)
+  {
+    std::cerr << "Error: Wrong parameters amount!\n";
+    return 2;
+  }
 
-  //std::ifstream input(argv[1]);
-  //if (!input)
-  //{
-  //  std::cerr << "Error: Can't open a file!\n";
-  //  return 2;
-  //}
+  std::ifstream input(argv[1]);
+  if (!input)
+  {
+    std::cerr << "Error: Can't open a file!\n";
+    return 2;
+  }
 
-  std::ifstream input;
-  input.open("./x64/Debug/s4test.txt");
+  //std::ifstream input;
+  //input.open("./x64/Debug/s4test.txt");
 
   using base_t = psarev::avlTree< int, std::string >;
   psarev::avlTree< std::string, base_t > dataSets;
