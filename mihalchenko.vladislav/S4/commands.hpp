@@ -6,6 +6,7 @@
 
 namespace mihalchenko
 {
+  std::string resiveString(std::string &inputStr, size_t &pos, bool flag);
   using typeParam = mihalchenko::AVLTree<std::string, mihalchenko::AVLTree<long long, std::string>>;
   void print(typeParam &AVLTree);
   void intersect(typeParam &AVLTree);

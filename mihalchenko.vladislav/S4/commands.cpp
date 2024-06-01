@@ -5,6 +5,24 @@
 #include <functional>
 #include <utility>
 
+std::string mihalchenko::resiveString(std::string &inputStr, size_t &pos, bool flag)
+{
+  std::string result = "";
+  while (pos < inputStr.length() && inputStr[pos] != ' ')
+  {
+    if ((flag) || ((!flag) && std::isdigit(inputStr[pos])))
+    {
+      result += inputStr[pos++];
+    }
+    else if (!flag)
+    {
+      break;
+    }
+  }
+  pos++;
+  return result;
+}
+
 void mihalchenko::print(mihalchenko::AVLTree<std::string, mihalchenko::AVLTree<long long, std::string>> &AVLTree)
 {
   std::string name;
