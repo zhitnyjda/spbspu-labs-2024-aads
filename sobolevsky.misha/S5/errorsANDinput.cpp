@@ -22,7 +22,7 @@ void sobolevsky::errorEmpty(std::ostream &out)
   out << "<EMPTY>\n";
 }
 
-void sobolevsky::errorOverflow(std::ostream &out)
+void sobolevsky::errorOverflowOrOutOfRange(std::ostream &out)
 {
   out << "<OVERLFOW / OUT OF RANGE>\n";
 }
