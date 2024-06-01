@@ -25,7 +25,6 @@ namespace psarev
     avlTree(size_t& initSize, dataType& initData);
     ~avlTree();
 
-    /*avlTree& operator=(avlTree& that);*/
     void clear();
 
     iter begin() noexcept;
@@ -356,20 +355,6 @@ psarev::avlTree< Key, Value, Compare >::~avlTree()
   clear();
   treeRoot = nullptr;
 }
-
-//template<typename Key, typename Value, typename Compare>
-//psarev::avlTree< Key, Value, Compare >& psarev::avlTree<Key, Value, Compare>::operator=(avlTree& that)
-//{
-//  if (this != &that)
-//  {
-//    clear();
-//    for (Iterator iterator = that.begin(); iterator != end(); ++iterator)
-//    {
-//      insert(*iterator);
-//    }
-//  }
-//  return *this;
-//}
 
 template<typename Key, typename Value, typename Compare>
 void psarev::avlTree<Key, Value, Compare>::clear()

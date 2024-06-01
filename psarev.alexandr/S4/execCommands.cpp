@@ -70,96 +70,99 @@ void psarev::complement(avlTree< std::string, avlTree< int, std::string > >& dat
     return;
   }
 
-  avlTree< int, std::string > sets;
+  avlTree< int, std::string > resSet;
   for (auto iter = (*fSetIter).second.begin(); iter != (*fSetIter).second.end(); iter++)
   {
     auto newIter = (*dataSets.find(sSet)).second.find((*iter).first);
     if (newIter == (*dataSets.find(sSet)).second.end())
     {
-      sets.insert(*iter);
+      resSet.insert(*iter);
     }
   }
 
   if (fSet == newSet)
   {
     dataSets.erase(fSet);
-    dataSets.insert({ newSet, sets });
+    dataSets.insert({ newSet, resSet });
   }
   else
   {
-    dataSets.insert({ newSet, sets });
+    dataSets.insert({ newSet, resSet });
   }
 }
 
 void psarev::intersect(avlTree<std::string, psarev::avlTree<int, std::string>>& dataSets)
 {
-  //std::string cmd, cmdF, cmdS;
-  //std::cin >> cmd >> cmdF >> cmdS;
+  std::string newSet, fSet, sSet;
+  std::cin >> newSet >> fSet >> sSet;
 
-  //auto firstData = dataSets.find(cmdF);
-  //auto secondData = dataSets.find(cmdS);
-  //if (firstData == dataSets.end() || secondData == dataSets.end())
-  //{
-  //  outError(std::cout, "<INVALID COMMAND>");
-  //  return;
-  //}
-  //avlTree< int, std::string > sets;
-  //for (auto iter = (*firstData).second.begin(); iter != (*firstData).second.end(); iter++)
-  //{
-  //  auto inSecondData = (*dataSets.find(cmdS)).second.find((*iter).first);
-  //  if (inSecondData != (*dataSets.find(cmdS)).second.end())
-  //  {
-  //    sets.insert(*iter);
-  //  }
-  //}
-  //if (cmdF == cmd)
-  //{
-  //  dataSets.erase(cmdF);
-  //  dataSets.insert({ cmd, sets });
-  //}
-  //else
-  //{
-  //  dataSets.insert({ cmd, sets });
-  //}
+  auto fSetIter = dataSets.find(fSet);
+  auto sSetIter = dataSets.find(sSet);
+  if (fSetIter == dataSets.end() || sSetIter == dataSets.end())
+  {
+    outError(std::cout, "<INVALID COMMAND>");
+    return;
+  }
+
+  avlTree< int, std::string > resSet;
+  for (auto iter = (*fSetIter).second.begin(); iter != (*fSetIter).second.end(); iter++)
+  {
+    auto interSSetIter = (*dataSets.find(sSet)).second.find((*iter).first);
+    if (interSSetIter != (*dataSets.find(sSet)).second.end())
+    {
+      resSet.insert(*iter);
+    }
+  }
+  if (fSet == newSet)
+  {
+    dataSets.erase(fSet);
+    dataSets.insert({ newSet, resSet });
+  }
+  else
+  {
+    dataSets.insert({ newSet, resSet });
+  }
 }
 
 void psarev::unite(avlTree<std::string, avlTree<int, std::string>>& dataSets)
 {
-  //std::string cmd, cmdF, cmdS;
-  //std::cin >> cmd >> cmdF >> cmdS;
+  std::string newSet, fSet, sSet;
+  std::cin >> newSet >> fSet >> sSet;
 
-  //auto cmdFIter = dataSets.find(cmdF);
-  //auto cmdSIter = dataSets.find(cmdS);
-  //if (cmdFIter == dataSets.end() || cmdSIter == dataSets.end())
-  //{
-  //  outError(std::cout, "<INVALID COMMAND>");
-  //  return;
-  //}
-  //avlTree< int, std::string > sets;
-  //for (auto iter = (*cmdFIter).second.begin(); iter != (*cmdFIter).second.end(); iter++)
-  //{
-  //  sets.insert(*iter);
-  //}
-  //for (auto iter = (*cmdSIter).second.begin(); iter != (*cmdSIter).second.end(); iter++)
-  //{
-  //  auto setIter = sets.find((*iter).first);
-  //  if (setIter == sets.end())
-  //  {
-  //    sets.insert(*iter);
-  //  }
-  //}
-  //if (cmdF == cmd)
-  //{
-  //  dataSets.erase(cmdF);
-  //  dataSets.insert({ cmd, sets });
-  //}
-  //else if (cmdS == cmd)
-  //{
-  //  dataSets.erase(cmdS);
-  //  dataSets.insert({ cmd, sets });
-  //}
-  //else
-  //{
-  //  dataSets.insert({ cmd, sets });
-  //}
+  auto fSetIter = dataSets.find(fSet);
+  auto sSetIter = dataSets.find(sSet);
+  if (fSetIter == dataSets.end() || sSetIter == dataSets.end())
+  {
+    outError(std::cout, "<INVALID COMMAND>");
+    return;
+  }
+
+  avlTree< int, std::string > resSet;
+  for (auto iter = (*fSetIter).second.begin(); iter != (*fSetIter).second.end(); iter++)
+  {
+    resSet.insert(*iter);
+  }
+  for (auto iter = (*sSetIter).second.begin(); iter != (*sSetIter).second.end(); iter++)
+  {
+    auto setIter = resSet.find((*iter).first);
+    if (setIter == resSet.end())
+    {
+      resSet.insert(*iter);
+    }
+  }
+
+  if (fSet == newSet)
+  {
+    dataSets.erase(fSet);
+    dataSets.insert({ newSet, resSet });
+  }
+  else if (sSet == newSet)
+  {
+    dataSets.erase(sSet);
+    dataSets.insert({ newSet, resSet });
+  }
+  else
+  {
+    dataSets.insert({ newSet, resSet });
+  }
 }
