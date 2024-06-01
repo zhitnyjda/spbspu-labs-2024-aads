@@ -31,18 +31,15 @@ namespace redko
         right(rPtr)
       {}
 
+      bool operator>(const HuffmanNode * rhs)
+      {
+        return freq > rhs->freq;
+      }
+
       unsigned long freq;
       char data;
       HuffmanNode * left;
       HuffmanNode * right;
-    };
-
-    struct HuffmanComp
-    {
-      bool operator()(const HuffmanNode * lhs, const HuffmanNode * rhs)
-      {
-        return lhs->freq > rhs->freq;
-      }
     };
 
     void countFreq();

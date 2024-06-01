@@ -139,30 +139,32 @@ void redko::HuffmanCode::makeCharCode(HuffmanNode * node, const std::string & st
 
 void redko::HuffmanCode::makeCodeTree()
 {
-  std::priority_queue< HuffmanNode *, std::vector< HuffmanNode * >, HuffmanComp > nodes;
+  redko::List< HuffmanNode * > nodes;
   HuffmanNode * tmp = nullptr;
   for (auto i : charsFreq_)
   {
     tmp = new HuffmanNode(i.second, i.first);
-    nodes.push(tmp);
+    nodes.pushBack(tmp);
   }
-  if (nodes.size() == 1)
+  nodes.sort();
+  if (std::distance(nodes.begin(), nodes.end()) == 1)
   {
-    tmp = nodes.top();
-    root_ = new HuffmanNode(nodes.top()->freq, '0', nodes.top(), nullptr);
+    tmp = nodes.front();
+    root_ = new HuffmanNode(nodes.front()->freq, '0', nodes.front(), nullptr);
   }
   else
   {
-    while (nodes.size() > 1)
+    while (std::distance(nodes.begin(), nodes.end()) > 1) //(nodes.size() > 1)
     {
-      HuffmanNode * left = nodes.top();
-      nodes.pop();
-      HuffmanNode * right = nodes.top();
-      nodes.pop();
+      HuffmanNode * left = nodes.front();
+      nodes.popFront();
+      HuffmanNode * right = nodes.front();
+      nodes.popFront();
       tmp = new HuffmanNode(left->freq + right->freq, '0', left, right);
-      nodes.push(tmp);
+      nodes.pushBack(tmp);
+      nodes.sort();
     }
-    root_ = nodes.top();
+    root_ = nodes.front();
   }
 }
 
