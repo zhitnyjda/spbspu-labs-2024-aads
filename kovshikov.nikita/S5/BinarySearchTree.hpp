@@ -370,7 +370,7 @@ typename kovshikov::Tree< Key, Value, Compare >::Iterator kovshikov::Tree< Key, 
   {
     current = current -> right_;
   }
-  return Iterator(current, root_);*/
+  return Iterator(current, root_);
 }
 
 template< typename Key, typename Value, typename Compare >
