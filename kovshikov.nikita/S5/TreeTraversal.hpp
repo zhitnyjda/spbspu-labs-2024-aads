@@ -10,16 +10,16 @@ namespace kovshikov
   {
     void operator()(const std::pair< const int, std::string >& element)
     {
-     /* int max = std::numeric_limits< int >::max();
+      int max = std::numeric_limits< int >::max();
       int min = std::numeric_limits< int >::min();
-      if(max - element.first < result)
+      if(element.first > 0 && max - element.first < result)
       {
-        throw std::overflow_error("<OVERFLOW>");
+        throw std::overflow_error("<SUMMA OVERFLOWED>");
       }
       else if(element.first < 0 && min - element.first > result)
       {
-        throw std::underflow_error("<UNDERFLOW>");
-      }*/
+        throw std::underflow_error("<SUMMA UNDERFLOWED>");
+      }
       result += element.first;
       allValue.push(element.second);
     }
