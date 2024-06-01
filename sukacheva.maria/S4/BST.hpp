@@ -49,7 +49,7 @@ namespace sukacheva
 
     Node* findMin(Node* node) const;
     Node* findMax(Node* node) const;
-    Node* push(Node* node, Key k, Value v, Node* parent);
+    Node* push(Node* node, Key k, Value v);
     Node* balance(Node* node);
     Node* rotateRight(Node* node);
     Node* rotateLeft(Node* node);
@@ -585,11 +585,11 @@ namespace sukacheva
   template < typename Key, typename Value, typename Compare >
   void BST< Key, Value, Compare >::insert(Key k, Value v)
   {
-    root = push(root, k, v, nullptr);
+    root = push(root, k, v);
   }
 
   template < typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::push(Node* root, Key k, Value v, Node* parent)
+  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::push(Node* root, Key k, Value v)
   {
     Node* current = root;
     Node* prev = nullptr;
