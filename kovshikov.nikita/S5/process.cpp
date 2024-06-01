@@ -30,14 +30,10 @@ bool kovshikov::isDigit(std::string str)
 
 void kovshikov::readData(std::istream& in, Tree< int, std::string >& tree)
 {
-  std::cout << "start readData\n"; //
   std::string dictionary = "";
-  std::cout << "before getline\n"; //
   std::getline(in, dictionary);
-  std::cout << "after getline\n"; //
   if(!dictionary.empty())
   {
-    std::cout << "if\n"; ///
     try
     {
       createTree(tree, dictionary);
@@ -51,24 +47,19 @@ void kovshikov::readData(std::istream& in, Tree< int, std::string >& tree)
 
 void kovshikov::createTree(Tree< int, std::string >& tree, std::string dictionary)
 {
-  std::cout << "start createTree\n"; //
   std::string temp = "";
   int key = 0;
   std::string value = "";
-  std::cout << dictionary.length() << "\n"; ///
   for(size_t i = 0; i < dictionary.length(); i++)
   {
-    std::cout << "for\n"; ///
     if(dictionary[i] != ' ')
     {
-      std::cout << dictionary[i]; ////
       temp += dictionary[i];
     }
     else
     {
       if(isDigit(temp) == true)
       {
-        std::cout << "isDigit\n"; //
         try
         {
           key = std::stoi(temp);
@@ -81,7 +72,6 @@ void kovshikov::createTree(Tree< int, std::string >& tree, std::string dictionar
       }
       else
       {
-        std::cout << "isValue\n"; //
         value = temp;
         temp = "";
         tree.insert(key, value);
