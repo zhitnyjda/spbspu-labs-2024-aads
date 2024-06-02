@@ -43,14 +43,20 @@ int main(int argc, char* argv[])
     {
       std::cerr << "Error: wrong number of parameters\n";
     }
-    auto iterr = tree.find(3);
+    auto iterr = tree.find(1);
     std::cout << iterr->first;
     std::cout << tree.at(3);
     for (auto iter = tree.begin(); iter != tree.end(); iter++)
     {
       std::cout << iter->first << " " << iter->second << "\n";
     }
-    tree.clear();
+    //tree.clear();
+    tree.erase(3);
+    std::cout << "\n\n\n";
+    for (auto iter = tree.begin(); iter != tree.end(); iter++)
+    {
+      std::cout << iter->first << " " << iter->second << "\n";
+    }
   }
   catch (const std::exception&)
   {
