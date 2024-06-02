@@ -158,7 +158,6 @@ typename mihalchenko::AVLTree<Key, Value, Compare>::Node *mihalchenko::AVLTree<K
   {
     return node;
   }
-  // Node *preview = nullptr;
   bool existNode = true;
   while (existNode)
   {
@@ -328,10 +327,10 @@ size_t mihalchenko::AVLTree<Key, Value, Compare>::erase(const Key &key)
   // std::cout << "мы в erase. deletedNode=" << deletedNode << "prevDelNode=" << prevDelNode << std::endl;
   if ((deletedNode->left_ == nullptr) && (deletedNode->right_ == nullptr)) // если удаляемый узел - лист
   {
-    std::cout << "1 мы в erase. deletedNode=" << deletedNode << "prevDelNode=" << prevDelNode << std::endl;
+    // std::cout << "1 мы в erase. deletedNode=" << deletedNode << "prevDelNode=" << prevDelNode << std::endl;
     if (prevDelNode)
     {
-      std::cout << "9 мы в erase. deletedNode=" << deletedNode << "prevDelNode=" << prevDelNode << " prevDelNode->right_=" << prevDelNode->right_ << " prevDelNode->left_=" << prevDelNode->left_ << std::endl;
+      // std::cout << "9 мы в erase. deletedNode=" << deletedNode << "prevDelNode=" << prevDelNode << " prevDelNode->right_=" << prevDelNode->right_ << " prevDelNode->left_=" << prevDelNode->left_ << std::endl;
       if (prevDelNode->left_)
       {
         (prevDelNode->left_ == deletedNode) ? prevDelNode->left_ = nullptr : prevDelNode->right_ = nullptr;
@@ -341,14 +340,22 @@ size_t mihalchenko::AVLTree<Key, Value, Compare>::erase(const Key &key)
         (prevDelNode->right_ == deletedNode) ? prevDelNode->right_ = nullptr : prevDelNode->left_ = nullptr;
       }
 
-      std::cout << "10 мы в erase. deletedNode=" << deletedNode << "prevDelNode=" << prevDelNode << " root_=" << root_ << " prevDelNode->right_=" << prevDelNode->right_ << " prevDelNode->left_=" << prevDelNode->left_ << std::endl;
-      // delete [] deletedNode;
-      std::cout << "11 мы в erase. deletedNode=" << "deletedNode" << "prevDelNode=" << prevDelNode << " root_=" << root_ << " prevDelNode->right_=" << prevDelNode->right_ << " prevDelNode->left_=" << prevDelNode->left_ << std::endl;
+      // std::cout << "10 мы в erase. deletedNode=" << deletedNode << "prevDelNode=" << prevDelNode << " root_=" << root_ << " prevDelNode->right_=" << prevDelNode->right_ << " prevDelNode->left_=" << prevDelNode->left_ << std::endl;
+      // delete deletedNode;
+      // std::cout << "11 мы в erase. deletedNode=" << "deletedNode" << "prevDelNode=" << prevDelNode << " root_=" << root_ << " prevDelNode->right_=" << prevDelNode->right_ << " prevDelNode->left_=" << prevDelNode->left_ << std::endl;
+    }
+    else
+    {
+      // Node *temp = deletedNode;
+      // delete deletedNode;
+      root_ = nullptr;
+      // std::cout << "Дерево растворилось..." << std::endl;
     }
   }
   else if (!(deletedNode->left_ == nullptr) && !(deletedNode->right_ == nullptr)) // если есть оба наследника у узла
   {
-    std::cout << "2 мы в erase. deletedNode=" << deletedNode << "prevDelNode=" << prevDelNode << std::endl;
+    // std::cout << "2 мы в erase. deletedNode=" << deletedNode << "prevDelNode=" << prevDelNode << std::endl;
+    // std::cout << "2 мы в erase. deletedNode=" << deletedNode << "prevDelNode=" << prevDelNode << " root_=" << root_ << " deletedNode->right_=" << deletedNode->right_ << " deletedNode->left_=" << deletedNode->left_ << std::endl;
     workerNode = deletedNode->right_;
     while (workerNode->left_)
     {
@@ -369,12 +376,14 @@ size_t mihalchenko::AVLTree<Key, Value, Compare>::erase(const Key &key)
     if (deletedNode == root_)
     {
       root_ = firstRightNode;
+      // std::cout << "Дерево поменяло корень..." << std::endl;
     }
-    delete[] deletedNode;
+    // std::cout << "12 мы в erase. deletedNode=" << deletedNode << "prevDelNode=" << prevDelNode << std::endl;
+    // delete deletedNode;
   }
   else // если один наследник у узла
   {
-    std::cout << "3 мы в erase. deletedNode=" << deletedNode << "prevDelNode=" << prevDelNode << std::endl;
+    // std::cout << "3 мы в erase. deletedNode=" << deletedNode << "prevDelNode=" << prevDelNode << std::endl;
     if (prevDelNode)
     {
       if (prevDelNode->left_ == deletedNode)
@@ -384,13 +393,13 @@ size_t mihalchenko::AVLTree<Key, Value, Compare>::erase(const Key &key)
         {
           deletedNode->left_->previous_ = prevDelNode;
           prevDelNode->left_ = deletedNode->left_;
-          delete[] deletedNode;
+          // delete deletedNode;
         }
         else
         {
           deletedNode->right_->previous_ = prevDelNode;
           prevDelNode->left_ = deletedNode->right_;
-          delete[] deletedNode;
+          // delete deletedNode;
         }
       }
 
@@ -401,24 +410,27 @@ size_t mihalchenko::AVLTree<Key, Value, Compare>::erase(const Key &key)
         {
           deletedNode->left_->previous_ = prevDelNode;
           prevDelNode->right_ = deletedNode->left_;
-          delete[] deletedNode;
+          // delete deletedNode;
         }
         else
         {
           deletedNode->right_->previous_ = prevDelNode;
           prevDelNode->right_ = deletedNode->right_;
-          delete[] deletedNode;
+          // delete deletedNode;
         }
       }
     }
     else
     {
-      std::cout << "6 мы в erase. deletedNode=" << deletedNode << "prevDelNode=" << prevDelNode << " root_=" << root_ << " deletedNode->right_=" << deletedNode->right_ << " deletedNode->left_=" << deletedNode->left_ << std::endl;
+      // std::cout << "6 мы в erase. deletedNode=" << deletedNode << "prevDelNode=" << prevDelNode << " root_=" << root_ << " deletedNode->right_=" << deletedNode->right_ << " deletedNode->left_=" << deletedNode->left_ << std::endl;
+      // Node *temp = deletedNode;
       (deletedNode->right_) ? root_ = deletedNode->right_ : root_ = deletedNode->left_;
-      delete deletedNode;
-      std::cout << "7 мы в erase. deletedNode=" << deletedNode << "prevDelNode=" << prevDelNode << " root_=" << root_ << " deletedNode->right_=" << deletedNode->right_ << " deletedNode->left_=" << deletedNode->left_ << std::endl;
-      prevDelNode = root_;
-      std::cout << "77 мы в erase. deletedNode=" << deletedNode << " root_=" << root_ << " root_->pairOfKeyVal_=" << prevDelNode->pairOfKeyVal_.first << std::endl;
+      // delete temp;
+      // std::cout << "7 мы в erase. deletedNode=" << deletedNode << "prevDelNode=" << prevDelNode << " root_=" << root_ << " deletedNode->right_=" << deletedNode->right_ << " deletedNode->left_=" << deletedNode->left_ << std::endl;
+      // prevDelNode = root_;
+      // std::cout << "77 мы в erase. deletedNode=" << deletedNode << " root_=" << root_ << " root_->pairOfKeyVal_=" << prevDelNode->pairOfKeyVal_.first << std::endl;
+
+      // std::cout << "Хитрое дерево поменяло корень..." << std::endl;
     }
   }
   /*  if (root_ != nullptr)
@@ -429,11 +441,11 @@ size_t mihalchenko::AVLTree<Key, Value, Compare>::erase(const Key &key)
    }*/
   if (prevDelNode)
   {
-    Node *checkNode = SearchHiHeight(prevDelNode);
-    doStableTree(checkNode);
+    // Node * checkNode = SearchHiHeight(prevDelNode);
+    // doStableTree(checkNode);
   }
   size_--;
-  return 1;
+  return 0;
 }
 
 template <typename Key, typename Value, typename Compare>
