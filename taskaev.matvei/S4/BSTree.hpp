@@ -34,6 +34,7 @@ namespace taskaev
     BSTree(BSTree&& other);
     ~BSTree();
 
+    Value& at(const Key& key); // yes
     bool empty() const noexcept;
     void clear();
     size_t size() const noexcept;
@@ -43,6 +44,7 @@ namespace taskaev
     void insert(const Key& key, const Value& value);
 
     void erase(const Key& key);
+    ConstIterator find(const Key& key) const;
 
     Iterator begin();
     Iterator end();
@@ -267,10 +269,6 @@ bool BSTree< Key, Value, Comparator >::Iterator::operator==(const Iterator& rhs)
   return iterator_ == rhs.iterator_;
 }
 
-
-
-
-
 template< typename Key, typename Value, typename Comparator >
 BSTree< Key, Value, Comparator >::BSTree():
   root_(nullptr),
@@ -304,6 +302,28 @@ template< typename Key, typename Value, typename Comparator >
 BSTree< Key, Value, Comparator >::~BSTree()
 {
   clear();
+}
+
+template< typename Key, typename Value, typename Comparator >
+Value& BSTree< Key, Value, Comparator >::at(const Key& key)
+{
+  Node* newRoot = root_;
+  while (newRoot != nullptr)
+  {
+    if (key < newRoot->data_.first)
+    {
+      newRoot = newRoot->left_;
+    }
+    else if (key > newRoot->data_.first)
+    {
+      newRoot = newRoot->right_;
+    }
+    else
+    {
+      return newRoot->data_.second;
+    }
+  }
+  std::cerr << "Error: not key!\n";
 }
 
 template< typename Key, typename Value, typename Comparator >
@@ -581,9 +601,31 @@ typename BSTree< Key, Value, Comparator >::Node* BSTree< Key, Value, Comparator 
 }
 
 template < typename Key, typename Value, typename Comparator >
+typename BSTree< Key, Value, Comparator >::ConstIterator BSTree< Key, Value, Comparator >::find(const Key& key) const
+{
+  Node* newRoot = root_;
+  while (newRoot != nullptr)
+  {
+    if (!(key < newRoot->data_.first) || (key > newRoot->data_.first))
+    {
+      return Iterator(newRoot);
+    }
+    else if (key < newRoot->data_.first)
+    {
+      newRoot = newRoot->left_;
+    }
+    else
+    {
+      newRoot = newRoot->right_;
+    }
+  }
+  return end();
+}
+
+template < typename Key, typename Value, typename Comparator >
 typename BSTree< Key, Value, Comparator >::ConstIterator BSTree< Key, Value, Comparator >::cbegin() const
 {
-  if (root == nullptr)
+  if (root_ == nullptr)
   {
     return cend();
   }
