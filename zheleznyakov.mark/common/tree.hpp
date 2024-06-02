@@ -1028,7 +1028,7 @@ class zheleznyakov::Tree<Key, Value, Compare>::LnRIterator
 {
 public:
   LnRIterator();
-  LnRIterator(Node *);
+  LnRIterator(Node *, Node *);
   LnRIterator(const LnRIterator &) = default;
   ~LnRIterator() = default;
 
@@ -1045,6 +1045,7 @@ public:
 
 private:
   Node * current_;
+  Node * root_;
 };
 
 template < typename Key, typename Value, typename Compare >
@@ -1053,7 +1054,8 @@ zheleznyakov::Tree< Key, Value, Compare >::LnRIterator::LnRIterator():
 {}
 
 template < typename Key, typename Value, typename Compare >
-zheleznyakov::Tree< Key, Value, Compare >::LnRIterator::LnRIterator(Node * newNode):
+zheleznyakov::Tree< Key, Value, Compare >::LnRIterator::LnRIterator(Node * newRoot, Node * newNode):
+  root_{newRoot},
   current_{newNode}
 {}
 
@@ -1061,7 +1063,8 @@ template < typename Key, typename Value, typename Compare >
 typename zheleznyakov::Tree< Key, Value, Compare >::LnRIterator &
 zheleznyakov::Tree< Key, Value, Compare >::LnRIterator::operator++()
 {
-  if (current_ == nullptr) {
+  if (current_ == nullptr)
+  {
     return *this;
   }
 
@@ -1094,5 +1097,39 @@ zheleznyakov::Tree< Key, Value, Compare >::LnRIterator::operator++(int)
   LnRIterator temp = *this;
   ++(*this);
   return temp;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::LnRIterator &
+zheleznyakov::Tree< Key, Value, Compare >::LnRIterator::operator--()
+{
+  if (current_ == nullptr)
+  {
+    current_ = root_;
+    while (current_->right != nullptr)
+    {
+      current_ = current_->right;
+    }
+  }
+  else if (current_->left != nullptr)
+  {
+    current_ = current_->left;
+    while (current_->right != nullptr)
+    {
+      current_ = current_->right;
+    }
+  }
+  else
+  {
+    Node * prev = current_;
+    current_ = current_->parent;
+    while (current_ != nullptr && prev == current_->left)
+    {
+      prev = current_;
+      current_ = current_->parent;
+    }
+  }
+
+  return *this;
 }
 #endif
