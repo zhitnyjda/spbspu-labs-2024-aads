@@ -44,6 +44,12 @@ namespace taskaev
 
     void erase(const Key& key);
 
+    Iterator begin();
+    Iterator end();
+
+    ConstIterator cbegin() const;
+    ConstIterator cend() const;
+
   private:
     Node* root_;
     Comparator comp_;
@@ -572,4 +578,37 @@ typename BSTree< Key, Value, Comparator >::Node* BSTree< Key, Value, Comparator 
     node = node->left_;
   }
   return node;
+}
+
+template < typename Key, typename Value, typename Comparator >
+typename BSTree< Key, Value, Comparator >::ConstIterator BSTree< Key, Value, Comparator >::cbegin() const
+{
+  if (root == nullptr)
+  {
+    return cend();
+  }
+  Node* newRoot = root_;
+  while (newRoot->left_)
+  {
+    newRoot = newRoot->left_;
+  }
+  return ConstIterator(newRoot, root_);
+}
+
+template < typename Key, typename Value, typename Comparator >
+typename BSTree< Key, Value, Comparator >::ConstIterator BSTree< Key, Value, Comparator >::cend() const
+{
+  return ConstIterator(nullptr, root_);
+}
+
+template < typename Key, typename Value, typename Comparator >
+typename BSTree< Key, Value, Comparator >::Iterator BSTree< Key, Value, Comparator >::begin()
+{
+  return Iterator(cbegin());
+}
+
+template < typename Key, typename Value, typename Comparator >
+typename BSTree< Key, Value, Comparator>::Iterator BSTree< Key, Value, Comparator >::end()
+{
+  return Iterator(cend());
 }
