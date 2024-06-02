@@ -8,6 +8,7 @@ namespace ponomarev
 {
   void inputFromFile(std::istream & in, BSTree< std::string, BSTree< int, std::string, int >, int > & data);
   std::ostream & printInvalidCommandMessage(std::ostream & out);
+  std::ostream & printEmptyDataset(std::ostream & out);
 }
 
 #endif

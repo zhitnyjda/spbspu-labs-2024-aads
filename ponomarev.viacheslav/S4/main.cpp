@@ -1,7 +1,9 @@
 #include <fstream>
 #include <iostream>
 #include <limits>
+#include <functional>
 #include "IOFunctions.hpp"
+#include "commands.hpp"
 
 int main(int argc, char ** argv)
 {
@@ -21,8 +23,9 @@ int main(int argc, char ** argv)
   using tree_t = ponomarev::BSTree< std::string, data_t, int >;
   tree_t data;
   ponomarev::inputFromFile(input, data);
-  BSTree< std::string, tree_t, int > commands;
+  BSTree< std::string, std::function< void (std::istream &, std::ostream &, tree_t &) >, int > commands;
   {
+    commands["print"] = ponomarev::makePrint;
   }
 
   std::string command = "";
