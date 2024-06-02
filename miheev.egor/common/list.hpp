@@ -11,6 +11,7 @@ namespace miheev
   class List
   {
   public:
+    using value_type = T;
     struct ConstIterator;
     struct Iterator;
 
@@ -31,8 +32,10 @@ namespace miheev
 
     void assign (size_t n, const T& val);
     void pushFront(const T& data);
+    void push_front(const T& data);
     void popFront();
     void pushBack(const T& data);
+    void push_back(const T& data);
     void popBack();
     void eraseAfter(Iterator iter);
     void swap(List& aList);
@@ -461,6 +464,12 @@ void miheev::List< T >::pushFront(const T& data)
 }
 
 template < typename T >
+void miheev::List< T >::push_front(const T& data)
+{
+  pushFront(data);
+}
+
+template < typename T >
 void miheev::List< T >::popFront()
 {
   if (!next_)
@@ -497,6 +506,12 @@ void miheev::List< T >::pushBack(const T& data)
     }
   }
   isEmpty_ = false;
+}
+
+template < typename T >
+void miheev::List< T >::push_back(const T& data)
+{
+  pushBack(data);
 }
 
 template < typename T >
