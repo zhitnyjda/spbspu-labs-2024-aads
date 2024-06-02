@@ -6,7 +6,7 @@
 
 namespace ponomarev
 {
-  void inputFromFile(std::istream & in, BinarySearchTree< std::string, BinarySearchTree< int, std::string, int >, int > & data);
+  void inputFromFile(std::istream & in, BSTree< std::string, BSTree< int, std::string, int >, int > & data);
   std::ostream & printInvalidCommandMessage(std::ostream & out);
 }
 

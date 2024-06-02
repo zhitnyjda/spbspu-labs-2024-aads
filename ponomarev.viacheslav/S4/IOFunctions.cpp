@@ -2,13 +2,13 @@
 #include <iostream>
 #include "cutFunctions.hpp"
 
-void ponomarev::inputFromFile(std::istream & in, BinarySearchTree< std::string, BinarySearchTree< int, std::string, int >, int > & data)
+void ponomarev::inputFromFile(std::istream & in, BSTree< std::string, BSTree< int, std::string, int >, int > & data)
 {
   std::string dataLine = "";
   std::string name = "";
   std::string value = "";
   int key = 0;
-  using data_t = ponomarev::BinarySearchTree< int, std::string, int >;
+  using data_t = ponomarev::BSTree< int, std::string, int >;
 
   while (std::getline(in, dataLine))
   {

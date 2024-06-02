@@ -16,7 +16,7 @@ int main(int argc, char ** argv)
     return 1;
   }
 
-  using data_t = ponomarev::BinarySearchTree< int, std::string, int >;
-  ponomarev::BinarySearchTree< std::string, data_t, int > data;
+  using data_t = ponomarev::BSTree< int, std::string, int >;
+  ponomarev::BSTree< std::string, data_t, int > data;
   ponomarev::inputFromFile(input, data);
 }
