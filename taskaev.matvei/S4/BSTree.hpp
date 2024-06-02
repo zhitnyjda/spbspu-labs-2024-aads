@@ -61,7 +61,7 @@ namespace taskaev
     Node* rotateRight(Node* node);
     Node* rotateLeft(Node* node);
     void updHeight(Node* node) noexcept;
-    size_t getHeight(const Node* root) const noexcept ;
+    size_t getHeight(const Node* root) const noexcept;
     size_t height(Node* node);
 
     void free(Node* node);
@@ -71,6 +71,7 @@ namespace taskaev
     Node* findMinNode(Node* node);
   };
 }
+
 using namespace taskaev;
 template < typename Key, typename Value >
 using value_t = std::pair< Key, Value >;
@@ -278,7 +279,7 @@ typename BSTree< Key, Value, Comparator >::Iterator::Iterator BSTree< Key, Value
 }
 
 template< typename Key, typename Value, typename Comparator >
-value_t< Key, Value >& BSTree< Key, Value, Comparator >::Iterator::operator*() 
+value_t< Key, Value >& BSTree< Key, Value, Comparator >::Iterator::operator*()
 {
   return iterator.node_->data_;
 }
@@ -685,4 +686,5 @@ typename BSTree< Key, Value, Comparator>::Iterator BSTree< Key, Value, Comparato
 {
   return Iterator(cend());
 }
+
 #endif

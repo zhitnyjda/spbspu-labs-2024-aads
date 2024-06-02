@@ -2,7 +2,7 @@
 #include "functions.h"
 #include <string>
 
-void taskaev::createTree(std::istream& in, BSTree< std::string, BSTree< size_t, std::string > >& tree)
+void taskaev::createTree(std::istream& in, Tree& tree)
 {
   std::string data = "";
   while (std::getline(in, data))
@@ -58,7 +58,7 @@ void taskaev::createTree(std::istream& in, BSTree< std::string, BSTree< size_t, 
   }
 }
 
-void taskaev::helpTree(BSTree< size_t, std::string >& tree, BSTree< size_t, std::string >::Iterator iterator, BSTree< size_t, std::string >::Iterator end)
+void taskaev::helpPrint(SubTree& tree, Iterator it, Iterator end)
 {
   if (iterator != end)
   {
@@ -75,7 +75,7 @@ void taskaev::helpTree(BSTree< size_t, std::string >& tree, BSTree< size_t, std:
   }
 }
 
-void taskaev::print(BSTree< std::string, BSTree< size_t, std::string > >& tree)
+void taskaev::print(Tree& tree)
 {
   std::string datas;
   std::cin >> datas;
@@ -93,7 +93,7 @@ void taskaev::print(BSTree< std::string, BSTree< size_t, std::string > >& tree)
   }
 }
 
-void taskaev::complement(BSTree< std::string, BSTree< size_t, std::string > >& tree)
+void taskaev::complement(Tree& tree)
 {
   std::string names, oneName, twoName;
   std::cin >> names >> oneName >> twoName;
@@ -103,7 +103,7 @@ void taskaev::complement(BSTree< std::string, BSTree< size_t, std::string > >& t
   tree.insert(names, tres);
 }
 
-void taskaev::findcomplement(BSTree< size_t, std::string >& souTree, BSTree< size_t, std::string >& othTree, BSTree< size_t, std::string >& newTree)
+void taskaev::findcomplement(SubTree& two, SubTree& one, SubTree& tree)
 {
   for (auto it = sourceTree.begin(); it != sourceTree.end(); ++it) {
     bool flag = false;
@@ -119,7 +119,7 @@ void taskaev::findcomplement(BSTree< size_t, std::string >& souTree, BSTree< siz
   }
 }
 
-void taskaev::intersect(BSTree< std::string, BSTree< size_t, std::string > >& tree)
+void taskaev::intersect(Tree& tree)
 {
   std::string names, oneName, twoName;
   std::cin >> names >> oneName >> twoName;
@@ -137,7 +137,7 @@ void taskaev::intersect(BSTree< std::string, BSTree< size_t, std::string > >& tr
   tree.insert(names, tres);
 }
 
-BSTree< size_t, std::string > taskaev::mergeTrees(BSTree< size_t, std::string >& treeOne, BSTree< size_t, std::string >& treeTwo)
+SubTree taskaev::mergeTrees(SubTree& treeOne, SubTree& treeTwo)
 {
   BSTree< size_t, std::string > result = treeOne;
 
@@ -152,7 +152,7 @@ BSTree< size_t, std::string > taskaev::mergeTrees(BSTree< size_t, std::string >&
   return result;
 }
 
-void taskaev::unions(BSTree< std::string, BSTree< size_t, std::string > >& tree)
+void taskaev::unions(Tree& tree)
 {
   std::string names, oneName, twoName;
   std::cin >> names >> oneName >> twoName;

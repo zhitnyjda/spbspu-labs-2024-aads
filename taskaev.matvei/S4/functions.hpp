@@ -7,17 +7,22 @@
 
 namespace taskaev
 {
-  void createTree(std::istream& in, BSTree< std::string, BSTree< size_t, std::string > >& tree);
-  void print(BSTree< std::string, BSTree< size_t, std::string > >& tree);
-  void helpTree(BSTree< size_t, std::string >& tree, BSTree< size_t, std::string >::Iterator iterator, BSTree< size_t, std::string >::Iterator end);
+  using Tree = BSTree<std::string, BSTree<size_t, std::string>>;
+  using SubTree = BSTree<size_t, std::string>;
+  using Iterator = SubTree::Iterator;
 
-  void complement(BSTree< std::string, BSTree< size_t, std::string > >& tree);
-  void findcomplement(BSTree< size_t, std::string >& souTree, BSTree< size_t, std::string >& othTree, BSTree< size_t, std::string >& newTree);
+  void createTree(std::istream& in, Tree& tree);
 
-  void intersect(BSTree< std::string, BSTree<size_t, std::string > >& tree);
+  void print(Tree& tree);
+  void helpPrint(SubTree& tree, Iterator it, Iterator end);
 
-  void unions(BSTree< std::string, BSTree< size_t, std::string > >& tree);
-  BSTree< size_t, std::string > mergeTrees(BSTree< size_t, std::string >& treeOne, BSTree< size_t, std::string >& treeTwo);
+  void complement(Tree& tree);
+  void findcomplement(SubTree& two, SubTree& one, SubTree& tree);
+
+  void intersect(Tree& tree);
+
+  void unions(Tree& tree);
+  SubTree mergeTrees(SubTree& treeOne, SubTree& treeTwo);
 
   void errorInvalid(std::ostream& out);
   void errorEmpty(std::ostream& out);
