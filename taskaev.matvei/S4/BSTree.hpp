@@ -35,7 +35,7 @@ namespace taskaev
     ~BSTree();
 
     bool empty() const noexcept;
-    void clear() noexcept;
+    void clear();
     size_t size() const noexcept;
 
     void insert(const value_t& pair);
@@ -52,6 +52,8 @@ namespace taskaev
     void updHeight(Node* node) noexcept;
     size_t getHeight(const Node* root) const noexcept ;
     size_t height(Node* node);
+
+    void free(Node* node);
   };
 }
 using namespace taskaev;
@@ -468,4 +470,31 @@ typename BSTree< Key, Value, Comparator >::Node* BSTree< Key, Value, Comparator 
   updHeight(node);
   updHeight(newRoot);
   return newRoot;
+}
+
+template < typename Key, typename Value, typename Comparator >
+void BSTree< Key, Value, Comparator >::clear()
+{
+  free(root_);
+  root_ = nullptr;
+}
+
+template < typename Key, typename Value, typename Comparator >
+void BSTree< Key, Value, Comparator >::free(Node* node)
+{
+  if (node == nullptr)
+  {
+    return;
+  }
+  if (node->left_)
+  {
+    free(node->left_);
+    node->left_ = nullptr;
+  }
+  if (node->right_)
+  {
+    free(node->right_);
+    node->right_ = nullptr;
+  }
+  delete node;
 }
