@@ -6,13 +6,6 @@
 #include <functional>
 #include <iostream>
 
-/*#include <functional>
-template<typename A, typename B, typename C = std::less<>>
-constexpr bool fun(A a, B b, C cmp = C{})
-{
-    return cmp(a, b);
-} */
-
 namespace mihalchenko
 {
   template <typename Key, typename Value, typename Compare = std::less<Key>>
@@ -41,9 +34,6 @@ namespace mihalchenko
     size_t erase(const Key &key);
     void clear();
 
-    template <class... Args>
-    void emplace(Args &&...args);
-
     Value &operator[](const Key &key);
     Iterator find(const Key &key);
     ConstIterator cbegin() const noexcept;
@@ -59,14 +49,14 @@ namespace mihalchenko
       Node(Key key, Value data, int height = 0, Node *left = nullptr, Node *right = nullptr, Node *previous = nullptr);
 
     private:
-      std::pair<const Key, Value> pairOfKeyVal;
+      std::pair<const Key, Value> pairOfKeyVal_;
       int height_;
       Node *left_;
       Node *right_;
       Node *previous_;
     };
 
-    Node *insertNode(Key k, Value v, Node *node, Node *prev);
+    Node *insertNode(Key key, Value val, Node *node);
     Iterator findNode(const Key &key, Node *node);
 
     void leftSpin(Node *node);
@@ -77,14 +67,24 @@ namespace mihalchenko
     int calcHeight(Node *node);
     Node *SearchHiHeight(Node *node);
 
+    //----------------------------------
+    size_t updateHeight(Node *node);
+    int checkBalance(Node *node);
+    Node *isBalanced(Node *node);
+    void doBalance(Node *overweight);
+    int getHeight(Node *node);
+    //----------------------------------
+
     Node *copyTree(Node *node, Node *previous);
     void doStableTree(Node *checkNode);
     void clear(Node *node);
+    // void recombinateLinksRight(Node * deletedNode, Node * prevDelNode);
+    // void recombinateLinksLeft(Node * deletedNode, Node * prevDelNode);
 
     Node *root_;
     size_t size_ = 0;
   };
-};
+}
 
 template <typename Key, typename Value, typename Compare>
 class mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator : public std::iterator<std::bidirectional_iterator_tag, std::pair<const Key, Value>>
@@ -145,6 +145,58 @@ private:
 template <typename Key, typename Value, typename Compare>
 mihalchenko::AVLTree<Key, Value, Compare>::Node::Node(Key key, Value data, int height, Node *left, Node *right, Node *previous) : pairOfKeyVal(std::make_pair(key, data)), height_(height), left_(left), right_(right), previous_(previous)
 {
+}
+
+template <typename Key, typename Value, typename Compare>
+mihalchenko::AVLTree<Key, Value, Compare>::Node::Node(Key key, Value data, int height, Node *left, Node *right, Node *previous) : pairOfKeyVal_(std::make_pair(key, data)), height_(height), left_(left), right_(right), previous_(previous)
+{
+}
+
+template <typename Key, typename Value, typename Compare>
+typename mihalchenko::AVLTree<Key, Value, Compare>::Node *mihalchenko::AVLTree<Key, Value, Compare>::insertNode(Key key, Value val, Node *node)
+{
+  // std::cout << "мы в инит size_=" << size_ << "key=" << key << std::endl;
+  Node *newNode = new Node(key, val, 0, nullptr, nullptr, nullptr);
+  if (!node)
+  {
+    root_ = newNode;
+    size_++;
+    return root_;
+  }
+  Compare compare;
+  if ((node) && !compare(key, node->pairOfKeyVal_.first) && !compare(node->pairOfKeyVal_.first, key))
+  {
+    return node;
+  }
+  Node *preview = nullptr;
+  bool existNode = true;
+  while (existNode)
+  {
+    if (compare(key, node->pairOfKeyVal_.first))
+    {
+      if (!node->left_)
+      {
+        node->left_ = newNode;
+        newNode->previous_ = node;
+        size_++;
+        existNode = false;
+      }
+      node = node->left_;
+    }
+    else
+    {
+      if (!node->right_)
+      {
+        node->right_ = newNode;
+        newNode->previous_ = node;
+        size_++;
+        existNode = false;
+      }
+      node = node->right_;
+    }
+  }
+  // balance(newNode);
+  return newNode;
 }
 
 template <typename Key, typename Value, typename Compare>
