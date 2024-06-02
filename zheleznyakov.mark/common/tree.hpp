@@ -3,6 +3,7 @@
 #include <utility>
 #include <stdexcept>
 #include <functional>
+#include <stack.hpp>
 
 namespace zheleznyakov
 {
@@ -867,5 +868,24 @@ typename zheleznyakov::Tree<Key, Value, Compare>::Node * zheleznyakov::Tree<Key,
     current = current->left;
   }
   return current;
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename Functor >
+Functor zheleznyakov::Tree< Key, Value, Compare >::traverseLnR(Functor f) const
+{
+  Stack< Node * > nodesStack;
+  Node* current = root_;
+  while (current != nullptr || !nodesStack.empty()) {
+    while (current != nullptr) {
+      nodesStack.push(current);
+      current = current->left;
+    }
+    current = nodesStack.top();
+    nodesStack.pop();
+    f(current->data);
+    current = current->right;
+  }
+  return f;
 }
 #endif
