@@ -37,10 +37,21 @@ namespace taskaev
     bool empty() const noexcept;
     void clear() noexcept;
     size_t size() const noexcept;
+
+    void insert(const value_t& pair);
+    void insert(const Key& key, const Value& value);
+
   private:
     Node* root_;
     Comparator comp_;
     size_t size_;
+
+    Node* balance(Node* node);
+    Node* rotateRight(Node* node);
+    Node* rotateLeft(Node* node);
+    void updHeight(Node* node) noexcept;
+    size_t getHeight(const Node* root) const noexcept ;
+    size_t height(Node* node);
   };
 }
 using namespace taskaev;
@@ -257,7 +268,7 @@ BSTree< Key, Value, Comparator >::BSTree(const BSTree& rhs) :
 {
   for (auto it = rhs.cbegin(); it != rhs.cend(); ++it)
   {
-    insert(*it);
+    insert(it->first, it->second);
   }
 }
 
@@ -274,7 +285,7 @@ BSTree< Key, Value, Comparator >::BSTree(BSTree&& rhs) noexcept :
 template< typename Key, typename Value, typename Comparator >
 BSTree< Key, Value, Comparator >::~BSTree()
 {
-  // later mb metod - clear();
+  clear();
 }
 
 template< typename Key, typename Value, typename Comparator >
@@ -289,3 +300,172 @@ size_t BSTree< Key, Value, Comparator >::size() const noexcept
   return size_;
 }
 
+
+template< typename Key, typename Value, typename Comparator >
+void BSTree< Key, Value, Comparator >::insert(const value_t& val)
+{
+  insert(val.first, val.second);
+}
+
+template < typename Key, typename Value, typename Comparator >
+void BSTree< Key, Value, Comparator >::insert(const Key& key, const Value& val)
+{
+  if (!empty())
+  {
+    Node* newRoot = root_;
+    Node* nodes = nullptr;
+    while (newRoot)
+    {
+      nodes = newRoot;
+      if (key < newRoot->data_.first)
+      {
+        newRoot = newRoot->left_;
+      }
+      else if (key > newRoot->data_.first)
+      {
+        newRoot = newRoot->right_;
+      }
+      else
+      {
+        return;
+      }
+    }
+    Node* newNode = new Node({ key, val }, parent);
+    if (key > nodes->data_.first)
+    {
+      nodes->right_ = newNodes;
+    }
+    else
+    {
+      nodes->left_ = newNodes;
+    }
+    balance(newNodes);
+    size_++;
+  }
+  else
+  {
+    root_ = new Node({ key, val });
+    size_++;
+    return;
+  }
+}
+
+template< typename Key, typename Value, typename Compare >
+void BSTree< Key, Value, Compare >::updHeight(Node* node) noexcept
+{
+  node->height_ = std::max(getHeight(node->left_), getHeight(node->right_)) + 1;
+}
+
+template< typename Key, typename Value, typename Compare >
+size_t BSTree< Key, Value, Compare >::getHeight(const Node* node) const noexcept
+{
+  return (node == nullptr) ? 0 : node->height_;
+}
+
+template< typename Key, typename Value, typename Compare >
+size_t BSTree< Key, Value, Compare >::height(Node* node)
+{
+  return ((node->left_ != nullptr) ? node->left_->height_ : 0) - ((node->right_ != nullptr) ? node->right_->height_ : 0);
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename BSTree< Key, Value, Comparator >::Node* BSTree< Key, Value, Comparator >::balance(Node* node)
+{
+
+  updHeight(node);
+  int flag = height(node);
+  if (flag > 1)
+  {
+    if (height(node->left_) < 0)
+    {
+      node->left_ = rotateLeft(node->left_);
+    }
+    return rotateRight(node);
+  }
+  else if (flag < -1)
+  {
+    if (height(node->right_) > 0)
+    {
+      node->right_ = rotateRight(node->right_);
+    }
+    return rotateLeft(node);
+  }
+  return node;
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename BSTree< Key, Value, Comparator >::Node* BSTree< Key, Value, Comparator >::rotateRight(Node* node)
+{
+  if (node == nullptr)
+  {
+    return nullptr;
+  }
+  Node* newRoot = node->left_;
+  if (newRoot == nullptr)
+  {
+    return node;
+  }
+  node->left_ = newRoot->right_;
+  if (node->left_ != nullptr)
+  {
+    node->left_->parent_ = node;
+  }
+  newRoot->parent_ = node->parent_;
+  if (node->parent_ == nullptr)
+  {
+    root_ = newRoot;
+  }
+  else if (node == node->parent_->left_)
+  {
+    node->parent_->left_ = newRoot;
+  }
+  else
+  {
+    node->parent_->right_ = newRoot;
+  }
+  newRoot->right_ = node;
+  node->parent_ = newRoot;
+  updHeight(node);
+  updHeight(newRoot);
+  return newRoot;
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename BSTree< Key, Value, Comparator >::Node* BSTree< Key, Value, Comparator >::rotateLeft(Node* node)
+{
+  if (node == nullptr)
+  {
+    return nullptr;
+  }
+  Node* newRoot = node->right_;
+  if (newRoot == nullptr)
+  {
+    return node;
+  }
+  node->right_ = newRoot->left_;
+  if (node->right_ != nullptr)
+  {
+    node->right_->parent_ = node;
+  }
+  newRoot->parent_ = node->parent_;
+  if (node->parent_ == nullptr)
+  {
+    root_ = newRoot;
+  }
+  else
+  {
+    if (node == node->parent_->left_)
+    {
+      node->parent_->left_ = newRoot;
+    }
+    else
+    {
+      node->parent_->right_ = newRoot;
+    }
+  }
+  newRoot->left_ = node;
+  node->parent_ = newRoot;
+  updHeight(node);
+  updHeight(newRoot);
+  return newRoot;
+}
