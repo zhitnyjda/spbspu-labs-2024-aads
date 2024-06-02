@@ -4,11 +4,11 @@
 #include <iostream>
 #include <algorithm>
 #include <utility>
+#include <tree.hpp>
+#include <stack.hpp>
+#include <list.hpp>
 #include "delimiter.hpp"
 #include "datastruct.hpp"
-#include "tree.hpp"
-#include "stack.hpp"
-#include "list.hpp"
 
 namespace khoroshkin
 {

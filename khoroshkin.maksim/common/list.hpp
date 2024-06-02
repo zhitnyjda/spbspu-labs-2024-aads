@@ -538,7 +538,7 @@ void khoroshkin::List< T >::remove(const T & value, bool onlyFirst)
     }
     else if (next(it) != this->end() && *next(it) == value)
     {
-      Node * subhead = it.node;
+      Node * subhead = it.iter_.node_;
       Node * todelete = subhead->pNext;
       subhead->pNext = todelete->pNext;
       delete todelete;
