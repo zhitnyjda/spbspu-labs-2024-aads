@@ -5,9 +5,11 @@
 #include <iomanip>
 #include <deque>
 #include <list>
+#include "sorts.hpp"
 
 namespace miheev
 {
+  void printError(std::ostream&, std::string);
   template< typename Container >
   void printContainer(std::ostream&, const Container&);
   template< typename Printer, typename... PrinterArgs >
@@ -18,6 +20,11 @@ namespace miheev
   
   template< typename T, typename Comparator >
   void testSorts(std::ostream&, size_t size,  Comparator comp);
+}
+
+void miheev::printError(std::ostream& out, std::string msg)
+{
+  out << "[ERROR]: " << msg << '\n';
 }
 
 template< typename Container >
@@ -61,12 +68,24 @@ void miheev::fillContainersWithRandom(std::deque< double >& deque, std::list< do
 }
 
 template< typename T, typename Comparator >
-void miheev::testSorts(std::ostream&, size_t size,  Comparator comp)
+void miheev::testSorts(std::ostream& output, size_t size, Comparator comp)
 {
-  std::list< T > bidirect;
-  std::deque< T > deque;
+  using Deque = std::deque< T >;
+  using BiList = std::list< T >;
+  BiList bidirect;
+  Deque deque;
   fillContainersWithRandom(deque, bidirect, size);
-  
+
+  newLineWrapper(output, printContainer< Deque >, deque);
+  shakeSort(deque.begin(), deque.end(), comp);
+  newLineWrapper(output, printContainer< Deque >, deque);
+  shellSort(deque.begin(), deque.end(), comp);
+
+  newLineWrapper(output, printContainer< BiList >, bidirect);
+  shakeSort(bidirect.begin(), bidirect.end(), comp);
+  newLineWrapper(output, printContainer< BiList >, bidirect);
+  shellSort(bidirect.begin(), bidirect.end(), comp);
+  newLineWrapper(output, printContainer< BiList >, bidirect);
 }
 
 #endif
