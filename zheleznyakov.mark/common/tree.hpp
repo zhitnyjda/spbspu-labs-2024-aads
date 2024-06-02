@@ -891,7 +891,7 @@ Functor zheleznyakov::Tree< Key, Value, Compare >::traverseLnR(Functor f) const
 
 template< typename Key, typename Value, typename Compare >
 template< typename Functor >
-Functor zheleznyakov::Tree< Key, Value, Compare >::traverseLnR(Functor f) const
+Functor zheleznyakov::Tree< Key, Value, Compare >::traverseRnL(Functor f) const
 {
   Stack< Node * > nodesStack;
   Node* current = root_;
