@@ -89,7 +89,7 @@ void taskaev::print(Tree& tree)
     BSTree< size_t, std::string >::Iterator iterator = tres.begin();
     BSTree< size_t, std::string >::Iterator end = tres.end();
     std::cout << datas << " ";
-    printTree(tres, iterator, end); // типо тут функция для рекурсивного вывода содержимого дерева
+    printTree(tres, iterator, end); // типо тут рекурсия вывода
   }
 }
 
@@ -129,7 +129,7 @@ void taskaev::intersect(Tree& tree)
   for (auto it = oneTres.begin(); it != oneTres.end(); ++it)
   {
     size_t key = it->first;
-    if (twoTres.find(key) != twoTres.cend()) // проверка на элемент с таким ключом во втором дереве
+    if (twoTres.find(key) != twoTres.cend()) //проверка на элементстаким ключом во 2 дереве
     {
       tres.insert(*it);
     }
@@ -144,7 +144,7 @@ SubTree taskaev::mergeTrees(SubTree& treeOne, SubTree& treeTwo)
   for (auto it = treeTwo.begin(); it != treeTwo.end(); ++it)
   {
     size_t key = it->first;
-    if (result.find(key) == result.cend()) //проверить типо есть ли элемент с таким ключом уже в результирующем дереве
+    if (result.find(key) == result.cend())
     {
       result.insert(*it);
     }
