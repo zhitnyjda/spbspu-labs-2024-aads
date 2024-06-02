@@ -31,6 +31,8 @@ int main(int argc, char* argv[])
     typedFuncs["ints"]["ascending"] = std::bind(miheev::testSorts< int, std::less< int> >, _1, _2, std::less< int >{});
     typedFuncs["ints"]["descending"] = std::bind(miheev::testSorts< int, std::greater< int> >, _1, _2, std::greater< int >{});
   }
+
+  typedFuncs.at(argv[2]).at(argv[1])(std::cout, size);
   
   return 0;
 }
