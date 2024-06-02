@@ -287,6 +287,31 @@ void mihalchenko::AVLTree<Key, Value, Compare>::insert(Key key, Value value)
 }
 
 template <typename Key, typename Value, typename Compare>
+void mihalchenko::AVLTree<Key, Value, Compare>::doStableTree(Node *checkNode)
+{
+  while (checkNode)
+  {
+    if ((calcHeight(checkNode) == 2) && (calcHeight(checkNode->right_) >= 0))
+    {
+      leftSpin(checkNode);
+    }
+    else if (calcHeight(checkNode) == 2)
+    {
+      rightLeftSpin(checkNode);
+    }
+    else if (calcHeight(checkNode->left_) < 0)
+    {
+      rightSpin(checkNode);
+    }
+    else
+    {
+      leftRightSpin(checkNode);
+    }
+    checkNode = SearchHiHeight(checkNode);
+  }
+}
+
+template <typename Key, typename Value, typename Compare>
 typename mihalchenko::AVLTree<Key, Value, Compare>::Iterator mihalchenko::AVLTree<Key, Value, Compare>::find(const Key &key)
 {
   return findNode(key, root_);
