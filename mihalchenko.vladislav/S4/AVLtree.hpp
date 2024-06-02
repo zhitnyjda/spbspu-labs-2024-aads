@@ -858,6 +858,49 @@ typename mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator &mihalchenko::
 }
 
 template <typename Key, typename Value, typename Compare>
+int mihalchenko::AVLTree<Key, Value, Compare>::calcHeight(Node *node)
+{
+  int height = 0;
+  if ((node->right_) && (node->left_))
+  {
+    height = node->right_->height_ - node->left_->height_;
+  }
+  return height;
+}
+
+template <typename Key, typename Value, typename Compare>
+typename mihalchenko::AVLTree<Key, Value, Compare>::Node *mihalchenko::AVLTree<Key, Value, Compare>::SearchHiHeight(Node *node)
+{
+  Node *wrem = node;
+  while (wrem)
+  {
+    if ((calcHeight(wrem) > 1) || (calcHeight(wrem) < -1))
+    {
+      return wrem;
+    }
+    wrem = wrem->previous_;
+  }
+  return nullptr;
+}
+
+//-------------------------------------------------------------------------------------------------------------------------
+template <typename Key, typename Value, typename Comp>
+size_t mihalchenko::AVLTree<Key, Value, Comp>::updateHeight(Node *node)
+{
+  if (node == nullptr)
+  {
+    return 0;
+  }
+  return node->height_ = std::max(updateHeight(node->left_), updateHeight(node->right_)) + 1;
+}
+
+template <typename Key, typename Value, typename Comp>
+int mihalchenko::AVLTree<Key, Value, Comp>::checkBalance(Node *node)
+{
+  return getHeight(node->right_) - getHeight(node->left_);
+}
+
+template <typename Key, typename Value, typename Compare>
 typename mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator::operator--(int)
 {
   ConstIterator result(*this);
