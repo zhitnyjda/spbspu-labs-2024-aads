@@ -14,11 +14,11 @@ std::string zheleznyakov::extractFirstWord(std::string & str)
   return firstWord;
 }
 
-void zheleznyakov::readLine(std::string line, data_t & data)
+void zheleznyakov::readData(std::string line, data_t & data)
 {
   while (!line.empty())
   {
-    int key = std::stoll(extractFirstWord(line));
+    long long key = std::stoll(extractFirstWord(line));
     std::string value = extractFirstWord(line);
     data.insert(key, value);
   }

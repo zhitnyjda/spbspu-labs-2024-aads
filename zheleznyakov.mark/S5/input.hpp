@@ -5,7 +5,7 @@
 
 namespace zheleznyakov
 {
-  void readLine(std::string, data_t &);
+  void readData(std::string, data_t &);
   std::string extractFirstWord(std::string &);
 }
 #endif
