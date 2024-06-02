@@ -79,3 +79,29 @@ void ponomarev::makeIntersect(std::istream & in, std::ostream &, tree_t & data)
     data.insert(std::make_pair(newDataName, newData));
   }
 }
+
+void ponomarev::makeUnion(std::istream & in, std::ostream &, tree_t & data)
+{
+  std::string newDataName = "";
+  std::string dataset1 = "";
+  std::string dataset2 = "";
+  in >> newDataName >> dataset1 >> dataset2;
+  data_t newData = data[dataset1];
+  data_t::Iterator currElem = data[dataset2].begin();
+
+  while (currElem != data[dataset2].end())
+  {
+    newData.insert(*currElem);
+    ++currElem;
+  }
+
+  if (data.find(newDataName) != data.end())
+  {
+    data.at(newDataName).swap(newData);
+    newData.clear();
+  }
+  else
+  {
+    data.insert(std::make_pair(newDataName, newData));
+  }
+}
