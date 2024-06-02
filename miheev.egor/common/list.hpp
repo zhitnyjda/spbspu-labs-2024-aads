@@ -49,8 +49,8 @@ namespace miheev
 
     Iterator begin();
     Iterator end();
-    ConstIterator cBegin() const;
-    ConstIterator cEnd() const;
+    ConstIterator cbegin() const;
+    ConstIterator cend() const;
 
   private:
     T data_;
@@ -115,13 +115,13 @@ private:
 };
 
 template< typename T >
-typename miheev::List< T >::ConstIterator miheev::List< T >::cBegin() const
+typename miheev::List< T >::ConstIterator miheev::List< T >::cbegin() const
 {
   return this;
 }
 
 template< typename T >
-typename miheev::List< T >::ConstIterator miheev::List< T >::cEnd() const
+typename miheev::List< T >::ConstIterator miheev::List< T >::cend() const
 {
   return nullptr;
 }
@@ -313,7 +313,7 @@ miheev::List< T >::List(List&& rhs):
   next_{nullptr},
   isEmpty_{true}
 {
-  ConstIterator rhsIter(rhs.cBegin());
+  ConstIterator rhsIter(rhs.cbegin());
   List< T >* node = this;
   while (node != nullptr && rhsIter != nullptr)
   {
