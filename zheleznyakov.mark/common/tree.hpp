@@ -1026,9 +1026,10 @@ Functor zheleznyakov::Tree< Key, Value, Compare >::ctraverseBreadth(Functor f) c
 template < typename Key, typename Value, typename Compare >
 class zheleznyakov::Tree<Key, Value, Compare>::LnRIterator
 {
+  friend class Tree;
 public:
   LnRIterator();
-  LnRIterator(Node *, Node *);
+  LnRIterator(Node *);
   LnRIterator(const LnRIterator &) = default;
   ~LnRIterator() = default;
 
@@ -1045,7 +1046,6 @@ public:
 
 private:
   Node * current_;
-  Node * root_;
 };
 
 template < typename Key, typename Value, typename Compare >
@@ -1054,8 +1054,7 @@ zheleznyakov::Tree< Key, Value, Compare >::LnRIterator::LnRIterator():
 {}
 
 template < typename Key, typename Value, typename Compare >
-zheleznyakov::Tree< Key, Value, Compare >::LnRIterator::LnRIterator(Node * newRoot, Node * newNode):
-  root_{newRoot},
+zheleznyakov::Tree< Key, Value, Compare >::LnRIterator::LnRIterator(Node * newNode):
   current_{newNode}
 {}
 
