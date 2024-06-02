@@ -33,6 +33,9 @@ int main(int argc, char * argv[])
   }
 
   Tree< std::string, std::function< void(std::ostream &, const data_t &) > > cmds;
+  cmds["ascending"] = commands::ascending;
+  cmds["descending"] = commands::descending;
+  cmds["breadth"] = commands::breadth;
   std::string command = argv[1];
 
   try
