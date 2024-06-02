@@ -10,6 +10,8 @@ namespace miheev
 {
   template< typename Container >
   void printContainer(std::ostream&, const Container&);
+  template< typename Printer, typename... PrinterArgs >
+  void newLineWrapper(std::ostream&, Printer p, PrinterArgs... pArgs);
 
   void fillContainersWithRandom(std::deque< double >&, std::list< double >&, size_t amount);
   void fillContainersWithRandom(std::deque< int >&, std::list< int >&, size_t amount);
@@ -30,6 +32,12 @@ void miheev::printContainer(std::ostream& out, const Container& container)
       out << ' ';
     }
   }
+}
+template< typename Printer, typename... PrinterArgs >
+void miheev::newLineWrapper(std::ostream& out, Printer p, PrinterArgs... pArgs)
+{
+  p(out, pArgs...);
+  out << '\n';
 }
 
 void miheev::fillContainersWithRandom(std::deque< int >& deque, std::list< int >& bidirect, size_t amount)
