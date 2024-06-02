@@ -11,18 +11,17 @@ namespace taskaev
   public:
     class ConstIterator;
     class Iterator;
-    using iter = Iterator;
-    using constIter = ConstIterator;
+    using value_t = std::pair< Key, Value >;
     class Node;
     {
     public:
       friend class BSTree;
-      explicit Node(const Key key, const Value val):
-        data_(std::pair< Key, Value >(key, val)),
-        right_(nullptr),
-        left_(nullptr),
-        parent_(nullptr),
-        height_(1)
+      explicit Node(value_t data, Node* right = nullptr, Node* lest = nullptr, Node* parent = nullptr, size_t h = 0):
+        data_(data),
+        right_(right),
+        left_(left),
+        parent_(parent),
+        height_(h)
       {}
       Node* right_;
       Node* left_;
@@ -31,7 +30,7 @@ namespace taskaev
       std::pair< Key, Value > data_;
     };
     BSTree();
-    BSTree(const BSTree& other) = default;
+    BSTree(const BSTree& other);
     BSTree(BSTree&& other) = default;
     ~BSTree();
 
@@ -246,9 +245,21 @@ bool BSTree< Key, Value, Comparator >::Iterator::operator==(const Iterator& rhs)
 template< typename Key, typename Value, typename Comparator >
 BSTree< Key, Value, Comparator >::BSTree():
   root_(nullptr),
-  comp_(),
+  comp_(Comparator()),
   size_(0)
 {}
+
+template< typename Key, typename Value, typename Comparator >
+BSTree< Key, Value, Comparator >::BSTree(const BSTree& rhs) :
+  root_(nullptr),
+  comp_(rhs.comp_),
+  size_(rhs.size_)
+{
+  for (auto it = rhs.cbegin(); it != rhs.cend(); ++it)
+  {
+    insert(*it);
+  }
+}
 
 template< typename Key, typename Value, typename Comparator >
 BSTree< Key, Value, Comparator >::~BSTree()
