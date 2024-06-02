@@ -47,6 +47,11 @@ namespace zheleznyakov
 
     std::pair< Iterator, Iterator > equalRange(const Key &, const Key &);
 
+    template< typename Functor >
+    Functor traverseLnR(Functor f) const;
+    template< typename Functor >
+    Functor traverseRnL(Functor f) const;
+
   private:
     struct Node
     {
