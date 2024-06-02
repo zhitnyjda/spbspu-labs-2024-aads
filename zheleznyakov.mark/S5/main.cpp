@@ -28,7 +28,7 @@ int main(int argc, char * argv[])
 
   if (data.empty())
   {
-    outEmpty(std::cerr);
+    outEmpty(std::cout);
     return 0;
   }
 
