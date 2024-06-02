@@ -25,6 +25,9 @@ namespace psarev
     avlTree(size_t& initSize, dataType& initData);
     ~avlTree();
 
+    avlTree& operator=(const avlTree& that);
+    avlTree& operator=(avlTree&& that);
+
     void clear();
 
     iter begin() noexcept;
@@ -356,15 +359,41 @@ psarev::avlTree< Key, Value, Compare >::~avlTree()
   clear();
 }
 
+template< typename Key, typename Value, typename Compare >
+psarev::avlTree< Key, Value, Compare >& psarev::avlTree< Key, Value, Compare >::operator=(const avlTree& that)
+{
+  if (&that != this)
+  {
+    clear();
+    for (iter it = that.cbegin(); it != cend(); ++it)
+    {
+      insert(*it);
+    }
+  }
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+psarev::avlTree< Key, Value, Compare >& psarev::avlTree< Key, Value, Compare >::operator=(avlTree&& that)
+{
+  if (&that != this)
+  {
+    clear();
+    treeRoot = std::move(that.treeRoot);
+    that.treeRoot = nullptr;
+  }
+  return *this;
+}
+
 template<typename Key, typename Value, typename Compare>
-void psarev::avlTree<Key, Value, Compare>::clear()
+void psarev::avlTree< Key, Value, Compare >::clear()
 {
   undercut(treeRoot);
   treeRoot = nullptr;
 }
 
 template<typename Key, typename Value, typename Compare>
-typename psarev::avlTree< Key, Value, Compare >::Iterator psarev::avlTree<Key, Value, Compare>::begin() noexcept
+typename psarev::avlTree< Key, Value, Compare >::Iterator psarev::avlTree< Key, Value, Compare >::begin() noexcept
 {
   if (isEmpty())
   {
@@ -490,7 +519,10 @@ typename psarev::avlTree< Key, Value, Compare >::Iterator psarev::avlTree< Key, 
 template<typename Key, typename Value, typename Compare>
 void psarev::avlTree<Key, Value, Compare>::erase(const Key& key)
 {
-  treeRoot = delUnit(treeRoot, key);
+  if (find(key) != end())
+  {
+    treeRoot = delUnit(treeRoot, key);
+  }
 }
 
 template<typename Key, typename Value, typename Compare>
@@ -512,6 +544,7 @@ void psarev::avlTree<Key, Value, Compare>::undercut(Unit* unit)
     undercut(unit->left);
     undercut(unit->right);
     delete unit;
+    unit = nullptr;
   }
 }
 
