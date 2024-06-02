@@ -52,6 +52,10 @@ namespace zheleznyakov
     Functor traverseLnR(Functor f) const;
     template< typename Functor >
     Functor traverseRnL(Functor f) const;
+    template< typename Functor >
+    Functor traverseLnR(Functor f);
+    template< typename Functor >
+    Functor traverseRnL(Functor f);
 
   private:
     struct Node
@@ -895,6 +899,44 @@ Functor zheleznyakov::Tree< Key, Value, Compare >::traverseRnL(Functor f) const
 {
   Stack< const Node * > nodesStack;
   const Node * current = root_;
+  while (current != nullptr || !nodesStack.empty()) {
+    while (current != nullptr) {
+      nodesStack.push(current);
+      current = current->right;
+    }
+    current = nodesStack.top();
+    nodesStack.pop();
+    f(current->data);
+    current = current->left;
+  }
+  return f;
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename Functor >
+Functor zheleznyakov::Tree< Key, Value, Compare >::traverseLnR(Functor f)
+{
+  Stack< Node * > nodesStack;
+  Node * current = root_;
+  while (current != nullptr || !nodesStack.empty()) {
+    while (current != nullptr) {
+      nodesStack.push(current);
+      current = current->left;
+    }
+    current = nodesStack.top();
+    nodesStack.pop();
+    f(current->data);
+    current = current->right;
+  }
+  return f;
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename Functor >
+Functor zheleznyakov::Tree< Key, Value, Compare >::traverseRnL(Functor f)
+{
+  Stack< Node * > nodesStack;
+  Node * current = root_;
   while (current != nullptr || !nodesStack.empty()) {
     while (current != nullptr) {
       nodesStack.push(current);
