@@ -23,10 +23,10 @@ template< typename Container >
 void miheev::printContainer(std::ostream& out, const Container& container)
 {
   out << std::fixed << std::setprecision(1);
-  for (auto iter(container.begin()); iter != container.end();)
+  for (auto iter(container.cbegin()); iter != container.cend();)
   {
     out << *iter;
-    if (++iter != container.end())
+    if (++iter != container.cend())
     {
       out << ' ';
     }
