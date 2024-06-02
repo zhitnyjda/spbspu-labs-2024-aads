@@ -10,6 +10,7 @@ using tree_t = ponomarev::BSTree< std::string, data_t, int >;
 namespace ponomarev
 {
   void makePrint(std::istream & in, std::ostream & out, tree_t & data);
+  void makeComplement(std::istream & in, std::ostream &, tree_t & data);
 }
 
 #endif

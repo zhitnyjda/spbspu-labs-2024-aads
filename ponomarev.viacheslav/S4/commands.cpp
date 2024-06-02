@@ -22,3 +22,23 @@ void ponomarev::makePrint(std::istream & in, std::ostream & out, tree_t & data)
   }
 }
 
+void ponomarev::makeComplement(std::istream & in, std::ostream &, tree_t & data)
+{
+  std::string newDataName = "";
+  std::string dataset1 = "";
+  std::string dataset2 = "";
+  in >> newDataName >> dataset1 >> dataset2;
+  data_t newData;
+  if (data.at(dataset1).getSize() != 0 && data.at(dataset2).getSize() != 0)
+  {
+    for (data_t::ConstIterator iter(data.at(dataset1).cbegin()); iter != data.at(dataset1).cend(); iter++)
+    {
+      if (data.at(dataset2).find(iter->first) == data.at(dataset2).end())
+      {
+        newData.insert(std::make_pair(iter->first, iter->second));
+      }
+    }
+  }
+
+  data.insert(std::make_pair(newDataName, newData));
+}

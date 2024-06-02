@@ -32,6 +32,6 @@ std::ostream & ponomarev::printInvalidCommandMessage(std::ostream & out)
 
 std::ostream & ponomarev::printEmptyDataset(std::ostream & out)
 {
-  out << "<DATASET IS EMPTY>" << "\n";
+  out << "<EMPTY>" << "\n";
   return out;
 }

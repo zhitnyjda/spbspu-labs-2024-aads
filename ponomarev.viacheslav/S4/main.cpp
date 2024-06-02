@@ -26,6 +26,7 @@ int main(int argc, char ** argv)
   BSTree< std::string, std::function< void (std::istream &, std::ostream &, tree_t &) >, int > commands;
   {
     commands["print"] = ponomarev::makePrint;
+    commands["complement"] = ponomarev::makeComplement;
   }
 
   std::string command = "";
