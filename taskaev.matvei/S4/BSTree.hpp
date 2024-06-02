@@ -37,9 +37,12 @@ namespace taskaev
     bool empty() const noexcept;
     void clear();
     size_t size() const noexcept;
+    void swap(BSTree& rhs);
 
     void insert(const value_t& pair);
     void insert(const Key& key, const Value& value);
+
+    void erase(const Key& key);
 
   private:
     Node* root_;
@@ -54,6 +57,10 @@ namespace taskaev
     size_t height(Node* node);
 
     void free(Node* node);
+
+    Node* erase(Node* node, const Key& key);
+    Node* removeNode(Node* node);
+    Node* findMinNode(Node* node);
   };
 }
 using namespace taskaev;
@@ -152,6 +159,9 @@ typename BSTree< Key, Value, Comparator >::ConstIterator& BSTree< Key, Value, Co
         node_ = node_->parent_;
       }
       else
+      {
+        break;
+      }
     }
   }
   return *this;
@@ -302,6 +312,13 @@ size_t BSTree< Key, Value, Comparator >::size() const noexcept
   return size_;
 }
 
+template< typename Key, typename Value, typename Comparator >
+void BSTree< Key, Value, Comparator >::swap(BSTree& rhs)
+{
+  std::swap(root_, rhs.root_);
+  std::swap(comp_, rhs.comp_);
+  size_ = rhs.size_;
+}
 
 template< typename Key, typename Value, typename Comparator >
 void BSTree< Key, Value, Comparator >::insert(const value_t& val)
@@ -497,4 +514,62 @@ void BSTree< Key, Value, Comparator >::free(Node* node)
     node->right_ = nullptr;
   }
   delete node;
+}
+
+template< typename Key, typename Value, typename Comparator >
+void BSTree< Key, Value, Comparator >::erase(const Key& key)
+{
+  root_ = erase(root_, key);
+  size_--;
+
+}
+template< typename Key, typename Value, typename Comparator >
+typename BSTree< Key, Value, Comparator >::Node* BSTree< Key, Value, Comparator >::erase(Node* node, const Key& key)
+{
+  if (node == nullptr)
+  {
+    return nullptr;
+  }
+  else if (comp_(key, node->data_.first))
+  {
+    node->left_ = erase(node->left_, key);
+  }
+  else if (comp_(node->data_.first, key))
+  {
+    node->right_ = erase(node->right_, key);
+  }
+  else
+  {
+    return removeNode(node);
+  }
+  return node;
+}
+template< typename Key, typename Value, typename Comparator >
+typename BSTree< Key, Value, Comparator >::Node* BSTree< Key, Value, Comparator >::removeNode(Node* node)
+{
+  if (node->right_ == nullptr)
+  {
+    Node* newRoot = node->left_;
+    delete newRoot;
+    return newRoot;
+  }
+  else if (node->left_ == nullptr)
+  {
+    Node* newRoot = node->right_;
+    delete newRoot;
+    return newRoot;
+  }
+  Node* newNode = findMinNode(node->right_);
+  node->data_ = newNode->data_;
+  node->right_ = erase(node->right_, newNode->data_.first);
+  return node;
+}
+template< typename Key, typename Value, typename Comparator >
+typename BSTree< Key, Value, Comparator >::Node* BSTree< Key, Value, Comparator >::findMinNode(Node* node)
+{
+  while (node->left_ != nullptr)
+  {
+    node = node->left_;
+  }
+  return node;
 }
