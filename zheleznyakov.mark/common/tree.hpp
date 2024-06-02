@@ -17,6 +17,8 @@ namespace zheleznyakov
 
     class LnRIterator;
     class ConstLnRIterator;
+    class RnLIterator;
+    class ConstRnLIterator;
 
     using data_t = typename std::pair< Key, Value >;
 
@@ -488,7 +490,6 @@ const Value & zheleznyakov::Tree< Key, Value, Compare >::operator[](const Key& k
   }
   throw std::out_of_range("No such key");
 }
-
 
 template < typename Key, typename Value, typename Compare >
 Value zheleznyakov::Tree< Key, Value, Compare >::at(const Key & k)
@@ -1260,5 +1261,149 @@ typename zheleznyakov::Tree< Key, Value, Compare >::data_t *
 zheleznyakov::Tree< Key, Value, Compare >::ConstLnRIterator::operator->()
 {
   return &iter_.currentIter_->data;
+}
+
+template < typename Key, typename Value, typename Compare >
+class zheleznyakov::Tree<Key, Value, Compare>::RnLIterator
+{
+  friend class Tree;
+public:
+  RnLIterator();
+  RnLIterator(Node *);
+  RnLIterator(const RnLIterator &) = default;
+  ~RnLIterator() = default;
+
+  RnLIterator & operator++();
+  RnLIterator operator++(int);
+  RnLIterator & operator--();
+  RnLIterator operator--(int);
+
+  bool operator==(const RnLIterator &) const;
+  bool operator!=(const RnLIterator &) const;
+
+  data_t & operator*();
+  data_t * operator->();
+
+private:
+  Node * current_;
+};
+
+template < typename Key, typename Value, typename Compare >
+zheleznyakov::Tree< Key, Value, Compare >::RnLIterator::RnLIterator():
+  current_{nullptr}
+{}
+
+template < typename Key, typename Value, typename Compare >
+zheleznyakov::Tree< Key, Value, Compare >::RnLIterator::RnLIterator(Node * newNode):
+  current_{newNode}
+{}
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::RnLIterator &
+zheleznyakov::Tree< Key, Value, Compare >::RnLIterator::operator++()
+{
+  if (current_ == nullptr)
+  {
+    return *this;
+  }
+
+  if (current_->left != nullptr)
+  {
+    current_ = current_->left;
+    while (current_->right != nullptr)
+    {
+      current_ = current_->right;
+    }
+  }
+  else
+  {
+    Node *prev = current_;
+    current_ = current_->parent;
+    while (current_ != nullptr && prev == current_->left)
+    {
+      prev = current_;
+      current_ = current_->parent;
+    }
+  }
+
+  return *this;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::RnLIterator
+zheleznyakov::Tree< Key, Value, Compare >::RnLIterator::operator++(int)
+{
+  RnLIterator temp = *this;
+  ++(*this);
+  return temp;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::RnLIterator &
+zheleznyakov::Tree< Key, Value, Compare >::RnLIterator::operator--()
+{
+  if (current_ == nullptr)
+  {
+    current_ = root_;
+    while (current_->right != nullptr)
+    {
+      current_ = current_->right;
+    }
+  }
+  else if (current_->right != nullptr)
+  {
+    current_ = current_->right;
+    while (current_->left != nullptr)
+    {
+      current_ = current_->left;
+    }
+  }
+  else
+  {
+    Node *prev = current_;
+    current_ = current_->parent;
+    while (current_ != nullptr && prev == current_->right)
+    {
+      prev = current_;
+      current_ = current_->parent;
+    }
+  }
+
+  return *this;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::RnLIterator
+zheleznyakov::Tree< Key, Value, Compare >::RnLIterator::operator--(int)
+{
+  RnLIterator temp = *this;
+  --(*this);
+  return temp;
+}
+
+template < typename Key, typename Value, typename Compare >
+bool zheleznyakov::Tree< Key, Value, Compare >::RnLIterator::operator==(const RnLIterator & other) const
+{
+  return current_ == other.current_;
+}
+
+template < typename Key, typename Value, typename Compare >
+bool zheleznyakov::Tree< Key, Value, Compare >::RnLIterator::operator!=(const RnLIterator & other) const
+{
+  return !(*this == other);
+}
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::data_t &
+zheleznyakov::Tree< Key, Value, Compare >::RnLIterator::operator*()
+{
+  return current_->data;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::data_t *
+zheleznyakov::Tree< Key, Value, Compare >::RnLIterator::operator->()
+{
+  return &(current_->data);
 }
 #endif
