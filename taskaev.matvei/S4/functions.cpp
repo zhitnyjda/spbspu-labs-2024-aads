@@ -103,7 +103,7 @@ void taskaev::complement(BSTree< std::string, BSTree< size_t, std::string > >& t
   tree.insert(names, tres);
 }
 
-void taskaev::findComplementItems(BSTree<size_t, std::string>& sourceTree, BSTree<size_t, std::string>& otherTree, BSTree<size_t, std::string>& newTree)
+void taskaev::findComplementItems(BSTree< size_t, std::string >& sourceTree, BSTree< size_t, std::string >& otherTree, BSTree< size_t, std::string >& newTree)
 {
   for (auto it = sourceTree.begin(); it != sourceTree.end(); ++it) {
     bool flag = false;
@@ -119,13 +119,13 @@ void taskaev::findComplementItems(BSTree<size_t, std::string>& sourceTree, BSTre
   }
 }
 
-void taskaev::intersect(BSTree<std::string, BSTree<size_t, std::string>>& tree)
+void taskaev::intersect(BSTree< std::string, BSTree< size_t, std::string > >& tree)
 {
   std::string names, oneName, twoName;
   std::cin >> names >> oneName >> twoName;
-  BSTree<size_t, std::string> tres;
-  BSTree<size_t, std::string> oneTres = tree.at(oneName);
-  BSTree<size_t, std::string> twoTres = tree.at(twoName);
+  BSTree< size_t, std::string > tres;
+  BSTree< size_t, std::string > oneTres = tree.at(oneName);
+  BSTree< size_t, std::string > twoTres = tree.at(twoName);
   for (auto it = oneTres.begin(); it != oneTres.end(); ++it)
   {
     size_t key = it->first;
@@ -137,9 +137,9 @@ void taskaev::intersect(BSTree<std::string, BSTree<size_t, std::string>>& tree)
   tree.insert(names, tres);
 }
 
-BSTree<size_t, std::string> taskaev::mergeTrees(BSTree<size_t, std::string>& treeOne, BSTree<size_t, std::string>& treeTwo)
+BSTree< size_t, std::string > taskaev::mergeTrees(BSTree< size_t, std::string >& treeOne, BSTree< size_t, std::string >& treeTwo)
 {
-  BSTree<size_t, std::string> result = treeOne;
+  BSTree< size_t, std::string > result = treeOne;
 
   for (auto it = treeTwo.begin(); it != treeTwo.end(); ++it)
   {
@@ -152,7 +152,7 @@ BSTree<size_t, std::string> taskaev::mergeTrees(BSTree<size_t, std::string>& tre
   return result;
 }
 
-void taskaev::unions(BSTree<std::string, BSTree<size_t, std::string>>& tree)
+void taskaev::unions(BSTree< std::string, BSTree< size_t, std::string > >& tree)
 {
   std::string names, oneName, twoName;
   std::cin >> names >> oneName >> twoName;
