@@ -18,9 +18,6 @@ int main(int argc, char* argv[])
     return 2;
   }
 
-  //std::ifstream input;
-  //input.open("./x64/Debug/s4test.txt");
-
   using base_t = psarev::avlTree< int, std::string >;
   psarev::avlTree< std::string, base_t > dataSets;
 
