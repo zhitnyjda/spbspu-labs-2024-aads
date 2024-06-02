@@ -23,3 +23,9 @@ void ponomarev::inputFromFile(std::istream & in, BSTree< std::string, BSTree< in
     data.insert(std::make_pair(name, dataSet));
   }
 }
+
+std::ostream & ponomarev::printInvalidCommandMessage(std::ostream & out)
+{
+  out << "<INVALID COMMAND>" << "\n";
+  return out;
+}
