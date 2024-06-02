@@ -1086,4 +1086,13 @@ zheleznyakov::Tree< Key, Value, Compare >::LnRIterator::operator++()
 
   return *this;
 }
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::LnRIterator
+zheleznyakov::Tree< Key, Value, Compare >::LnRIterator::operator++(int)
+{
+  LnRIterator temp = *this;
+  ++(*this);
+  return temp;
+}
 #endif
