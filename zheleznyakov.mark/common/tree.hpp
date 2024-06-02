@@ -1141,4 +1141,16 @@ zheleznyakov::Tree< Key, Value, Compare >::LnRIterator::operator--(int)
   --(*this);
   return temp;
 }
+
+template < typename Key, typename Value, typename Compare >
+bool zheleznyakov::Tree< Key, Value, Compare >::LnRIterator::operator==(const LnRIterator & other) const
+{
+  return current_ == other.current_;
+}
+
+template < typename Key, typename Value, typename Compare >
+bool zheleznyakov::Tree< Key, Value, Compare >::LnRIterator::operator==(const LnRIterator & other) const
+{
+  return !(*this == other);
+}
 #endif
