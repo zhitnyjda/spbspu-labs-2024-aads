@@ -54,6 +54,8 @@ namespace zheleznyakov
     template< typename Functor >
     Functor ctraverseRnL(Functor f) const;
     template< typename Functor >
+    Functor ctraverseBreadth(Functor f) const;
+    template< typename Functor >
     Functor traverseLnR(Functor f);
     template< typename Functor >
     Functor traverseRnL(Functor f);
@@ -973,6 +975,36 @@ Functor zheleznyakov::Tree< Key, Value, Compare >::traverseBreadth(Functor f)
   Queue< Node * > q;
   q.push(root_);
   while (!q.empty()) {
+    Node* current = q.front();
+    q.pop();
+    f(current->data);
+    if (current->left)
+    {
+      q.push(current->left);
+    }
+    if (current->right)
+    {
+      q.push(current->right);
+    }
+  }
+
+  return f;
+}
+
+
+template< typename Key, typename Value, typename Compare >
+template< typename Functor >
+Functor zheleznyakov::Tree< Key, Value, Compare >::ctraverseBreadth(Functor f) const
+{
+  if (!root_)
+  {
+    return f;
+  }
+
+  Queue< const Node * > q;
+  q.push(root_);
+  while (!q.empty())
+  {
     Node* current = q.front();
     q.pop();
     f(current->data);
