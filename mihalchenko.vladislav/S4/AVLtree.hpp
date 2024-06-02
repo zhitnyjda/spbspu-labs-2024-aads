@@ -900,6 +900,37 @@ int mihalchenko::AVLTree<Key, Value, Comp>::checkBalance(Node *node)
   return getHeight(node->right_) - getHeight(node->left_);
 }
 
+template <typename Key, typename Value, typename Comp>
+void mihalchenko::AVLTree<Key, Value, Comp>::doBalance(Node *overweight)
+{
+  while (overweight)
+  {
+    if (checkBalance(overweight) == 2)
+    {
+      if (checkBalance(overweight->right_) >= 0)
+      {
+        leftSpin(overweight);
+      }
+      else
+      {
+        rightLeftSpin(overweight);
+      }
+    }
+    else
+    {
+      if (checkBalance(overweight->left_) < 0)
+      {
+        rightSpin(overweight);
+      }
+      else
+      {
+        leftRightSpin(overweight);
+      }
+    }
+    overweight = isBalanced(overweight);
+  }
+}
+
 template <typename Key, typename Value, typename Compare>
 typename mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator::operator--(int)
 {
@@ -999,6 +1030,41 @@ template <typename Key, typename Value, typename Compare>
 bool mihalchenko::AVLTree<Key, Value, Compare>::Iterator::operator==(const Iterator &rhs) const
 {
   return constIter_ == rhs.constIter_;
+}
+
+template <typename Key, typename Value, typename Compare>
+typename mihalchenko::AVLTree<Key, Value, Compare>::Iterator mihalchenko::AVLTree<Key, Value, Compare>::findNode(const Key &key, Node *node)
+{
+  Compare compFunc;
+  if (node == nullptr)
+  {
+    return Iterator(ConstIterator(nullptr, root_));
+  }
+  if (node->pairOfKeyVal_.first == key)
+  {
+    return Iterator(ConstIterator(node, root_));
+  }
+  else if (compFunc(key, node->pairOfKeyVal_.first))
+  {
+    return findNode(key, node->left_);
+  }
+  else if (!compFunc(key, node->pairOfKeyVal_.first))
+  {
+    return findNode(key, node->right_);
+  }
+  throw std::logic_error("such element not exist");
+}
+
+template <typename Key, typename Value, typename Compare>
+void mihalchenko::AVLTree<Key, Value, Compare>::clear(Node *node)
+{
+  if (node == nullptr)
+  {
+    return;
+  }
+  clear(node->left_);
+  clear(node->right_);
+  delete node;
 }
 
 #endif
