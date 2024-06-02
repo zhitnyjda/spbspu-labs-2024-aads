@@ -1,7 +1,6 @@
 #ifndef BINARY_SEARCH_TREE_AVL_HPP
 #define BINARY_SEARCH_TREE_AVL_HPP
 
-#include <iostream>
 #include <utility>
 #include <algorithm>
 #include <stdexcept>
@@ -57,7 +56,7 @@ namespace ponomarev
     Node * leftRightRotate(Node * node_);
     Node * rightLeftRotate(Node * node_);
 
-    size_t getHeight(Node * node_);
+    size_t getHight(Node * node_);
     void deleteAll(Node * node);
 
     Node * root_;
@@ -76,14 +75,14 @@ public:
     left(nullptr),
     right(nullptr),
     parent(nullptr),
-    height(1),
+    hight(1),
     data(value_t(key, value))
   {}
 private:
   Node * left;
   Node * right;
   Node * parent;
-  size_t height;
+  size_t hight;
   value_t data;
 };
 
@@ -195,8 +194,8 @@ typename BinarySearchTree< Key, Value, Compare >::Node * BinarySearchTree< Key, 
   {
     node_->left = push(key, value, node_->left);
     node_->left->parent = node_;
-    node_->height++;
-    if (height(node_->left) - height(node_->right) > 1)
+    node_->hight++;
+    if (getHight(node_->left) - getHight(node_->right) > 1)
     {
       if (node_->right == nullptr || key < node_->left->data.first)
       {
@@ -212,8 +211,8 @@ typename BinarySearchTree< Key, Value, Compare >::Node * BinarySearchTree< Key, 
   {
     node_->right = push(key, value, node_->right);
     node_->right->parent = node_;
-    node_->height++;
-    if ((height(node_->right) - height(node_->left)) > 1)
+    node_->hight++;
+    if ((getHight(node_->right) - getHight(node_->left)) > 1)
     {
       if (node_->left == nullptr || key > node_->right->data.first)
       {
@@ -240,8 +239,8 @@ typename BinarySearchTree< Key, Value, Compare >::Node * BinarySearchTree< Key, 
   temp->parent = node_->parent;
   node_->parent = temp;
   temp->right = node_;
-  node_->height = std::max(height(node_->left), height(node_->right)) + 1;
-  temp->height = std::max(node_->height, height(temp->left)) + 1;
+  node_->hight = std::max(getHight(node_->left), getHight(node_->right)) + 1;
+  temp->hight = std::max(node_->hight, getHight(temp->left)) + 1;
   return temp;
 }
 
@@ -257,8 +256,8 @@ typename BinarySearchTree< Key, Value, Compare >::Node * BinarySearchTree< Key, 
   temp->parent = node_->parent;
   node_->parent = temp;
   temp->left = node_;
-  node_->height = std::max(height(node_->left), height(node_->right)) + 1;
-  temp->height = std::max(node_->height, height(temp->right)) + 1;
+  node_->hight = std::max(getHight(node_->left), getHight(node_->right)) + 1;
+  temp->hight = std::max(node_->hight, getHight(temp->right)) + 1;
   return temp;
 }
 
@@ -315,7 +314,7 @@ typename BinarySearchTree< Key, Value, Compare >::Iterator BinarySearchTree< Key
   }
   while (parent)
   {
-    updateHeight(parent);
+    updategetHight(parent);
     parent = balance(parent);
     parent = parent->parent_;
   }
@@ -339,9 +338,9 @@ size_t BinarySearchTree< Key, Value, Compare >::erase(const Key & key)
 }
 
 template< typename Key, typename Value, typename Compare >
-size_t BinarySearchTree< Key, Value, Compare >::getHeight(Node * node_)
+size_t BinarySearchTree< Key, Value, Compare >::getHight(Node * node_)
 {
-  return (node_ == nullptr ? 0 : node_->height);
+  return (node_ == nullptr ? 0 : node_->hight);
 }
 
 template< typename Key, typename Value, typename Compare >
