@@ -1029,9 +1029,8 @@ class zheleznyakov::Tree<Key, Value, Compare>::LnRIterator
 public:
   LnRIterator();
   LnRIterator(Node *);
-  LnRIterator(const LnRIterator &);
-  LnRIterator(LnRIterator &&) noexcept;
-  ~LnRIterator();
+  LnRIterator(const LnRIterator &) = default;
+  ~LnRIterator() = default;
 
   LnRIterator & operator++();
   LnRIterator operator++(int);
@@ -1047,4 +1046,14 @@ public:
 private:
   Node * current_;
 };
+
+template < typename Key, typename Value, typename Compare >
+zheleznyakov::Tree<Key, Value, Compare>::LnRIterator::LnRIterator():
+  current_{nullptr}
+{}
+
+template < typename Key, typename Value, typename Compare >
+zheleznyakov::Tree<Key, Value, Compare>::LnRIterator::LnRIterator(Node * newNode):
+  current_{newNode}
+{}
 #endif
