@@ -15,6 +15,8 @@ namespace zheleznyakov
     class Iterator;
     class ConstIterator;
 
+    class LnRIterator;
+
     using data_t = typename std::pair< Key, Value >;
 
     Tree();
@@ -1020,4 +1022,29 @@ Functor zheleznyakov::Tree< Key, Value, Compare >::ctraverseBreadth(Functor f) c
 
   return f;
 }
+
+template < typename Key, typename Value, typename Compare >
+class zheleznyakov::Tree<Key, Value, Compare>::LnRIterator
+{
+public:
+  LnRIterator();
+  LnRIterator(Node *);
+  LnRIterator(const LnRIterator &);
+  LnRIterator(LnRIterator &&) noexcept;
+  ~LnRIterator();
+
+  LnRIterator & operator++();
+  LnRIterator operator++(int);
+  LnRIterator & operator--();
+  LnRIterator operator--(int);
+
+  bool operator==(const LnRIterator &) const;
+  bool operator!=(const LnRIterator &) const;
+
+  data_t & operator*();
+  data_t * operator->();
+
+private:
+  Node * current_;
+};
 #endif
