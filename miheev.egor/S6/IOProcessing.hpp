@@ -17,7 +17,7 @@ namespace miheev
 
   void fillContainersWithRandom(std::deque< double >&, std::list< double >&, size_t amount);
   void fillContainersWithRandom(std::deque< int >&, std::list< int >&, size_t amount);
-  
+
   template< typename T, typename Comparator >
   void testSorts(std::ostream&, size_t size,  Comparator comp);
 }

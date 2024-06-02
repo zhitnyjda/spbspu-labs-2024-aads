@@ -33,6 +33,6 @@ int main(int argc, char* argv[])
   }
 
   typedFuncs.at(argv[2]).at(argv[1])(std::cout, size);
-  
+
   return 0;
 }
