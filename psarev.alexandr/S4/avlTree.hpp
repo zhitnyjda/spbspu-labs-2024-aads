@@ -23,6 +23,7 @@ namespace psarev
     avlTree();
     avlTree(const avlTree& that);
     avlTree(size_t& initSize, dataType& initData);
+    avlTree(std::initializer_list< dataType > inList);
     ~avlTree();
 
     avlTree& operator=(const avlTree& that);
@@ -350,6 +351,15 @@ psarev::avlTree< Key, Value, Compare >::avlTree(size_t& initSize, dataType& init
   for (size_t i = 0; i < initSize; ++i)
   {
     insert(initData);
+  }
+}
+
+template<typename Key, typename Value, typename Compare>
+psarev::avlTree< Key, Value, Compare >::avlTree(std::initializer_list< dataType > inList)
+{
+  for (auto data : inList)
+  {
+    insert(data);
   }
 }
 
