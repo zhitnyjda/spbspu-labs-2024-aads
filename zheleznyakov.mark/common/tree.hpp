@@ -1406,4 +1406,99 @@ zheleznyakov::Tree< Key, Value, Compare >::RnLIterator::operator->()
 {
   return &(current_->data);
 }
+
+template < typename Key, typename Value, typename Compare >
+class zheleznyakov::Tree<Key, Value, Compare>::ConstRnLIterator
+{
+  friend class Tree;
+public:
+  ConstRnLIterator();
+  ConstRnLIterator(Iterator);
+  ConstRnLIterator(const ConstRnLIterator &) = default;
+  ~ConstRnLIterator() = default;
+
+  ConstRnLIterator & operator++();
+  ConstRnLIterator operator++(int);
+  ConstRnLIterator & operator--();
+  ConstRnLIterator operator--(int);
+
+  bool operator==(const ConstRnLIterator &) const;
+  bool operator!=(const ConstRnLIterator &) const;
+
+  data_t & operator*();
+  data_t * operator->();
+
+private:
+  RnLIterator iter_;
+};
+
+template < typename Key, typename Value, typename Compare >
+zheleznyakov::Tree< Key, Value, Compare >::ConstRnLIterator::ConstRnLIterator():
+  iter_{Iterator()}
+{}
+
+template < typename Key, typename Value, typename Compare >
+zheleznyakov::Tree< Key, Value, Compare >::ConstRnLIterator::ConstRnLIterator(Iterator newIterator):
+  iter_{newIterator}
+{}
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::ConstRnLIterator &
+zheleznyakov::Tree< Key, Value, Compare >::ConstRnLIterator::operator++()
+{
+  ++iter_;
+  return *this;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::ConstRnLIterator
+zheleznyakov::Tree< Key, Value, Compare >::ConstRnLIterator::operator++(int)
+{
+  ConstRnLIterator temp(iter_);
+  ++temp;
+  return temp;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::ConstRnLIterator &
+zheleznyakov::Tree< Key, Value, Compare >::ConstRnLIterator::operator--()
+{
+  --iter_;
+  return *this;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::ConstRnLIterator
+zheleznyakov::Tree< Key, Value, Compare >::ConstRnLIterator::operator--(int)
+{
+  ConstRnLIterator temp(iter_);
+  --(temp);
+  return temp;
+}
+
+template < typename Key, typename Value, typename Compare >
+bool zheleznyakov::Tree< Key, Value, Compare >::ConstRnLIterator::operator==(const ConstRnLIterator & other) const
+{
+  return iter_.currentIter_ == other.iter_.currentIter_;
+}
+
+template < typename Key, typename Value, typename Compare >
+bool zheleznyakov::Tree< Key, Value, Compare >::ConstRnLIterator::operator!=(const ConstRnLIterator & other) const
+{
+  return !(other == *this);
+}
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::data_t &
+zheleznyakov::Tree< Key, Value, Compare >::ConstRnLIterator::operator*()
+{
+  return *iter_;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::data_t *
+zheleznyakov::Tree< Key, Value, Compare >::ConstRnLIterator::operator->()
+{
+  return &iter_.currentIter_->data;
+}
 #endif
