@@ -435,6 +435,46 @@ size_t mihalchenko::AVLTree<Key, Value, Compare>::erase(const Key &key)
 }
 
 template <typename Key, typename Value, typename Compare>
+void mihalchenko::AVLTree<Key, Value, Compare>::leftSpin(Node *node)
+{
+  if (node->previous_)
+  {
+    Node *previos = node->previous_;
+    Node *newLeafOfTree;
+    if (node == previos->right_)
+    {
+      previos->right_ = node->right_;
+      newLeafOfTree = previos->right_;
+    }
+    else
+    {
+      previos->left_ = node->right_;
+      newLeafOfTree = previos->left_;
+    }
+    newLeafOfTree->previous_ = previos;
+    newLeafOfTree->left_ = node;
+    node->previous_ = newLeafOfTree;
+    node->right_ = node->right_->left_;
+  }
+  else
+  {
+    Node *wrem = node;
+    root_ = node->right_;
+    wrem->right_ = root_->right_->left_;
+    root_->left_ = wrem;
+    wrem->previous_ = root_;
+    root_->previous_ = nullptr;
+  }
+
+  if (root_ != nullptr)
+  {
+    size_t value1 = (root_->left_) ? value1 = root_->left_->height_ : 0;
+    size_t value2 = (root_->right_) ? root_->right_->height_ : 0;
+    root_->height_ = std::max(value1, value2) + 1;
+  }
+}
+
+template <typename Key, typename Value, typename Compare>
 typename mihalchenko::AVLTree<Key, Value, Compare>::Iterator mihalchenko::AVLTree<Key, Value, Compare>::find(const Key &key)
 {
   return findNode(key, root_);
