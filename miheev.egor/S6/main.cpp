@@ -1,7 +1,7 @@
 #include <iostream>
 #include "sorts.hpp"
 
-int main(int argc, char* argv[])
+int main()
 {
   using namespace miheev;
 
