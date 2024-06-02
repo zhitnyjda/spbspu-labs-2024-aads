@@ -685,3 +685,4 @@ typename BSTree< Key, Value, Comparator>::Iterator BSTree< Key, Value, Comparato
 {
   return Iterator(cend());
 }
+#endif
