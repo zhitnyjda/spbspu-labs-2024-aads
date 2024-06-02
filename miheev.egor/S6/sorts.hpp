@@ -61,11 +61,7 @@ void miheev::shellSort(BidirectIt start, BidirectIt finish, Comparator comp)
     for (auto i = std::next(start, gap); i != finish; i++)
     {
       for (auto j = i;
-      std::distance(start, j) >= gap &&
-      comp(*j,
-           *std::prev(j, gap));
-      j = std::prev(j, gap)
-      ) // split for debug purposes, should be unsplit
+      std::distance(start, j) >= gap && comp(*j, *std::prev(j, gap)); j = std::prev(j, gap))
       {
         std::iter_swap(j, std::prev(j, gap));
       }
