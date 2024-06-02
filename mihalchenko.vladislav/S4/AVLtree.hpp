@@ -148,11 +148,6 @@ mihalchenko::AVLTree<Key, Value, Compare>::Node::Node(Key key, Value data, int h
 }
 
 template <typename Key, typename Value, typename Compare>
-mihalchenko::AVLTree<Key, Value, Compare>::Node::Node(Key key, Value data, int height, Node *left, Node *right, Node *previous) : pairOfKeyVal_(std::make_pair(key, data)), height_(height), left_(left), right_(right), previous_(previous)
-{
-}
-
-template <typename Key, typename Value, typename Compare>
 typename mihalchenko::AVLTree<Key, Value, Compare>::Node *mihalchenko::AVLTree<Key, Value, Compare>::insertNode(Key key, Value val, Node *node)
 {
   // std::cout << "мы в инит size_=" << size_ << "key=" << key << std::endl;
@@ -200,16 +195,21 @@ typename mihalchenko::AVLTree<Key, Value, Compare>::Node *mihalchenko::AVLTree<K
 }
 
 template <typename Key, typename Value, typename Compare>
-mihalchenko::AVLTree<Key, Value, Compare>::AVLTree() : root_(nullptr), size_(0)
+mihalchenko::AVLTree<Key, Value, Compare>::AVLTree()
 {
+  root_ = nullptr;
+  size_ = 0;
 }
 
 template <typename Key, typename Value, typename Compare>
-mihalchenko::AVLTree<Key, Value, Compare>::AVLTree(size_t count, std::pair<const Key, Value> &pairKeyVal) : root_(nullptr), size_(0)
+mihalchenko::AVLTree<Key, Value, Compare>::AVLTree(size_t count, std::pair<const Key, Value> &pairKeyVal)
 {
+  root_ = nullptr;
+  size_ = 0;
   for (size_t i = 0; i < count; ++i)
   {
     insert(pairKeyVal);
+    size_++;
   }
 }
 
@@ -217,24 +217,32 @@ template <typename Key, typename Value, typename Compare>
 template <class InputIt>
 mihalchenko::AVLTree<Key, Value, Compare>::AVLTree(InputIt start, InputIt stop)
 {
+  root_ = nullptr;
+  size_ = 0;
   for (InputIt it = start; it != stop; ++it)
   {
     insert(*it);
+    size_++;
   }
 }
 
 template <typename Key, typename Value, typename Compare>
-mihalchenko::AVLTree<Key, Value, Compare>::AVLTree(std::initializer_list<std::pair<const Key, Value>> initAVL) : root_(nullptr), size_(0)
+mihalchenko::AVLTree<Key, Value, Compare>::AVLTree(std::initializer_list<std::pair<const Key, Value>> initAVL)
 {
+  root_ = nullptr;
+  size_ = 0;
   for (auto it = initAVL.begin(); it != initAVL.end(); ++it)
   {
     insert(*it);
+    size_++;
   }
 }
 
 template <typename Key, typename Value, typename Compare>
-mihalchenko::AVLTree<Key, Value, Compare>::AVLTree(const AVLTree &copy) : root_(nullptr), size_(copy.size_)
+mihalchenko::AVLTree<Key, Value, Compare>::AVLTree(const AVLTree &copy)
 {
+  // root_ = nullptr;
+  // size_ = 0;
   root_ = copyTree(copy.root_, nullptr);
 }
 
