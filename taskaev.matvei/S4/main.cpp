@@ -20,5 +20,24 @@ int main(int argc, char ** argv)
     return 1;
   }
   createTree(inputs, tres);
+  BSTree< std::string, std::function< void(BSTree< std::string, BSTree< size_t, std::string > >&) > > cmds;
+  cmds.insert("print", print);
+  cmds.insert("complement", complement);
+  cmds.insert("intersect", intersect);
+  cmds.insert("union", unions);
+  std::string command = "";
+  while (std::cin >> command)
+  {
+    try
+    {
+      cmds.at(command)(tres);
+    }
+    catch (const std::out_of_range& e)
+    {
+      errorInvalid(std::cout);
+      std::cin.clear();
+      std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+    }
+  }
   return 0;
 }
