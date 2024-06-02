@@ -2,8 +2,6 @@
 #include <stdexcept>
 #include <limits>
 
-#include <iostream>
-
 zheleznyakov::KeyValueSum::KeyValueSum():
   keySum_(0),
   valueSum_("")
@@ -13,7 +11,7 @@ void zheleznyakov::KeyValueSum::operator()(std::pair< long long, std::string > p
 {
   const long long minLimit = std::numeric_limits< long long >::min();
   const long long maxLimit = std::numeric_limits< long long >::max();
-  
+
   long long toKeyAdd = pair.first;
   std::string toValueAdd = pair.second;
 
