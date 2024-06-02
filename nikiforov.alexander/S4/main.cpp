@@ -50,6 +50,7 @@ int main(int argc, char* argv[])
     {
       std::cout << iter->first << " " << iter->second << "\n";
     }
+    tree.clear();
   }
   catch (const std::exception&)
   {

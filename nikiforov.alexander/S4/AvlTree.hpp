@@ -23,6 +23,7 @@ namespace nikiforov
     Iterator find(const Key& key);
 
     void insert(const keyValue_t& data);
+    void clear();
 
     Iterator begin() noexcept;
     Iterator end() noexcept;
@@ -55,13 +56,13 @@ namespace nikiforov
     Node* rotationRL(Node* pNode);
     Node* rotationLR(Node* pNode);
 
-    void updateHeight(Node* pNode);
-    size_t countSize(Node* pNode) const;
     Node* insertData(Node* pNode, const keyValue_t& data);
+    size_t countSize(Node* pNode) const;
     size_t getHeight(Node* pNode);
+    void updateHeight(Node* pNode);
     int heightDiff(Node* pNode);
     Node* balance(Node* pNode);
-    
+    void delAll(Node* pNode);
   };
 }
 
@@ -374,6 +375,14 @@ void nikiforov::AvlTree<Key, Value, Compare>::insert(const keyValue_t& data)
 }
 
 template<typename Key, typename Value, typename Compare>
+void nikiforov::AvlTree<Key, Value, Compare>::clear()
+{
+  delAll(pRoot);
+  pRoot = nullptr;
+  size = 0;
+}
+
+template<typename Key, typename Value, typename Compare>
 typename nikiforov::AvlTree<Key, Value, Compare>::Iterator nikiforov::AvlTree<Key, Value, Compare>::begin() noexcept
 {
   if (is_empty())
@@ -555,6 +564,17 @@ typename nikiforov::AvlTree< Key, Value, Compare >::Node* nikiforov::AvlTree< Ke
   }
 
   return pNode;
+}
+
+template<typename Key, typename Value, typename Compare>
+void nikiforov::AvlTree<Key, Value, Compare>::delAll(Node* pNode)
+{
+  if (pNode)
+  {
+    delAll(pNode->left);
+    delAll(pNode->right);
+  }
+  delete pNode;
 }
 
 #endif
