@@ -874,8 +874,8 @@ template< typename Key, typename Value, typename Compare >
 template< typename Functor >
 Functor zheleznyakov::Tree< Key, Value, Compare >::traverseLnR(Functor f) const
 {
-  Stack< Node * > nodesStack;
-  Node* current = root_;
+  Stack< const Node * > nodesStack;
+  const Node * current = root_;
   while (current != nullptr || !nodesStack.empty()) {
     while (current != nullptr) {
       nodesStack.push(current);
@@ -893,8 +893,8 @@ template< typename Key, typename Value, typename Compare >
 template< typename Functor >
 Functor zheleznyakov::Tree< Key, Value, Compare >::traverseRnL(Functor f) const
 {
-  Stack< Node * > nodesStack;
-  Node* current = root_;
+  Stack< const Node * > nodesStack;
+  const Node * current = root_;
   while (current != nullptr || !nodesStack.empty()) {
     while (current != nullptr) {
       nodesStack.push(current);
