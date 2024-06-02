@@ -83,7 +83,7 @@ void mihalchenko::complement(typeParam &AVLTree)
     size_t countEqual = 0;
     for (auto itTwo = (*AVLTree.find(nameTwoGlossary)).second.begin(); itTwo != (*AVLTree.find(nameTwoGlossary)).second.end(); itTwo++)
     {
-      if (((*it).first == (*itTwo).first) || ((*it).second == (*itTwo).second))
+      if (((*it).first == (*itTwo).first)) // || ((*it).second == (*itTwo).second))
       {
         countEqual++;
       }
@@ -93,9 +93,9 @@ void mihalchenko::complement(typeParam &AVLTree)
       complementTree.insert(*it);
     }
   }
-  if (nameOneGlossary == nameNewGlossary)
+  if (AVLTree.find(nameNewGlossary) != AVLTree.end())
   {
-    AVLTree.erase(nameOneGlossary);
+    AVLTree.erase(nameNewGlossary);
   }
   AVLTree.insert(nameNewGlossary, complementTree);
 }
@@ -125,9 +125,9 @@ void mihalchenko::intersect(typeParam &AVLTree)
       intersectTree.insert(*it);
     }
   }
-  if (nameOneGlossary == nameNewGlossary)
+  if (AVLTree.find(nameNewGlossary) != AVLTree.end())
   {
-    AVLTree.erase(nameOneGlossary);
+    AVLTree.erase(nameNewGlossary);
   }
   AVLTree.insert(nameNewGlossary, intersectTree);
 }
@@ -161,15 +161,10 @@ void mihalchenko::unionAVL(typeParam &AVLTree)
       unionTree.insert(*it);
     }
   }
-  if (nameOneGlossary == nameNewGlossary)
+  if (AVLTree.find(nameNewGlossary) != AVLTree.end())
   {
-    AVLTree.erase(nameOneGlossary);
+    AVLTree.erase(nameNewGlossary);
   }
-  else if (nameTwoGlossary == nameNewGlossary)
-  {
-    AVLTree.erase(nameTwoGlossary);
-  }
-
   AVLTree.insert(nameNewGlossary, unionTree);
 }
 
