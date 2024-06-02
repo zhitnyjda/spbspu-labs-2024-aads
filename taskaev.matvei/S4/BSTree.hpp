@@ -31,7 +31,7 @@ namespace taskaev
     };
     BSTree();
     BSTree(const BSTree& other);
-    BSTree(BSTree&& other) = default;
+    BSTree(BSTree&& other);
     ~BSTree();
 
     bool empty() const noexcept;
@@ -259,6 +259,16 @@ BSTree< Key, Value, Comparator >::BSTree(const BSTree& rhs) :
   {
     insert(*it);
   }
+}
+
+template< typename Key, typename Value, typename Comparator >
+BSTree< Key, Value, Comparator >::BSTree(BSTree&& rhs) noexcept :
+  root_(rhs.root_),
+  comp_(rhs.comp_),
+  size_(rhs.size_)
+{
+  rhs.root_ = nullptr;
+  rhs.size_ = 0;
 }
 
 template< typename Key, typename Value, typename Comparator >
