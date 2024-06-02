@@ -1149,8 +1149,22 @@ bool zheleznyakov::Tree< Key, Value, Compare >::LnRIterator::operator==(const Ln
 }
 
 template < typename Key, typename Value, typename Compare >
-bool zheleznyakov::Tree< Key, Value, Compare >::LnRIterator::operator==(const LnRIterator & other) const
+bool zheleznyakov::Tree< Key, Value, Compare >::LnRIterator::operator!=(const LnRIterator & other) const
 {
   return !(*this == other);
+}
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::data_t &
+zheleznyakov::Tree< Key, Value, Compare >::LnRIterator::operator*()
+{
+  return current_->data;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename zheleznyakov::Tree< Key, Value, Compare >::data_t *
+zheleznyakov::Tree< Key, Value, Compare >::LnRIterator::operator->()
+{
+  return &(current_->data);
 }
 #endif
