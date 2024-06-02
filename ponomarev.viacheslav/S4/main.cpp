@@ -27,6 +27,7 @@ int main(int argc, char ** argv)
   {
     commands["print"] = ponomarev::makePrint;
     commands["complement"] = ponomarev::makeComplement;
+    commands["intersect"] = ponomarev::makeIntersect;
   }
 
   std::string command = "";
