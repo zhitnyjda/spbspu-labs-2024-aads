@@ -3,7 +3,7 @@
 
 namespace taskaev
 {
-  // later
+  void createTree(std::istream& in, BSTree<std::string, BSTree<size_t, std::string>>& tres)
 }
 
 #endif
