@@ -72,6 +72,8 @@ namespace taskaev
   };
 }
 using namespace taskaev;
+template < typename Key, typename Value >
+using value_t = std::pair< Key, Value >;
 
 template < typename Key, typename Value, typename Comparator>
 class taskaev::BSTree< Key, Value, Comparator>::ConstIterator
@@ -89,6 +91,9 @@ public:
   ConstIterator operator++(int);
   ConstIterator& operator--();
   ConstIterator operator--(int);
+
+  const value_t& operator*() const;
+  const value_t* operator->() const;
 
   bool operator!=(const ConstIterator& rhs) const;
   bool operator==(const ConstIterator& rhs) const;
@@ -185,6 +190,19 @@ typename BSTree< Key, Value, Comparator >::ConstIterator BSTree< Key, Value, Com
 }
 
 template< typename Key, typename Value, typename Comparator >
+const value_t< Key, Value >& BSTree< Key, Value, Comparator >::ConstIterator::operator*() const
+{
+  assert(node_ != nullptr);
+  return node_->data_;
+}
+template< typename Key, typename Value, typename Comparator >
+const value_t< Key, Value >* BSTree< Key, Value, Comparator >::ConstIterator::operator->() const
+{
+  assert(node_ != nullptr);
+  return std::addressof(node_->data_);
+}
+
+template< typename Key, typename Value, typename Comparator >
 bool BSTree< Key, Value, Comparator >::ConstIterator::operator!=(const ConstIterator& rhs) const
 {
   return !(rhs == *this);
@@ -208,9 +226,11 @@ public:
   Iterator& operator=(const Iterator&) = default;
   Iterator operator++();
   Iterator operator++(int);
-
   Iterator operator--();
   Iterator operator--(int);
+
+  value_t& operator*();
+  value_t* operator->();
 
   bool operator!=(const Iterator& rhs) const;
   bool operator==(const Iterator& rhs) const;
@@ -255,6 +275,17 @@ typename BSTree< Key, Value, Comparator >::Iterator::Iterator BSTree< Key, Value
 {
   --iterator_;
   return iterator_;
+}
+
+template< typename Key, typename Value, typename Comparator >
+value_t< Key, Value >& BSTree< Key, Value, Comparator >::Iterator::operator*() 
+{
+  return iterator.node_->data_;
+}
+template< typename Key, typename Value, typename Comparator >
+value_t< Key, Value >* BSTree< Key, Value, Comparator >::Iterator::operator->()
+{
+  return std::addressof(iterator.node_->data_);
 }
 
 template< typename Key, typename Value, typename Comparator >
