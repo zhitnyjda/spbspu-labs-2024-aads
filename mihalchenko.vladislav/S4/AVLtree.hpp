@@ -100,13 +100,10 @@ public:
   ConstIterator operator++(int);
   ConstIterator &operator--();
   ConstIterator operator--(int);
-
   const std::pair<const Key, Value> &operator*() const;
   const std::pair<const Key, Value> *operator->() const;
-
   bool operator!=(const ConstIterator &rhs) const;
   bool operator==(const ConstIterator &rhs) const;
-
   ConstIterator &operator=(const ConstIterator &) = default;
 
 private:
@@ -129,12 +126,10 @@ public:
   Iterator &operator--();
   Iterator operator--(int);
   Iterator &operator=(const Iterator &) = default;
-
   std::pair<const Key, Value> &operator*();
   std::pair<const Key, Value> *operator->();
   const std::pair<const Key, Value> &operator*() const;
   const std::pair<const Key, Value> *operator->() const;
-
   bool operator!=(const Iterator &rhs) const;
   bool operator==(const Iterator &rhs) const;
 
@@ -143,7 +138,7 @@ private:
 };
 
 template <typename Key, typename Value, typename Compare>
-mihalchenko::AVLTree<Key, Value, Compare>::Node::Node(Key key, Value data, int height, Node *left, Node *right, Node *previous) : pairOfKeyVal(std::make_pair(key, data)), height_(height), left_(left), right_(right), previous_(previous)
+mihalchenko::AVLTree<Key, Value, Compare>::Node::Node(Key key, Value data, int height, Node *left, Node *right, Node *previous) : pairOfKeyVal_(std::make_pair(key, data)), height_(height), left_(left), right_(right), previous_(previous)
 {
 }
 
@@ -163,7 +158,7 @@ typename mihalchenko::AVLTree<Key, Value, Compare>::Node *mihalchenko::AVLTree<K
   {
     return node;
   }
-  Node *preview = nullptr;
+  // Node *preview = nullptr;
   bool existNode = true;
   while (existNode)
   {
@@ -256,6 +251,13 @@ mihalchenko::AVLTree<Key, Value, Compare>::AVLTree(AVLTree &&move)
   move.clear();
   move.root_ = nullptr;
   move.size_ = 0;
+}
+
+template <typename Key, typename Value, typename Compare>
+mihalchenko::AVLTree<Key, Value, Compare>::~AVLTree()
+{
+  clear();
+  root_ = nullptr;
 }
 
 template <typename Key, typename Value, typename Compare>
@@ -468,7 +470,7 @@ void mihalchenko::AVLTree<Key, Value, Compare>::leftSpin(Node *node)
 
   if (root_ != nullptr)
   {
-    size_t value1 = (root_->left_) ? value1 = root_->left_->height_ : 0;
+    size_t value1 = (root_->left_) ? root_->left_->height_ : 0;
     size_t value2 = (root_->right_) ? root_->right_->height_ : 0;
     root_->height_ = std::max(value1, value2) + 1;
   }
@@ -507,163 +509,10 @@ void mihalchenko::AVLTree<Key, Value, Compare>::rightSpin(Node *node)
   }
   if (root_ != nullptr)
   {
-    size_t value1 = (root_->left_) ? value1 = root_->left_->height_ : 0;
+    size_t value1 = (root_->left_) ? root_->left_->height_ : 0;
     size_t value2 = (root_->right_) ? root_->right_->height_ : 0;
     root_->height_ = std::max(value1, value2) + 1;
   }
-}
-
-template <typename Key, typename Value, typename Compare>
-typename mihalchenko::AVLTree<Key, Value, Compare>::Iterator mihalchenko::AVLTree<Key, Value, Compare>::find(const Key &key)
-{
-  return findNode(key, root_);
-}
-
-template <typename Key, typename Value, typename Compare>
-Value &mihalchenko::AVLTree<Key, Value, Compare>::operator[](const Key &key)
-{
-  return (*findNode(key, root_)).second;
-}
-
-template <typename Key, typename Value, typename Compare>
-void mihalchenko::AVLTree<Key, Value, Compare>::clear()
-{
-  clear(root_);
-}
-
-template <typename Key, typename Value, typename Compare>
-bool mihalchenko::AVLTree<Key, Value, Compare>::empty() const noexcept
-{
-  return root_ == nullptr;
-}
-
-template <typename Key, typename Value, typename Compare>
-size_t mihalchenko::AVLTree<Key, Value, Compare>::getSize() const noexcept
-{
-  return size_;
-}
-
-template <typename Key, typename Value, typename Compare>
-typename mihalchenko::AVLTree<Key, Value, Compare>::Iterator mihalchenko::AVLTree<Key, Value, Compare>::begin() noexcept
-{
-  if (empty())
-  {
-    return cend();
-  }
-  Node *temp = root_;
-  while (temp->left_ != nullptr)
-  {
-    temp = temp->left_;
-  }
-  return Iterator(ConstIterator(temp, root_));
-}
-
-template <typename Key, typename Value, typename Compare>
-typename mihalchenko::AVLTree<Key, Value, Compare>::Iterator mihalchenko::AVLTree<Key, Value, Compare>::end() noexcept
-{
-  return ConstIterator(nullptr, root_);
-}
-
-template <typename Key, typename Value, typename Compare>
-typename mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator mihalchenko::AVLTree<Key, Value, Compare>::cbegin() const noexcept
-{
-  if (empty())
-  {
-    return cend();
-  }
-  Node *temp = root_;
-  while (temp->left != nullptr)
-  {
-    temp = temp->left;
-  }
-  return ConstIterator(temp, root_);
-}
-
-template <typename Key, typename Value, typename Compare>
-typename mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator mihalchenko::AVLTree<Key, Value, Compare>::cend() const noexcept
-{
-  return ConstIterator(nullptr, root_);
-}
-
-template <typename Key, typename Value, typename Compare>
-mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator::ConstIterator()
-{
-  node_ = nullptr;
-  root_ = nullptr;
-}
-
-template <typename Key, typename Value, typename Compare>
-mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator::ConstIterator(Node *node, Node *root)
-{
-  node_ = node;
-  root_ = root;
-}
-
-template <typename Key, typename Value, typename Compare> //
-typename mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator &mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator::operator++()
-{
-  if (node_->right_)
-  {
-    node_ = node_->right_;
-    while (node_->left_)
-    {
-      node_ = node_->left_;
-    }
-  }
-  else
-  {
-    Node *tempNode = node_->previous_;
-    while (tempNode && node_ == tempNode->right_)
-    {
-      node_ = tempNode;
-      tempNode = node_->previous_;
-    }
-    node_ = tempNode;
-  }
-  return *this;
-}
-
-template <typename Key, typename Value, typename Compare>
-typename mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator::operator++(int)
-{
-  ConstIterator result(*this);
-  ++(*this);
-  return result;
-}
-
-template <typename Key, typename Value, typename Compare>
-typename mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator &mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator::operator--()
-{
-  if (node_ == nullptr)
-  {
-    node_ = root_;
-    while (node_->right_)
-    {
-      node_ = node_->right_;
-    }
-  }
-  else
-  {
-    if (node_->left_)
-    {
-      node_ = node_->left_;
-      while (node_->right_)
-      {
-        node_ = node_->right_;
-      }
-    }
-    else
-    {
-      Node *tempNode = node_->previous_;
-      while (tempNode && node_ == tempNode->left_)
-      {
-        node_ = tempNode;
-        tempNode = node_->previous_;
-      }
-      node_ = tempNode;
-    }
-  }
-  return *this;
 }
 
 template <typename Key, typename Value, typename Compare>
@@ -764,6 +613,91 @@ int mihalchenko::AVLTree<Key, Value, Compare>::calcHeight(Node *node)
 }
 
 template <typename Key, typename Value, typename Compare>
+typename mihalchenko::AVLTree<Key, Value, Compare>::Node *mihalchenko::AVLTree<Key, Value, Compare>::SearchHiHeight(Node *node)
+{
+  Node *wrem = node;
+  while (wrem)
+  {
+    if ((calcHeight(wrem) > 1) || (calcHeight(wrem) < -1))
+    {
+      return wrem;
+    }
+    wrem = wrem->previous_;
+  }
+  return nullptr;
+}
+
+//-------------------------------------------------------------------------------------------------------------------------
+template <typename Key, typename Value, typename Comp>
+size_t mihalchenko::AVLTree<Key, Value, Comp>::updateHeight(Node *node)
+{
+  if (node == nullptr)
+  {
+    return 0;
+  }
+  return node->height_ = std::max(updateHeight(node->left_), updateHeight(node->right_)) + 1;
+}
+
+template <typename Key, typename Value, typename Comp>
+int mihalchenko::AVLTree<Key, Value, Comp>::checkBalance(Node *node)
+{
+  return getHeight(node->right_) - getHeight(node->left_);
+}
+
+template <typename Key, typename Value, typename Comp>
+typename mihalchenko::AVLTree<Key, Value, Comp>::Node *mihalchenko::AVLTree<Key, Value, Comp>::isBalanced(Node *node)
+{
+  Node *temp = node;
+  while (temp)
+  {
+    if (std::abs(checkBalance(temp)) > 1)
+    {
+      return temp;
+    }
+    temp = temp->previous_;
+  }
+  return nullptr;
+}
+
+template <typename Key, typename Value, typename Comp>
+void mihalchenko::AVLTree<Key, Value, Comp>::doBalance(Node *overweight)
+{
+  while (overweight)
+  {
+    if (checkBalance(overweight) == 2)
+    {
+      if (checkBalance(overweight->right_) >= 0)
+      {
+        leftSpin(overweight);
+      }
+      else
+      {
+        rightLeftSpin(overweight);
+      }
+    }
+    else
+    {
+      if (checkBalance(overweight->left_) < 0)
+      {
+        rightSpin(overweight);
+      }
+      else
+      {
+        leftRightSpin(overweight);
+      }
+    }
+    overweight = isBalanced(overweight);
+  }
+}
+
+template <typename Key, typename Value, typename Comp>
+int mihalchenko::AVLTree<Key, Value, Comp>::getHeight(Node *node)
+{
+  return (node) ? node->height_ : 0;
+}
+//-------------------------------------------------------------------------------------------------------------------------
+
+template <typename Key, typename Value, typename Compare>
 typename mihalchenko::AVLTree<Key, Value, Compare>::Node *mihalchenko::AVLTree<Key, Value, Compare>::copyTree(Node *node, Node *previous)
 {
   if (node == nullptr)
@@ -855,80 +789,6 @@ typename mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator &mihalchenko::
     }
   }
   return *this;
-}
-
-template <typename Key, typename Value, typename Compare>
-int mihalchenko::AVLTree<Key, Value, Compare>::calcHeight(Node *node)
-{
-  int height = 0;
-  if ((node->right_) && (node->left_))
-  {
-    height = node->right_->height_ - node->left_->height_;
-  }
-  return height;
-}
-
-template <typename Key, typename Value, typename Compare>
-typename mihalchenko::AVLTree<Key, Value, Compare>::Node *mihalchenko::AVLTree<Key, Value, Compare>::SearchHiHeight(Node *node)
-{
-  Node *wrem = node;
-  while (wrem)
-  {
-    if ((calcHeight(wrem) > 1) || (calcHeight(wrem) < -1))
-    {
-      return wrem;
-    }
-    wrem = wrem->previous_;
-  }
-  return nullptr;
-}
-
-//-------------------------------------------------------------------------------------------------------------------------
-template <typename Key, typename Value, typename Comp>
-size_t mihalchenko::AVLTree<Key, Value, Comp>::updateHeight(Node *node)
-{
-  if (node == nullptr)
-  {
-    return 0;
-  }
-  return node->height_ = std::max(updateHeight(node->left_), updateHeight(node->right_)) + 1;
-}
-
-template <typename Key, typename Value, typename Comp>
-int mihalchenko::AVLTree<Key, Value, Comp>::checkBalance(Node *node)
-{
-  return getHeight(node->right_) - getHeight(node->left_);
-}
-
-template <typename Key, typename Value, typename Comp>
-void mihalchenko::AVLTree<Key, Value, Comp>::doBalance(Node *overweight)
-{
-  while (overweight)
-  {
-    if (checkBalance(overweight) == 2)
-    {
-      if (checkBalance(overweight->right_) >= 0)
-      {
-        leftSpin(overweight);
-      }
-      else
-      {
-        rightLeftSpin(overweight);
-      }
-    }
-    else
-    {
-      if (checkBalance(overweight->left_) < 0)
-      {
-        rightSpin(overweight);
-      }
-      else
-      {
-        leftRightSpin(overweight);
-      }
-    }
-    overweight = isBalanced(overweight);
-  }
 }
 
 template <typename Key, typename Value, typename Compare>

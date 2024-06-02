@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
   AVLTree<std::string, AVLTree<long long, std::string>> TreeAndLeaves{};
   while (getline(input, inputStr))
   {
-    insertDataToTree(input, TreeAndLeaves, inputStr);
+    insertDataToTree(TreeAndLeaves, inputStr);
   }
 
   using secondPar = AVLTree<std::string, AVLTree<long long, std::string>>;

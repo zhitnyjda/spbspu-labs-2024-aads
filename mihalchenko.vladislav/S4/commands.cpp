@@ -145,7 +145,7 @@ void mihalchenko::unionAVL(mihalchenko::AVLTree<std::string, mihalchenko::AVLTre
   }
 }
 
-void mihalchenko::insertDataToTree(std::ifstream &input, typeParam &TreeAndLeaves, std::string &inputStr)
+void mihalchenko::insertDataToTree(typeParam &TreeAndLeaves, std::string &inputStr)
 {
   AVLTree<long long, std::string> branchAndLeaves{};
   size_t pos = 0;
