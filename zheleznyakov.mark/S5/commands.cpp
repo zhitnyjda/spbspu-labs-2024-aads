@@ -12,7 +12,7 @@ void zheleznyakov::commands::ascending(std::ostream & out, const data_t & data)
 void zheleznyakov::commands::descending(std::ostream & out, const data_t & data)
 {
   KeyValueSum kvSum;
-  kvSum = data.ctraverseLnR(kvSum);
+  kvSum = data.ctraverseRnL(kvSum);
   out << kvSum.getKeySum() << kvSum.getValueSum() << '\n';
 }
 
