@@ -1,19 +1,26 @@
 #include "commands.hpp"
+#include "keyValueSum.hpp"
 #include <string>
 
 void zheleznyakov::commands::ascending(std::ostream & out, const data_t & data)
 {
-  out << data.empty() << '\n';
+  KeyValueSum kvSum;
+  kvSum = data.ctraverseLnR(kvSum);
+  out << kvSum.getKeySum() << kvSum.getValueSum() << '\n';
 }
 
 void zheleznyakov::commands::descending(std::ostream & out, const data_t & data)
 {
-  out << data.empty() << '\n';
+  KeyValueSum kvSum;
+  kvSum = data.ctraverseLnR(kvSum);
+  out << kvSum.getKeySum() << kvSum.getValueSum() << '\n';
 }
 
 void zheleznyakov::commands::breadth(std::ostream & out, const data_t & data)
 {
-  out << data.empty() << '\n';
+  KeyValueSum kvSum;
+  kvSum = data.ctraverseBreadth(kvSum);
+  out << kvSum.getKeySum() << kvSum.getValueSum() << '\n';
 }
 
 void zheleznyakov::outInvalidCommand(std::ostream & out)

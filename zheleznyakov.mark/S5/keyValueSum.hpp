@@ -9,7 +9,7 @@ namespace zheleznyakov
   public:
     KeyValueSum();
 
-    void operator()(std::pair< long long, std::string > &);
+    void operator()(std::pair< long long, std::string >);
 
     long long getKeySum();
     std::string getValueSum();

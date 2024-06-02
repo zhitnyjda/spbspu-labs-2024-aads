@@ -1005,7 +1005,7 @@ Functor zheleznyakov::Tree< Key, Value, Compare >::ctraverseBreadth(Functor f) c
   q.push(root_);
   while (!q.empty())
   {
-    Node* current = q.front();
+    const Node * current = q.front();
     q.pop();
     f(current->data);
     if (current->left)
