@@ -667,6 +667,20 @@ typename mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator &mihalchenko::
 }
 
 template <typename Key, typename Value, typename Compare>
+void mihalchenko::AVLTree<Key, Value, Compare>::rightLeftSpin(Node *node)
+{
+  rightSpin(node->right_);
+  leftSpin(node);
+}
+
+template <typename Key, typename Value, typename Compare>
+void mihalchenko::AVLTree<Key, Value, Compare>::leftRightSpin(Node *node)
+{
+  leftSpin(node->left_);
+  rightSpin(node);
+}
+
+template <typename Key, typename Value, typename Compare>
 typename mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator::operator--(int)
 {
   ConstIterator result(*this);
