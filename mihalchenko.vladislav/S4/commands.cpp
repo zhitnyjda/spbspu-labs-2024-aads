@@ -35,7 +35,7 @@ void mihalchenko::printInvalidCommand(std::ostream &out)
 
 void mihalchenko::printEmptyMessage(std::ostream &out)
 {
-  out << "EMPTY\n";
+  out << "<EMPTY>\n";
 }
 
 void mihalchenko::print(typeParam &AVLTree)
@@ -115,7 +115,7 @@ void mihalchenko::intersect(typeParam &AVLTree)
     size_t countEqual = 0;
     for (auto itTwo = (*AVLTree.find(nameTwoGlossary)).second.begin(); itTwo != (*AVLTree.find(nameTwoGlossary)).second.end(); itTwo++)
     {
-      if (((*it).first == (*itTwo).first) || ((*it).second == (*itTwo).second))
+      if (((*it).first == (*itTwo).first)) //&& ((*it).second == (*itTwo).second))
       {
         countEqual++;
       }
