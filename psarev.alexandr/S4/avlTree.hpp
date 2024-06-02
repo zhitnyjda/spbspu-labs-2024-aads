@@ -64,7 +64,6 @@ namespace psarev
     size_t getSize(Unit* unit) const;
     void undercut(Unit* unit);
     Unit* delUnit(Unit* unit, const Key& key);
-    Unit* getMinU(Unit* unit);
 
     Unit* makeBal(Unit* unit);
     int getFact(Unit* unit);
@@ -535,32 +534,34 @@ typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Val
   }
   else
   {
-    if (unit->left != nullptr && unit->right != nullptr)
+    Unit* tempo = nullptr;
+    if (unit->left == nullptr && unit->right == nullptr)
     {
-      Unit* tempo = unit->left ? unit->left : unit->right;
-
-      if (tempo == nullptr)
-      {
-        tempo = unit;
-        unit = nullptr;
-      }
-      else
-      {
-        *unit = *tempo;
-      }
+      delete unit;
+      return nullptr;
+    }
+    else if (unit->right == nullptr)
+    {
+      tempo = unit->left;
+      *unit = *tempo;
+      delete tempo;
+    }
+    else if (unit->left == nullptr)
+    {
+      tempo = unit->right;
+      *unit = *tempo;
       delete tempo;
     }
     else
     {
-      Unit* tempo = getMinU(unit->right);
+      tempo = unit->right;
+      while (tempo->left != nullptr)
+      {
+        tempo = tempo->left;
+      }
       unit->data = tempo->data;
       unit->right = delUnit(unit->right, tempo->data.first);
     }
-  }
-
-  if (unit == nullptr)
-  {
-    return unit;
   }
 
   unit = makeBal(unit);
@@ -568,43 +569,31 @@ typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree< Key, Val
 }
 
 template<typename Key, typename Value, typename Compare>
-typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree<Key, Value, Compare>::getMinU(Unit* unit)
-{
-  Unit* cur = unit;
-  while (cur && cur->left != nullptr) {
-    cur = cur->left;
-  }
-  return cur;
-}
-
-template<typename Key, typename Value, typename Compare>
 typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree<Key, Value, Compare>::makeBal(Unit* unit)
 {
-  int bFact = getFact(unit);
-
-  if (bFact > 1)
+  int balFact = getFact(unit);
+  if (balFact == 2)
   {
     if (getFact(unit->left) >= 0)
     {
-      return rTurn(unit);
+      unit = rTurn(unit);
     }
     else
     {
       unit->left = lTurn(unit->left);
-      return rTurn(unit);
+      unit = rTurn(unit);
     }
   }
-
-  else if (bFact < -1)
+  else if (balFact == -2)
   {
     if (getFact(unit->right) <= 0)
     {
-      return lTurn(unit);
+      unit = lTurn(unit);
     }
     else
     {
       unit->right = rTurn(unit->right);
-      return lTurn(unit);
+      unit = lTurn(unit);
     }
   }
 
