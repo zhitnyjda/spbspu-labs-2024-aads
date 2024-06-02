@@ -247,19 +247,15 @@ mihalchenko::AVLTree<Key, Value, Compare>::AVLTree(const AVLTree &copy)
 }
 
 template <typename Key, typename Value, typename Compare>
-mihalchenko::AVLTree<Key, Value, Compare>::AVLTree(AVLTree &&move) : root_(nullptr), size_(std::move(move.size_))
+mihalchenko::AVLTree<Key, Value, Compare>::AVLTree(AVLTree &&move)
+//  root_(nullptr), size_(std::move(move.size_))
 {
+  // root_ = nullptr;
+  // size_ = 0;
   root_ = copyTree(std::move(move.root_), nullptr);
   move.clear();
   move.root_ = nullptr;
   move.size_ = 0;
-}
-
-template <typename Key, typename Value, typename Compare>
-mihalchenko::AVLTree<Key, Value, Compare>::~AVLTree()
-{
-  clear();
-  root_ = nullptr;
 }
 
 template <typename Key, typename Value, typename Compare>
@@ -271,23 +267,23 @@ void mihalchenko::AVLTree<Key, Value, Compare>::insert(mihalchenko::AVLTree<Key,
 template <typename Key, typename Value, typename Compare>
 void mihalchenko::AVLTree<Key, Value, Compare>::insert(Key key, Value value)
 {
-  root_ = insertNode(key, value, root_, nullptr);
-  if (root_ != nullptr)
+  // Node * node = insertNode(key, value, root_, nullptr);
+  /*  root_ = insertNode(key, value, root_, nullptr);
+    updateHeight(root_);
+    Node * overweight = isBalanced(find(key).constIter_.node_);
+    doBalance(overweight);
+    return;
+    */
+  Node *node = insertNode(key, value, root_);
+  if (node != nullptr)
   {
-    size_t value1 = 0;
-    size_t value2 = 0;
-    if (root_->left_)
-    {
-      value1 = root_->left_->height_;
-    }
-    if (root_->right_)
-    {
-      value2 = root_->right_->height_;
-    }
-    root_->height_ = std::max(value1, value2) + 1;
+    size_t value1 = (node->left_) ? node->left_->height_ : 0;
+    size_t value2 = (node->right_) ? node->right_->height_ : 0;
+    node->height_ = std::max(value1, value2) + 1;
   }
   Node *checkNode = SearchHiHeight(find(key).constIter_.node_);
   doStableTree(checkNode);
+  return;
 }
 
 template <typename Key, typename Value, typename Compare>
