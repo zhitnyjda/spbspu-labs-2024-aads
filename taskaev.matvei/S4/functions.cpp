@@ -87,6 +87,7 @@ namespace taskaev
     if (tres.empty())
     {
       errorEmpty(std::cout);
+      return;
     }
     else
     {
