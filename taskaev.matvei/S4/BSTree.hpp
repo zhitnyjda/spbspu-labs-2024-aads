@@ -2,6 +2,10 @@
 #define BSTREE_HPP
 
 #include <iostream>
+#include <cassert>
+#include <utility>
+#include <functional>
+#include <stdexcept>
 
 namespace taskaev
 {
