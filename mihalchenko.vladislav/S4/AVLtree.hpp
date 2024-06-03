@@ -68,6 +68,8 @@ namespace mihalchenko
 
     int calcHeight(Node *node);
     void balancingTree(Node *overweight);
+    void leftrightSpin(Node *node);
+    void rightleftSpin(Node *node);
     void leftSpin(Node *node);
     void rightSpin(Node *node);
 
@@ -184,9 +186,7 @@ typename mihalchenko::AVLTree<Key, Value, Compare>::Node *mihalchenko::AVLTree<K
       node = node->right_;
     }
   }
-  // if (root_ != nullptr)
   balancingTree(node);
-  /// throw std::logic_error("can't get balance");
   return newNode;
 }
 
@@ -550,32 +550,47 @@ int mihalchenko::AVLTree<Key, Value, Compare>::calcHeight(Node *node)
 template <typename Key, typename Value, typename Compare>
 void mihalchenko::AVLTree<Key, Value, Compare>::balancingTree(Node *node)
 {
-  int finalWeight = (root_) ? calcHeight(root_->right_) - calcHeight(root_->left_) : 0;
-
-  /*std::cout << "finalWeight=" << finalWeight << "nodeHeight=" << node->height_ << " ";
-
-  if (node->left_)
-  {
-    std::cout << "node->left_->height_=" << node->left_->height_  << " ";
-  }
-  if (node->right_)
-  {
-    std::cout << "node->right_->height_=" << node->right_->height_;
-  }
-  std::cout << std::endl;*/
+  Node *temp = node;
   // return;
-  std::cout << "finalWeight=" << finalWeight << "nodeHeight=" << root_->height_ << std::endl;
-  if (finalWeight >= 2) // если вес корня дерева больше или равен 2, то надо балансировать
+  while (temp)
   {
-    Node *nodeP = root_;
-    if ((nodeP->right_) && (nodeP->right_->height_ > 1)) // если у корня справа ветки есть несбалансированные
+    int finalWeight = (temp) ? calcHeight(temp->right_) - calcHeight(temp->left_) : 0;
+    /*std::cout << "finalWeight=" << finalWeight << "nodeHeight=" << node->height_ << " ";
+
+    if (node->left_)
     {
-      rightSpin(nodeP);
+      std::cout << "node->left_->height_=" << node->left_->height_  << " ";
     }
-    else if ((nodeP->left_) && (nodeP->left_->height_ > 1)) // если у корня слева ветки есть несбалансированные
+    if (node->right_)
     {
-      leftSpin(nodeP);
+      std::cout << "node->right_->height_=" << node->right_->height_;
     }
+    std::cout << std::endl;*/
+    // return;
+    // std::cout << "finalWeight=" << finalWeight << "nodeHeight=" << root_->height_ << std::endl;
+    if (std::abs(finalWeight) >= 2) // если вес корня дерева больше или равен 2, то надо балансировать
+    {
+      // Node *nodeP = root_;
+      if ((temp->right_) && (temp->right_->height_ == 2) && (finalWeight < 0)) // если у корня справа ветки есть несбалансированные
+      {
+        rightleftSpin(temp->right_);
+      }
+      else if ((temp->left_) && (temp->left_->height_ == 2) && (finalWeight > 0)) // если у корня слева ветки есть несбалансированные
+      {
+        leftrightSpin(temp->left_);
+      }
+      else if ((temp->right_) && (temp->right_->height_ == 1) && (finalWeight < 0))
+      {
+        rightSpin(temp);
+        // temp = temp->right_;
+      }
+      else if ((temp->left_) && (temp->left_->height_ == 2) && (finalWeight > 0)) // если у корня слева ветки есть несбалансированные
+      {
+        leftSpin(temp);
+        // temp = temp->left_;
+      }
+    }
+    temp = temp->previous_;
   }
   return;
 }
@@ -592,7 +607,6 @@ void mihalchenko::AVLTree<Key, Value, Compare>::leftSpin(Node *nodeP)
       nodeP->left_ = nodeQ->right_;
       nodeQ->previous_ = nullptr;
       nodeQ->right_ = nodeP;
-      root_ = nodeQ;
     }
   }
   else // если слева ветка длинная, но у nodeQ только одна ветка ниже идет
@@ -601,6 +615,9 @@ void mihalchenko::AVLTree<Key, Value, Compare>::leftSpin(Node *nodeP)
     nodeP->left_ = nullptr;
     nodeQ->previous_ = nullptr;
     nodeQ->right_ = nodeP;
+  }
+  if (nodeP == root_)
+  {
     root_ = nodeQ;
   }
 }
@@ -617,7 +634,6 @@ void mihalchenko::AVLTree<Key, Value, Compare>::rightSpin(Node *nodeP)
       nodeP->right_ = nodeQ->left_;
       nodeQ->previous_ = nullptr;
       nodeQ->left_ = nodeP;
-      root_ = nodeQ;
     }
   }
   else // если справа ветка длинная, но у nodeQ только одна ветка ниже идет
@@ -626,8 +642,25 @@ void mihalchenko::AVLTree<Key, Value, Compare>::rightSpin(Node *nodeP)
     nodeP->right_ = nullptr;
     nodeQ->previous_ = nullptr;
     nodeQ->left_ = nodeP;
+  }
+  if (nodeP == root_)
+  {
     root_ = nodeQ;
   }
+}
+
+template <typename Key, typename Value, typename Compare>
+void mihalchenko::AVLTree<Key, Value, Compare>::leftrightSpin(Node *nodeP)
+{
+  leftSpin(nodeP->left_);
+  rightSpin(nodeP);
+}
+
+template <typename Key, typename Value, typename Compare>
+void mihalchenko::AVLTree<Key, Value, Compare>::rightleftSpin(Node *nodeP)
+{
+  rightSpin(nodeP->right_);
+  leftSpin(nodeP);
 }
 
 template <typename Key, typename Value, typename Compare>
