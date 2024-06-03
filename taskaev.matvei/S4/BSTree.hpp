@@ -16,7 +16,7 @@ namespace taskaev
     {
     public:
       friend class BSTree;
-      explicit Node(value_t data, Node* right = nullptr, Node* lest = nullptr, Node* parent = nullptr, size_t h = 0):
+      explicit Node(value_t data, Node* right = nullptr, Node* left = nullptr, Node* parent = nullptr, size_t h = 0):
         data_(data),
         right_(right),
         left_(left),
