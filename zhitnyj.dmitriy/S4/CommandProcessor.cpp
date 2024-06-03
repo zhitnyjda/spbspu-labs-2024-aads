@@ -3,7 +3,8 @@
 #include <stdexcept>
 #include "CommandProcessor.hpp"
 
-void zhitnyj::processLineToTree(const std::string &line, zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dicts) {
+void zhitnyj::processLineToTree(const std::string &line,
+zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dicts) {
   if (line.empty()) {
     return;
   }
@@ -49,7 +50,8 @@ void zhitnyj::processLineToTree(const std::string &line, zhitnyj::BSTree< std::s
   dicts.push(dataset, tree);
 }
 
-void zhitnyj::loadTreeFromFile(const std::string &filename, zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dicts) {
+void zhitnyj::loadTreeFromFile(const std::string &filename,
+zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dicts) {
   std::ifstream file(filename);
   if (!file) {
     throw std::runtime_error("Unable to open file");
