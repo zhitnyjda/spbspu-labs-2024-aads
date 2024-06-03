@@ -86,20 +86,36 @@ void ponomarev::makeUnion(std::istream & in, std::ostream &, tree_t & data)
   std::string dataset1 = "";
   std::string dataset2 = "";
   in >> newDataName >> dataset1 >> dataset2;
-  data_t newData = data[dataset1];
-  data_t::Iterator currElem = data[dataset2].begin();
-
-  if (data.find(dataset1) == data.end() || data.find(dataset2) == data.end())
+  data_t newData;
+  if (data.at(dataset1).getSize() != 0 && data.at(dataset2).getSize() == 0)
   {
-    throw std::logic_error("<INVALID COMMAND>");
+    for (data_t::ConstIterator iter(data.at(dataset1).cbegin()); iter != data.at(dataset1).cend(); iter++)
+    {
+      newData.insert(std::make_pair(iter->first, iter->second));
+    }
   }
-
-  while (currElem != data[dataset2].end())
+  else if (data.at(dataset1).getSize() == 0 && data.at(dataset2).getSize() != 0)
   {
-    newData.insert(*currElem);
-    ++currElem;
+    for (data_t::ConstIterator iter(data.at(dataset2).cbegin()); iter != data.at(dataset2).cend(); iter++)
+    {
+      newData.insert(std::make_pair(iter->first, iter->second));
+    }
   }
+  else if (data.at(dataset1).getSize() != 0 || data.at(dataset2).getSize() != 0)
+  {
+    for (data_t::ConstIterator iter(data.at(dataset1).cbegin()); iter != data.at(dataset1).cend(); iter++)
+    {
+      newData.insert(std::make_pair(iter->first, iter->second));
+    }
 
+    for (data_t::ConstIterator iter(data.at(dataset2).cbegin()); iter != data.at(dataset2).cend(); iter++)
+    {
+      if (data.at(dataset1).find(iter->first) == data.at(dataset1).end())
+      {
+        newData.insert(std::make_pair(iter->first, iter->second));
+      }
+    }
+  }
   if (data.find(newDataName) != data.end())
   {
     data.at(newDataName).swap(newData);
