@@ -1,5 +1,10 @@
 #include "keySumm.hpp"
 
+sobolevsky::Key_summ::Key_summ():
+  keyResult_(0),
+  valueResult_("")
+{}
+
 void sobolevsky::Key_summ::operator()(const std::pair< const long long, std::string > &key_value)
 {
   long long limitMax = std::numeric_limits< int >::max();
