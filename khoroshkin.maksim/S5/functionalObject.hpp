@@ -3,7 +3,7 @@
 
 #include <utility>
 #include <numeric>
-#include "queue.hpp"
+#include <queue.hpp>
 
 namespace khoroshkin
 {
