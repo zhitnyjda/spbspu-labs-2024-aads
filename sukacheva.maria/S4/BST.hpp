@@ -58,6 +58,7 @@ namespace sukacheva
     Node* deleteNode(Node* node, const Key& k);
     void updateHeight(Node* node);
     int getBalanceFactor(Node* node);
+    void copyTree(Node* thisNode, Node* otherNode);
     void swap(BST& first, BST& second) noexcept;
   };
 
@@ -123,14 +124,27 @@ namespace sukacheva
   template< typename Key, typename Value, typename Compare >
   void BST< Key, Value, Compare >::swap(BST& first, BST& second) noexcept
   {
-    std::swap(first.root, second.root);
-    std::swap(first.cmp, second.cmp);
+    first.root = second.root;
+    first.cmp = std::move(second.cmp);
   }
 
   template< typename Key, typename Value, typename Compare >
   BST< Key, Value, Compare >& BST< Key, Value, Compare >::operator=(const BST& other)
   {
-    swap(*this, other);
+    BST< Key, Value, Compare > copy;
+    copyTree(copy.root, root);
+    if (copy != &other)
+    {
+      clear(copy.root);
+      copy.root = nullptr;
+      if (other.root)
+      {
+        copy.root = new Node(*other.root);
+        copyTree(copy.root, other.root);
+      }
+      cmp = other.cmp;
+    }
+    swap(this, copy);
     return *this;
   }
 
@@ -145,6 +159,27 @@ namespace sukacheva
       other.root = nullptr;
     }
     return *this;
+  }
+
+  template< typename Key, typename Value, typename Compare >
+  void BST< Key, Value, Compare >::copyTree(Node* thisNode, Node* otherNode)
+  {
+    if (!otherNode)
+    {
+      return;
+    }
+    if (otherNode->left)
+    {
+      thisNode->left = new Node(*otherNode->left);
+      thisNode->left->parent = thisNode;
+      copyTree(thisNode->left, otherNode->left);
+    }
+    if (otherNode->right)
+    {
+      thisNode->right = new Node(*otherNode->right);
+      thisNode->right->parent = thisNode;
+      copyTree(thisNode->right, otherNode->right);
+    }
   }
 
   template< typename Key, typename Value, typename Compare >
