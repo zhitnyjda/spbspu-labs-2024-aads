@@ -7,12 +7,8 @@
 
 namespace taskaev
 {
-  template < typename Key, typename Value, typename Comparator = std::less< Key > >
-  using Tree = BSTree< std::string, BSTree< size_t, std::string > >;
-
-  template < typename Key, typename Value, typename Comparator = std::less< Key > >
-  using SubTree = BSTree< size_t, std::string >;
-
+  using Tree = BSTree< std::string, BSTree< size_t, std::string, std::less< std::string > >, std::less< std::string > >;
+  using SubTree = BSTree< size_t, std::string, std::less< size_t > >;
   using Iterator = SubTree::Iterator;
 
   void createTree(std::istream& in, Tree& tree);
