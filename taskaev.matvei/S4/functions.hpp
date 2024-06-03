@@ -2,7 +2,7 @@
 #define FUNCTIONS_HPP
 #include <iostream>
 #include <fstream>
-#include "BSTree.h"
+#include "BSTree.hpp"
 #include <string>
 
 namespace taskaev

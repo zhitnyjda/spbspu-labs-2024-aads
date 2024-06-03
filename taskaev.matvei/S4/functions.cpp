@@ -1,5 +1,4 @@
 #include "functions.hpp"
-#include "functions.h"
 #include <string>
 
 void taskaev::createTree(std::istream& in, Tree& tree)
