@@ -91,10 +91,6 @@ namespace sukacheva
     }
     BST< size_t, std::string > secondDict = treeOfDicts.find(nameSecond)->second;
     BST< size_t, std::string > firstDict = treeOfDicts.find(nameFirst)->second;
-    if (treeOfDicts.find(nameNew) != nullptr)
-    {
-      treeOfDicts.erase(nameNew);
-    }
     BST< size_t, std::string > newDict;
     using iterator = BST< size_t, std::string >::Iterator;
     for (iterator it = firstDict.begin(); it != firstDict.end(); it++)
@@ -103,6 +99,10 @@ namespace sukacheva
       {
         newDict.insert(it->first, it->second);
       }
+    }
+    if (treeOfDicts.find(nameNew) != nullptr)
+    {
+      treeOfDicts.erase(nameNew);
     }
     treeOfDicts.insert(nameNew, newDict);
   }
@@ -128,10 +128,6 @@ namespace sukacheva
     }
     BST< size_t, std::string > secondDict = treeOfDicts.find(nameSecond)->second;
     BST< size_t, std::string > firstDict = treeOfDicts.find(nameFirst)->second;
-    if (treeOfDicts.find(nameNew) != nullptr)
-    {
-      treeOfDicts.erase(nameNew);
-    }
     BST< size_t, std::string > newDict;
     using iterator = BST< size_t, std::string >::Iterator;
     for (iterator it = firstDict.begin(); it != firstDict.end(); it++)
@@ -140,6 +136,10 @@ namespace sukacheva
       {
         newDict.insert(it->first, it->second);
       }
+    }
+    if (treeOfDicts.find(nameNew) != nullptr)
+    {
+      treeOfDicts.erase(nameNew);
     }
     treeOfDicts.insert(nameNew, newDict);
   }
@@ -164,18 +164,19 @@ namespace sukacheva
       throw std::logic_error("<WRONG INPUT>\n");
     }
     BST< size_t, std::string > secondDict = treeOfDicts.find(nameSecond)->second;
-    BST< size_t, std::string > newDict = treeOfDicts.find(nameFirst)->second;
-    if (treeOfDicts.find(nameNew) != nullptr)
-    {
-      treeOfDicts.erase(nameNew);
-    }
+    BST< size_t, std::string > firstDict = treeOfDicts.find(nameFirst)->second;
+    BST< size_t, std::string > newDict = firstDict;
     using iterator = BST< size_t, std::string >::Iterator;
     for (iterator it = secondDict.begin(); it != secondDict.end(); it++)
     {
-      if (newDict.find(it->first) == nullptr)
+      if (firstDict.find(it->first) == nullptr)
       {
         newDict.insert(it->first, it->second);
       }
+    }
+    if (treeOfDicts.find(nameNew) != nullptr)
+    {
+      treeOfDicts.erase(nameNew);
     }
     treeOfDicts.insert(nameNew, newDict);
   }
