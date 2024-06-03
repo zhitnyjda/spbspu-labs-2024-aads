@@ -369,19 +369,7 @@ psarev::avlTree< Key, Value, Compare >::~avlTree()
 {
   clear();
 }
-//template< typename Key, typename Value, typename Compare >
-//psarev::avlTree< Key, Value, Compare >& psarev::avlTree< Key, Value, Compare >::operator=(const avlTree& that)
-//{
-//  if (&that != this)
-//  {
-//    clear();
-//    for (iter it = that.cbegin(); it != cend(); ++it)
-//    {
-//      insert(*it);
-//    }
-//  }
-//  return *this;
-//}
+
 template< typename Key, typename Value, typename Compare >
 void psarev::avlTree< Key, Value, Compare >::swap(avlTree& first, avlTree& second) noexcept
 {
