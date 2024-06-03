@@ -2,7 +2,6 @@
 #include <iostream>
 #include <limits>
 #include <functional>
-#include "IOFunctions.hpp"
 #include "commands.hpp"
 
 int main(int argc, char ** argv)
@@ -38,7 +37,7 @@ int main(int argc, char ** argv)
     {
       commands.at(command)(std::cin, std::cout, data);
     }
-    catch (const std::logic_error &)
+    catch (const std::out_of_range &)
     {
       ponomarev::printInvalidCommandMessage(std::cout);
       std::cin.clear();

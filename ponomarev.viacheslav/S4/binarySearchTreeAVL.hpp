@@ -39,9 +39,7 @@ namespace ponomarev
     void swap(BSTree & other) noexcept;
 
     Iterator find(const Key & key);
-    ConstIterator find(const Key & key) const;
     std::pair< Iterator, Iterator > equal_range(const Key & key);
-    std::pair< ConstIterator, ConstIterator> equalRange(const Key & key) const;
 
     Iterator begin() noexcept;
     Iterator end() noexcept;
@@ -65,6 +63,322 @@ namespace ponomarev
 }
 
 using namespace ponomarev;
+
+template< typename Key, typename Value, typename Compare >
+class BSTree< Key, Value, Compare >::Iterator : public std::iterator< std::input_iterator_tag, Key, Value, Compare >
+{
+  friend class BSTree;
+public:
+  Iterator();
+  Iterator(Node * node);
+  Iterator(const Iterator & iter);
+  ~Iterator() = default;
+
+  Iterator & operator=(const Iterator & iter);
+  Iterator & operator=(Iterator && rhs);
+  value_t & operator*();
+  value_t * operator->();
+  Iterator & operator++();
+  Iterator operator++(int);
+  Iterator & operator--();
+  Iterator operator--(int);
+  bool operator==(const Iterator & rhs) const;
+  bool operator!=(const Iterator & rhs) const;
+private:
+  Node * node_;
+};
+
+template< typename Key, typename Value, typename Compare >
+BSTree< Key, Value, Compare >::Iterator::Iterator()
+{
+  node_(nullptr);
+}
+
+template< typename Key, typename Value, typename Compare >
+BSTree< Key, Value, Compare >::Iterator::Iterator(Node * node)
+{
+  node_ = node;
+}
+
+template< typename Key, typename Value, typename Compare >
+BSTree< Key, Value, Compare >::Iterator::Iterator(const Iterator & iter)
+{
+  node_ = iter.node_;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename BSTree< Key, Value, Compare >::Iterator & BSTree< Key, Value, Compare >::Iterator::operator=(const Iterator & iter)
+{
+  node_ = iter.node_;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename BSTree< Key, Value, Compare >::Iterator & BSTree< Key, Value, Compare >::Iterator::operator=(Iterator && rhs)
+{
+  node_ = rhs.node_;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+std::pair< Key, Value > & BSTree< Key, Value, Compare >::Iterator::operator*()
+{
+  return node_->data;
+}
+
+template< typename Key, typename Value, typename Compare >
+std::pair< Key, Value > * BSTree< Key, Value, Compare >::Iterator::operator->()
+{
+  return std::addressof(node_->data);
+}
+
+template< typename Key, typename Value, typename Compare >
+typename BSTree< Key, Value, Compare >::Iterator & BSTree< Key, Value, Compare >::Iterator::operator++()
+{
+  if (node_ == nullptr)
+  {
+    return *this;
+  }
+  else if (node_->right == nullptr)
+  {
+    Node * temp = node_->parent;
+    while (temp != nullptr && node_ == temp->right)
+    {
+      node_ = temp;
+      temp = node_->parent;
+    }
+    node_ = temp;
+    return *this;
+  }
+  else
+  {
+    node_ = node_->right;
+    if (node_->left == nullptr)
+    {
+      return *this;
+    }
+    while (node_->left != nullptr)
+    {
+      node_ = node_->left;
+    }
+    return *this;
+  }
+}
+
+template< typename Key, typename Value, typename Compare >
+typename BSTree< Key, Value, Compare >::Iterator BSTree< Key, Value, Compare >::Iterator::operator++(int)
+{
+  Iterator temp(*this);
+  ++(*this);
+  return temp;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename BSTree< Key, Value, Compare >::Iterator & BSTree< Key, Value, Compare >::Iterator::operator--()
+{
+  if (node_ == nullptr)
+  {
+    return *this;
+  }
+  else if (node_->left == nullptr)
+  {
+    Node * temp = node_->parent;
+    while (temp != nullptr && node_ == temp->left)
+    {
+      node_ = temp;
+      temp = node_->parent;
+    }
+    node_ = temp;
+    return *this;
+  }
+  else
+  {
+    node_ = node_->left;
+    while (node_->right != nullptr)
+    {
+      node_ = node_->right;
+    }
+    return *this;
+  }
+}
+
+template< typename Key, typename Value, typename Compare >
+typename BSTree< Key, Value, Compare >::Iterator BSTree< Key, Value, Compare >::Iterator::operator--(int)
+{
+  Iterator temp(*this);
+  --(*this);
+  return temp;
+}
+
+template< typename Key, typename Value, typename Compare >
+bool BSTree< Key, Value, Compare >::Iterator::operator==(const Iterator & rhs) const
+{
+  return node_ == rhs.node_;
+}
+
+template< typename Key, typename Value, typename Compare >
+bool BSTree< Key, Value, Compare >::Iterator::operator!=(const Iterator & rhs) const
+{
+  return node_ != rhs.node_;
+}
+
+template< typename Key, typename Value, typename Compare >
+class BSTree< Key, Value, Compare >::ConstIterator : public std::iterator< std::input_iterator_tag, Key, Value, Compare >
+{
+  friend class BSTree;
+public:
+  ConstIterator();
+  explicit ConstIterator(const Node * node);
+  ConstIterator(const ConstIterator & iter);
+  ~ConstIterator() = default;
+
+  ConstIterator & operator=(const ConstIterator & iter);
+  ConstIterator & operator=(ConstIterator && rhs);
+  const value_t & operator*() const;
+  const value_t * operator->() const;
+  ConstIterator & operator++();
+  ConstIterator operator++(int);
+  ConstIterator & operator--();
+  ConstIterator operator--(int);
+  bool operator==(const ConstIterator & rhs) const;
+  bool operator!=(const ConstIterator & rhs) const;
+private:
+  const Node * node_;
+};
+
+template< typename Key, typename Value, typename Compare >
+BSTree< Key, Value, Compare >::ConstIterator::ConstIterator()
+{
+  node_(nullptr);
+}
+
+template< typename Key, typename Value, typename Compare >
+BSTree< Key, Value, Compare >::ConstIterator::ConstIterator(const Node * node)
+{
+  node_ = node;
+}
+
+template< typename Key, typename Value, typename Compare >
+BSTree< Key, Value, Compare >::ConstIterator::ConstIterator(const ConstIterator & iter)
+{
+  node_ = iter.node_;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename BSTree< Key, Value, Compare >::ConstIterator & BSTree< Key, Value, Compare >::ConstIterator::operator=(const ConstIterator &iter)
+{
+  node_ = iter.node_;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename BSTree< Key, Value, Compare >::ConstIterator & BSTree< Key, Value, Compare >::ConstIterator::operator=(ConstIterator && rhs)
+{
+  node_(rhs.node_);
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+const std::pair< Key, Value > & BSTree< Key, Value, Compare >::ConstIterator::operator*() const
+{
+  return node_->data;
+}
+
+template< typename Key, typename Value, typename Compare >
+const std::pair< Key, Value > * BSTree< Key, Value, Compare >::ConstIterator::operator->() const
+{
+  return std::addressof(node_->data);
+}
+
+template< typename Key, typename Value, typename Compare >
+typename BSTree< Key, Value, Compare >::ConstIterator & BSTree< Key, Value, Compare >::ConstIterator::operator++()
+{
+  if (node_ == nullptr)
+  {
+    return *this;
+  }
+  else if (node_->right == nullptr)
+  {
+    Node * temp = node_->parent;
+    while (temp != nullptr && node_ == temp->right)
+    {
+      node_ = temp;
+      temp = node_->parent;
+    }
+    node_ = temp;
+    return *this;
+  }
+  else
+  {
+    node_ = node_->right;
+    if (node_->left == nullptr)
+    {
+      return *this;
+    }
+    while (node_->left != nullptr)
+    {
+      node_ = node_->left;
+    }
+    return *this;
+  }
+}
+
+template< typename Key, typename Value, typename Compare >
+typename BSTree< Key, Value, Compare >::ConstIterator BSTree< Key, Value, Compare >::ConstIterator::operator++(int)
+{
+  ConstIterator temp(*this);
+  ++(*this);
+  return temp;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename BSTree< Key, Value, Compare >::ConstIterator & BSTree< Key, Value, Compare >::ConstIterator::operator--()
+{
+  if (node_ == nullptr)
+  {
+    return *this;
+  }
+  else if (node_->left == nullptr)
+  {
+    Node * temp = node_->parent;
+    while (temp != nullptr && node_ == temp->left)
+    {
+      node_ = temp;
+      temp = node_->parent;
+    }
+    node_ = temp;
+    return *this;
+  }
+  else
+  {
+    node_ = node_->left;
+    while (node_->right != nullptr)
+    {
+      node_ = node_->right;
+    }
+    return *this;
+  }
+}
+
+template< typename Key, typename Value, typename Compare >
+typename BSTree< Key, Value, Compare >::ConstIterator BSTree< Key, Value, Compare >::ConstIterator::operator--(int)
+{
+  ConstIterator temp(*this);
+  --(*this);
+  return temp;
+}
+
+template< typename Key, typename Value, typename Compare >
+bool BSTree< Key, Value, Compare >::ConstIterator::operator==(const ConstIterator & rhs) const
+{
+  return node_ == rhs.node_;
+}
+
+template< typename Key, typename Value, typename Compare >
+bool BSTree< Key, Value, Compare >::ConstIterator::operator!=(const ConstIterator & rhs) const
+{
+  return node_ != rhs.node_;
+}
 
 template< typename Key, typename Value, typename Compare >
 class BSTree< Key, Value, Compare >::Node
@@ -284,16 +598,16 @@ typename BSTree< Key, Value, Compare >::Iterator BSTree< Key, Value, Compare >::
   }
   Node * temp = pos.iterator.node_;
   Node * parent = temp->parent_;
-  Node * successor = nullptr;
+  Node * next = nullptr;
   if (temp->left_ && temp->right_)
   {
-    successor = temp->right_;
-    while (successor->left_)
+    next = temp->right_;
+    while (next->left_)
     {
-      successor = successor->left_;
+      next = next->left_;
     }
-    temp = successor;
-    parent = successor->parent_;
+    temp = next;
+    parent = next->parent_;
   }
   Node* child = temp->left_ ? temp->left_ : temp->right_;
   if (child)
@@ -314,7 +628,7 @@ typename BSTree< Key, Value, Compare >::Iterator BSTree< Key, Value, Compare >::
   }
   while (parent)
   {
-    updategetHight(parent);
+    getHight(parent);
     parent = balance(parent);
     parent = parent->parent_;
   }
@@ -397,164 +711,6 @@ std::pair< typename BSTree< Key, Value, Compare >::Iterator,
 }
 
 template< typename Key, typename Value, typename Compare >
-class BSTree< Key, Value, Compare >::Iterator : public std::iterator< std::input_iterator_tag, Key, Value, Compare >
-{
-  friend class BSTree;
-public:
-  Iterator();
-  Iterator(Node * node);
-  Iterator(const Iterator & iter);
-  ~Iterator() = default;
-
-  Iterator & operator=(const Iterator & iter);
-  Iterator & operator=(Iterator && rhs);
-  value_t & operator*();
-  value_t * operator->();
-  Iterator & operator++();
-  Iterator operator++(int);
-  Iterator & operator--();
-  Iterator operator--(int);
-  bool operator==(const Iterator & rhs) const;
-  bool operator!=(const Iterator & rhs) const;
-private:
-  Node * node_;
-};
-
-template< typename Key, typename Value, typename Compare >
-BSTree< Key, Value, Compare >::Iterator::Iterator()
-{
-  node_(nullptr);
-}
-
-template< typename Key, typename Value, typename Compare >
-BSTree< Key, Value, Compare >::Iterator::Iterator(Node * node)
-{
-  node_ = node;
-}
-
-template< typename Key, typename Value, typename Compare >
-BSTree< Key, Value, Compare >::Iterator::Iterator(const Iterator & iter)
-{
-  node_ = iter.node_;
-}
-
-template< typename Key, typename Value, typename Compare >
-typename BSTree< Key, Value, Compare >::Iterator & BSTree< Key, Value, Compare >::Iterator::operator=(const Iterator & iter)
-{
-  node_ = iter.node_;
-  return *this;
-}
-
-template< typename Key, typename Value, typename Compare >
-typename BSTree< Key, Value, Compare >::Iterator & BSTree< Key, Value, Compare >::Iterator::operator=(Iterator && rhs)
-{
-  node_ = rhs.node_;
-  return *this;
-}
-
-template< typename Key, typename Value, typename Compare >
-std::pair< Key, Value > & BSTree< Key, Value, Compare >::Iterator::operator*()
-{
-  return node_->data;
-}
-
-template< typename Key, typename Value, typename Compare >
-std::pair< Key, Value > * BSTree< Key, Value, Compare >::Iterator::operator->()
-{
-  return std::addressof(node_->data);
-}
-
-template< typename Key, typename Value, typename Compare >
-typename BSTree< Key, Value, Compare >::Iterator & BSTree< Key, Value, Compare >::Iterator::operator++()
-{
-  if (node_ == nullptr)
-  {
-    return *this;
-  }
-  else if (node_->right == nullptr)
-  {
-    Node * temp = node_->parent;
-    while (temp != nullptr && node_ == temp->right)
-    {
-      node_ = temp;
-      temp = node_->parent;
-    }
-    node_ = temp;
-    return *this;
-  }
-  else
-  {
-    node_ = node_->right;
-    if (node_->left == nullptr)
-    {
-      return *this;
-    }
-    while (node_->left != nullptr)
-    {
-      node_ = node_->left;
-    }
-    return *this;
-  }
-}
-
-template< typename Key, typename Value, typename Compare >
-typename BSTree< Key, Value, Compare >::Iterator BSTree< Key, Value, Compare >::Iterator::operator++(int)
-{
-  Iterator temp(*this);
-  ++(*this);
-  return temp;
-}
-
-template< typename Key, typename Value, typename Compare >
-typename BSTree< Key, Value, Compare >::Iterator & BSTree< Key, Value, Compare >::Iterator::operator--()
-{
-  if (node_ == nullptr)
-  {
-    return *this;
-  }
-  else if (node_->left == nullptr)
-  {
-    Node * temp = node_->parent;
-    while (temp != nullptr && node_ == temp->left)
-    {
-      node_ = temp;
-      temp = node_->parent;
-    }
-    node_ = temp;
-    return *this;
-  }
-  else
-  {
-    node_ = node_->left;
-    while (node_->right != nullptr)
-    {
-      node_ = node_->right;
-    }
-    return *this;
-  }
-}
-
-template< typename Key, typename Value, typename Compare >
-typename BSTree< Key, Value, Compare >::Iterator BSTree< Key, Value, Compare >::Iterator::operator--(int)
-{
-  Iterator temp(*this);
-  --(*this);
-  return temp;
-}
-
-template< typename Key, typename Value, typename Compare >
-bool BSTree< Key, Value, Compare >::Iterator::operator==(const Iterator & rhs) const
-{
-  return node_ == rhs.node_;
-}
-
-template< typename Key, typename Value, typename Compare >
-bool BSTree< Key, Value, Compare >::Iterator::operator!=(const Iterator & rhs) const
-{
-  return node_ != rhs.node_;
-}
-
-template< typename Key, typename Value, typename Compare >
 typename BSTree< Key, Value, Compare >::Iterator BSTree< Key, Value, Compare >::begin() noexcept
 {
   Node * temp = root_;
@@ -608,164 +764,6 @@ typename BSTree< Key, Value, Compare >::Iterator BSTree< Key, Value, Compare >::
     }
   }
   return end();
-}
-
-template< typename Key, typename Value, typename Compare >
-class BSTree< Key, Value, Compare >::ConstIterator : public std::iterator< std::input_iterator_tag, Key, Value, Compare >
-{
-  friend class BSTree;
-public:
-  ConstIterator();
-  explicit ConstIterator(const Node * node);
-  ConstIterator(const ConstIterator & iter);
-  ~ConstIterator() = default;
-
-  ConstIterator & operator=(const ConstIterator & iter);
-  ConstIterator & operator=(ConstIterator && rhs);
-  const value_t & operator*() const;
-  const value_t * operator->() const;
-  ConstIterator & operator++();
-  ConstIterator operator++(int);
-  ConstIterator & operator--();
-  ConstIterator operator--(int);
-  bool operator==(const ConstIterator & rhs) const;
-  bool operator!=(const ConstIterator & rhs) const;
-private:
-  const Node * node_;
-};
-
-template< typename Key, typename Value, typename Compare >
-BSTree< Key, Value, Compare >::ConstIterator::ConstIterator()
-{
-  node_(nullptr);
-}
-
-template< typename Key, typename Value, typename Compare >
-BSTree< Key, Value, Compare >::ConstIterator::ConstIterator(const Node * node)
-{
-  node_ = node;
-}
-
-template< typename Key, typename Value, typename Compare >
-BSTree< Key, Value, Compare >::ConstIterator::ConstIterator(const ConstIterator & iter)
-{
-  node_ = iter.node_;
-}
-
-template< typename Key, typename Value, typename Compare >
-typename BSTree< Key, Value, Compare >::ConstIterator & BSTree< Key, Value, Compare >::ConstIterator::operator=(const ConstIterator &iter)
-{
-  node_ = iter.node_;
-  return *this;
-}
-
-template< typename Key, typename Value, typename Compare >
-typename BSTree< Key, Value, Compare >::ConstIterator & BSTree< Key, Value, Compare >::ConstIterator::operator=(ConstIterator && rhs)
-{
-  node_(rhs.node_);
-  return *this;
-}
-
-template< typename Key, typename Value, typename Compare >
-const std::pair< Key, Value > & BSTree< Key, Value, Compare >::ConstIterator::operator*() const
-{
-  return node_->data;
-}
-
-template< typename Key, typename Value, typename Compare >
-const std::pair< Key, Value > * BSTree< Key, Value, Compare >::ConstIterator::operator->() const
-{
-  return std::addressof(node_->data);
-}
-
-template< typename Key, typename Value, typename Compare >
-typename BSTree< Key, Value, Compare >::ConstIterator & BSTree< Key, Value, Compare >::ConstIterator::operator++()
-{
-  if (node_ == nullptr)
-  {
-    return *this;
-  }
-  else if (node_->right == nullptr)
-  {
-    Node * temp = node_->parent;
-    while (temp != nullptr && node_ == temp->right)
-    {
-      node_ = temp;
-      temp = node_->parent;
-    }
-    node_ = temp;
-    return *this;
-  }
-  else
-  {
-    node_ = node_->right;
-    if (node_->left == nullptr)
-    {
-      return *this;
-    }
-    while (node_->left != nullptr)
-    {
-      node_ = node_->left;
-    }
-    return *this;
-  }
-}
-
-template< typename Key, typename Value, typename Compare >
-typename BSTree< Key, Value, Compare >::ConstIterator BSTree< Key, Value, Compare >::ConstIterator::operator++(int)
-{
-  ConstIterator temp(*this);
-  ++(*this);
-  return temp;
-}
-
-template< typename Key, typename Value, typename Compare >
-typename BSTree< Key, Value, Compare >::ConstIterator & BSTree< Key, Value, Compare >::ConstIterator::operator--()
-{
-  if (node_ == nullptr)
-  {
-    return *this;
-  }
-  else if (node_->left == nullptr)
-  {
-    Node * temp = node_->parent;
-    while (temp != nullptr && node_ == temp->left)
-    {
-      node_ = temp;
-      temp = node_->parent;
-    }
-    node_ = temp;
-    return *this;
-  }
-  else
-  {
-    node_ = node_->left;
-    while (node_->right != nullptr)
-    {
-      node_ = node_->right;
-    }
-    return *this;
-  }
-}
-
-template< typename Key, typename Value, typename Compare >
-typename BSTree< Key, Value, Compare >::ConstIterator BSTree< Key, Value, Compare >::ConstIterator::operator--(int)
-{
-  ConstIterator temp(*this);
-  --(*this);
-  return temp;
-}
-
-template< typename Key, typename Value, typename Compare >
-bool BSTree< Key, Value, Compare >::ConstIterator::operator==(const ConstIterator & rhs) const
-{
-  return node_ == rhs.node_;
-}
-
-template< typename Key, typename Value, typename Compare >
-bool BSTree< Key, Value, Compare >::ConstIterator::operator!=(const ConstIterator & rhs) const
-{
-  return node_ != rhs.node_;
 }
 
 #endif
