@@ -14,9 +14,9 @@ int main(int argc, char ** argv)
     std::cerr << "Error: argument of file failed!\n";
     return 1;
   }
-  //BSTree< std::string, BSTree< size_t, std::string > > tres;
-  //std::ifstream inputs(argv[1]);
-  //createTree(inputs, tres);
+  BSTree< std::string, BSTree< size_t, std::string > > tres;
+  std::ifstream inputs(argv[1]);
+  createTree(inputs, tres);
   //BSTree< std::string, std::function< void(BSTree< std::string, BSTree< size_t, std::string > >&) > > cmds;
   //cmds.insert("print", print);
   //cmds.insert("complement", complement);
