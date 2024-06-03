@@ -61,18 +61,19 @@ namespace taskaev
 
   void helpPrint(SubTree& tree, Iterator it, Iterator end)
   {
-    if (it != end)
+    while (it != end)
     {
       std::pair< size_t, std::string > pair = *it;
-      if (++it == end)
+      std::cout << pair.first << " " << pair.second;
+      ++it;
+      if (it != end)
       {
-        std::cout << pair.first << " " << pair.second << "\n";
+        std::cout << " ";
       }
       else
       {
-        std::cout << pair.first << " " << pair.second << " ";
+        std::cout << "\n";
       }
-      helpPrint(tree, it, end);
     }
   }
 
