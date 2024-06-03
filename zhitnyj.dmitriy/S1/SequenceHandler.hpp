@@ -4,6 +4,7 @@
 #include <string>
 #include <List.hpp>
 
+namespace zhitnyj {
 class SequenceHandler {
 public:
   SequenceHandler() = default;
@@ -17,5 +18,6 @@ private:
   List< std::string > names;
   List< List< unsigned long long > > sequences;
 };
+}
 
 #endif
