@@ -91,6 +91,10 @@ namespace sukacheva
     }
     BST< size_t, std::string > secondDict = treeOfDicts.find(nameSecond)->second;
     BST< size_t, std::string > firstDict = treeOfDicts.find(nameFirst)->second;
+    if (treeOfDicts.find(nameNew) != nullptr)
+    {
+      treeOfDicts.erase(nameNew);
+    }
     BST< size_t, std::string > newDict;
     using iterator = BST< size_t, std::string >::Iterator;
     for (iterator it = firstDict.begin(); it != firstDict.end(); it++)
@@ -124,6 +128,10 @@ namespace sukacheva
     }
     BST< size_t, std::string > secondDict = treeOfDicts.find(nameSecond)->second;
     BST< size_t, std::string > firstDict = treeOfDicts.find(nameFirst)->second;
+    if (treeOfDicts.find(nameNew) != nullptr)
+    {
+      treeOfDicts.erase(nameNew);
+    }
     BST< size_t, std::string > newDict;
     using iterator = BST< size_t, std::string >::Iterator;
     for (iterator it = firstDict.begin(); it != firstDict.end(); it++)
@@ -156,7 +164,11 @@ namespace sukacheva
       throw std::logic_error("<WRONG INPUT>\n");
     }
     BST< size_t, std::string > secondDict = treeOfDicts.find(nameSecond)->second;
-    BST< size_t, std::string > newDict = treeOfDicts.find(nameFirst)->second;;
+    BST< size_t, std::string > newDict = treeOfDicts.find(nameFirst)->second;
+    if (treeOfDicts.find(nameNew) != nullptr)
+    {
+      treeOfDicts.erase(nameNew);
+    }
     using iterator = BST< size_t, std::string >::Iterator;
     for (iterator it = secondDict.begin(); it != secondDict.end(); it++)
     {
