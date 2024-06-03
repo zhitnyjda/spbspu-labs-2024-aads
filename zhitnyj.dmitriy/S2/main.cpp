@@ -8,7 +8,7 @@
 
 int main(int argc, char* argv[])
 {
-  zhitnyj::Queue< std::shared_ptr< ExpressionItem > > expressionQueue;
+  zhitnyj::Queue< std::shared_ptr< zhitnyj::ExpressionItem > > expressionQueue;
   zhitnyj::Stack< long long > results;
 
   try
@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
         if (!line.empty())
         {
           zhitnyj::ExpressionEvaluator::parseExpression(expressionQueue, line);
-          zhitnyj::Queue< std::shared_ptr< ExpressionItem>> postfixQueue = ExpressionEvaluator::toPostfix(expressionQueue);
+          zhitnyj::Queue< std::shared_ptr< zhitnyj::ExpressionItem > > postfixQueue = zhitnyj::ExpressionEvaluator::toPostfix(expressionQueue);
           results.push(zhitnyj::ExpressionEvaluator::evaluateExpression(postfixQueue));
           expressionQueue.clear();
         }
@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
         if (!line.empty())
         {
           zhitnyj::ExpressionEvaluator::parseExpression(expressionQueue, line);
-          zhitnyj::Queue< std::shared_ptr< ExpressionItem>> postfixQueue = ExpressionEvaluator::toPostfix(expressionQueue);
+          zhitnyj::Queue< std::shared_ptr< zhitnyj::ExpressionItem > > postfixQueue = zhitnyj::ExpressionEvaluator::toPostfix(expressionQueue);
           results.push(zhitnyj::ExpressionEvaluator::evaluateExpression(postfixQueue));
           expressionQueue.clear();
         }
