@@ -89,6 +89,11 @@ void ponomarev::makeUnion(std::istream & in, std::ostream &, tree_t & data)
   data_t newData = data[dataset1];
   data_t::Iterator currElem = data[dataset2].begin();
 
+  if (data.find(dataset1) == data.end() || data.find(dataset2) == data.end())
+  {
+    throw std::logic_error("<INVALID COMMAND>");
+  }
+
   while (currElem != data[dataset2].end())
   {
     newData.insert(*currElem);

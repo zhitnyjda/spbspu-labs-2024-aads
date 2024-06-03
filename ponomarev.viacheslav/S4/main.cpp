@@ -38,7 +38,7 @@ int main(int argc, char ** argv)
     {
       commands.at(command)(std::cin, std::cout, data);
     }
-    catch (const std::out_of_range & e)
+    catch (const std::logic_error &)
     {
       ponomarev::printInvalidCommandMessage(std::cout);
       std::cin.clear();
