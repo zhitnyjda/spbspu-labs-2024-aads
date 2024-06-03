@@ -43,8 +43,6 @@ namespace sukacheva
     ConstIterator cend() const;
 
     Value operator[](Key k);
-    BST& operator=(const BST& other);
-    BST& operator=(BST&& other) noexcept;
   private:
     Node* root;
     Compare cmp;
@@ -59,7 +57,6 @@ namespace sukacheva
     void updateHeight(Node* node);
     int getBalanceFactor(Node* node);
     void copyTree(Node* thisNode, Node* otherNode);
-    void swap(BST first, BST second) noexcept;
   };
 
   template < typename Key, typename Value, typename Compare >
@@ -120,36 +117,6 @@ namespace sukacheva
 
   template< typename Key, typename Value, typename Compare >
   using iteratorsPair = std::pair< iterator< Key, Value, Compare >, iterator< Key, Value, Compare > >;
-
-  template< typename Key, typename Value, typename Compare >
-  void BST< Key, Value, Compare >::swap(BST first, BST second) noexcept
-  {
-    std::swap(first.root, second.root);
-  }
-
-  template< typename Key, typename Value, typename Compare >
-  BST< Key, Value, Compare >& BST< Key, Value, Compare >::operator=(const BST& other)
-  {
-    if (this == &other)
-    {
-      return *this;
-    }
-    swap(*this, other);
-    return *this;
-  }
-
-  template< typename Key, typename Value, typename Compare >
-  BST< Key, Value, Compare >& BST< Key, Value, Compare >::operator=(BST&& other) noexcept
-  {
-    if (this != &other)
-    {
-      clear(root);
-      root = other.root;
-      cmp = std::move(other.cmp);
-      other.root = nullptr;
-    }
-    return *this;
-  }
 
   template< typename Key, typename Value, typename Compare >
   void BST< Key, Value, Compare >::copyTree(Node* thisNode, Node* otherNode)
@@ -657,10 +624,6 @@ namespace sukacheva
     else if (cmp(node->data.first, k))
     {
       node->right = push(node->right, k, v, node);
-    }
-    else if (node->data.first == k)
-    {
-      node->data.second = v;
     }
     return balance(node);
   }
