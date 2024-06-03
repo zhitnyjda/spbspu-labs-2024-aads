@@ -2,6 +2,7 @@
 #include <tree.hpp>
 #include <string>
 #include "IOProcessing.hpp"
+#include "messages.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -11,7 +12,7 @@ int main(int argc, char* argv[])
 
   if (argc != 4)
   {
-    printError(std::cerr, "wrong amount of parameters");
+    errorWrapper(std::cerr, messages::sendWrongAmountOfArgs);
     return 1;
   }
 
@@ -22,13 +23,13 @@ int main(int argc, char* argv[])
   }
   catch(const std::invalid_argument& e)
   {
-    printError(std::cerr, "can't convert size_argument to number");
+    errorWrapper(std::cerr, messages::sendInvalidConversion);
     return 2;
   }
 
   if (size < 1)
   {
-    printError(std::cerr, "inapropriate value of parameter [size]");
+    errorWrapper(std::cerr, messages::sendInapropriateParameter);
     return 2;
   }
 
@@ -42,14 +43,18 @@ int main(int argc, char* argv[])
     typedFuncs["ints"]["descending"] = std::bind(miheev::testSorts< int, std::greater< int> >, _1, _2, std::greater< int >{});
   }
 
-  try
+  if (!typedFuncs.contains(argv[2]))
   {
-    typedFuncs.at(argv[2]).at(argv[1])(std::cout, size);
+    errorWrapper(std::cerr, messages::sendInvalidSecondArgument);
+    return 3;
   }
-  catch(const std::out_of_range& e)
+  if (!typedFuncs.at(argv[2]).contains(argv[1]))
   {
-    printError(std::cerr, "Invalid arguments");
+    errorWrapper(std::cerr, messages::sendInvalidFirstArgument);
+    return 3;
   }
+
+  typedFuncs.at(argv[2]).at(argv[1])(std::cout, size);
 
   return 0;
 }
