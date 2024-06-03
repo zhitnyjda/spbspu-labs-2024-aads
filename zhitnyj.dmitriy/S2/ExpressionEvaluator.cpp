@@ -4,14 +4,14 @@
 #include <cmath>
 #include <string>
 #include <cctype>
-#include "ExpressionEvaluator.hpp"
+#include "epessionEvaluator.hpp"
 
-void zhitnyj::ExpressionEvaluator::parseExpression(zhitnyj::Queue< std::shared_ptr< ExpressionItem > >& qe, const std::string& expr)
+void zhitnyj::epessionEvaluator::parseepession(zhitnyj::Queue< std::shared_ptr< epessionItem > >& qe, const std::string& ep)
 {
   std::string token;
-  for (size_t i = 0; i < expr.length(); ++i)
+  for (size_t i = 0; i < ep.length(); ++i)
   {
-    char c = expr[i];
+    char c = ep[i];
     if (std::isspace(c))
     {
       if (!token.empty())
@@ -26,7 +26,7 @@ void zhitnyj::ExpressionEvaluator::parseExpression(zhitnyj::Queue< std::shared_p
         }
         else
         {
-          throw std::runtime_error("Invalid token in expr: " + token);
+          throw std::runtime_error("Invalid token in ep: " + token);
         }
         token.clear();
       }
@@ -49,19 +49,20 @@ void zhitnyj::ExpressionEvaluator::parseExpression(zhitnyj::Queue< std::shared_p
     }
     else
     {
-      throw std::runtime_error("Invalid token in expr: " + token);
+      throw std::runtime_error("Invalid token in ep: " + token);
     }
   }
 }
 
-zhitnyj::Queue< std::shared_ptr< ExpressionItem > > zhitnyj::ExpressionEvaluator::toPostfix(zhitnyj::Queue< std::shared_ptr< ExpressionItem > >& inQe)
+zhitnyj::Queue< std::shared_ptr< epessionItem > >
+zhitnyj::epessionEvaluator::toPostfix(zhitnyj::Queue< std::shared_ptr< epessionItem > >& inQe)
 {
-  Stack< std::shared_ptr< ExpressionItem > > operatorStack;
-  Queue< std::shared_ptr< ExpressionItem > > postfixQueue;
+  Stack< std::shared_ptr< epessionItem > > operatorStack;
+  Queue< std::shared_ptr< epessionItem > > postfixQueue;
 
   while (!inQe.empty())
   {
-    std::shared_ptr< ExpressionItem > item = inQe.front();
+    std::shared_ptr< epessionItem > item = inQe.front();
     inQe.pop();
 
     if (item->isOperand())
@@ -108,13 +109,13 @@ zhitnyj::Queue< std::shared_ptr< ExpressionItem > > zhitnyj::ExpressionEvaluator
   return postfixQueue;
 }
 
-long long zhitnyj::ExpressionEvaluator::evaluateExpression(zhitnyj::Queue< std::shared_ptr< ExpressionItem > >& postfixQueue)
+long long zhitnyj::epessionEvaluator::evaluateepession(zhitnyj::Queue< std::shared_ptr< epessionItem > >& postfixQueue)
 {
   Stack< long long > evaluationStack;
 
   while (!postfixQueue.empty())
   {
-    std::shared_ptr< ExpressionItem > item = postfixQueue.front();
+    std::shared_ptr< epessionItem > item = postfixQueue.front();
     postfixQueue.pop();
 
     if (item->isOperand())
@@ -129,7 +130,7 @@ long long zhitnyj::ExpressionEvaluator::evaluateExpression(zhitnyj::Queue< std::
 
       if (evaluationStack.size() < 2)
       {
-        throw std::runtime_error("Insufficient values in the expr for operation");
+        throw std::runtime_error("Insufficient values in the ep for operation");
       }
       long long right = evaluationStack.top();
       evaluationStack.pop();
@@ -153,13 +154,13 @@ long long zhitnyj::ExpressionEvaluator::evaluateExpression(zhitnyj::Queue< std::
     }
     else
     {
-      throw std::runtime_error("Invalid expr item encountered");
+      throw std::runtime_error("Invalid ep item encountered");
     }
   }
 
   if (evaluationStack.size() != 1)
   {
-    throw std::runtime_error("The expr does not reduce to a single value");
+    throw std::runtime_error("The ep does not reduce to a single value");
   }
 
   return evaluationStack.top();
