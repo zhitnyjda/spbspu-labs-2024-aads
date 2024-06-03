@@ -43,6 +43,7 @@ int main(int argc, char* argv[])
     cmds.emplace("print", nikiforov::print);
     cmds.emplace("complement", nikiforov::complement);
     cmds.emplace("intersect", nikiforov::intersect);
+    cmds.emplace("union", nikiforov::unite);
   }
   
   std::string cmd;

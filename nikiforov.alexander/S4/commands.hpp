@@ -18,6 +18,8 @@ namespace nikiforov
 
   void intersect(dictionariesTree& dictionaries, std::istream& in, std::ostream& out);
 
+  void unite(dictionariesTree& dictionaries, std::istream& in, std::ostream& out);
+
   std::ostream& errorMessage(std::ostream& out);
 
   std::ostream& emptyMessage(std::ostream& out);

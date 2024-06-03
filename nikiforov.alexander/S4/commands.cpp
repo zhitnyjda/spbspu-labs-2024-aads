@@ -35,6 +35,7 @@ void nikiforov::print(dictionariesTree& dictionaries, std::istream& in, std::ost
   std::string nameDict;
   in >> nameDict;
   auto dict = dictionaries.find(nameDict);
+
   if (dict != nullptr)
   {
     if (!dict->second.is_empty())
@@ -61,9 +62,9 @@ void nikiforov::complement(dictionariesTree& dictionaries, std::istream& in, std
 {
   std::string newNameDict, firstName, secondName;
   in >> newNameDict >> firstName >> secondName;
-
   auto firstDict = dictionaries.find(firstName);
   auto secondDict = dictionaries.find(secondName);
+
   if (firstDict != dictionaries.end() && secondDict != dictionaries.end())
   {
     AvlTree< int, std::string > newDict;
@@ -87,14 +88,43 @@ void nikiforov::intersect(dictionariesTree& dictionaries, std::istream& in, std:
 {
   std::string newNameDict, firstName, secondName;
   in >> newNameDict >> firstName >> secondName;
-
   auto firstDict = dictionaries.find(firstName);
   auto secondDict = dictionaries.find(secondName);
+
   if (firstDict != dictionaries.end() && secondDict != dictionaries.end())
   {
     AvlTree< int, std::string > newDict;
     for (auto it = firstDict->second.begin(); it != firstDict->second.end(); ++it) {
       if (secondDict->second.find(it->first) != secondDict->second.end())
+      {
+        newDict.emplace(it->first, it->second);
+      }
+    }
+
+    auto findSameDict = dictionaries.find(newNameDict);
+    if (findSameDict != dictionaries.end())
+    {
+      dictionaries.erase(findSameDict->first);
+    }
+    dictionaries.emplace(newNameDict, newDict);
+  }
+}
+
+void nikiforov::unite(dictionariesTree& dictionaries, std::istream& in, std::ostream& out)
+{
+  std::string newNameDict, firstName, secondName;
+  in >> newNameDict >> firstName >> secondName;
+  auto firstDict = dictionaries.find(firstName);
+  auto secondDict = dictionaries.find(secondName);
+
+  if (firstDict != dictionaries.end() && firstDict != dictionaries.end())
+  {
+    AvlTree< int, std::string > newDict;
+    for (auto it = firstDict->second.begin(); it != firstDict->second.end(); ++it) {
+      newDict.emplace(it->first, it->second);
+    }
+    for (auto it = secondDict->second.begin(); it != secondDict->second.end(); ++it) {
+      if (newDict.find(it->first) == newDict.end())
       {
         newDict.emplace(it->first, it->second);
       }
