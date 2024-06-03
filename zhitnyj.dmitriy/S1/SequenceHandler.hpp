@@ -15,8 +15,8 @@ namespace zhitnyj {
     void printSequencesNames();
 
   private:
-    List < std::string > names;
-    List < List< unsigned long long > > sequences;
+    List< std::string > names;
+    List< List< unsigned long long > > sequences;
   };
 }
 
