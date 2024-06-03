@@ -45,5 +45,12 @@ int main(int argc, char ** argv)
     }
   }
 
+  for (tree_t::Iterator iter = data.begin(); iter != data.end(); iter++)
+  {
+    iter->second.clear();
+  }
+  data.clear();
+  commands.clear();
+
   return 0;
 }
