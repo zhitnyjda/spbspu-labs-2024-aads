@@ -1,67 +1,62 @@
 #include "commands.hpp"
-#include "AvlTree.hpp"
 #include <iostream>
 #include <fstream>
 
 int main(int argc, char* argv[])
 {
-  nikiforov::AvlTree< int, std::string> tree;
-  int num = 0;
-  std::string name = "";
+  if (argc != 2)
+  {
+    std::cerr << "Error: Wrong parameters amount!\n";
+    return 2;
+  }
+
+  std::ifstream input(argv[1]);
+  if (!input)
+  {
+    std::cerr << "Error: unable to open the file\n";
+    return 2;
+  }
+
+  using data_t = nikiforov::AvlTree< int, std::string >;
+  using dictionariesTree = nikiforov::AvlTree< std::string, data_t >;
+
+  dictionariesTree dictionaries;
+  data_t dict;
+  std::string strVocab;
+  std::string nameVocab;
+
   try
   {
-    if (argc == 2)
+    while (!input.eof())
     {
-      std::ifstream input(argv[1]);
-      if (!input)
+      std::getline(input, strVocab);
+      nameVocab = nikiforov::cutElem(strVocab);
+      nikiforov::createDictionary(strVocab, dict);
+      if (!input.eof())
       {
-        std::cerr << "Error: unable to open the file\n";
-        return 2;
+        dictionaries.emplace(nameVocab, dict);
       }
+      dict.clear();
+    }
 
-      while (!input.eof())
-      {
-        std::cin >> num >> name;
-        auto p = std::make_pair(num, name);
-        tree.insert(p);
-      }
-    }
-    else if (argc == 1)
+    using namespace std::placeholders;
+    nikiforov::AvlTree< std::string, std::function < void(dictionariesTree&, std::istream&, std::ostream&) > > cmds;
     {
-      while (!std::cin.eof())
-      {
-        std::cin >> num >> name;
-        if (!std::cin.eof())
-        {
-          auto p = std::make_pair(num, name);
-          tree.insert(p);
-        }
-      }
-      num = 0;
+      cmds.emplace("print", nikiforov::print);
     }
-    else
+
+    std::string cmd = "";
+
+    while (std::cin >> cmd)
     {
-      std::cerr << "Error: wrong number of parameters\n";
-    }
-    auto iterr = tree.find(1);
-    std::cout << iterr->first;
-    std::cout << tree.at(3);
-    for (auto iter = tree.begin(); iter != tree.end(); iter++)
-    {
-      std::cout << iter->first << " " << iter->second << "\n";
-    }
-    //tree.clear();
-    tree.erase(3);
-    std::cout << "\n\n\n";
-    for (auto iter = tree.begin(); iter != tree.end(); iter++)
-    {
-      std::cout << iter->first << " " << iter->second << "\n";
+      cmds.at(cmd)(dictionaries, std::cin, std::cout);
     }
   }
   catch (const std::exception&)
   {
 
   }
-  num = 0;
+
+  strVocab = "";
   return 0;
 }

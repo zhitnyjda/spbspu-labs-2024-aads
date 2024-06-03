@@ -15,6 +15,8 @@ namespace nikiforov
     using keyValue_t = std::pair< Key, Value >;
 
     AvlTree();
+    AvlTree(const AvlTree& that);
+    AvlTree(std::initializer_list< keyValue_t > list);
     ~AvlTree();
 
     Iterator begin() noexcept;
@@ -27,6 +29,7 @@ namespace nikiforov
 
     Value& at(const Key& key);
 
+    Iterator emplace(const Key& key, const Value& value);
     void insert(const keyValue_t& data);
     void erase(Iterator pos);
     size_t erase(const Key& k);
@@ -60,7 +63,7 @@ namespace nikiforov
     Node* rotationRL(Node* pNode);
     Node* rotationLR(Node* pNode);
 
-    Node* insertData(Node* pNode, const keyValue_t& data);
+    Node* insertData(Node* pNode, const Key& key, const Value& value);
     size_t countSize(Node* pNode) const;
     size_t getHeight(Node* pNode);
     void updateHeight(Node* pNode);
@@ -325,6 +328,25 @@ nikiforov::AvlTree< Key, Value, Compare >::AvlTree() :
 {}
 
 template<typename Key, typename Value, typename Compare>
+inline nikiforov::AvlTree<Key, Value, Compare>::AvlTree(const AvlTree & other) :
+  pRoot(nullptr), size(0)
+{
+  for (Iterator iter = other.cbegin(); iter != cend(); ++iter)
+  {
+    insert(*iter);
+  }
+}
+
+template<typename Key, typename Value, typename Compare>
+nikiforov::AvlTree<Key, Value, Compare>::AvlTree(std::initializer_list<keyValue_t> list)
+{
+  for (auto data : list)
+  {
+    insert(data);
+  }
+}
+
+template<typename Key, typename Value, typename Compare>
 nikiforov::AvlTree<Key, Value, Compare>::~AvlTree()
 {
   clear();
@@ -399,10 +421,18 @@ Value& nikiforov::AvlTree< Key, Value, Compare >::at(const Key& key)
   }
 }
 
+template < typename Key, typename Value, typename Compare >
+typename nikiforov::AvlTree<Key, Value, Compare>::Iterator nikiforov::AvlTree< Key, Value, Compare >::emplace(const Key& key, const Value& value)
+{
+  pRoot = insertData(pRoot, key, value);
+  size++;
+  return find(key);
+}
+
 template< typename Key, typename Value, typename Compare >
 void nikiforov::AvlTree<Key, Value, Compare>::insert(const keyValue_t& data)
 {
-  pRoot = insertData(pRoot, data);
+  pRoot = insertData(pRoot, data.first, data.second);
   size++;
 }
 
@@ -459,83 +489,6 @@ typename nikiforov::AvlTree<Key, Value, Compare>::Iterator nikiforov::AvlTree<Ke
   return end();
 }
 
-///
-
-
-
-
-
-///
-
-
-
-///
-
-template<typename Key, typename Value, typename Compare>
-void nikiforov::AvlTree<Key, Value, Compare>::updateHeight(Node* pNode)
-{
-  if (pNode == nullptr)
-  {
-    return 0;
-  }
-  return pNode->height = std::max(updateHeight(pNode->left), updateHeight(pNode->right)) + 1;
-}
-
-template<typename Key, typename Value, typename Compare>
-size_t nikiforov::AvlTree<Key, Value, Compare>::countSize(Node* pNode) const
-{
-  if (pNode == nullptr)
-  {
-    return 0;
-  }
-  return (countSize(pNode->left) + countSize(pNode->right) + 1);
-}
-
-template<typename Key, typename Value, typename Compare>
-typename nikiforov::AvlTree<Key, Value, Compare>::Node* nikiforov::AvlTree<Key, Value, Compare>::insertData(Node* pNode, const keyValue_t& data)
-{
-  if (pNode == nullptr)
-  {
-    pNode = new Node(data);
-  }
-  else
-  {
-    if (cmp(pNode->data.first, data.first))
-    {
-      pNode->right = insertData(pNode->right, data);
-      pNode->right->parent = pNode;
-    }
-    else
-    {
-      pNode->left = insertData(pNode->left, data);
-      pNode->left->parent = pNode;
-    }
-  }
-  return balance(pNode);
-}
-
-template < typename Key, typename Value, typename Compare >
-size_t nikiforov::AvlTree< Key, Value, Compare >::getHeight(Node* pNode)
-{
-  if (pNode != nullptr)
-  {
-    size_t lHeight = getHeight(pNode->left);
-    size_t rHeight = getHeight(pNode->right);
-    size_t height = std::max(lHeight, rHeight) + 1;
-    return height;
-  }
-  else
-  {
-    return 0;
-  }
-}
-
-template < typename Key, typename Value, typename Compare >
-int nikiforov::AvlTree< Key, Value, Compare >::heightDiff(Node* pNode)
-{
-  return pNode != nullptr ? getHeight(pNode->left) - getHeight(pNode->right) : 0;
-}
-
 template < typename Key, typename Value, typename Compare >
 typename nikiforov::AvlTree< Key, Value, Compare >::Node* nikiforov::AvlTree< Key, Value, Compare >::rotationRR(Node* pNode)
 {
@@ -580,6 +533,72 @@ typename nikiforov::AvlTree< Key, Value, Compare >::Node* nikiforov::AvlTree< Ke
 {
   pNode->left = rotationLL(pNode->left);
   return rotationRR(pNode);
+}
+
+template<typename Key, typename Value, typename Compare>
+typename nikiforov::AvlTree<Key, Value, Compare>::Node* nikiforov::AvlTree<Key, Value, Compare>::insertData(Node* pNode, const Key& key, const Value& value)
+{
+  if (pNode == nullptr)
+  {
+    pNode = new Node(std::make_pair(key, value));
+  }
+  else
+  {
+    if (cmp(pNode->data.first, key))
+    {
+      pNode->right = insertData(pNode->right, key, value);
+      pNode->right->parent = pNode;
+    }
+    else
+    {
+      pNode->left = insertData(pNode->left, key, value);
+      pNode->left->parent = pNode;
+    }
+  }
+  return balance(pNode);
+}
+
+template<typename Key, typename Value, typename Compare>
+size_t nikiforov::AvlTree<Key, Value, Compare>::countSize(Node* pNode) const
+{
+  if (pNode == nullptr)
+  {
+    return 0;
+  }
+  return (countSize(pNode->left) + countSize(pNode->right) + 1);
+}
+
+template < typename Key, typename Value, typename Compare >
+size_t nikiforov::AvlTree< Key, Value, Compare >::getHeight(Node* pNode)
+{
+  if (pNode != nullptr)
+  {
+    size_t lHeight = getHeight(pNode->left);
+    size_t rHeight = getHeight(pNode->right);
+    size_t height = std::max(lHeight, rHeight) + 1;
+    return height;
+  }
+  else
+  {
+    return 0;
+  }
+}
+
+template<typename Key, typename Value, typename Compare>
+void nikiforov::AvlTree<Key, Value, Compare>::updateHeight(Node* pNode)
+{
+  if (pNode == nullptr)
+  {
+    return 0;
+  }
+  return pNode->height = std::max(updateHeight(pNode->left), updateHeight(pNode->right)) + 1;
+}
+
+
+template < typename Key, typename Value, typename Compare >
+int nikiforov::AvlTree< Key, Value, Compare >::heightDiff(Node* pNode)
+{
+  return pNode != nullptr ? getHeight(pNode->left) - getHeight(pNode->right) : 0;
 }
 
 template < typename Key, typename Value, typename Compare >
