@@ -130,6 +130,10 @@ namespace sukacheva
   template< typename Key, typename Value, typename Compare >
   BST< Key, Value, Compare >& BST< Key, Value, Compare >::operator=(const BST& other)
   {
+    if (this == &other)
+    {
+      return *this;
+    }
     swap(*this, other);
     return *this;
   }
@@ -137,7 +141,13 @@ namespace sukacheva
   template< typename Key, typename Value, typename Compare >
   BST< Key, Value, Compare >& BST< Key, Value, Compare >::operator=(BST&& other) noexcept
   {
-    swap(*this, other);
+    if (this != &other)
+    {
+      clear(root);
+      root = other.root;
+      cmp = std::move(other.cmp);
+      other.root = nullptr;
+    }
     return *this;
   }
 
