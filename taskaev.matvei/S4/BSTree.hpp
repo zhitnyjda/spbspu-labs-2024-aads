@@ -27,11 +27,11 @@ namespace taskaev
         parent_(parent),
         height_(h)
       {}
+      std::pair< Key, Value > data_;
       Node* right_;
       Node* left_;
       Node* parent_;
       size_t height_;
-      std::pair< Key, Value > data_;
     };
     BSTree();
     BSTree(const BSTree& rhs);
