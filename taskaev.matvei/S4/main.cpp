@@ -19,9 +19,9 @@ int main(int argc, char ** argv)
   createTree(inputs, tres);
   BSTree< std::string, std::function< void(BSTree< std::string, BSTree< size_t, std::string > >&) > > cmds;
   cmds.insert("print", print);
- // cmds.insert("complement", complement);
- // cmds.insert("intersect", intersect);
- // cmds.insert("union", unions);
+  cmds.insert("complement", complement);
+  cmds.insert("intersect", intersect);
+  cmds.insert("union", unions);
   std::string command = "";
   while (std::cin >> command)
   {
