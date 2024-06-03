@@ -10,8 +10,8 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  BSTree< std::string, BSTree< long long, std::string > > dictionaries;
-  BSTree< std::string, std::function< void(BSTree< std::string, BSTree< long long, std::string > > &) > > cmds;
+  zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > dictionaries;
+  zhitnyj::BSTree< std::string, std::function< void(zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &) > > cmds;
 
   cmds.insert(std::make_pair("print", handlePrint));
   cmds.insert(std::make_pair("complement", handleComplement));
@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
   cmds.insert(std::make_pair("union", handleUnion));
 
   try {
-    loadTreeFromFile(argv[1], dictionaries);
+    zhitnyj::loadTreeFromFile(argv[1], dictionaries);
   } catch (const std::exception &e) {
     std::cerr << "Error loading file: " << e.what() << "\n";
     return 1;
