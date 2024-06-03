@@ -1,8 +1,14 @@
 #include "execCommands.hpp"
 
-std::ostream& psarev::outError(std::ostream& out, const std::string& errText)
+std::ostream& psarev::outInvCommand(std::ostream& out)
 {
-  out << errText << '\n';
+  out << "<INVALID COMMAND>\n";
+  return out;
+}
+
+std::ostream& psarev::outEmpty(std::ostream& out)
+{
+  out << "<EMPTY>\n";
   return out;
 }
 
@@ -39,12 +45,12 @@ void psarev::print(avlTree< std::string, avlTree< int, std::string > >& dataSets
   auto setIter = dataSets.find(setName);
   if (setIter == dataSets.end())
   {
-    outError(std::cout, "<INVALID COMMAND>");
+    outInvCommand(std::cout);
     return;
   }
   else if ((*setIter).second.isEmpty())
   {
-    outError(std::cout, "<EMPTY>");
+    outEmpty(std::cout);
     return;
   }
 
@@ -66,7 +72,7 @@ void psarev::complement(avlTree< std::string, avlTree< int, std::string > >& dat
   auto sSetIter = dataSets.find(sSet);
   if ((fSetIter == dataSets.end()) || (sSetIter == dataSets.end()))
   {
-    outError(std::cout, "<INVALID COMMAND>");
+    outInvCommand(std::cout);
     return;
   }
 
@@ -97,7 +103,7 @@ void psarev::intersect(avlTree<std::string, psarev::avlTree<int, std::string>>& 
   auto sSetIter = dataSets.find(sSet);
   if (fSetIter == dataSets.end() || sSetIter == dataSets.end())
   {
-    outError(std::cout, "<INVALID COMMAND>");
+    outInvCommand(std::cout);
     return;
   }
 
@@ -128,7 +134,7 @@ void psarev::unio(avlTree<std::string, avlTree<int, std::string>>& dataSets)
   auto sSetIter = dataSets.find(sSet);
   if (fSetIter == dataSets.end() || sSetIter == dataSets.end())
   {
-    outError(std::cout, "<INVALID COMMAND>");
+    outInvCommand(std::cout);
     return;
   }
 

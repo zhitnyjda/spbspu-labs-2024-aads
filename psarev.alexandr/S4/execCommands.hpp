@@ -8,7 +8,9 @@ namespace psarev
 {
   using base_t = psarev::avlTree< int, std::string >;
 
-  std::ostream& outError(std::ostream& out, const std::string& errText);
+  std::ostream& outInvCommand(std::ostream& out);
+  std::ostream& outEmpty(std::ostream& out);
+
   void fillTree(std::istream& in, avlTree< std::string, base_t >& dataSets);
 
   void print(avlTree< std::string, avlTree< int, std::string > >& dataSets);

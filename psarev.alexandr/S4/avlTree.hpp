@@ -665,7 +665,7 @@ int psarev::avlTree< Key, Value, Compare >::getHeight(Unit* unit)
   return (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;
 }
 
-template<typename Key, typename Value, typename Compare>
+template< typename Key, typename Value, typename Compare >
 typename psarev::avlTree< Key, Value, Compare >::Unit* psarev::avlTree<Key, Value, Compare>::lTurn(Unit* moveU)
 {
   Unit* tempo = moveU->right;

@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
     auto curCmd = taskCmds.find(cmd);
     if (curCmd == taskCmds.end() && cmd.length() > 0)
     {
-      psarev::outError(std::cout, "<INVALID COMMAND>");
+      psarev::outEmpty(std::cout);
       std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
     }
     else if (cmd.length() > 0)
