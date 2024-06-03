@@ -7,7 +7,7 @@
 #include "functions.hpp"
 using namespace taskaev;
 
-int main(int argc, char * argv[])
+int main(int argc, char ** argv)
 {
   if (argc != 2)
   {
