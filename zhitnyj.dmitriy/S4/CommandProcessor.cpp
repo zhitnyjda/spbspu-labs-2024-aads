@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include "CommandProcessor.hpp"
 
-void processLineToTree(const std::string &line, BSTree <std::string, BSTree< long long, std::string >> &dicts) {
+void zhitnyj::processLineToTree(const std::string &line, zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dicts) {
   if (line.empty()) {
     return;
   }
@@ -49,7 +49,7 @@ void processLineToTree(const std::string &line, BSTree <std::string, BSTree< lon
   dicts.push(dataset, tree);
 }
 
-void loadTreeFromFile(const std::string &filename, BSTree <std::string, BSTree< long long, std::string >> &dicts) {
+void zhitnyj::loadTreeFromFile(const std::string &filename, zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dicts) {
   std::ifstream file(filename);
   if (!file) {
     throw std::runtime_error("Unable to open file");
@@ -62,7 +62,7 @@ void loadTreeFromFile(const std::string &filename, BSTree <std::string, BSTree< 
   file.close();
 }
 
-void handleIntersect(BSTree <std::string, BSTree< long long, std::string >> &dicts) {
+void zhitnyj::handleIntersect(zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dicts) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
 
@@ -86,7 +86,7 @@ void handleIntersect(BSTree <std::string, BSTree< long long, std::string >> &dic
   }
 }
 
-void handleComplement(BSTree <std::string, BSTree< long long, std::string >> &dicts) {
+void zhitnyj::handleComplement(zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dicts) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
 
@@ -110,7 +110,7 @@ void handleComplement(BSTree <std::string, BSTree< long long, std::string >> &di
   }
 }
 
-void handleUnion(BSTree <std::string, BSTree< long long, std::string >> &dicts) {
+void zhitnyj::handleUnion(zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dicts) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
 
@@ -138,7 +138,7 @@ void handleUnion(BSTree <std::string, BSTree< long long, std::string >> &dicts) 
   }
 }
 
-void handlePrint(BSTree <std::string, BSTree< long long, std::string >> &dicts) {
+void zhitnyj::handlePrint(zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dicts) {
   std::string dataset;
   std::cin >> dataset;
 
@@ -159,10 +159,10 @@ void handlePrint(BSTree <std::string, BSTree< long long, std::string >> &dicts) 
   }
 }
 
-void emptyCommandWarning(std::ostream &out) {
+void zhitnyj::emptyCommandWarning(std::ostream &out) {
   out << "<EMPTY>\n";
 }
 
-void invalidCommandWarning(std::ostream &out) {
+void zhitnyj::invalidCommandWarning(std::ostream &out) {
   out << "<INVALID COMMAND>\n";
 }
