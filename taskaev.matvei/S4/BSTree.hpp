@@ -224,7 +224,7 @@ class BSTree< Key, Value, Comparator >::Iterator
 public:
   friend class BSTree;
   Iterator();
-  Iterator(ConstIterator someIterator);
+  Iterator(ConstIterator iter);
   ~Iterator() = default;
   Iterator(const Iterator&) = default;
   Iterator& operator=(const Iterator&) = default;
@@ -643,7 +643,7 @@ typename BSTree< Key, Value, Comparator >::ConstIterator BSTree< Key, Value, Com
   {
     if (!(key < newRoot->data_.first) || (key > newRoot->data_.first))
     {
-      return Iterator(newRoot);
+      return Iterator(newRoot, root_);
     }
     else if (key < newRoot->data_.first)
     {
