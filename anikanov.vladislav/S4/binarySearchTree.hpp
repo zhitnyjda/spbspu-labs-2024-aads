@@ -10,6 +10,22 @@
 
 namespace anikanov {
   template< typename Key, typename Value, typename Compare >
+  class BinarySearchTree;
+}
+
+template< typename Key, typename Value, typename Compare >
+std::ostream &operator<<(std::ostream &os, const anikanov::BinarySearchTree< Key, Value, Compare > &tree)
+{
+  anikanov::List< std::pair< Key, Value > > list;
+  tree.inOrder(tree.root.get(), list);
+  for (const auto &p: list) {
+    os << p.first << " " << p.second << " ";
+  }
+  return os;
+}
+
+namespace anikanov {
+  template< typename Key, typename Value, typename Compare >
   class BinarySearchTree {
   public:
     BinarySearchTree() : root(nullptr), nodeCount(0)
@@ -23,7 +39,7 @@ namespace anikanov {
 
     class Iterator {
     private:
-      using ListIterator = typename List< std::pair< Key, Value > >::iterator;
+      using ListIterator = typename List< std::pair< Key, Value > >::Iterator;
       ListIterator iter;
     public:
       Iterator(ListIterator it);
@@ -38,7 +54,7 @@ namespace anikanov {
 
     class ConstIterator {
     private:
-      using ListIterator = typename List< std::pair< Key, Value > >::iterator;
+      using ListIterator = typename List< std::pair< Key, Value > >::Iterator;
       Iterator iter;
     public:
       ConstIterator(ListIterator it);
@@ -68,6 +84,11 @@ namespace anikanov {
     void insert(const std::pair< Key, Value > &pair);
     void erase(const Key &key);
     void print() const;
+    friend std::ostream &operator
+    <<< Key, Value, Compare >(
+    std::ostream &os,
+    const BinarySearchTree &tree
+    );
 
   private:
     struct Node {
@@ -380,7 +401,7 @@ std::pair<
 template< typename Key, typename Value, typename Compare >
 size_t anikanov::BinarySearchTree< Key, Value, Compare >::count(const Key &key) const
 {
-  return find(root.get(), key) != end() ? 1 : 0;
+  return find(key) != end() ? 1 : 0;
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -393,17 +414,6 @@ template< typename Key, typename Value, typename Compare >
 void anikanov::BinarySearchTree< Key, Value, Compare >::erase(const Key &key)
 {
   drop(key);
-}
-
-template< typename Key, typename Value, typename Compare >
-std::ostream &operator<<(std::ostream &os, const anikanov::BinarySearchTree< Key, Value, Compare > &tree)
-{
-  anikanov::List< std::pair< Key, Value>> list;
-  tree.inOrder(tree.root.get(), list);
-  for (const auto &p: list) {
-    os << p.first << " " << p.second << " ";
-  }
-  return os;
 }
 
 template< typename Key, typename Value, typename Compare >

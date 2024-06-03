@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
   }
 
   std::string filename = argv[1];
-  std::map< std::string, BinarySearchTree< int, std::string, std::less< > > > dictionaries;
+  std::map< std::string, BinarySearchTree< int, std::string, std::less<> > > dictionaries;
   loadFromFile(filename, dictionaries);
 
   std::string command;
@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
 
       auto &d1 = dictionaries[dict1];
       auto &d2 = dictionaries[dict2];
-      AVLTree< int, std::string > result;
+      BinarySearchTree< int, std::string, std::less<> > result;
 
       if (cmd == "complement") {
         for (auto it = d1.begin(); it != d1.end(); ++it) {
@@ -64,18 +64,18 @@ int main(int argc, char *argv[])
           }
         }
       } else if (cmd == "intersect") {
-        for (auto it = d1.begin(); it != d1.end(); ++it) {
-          if (d2.count(it->first)) {
-            result.push(it->first, it->second);
+        for (auto & it : d1) {
+          if (d2.count(it.first)) {
+            result.push(it.first, it.second);
           }
         }
       } else if (cmd == "union") {
-        for (auto it = d1.begin(); it != d1.end(); ++it) {
-          result.push(it->first, it->second);
+        for (auto & it : d1) {
+          result.push(it.first, it.second);
         }
-        for (auto it = d2.begin(); it != d2.end(); ++it) {
-          if (!result.count(it->first)) {
-            result.push(it->first, it->second);
+        for (auto & it : d2) {
+          if (!result.count(it.first)) {
+            result.push(it.first, it.second);
           }
         }
       }
