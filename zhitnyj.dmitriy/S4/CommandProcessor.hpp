@@ -7,7 +7,7 @@
 #include "BinarySearchTree.hpp"
 
 namespace zhitnyj {
-  void loadTreeFromFile(const std::string &file_, BSTree< std::string, BSTree< long long, std::string > > &dict);
+  void loadTreeFromFile(const std::string &line, BSTree< std::string, BSTree< long long, std::string > > &dict);
   void handlePrint(BSTree< std::string, BSTree< long long, std::string > > &dict);
   void handleComplement(BSTree< std::string, BSTree< long long, std::string > > &dict);
   void handleIntersect(BSTree< std::string, BSTree< long long, std::string > > &dict);
