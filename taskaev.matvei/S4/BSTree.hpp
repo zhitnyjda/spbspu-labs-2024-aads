@@ -654,7 +654,7 @@ typename BSTree< Key, Value, Comparator >::ConstIterator BSTree< Key, Value, Com
       newRoot = newRoot->right_;
     }
   }
-  return end();
+  return сend();
 }
 
 template < typename Key, typename Value, typename Comparator >
