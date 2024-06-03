@@ -9,14 +9,14 @@ void psarev::TaskSumm::operator()(const std::pair<const long long, std::string>&
 
   if (overCheck)
   {
-    throw std::overflow_error("");
+    throw std::overflow_error("<OVERFLOW ERROR>");
   }
 
   long long llMin = std::numeric_limits< long long >::min();
   bool underCheck = (result < 0) && (keyValue.first < 0) && (llMin - keySumm > dataPair.first);
   if (underCheck)
   {
-    throw std::underflow_error("");
+    throw std::underflow_error("<UNDERFLOW ERROR>");
   }
 
   keySumm += dataPair.first;
@@ -26,4 +26,14 @@ void psarev::TaskSumm::operator()(const std::pair<const long long, std::string>&
     valSumm += " ";
   }
   valSumm += dataPair.second;
+}
+
+long long psarev::TaskSumm::getKeySumm()
+{
+  return keySumm;
+}
+
+std::string psarev::TaskSumm::getValSumm()
+{
+  return valSumm;
 }
