@@ -407,7 +407,7 @@ void BSTree< Key, Value, Comparator >::insert(const Key& key, const Value& val)
         return;
       }
     }
-    Node* newNode = new Node({ key, val }, nodes);
+    Node* newNodes = new Node({ key, val }, nodes);
     if (key > nodes->data_.first)
     {
       nodes->right_ = newNodes;
