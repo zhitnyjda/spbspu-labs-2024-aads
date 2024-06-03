@@ -4,7 +4,6 @@
 
 namespace zheleznyakov
 {
-  using dict_t = Tree< int, std::string >;
-  using dicts_t = Tree< std::string, dict_t >;
+  using data_t = Tree< long long, std::string >;
 }
 #endif
