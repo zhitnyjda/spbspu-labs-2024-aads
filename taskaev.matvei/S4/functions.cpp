@@ -1,7 +1,8 @@
 #include "functions.hpp"
 #include <string>
+using namespace taskaev;
 
-void taskaev::createTree(std::istream& in, Tree& tree)
+void createTree(std::istream& in, Tree& tree)
 {
   std::string data = "";
   while (std::getline(in, data))
@@ -57,7 +58,7 @@ void taskaev::createTree(std::istream& in, Tree& tree)
   }
 }
 
-void taskaev::helpPrint(SubTree& tree, Iterator it, Iterator end)
+void helpPrint(SubTree& tree, Iterator it, Iterator end)
 {
   if (iterator != end)
   {
@@ -74,7 +75,7 @@ void taskaev::helpPrint(SubTree& tree, Iterator it, Iterator end)
   }
 }
 
-void taskaev::print(Tree& tree)
+void print(Tree& tree)
 {
   std::string datas;
   std::cin >> datas;
@@ -92,7 +93,7 @@ void taskaev::print(Tree& tree)
   }
 }
 
-void taskaev::complement(Tree& tree)
+void complement(Tree& tree)
 {
   std::string names, oneName, twoName;
   std::cin >> names >> oneName >> twoName;
@@ -102,7 +103,7 @@ void taskaev::complement(Tree& tree)
   tree.insert(names, tres);
 }
 
-void taskaev::findcomplement(SubTree& two, SubTree& one, SubTree& tree)
+void findcomplement(SubTree& two, SubTree& one, SubTree& tree)
 {
   for (auto it = sourceTree.begin(); it != sourceTree.end(); ++it) {
     bool flag = false;
@@ -118,7 +119,7 @@ void taskaev::findcomplement(SubTree& two, SubTree& one, SubTree& tree)
   }
 }
 
-void taskaev::intersect(Tree& tree)
+void intersect(Tree& tree)
 {
   std::string names, oneName, twoName;
   std::cin >> names >> oneName >> twoName;
@@ -136,7 +137,7 @@ void taskaev::intersect(Tree& tree)
   tree.insert(names, tres);
 }
 
-SubTree taskaev::mergeTrees(SubTree& treeOne, SubTree& treeTwo)
+SubTree mergeTrees(SubTree& treeOne, SubTree& treeTwo)
 {
   BSTree< size_t, std::string > result = treeOne;
 
@@ -151,7 +152,7 @@ SubTree taskaev::mergeTrees(SubTree& treeOne, SubTree& treeTwo)
   return result;
 }
 
-void taskaev::unions(Tree& tree)
+void unions(Tree& tree)
 {
   std::string names, oneName, twoName;
   std::cin >> names >> oneName >> twoName;
@@ -159,12 +160,12 @@ void taskaev::unions(Tree& tree)
   tree.insert(names, newTree);
 }
 
-void taskaev::errorInvalid(std::ostream& out)
+void errorInvalid(std::ostream& out)
 {
   out << "<INVALID COMMAND>\n";
 }
 
-void taskaev::errorEmpty(std::ostream& out)
+void errorEmpty(std::ostream& out)
 {
   out << "<EMPTY>\n";
 }
