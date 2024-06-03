@@ -22,6 +22,9 @@ namespace ponomarev
     BSTree(BSTree && tree) noexcept;
     ~BSTree() = default;
 
+    BSTree & operator=(const BSTree & other);
+    BSTree & operator=(BSTree && other);
+
     size_t getSize() const noexcept;
     bool isEmpty() const noexcept;
 
@@ -421,6 +424,32 @@ BSTree< Key, Value, Compare >::BSTree(BSTree< Key, Value, Compare > && tree) noe
   size_ = std::move(tree.size_);
 }
 
+template < typename Key, typename Value, typename Compare >
+BSTree< Key, Value, Compare > & BSTree< Key, Value, Compare >::operator=(const BSTree & other)
+{
+  if (&other != this)
+  {
+    clear();
+    for (Iterator iter = other.begin(); iter != end(); ++iter)
+    {
+      insert(*iter);
+    }
+  }
+  return *this;
+}
+
+template < typename Key, typename Value, typename Compare >
+BSTree< Key, Value, Compare > & BSTree< Key, Value, Compare >::operator=(BSTree && other)
+{
+  if (&other != this)
+  {
+    clear();
+    root_ = std::move(other.root_);
+    other.root_ = nullptr;
+  }
+  return *this;
+}
+
 template< typename Key, typename Value, typename Compare >
 size_t BSTree< Key, Value, Compare >::getSize() const noexcept
 {
@@ -596,7 +625,7 @@ typename BSTree< Key, Value, Compare >::Iterator BSTree< Key, Value, Compare >::
   {
     return end();
   }
-  Node * temp = pos.iterator.node_;
+  Node * temp = pos.Iterator.node_;
   Node * parent = temp->parent_;
   Node * next = nullptr;
   if (temp->left_ && temp->right_)
