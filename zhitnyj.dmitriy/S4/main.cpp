@@ -13,10 +13,10 @@ int main(int argc, char *argv[]) {
   zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > dictionaries;
   zhitnyj::BSTree< std::string, std::function< void(zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &) > > cmds;
 
-  cmds.insert(std::make_pair("print", handlePrint));
-  cmds.insert(std::make_pair("complement", handleComplement));
-  cmds.insert(std::make_pair("intersect", handleIntersect));
-  cmds.insert(std::make_pair("union", handleUnion));
+  cmds.insert(std::make_pair("print", zhitnyj::handlePrint));
+  cmds.insert(std::make_pair("complement", zhitnyj::handleComplement));
+  cmds.insert(std::make_pair("intersect", zhitnyj::handleIntersect));
+  cmds.insert(std::make_pair("union", zhitnyj::handleUnion));
 
   try {
     zhitnyj::loadTreeFromFile(argv[1], dictionaries);
