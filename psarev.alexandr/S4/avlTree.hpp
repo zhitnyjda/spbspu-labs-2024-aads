@@ -26,7 +26,8 @@ namespace psarev
     avlTree(std::initializer_list< dataType > inList);
     ~avlTree();
 
-    avlTree& operator=(const avlTree& that);
+    void swap(avlTree& first, avlTree& second) noexcept;
+    avlTree& operator=(avlTree that);
     avlTree& operator=(avlTree&& that);
 
     void clear();
@@ -369,17 +370,30 @@ psarev::avlTree< Key, Value, Compare >::~avlTree()
   clear();
 }
 
+//template< typename Key, typename Value, typename Compare >
+//psarev::avlTree< Key, Value, Compare >& psarev::avlTree< Key, Value, Compare >::operator=(const avlTree& that)
+//{
+//  if (&that != this)
+//  {
+//    clear();
+//    for (iter it = that.cbegin(); it != cend(); ++it)
+//    {
+//      insert(*it);
+//    }
+//  }
+//  return 
+// *this;
+//}
 template< typename Key, typename Value, typename Compare >
-psarev::avlTree< Key, Value, Compare >& psarev::avlTree< Key, Value, Compare >::operator=(const avlTree& that)
+void psarev::avlTree< Key, Value, Compare >::swap(avlTree& first, avlTree& second) noexcept
 {
-  if (&that != this)
-  {
-    clear();
-    for (iter it = that.cbegin(); it != cend(); ++it)
-    {
-      insert(*it);
-    }
-  }
+  std::swap(first.treeRoot, second.treeRoot);
+}
+
+template< typename Key, typename Value, typename Compare >
+psarev::avlTree< Key, Value, Compare >& psarev::avlTree< Key, Value, Compare >::operator=(avlTree that)
+{
+  swap(*this, that);
   return *this;
 }
 
