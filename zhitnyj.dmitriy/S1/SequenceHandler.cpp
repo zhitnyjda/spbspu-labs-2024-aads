@@ -2,7 +2,7 @@
 #include <limits>
 #include "SequenceHandler.hpp"
 
-void zhitnyj::SequenceHandler::addSequence(const std::string &name, const List< unsigned long long > &sequence) {
+void zhitnyj::SequenceHandler::addSequence(const std::string &name, const zhitnyj::List< unsigned long long > &sequence) {
   names.push_back(name);
   sequences.push_back(sequence);
 }
