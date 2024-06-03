@@ -1,7 +1,7 @@
 #ifndef AvlTree_HPP
 #define AvlTree_HPP
 #include <functional>
-#include <ios>
+#include <iostream>
 
 namespace nikiforov
 {
@@ -413,7 +413,7 @@ Value& nikiforov::AvlTree< Key, Value, Compare >::at(const Key& key)
 
   if (iter == end())
   {
-    throw std::out_of_range("Such key does not exist\n");
+    throw std::out_of_range("");
   }
   else
   {
@@ -441,7 +441,7 @@ void nikiforov::AvlTree< Key, Value, Compare >::erase(Iterator pos)
 {
   if (pos != nullptr)
   {
-    Value key = pos.iter.pNode->data;
+    Value key = pos.iter.pNode->data.first;
     pRoot = remove(pRoot, key);
     size--;
   }

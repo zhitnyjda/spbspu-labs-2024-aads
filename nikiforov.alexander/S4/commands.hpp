@@ -14,6 +14,11 @@ namespace nikiforov
 
   void print(dictionariesTree& dictionaries, std::istream& in, std::ostream& out);
 
+  void complement(dictionariesTree& dictionaries, std::istream& in, std::ostream& out);
+
+  std::ostream& errorMessage(std::ostream& out);
+
+  std::ostream& emptyMessage(std::ostream& out);
 }
 
 #endif

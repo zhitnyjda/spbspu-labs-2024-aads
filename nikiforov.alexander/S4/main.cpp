@@ -25,38 +25,38 @@ int main(int argc, char* argv[])
   std::string strVocab;
   std::string nameVocab;
 
-  try
+  while (!input.eof())
   {
-    while (!input.eof())
+    std::getline(input, strVocab);
+    nameVocab = nikiforov::cutElem(strVocab);
+    nikiforov::createDictionary(strVocab, dict);
+    if (!nameVocab.empty())
     {
-      std::getline(input, strVocab);
-      nameVocab = nikiforov::cutElem(strVocab);
-      nikiforov::createDictionary(strVocab, dict);
-      if (!input.eof())
-      {
-        dictionaries.emplace(nameVocab, dict);
-      }
-      dict.clear();
+      dictionaries.emplace(nameVocab, dict);
     }
-
-    using namespace std::placeholders;
-    nikiforov::AvlTree< std::string, std::function < void(dictionariesTree&, std::istream&, std::ostream&) > > cmds;
-    {
-      cmds.emplace("print", nikiforov::print);
-    }
-
-    std::string cmd = "";
-
-    while (std::cin >> cmd)
+    dict.clear();
+  }
+  
+  using namespace std::placeholders;
+  nikiforov::AvlTree< std::string, std::function < void(dictionariesTree&, std::istream&, std::ostream&) > > cmds;
+  {
+    cmds.emplace("print", nikiforov::print);
+    cmds.emplace("complement", nikiforov::complement);
+  }
+  
+  std::string cmd;
+  while (!std::cin.eof() && std::cin >> cmd)
+  {
+    try
     {
       cmds.at(cmd)(dictionaries, std::cin, std::cout);
     }
+    catch (const std::out_of_range&)
+    {
+      nikiforov::errorMessage(std::cout);
+      std::cin.clear();
+      std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+    }
   }
-  catch (const std::exception&)
-  {
-
-  }
-
-  strVocab = "";
   return 0;
 }
