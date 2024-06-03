@@ -306,6 +306,8 @@ size_t mihalchenko::AVLTree<Key, Value, Compare>::erase(const Key &key)
     {
       root_ = nullptr;
     }
+    deletedNode = nullptr;
+    delete deletedNode;
   }
   else if (!(deletedNode->left_ == nullptr) && !(deletedNode->right_ == nullptr))
   {
@@ -315,7 +317,6 @@ size_t mihalchenko::AVLTree<Key, Value, Compare>::erase(const Key &key)
       workerNode = workerNode->left_;
     }
     firstRightNode = workerNode;
-
     workerNode = deletedNode->left_;
     workerNode->previous_ = firstRightNode;
     firstRightNode->left_ = workerNode;
@@ -323,6 +324,8 @@ size_t mihalchenko::AVLTree<Key, Value, Compare>::erase(const Key &key)
     {
       root_ = firstRightNode;
     }
+    deletedNode = nullptr;
+    delete deletedNode;
   }
   else
   {
@@ -359,9 +362,8 @@ size_t mihalchenko::AVLTree<Key, Value, Compare>::erase(const Key &key)
     {
       (deletedNode->right_) ? root_ = deletedNode->right_ : root_ = deletedNode->left_;
     }
-  }
-  if (prevDelNode)
-  {
+    deletedNode = nullptr;
+    delete deletedNode;
   }
   size_--;
   return 0;
