@@ -6,7 +6,7 @@
 #include <cctype>
 #include "ExpressionEvaluator.hpp"
 
-void ExpressionEvaluator::parseExpression(Queue< std::shared_ptr< ExpressionItem > >& queue, const std::string& expression)
+void zhitnyj::ExpressionEvaluator::parseExpression(zhitnyj::Queue< std::shared_ptr< ExpressionItem > >& queue, const std::string& expression)
 {
   std::string token;
   for (size_t i = 0; i < expression.length(); ++i)
@@ -54,7 +54,7 @@ void ExpressionEvaluator::parseExpression(Queue< std::shared_ptr< ExpressionItem
   }
 }
 
-Queue< std::shared_ptr< ExpressionItem > > ExpressionEvaluator::toPostfix(Queue< std::shared_ptr< ExpressionItem > >& infixQueue)
+zhitnyj::Queue< std::shared_ptr< ExpressionItem > > zhitnyj::ExpressionEvaluator::toPostfix(zhitnyj::Queue< std::shared_ptr< ExpressionItem > >& infixQueue)
 {
   Stack< std::shared_ptr< ExpressionItem > > operatorStack;
   Queue< std::shared_ptr< ExpressionItem > > postfixQueue;
@@ -108,7 +108,7 @@ Queue< std::shared_ptr< ExpressionItem > > ExpressionEvaluator::toPostfix(Queue<
   return postfixQueue;
 }
 
-long long ExpressionEvaluator::evaluateExpression(Queue< std::shared_ptr< ExpressionItem > >& postfixQueue)
+long long zhitnyj::ExpressionEvaluator::evaluateExpression(zhitnyj::Queue< std::shared_ptr< ExpressionItem > >& postfixQueue)
 {
   Stack< long long > evaluationStack;
 
