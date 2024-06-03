@@ -59,23 +59,23 @@ namespace taskaev
     }
   }
 
-  void helpPrint(SubTree& tree, Iterator it, Iterator end)
-  {
-    while (it != end)
-    {
-      std::pair< size_t, std::string > pair = *it;
-      std::cout << pair.first << " " << pair.second;
-      ++it;
-      if (it != end)
-      {
-        std::cout << " ";
-      }
-      else
-      {
-        std::cout << "\n";
-      }
-    }
-  }
+//  void helpPrint(SubTree& tree, Iterator it, Iterator end)
+//  {
+//    while (it != end)
+//    {
+//      std::pair< size_t, std::string > pair = *it;
+//      std::cout << pair.first << " " << pair.second;
+//      ++it;
+//      if (it != end)
+//      {
+//        std::cout << " ";
+//      }
+//      else
+//      {
+//        std::cout << "\n";
+//      }
+//    }
+//  }
 
   void print(Tree& tree)
   {
@@ -91,7 +91,21 @@ namespace taskaev
       BSTree< size_t, std::string >::Iterator it = tres.begin();
       BSTree< size_t, std::string >::Iterator end = tres.end();
       std::cout << datas << " ";
-      helpPrint(tres, it, end); // типо тут рекурсия вывода
+      //helpPrint(tres, it, end); // типо тут рекурсия вывода
+      while (it != end)
+      {
+        std::pair< size_t, std::string > pair = *it;
+        std::cout << pair.first << " " << pair.second;
+        ++it;
+        if (it != end)
+        {
+          std::cout << " ";
+        }
+        else
+        {
+          std::cout << "\n";
+        }
+      }
     }
   }
 

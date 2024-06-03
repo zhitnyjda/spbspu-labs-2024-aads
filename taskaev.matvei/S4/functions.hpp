@@ -14,7 +14,7 @@ namespace taskaev
   void createTree(std::istream& in, Tree& tree);
 
   void print(Tree& tree);
-  void helpPrint(SubTree& tree, Iterator it, Iterator end);
+  //void helpPrint(SubTree& tree, Iterator it, Iterator end);
 
   void complement(Tree& tree);
   void findComplement(SubTree& two, SubTree& one, SubTree& tree);
