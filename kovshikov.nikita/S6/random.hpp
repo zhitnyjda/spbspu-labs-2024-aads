@@ -7,6 +7,7 @@
 #include <iostream>
 #include <list>
 #include <deque>
+//#include <iomanip>
 
 namespace kovshikov
 {
@@ -22,16 +23,9 @@ void kovshikov::getRandomInt(std::list< int >& list, std::forward_list< int >& f
   std::srand(0);
   for(size_t i = 0; i < size; i++)
   {
-    list.push_front(std::rand() / 1000);
+    list.push_front(std::rand() % 1000);
   }
-  std::copy(list.begin(), list.end(), std::back_inserter(deque));
-/*  auto listBegin = list.begin();
-  auto listEnd = list.end();
-  while(listBegin != listEnd)
-  {
-    forward.push_front(*listBegin);
-    listBegin++;
-  }*/
+  std::copy(list.begin(), list.end(), std::front_inserter(deque));
   std::copy(list.begin(), list.end(), std::front_inserter(forward));
 }
 
@@ -40,9 +34,10 @@ void kovshikov::getRandomFloat(std::list< float >& list, std::forward_list< floa
   std::srand(0);
   for(size_t i = 0; i < size; i++)
   {
-    list.push_front(std::rand() / 1000);
+    float element = static_cast< float >(std::rand() % 1000) / static_cast< float >(std::rand() % 1000);
+    list.push_front(element);  //(static_cast< float >((std::rand() % 100) / (std::rand() % 1000)));
   }
-  std::copy(list.begin(), list.end(), std::back_inserter(deque));
+  std::copy(list.begin(), list.end(), std::front_inserter(deque));
   std::copy(list.begin(), list.end(), std::front_inserter(forward));
 }
 
