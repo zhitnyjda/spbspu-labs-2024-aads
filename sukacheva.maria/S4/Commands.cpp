@@ -33,7 +33,7 @@ namespace sukacheva
     }
     if (treeOfDicts.find(name) == nullptr)
     {
-      throw std::logic_error("< WRONG INPUT >\n");
+      throw std::logic_error("<WRONG INPUT>\n");
     }
     BST< size_t, std::string > dict = treeOfDicts.find(name)->second;
     using iterator = BST< size_t, std::string >::Iterator;
@@ -65,7 +65,7 @@ namespace sukacheva
     in >> name;
     if (in.fail())
     {
-      throw std::logic_error("< WRONG INPUT >\n");
+      throw std::logic_error("<WRONG INPUT>\n");
     }
     print(treeOfDicts, name, out);
   }
@@ -78,7 +78,7 @@ namespace sukacheva
     in >> nameNew >> nameFirst >> nameSecond;
     if (in.fail())
     {
-      throw std::logic_error("< WRONG INPUT >\n");
+      throw std::logic_error("<WRONG INPUT>\n");
     }
     if (treeOfDicts.empty())
     {
@@ -87,7 +87,7 @@ namespace sukacheva
     }
     if (treeOfDicts.find(nameSecond) == nullptr || treeOfDicts.find(nameFirst) == nullptr)
     {
-      throw std::logic_error("< WRONG INPUT >\n");
+      throw std::logic_error("<WRONG INPUT>\n");
     }
     BST< size_t, std::string > secondDict = treeOfDicts.find(nameSecond)->second;
     BST< size_t, std::string > firstDict = treeOfDicts.find(nameFirst)->second;
@@ -111,7 +111,7 @@ namespace sukacheva
     in >> nameNew >> nameFirst >> nameSecond;
     if (in.fail())
     {
-      throw std::logic_error("< WRONG INPUT >\n");
+      throw std::logic_error("<WRONG INPUT>\n");
     }
     if (treeOfDicts.empty())
     {
@@ -120,7 +120,7 @@ namespace sukacheva
     }
     if (treeOfDicts.find(nameSecond) == nullptr || treeOfDicts.find(nameFirst) == nullptr)
     {
-      throw std::logic_error("< WRONG INPUT >\n");
+      throw std::logic_error("<WRONG INPUT>\n");
     }
     BST< size_t, std::string > secondDict = treeOfDicts.find(nameSecond)->second;
     BST< size_t, std::string > firstDict = treeOfDicts.find(nameFirst)->second;
@@ -144,7 +144,7 @@ namespace sukacheva
     in >> nameNew >> nameFirst >> nameSecond;
     if (in.fail())
     {
-      throw std::logic_error("< WRONG INPUT >\n");
+      throw std::logic_error("<WRONG INPUT>\n");
     }
     if (treeOfDicts.empty())
     {
@@ -153,7 +153,7 @@ namespace sukacheva
     }
     if (treeOfDicts.find(nameSecond) == nullptr || treeOfDicts.find(nameFirst) == nullptr)
     {
-      throw std::logic_error("< WRONG INPUT >\n");
+      throw std::logic_error("<WRONG INPUT>\n");
     }
     BST< size_t, std::string > secondDict = treeOfDicts.find(nameSecond)->second;
     BST< size_t, std::string > newDict = treeOfDicts.find(nameFirst)->second;;
