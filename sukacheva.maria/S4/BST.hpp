@@ -663,9 +663,10 @@ namespace sukacheva
         delete node;
         return temp;
       }
-      delete node;
+      Node* temp = findMin(node->right);
+      node->right = deleteNode(node->right, temp->data.first);
     }
-    return balance(node);
+    return node;
   }
 }
 
