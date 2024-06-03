@@ -14,9 +14,9 @@ int main(int argc, char *argv[]) {
   zhitnyj::BSTree< long long, std::string > dictionaries;
   zhitnyj::BSTree< std::string, std::function< void(zhitnyj::BSTree< long long, std::string > &) > > cmds;
 
-  cmds.insert(std::make_pair("ascending", traverseAscending));
-  cmds.insert(std::make_pair("descending", traverseDescending));
-  cmds.insert(std::make_pair("breadth", traverseBreadth));
+  cmds.insert(std::make_pair("ascending", zhitnyj::traverseAscending));
+  cmds.insert(std::make_pair("descending", zhitnyj::traverseDescending));
+  cmds.insert(std::make_pair("breadth", zhitnyj::traverseBreadth));
 
   try {
     std::ifstream file(argv[2]);
