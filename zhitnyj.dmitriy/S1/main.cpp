@@ -4,7 +4,7 @@
 
 int main() {
   try {
-    SequenceHandler handler;
+    zhitnyj::SequenceHandler handler;
     std::string line;
 
     while (std::getline(std::cin, line)) {
