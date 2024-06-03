@@ -4,6 +4,7 @@
 #include <iterator>
 #include "compare.hpp"
 #include <iostream>
+#include "random.hpp"
 
 namespace kovshikov
 {
@@ -15,6 +16,10 @@ namespace kovshikov
 
   template< typename Iterator, typename Compare >
   void bubbleSort(Iterator begin, Iterator end, Compare comp);
+
+//тип будет определен в main.cpp
+  template< typename Deque, typename FwdList, typename List >
+  void sort(std::string comp, std::string strSize, Deque& deque, FwdList& fwdList, List& list);
 }
 
 template< typename FwdIterator, typename Compare >
@@ -90,6 +95,40 @@ void kovshikov::bubbleSort(Iterator begin, Iterator end, Compare comp)
       prev = current;
       current++;
     }
+  }
+}
+
+template< typename Deque, typename FwdList, typename List >
+void kovshikov::sort(std::string comp, std::string strSize, std::string type, Deque& deque, FwdList& fwdList, List& list);
+{
+  long long size = std::stoll(strSize);
+  if(type == "ints")
+  {
+    getRandomInt(list, fwdList, deque, size);
+  }
+  else
+  {
+    getRandomFloat(list, fwdList, deque, size);
+  }
+  if(comp == "ascending")
+  {
+    Ascending ascending;
+    selectionSort(fwdList.begin(), fwdList.end(), ascending);
+    selectionSort(deque.begin(), deque.end(), ascending);
+    shellSort(list.begin(), list.end(), ascending);
+    shellSort(deque.begin(), deque.end(), ascending);
+    bubbleSort(list.begin(), list.end(), ascending);
+    bubbleSort(deque.begin(), deque.end(), ascending);
+  }
+  else
+  {
+    Descending descending;
+    selectionSort(fwdList.begin(), fwdList.end(), descending);
+    selectionSort(deque.begin(), deque.end(), descending);
+    shellSort(list.begin(), list.end(), descending);
+    shellSort(deque.begin(), deque.end(), descending);
+    bubbleSort(list.begin(), list.end(), descending);
+    bubbleSort(deque.begin(), deque.end(), descending);
   }
 }
 

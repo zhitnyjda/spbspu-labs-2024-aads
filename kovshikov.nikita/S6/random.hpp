@@ -7,7 +7,6 @@
 #include <iostream>
 #include <list>
 #include <deque>
-//#include <iomanip>
 
 namespace kovshikov
 {
@@ -35,7 +34,7 @@ void kovshikov::getRandomFloat(std::list< float >& list, std::forward_list< floa
   for(size_t i = 0; i < size; i++)
   {
     float element = static_cast< float >(std::rand() % 1000) / static_cast< float >(std::rand() % 1000);
-    list.push_front(element);  //(static_cast< float >((std::rand() % 100) / (std::rand() % 1000)));
+    list.push_front(element);
   }
   std::copy(list.begin(), list.end(), std::front_inserter(deque));
   std::copy(list.begin(), list.end(), std::front_inserter(forward));
@@ -62,6 +61,5 @@ std::ostream& kovshikov::printConteiner(const Container& container, std::ostream
   }
   return out;
 }
-
 
 #endif
