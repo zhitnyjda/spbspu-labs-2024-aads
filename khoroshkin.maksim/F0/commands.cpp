@@ -126,7 +126,7 @@ void khoroshkin::saveCmd(Graph< int > & graph, std::istream & is, std::ostream &
   std::string filename;
   if (!(is >> filename))
   {
-    out << "Error: wrong output filename!\n";
+    outInvalidcommand(out);
   }
   std::ofstream outputFile(filename);
   outputFile << graph.sortTopological(true);
@@ -138,7 +138,7 @@ void khoroshkin::outInvalidcommand(std::ostream & out)
   out << "Error: Invalid command!\n";
 }
 
-void outSuccess(std::ostream & out)
+void khoroshkin::outSuccess(std::ostream & out)
 {
   out << "Successful!";
 }
