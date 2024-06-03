@@ -9,7 +9,7 @@
 
 namespace taskaev
 {
-  template < typename Key, typename Value, typename Comparator >
+  template < typename Key, typename Value, typename Comparator = std::less< Key > >
   class BSTree
   {
   public:

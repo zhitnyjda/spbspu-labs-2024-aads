@@ -14,7 +14,7 @@ namespace taskaev
         std::string names = "";
         size_t key = 0;
         std::string val = "";
-        BSTree< size_t, std::string, std::less< size_t > > tre;
+        BSTree< size_t, std::string > tre;
         bool flag = true;
         size_t i = 0;
         while (i < data.length())
@@ -106,10 +106,10 @@ namespace taskaev
 
   void findComplement(SubTree& two, SubTree& one, SubTree& tree)
   {
-    for (auto it = sourceTree.begin(); it != sourceTree.end(); ++it)
+    for (auto it = two.begin(); it != two.end(); ++it)
     {
       bool flag = false;
-      for (auto iter = otherTree.begin(); iter != otherTree.end(); ++iter)
+      for (auto iter = one.begin(); iter != one.end(); ++iter)
       {
         if (it->first == iter->first)
         {
