@@ -1,28 +1,91 @@
 #include <iostream>
+#include <fstream>
+#include <map>
+#include <string>
+#include <cstring>
 #include "binarySearchTree.hpp"
+#include "mainExtansion.hpp"
 
 using namespace anikanov;
 
-int main()
+int main(int argc, char *argv[])
 {
-  BinarySearchTree< int, std::string, std::less<> > bst;
-  bst.push(1, "one");
-  bst.push(2, "two");
-  bst.push(3, "three");
+  if (argc != 2) {
+    std::cerr << "Usage: " << argv[0] << " filename" << std::endl;
+    return 1;
+  }
 
-  std::cout << "Size: " << bst.size() << std::endl;
-  std::cout << "Empty: " << std::boolalpha << bst.empty() << std::endl;
+  std::string filename = argv[1];
+  std::map< std::string, BinarySearchTree< int, std::string, std::less< > > > dictionaries;
+  loadFromFile(filename, dictionaries);
 
-  bst[4] = "four";
-  bst[2] = "two new";
+  std::string command;
+  while (std::getline(std::cin, command)) {
+    char *cstr = new char[command.length() + 1];
+    std::strcpy(cstr, command.c_str());
 
-  std::cout << "key 4: " << bst[4] << std::endl;
-  std::cout << "key 2: " << bst[2] << std::endl;
+    char *token = std::strtok(cstr, " ");
+    std::string cmd(token);
 
-  bst.print();
+    if (cmd == "print") {
+      token = std::strtok(nullptr, " ");
+      if (!token) {
+        std::cout << "<INVALID COMMAND>" << std::endl;
+      } else {
+        std::string dictName(token);
+        if (dictionaries.count(dictName) == 0) {
+          std::cout << "<EMPTY>" << std::endl;
+        } else {
+          std::cout << dictionaries[dictName] << std::endl;
+        }
+      }
+    } else if (cmd == "complement" || cmd == "intersect" || cmd == "union") {
+      token = std::strtok(nullptr, " ");
+      std::string newDict(token);
+      token = std::strtok(nullptr, " ");
+      std::string dict1(token);
+      token = std::strtok(nullptr, " ");
+      std::string dict2(token);
 
-  bst.drop(2);
-  bst.print();
+      if (dictionaries.count(dict1) == 0 || dictionaries.count(dict2) == 0) {
+        std::cout << "<INVALID COMMAND>" << std::endl;
+        delete[] cstr;
+        continue;
+      }
+
+      auto &d1 = dictionaries[dict1];
+      auto &d2 = dictionaries[dict2];
+      AVLTree< int, std::string > result;
+
+      if (cmd == "complement") {
+        for (auto it = d1.begin(); it != d1.end(); ++it) {
+          if (!d2.count(it->first)) {
+            result.push(it->first, it->second);
+          }
+        }
+      } else if (cmd == "intersect") {
+        for (auto it = d1.begin(); it != d1.end(); ++it) {
+          if (d2.count(it->first)) {
+            result.push(it->first, it->second);
+          }
+        }
+      } else if (cmd == "union") {
+        for (auto it = d1.begin(); it != d1.end(); ++it) {
+          result.push(it->first, it->second);
+        }
+        for (auto it = d2.begin(); it != d2.end(); ++it) {
+          if (!result.count(it->first)) {
+            result.push(it->first, it->second);
+          }
+        }
+      }
+      dictionaries[newDict] = std::move(result);
+    } else {
+      std::cout << "<INVALID COMMAND>" << std::endl;
+    }
+
+    delete[] cstr;
+  }
 
   return 0;
 }
