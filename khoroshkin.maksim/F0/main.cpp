@@ -34,7 +34,7 @@ int main()
     }
     catch(const std::exception & e)
     {
-      std::cerr << "Error: Invalid command!\n";
+      outInvalidcommand(std::cerr);
     }
   }
   return 0;

@@ -29,11 +29,11 @@ void khoroshkin::openCmd(Graph< int > & graph, std::istream & is, std::ostream &
   std::ifstream input(inputFile);
   if (!(input >> graph))
   {
-    out << "Error: wrong format in file!\n";
+    outInvalidcommand(out);
   }
   else
   {
-    out << "Opened successfully!\n";
+    outSuccess(out);
   }
 }
 
@@ -42,11 +42,11 @@ void khoroshkin::inputCmd(Graph< int > & graph, std::istream & is, std::ostream 
   graph.clear();
   if (!(is >> graph))
   {
-    out << "Error: wrong input! Your input should look like this: 3 (1,2) (1,3) (2,3)\n";
+    outInvalidcommand(out);
   }
   else
   {
-    out << "Successful input!\n";
+    outSuccess(out);
   }
 }
 
@@ -55,7 +55,7 @@ void khoroshkin::printCmd(Graph< int > & graph, std::istream & is, std::ostream 
   std::string format;
   if (!(is >> format))
   {
-    out << "Error: wrong input!\n";
+    outInvalidcommand(out);
   }
 
   if (format == "matrix")
@@ -68,7 +68,7 @@ void khoroshkin::printCmd(Graph< int > & graph, std::istream & is, std::ostream 
   }
   else
   {
-    out << "Error: unsupported format!\n";
+    outInvalidcommand(out);
   }
 }
 
@@ -77,13 +77,13 @@ void khoroshkin::edgeCmd(Graph< int > & graph, std::istream & is, std::ostream &
   std::string cmd;
   if (!(is >> cmd))
   {
-    out << "Error: wrong input!\n";
+    outInvalidcommand(out);
   }
 
   int vertexFirst, vertexSecond;
   if(!(is >> vertexFirst >> vertexSecond))
   {
-    out << "Error: wrong input!\n";
+    outInvalidcommand(out);
     return;
   }
 
@@ -97,7 +97,7 @@ void khoroshkin::edgeCmd(Graph< int > & graph, std::istream & is, std::ostream &
   }
   else
   {
-    out << "Error: unsupported command!\n";
+    outInvalidcommand(out);
   }
 }
 
@@ -106,7 +106,7 @@ void khoroshkin::sortCmd(Graph< int > & graph, std::istream & is, std::ostream &
   std::string cmd;
   if (!(is >> cmd))
   {
-    out << "Error: wrong input\n";
+    outInvalidcommand(out);
   }
   else
   {
@@ -116,7 +116,7 @@ void khoroshkin::sortCmd(Graph< int > & graph, std::istream & is, std::ostream &
     }
     else
     {
-      out << "Error: available only topological!\n";
+      outInvalidcommand(out);
     }
   }
 }
@@ -130,5 +130,15 @@ void khoroshkin::saveCmd(Graph< int > & graph, std::istream & is, std::ostream &
   }
   std::ofstream outputFile(filename);
   outputFile << graph.sortTopological(true);
-  out << "Saved successfully!\n";
+  outSuccess(out);
+}
+
+void khoroshkin::outInvalidcommand(std::ostream & out)
+{
+  out << "Error: Invalid command!\n";
+}
+
+void outSuccess(std::ostream & out)
+{
+  out << "Successful!";
 }

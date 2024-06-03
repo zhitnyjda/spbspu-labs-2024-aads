@@ -13,6 +13,9 @@ namespace khoroshkin
   void edgeCmd(Graph< int > & graph, std::istream & is, std::ostream & out);
   void sortCmd(Graph< int > & graph, std::istream & is, std::ostream & out);
   void saveCmd(Graph< int > & graph, std::istream & is, std::ostream & out);
+
+  void outInvalidcommand(std::ostream & out);
+  void outSuccess(std::ostream & out);
 }
 
 #endif
