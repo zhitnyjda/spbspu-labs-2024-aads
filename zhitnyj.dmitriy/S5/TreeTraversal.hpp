@@ -4,11 +4,13 @@
 #include <BinarySearchTree.hpp>
 #include "KeySum.hpp"
 
-void traverseAscending(const BSTree< long long, std::string > &tree);
-void traverseDescending(const BSTree< long long, std::string > &tree);
-void traverseBreadth(const BSTree< long long, std::string > &tree);
-void printResult(KeySum &keySumCounter, std::ostream &os);
-void invalidCommandError(std::ostream &out);
-void emptyCommandWarning(std::ostream &out);
+namespace zhitnyj {
+  void traverseAscending(const BSTree< long long, std::string > &tree);
+  void traverseDescending(const BSTree< long long, std::string > &tree);
+  void traverseBreadth(const BSTree< long long, std::string > &tree);
+  void printResult(KeySum &keySumCounter, std::ostream &os);
+  void invalidCommandError(std::ostream &out);
+  void emptyCommandWarning(std::ostream &out);
+}
 
 #endif
