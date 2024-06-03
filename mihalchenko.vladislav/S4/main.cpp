@@ -4,7 +4,7 @@
 #include <functional>
 #include <utility>
 #include <limits>
-#include "AVLTree.hpp"
+#include "AVLtree.hpp"
 #include "commands.hpp"
 
 int main(int argc, char *argv[])
