@@ -16,6 +16,8 @@ namespace nikiforov
 
   void complement(dictionariesTree& dictionaries, std::istream& in, std::ostream& out);
 
+  void intersect(dictionariesTree& dictionaries, std::istream& in, std::ostream& out);
+
   std::ostream& errorMessage(std::ostream& out);
 
   std::ostream& emptyMessage(std::ostream& out);
