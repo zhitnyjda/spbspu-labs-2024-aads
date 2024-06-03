@@ -66,7 +66,6 @@ namespace nikiforov
     Node* insertData(Node* pNode, const Key& key, const Value& value);
     size_t countSize(Node* pNode) const;
     size_t getHeight(Node* pNode);
-    void updateHeight(Node* pNode);
     int heightDiff(Node* pNode);
     Node* balance(Node* pNode);
     void delAll(Node* pNode);
@@ -589,17 +588,6 @@ size_t nikiforov::AvlTree< Key, Value, Compare >::getHeight(Node* pNode)
     return 0;
   }
 }
-
-template< typename Key, typename Value, typename Compare >
-void nikiforov::AvlTree<Key, Value, Compare>::updateHeight(Node* pNode)
-{
-  if (pNode == nullptr)
-  {
-    return 0;
-  }
-  return pNode->height = std::max(updateHeight(pNode->left), updateHeight(pNode->right)) + 1;
-}
-
 
 template < typename Key, typename Value, typename Compare >
 int nikiforov::AvlTree< Key, Value, Compare >::heightDiff(Node* pNode)

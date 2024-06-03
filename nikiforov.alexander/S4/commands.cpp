@@ -1,4 +1,4 @@
-#include "commands.hpp";
+#include "commands.hpp"
 
 std::string nikiforov::cutElem(std::string& str)
 {
@@ -49,12 +49,12 @@ void nikiforov::print(dictionariesTree& dictionaries, std::istream& in, std::ost
     }
     else
     {
-      emptyMessage(std::cout);
+      emptyMessage(out);
     }
   }
   else
   {
-    errorMessage(std::cout);
+    errorMessage(out);
   }
 }
 
@@ -82,6 +82,10 @@ void nikiforov::complement(dictionariesTree& dictionaries, std::istream& in, std
     }
     dictionaries.emplace(newNameDict, newDict);
   }
+  else
+  {
+    errorMessage(out);
+  }
 }
 
 void nikiforov::intersect(dictionariesTree& dictionaries, std::istream& in, std::ostream& out)
@@ -107,6 +111,10 @@ void nikiforov::intersect(dictionariesTree& dictionaries, std::istream& in, std:
       dictionaries.erase(findSameDict->first);
     }
     dictionaries.emplace(newNameDict, newDict);
+  }
+  else
+  {
+    errorMessage(out);
   }
 }
 
@@ -136,6 +144,10 @@ void nikiforov::unite(dictionariesTree& dictionaries, std::istream& in, std::ost
       dictionaries.erase(findSameDict->first);
     }
     dictionaries.emplace(newNameDict, newDict);
+  }
+  else
+  {
+    errorMessage(out);
   }
 }
 
