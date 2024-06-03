@@ -59,7 +59,7 @@ namespace sukacheva
     void updateHeight(Node* node);
     int getBalanceFactor(Node* node);
     void copyTree(Node* thisNode, Node* otherNode);
-    void swap(BST& first, BST& second) noexcept;
+    void swap(BST first, BST second) noexcept;
   };
 
   template < typename Key, typename Value, typename Compare >
@@ -122,7 +122,7 @@ namespace sukacheva
   using iteratorsPair = std::pair< iterator< Key, Value, Compare >, iterator< Key, Value, Compare > >;
 
   template< typename Key, typename Value, typename Compare >
-  void BST< Key, Value, Compare >::swap(BST& first, BST& second) noexcept
+  void BST< Key, Value, Compare >::swap(BST first, BST second) noexcept
   {
     std::swap(first.root, second.root);
   }
