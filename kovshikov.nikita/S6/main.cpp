@@ -1,13 +1,28 @@
-#include <deque>
 #include <iostream>
-#include <forward_list>
-#include <list>
 #include "sort.hpp"
+#include "random.hpp"
 
 int main()
 {
   using namespace kovshikov;
-  
+  std::list< int > listInt;
+  std::forward_list< int > fwdListInt;
+  std::deque< int > dequeInt;
+  std::list< float > listFloat;
+  std::forward_list< float > fwdListFloat;
+  std::deque< float > dequeFloat;
+
+  size_t size = 10;
+
+  getRandomInt(listInt, fwdListInt, dequeInt, size);
+  getRandomFloat(listFloat, fwdListFloat, dequeFloat, size);
+
+  printConteiner(listInt, std::cout);
+  printConteiner(fwdListInt, std::cout);
+  printConteiner(dequeInt, std::cout);
+  printConteiner(listFloat, std::cout);
+  printConteiner(fwdListFloat, std::cout);
+  printConteiner(dequeFloat, std::cout);
 }
 
 
