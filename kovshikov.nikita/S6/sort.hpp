@@ -4,7 +4,7 @@
 //#include <algorithm> //iter_swap
 #include <iterator> //std::distance
 #include "compare.hpp"
-//#include <iostream>
+#include <iostream>
 
 namespace kovshikov
 {
@@ -14,6 +14,9 @@ namespace kovshikov
 
   template< typename ListIterator, typename Compare >
   void shellSort(ListIterator begin, ListIterator end, Compare comp);
+
+  template< typename Iterator, typename Compare >
+  void bubbleSort(Iterator begin, Iterator end, Compare comp);
 }
 
 template< typename FwdIterator, typename Compare >
@@ -64,6 +67,31 @@ void kovshikov::shellSort(ListIterator begin, ListIterator end, Compare comp)
         next = std::next(next, interval);
         indexNext += interval;
       }
+    }
+  }
+}
+
+template< typename Iterator, typename Compare >
+void kovshikov::bubbleSort(Iterator begin, Iterator end, Compare comp)
+{
+  bool isSort = false;
+  bool firstIteration = true;
+  while(isSort != false || firstIteration == true)
+  {
+    isSort = false;
+    firstIteration = false;
+    Iterator current = begin;
+    Iterator prev = current;
+    current++;
+    while(current != end)
+    {
+      if(comp(*current, *prev))
+      {
+        isSort = true;
+        std::swap(*current, *prev);
+      }
+      prev = current;
+      current++;
     }
   }
 }
