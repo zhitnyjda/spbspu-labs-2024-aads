@@ -2,7 +2,7 @@
 #define FUNCTIONS_HPP
 #include <iostream>
 #include <fstream>
-#include "BinarySearchTree.h"
+#include "BSTree.h"
 #include <string>
 
 namespace taskaev
