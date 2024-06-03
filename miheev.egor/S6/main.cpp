@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
   }
 
   using SortFunctions = Tree< std::string, std::function< void(std::ostream&, size_t) > >;
-  Tree <std::string, SortFunctions > typedFuncs;
+  Tree < std::string, SortFunctions > typedFuncs;
   {
     using namespace std::placeholders;
     typedFuncs["floats"]["ascending"] = std::bind(miheev::testSorts< double, std::less< double> >, _1, _2, std::less< double >{});

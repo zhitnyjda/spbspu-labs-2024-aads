@@ -109,4 +109,3 @@ void miheev::testSorts(std::ostream& output, size_t size, Comparator comp)
 }
 
 #endif
-
