@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <functional>
 #include <limits>
 #include "BSTree.hpp"
 #include "functions.hpp"
