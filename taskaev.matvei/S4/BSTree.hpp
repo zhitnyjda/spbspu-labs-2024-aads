@@ -643,7 +643,7 @@ typename BSTree< Key, Value, Comparator >::ConstIterator BSTree< Key, Value, Com
   {
     if (!(key < newRoot->data_.first) || (key > newRoot->data_.first))
     {
-      return Iterator(newRoot, root_);
+      return ConstIterator(newRoot, root_);
     }
     else if (key < newRoot->data_.first)
     {
