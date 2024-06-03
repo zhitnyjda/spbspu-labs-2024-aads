@@ -321,7 +321,7 @@ BSTree< Key, Value, Comparator >::BSTree(const BSTree& rhs) :
 }
 
 template< typename Key, typename Value, typename Comparator >
-BSTree< Key, Value, Comparator >::BSTree(BSTree&& rhs) noexcept :
+BSTree< Key, Value, Comparator >::BSTree(BSTree&& rhs) :
   root_(rhs.root_),
   comp_(rhs.comp_),
   size_(rhs.size_)
