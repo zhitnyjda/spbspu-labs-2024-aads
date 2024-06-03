@@ -103,6 +103,7 @@ void ponomarev::makeUnion(std::istream & in, std::ostream &, tree_t & data)
   }
   else if (data.at(dataset1).getSize() != 0 || data.at(dataset2).getSize() != 0)
   {
+    data_t newData = data.at(dataset1);
     data_t::Iterator currElem = data[dataset2].begin();
 
     while (currElem != data[dataset2].end())
