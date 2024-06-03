@@ -790,7 +790,7 @@ mihalchenko::AVLTree<Key, Value, Compare>::Iterator::operator++(int)
 }
 
 template <typename Key, typename Value, typename Compare>
-typename mihalchenko::AVLTree<Key, Value, Compare>::Iterator 
+typename mihalchenko::AVLTree<Key, Value, Compare>::Iterator
   &mihalchenko::AVLTree<Key, Value, Compare>::Iterator::operator--()
 {
   --constIter_;
