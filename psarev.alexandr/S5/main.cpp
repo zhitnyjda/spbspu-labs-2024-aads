@@ -21,8 +21,13 @@ int main(int argc, char* argv[])
   base_t data;
 
   psarev::fillTree(input, data);
+  if (data.isEmpty())
+  {
+    psarev::outEmpty(std::cout);
+    return 0;
+  }
 
-  psarev::avlTree< std::string, std::function< void(std::ostream&, const base_t&) > > travCmds;
+  psarev::avlTree< std::string, std::function< void(std::ostream&, base_t&) > > travCmds;
   taskCmds.insert({ "ascending", psarev::ascending });
   taskCmds.insert({ "descnding", psarev::descnding });
   taskCmds.insert({ "breadth", psarev::breadth });

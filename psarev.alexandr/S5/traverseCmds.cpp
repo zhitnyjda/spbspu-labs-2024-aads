@@ -31,3 +31,18 @@ void psarev::fillTree(std::istream& in, base_t& data)
     data.insert({ key, value });
   }
 }
+
+void psarev::ascending(std::ostream& out, base_t& data)
+{
+
+}
+
+void psarev::descending(std::ostream& out, base_t& data)
+{
+
+}
+
+void psarev::breadth(std::ostream& out, base_t& data)
+{
+
+}
