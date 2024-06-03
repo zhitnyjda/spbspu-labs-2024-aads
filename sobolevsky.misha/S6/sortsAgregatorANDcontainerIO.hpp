@@ -18,7 +18,7 @@ namespace sobolevsky
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(1, 100);
 
-    for (int i = 0; i < size; i++)
+    for (size_t i = 0; i < size; i++)
     {
       list.push_front(dis(gen));
     }
@@ -30,7 +30,7 @@ namespace sobolevsky
     std::mt19937 gen(rd());
     std::uniform_real_distribution< float > dis(0.0, 100.0);
 
-    for (int i = 0; i < size; i++)
+    for (size_t i = 0; i < size; i++)
     {
       list.push_front(dis(gen));
     }
