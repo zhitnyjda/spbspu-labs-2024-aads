@@ -3,8 +3,7 @@
 #include <stdexcept>
 #include "CommandProcessor.hpp"
 
-void zhitnyj::processLineToTree(const std::string &line,
-zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dicts) {
+void zhitnyj::processLineToTree(const std::string &line, zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dict) {
   if (line.empty()) {
     return;
   }
@@ -47,30 +46,29 @@ zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dicts
     }
   }
 
-  dicts.push(dataset, tree);
+  dict.push(dataset, tree);
 }
 
-void zhitnyj::loadTreeFromFile(const std::string &filename,
-zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dicts) {
-  std::ifstream file(filename);
+void zhitnyj::loadTreeFromFile(const std::string &file_, zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dict) {
+  std::ifstream file(file_);
   if (!file) {
     throw std::runtime_error("Unable to open file");
   }
 
   std::string line;
   while (std::getline(file, line)) {
-    processLineToTree(line, dicts);
+    processLineToTree(line, dict);
   }
   file.close();
 }
 
-void zhitnyj::handleIntersect(zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dicts) {
+void zhitnyj::handleIntersect(zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dict) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
 
-  auto it1 = dicts.find(dataset1);
-  auto it2 = dicts.find(dataset2);
-  if (it1 == dicts.end() || it2 == dicts.end()) {
+  auto it1 = dict.find(dataset1);
+  auto it2 = dict.find(dataset2);
+  if (it1 == dict.end() || it2 == dict.end()) {
     invalidCommandWarning(std::cout);
   }
   else {
@@ -84,17 +82,17 @@ void zhitnyj::handleIntersect(zhitnyj::BSTree< std::string, zhitnyj::BSTree< lon
       }
     }
 
-    dicts.push(newDataset, result);
+    dict.push(newDataset, result);
   }
 }
 
-void zhitnyj::handleComplement(zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dicts) {
+void zhitnyj::handleComplement(zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dict) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
 
-  auto it1 = dicts.find(dataset1);
-  auto it2 = dicts.find(dataset2);
-  if (it1 == dicts.end() || it2 == dicts.end()) {
+  auto it1 = dict.find(dataset1);
+  auto it2 = dict.find(dataset2);
+  if (it1 == dict.end() || it2 == dict.end()) {
     invalidCommandWarning(std::cout);
   }
   else {
@@ -108,17 +106,17 @@ void zhitnyj::handleComplement(zhitnyj::BSTree< std::string, zhitnyj::BSTree< lo
       }
     }
 
-    dicts.push(newDataset, result);
+    dict.push(newDataset, result);
   }
 }
 
-void zhitnyj::handleUnion(zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dicts) {
+void zhitnyj::handleUnion(zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dict) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
 
-  auto it1 = dicts.find(dataset1);
-  auto it2 = dicts.find(dataset2);
-  if (it1 == dicts.end() || it2 == dicts.end()) {
+  auto it1 = dict.find(dataset1);
+  auto it2 = dict.find(dataset2);
+  if (it1 == dict.end() || it2 == dict.end()) {
     invalidCommandWarning(std::cout);
   }
   else {
@@ -136,17 +134,17 @@ void zhitnyj::handleUnion(zhitnyj::BSTree< std::string, zhitnyj::BSTree< long lo
       }
     }
 
-    dicts.push(newDataset, result);
+    dict.push(newDataset, result);
   }
 }
 
-void zhitnyj::handlePrint(zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dicts) {
+void zhitnyj::handlePrint(zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dict) {
   std::string dataset;
   std::cin >> dataset;
 
-  auto it = dicts.find(dataset);
+  auto it = dict.find(dataset);
   const auto &tree = it->second;
-  if (it == dicts.end()) {
+  if (it == dict.end()) {
     invalidCommandWarning(std::cout);
   }
   else if (tree.empty()) {
