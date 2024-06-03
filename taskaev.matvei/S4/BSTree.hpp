@@ -12,7 +12,7 @@ namespace taskaev
     class ConstIterator;
     class Iterator;
     using value_t = std::pair< Key, Value >;
-    class Node;
+    class Node
     {
     public:
       friend class BSTree;
@@ -407,7 +407,7 @@ void BSTree< Key, Value, Comparator >::insert(const Key& key, const Value& val)
         return;
       }
     }
-    Node* newNode = new Node({ key, val }, parent);
+    Node* newNode = new Node({ key, val }, nodes);
     if (key > nodes->data_.first)
     {
       nodes->right_ = newNodes;
