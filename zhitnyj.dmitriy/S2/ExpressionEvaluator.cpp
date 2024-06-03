@@ -4,9 +4,9 @@
 #include <cmath>
 #include <string>
 #include <cctype>
-#include "epessionEvaluator.hpp"
+#include "ExpressionEvaluator.hpp"
 
-void zhitnyj::epessionEvaluator::parseepession(zhitnyj::Queue< std::shared_ptr< epessionItem > >& qe, const std::string& ep)
+void zhitnyj::ExpressionEvaluator::parseExpression(zhitnyj::Queue< std::shared_ptr< zhitnyj::ExpressionItem > >& qe, const std::string& ep)
 {
   std::string token;
   for (size_t i = 0; i < ep.length(); ++i)
@@ -49,20 +49,20 @@ void zhitnyj::epessionEvaluator::parseepession(zhitnyj::Queue< std::shared_ptr< 
     }
     else
     {
-      throw std::runtime_error("Invalid token in ep: " + token);
+      throw std::runtime_error("Invalid token in expression: " + token);
     }
   }
 }
 
-zhitnyj::Queue< std::shared_ptr< epessionItem > >
-zhitnyj::epessionEvaluator::toPostfix(zhitnyj::Queue< std::shared_ptr< epessionItem > >& inQe)
+zhitnyj::Queue< std::shared_ptr< zhitnyj::ExpressionItem > >
+zhitnyj::ExpressionEvaluator::toPostfix(zhitnyj::Queue< std::shared_ptr< zhitnyj::ExpressionItem > >& inQe)
 {
-  Stack< std::shared_ptr< epessionItem > > operatorStack;
-  Queue< std::shared_ptr< epessionItem > > postfixQueue;
+  Stack< std::shared_ptr< ExpressionItem > > operatorStack;
+  Queue< std::shared_ptr< ExpressionItem > > postfixQueue;
 
   while (!inQe.empty())
   {
-    std::shared_ptr< epessionItem > item = inQe.front();
+    std::shared_ptr< ExpressionItem > item = inQe.front();
     inQe.pop();
 
     if (item->isOperand())
@@ -109,13 +109,13 @@ zhitnyj::epessionEvaluator::toPostfix(zhitnyj::Queue< std::shared_ptr< epessionI
   return postfixQueue;
 }
 
-long long zhitnyj::epessionEvaluator::evaluateepession(zhitnyj::Queue< std::shared_ptr< epessionItem > >& postfixQueue)
+long long zhitnyj::ExpressionEvaluator::evaluateExpression(zhitnyj::Queue< std::shared_ptr< zhitnyj::ExpressionItem > >& postfixQueue)
 {
   Stack< long long > evaluationStack;
 
   while (!postfixQueue.empty())
   {
-    std::shared_ptr< epessionItem > item = postfixQueue.front();
+    std::shared_ptr< ExpressionItem > item = postfixQueue.front();
     postfixQueue.pop();
 
     if (item->isOperand())
@@ -154,13 +154,13 @@ long long zhitnyj::epessionEvaluator::evaluateepession(zhitnyj::Queue< std::shar
     }
     else
     {
-      throw std::runtime_error("Invalid ep item encountered");
+      throw std::runtime_error("Invalid expresssion item encountered");
     }
   }
 
   if (evaluationStack.size() != 1)
   {
-    throw std::runtime_error("The ep does not reduce to a single value");
+    throw std::runtime_error("The expression does not reduce to a single value");
   }
 
   return evaluationStack.top();
