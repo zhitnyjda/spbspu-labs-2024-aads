@@ -30,8 +30,8 @@ namespace taskaev
       std::pair< Key, Value > data_;
     };
     BSTree();
-    BSTree(const BSTree& other);
-    BSTree(BSTree&& other);
+    BSTree(const BSTree& rhs);
+    BSTree(BSTree&& rhs);
     ~BSTree();
 
     Value& at(const Key& key); // yes
@@ -281,12 +281,12 @@ typename BSTree< Key, Value, Comparator >::Iterator::Iterator BSTree< Key, Value
 template< typename Key, typename Value, typename Comparator >
 value_t< Key, Value >& BSTree< Key, Value, Comparator >::Iterator::operator*()
 {
-  return iterator.node_->data_;
+  return iterator_.node_->data_;
 }
 template< typename Key, typename Value, typename Comparator >
 value_t< Key, Value >* BSTree< Key, Value, Comparator >::Iterator::operator->()
 {
-  return std::addressof(iterator.node_->data_);
+  return std::addressof(iterator_.node_->data_);
 }
 
 template< typename Key, typename Value, typename Comparator >
