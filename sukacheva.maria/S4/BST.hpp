@@ -663,6 +663,7 @@ namespace sukacheva
         delete node;
         return temp;
       }
+      delete node;
     }
     return balance(node);
   }
