@@ -11,8 +11,8 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  BSTree< long long, std::string > dictionaries;
-  BSTree< std::string, std::function< void(BSTree< long long, std::string > &) > > cmds;
+  zhitnyj::BSTree< long long, std::string > dictionaries;
+  zhitnyj::BSTree< std::string, std::function< void(zhitnyj::BSTree< long long, std::string > &) > > cmds;
 
   cmds.insert(std::make_pair("ascending", traverseAscending));
   cmds.insert(std::make_pair("descending", traverseDescending));
@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
       commandIter->second(dictionaries);
     }
     else if (!command.empty()) {
-      invalidCommandError(std::cerr);
+      zhitnyj::invalidCommandError(std::cerr);
       return 1;
     }
   } catch (const std::overflow_error &e) {
