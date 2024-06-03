@@ -38,7 +38,7 @@ namespace taskaev
     BSTree(BSTree&& rhs);
     ~BSTree();
 
-    Value& at(const Key& key); // yes
+    Value& at(const Key& key);
     bool empty() const noexcept;
     void clear();
     size_t size() const noexcept;
