@@ -18,8 +18,8 @@ int main()
     iterator++;
   }
   std::deque< int > dint{1, 6, 10, -6, 3, 0, -4, 11, 2};
-  Descending< int > descending2;
-  selectionSort(dint.begin(), dint.end(), descending2);
+//  Descending< int > descending2;
+  selectionSort(dint.begin(), dint.end(), descending);
   auto iterator2 = dint.begin();
   while(iterator2 != dint.end())
   {
@@ -28,9 +28,9 @@ int main()
   }
 
   std::list< int > flint2{1, 6, 10, -6, 3, 0, -4, 11, 2};
-  Ascending< int > ascending;
-  //Descending< int > descending;
-  shellSort(flint2.begin(), flint2.end(), ascending);
+  //Ascending< int > ascending;
+ // Descending< int > descending;
+  shellSort(flint2.begin(), flint2.end(), descending);
   auto iterator3 = flint2.begin();
   while(iterator3 != flint2.end())
   {
