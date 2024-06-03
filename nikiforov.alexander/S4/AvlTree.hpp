@@ -185,13 +185,15 @@ typename nikiforov::AvlTree< Key, Value, Compare >::ConstIterator nikiforov::Avl
 }
 
 template < typename Key, typename Value, typename Compare >
-const typename nikiforov::AvlTree< Key, Value, Compare >::keyValue_t& nikiforov::AvlTree< Key, Value, Compare >::ConstIterator::operator*() const
+const typename nikiforov::AvlTree< Key, Value, Compare >::keyValue_t& 
+nikiforov::AvlTree< Key, Value, Compare >::ConstIterator::operator*() const
 {
   return pNode->data;
 }
 
 template < typename Key, typename Value, typename Compare >
-const typename nikiforov::AvlTree< Key, Value, Compare >::keyValue_t* nikiforov::AvlTree< Key, Value, Compare >::ConstIterator::operator->() const
+const typename nikiforov::AvlTree< Key, Value, Compare >::keyValue_t* 
+nikiforov::AvlTree< Key, Value, Compare >::ConstIterator::operator->() const
 {
   return &(pNode->data);
 }
@@ -298,13 +300,15 @@ typename nikiforov::AvlTree< Key, Value, Compare >::keyValue_t* nikiforov::AvlTr
 }
 
 template < typename Key, typename Value, typename Compare >
-const typename nikiforov::AvlTree< Key, Value, Compare >::keyValue_t& nikiforov::AvlTree< Key, Value, Compare >::Iterator::operator*() const
+const typename nikiforov::AvlTree< Key, Value, Compare >::keyValue_t& 
+nikiforov::AvlTree< Key, Value, Compare >::Iterator::operator*() const
 {
   return iter.pNode->data;
 }
 
 template < typename Key, typename Value, typename Compare >
-const typename nikiforov::AvlTree< Key, Value, Compare >::keyValue_t* nikiforov::AvlTree< Key, Value, Compare >::Iterator::operator->() const
+const typename nikiforov::AvlTree< Key, Value, Compare >::keyValue_t* 
+nikiforov::AvlTree< Key, Value, Compare >::Iterator::operator->() const
 {
   return &(iter.pNode->data);
 }
@@ -327,7 +331,7 @@ nikiforov::AvlTree< Key, Value, Compare >::AvlTree() :
   pRoot(nullptr), size(0)
 {}
 
-template<typename Key, typename Value, typename Compare>
+template< typename Key, typename Value, typename Compare >
 inline nikiforov::AvlTree<Key, Value, Compare>::AvlTree(const AvlTree & other) :
   pRoot(nullptr), size(0)
 {
@@ -337,8 +341,8 @@ inline nikiforov::AvlTree<Key, Value, Compare>::AvlTree(const AvlTree & other) :
   }
 }
 
-template<typename Key, typename Value, typename Compare>
-nikiforov::AvlTree<Key, Value, Compare>::AvlTree(std::initializer_list<keyValue_t> list)
+template< typename Key, typename Value, typename Compare >
+nikiforov::AvlTree< Key, Value, Compare >::AvlTree(std::initializer_list< keyValue_t > list)
 {
   for (auto data : list)
   {
@@ -346,14 +350,14 @@ nikiforov::AvlTree<Key, Value, Compare>::AvlTree(std::initializer_list<keyValue_
   }
 }
 
-template<typename Key, typename Value, typename Compare>
-nikiforov::AvlTree<Key, Value, Compare>::~AvlTree()
+template< typename Key, typename Value, typename Compare >
+nikiforov::AvlTree< Key, Value, Compare >::~AvlTree()
 {
   clear();
 }
 
 template<typename Key, typename Value, typename Compare>
-typename nikiforov::AvlTree<Key, Value, Compare>::Iterator nikiforov::AvlTree<Key, Value, Compare>::begin() noexcept
+typename nikiforov::AvlTree< Key, Value, Compare >::Iterator nikiforov::AvlTree<Key, Value, Compare>::begin() noexcept
 {
   if (is_empty())
   {
@@ -367,14 +371,14 @@ typename nikiforov::AvlTree<Key, Value, Compare>::Iterator nikiforov::AvlTree<Ke
   return Iterator(ConstIterator(actualRoot));
 }
 
-template<typename Key, typename Value, typename Compare>
-typename nikiforov::AvlTree<Key, Value, Compare>::Iterator nikiforov::AvlTree<Key, Value, Compare>::end() noexcept
+template< typename Key, typename Value, typename Compare >
+typename nikiforov::AvlTree<Key, Value, Compare>::Iterator nikiforov::AvlTree< Key, Value, Compare >::end() noexcept
 {
   return Iterator(ConstIterator(nullptr));
 }
 
-template<typename Key, typename Value, typename Compare>
-typename nikiforov::AvlTree<Key, Value, Compare>::ConstIterator nikiforov::AvlTree<Key, Value, Compare>::cbegin() const noexcept
+template< typename Key, typename Value, typename Compare >
+typename nikiforov::AvlTree< Key, Value, Compare >::ConstIterator nikiforov::AvlTree< Key, Value, Compare >::cbegin() const noexcept
 {
   if (is_empty())
   {
@@ -422,7 +426,8 @@ Value& nikiforov::AvlTree< Key, Value, Compare >::at(const Key& key)
 }
 
 template < typename Key, typename Value, typename Compare >
-typename nikiforov::AvlTree<Key, Value, Compare>::Iterator nikiforov::AvlTree< Key, Value, Compare >::emplace(const Key& key, const Value& value)
+typename nikiforov::AvlTree<Key, Value, Compare>::Iterator 
+nikiforov::AvlTree< Key, Value, Compare >::emplace(const Key& key, const Value& value)
 {
   pRoot = insertData(pRoot, key, value);
   size++;
@@ -467,8 +472,8 @@ void nikiforov::AvlTree<Key, Value, Compare>::clear()
   size = 0;
 }
 
-template<typename Key, typename Value, typename Compare>
-typename nikiforov::AvlTree<Key, Value, Compare>::Iterator nikiforov::AvlTree<Key, Value, Compare>::find(const Key& key)
+template< typename Key, typename Value, typename Compare >
+typename nikiforov::AvlTree< Key, Value, Compare >::Iterator nikiforov::AvlTree< Key, Value, Compare >::find(const Key& key)
 {
   Node* actualRoot = pRoot;
   while (actualRoot)
@@ -535,8 +540,9 @@ typename nikiforov::AvlTree< Key, Value, Compare >::Node* nikiforov::AvlTree< Ke
   return rotationRR(pNode);
 }
 
-template<typename Key, typename Value, typename Compare>
-typename nikiforov::AvlTree<Key, Value, Compare>::Node* nikiforov::AvlTree<Key, Value, Compare>::insertData(Node* pNode, const Key& key, const Value& value)
+template< typename Key, typename Value, typename Compare >
+typename nikiforov::AvlTree<Key, Value, Compare>::Node* 
+nikiforov::AvlTree<Key, Value, Compare>::insertData(Node* pNode, const Key& key, const Value& value)
 {
   if (pNode == nullptr)
   {
@@ -558,7 +564,7 @@ typename nikiforov::AvlTree<Key, Value, Compare>::Node* nikiforov::AvlTree<Key, 
   return balance(pNode);
 }
 
-template<typename Key, typename Value, typename Compare>
+template< typename Key, typename Value, typename Compare >
 size_t nikiforov::AvlTree<Key, Value, Compare>::countSize(Node* pNode) const
 {
   if (pNode == nullptr)
@@ -584,7 +590,7 @@ size_t nikiforov::AvlTree< Key, Value, Compare >::getHeight(Node* pNode)
   }
 }
 
-template<typename Key, typename Value, typename Compare>
+template< typename Key, typename Value, typename Compare >
 void nikiforov::AvlTree<Key, Value, Compare>::updateHeight(Node* pNode)
 {
   if (pNode == nullptr)
@@ -630,7 +636,7 @@ typename nikiforov::AvlTree< Key, Value, Compare >::Node* nikiforov::AvlTree< Ke
   return pNode;
 }
 
-template<typename Key, typename Value, typename Compare>
+template< typename Key, typename Value, typename Compare >
 void nikiforov::AvlTree<Key, Value, Compare>::delAll(Node* pNode)
 {
   if (pNode)
@@ -641,7 +647,7 @@ void nikiforov::AvlTree<Key, Value, Compare>::delAll(Node* pNode)
   delete pNode;
 }
 
-template<typename Key, typename Value, typename Compare>
+template< typename Key, typename Value, typename Compare >
 typename nikiforov::AvlTree< Key, Value, Compare >::Node* nikiforov::AvlTree<Key, Value, Compare>::remove(Node* pNode, const Key& key)
 {
   if (pNode == nullptr)
@@ -685,7 +691,7 @@ typename nikiforov::AvlTree< Key, Value, Compare >::Node* nikiforov::AvlTree<Key
   return pNode == nullptr ? pNode : balance(pNode);
 }
 
-template<typename Key, typename Value, typename Compare>
+template< typename Key, typename Value, typename Compare >
 typename nikiforov::AvlTree< Key, Value, Compare >::Node* nikiforov::AvlTree<Key, Value, Compare>::minBranchValue(Node* pNode)
 {
   Node* actual = pNode;

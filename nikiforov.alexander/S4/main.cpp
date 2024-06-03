@@ -17,11 +17,10 @@ int main(int argc, char* argv[])
     return 2;
   }
 
-  using data_t = nikiforov::AvlTree< int, std::string >;
-  using dictionariesTree = nikiforov::AvlTree< std::string, data_t >;
+  using dictionariesTree = nikiforov::AvlTree< std::string, nikiforov::AvlTree< int, std::string > >;
 
   dictionariesTree dictionaries;
-  data_t dict;
+  nikiforov::AvlTree< int, std::string > dict;
   std::string strVocab;
   std::string nameVocab;
 
@@ -36,7 +35,7 @@ int main(int argc, char* argv[])
     }
     dict.clear();
   }
-  
+
   using namespace std::placeholders;
   nikiforov::AvlTree< std::string, std::function < void(dictionariesTree&, std::istream&, std::ostream&) > > cmds;
   {
@@ -45,7 +44,7 @@ int main(int argc, char* argv[])
     cmds.emplace("intersect", nikiforov::intersect);
     cmds.emplace("union", nikiforov::unite);
   }
-  
+
   std::string cmd;
   while (!std::cin.eof() && std::cin >> cmd)
   {
