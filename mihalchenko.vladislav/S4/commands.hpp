@@ -13,7 +13,6 @@ namespace mihalchenko
   void unionAVL(typeParam &AVLTree);
   void complement(typeParam &AVLTree);
   void insertDataToTree(typeParam &TreeAndLeaves, std::string &inputStr);
-  // void printErrorMessage(std::ostream & out);
   void printInvalidCommand(std::ostream &out);
   void printEmptyMessage(std::ostream &out);
 }

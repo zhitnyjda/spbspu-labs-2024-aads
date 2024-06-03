@@ -23,11 +23,6 @@ std::string mihalchenko::resiveString(std::string &inputStr, size_t &pos, bool f
   return result;
 }
 
-/*void mihalchenko::printErrorMessage(std::ostream & out)
-{
-  out << "ERROR\n";
-}*/
-
 void mihalchenko::printInvalidCommand(std::ostream &out)
 {
   out << "<INVALID COMMAND>\n";
@@ -53,7 +48,6 @@ void mihalchenko::print(typeParam &AVLTree)
     printEmptyMessage(std::cout);
     return;
   }
-  // size_t lenOfTree = (*iterList).second.getSize();
   size_t lenOfTree = 0;
   for (auto it = (*iterList).second.begin(); it != (*iterList).second.end(); ++it)
   {
@@ -83,7 +77,7 @@ void mihalchenko::complement(typeParam &AVLTree)
     size_t countEqual = 0;
     for (auto itTwo = (*AVLTree.find(nameTwoGlossary)).second.begin(); itTwo != (*AVLTree.find(nameTwoGlossary)).second.end(); itTwo++)
     {
-      if (((*it).first == (*itTwo).first)) // || ((*it).second == (*itTwo).second))
+      if (((*it).first == (*itTwo).first))
       {
         countEqual++;
       }
@@ -115,7 +109,7 @@ void mihalchenko::intersect(typeParam &AVLTree)
     size_t countEqual = 0;
     for (auto itTwo = (*AVLTree.find(nameTwoGlossary)).second.begin(); itTwo != (*AVLTree.find(nameTwoGlossary)).second.end(); itTwo++)
     {
-      if (((*it).first == (*itTwo).first)) //&& ((*it).second == (*itTwo).second))
+      if (((*it).first == (*itTwo).first))
       {
         countEqual++;
       }
