@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
       commandIter->second(dictionaries);
     }
     else if (!command.empty()) {
-      invalidCommandWarning(std::cout);
+      zhitnyj::invalidCommandWarning(std::cout);
       std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
     }
   }
