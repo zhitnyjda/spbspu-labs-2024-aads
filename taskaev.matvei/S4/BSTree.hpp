@@ -358,7 +358,7 @@ Value& BSTree< Key, Value, Comparator >::at(const Key& key)
       return newRoot->data_.second;
     }
   }
-  std::cerr << "Error: not key!\n";
+  throw std::out_of_range("Error\n");
 }
 
 template< typename Key, typename Value, typename Comparator >
