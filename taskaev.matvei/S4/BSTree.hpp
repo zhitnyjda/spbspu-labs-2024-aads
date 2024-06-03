@@ -470,7 +470,7 @@ typename BSTree< Key, Value, Comparator >::Node* BSTree< Key, Value, Comparator 
   {
     return nullptr;
   }
-  else if (comp_(key, node->data_.first)) 
+  else if (comp_(key, node->data_.first))
   {
     node->left_ = erase(node->left_, key);
   }
