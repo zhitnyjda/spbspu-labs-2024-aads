@@ -1,13 +1,15 @@
 #include "functions.hpp"
 #include <string>
+#include <iostream>
 
 namespace taskaev
 {
   void createTree(std::istream& in, Tree& tree)
   {
-    std::string data = "";
-    while (std::getline(in, data))
+    while (in.eof())
     {
+      std::string data = "";
+      std::getline(in, data);
       if (!data.empty())
       {
         std::string temps = "";

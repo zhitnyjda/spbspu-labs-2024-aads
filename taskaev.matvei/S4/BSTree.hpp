@@ -27,7 +27,7 @@ namespace taskaev
         parent_(parent),
         height_(h)
       {}
-      std::pair< Key, Value > data_;
+      value_t data_;
       Node* right_;
       Node* left_;
       Node* parent_;
@@ -45,7 +45,7 @@ namespace taskaev
     void swap(BSTree& rhs);
 
     void insert(const value_t& pair);
-    void insert(const Key& key, const Value& value);
+    void insert(const Key& key, const Value& val);
 
     void erase(const Key& key);
     ConstIterator find(const Key& key) const;
