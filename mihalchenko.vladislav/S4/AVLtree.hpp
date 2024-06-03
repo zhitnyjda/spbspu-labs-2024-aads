@@ -68,6 +68,8 @@ namespace mihalchenko
 
     int calcHeight(Node *node);
     void balancingTree(Node *overweight);
+    void leftSpin(Node *node);
+    void rightSpin(Node *node);
 
     int getHeight(Node *node);
     Node *getRoot();
@@ -566,31 +568,66 @@ void mihalchenko::AVLTree<Key, Value, Compare>::balancingTree(Node *node)
   if (finalWeight >= 2) // если вес корня дерева больше или равен 2, то надо балансировать
   {
     Node *nodeP = root_;
-    if ((nodeP->right_) && (nodeP->right_->height_ > 1)) // если у корня справа ветки есть
+    if ((nodeP->right_) && (nodeP->right_->height_ > 1)) // если у корня справа ветки есть несбалансированные
     {
-      Node *nodeQ = nodeP->right_;
-      if ((nodeQ->left_) && (nodeQ->right_))
-      {
-        if (nodeQ->left_->height_ - nodeQ->right_->height_ >= 2) // условие правого поворота, т.е. корень вправо смещаем
-        {
-          nodeP->previous_ = nodeQ;
-          nodeP->right_ = nodeQ->left_;
-          nodeQ->previous_ = nullptr;
-          nodeQ->left_ = nodeP;
-          root_ = nodeQ;
-        }
-      }
-      else // если справа ветка длинная, но у nodeQ только одна ветка ниже идет
-      {
-        nodeP->previous_ = nodeQ;
-        nodeP->right_ = nullptr;
-        nodeQ->previous_ = nullptr;
-        nodeQ->left_ = nodeP;
-        root_ = nodeQ;
-      }
+      rightSpin(nodeP);
+    }
+    else if ((nodeP->left_) && (nodeP->left_->height_ > 1)) // если у корня слева ветки есть несбалансированные
+    {
+      leftSpin(nodeP);
     }
   }
   return;
+}
+
+template <typename Key, typename Value, typename Compare>
+void mihalchenko::AVLTree<Key, Value, Compare>::leftSpin(Node *nodeP)
+{
+  Node *nodeQ = nodeP->left_;
+  if ((nodeQ->left_) && (nodeQ->right_))
+  {
+    if (nodeQ->right_->height_ - nodeQ->left_->height_ >= 2) // условие правого поворота, т.е. корень влево смещаем
+    {
+      nodeP->previous_ = nodeQ;
+      nodeP->left_ = nodeQ->right_;
+      nodeQ->previous_ = nullptr;
+      nodeQ->right_ = nodeP;
+      root_ = nodeQ;
+    }
+  }
+  else // если слева ветка длинная, но у nodeQ только одна ветка ниже идет
+  {
+    nodeP->previous_ = nodeQ;
+    nodeP->left_ = nullptr;
+    nodeQ->previous_ = nullptr;
+    nodeQ->right_ = nodeP;
+    root_ = nodeQ;
+  }
+}
+
+template <typename Key, typename Value, typename Compare>
+void mihalchenko::AVLTree<Key, Value, Compare>::rightSpin(Node *nodeP)
+{
+  Node *nodeQ = nodeP->right_;
+  if ((nodeQ->left_) && (nodeQ->right_))
+  {
+    if (nodeQ->left_->height_ - nodeQ->right_->height_ >= 2) // условие правого поворота, т.е. корень вправо смещаем
+    {
+      nodeP->previous_ = nodeQ;
+      nodeP->right_ = nodeQ->left_;
+      nodeQ->previous_ = nullptr;
+      nodeQ->left_ = nodeP;
+      root_ = nodeQ;
+    }
+  }
+  else // если справа ветка длинная, но у nodeQ только одна ветка ниже идет
+  {
+    nodeP->previous_ = nodeQ;
+    nodeP->right_ = nullptr;
+    nodeQ->previous_ = nullptr;
+    nodeQ->left_ = nodeP;
+    root_ = nodeQ;
+  }
 }
 
 template <typename Key, typename Value, typename Compare>
