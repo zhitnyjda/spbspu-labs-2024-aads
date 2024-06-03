@@ -14,7 +14,7 @@ namespace taskaev
         std::string names = "";
         size_t key = 0;
         std::string val = "";
-        BSTree< size_t, std::string > tre;
+        BSTree< size_t, std::string, std::less< size_t > > tre;
         bool flag = true;
         size_t i = 0;
         while (i < data.length())
