@@ -134,7 +134,6 @@ typename BSTree< Key, Value, Comparator >::ConstIterator& BSTree< Key, Value, Co
   }
   else
   {
-    Node* p = node_->parent_;
     while (node_->parent_ != nullptr && node_ == node_->parent_->right_)
     {
       node_ = node_->parent_;
