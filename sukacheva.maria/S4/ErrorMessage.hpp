@@ -1,6 +1,6 @@
 #ifndef ERRORMESSAGE_HPP
 #define ERRORMESSAGE_HPP
-#include <iostream>
+#include <iosfwd>
 
 namespace sukacheva
 {

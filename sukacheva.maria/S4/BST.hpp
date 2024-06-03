@@ -124,40 +124,20 @@ namespace sukacheva
   template< typename Key, typename Value, typename Compare >
   void BST< Key, Value, Compare >::swap(BST& first, BST& second) noexcept
   {
-    first.root = second.root;
-    first.cmp = std::move(second.cmp);
+    std::swap(first.root, second.root);
   }
 
   template< typename Key, typename Value, typename Compare >
   BST< Key, Value, Compare >& BST< Key, Value, Compare >::operator=(const BST& other)
   {
-    BST< Key, Value, Compare > copy;
-    copyTree(copy.root, root);
-    if (copy != &other)
-    {
-      clear(copy.root);
-      copy.root = nullptr;
-      if (other.root)
-      {
-        copy.root = new Node(*other.root);
-        copyTree(copy.root, other.root);
-      }
-      cmp = other.cmp;
-    }
-    swap(this, copy);
+    swap(*this, other);
     return *this;
   }
 
   template< typename Key, typename Value, typename Compare >
   BST< Key, Value, Compare >& BST< Key, Value, Compare >::operator=(BST&& other) noexcept
   {
-    if (this != &other)
-    {
-      clear(root);
-      root = other.root;
-      cmp = std::move(other.cmp);
-      other.root = nullptr;
-    }
+    swap(*this, other);
     return *this;
   }
 

@@ -1,4 +1,5 @@
 #include "ErrorMessage.hpp"
+#include <iostream>
 
 namespace sukacheva
 {
