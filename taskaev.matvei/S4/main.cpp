@@ -22,7 +22,7 @@ int main(int argc, char ** argv)
  // cmds.insert("complement", complement);
  // cmds.insert("intersect", intersect);
  // cmds.insert("union", unions);
- // std::string command = "";
+  std::string command = "";
   while (std::cin >> command)
   {
     try
