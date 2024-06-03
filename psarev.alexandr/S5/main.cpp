@@ -47,6 +47,11 @@ int main(int argc, char* argv[])
     std::cerr << e.what() << "\n";
     return 1;
   }
+  catch (const std::underflow_error& e)
+  {
+    std::cerr << e.what() << '\n';
+    return 1;
+  }
 
   return 0;
 }
