@@ -119,7 +119,7 @@ namespace taskaev
       }
       if (!flag)
       {
-        newTree.insert(*it);
+        tree.insert(*it);
       }
     }
   }
