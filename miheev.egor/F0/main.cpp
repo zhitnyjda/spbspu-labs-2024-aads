@@ -8,11 +8,6 @@
 
 #include <sstream>
 
-void printer(const std::pair< const int, int >& pair)
-{
-  std::cout << pair.first << '\n';
-}
-
 int main(int argc, char* argv[])
 {
   using namespace miheev;
@@ -58,12 +53,12 @@ int main(int argc, char* argv[])
       sendMessage(std::cerr, e.what());
       std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
     }
-    catch (const std::out_of_range& e)
-    {
-      sendMessage(std::cerr, "[ERROR] invalid command");
-      sendMessage(std::cerr, e.what());
-      std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
-    }
+    // catch (const std::out_of_range& e)
+    // {
+    //   sendMessage(std::cerr, "[ERROR] invalid command");
+      // sendMessage(std::cerr, e.what());
+      // std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+    // }
     catch (const std::runtime_error& e)
     {
       sendMessage(std::cerr, e.what());

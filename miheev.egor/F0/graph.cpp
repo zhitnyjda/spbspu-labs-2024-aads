@@ -255,11 +255,8 @@ miheev::List< int > miheev::Graph::Dextra::findShortestPath(int start, int finis
 
 void miheev::Graph::Dextra::updateNodeState(int node, size_t timeToNode, int parrentNode)
 {
-  timeToNodes.erase(node);
-  timeToNodes.insert({node, timeToNode});
-
-  nodesParrents.erase(node);
-  nodesParrents.insert({node, parrentNode});
+  timeToNodes[node] = timeToNode;
+  nodesParrents[node] = parrentNode;
 }
 
 std::istream& miheev::operator>>(std::istream& in, miheev::Graph& graph)
