@@ -351,13 +351,13 @@ BSTree< Key, Value, Comparator >::~BSTree()
 template< typename Key, typename Value, typename Comparator >
 Value& BSTree< Key, Value, Comparator >::at(const Key& key)
 {
-  if (find(key) != end())
+  if (find(key) != ConstIterator(nullptr, root_))
   {
     find(key)->second;
   }
   else
   {
-    throw std::out_of_range("Error:\n")
+    throw std::out_of_range("Error:\n");
   }
  // Node* newRoot = root_;
  // while (newRoot != nullptr)
