@@ -18,14 +18,14 @@ int main(int argc, char* argv[])
     return 2;
   }
 
-  nikiforov::AvlTree< int, std::string > traversalTree;
+  nikiforov::AvlTree< long long , std::string > traversalTree;
   std::string strData;
 
   std::getline(input, strData);
-  nikiforov::createDictionary(strData, traversalTree);
+  nikiforov::createTree(strData, traversalTree);
 
   using namespace std::placeholders;
-  nikiforov::AvlTree< std::string, std::function < void(nikiforov::AvlTree< int, std::string >&, std::ostream&) > > cmds;
+  nikiforov::AvlTree< std::string, std::function < void(nikiforov::AvlTree< long long, std::string >&, std::ostream&) > > cmds;
   {
     cmds.emplace("ascending", nikiforov::lnrTraverse);
     cmds.emplace("descending", nikiforov::rnlTraverse);

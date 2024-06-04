@@ -1,7 +1,20 @@
 #include "structSumm.hpp"
 #include "commandsTraverse.hpp"
 
-void nikiforov::lnrTraverse(AvlTree<int, std::string>& traversalTree, std::ostream& out)
+void nikiforov::createTree(std::string& strVocab, AvlTree< long long, std::string >& dict)
+{
+  std::string key;
+  std::string value;
+
+  while (!strVocab.empty())
+  {
+    key = cutElem(strVocab);
+    value = cutElem(strVocab);
+    dict.emplace(stoll(key), value);
+  }
+}
+
+void nikiforov::lnrTraverse(AvlTree<long long, std::string>& traversalTree, std::ostream& out)
 {
   if (!traversalTree.is_empty())
   {
@@ -16,7 +29,7 @@ void nikiforov::lnrTraverse(AvlTree<int, std::string>& traversalTree, std::ostre
   }
 }
 
-void nikiforov::rnlTraverse(AvlTree<int, std::string>& traversalTree, std::ostream& out)
+void nikiforov::rnlTraverse(AvlTree<long long, std::string>& traversalTree, std::ostream& out)
 {
   if (!traversalTree.is_empty())
   {
@@ -31,7 +44,7 @@ void nikiforov::rnlTraverse(AvlTree<int, std::string>& traversalTree, std::ostre
   }
 }
 
-void nikiforov::breadthTraverse(AvlTree<int, std::string>& traversalTree, std::ostream& out)
+void nikiforov::breadthTraverse(AvlTree<long long, std::string>& traversalTree, std::ostream& out)
 {
   if (!traversalTree.is_empty())
   {
