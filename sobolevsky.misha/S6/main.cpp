@@ -33,7 +33,9 @@ int main(int argc, char *argv[])
   catch(const std::exception & e)
   {
     std::cerr << "inv\n";
+    cmds.clear();
     return 1;
   }
+  cmds.clear();
   return 0;
 }

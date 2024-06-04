@@ -39,11 +39,19 @@ namespace sobolevsky
   template< typename Container >
   void outputContainer(std::ostream& out, const Container& container)
   {
-    for (auto &item : container)
+    for (typename Container::const_iterator iter = container.cbegin(); iter != container.cend();)
     {
-      out << item << " ";
+      out << *iter;
+      iter++;
+      if (iter != container.cend())
+      {
+        out << " ";
+      }
+      else
+      {
+        out << "\n";
+      }
     }
-    out << "\n";
   }
 
   template< typename T, typename Comparator >
