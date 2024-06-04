@@ -3,6 +3,7 @@
 
 #include <list>
 #include <algorithm>
+#include <functional>
 #include <deque>
 #include "List.hpp"
 
