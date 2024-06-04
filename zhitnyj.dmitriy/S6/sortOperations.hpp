@@ -13,7 +13,7 @@ namespace zhitnyj {
     for (auto it = list.begin(); it != list.end(); ++it) {
       os << *it << " ";
     }
-    os << std::endl;
+    os << "\n";
   }
 
   template< typename T >
@@ -21,7 +21,7 @@ namespace zhitnyj {
     for (const auto &elem: list) {
       os << elem << " ";
     }
-    os << std::endl;
+    os << "\n";
   }
 
   template< typename T >
@@ -29,7 +29,7 @@ namespace zhitnyj {
     for (const auto &elem: deq) {
       os << elem << " ";
     }
-    os << std::endl;
+    os << "\n";
   }
 
   template< typename forwardIterator, typename Compare >
