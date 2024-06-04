@@ -1,6 +1,6 @@
 #ifndef COMMANDSTRAVERSE_HPP
 #define COMMANDSTRAVERSE_HPP
-#include "../common/commands.hpp"
+#include <commands.hpp>
 
 namespace nikiforov
 {
