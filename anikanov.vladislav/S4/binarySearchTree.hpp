@@ -39,15 +39,15 @@ namespace anikanov {
       Node(const Key &key, const Value &value, std::shared_ptr< Node > parent = nullptr) : data(key, value),
                                                                                            left(nullptr),
                                                                                            right(nullptr),
-                                                                                           height(1),
-                                                                                           parent(parent)
+                                                                                           parent(parent),
+                                                                                           height(1)
       {}
 
       Node(std::shared_ptr< Node > &node) : data(node->data),
                                             left(std::move(node->left)),
                                             right(std::move(node->right)),
-                                            height(node->height),
-                                            parent(node->parent.lock())
+                                            parent(node->parent.lock()),
+                                            height(node->height)
       {}
     };
 
