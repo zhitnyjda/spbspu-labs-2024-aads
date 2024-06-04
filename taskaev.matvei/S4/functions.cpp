@@ -4,6 +4,21 @@
 
 namespace taskaev
 {
+  bool digit(std::string str)
+  {
+    size_t size = str.length();
+    size_t i = 0;
+    while (i < size)
+    {
+      if (!std::isdigit(str[i]))
+      {
+        return false;
+      }
+      i++;
+    }
+    return true;
+  }
+
   void createTree(std::istream& in, Tree& tree)
   {
     while (in.eof())
@@ -33,7 +48,7 @@ namespace taskaev
           }
           else
           {
-            if (std::isdigit(temps[0]))
+            if (digit(temps) == true)
             {
               key = std::stoll(temps);
               temps = "";
