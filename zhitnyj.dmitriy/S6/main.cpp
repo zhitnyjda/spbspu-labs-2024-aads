@@ -2,6 +2,7 @@
 #include <string>
 #include <list>
 #include <deque>
+#include <functional>
 #include <List.hpp>
 #include "sortOperations.hpp"
 #include "random.hpp"
