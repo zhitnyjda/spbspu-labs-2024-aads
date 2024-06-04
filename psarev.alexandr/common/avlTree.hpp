@@ -6,6 +6,8 @@
 #include <iterator>
 #include <functional>
 #include <assert.h>
+#include "stack.hpp"
+#include "queue.hpp"
 
 namespace psarev
 {
@@ -49,12 +51,18 @@ namespace psarev
 
     template < typename F >
     F traverseLnR(F f) const;
-
     template < typename F >
     F traverseRnL(F f) const;
+    template < typename F >
+    F traverseBre(F f) const;
 
     template < typename F >
-    F traverse(F f) const;
+    F traverseLnR(F f);
+    template < typename F >
+    F traverseRnL(F f);
+    template < typename F >
+    F traverseBre(F f);
+
   private:
 
     struct Unit
@@ -547,8 +555,8 @@ template< typename Key, typename Value, typename Compare >
 template< typename F >
 F psarev::avlTree<Key, Value, Compare>::traverseLnR(F f) const
 {
-  Stack< Unit* > ancestors;
-  Unit* wayP = treeRoot;
+  Stack< const Unit* > ancestors;
+  const Unit* wayP = treeRoot;
 
   while (!ancestors.isEmpty() || wayP != nullptr)
   {
@@ -574,6 +582,87 @@ template< typename Key, typename Value, typename Compare >
 template< typename F >
 F psarev::avlTree<Key, Value, Compare>::traverseRnL(F f) const
 {
+  Stack< const Unit* > ancestors;
+  const Unit* wayP = treeRoot;
+
+  while (!ancestors.isEmpty() || wayP != nullptr)
+  {
+    while (wayP != nullptr)
+    {
+      ancestors.push(wayP);
+      wayP = wayP->right;
+    }
+
+    if (!ancestors.isEmpty())
+    {
+      wayP = ancestors.getTop();
+      ancestors.pop();
+
+      f(wayP->data);
+      wayP = wayP->left;
+    }
+  }
+  return f;
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename F >
+F psarev::avlTree<Key, Value, Compare>::traverseBre(F f) const
+{
+  Queue< const Unit* > stage;
+  stage.push(treeRoot);
+
+  while (!stage.isEmpty())
+  {
+    if (stage.front() != nullptr)
+    {
+      const Unit* tempo = stage.getFront();
+      f(tempo->data);
+
+      stage.pop();
+
+      stage.push(tempo->left);
+      stage.push(tempo->right);
+    }
+    else
+    {
+      stage.pop();
+    }
+  }
+  return f;
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename F >
+F psarev::avlTree<Key, Value, Compare>::traverseLnR(F f)
+{
+  Stack< Unit* > ancestors;
+  Unit* wayP = treeRoot;
+
+  while (!ancestors.isEmpty() || wayP != nullptr)
+  {
+    while (wayP != nullptr)
+    {
+      ancestors.push(wayP);
+      wayP = wayP->left;
+    }
+
+    if (!ancestors.isEmpty())
+    {
+      wayP = ancestors.getTop();
+      ancestors.pop();
+
+      f(wayP->data);
+      wayP = wayP->right;
+    }
+  }
+  return f;
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename F >
+F psarev::avlTree<Key, Value, Compare>::traverseRnL(F f)
+{
   Stack< Unit* > ancestors;
   Unit* wayP = treeRoot;
 
@@ -592,6 +681,33 @@ F psarev::avlTree<Key, Value, Compare>::traverseRnL(F f) const
 
       f(wayP->data);
       wayP = wayP->left;
+    }
+  }
+  return f;
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename F >
+F psarev::avlTree<Key, Value, Compare>::traverseBre(F f)
+{
+  Queue< Unit* > stage;
+  stage.push(treeRoot);
+
+  while (!stage.isEmpty())
+  {
+    if (stage.front() != nullptr)
+    {
+      Unit* tempo = stage.getFront();
+      f(tempo->data);
+
+      stage.pop();
+
+      stage.push(tempo->left);
+      stage.push(tempo->right);
+    }
+    else
+    {
+      stage.pop();
     }
   }
   return f;
