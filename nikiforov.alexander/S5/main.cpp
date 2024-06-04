@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
   {
     cmds.emplace("ascending", nikiforov::lnrTraverse);
     cmds.emplace("descending", nikiforov::rnlTraverse);
-    cmds.emplace("bradth", nikiforov::breadthTraverse);
+    cmds.emplace("breadth", nikiforov::breadthTraverse);
   }
 
   try
