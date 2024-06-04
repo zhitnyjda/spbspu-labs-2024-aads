@@ -99,7 +99,7 @@ namespace taskaev
     std::string datas = "";
     std::cin >> datas;
     std::cout << "1f\n";
-    BSTree< size_t, std::string > tres = tree.find(datas);
+    BSTree< size_t, std::string > tres = tree.at(datas);
     std::cout << "2f\n ";
     if (tres.empty())
     {
