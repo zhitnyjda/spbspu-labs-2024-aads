@@ -1,4 +1,5 @@
 #include "traverseCmds.hpp"
+#include "taskSumm.hpp"
 
 std::ostream& psarev::outInvCommand(std::ostream& out)
 {
@@ -34,7 +35,10 @@ void psarev::fillTree(std::istream& in, base_t& data)
 
 void psarev::ascending(std::ostream& out, base_t& data)
 {
+  psarev::TaskSumm summ;
+  summ = data.traverseLnR< TaskSumm >(summ);
 
+  out << summ.getKeySumm() << summ.getValSumm() << "\n";
 }
 
 void psarev::descending(std::ostream& out, base_t& data)

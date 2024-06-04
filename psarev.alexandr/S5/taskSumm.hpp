@@ -5,7 +5,6 @@
 
 namespace psarev
 {
-  using base_t = psarev::avlTree< long long, std::string >;
   struct TaskSumm
   {
   public:
