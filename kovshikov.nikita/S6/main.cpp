@@ -17,7 +17,20 @@ int main(int argc, char ** argv)
   std::string compare = argv[1];
   std::string type = argv[2];
   std::string strSize = argv[3];
+  bool haveCompare = compare == "ascending" || compare == "descending";
+  bool haveType = type == "ints" || type == "floats";
 
+  if(!(haveCompare && haveType))
+  {
+    std::cerr << "<THE TYPE OR SORTING METHOD IS SPECIFIED INCORRECTLY>" << "\n";
+    return 1;
+  }
+
+  if(!isDigit(strSize))
+  {
+    std::cerr << "<YOU NEED TO ENTER THE CORRECT SIZE>" << "\n";
+    return 1;
+  }
   size_t size = std::stoll(strSize);
 
   if(type == "ints")

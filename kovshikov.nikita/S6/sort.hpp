@@ -9,6 +9,8 @@
 
 namespace kovshikov
 {
+  bool isDigit(std::string str);
+
   template< typename FwdIterator, typename Compare >
   void selectionSort(FwdIterator begin, FwdIterator end, Compare comp);
 
@@ -20,6 +22,19 @@ namespace kovshikov
 
   template< typename Compare, typename Deque, typename FwdList, typename List >
   std::ostream& sort(Compare comp, Deque& deque, FwdList& fwdList, List& list, std::ostream& out);
+}
+
+bool kovshikov::isDigit(std::string str)
+{
+  size_t size = str.length();
+  for(size_t i = 0; i < size; i++)
+  {
+    if(!std::isdigit(str[i]))
+    {
+      return false;
+    }
+  }
+  return true;
 }
 
 template< typename FwdIterator, typename Compare >
