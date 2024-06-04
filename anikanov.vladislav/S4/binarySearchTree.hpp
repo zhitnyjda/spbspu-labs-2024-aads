@@ -20,7 +20,10 @@ std::ostream &operator<<(std::ostream &os, const anikanov::BinarySearchTree< Key
   anikanov::List< std::pair< Key, Value > > list;
   tree.inOrder(tree.root.get(), list);
   for (const auto &p: list) {
-    os << p.first << " " << p.second << " ";
+    os << p.first << " " << p.second;
+    if (p != list.end()){
+      os << " ";
+    }
   }
   return os;
 }
