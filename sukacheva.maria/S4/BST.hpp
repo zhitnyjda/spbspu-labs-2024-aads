@@ -660,9 +660,9 @@ namespace sukacheva
   template < typename Key, typename Value, typename Compare >
   typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::deleteNode(Node* node, const Key& k)
   {
-    if (!node)
+    if (node == nullptr)
     {
-      return nullptr;
+      return node;
     }
     if (cmp(k, node->data.first))
     {
@@ -674,21 +674,30 @@ namespace sukacheva
     }
     else
     {
-      if (!node->left)
+      if ((node->left == nullptr) || (node->right == nullptr))
       {
-        Node* temp = node->right;
-        delete node;
-        return temp;
+        Node* temp = node->left ? node->left : node->right;
+        if (temp == nullptr)
+        {
+          temp = node;
+          node = nullptr;
+        }
+        else
+        {
+          *node = *temp;
+        }
+        delete temp;
       }
-      else if (!node->right)
+      else
       {
-        Node* temp = node->left;
-        delete node;
-        return temp;
+        Node* temp = findMin(node->right);
+        node->data = temp->data;
+        node->right = deleteNode(node->right, temp->data.first);
       }
-      Node* temp = findMin(node->right);
-      node->data = temp->data;
-      node->right = deleteNode(node->right, temp->data.first);
+    }
+    if (node == nullptr)
+    {
+      return node;
     }
     return balance(node);
   }
