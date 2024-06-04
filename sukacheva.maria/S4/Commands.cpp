@@ -164,19 +164,11 @@ namespace sukacheva
       throw std::logic_error("<WRONG INPUT>\n");
     }
     BST< size_t, std::string > secondDict = treeOfDicts.find(nameSecond)->second;
-    BST< size_t, std::string > firstDict = treeOfDicts.find(nameFirst)->second;
-    BST< size_t, std::string > newDict;
+    BST< size_t, std::string > newDict = treeOfDicts.find(nameFirst)->second;
     using iterator = BST< size_t, std::string >::Iterator;
-    for (iterator it = firstDict.begin(); it != firstDict.end(); it++)
-    {
-      newDict.insert(it->first, it->second);
-    }
     for (iterator secit = secondDict.begin(); secit != secondDict.end(); secit++)
     {
-      if (newDict.find(secit->first) == nullptr)
-      {
-        newDict.insert(secit->first, secit->second);
-      }
+      newDict.insert(secit->first, secit->second);
     }
     if (treeOfDicts.find(nameNew) != nullptr)
     {
