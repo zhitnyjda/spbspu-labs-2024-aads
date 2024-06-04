@@ -1,6 +1,5 @@
 #ifndef AvlTree_HPP
 #define AvlTree_HPP
-#include <functional>
 #include <iostream>
 
 namespace nikiforov
@@ -20,7 +19,6 @@ namespace nikiforov
     ~AvlTree();
 
     AvlTree& operator=(AvlTree other);
-    AvlTree& operator=(AvlTree&& other);
 
     Iterator begin() noexcept;
     Iterator end() noexcept;
@@ -364,18 +362,6 @@ typename nikiforov::AvlTree<Key, Value, Compare>::AvlTree& nikiforov::AvlTree<Ke
 {
   clear();
   swap(other);
-  return *this;
-}
-
-template<typename Key, typename Value, typename Compare>
-typename nikiforov::AvlTree<Key, Value, Compare>::AvlTree& nikiforov::AvlTree<Key, Value, Compare>::operator=(AvlTree&& other)
-{
-  if (&other != this)
-  {
-    clear();
-    swap(other);
-    other.treeRoot = nullptr;
-  }
   return *this;
 }
 

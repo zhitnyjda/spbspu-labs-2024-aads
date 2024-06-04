@@ -1,8 +1,6 @@
 #ifndef COMMANDS_HPP
 #define COMMANDS_HPP
 #include "AvlTree.hpp"
-#include <string>
-#include <iostream>
 
 namespace nikiforov
 {
