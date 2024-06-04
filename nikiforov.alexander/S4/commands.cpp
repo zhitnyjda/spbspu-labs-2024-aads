@@ -68,7 +68,7 @@ void nikiforov::complement(dictionariesTree& dictionaries, std::istream& in, std
   if (firstDict != dictionaries.end() && secondDict != dictionaries.end())
   {
     AvlTree< int, std::string > newDict;
-    for (auto it = firstDict->second.begin(); it != firstDict->second.end(); ++it) 
+    for (auto it = firstDict->second.begin(); it != firstDict->second.end(); ++it)
     {
       if (secondDict->second.find(it->first) == secondDict->second.end())
       {
@@ -99,7 +99,7 @@ void nikiforov::intersect(dictionariesTree& dictionaries, std::istream& in, std:
   if (firstDict != dictionaries.end() && secondDict != dictionaries.end())
   {
     AvlTree< int, std::string > newDict;
-    for (auto it = firstDict->second.begin(); it != firstDict->second.end(); ++it) 
+    for (auto it = firstDict->second.begin(); it != firstDict->second.end(); ++it)
     {
       if (secondDict->second.find(it->first) != secondDict->second.end())
       {
@@ -130,11 +130,11 @@ void nikiforov::unite(dictionariesTree& dictionaries, std::istream& in, std::ost
   if (firstDict != dictionaries.end() && firstDict != dictionaries.end())
   {
     AvlTree< int, std::string > newDict;
-    for (auto it = firstDict->second.begin(); it != firstDict->second.end(); ++it) 
+    for (auto it = firstDict->second.begin(); it != firstDict->second.end(); ++it)
     {
       newDict.emplace(it->first, it->second);
     }
-    for (auto it = secondDict->second.begin(); it != secondDict->second.end(); ++it) 
+    for (auto it = secondDict->second.begin(); it != secondDict->second.end(); ++it)
     {
       if (newDict.find(it->first) == newDict.end())
       {
