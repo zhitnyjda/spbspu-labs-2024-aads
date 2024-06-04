@@ -16,6 +16,7 @@ namespace nikiforov
 
     AvlTree();
     AvlTree(const AvlTree& other);
+    AvlTree(AvlTree&& other);
     AvlTree(std::initializer_list< keyValue_t > list);
     ~AvlTree();
 
@@ -328,7 +329,6 @@ bool nikiforov::AvlTree< Key, Value, Compare >::Iterator::operator==(const this_
   return iter.pNode == rhs.iter.pNode;
 }
 
-
 template< typename Key, typename Value, typename Compare >
 nikiforov::AvlTree< Key, Value, Compare >::AvlTree() :
   pRoot(nullptr), size(0)
@@ -342,6 +342,13 @@ inline nikiforov::AvlTree<Key, Value, Compare>::AvlTree(const AvlTree& other) :
   {
     insert(*iter);
   }
+}
+
+template<typename Key, typename Value, typename Compare>
+nikiforov::AvlTree<Key, Value, Compare>::AvlTree(AvlTree&& other) :
+  pRoot(std::move(other.pRoot)), size(std::move(other.size))
+{
+  other.pRoot = nullptr;
 }
 
 template< typename Key, typename Value, typename Compare >

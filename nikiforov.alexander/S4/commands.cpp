@@ -36,14 +36,14 @@ void nikiforov::print(dictionariesTree& dictionaries, std::istream& in, std::ost
   in >> nameDict;
   auto dict = dictionaries.find(nameDict);
 
-  if (dict != nullptr)
+  if (dict != dictionaries.end())
   {
     if (!dict->second.is_empty())
     {
       out << dict->first;
-      for (auto iter = dict->second.begin(); iter != dict->second.end(); ++iter)
+      for (auto it = dict->second.begin(); it != dict->second.end(); ++it)
       {
-        out << " " << iter->first << " " << iter->second;
+        out << " " << it->first << " " << it->second;
       }
       out << "\n";
     }
