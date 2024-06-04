@@ -60,7 +60,14 @@ void kovshikov::selectionSort(FwdIterator begin, FwdIterator end, Compare comp)
 template< typename ListIterator, typename Compare >
 void kovshikov::shellSort(ListIterator begin, ListIterator end, Compare comp)
 {
-  int size = std::distance(begin, end);
+ // int size = std::distance(begin, end);
+  int size = 0;
+  ListIterator temp = begin;
+  while(temp != end)
+  {
+    size += 1;
+    temp++;
+  }
   for(int interval = size / 2; interval > 0; interval /= 2)
   {
     for(int i = 0; i < interval; i++)
@@ -78,13 +85,22 @@ void kovshikov::shellSort(ListIterator begin, ListIterator end, Compare comp)
           if(comp(*next, *prev))
           {
             std::swap(*next, *prev);
-            next = std::prev(next, interval);
-            count += 1;
+            if(indexPrev - interval >= 0)
+            {
+              next = std::prev(next, interval);
+              count += 1;
+            }
           }
-          prev = std::prev(prev, interval);
+          if(indexPrev - interval >= 0)
+          {
+            prev = std::prev(prev, interval);
+          }
           indexPrev -= interval;
         }
-        next = std::next(next, interval * count);
+        if(indexNext + interval < size)
+        {
+          next = std::next(next, interval * count);
+        }
         indexNext += interval;
       }
     }
@@ -120,11 +136,11 @@ template< typename Compare, typename Deque, typename FwdList, typename List >
 std::ostream& kovshikov::sort(Compare comp, Deque& deque, FwdList& fwdList, List& list, std::ostream& out)
 {
   List listBubble;
-  std::copy(list.begin(), list.end(), std::back_inserter(listBubble));
+  myCopy(list.begin(), list.end(), std::front_inserter(listBubble)); //вот тут вылезает ошибка
   Deque dequeShell;
-  std::copy(deque.begin(), deque.end(), std::back_inserter(dequeShell));
+  myCopy(deque.begin(), deque.end(), std::back_inserter(dequeShell));
   Deque dequeBubble;
-  std::copy(deque.begin(), deque.end(), std::back_inserter(dequeBubble));
+  myCopy(deque.begin(), deque.end(), std::back_inserter(dequeBubble));
 
   printConteiner(fwdList, out);
   selectionSort(fwdList.begin(), fwdList.end(), comp);

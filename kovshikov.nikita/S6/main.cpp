@@ -36,7 +36,7 @@ int main(int argc, char ** argv)
   if(type == "ints")
   {
     std::forward_list< int > fwdList;
-    std::list< int > list;
+    DoubleList< int > list;
     std::deque< int > deque;
     getRandomInt(list, fwdList, deque, size);
     if(compare == "ascending")
@@ -53,7 +53,7 @@ int main(int argc, char ** argv)
   else
   {
     std::forward_list< float > fwdList;
-    std::list< float > list;
+    DoubleList< float > list;
     std::deque< float > deque;
     getRandomFloat(list, fwdList, deque, size);
     if(compare == "ascending")
