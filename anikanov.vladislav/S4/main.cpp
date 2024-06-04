@@ -1,10 +1,9 @@
 #include <iostream>
-#include <fstream>
 #include <map>
 #include <string>
 #include <cstring>
 #include "binarySearchTree.hpp"
-#include "mainExtansion.hpp"
+#include "mainExtansion.cpp"
 
 using namespace anikanov;
 
@@ -21,6 +20,10 @@ int main(int argc, char *argv[])
 
   std::string command;
   while (std::getline(std::cin, command)) {
+    if (command.empty()) {
+      command.clear();
+      continue;
+    }
     char *cstr = new char[command.length() + 1];
     std::strcpy(cstr, command.c_str());
 
@@ -58,22 +61,22 @@ int main(int argc, char *argv[])
       BinarySearchTree< int, std::string, std::less<> > result;
 
       if (cmd == "complement") {
-        for (auto it = d1.begin(); it != d1.end(); ++it) {
-          if (!d2.count(it->first)) {
-            result.push(it->first, it->second);
+        for (auto &it: d1) {
+          if (!d2.count(it.first)) {
+            result.push(it.first, it.second);
           }
         }
       } else if (cmd == "intersect") {
-        for (auto & it : d1) {
+        for (auto &it: d1) {
           if (d2.count(it.first)) {
             result.push(it.first, it.second);
           }
         }
       } else if (cmd == "union") {
-        for (auto & it : d1) {
+        for (auto &it: d1) {
           result.push(it.first, it.second);
         }
-        for (auto & it : d2) {
+        for (auto &it: d2) {
           if (!result.count(it.first)) {
             result.push(it.first, it.second);
           }
