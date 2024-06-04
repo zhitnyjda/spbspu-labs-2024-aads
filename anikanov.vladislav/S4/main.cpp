@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
         if (dictionaries.count(dictName) == 0) {
           std::cout << "<EMPTY>" << std::endl;
         } else {
-          std::cout << dictName << dictionaries[dictName] << std::endl;
+          std::cout << dictName << " " << dictionaries[dictName] << std::endl;
         }
       }
     } else if (cmd == "complement" || cmd == "intersect" || cmd == "union") {
