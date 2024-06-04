@@ -609,24 +609,27 @@ template< typename Key, typename Value, typename Compare >
 template< typename F >
 F psarev::avlTree<Key, Value, Compare>::traverseBre(F f) const
 {
+  if (isEmpty())
+  {
+    return f;
+  }
   Queue< const Unit* > stage;
-  stage.push(treeRoot);
 
+  stage.push(treeRoot);
   while (!stage.isEmpty())
   {
-    if (stage.front() != nullptr)
+    const Unit* unit = stage.getFront();
+    f(unit->data);
+    stage.pop();
+
+    if (unit->left != nullptr)
     {
-      const Unit* tempo = stage.getFront();
-      f(tempo->data);
-
-      stage.pop();
-
-      stage.push(tempo->left);
-      stage.push(tempo->right);
+      stage.push(unit->left);
     }
-    else
+
+    if (unit->right != nullptr)
     {
-      stage.pop();
+      stage.push(unit->right);
     }
   }
   return f;
@@ -690,24 +693,27 @@ template< typename Key, typename Value, typename Compare >
 template< typename F >
 F psarev::avlTree<Key, Value, Compare>::traverseBre(F f)
 {
+  if (isEmpty())
+  {
+    return f;
+  }
   Queue< Unit* > stage;
-  stage.push(treeRoot);
 
+  stage.push(treeRoot);
   while (!stage.isEmpty())
   {
-    if (stage.getBack() != nullptr)
+    Unit* unit = stage.getFront();
+    f(unit->data);
+    stage.pop();
+
+    if (unit->left != nullptr)
     {
-      Unit* tempo = stage.getFront();
-      f(tempo->data);
-
-      stage.pop();
-
-      stage.push(tempo->left);
-      stage.push(tempo->right);
+      stage.push(unit->left);
     }
-    else
+
+    if (unit->right != nullptr)
     {
-      stage.pop();
+      stage.push(unit->right);
     }
   }
   return f;

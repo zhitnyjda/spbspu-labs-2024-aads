@@ -4,7 +4,7 @@
 
 int main(int argc, char* argv[])
 {
-  if (argc != 3)
+  /*if (argc != 3)
   {
     std::cerr << "Error: Wrong parameters amount!\n";
     return 2;
@@ -15,10 +15,10 @@ int main(int argc, char* argv[])
   {
     std::cerr << "Error: Can't open a file!\n";
     return 2;
-  }
+  }*/
 
-  //std::ifstream input;
-  //input.open("./x64/Debug/test.txt");
+  std::ifstream input;
+  input.open("./x64/Debug/test.txt");
 
   using base_t = psarev::avlTree< long long, std::string >;
   base_t data;
@@ -35,8 +35,8 @@ int main(int argc, char* argv[])
   travCmds.insert({ "descending", psarev::descending });
   travCmds.insert({ "breadth", psarev::breadth });
 
-  std::string direct = argv[1];
-  //std::string direct = "breadth";
+  //std::string direct = argv[1];
+  std::string direct = "breadth";
 
   try
   {
