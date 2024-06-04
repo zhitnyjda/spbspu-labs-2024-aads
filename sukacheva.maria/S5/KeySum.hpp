@@ -11,6 +11,7 @@ namespace sukacheva
     void operator()(const std::pair< const int, std::string >& keyValue)
     {
       result += keyValue.first;
+      values.push(keyValue.second);
     }
     int result = 0;
     Queue< std::string > values;
