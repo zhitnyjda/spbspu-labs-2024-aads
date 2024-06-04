@@ -93,8 +93,8 @@ namespace taskaev
     }
     else
     {
-      BSTree< size_t, std::string >::Iterator it = tres.begin();
-      BSTree< size_t, std::string >::Iterator end = tres.end();
+      BSTree< size_t, std::string >::ConstIterator it = tres.cbegin();
+      BSTree< size_t, std::string >::ConstIterator end = tres.cend();
       std::cout << datas << " ";
       //helpPrint(tres, it, end); // типо тут рекурсия вывода
       while (it != end)
