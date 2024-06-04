@@ -20,7 +20,22 @@ int main(int argc, char *argv[])
   std::string first = argv[1];
   std::string second = argv[2];
 
-  size_t size = std::stoull(argv[3]);
+  size_t size;
+  try
+  {
+    size = std::stoull(argv[3]);
+  }
+  catch(const std::invalid_argument& e)
+  {
+    std::cerr << "not correct size\n";
+    return 1;
+  }
+
+  if (size < 1)
+  {
+    std::cerr << "not correct size\n";
+    return 1;
+  }
 
   sobolevsky::AVLtree< std::string, cmdDeclaration, bool >  cmds;
   using namespace std::placeholders;
