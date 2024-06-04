@@ -115,14 +115,14 @@ std::ostream& miheev::Graph::printAllEdges(std::ostream& out) const
 std::ostream& miheev::Graph::Printer::printUniqueEdges(const Node& node, std::ostream& out)
 {
   visitedNodes.pushBack(node.name);
-  for (auto cIter(node.edges.cBegin()); cIter != node.edges.cEnd(); cIter++)
+  for (auto cIter(node.edges.cbegin()); cIter != node.edges.cend(); cIter++)
   {
     int destinationName = cIter->dest;
     size_t weight = cIter -> weight;
     bool edgeIsUnique = !visitedNodes.contains(destinationName);
     if (edgeIsUnique)
     {
-      if (cIter != node.edges.cBegin())
+      if (cIter != node.edges.cbegin())
       {
         out << ' ';
       }
@@ -134,7 +134,7 @@ std::ostream& miheev::Graph::Printer::printUniqueEdges(const Node& node, std::os
 
 bool miheev::Graph::Printer::hasUniqueEdges(const Node& node) const
 {
-  for (auto cIter(node.edges.cBegin()); cIter != node.edges.cEnd(); cIter++)
+  for (auto cIter(node.edges.cbegin()); cIter != node.edges.cend(); cIter++)
   {
     int destName = cIter->dest;
     bool isUnique = !visitedNodes.contains(destName);
@@ -204,7 +204,7 @@ void miheev::Graph::Dextra::calcMinTimeToEach()
 
 void miheev::Graph::Dextra::recalculateTimeToNeighboursOfTheNode(const Node& node)
 {
-  for (auto iter(node.edges.cBegin()); iter != node.edges.cEnd(); iter++)
+  for (auto iter(node.edges.cbegin()); iter != node.edges.cend(); iter++)
   {
     int neighbourName = iter->dest;
     bool neighbourIsUnprocessed = unprocessedNodes.contains(neighbourName);
@@ -223,7 +223,7 @@ int miheev::Graph::Dextra::getNodeWithMinimumTimeToIt()
 {
   size_t minTime = std::numeric_limits< size_t >::max();
   int node = -1;
-  for (auto iter(unprocessedNodes.cBegin()); iter != unprocessedNodes.cEnd(); iter++)
+  for (auto iter(unprocessedNodes.cbegin()); iter != unprocessedNodes.cend(); iter++)
   {
     size_t curTime = timeToNodes.at(*iter);
     if (curTime <= minTime)

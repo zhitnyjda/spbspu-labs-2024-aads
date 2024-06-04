@@ -219,7 +219,7 @@ T* miheev::List< T >::Iterator::operator->()
 template< typename T >
 miheev::List< T >::Iterator::operator bool() const
 {
-  return cur->next_ != nullptr;
+  return cur != nullptr;
 }
 
 template< typename T >
@@ -527,7 +527,7 @@ void miheev::List< T >::remove(T data)
   Iterator iter(begin());
   while(iter)
   {
-    if (iter.next() && *(iter.next()) == data)
+    if (iter.next() != nullptr && *(iter.next()) == data)
     {
       iter.eraseAfter();
     }

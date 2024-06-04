@@ -8,6 +8,11 @@
 
 #include <sstream>
 
+void printer(const std::pair< const int, int >& pair)
+{
+  std::cout << pair.first << '\n';
+}
+
 int main(int argc, char* argv[])
 {
   using namespace miheev;

@@ -147,8 +147,8 @@ void printPath(std::ostream& out, const miheev::Graph::Path& path)
 {
   out << "Path is: ";
   std::copy(
-    path.path.cBegin(),
-    path.path.cEnd(),
+    path.path.cbegin(),
+    path.path.cend(),
     std::ostream_iterator< int >(out, " ")
   );
   out << '\n' << "Path length is: " << path.lenght << '\n';
