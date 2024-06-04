@@ -2,7 +2,7 @@
 #define TRAVERSE_CMDS_HPP
 #include <iostream>
 #include <string>
-#include "../common/avlTree.hpp"
+#include <avlTree.hpp>
 
 namespace psarev
 {

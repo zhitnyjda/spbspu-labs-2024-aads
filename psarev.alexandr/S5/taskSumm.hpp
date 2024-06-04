@@ -1,7 +1,7 @@
 #ifndef TASK_SUMM_HPP
 #define TASK_SUMM_HPP
 #include <string>
-#include "../common/avlTree.hpp"
+#include <avlTree.hpp>
 
 namespace psarev
 {
