@@ -15,9 +15,12 @@ namespace nikiforov
     using keyValue_t = std::pair< Key, Value >;
 
     AvlTree();
-    AvlTree(const AvlTree& that);
+    AvlTree(const AvlTree& other);
     AvlTree(std::initializer_list< keyValue_t > list);
     ~AvlTree();
+
+    AvlTree& operator=(AvlTree other);
+    AvlTree& operator=(AvlTree&& other);
 
     Iterator begin() noexcept;
     Iterator end() noexcept;
@@ -33,6 +36,7 @@ namespace nikiforov
     void insert(const keyValue_t& data);
     void erase(Iterator pos);
     size_t erase(const Key& k);
+    void swap(AvlTree& other);
     void clear();
 
     Iterator find(const Key& key);
@@ -356,6 +360,26 @@ nikiforov::AvlTree< Key, Value, Compare >::~AvlTree()
 }
 
 template<typename Key, typename Value, typename Compare>
+typename nikiforov::AvlTree<Key, Value, Compare>::AvlTree& nikiforov::AvlTree<Key, Value, Compare>::operator=(AvlTree other)
+{
+  clear();
+  swap(other);
+  return *this;
+}
+
+template<typename Key, typename Value, typename Compare>
+typename nikiforov::AvlTree<Key, Value, Compare>::AvlTree& nikiforov::AvlTree<Key, Value, Compare>::operator=(AvlTree&& other)
+{
+  if (&other != this)
+  {
+    clear();
+    swap(other);
+    other.treeRoot = nullptr;
+  }
+  return *this;
+}
+
+template<typename Key, typename Value, typename Compare>
 typename nikiforov::AvlTree< Key, Value, Compare >::Iterator nikiforov::AvlTree<Key, Value, Compare>::begin() noexcept
 {
   if (is_empty())
@@ -461,6 +485,14 @@ size_t nikiforov::AvlTree< Key, Value, Compare >::erase(const Key& key)
     return 1;
   }
   return 0;
+}
+
+template<typename Key, typename Value, typename Compare>
+void nikiforov::AvlTree<Key, Value, Compare>::swap(AvlTree& other)
+{
+  Node* otherRoot = other.pRoot;
+  other.pRoot = pRoot;
+  pRoot = otherRoot;
 }
 
 template<typename Key, typename Value, typename Compare>
