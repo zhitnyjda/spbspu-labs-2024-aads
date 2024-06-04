@@ -352,25 +352,26 @@ bool psarev::avlTree< Key, Value, Compare >::Iterator::operator!=(const this_t& 
 template < typename Key, typename Value, typename Compare >
 class psarev::avlTree< Key, Value, Compare >::LnRIterator
 {
-  friend class Tree;
 public:
+  friend class avlTree;
+  using this_t = LnRIterator;
   LnRIterator();
   LnRIterator(Unit* unit_);
-  LnRIterator(const LnRIterator&) = default;
+  LnRIterator(const this_t&) = default;
   ~LnRIterator() = default;
 
-  LnRIterator& operator++();
-  LnRIterator operator++(int);
-  LnRIterator& operator--();
-  LnRIterator operator--(int);
+  this_t& operator++();
+  this_t operator++(int);
+  this_t& operator--();
+  this_t operator--(int);
 
   dataType& operator*();
   dataType* operator->();
   const dataType& operator*() const;
   const dataType* operator->() const;
 
-  bool operator==(const LnRIterator&) const;
-  bool operator!=(const LnRIterator&) const;
+  bool operator==(const this_t&) const;
+  bool operator!=(const this_t&) const;
 
 private:
   Unit* unit;
@@ -420,7 +421,7 @@ typename psarev::avlTree< Key, Value, Compare >::LnRIterator& psarev::avlTree< K
 template < typename Key, typename Value, typename Compare >
 typename psarev::avlTree< Key, Value, Compare >::LnRIterator psarev::avlTree< Key, Value, Compare >::LnRIterator::operator++(int)
 {
-  LnRIterator tempo = *this;
+  this_t tempo = *this;
   ++(*this);
   return tempo;
 }
@@ -462,7 +463,7 @@ typename psarev::avlTree< Key, Value, Compare >::LnRIterator& psarev::avlTree< K
 template < typename Key, typename Value, typename Compare >
 typename psarev::avlTree< Key, Value, Compare >::LnRIterator psarev::avlTree< Key, Value, Compare >::LnRIterator::operator--(int)
 {
-  LnRIterator tempo = *this;
+  this_t tempo = *this;
   --(*this);
   return tempo;
 }
@@ -481,25 +482,181 @@ psarev::avlTree< Key, Value, Compare >::LnRIterator::operator->()
 }
 
 template < typename Key, typename Value, typename Compare >
-typename const psarev::avlTree< Key, Value, Compare >::dataType& psarev::avlTree< Key, Value, Compare >::LnRIterator::operator*() const
+const typename psarev::avlTree< Key, Value, Compare >::dataType& psarev::avlTree< Key, Value, Compare >::LnRIterator::operator*() const
 {
   return unit->data;
 }
 
 template < typename Key, typename Value, typename Compare >
-typename const psarev::avlTree< Key, Value, Compare >::dataType* psarev::avlTree< Key, Value, Compare >::LnRIterator::operator->() const
+const typename psarev::avlTree< Key, Value, Compare >::dataType* psarev::avlTree< Key, Value, Compare >::LnRIterator::operator->() const
 {
   return &(unit->data);
 }
 
 template < typename Key, typename Value, typename Compare >
-bool psarev::avlTree< Key, Value, Compare >::LnRIterator::operator==(const LnRIterator& that) const
+bool psarev::avlTree< Key, Value, Compare >::LnRIterator::operator==(const this_t& that) const
 {
   return unit == that.unit;
 }
 
 template < typename Key, typename Value, typename Compare >
-bool psarev::avlTree< Key, Value, Compare >::LnRIterator::operator!=(const LnRIterator& that) const
+bool psarev::avlTree< Key, Value, Compare >::LnRIterator::operator!=(const this_t& that) const
+{
+  return !(*this == that);
+}
+
+template < typename Key, typename Value, typename Compare >
+class psarev::avlTree< Key, Value, Compare >::RnLIterator
+{
+public:
+  friend class avlTree;
+  using this_t = RnLIterator;
+  RnLIterator();
+  RnLIterator(Unit* unit_);
+  RnLIterator(const this_t&) = default;
+  ~RnLIterator() = default;
+
+  this_t& operator++();
+  this_t operator++(int);
+  this_t& operator--();
+  this_t operator--(int);
+
+  dataType& operator*();
+  dataType* operator->();
+  const dataType& operator*() const;
+  const dataType* operator->() const;
+
+  bool operator==(const this_t&) const;
+  bool operator!=(const this_t&) const;
+
+private:
+  Unit* unit;
+};
+
+template < typename Key, typename Value, typename Compare >
+psarev::avlTree< Key, Value, Compare >::RnLIterator::RnLIterator() :
+  unit(nullptr)
+{}
+
+template < typename Key, typename Value, typename Compare >
+psarev::avlTree< Key, Value, Compare >::RnLIterator::RnLIterator(Unit* unit_) :
+  unit(unit_)
+{}
+
+template < typename Key, typename Value, typename Compare >
+typename psarev::avlTree< Key, Value, Compare >::RnLIterator& psarev::avlTree< Key, Value, Compare >::RnLIterator::operator++()
+{
+  if (unit == nullptr)
+  {
+    return *this;
+  }
+
+  if (unit->left != nullptr)
+  {
+    unit = unit->left;
+    while (unit->right != nullptr)
+    {
+      unit = unit->right;
+    }
+  }
+  else
+  {
+    Unit* prev = unit;
+    unit = unit->ancest;
+
+    while (prev == unit->left && unit != nullptr)
+    {
+      prev = unit;
+      unit = unit->ancest;
+    }
+  }
+
+  return *this;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename psarev::avlTree< Key, Value, Compare >::RnLIterator psarev::avlTree< Key, Value, Compare >::RnLIterator::operator++(int)
+{
+  this_t tempo = *this;
+  ++(*this);
+  return tempo;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename psarev::avlTree< Key, Value, Compare >::RnLIterator& psarev::avlTree< Key, Value, Compare >::RnLIterator::operator--()
+{
+  if (unit == nullptr)
+  {
+    unit = treeRoot;
+    while (unit->right != nullptr)
+    {
+      unit = unit->right;
+    }
+  }
+  else if (unit->right != nullptr)
+  {
+    unit = unit->right;
+    while (unit->left != nullptr)
+    {
+      unit = unit->left;
+    }
+  }
+  else
+  {
+    Unit* prev = unit;
+    unit = unit->ancest;
+
+    while (prev == unit->right && unit != nullptr)
+    {
+      prev = unit;
+      unit = unit->ancest;
+    }
+  }
+
+  return *this;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename psarev::avlTree< Key, Value, Compare >::RnLIterator psarev::avlTree< Key, Value, Compare >::RnLIterator::operator--(int)
+{
+  this_t tempo = *this;
+  --(*this);
+  return tempo;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename psarev::avlTree< Key, Value, Compare >::dataType& psarev::avlTree< Key, Value, Compare >::RnLIterator::operator*()
+{
+  return unit->data;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename psarev::avlTree< Key, Value, Compare >::dataType*
+psarev::avlTree< Key, Value, Compare >::RnLIterator::operator->()
+{
+  return &(unit->data);
+}
+
+template < typename Key, typename Value, typename Compare >
+const typename psarev::avlTree< Key, Value, Compare >::dataType& psarev::avlTree< Key, Value, Compare >::RnLIterator::operator*() const
+{
+  return unit->data;
+}
+
+template < typename Key, typename Value, typename Compare >
+const typename psarev::avlTree< Key, Value, Compare >::dataType* psarev::avlTree< Key, Value, Compare >::RnLIterator::operator->() const
+{
+  return &(unit->data);
+}
+
+template < typename Key, typename Value, typename Compare >
+bool psarev::avlTree< Key, Value, Compare >::RnLIterator::operator==(const this_t& that) const
+{
+  return unit == that.unit;
+}
+
+template < typename Key, typename Value, typename Compare >
+bool psarev::avlTree< Key, Value, Compare >::RnLIterator::operator!=(const this_t& that) const
 {
   return !(*this == that);
 }
