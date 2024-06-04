@@ -662,7 +662,7 @@ typename BSTree< Key, Value, Comparator >::ConstIterator BSTree< Key, Value, Com
     {
       return ConstIterator(newRoot, root_);
     }
-    else if (comp_(key, newRoot->data_.first)
+    else if (comp_(key, newRoot->data_.first))
     {
       newRoot = newRoot->left_;
     }
