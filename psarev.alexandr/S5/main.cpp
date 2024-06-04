@@ -49,14 +49,9 @@ int main(int argc, char* argv[])
         return 1;
       }
     }
-    catch (const std::overflow_error& e)
+    catch (const std::exception& e)
     {
       std::cerr << e.what() << "\n";
-      return 1;
-    }
-    catch (const std::underflow_error& e)
-    {
-      std::cerr << e.what() << '\n';
       return 1;
     }
   }

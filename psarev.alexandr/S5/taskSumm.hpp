@@ -8,10 +8,7 @@ namespace psarev
   struct TaskSumm
   {
   public:
-    TaskSumm() :
-      keySumm(0),
-      valSumm("")
-    {};
+    TaskSumm();
     ~TaskSumm() = default;
 
     void operator()(const std::pair< const long long, std::string >& dataPair);

@@ -2,6 +2,11 @@
 #include <limits>
 #include <stdexcept>
 
+psarev::TaskSumm::TaskSumm() :
+  keySumm(0),
+  valSumm("")
+{}
+
 void psarev::TaskSumm::operator()(const std::pair< const long long, std::string >& dataPair)
 {
   long long llMax = std::numeric_limits< long long >::max();
