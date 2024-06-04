@@ -11,6 +11,7 @@ namespace sukacheva
     struct Node {
       Node(Key k, Value v) : data(std::make_pair(k, v)), left(nullptr), right(nullptr), parent(nullptr), height(0) {}
       Node(Key k, Value v, Node* p) : data(std::make_pair(k, v)), left(nullptr), right(nullptr), parent(p), height(0) {}
+      Node(std::pair< Key, Value > data_) : data(data_), left(nullptr), right(nullptr), parent(nullptr), height(0) {}
       std::pair< Key, Value > data;
       Node* left;
       Node* right;

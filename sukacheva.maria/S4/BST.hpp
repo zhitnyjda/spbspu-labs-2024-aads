@@ -43,6 +43,8 @@ namespace sukacheva
     ConstIterator cend() const;
 
     Value operator[](Key k);
+    BST& operator=(const BST& other);
+    BST& operator=(BST&& other) noexcept;
   private:
     Node* root;
     Compare cmp;
@@ -56,7 +58,7 @@ namespace sukacheva
     Node* deleteNode(Node* node, const Key& k);
     void updateHeight(Node* node);
     int getBalanceFactor(Node* node);
-    void copyTree(Node* thisNode, Node* otherNode);
+    Node* copy(Node* node);
   };
 
   template < typename Key, typename Value, typename Compare >
@@ -119,23 +121,44 @@ namespace sukacheva
   using iteratorsPair = std::pair< iterator< Key, Value, Compare >, iterator< Key, Value, Compare > >;
 
   template< typename Key, typename Value, typename Compare >
-  void BST< Key, Value, Compare >::copyTree(Node* thisNode, Node* otherNode)
+  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::copy(Node* node)
   {
-    if (!otherNode)
+    if (!node)
     {
-      return;
+      return nullptr;
     }
-    if (otherNode->left)
+    Node* newNode = new Node(node->data);
+    newNode->left = copy(node->left);
+    newNode->right = copy(node->right);
+    return newNode;
+  }
+
+  template< typename Key, typename Value, typename Compare >
+  BST< Key, Value, Compare >& BST< Key, Value, Compare >::operator=(const BST& other)
+  {
+    if (this == &other)
     {
-      thisNode->left = new Node(*otherNode->left);
-      thisNode->left->parent = thisNode;
-      copyTree(thisNode->left, otherNode->left);
+      return *this;
     }
-    if (otherNode->right)
+    BST< Key, Value, Compare > temp;
+    temp.root = copy(other.root);
+    if (temp.size() == other.size())
     {
-      thisNode->right = new Node(*otherNode->right);
-      thisNode->right->parent = thisNode;
-      copyTree(thisNode->right, otherNode->right);
+      clear(root);
+      root = temp.root;
+    }
+    return *this;
+  }
+
+  template< typename Key, typename Value, typename Compare >
+  BST< Key, Value, Compare >& BST< Key, Value, Compare >::operator=(BST&& other) noexcept
+  {
+    if (this != &other)
+    {
+      clear(root);
+      root = other.root;
+      cmp = std::move(other.cmp);
+      other.root = nullptr;
     }
   }
 
@@ -664,9 +687,10 @@ namespace sukacheva
         return temp;
       }
       Node* temp = findMin(node->right);
+      node->data = temp->data;
       node->right = deleteNode(node->right, temp->data.first);
     }
-    return node;
+    return balance(node);
   }
 }
 
