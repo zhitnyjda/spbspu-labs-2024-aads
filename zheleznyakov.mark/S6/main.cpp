@@ -36,7 +36,5 @@ int main(int argc, char * argv[])
     return 1;
   }
 
-  std::cout << order << ' ' << dataType << ' ' << count << '\n';
-
   return 0;
 }

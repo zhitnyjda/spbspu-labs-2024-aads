@@ -4,14 +4,17 @@
 
 namespace zheleznyakov
 {
-  template< typename Container >
-  void iterOut(Container & c, std::ostream & out)
+  namespace output
   {
-    auto iter(c.begin());
-    while (iter != c.end())
+    template< typename Container >
+    void iterOut(Container & c, std::ostream & out)
     {
-      out << (*iter);
-      out << (++iter == c.end() ? '\n' : ' ');
+      auto iter(c.begin());
+      while (iter != c.end())
+      {
+        out << (*iter);
+        out << (++iter == c.end() ? '\n' : ' ');
+      }
     }
   }
 
