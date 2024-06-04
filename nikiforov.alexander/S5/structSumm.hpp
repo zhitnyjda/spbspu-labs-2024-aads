@@ -7,7 +7,7 @@
 namespace nikiforov
 {
   struct Key_summ {
-    void operator()(const std::pair< const int, std::string >& key_value) 
+    void operator()(const std::pair< const int, std::string >& key_value)
     {
       bool lowerOverflow = (key_value.first < 0 && result < (std::numeric_limits< int >::min() - key_value.first));
       bool upperOverflow = (key_value.first > 0 && result > (std::numeric_limits< int >::max() - key_value.first));
