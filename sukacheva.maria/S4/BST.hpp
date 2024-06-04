@@ -141,11 +141,12 @@ namespace sukacheva
       return *this;
     }
     BST< Key, Value, Compare > temp;
-    temp.root = copy(other.root);
+    temp.root = other.root;
     if (temp.size() == other.size())
     {
       clear(root);
       root = temp.root;
+      cmp = other.cmp;
     }
     return *this;
   }
