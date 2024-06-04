@@ -1,12 +1,13 @@
 #include <iostream>
-#include <list>
-#include <deque>
-#include "output.hpp"
+#include <functional>
+#include <map>
 #include "sorts.hpp"
 #include "random.hpp"
 
-int main(int argc, char * argv[])
+int main(int argc, char *argv[])
 {
+  srand(time(0));
+
   using namespace zheleznyakov;
 
   if (argc != 4)
@@ -35,6 +36,18 @@ int main(int argc, char * argv[])
     errors::wrongSize(std::cerr);
     return 1;
   }
+
+  std::map< std::string, std::map< std::string, std::function<void(std::ostream &, size_t) > > > executors;
+
+  {
+    using namespace std::placeholders;
+    executors["ascending"]["ints"] = std::bind(executeSorts< int, std::less< int > >, _1, _2, std::less< int >{});
+    executors["descending"]["ints"] = std::bind(executeSorts< int, std::greater< int > >, _1, _2, std::greater< int >{});
+    executors["ascending"]["floats"] = std::bind(executeSorts< float, std::less< float > >, _1, _2, std::less< float >{});
+    executors["descending"]["floats"] = std::bind(executeSorts< float, std::greater< float > >, _1, _2, std::greater< float >{});
+  }
+
+  executors.at(order).at(dataType)(std::cout, count);
 
   return 0;
 }

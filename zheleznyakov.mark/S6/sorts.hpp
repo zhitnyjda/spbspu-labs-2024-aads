@@ -1,7 +1,10 @@
 #ifndef SORTS_HPP
 #define SORTS_HPP
+#include <list>
 #include <algorithm>
 #include <iterator>
+#include "output.hpp"
+#include "random.hpp"
 
 namespace zheleznyakov
 {
@@ -36,7 +39,7 @@ namespace zheleznyakov
         Iterator next = std::next(begin);
         for (Iterator it = next; it != end && it != std::prev(end); std::advance(it, 2))
         {
-          if (it != std::prev(end) && cmp(*it, *std::next(it)))
+          if (it != std::prev(end) && cmp(*std::next(it), *it))
           {
             std::iter_swap(it, std::next(it));
             isSorted = false;
@@ -44,7 +47,7 @@ namespace zheleznyakov
         }
         for (Iterator it = begin; it != end && it != std::prev(end); std::advance(it, 2))
         {
-          if (cmp(*it, *std::next(it)))
+          if (cmp(*std::next(it), *it))
           {
             std::iter_swap(it, std::next(it));
             isSorted = false;
@@ -52,6 +55,18 @@ namespace zheleznyakov
         }
       }
     }
+  }
+
+  template< typename Type, typename Comparator >
+  void executeSorts(std::ostream & out, size_t size, Comparator cmp)
+  {
+    std::list< Type > list;
+    for (size_t i = 0; i < size; i++)
+    {
+      list.push_back(anarchy::randomDouble());
+    }
+    sorts::insertion(list.begin(), list.end(), cmp);
+    output::iterOut(list, out);
   }
 }
 #endif

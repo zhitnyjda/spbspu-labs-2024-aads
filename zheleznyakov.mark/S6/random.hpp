@@ -7,16 +7,9 @@ namespace zheleznyakov
 {
   namespace anarchy
   {
-    int randomInt()
+    double randomDouble()
     {
-      srand(time(0));
-      return (rand() - rand()) % 1000;
-    }
-
-    double randomFloat()
-    {
-      srand(time(0));
-      return (rand() - rand()) % 10 + (double(rand()) / rand());
+      return (rand() - rand()) % 1000 + (double(rand()) / rand());
     }
   }
 }

@@ -1,5 +1,5 @@
-#ifndef IO_HPP
-#define IO_HPP
+#ifndef OUTPUT_HPP
+#define OUTPUT_HPP
 #include <istream>
 
 namespace zheleznyakov
