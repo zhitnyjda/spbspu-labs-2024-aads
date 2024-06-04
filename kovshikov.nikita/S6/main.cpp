@@ -26,7 +26,7 @@ int main(int argc, char ** argv)
     return 1;
   }
 
-  if(!isDigit(strSize))
+  if(!isDigit(strSize) || strSize == "0")
   {
     std::cerr << "<YOU NEED TO ENTER THE CORRECT SIZE>" << "\n";
     return 1;
