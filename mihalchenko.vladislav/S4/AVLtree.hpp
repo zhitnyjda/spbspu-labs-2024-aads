@@ -75,7 +75,7 @@ namespace mihalchenko
     void leftSpin(Node *node);
     void rightSpin(Node *node);
 
-    Node *erase(Node *node, const Key &key);
+    Node *eraseNode(Node *node, const Key &key);
     void swap(Node &) noexcept;
     Node &operator=(Node &other);
 
@@ -301,7 +301,7 @@ size_t mihalchenko::AVLTree<Key, Value, Compare>::erase(const Key &key)
   }
   else
   {
-    erase(root_, key);
+    eraseNode(root_, key);
     return 0;
   }
 }
@@ -558,24 +558,24 @@ int mihalchenko::AVLTree<Key, Value, Compare>::getHeight(Node *node)
 
 template <typename Key, typename Value, typename Compare>
 typename mihalchenko::AVLTree<Key, Value, Compare>::Node
-  *mihalchenko::AVLTree<Key, Value, Compare>::erase(Node *node, const Key &key)
+  *mihalchenko::AVLTree<Key, Value, Compare>::eraseNode(Node *node, const Key &key)
 {
   Compare compare;
-  if (node == nullptr)
+  Node *temp = nullptr;
+  if (!node)
   {
     return node;
   }
   if (compare(key, node->pairOfKeyVal_.first))
   {
-    node->left_ = erase(node->left_, key);
+    node->left_ = eraseNode(node->left_, key);
   }
   else if (compare(node->pairOfKeyVal_.first, key))
   {
-    node->right_ = erase(node->right_, key);
+    node->right_ = eraseNode(node->right_, key);
   }
   else
   {
-    Node *temp = nullptr;
     if (node->right_ == nullptr)
     {
       temp = node->left_;
@@ -596,10 +596,11 @@ typename mihalchenko::AVLTree<Key, Value, Compare>::Node
         temp = temp->left_;
       }
       node->pairOfKeyVal_ = temp->pairOfKeyVal_;
-      node->right_ = erase(node->right_, temp->pairOfKeyVal_.first);
+      node->right_ = eraseNode(node->right_, temp->pairOfKeyVal_.first);
     }
   }
   balancingTree(node);
+  delete temp;
   return node;
 }
 
