@@ -83,6 +83,7 @@ namespace sobolevsky
 
     mergeSort(fwdlist.begin(), fwdlist.end(), comp);
     outputContainer(out, fwdlist);
+    outputContainer(out, fwdlist);
   }
 }
 
