@@ -1,44 +1,42 @@
 #include <iostream>
 #include <list>
 #include <deque>
-#include "io.hpp"
-#include "oddEvenSort.hpp"
-#include "insertionSort.hpp"
+#include "output.hpp"
+#include "sorts.hpp"
 #include "random.hpp"
 
-int main()
+int main(int argc, char * argv[])
 {
-  srand(time(0));
+  using namespace zheleznyakov;
 
-  std::list< int > listForInsertion;
-  for (size_t i = 0; i < 15; i++)
+  if (argc != 4)
   {
-    listForInsertion.push_back(zheleznyakov::anarchy::randomInt());
+    errors::wrongArgsCount(std::cerr);
+    return 2;
   }
 
-  std::list< int > listForOddEven;
-  std::copy(listForInsertion.begin(), listForInsertion.end(), std::back_inserter(listForOddEven));
-
-  zheleznyakov::sorts::insertion(listForInsertion.begin(), listForInsertion.end(), std::greater< int >());
-  zheleznyakov::sorts::oddEven(listForOddEven.begin(), listForOddEven.end(), std::less< int >());
-
-  zheleznyakov::iterOut(listForInsertion, std::cout);
-  zheleznyakov::iterOut(listForOddEven, std::cout);
-
-  std::list< float > floatListForInsertion;
-  for (size_t i = 0; i < 15; i++)
+  std::string order = argv[1];
+  if (order != "ascending" && order != "descending")
   {
-    floatListForInsertion.push_back(zheleznyakov::anarchy::randomFloat());
+    errors::wrongSortOrder(std::cerr);
+    return 1;
   }
 
-  std::list< float > floatListForOddEven;
-  std::copy(floatListForInsertion.begin(), floatListForInsertion.end(), std::back_inserter(floatListForOddEven));
+  std::string dataType = argv[2];
+  if (dataType != "ints" && dataType != "floats")
+  {
+    errors::wrongDataType(std::cerr);
+    return 1;
+  }
 
-  zheleznyakov::sorts::insertion(floatListForInsertion.begin(), floatListForInsertion.end(), std::greater< int >());
-  zheleznyakov::sorts::oddEven(floatListForOddEven.begin(), floatListForOddEven.end(), std::less< int >());
+  int count = std::atoi(argv[3]);
+  if (count <= 0)
+  {
+    errors::wrongSize(std::cerr);
+    return 1;
+  }
 
-  zheleznyakov::iterOut(floatListForInsertion, std::cout);
-  zheleznyakov::iterOut(floatListForOddEven, std::cout);
+  std::cout << order << ' ' << dataType << ' ' << count << '\n';
 
   return 0;
 }

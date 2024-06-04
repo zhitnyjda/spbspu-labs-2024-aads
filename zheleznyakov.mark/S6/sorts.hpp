@@ -1,5 +1,5 @@
-#ifndef ODD_EVEN_SORT_HPP
-#define ODD_EVEN_SORT_HPP
+#ifndef SORTS_HPP
+#define SORTS_HPP
 #include <algorithm>
 #include <iterator>
 
@@ -7,6 +7,24 @@ namespace zheleznyakov
 {
   namespace sorts
   {
+    template < typename Iterator, typename Comparator >
+    void insertion(Iterator begin, Iterator end, Comparator cmp)
+    {
+      for (auto it = begin; it != end; ++it)
+      {
+        auto current = *it;
+        auto pos = it;
+        while (pos != begin && cmp(current, *std::prev(pos)))
+        {
+          *pos = *std::prev(pos);
+          if (pos != begin) {
+            --pos;
+          }
+        }
+        *pos = current;
+      }
+    }
+
     template < typename Iterator, typename Comparator >
     void oddEven(Iterator begin, Iterator end, Comparator cmp)
     {
