@@ -173,7 +173,10 @@ namespace sukacheva
     }
     for (iterator secit = secondDict.begin(); secit != secondDict.end(); secit++)
     {
-      newDict.insert(secit->first, secit->second);
+      if (newDict.find(secit->first) == nullptr)
+      {
+        newDict.insert(secit->first, secit->second);
+      }
     }
     if (treeOfDicts.find(nameNew) != nullptr)
     {
