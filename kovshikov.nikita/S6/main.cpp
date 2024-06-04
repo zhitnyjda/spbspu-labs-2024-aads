@@ -2,23 +2,6 @@
 #include "sort.hpp"
 #include "random.hpp"
 #include <iomanip>
-/*
-int main()
-{
-  using namespace kovshikov;
-  std::list< int > flint2{383, 886, 777, 915, 793};
-  Descending< int > descending;
-  shellSort(flint2.begin(), flint2.end(), descending);
-  auto iterator3 = flint2.begin();
-  while(iterator3 != flint2.end())
-  {
-    std::cout << *iterator3 << " ";
-    iterator3++;
-  }
-
-  return 0;
-}
-*/
 
 int main(int argc, char ** argv)
 {

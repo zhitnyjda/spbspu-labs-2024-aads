@@ -61,53 +61,31 @@ template< typename ListIterator, typename Compare >
 void kovshikov::shellSort(ListIterator begin, ListIterator end, Compare comp)
 {
   int size = std::distance(begin, end);
- // std::cout << size << "\n";
   for(int interval = size / 2; interval > 0; interval /= 2)
   {
-   // std::cout << interval << "\n";
     for(int i = 0; i < interval; i++)
     {
-     // std::cout << "i " << i << "\n";
       ListIterator current = std::next(begin, i);
-     // std::cout << "current " << *current << "\n";
       ListIterator next = std::next(current, interval);
-     // std::cout << "next " << *next << "\n";
       int indexNext = i + interval;
-     // std::cout << "indNext " << indexNext << "\n";
       while(indexNext < size)
       {
-        int count = 1; /////////
-       // std::cout << "while1\n";
+        int count = 1;
         ListIterator prev = std::prev(next, interval);
-       // std::cout << "prev " << *prev << "\n";
         int indexPrev = indexNext - interval;
-       // std::cout << "indexPrev " << indexPrev << "\n";
         while(indexPrev >= 0)
         {
-         // std::cout << "while2\n";
           if(comp(*next, *prev))
           {
-          //  std::cout << "swap\n";
             std::swap(*next, *prev);
-            next = std::prev(next, interval); ////
+            next = std::prev(next, interval);
             count += 1;
           }
           prev = std::prev(prev, interval);
           indexPrev -= interval;
-        //  std::cout << "indexPrev " << indexPrev << "\n";
-        //  if(indexPrev >= 0)
-        //  {
-         //   std::cout << "prev " << *prev << "\n";
-         // }
-        //  std::cout << "next " << *next << "\n";
         }
         next = std::next(next, interval * count);
         indexNext += interval;
-      //  std::cout << "indexNext " << indexNext << "\n";
-      //  if(indexNext < size)
-      //  {
-      //    std::cout << "next " << *next << "\n";
-      //  }
       }
     }
   }
