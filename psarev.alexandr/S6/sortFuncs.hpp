@@ -64,19 +64,19 @@ void psarev::makeSorted(std::ostream& out, size_t size, Compare compare)
   fillDepots(size, list, fList, deque);
 
   outDepot(out, fList);
-  QSort(fList.begin(), fList.end(), compare);
+  sortQ(fList.begin(), fList.end(), compare);
   outDepot(out, fList);
 
   List< T > list;
 
-  qSort(list.begin(), list.end(), compare);
+  sortQ(list.begin(), list.end(), compare);
   outDepot(out, list);
   shellSort(list.begin(), list.end(), compare);
   outDepot(out, list);
 
   std::deque< T > deque;
 
-  qSort(deque.begin(), deque.end(), compare);
+  sortQ(deque.begin(), deque.end(), compare);
   outDepot(out, deque);
   shellSort(deque.begin(), deque.end(), compare);
   outDepot(out, deque);
