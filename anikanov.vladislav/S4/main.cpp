@@ -32,10 +32,10 @@ int main(int argc, char *argv[])
 
     if (cmd == "print") {
       token = std::strtok(nullptr, " ");
-      if (!token) {
+      std::string dictName(token);
+      if (!token || dictionaries.count(dictName) == 0) {
         std::cout << "<INVALID COMMAND>" << std::endl;
       } else {
-        std::string dictName(token);
         if (dictionaries.count(dictName) == 0 || dictionaries[dictName].empty()) {
           std::cout << "<EMPTY>" << std::endl;
         } else {
