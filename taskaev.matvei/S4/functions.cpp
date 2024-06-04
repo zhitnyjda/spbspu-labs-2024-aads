@@ -118,7 +118,7 @@ namespace taskaev
     std::cin >> names >> oneName >> twoName;
     BSTree< size_t, std::string > tres;
     findComplement(tree.at(oneName), tree.at(twoName), tres);
-    findComplement(tree.at(twoName), tree.at(oneName), tres);
+    //findComplement(tree.at(twoName), tree.at(oneName), tres);
     tree.insert(names, tres);
   }
 
