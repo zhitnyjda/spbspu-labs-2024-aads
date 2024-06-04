@@ -27,9 +27,10 @@ void psarev::fillTree(std::istream& in, base_t& data)
     long long key;
     std::string value;
 
-    in >> key;
-    in >> value;
-    data.insert({ key, value });
+    if (in >> key >> value)
+    {
+      data.insert({ key, value });
+    }
   }
 }
 

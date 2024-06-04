@@ -17,9 +17,6 @@ int main(int argc, char* argv[])
     return 2;
   }
 
-  //std::ifstream input;
-  //input.open("./x64/Debug/test.txt");
-
   using base_t = psarev::avlTree< long long, std::string >;
   base_t data;
 
@@ -36,30 +33,36 @@ int main(int argc, char* argv[])
   travCmds.insert({ "breadth", psarev::breadth });
 
   std::string direct = argv[1];
-  //std::string direct = "breadth";
 
-  try
+  if (!data.isEmpty())
   {
-    auto cmdIter = travCmds.find(direct);
-    if (cmdIter != travCmds.end() && !direct.empty())
+    try
     {
-      (*cmdIter).second(std::cout, data);
+      auto cmdIter = travCmds.find(direct);
+      if (cmdIter != travCmds.end() && !direct.empty())
+      {
+        (*cmdIter).second(std::cout, data);
+      }
+      else if (!direct.empty())
+      {
+        psarev::outInvCommand(std::cout);
+        return 1;
+      }
     }
-    else if (!direct.empty())
+    catch (const std::overflow_error& e)
     {
-      psarev::outInvCommand(std::cout);
+      std::cerr << e.what() << "\n";
+      return 1;
+    }
+    catch (const std::underflow_error& e)
+    {
+      std::cerr << e.what() << '\n';
       return 1;
     }
   }
-  catch (const std::overflow_error& e)
+  else
   {
-    std::cerr << e.what() << "\n";
-    return 1;
-  }
-  catch (const std::underflow_error& e)
-  {
-    std::cerr << e.what() << '\n';
-    return 1;
+    psarev::outEmpty(std::cout);
   }
 
   return 0;
