@@ -4,14 +4,14 @@
 #include <cstddef>
 #include <algorithm>
 #include <iterator>
-#include <vector>
+#include <list>
 
 namespace sobolevsky
 {
   template <typename Iterator, typename Comparator >
   void merge(Iterator begin, Iterator mid, Iterator end, Comparator comp)
   {
-    std::vector< typename Iterator::value_type > tempVec;
+    std::list< typename Iterator::value_type > tempVec;
     Iterator left = begin;
     Iterator right = mid;
 

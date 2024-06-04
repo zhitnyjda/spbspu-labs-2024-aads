@@ -4,8 +4,8 @@
 #include <functional>
 #include "shakerSort.hpp"
 #include "mergeSort.hpp"
-#include "sortsAgregatorANDcontainerIO.hpp"
-#include "../common/tree.hpp"
+#include "sortsAgregatorContainerIOandErrors.hpp"
+#include <tree.hpp>
 
 using cmdDeclaration = sobolevsky::AVLtree< std::string, std::function< void(std::ostream &, size_t) >, bool >;
 
@@ -25,15 +25,15 @@ int main(int argc, char *argv[])
   {
     size = std::stoull(argv[3]);
   }
-  catch(const std::invalid_argument& e)
+  catch(const std::invalid_argument &e)
   {
-    std::cerr << "not correct size\n";
+    sobolevsky::errorOutput(std::cerr);
     return 1;
   }
 
   if (size < 1)
   {
-    std::cerr << "not correct size\n";
+    sobolevsky::errorOutput(std::cerr);
     return 1;
   }
 
@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
   }
   catch(const std::exception & e)
   {
-    std::cerr << "inv\n";
+    sobolevsky::errorOutput(std::cerr);
     for (sobolevsky::AVLtree< std::string, cmdDeclaration, bool >::Iterator iter = cmds.begin(); iter != cmds.end(); iter++)
     {
       iter->second.clear();

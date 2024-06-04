@@ -1,5 +1,5 @@
-#ifndef SORTSAGREGATORANDCONTAINERIO_HPP
-#define SORTSAGREGATORANDCONTAINERIO_HPP
+#ifndef SORTSAGREGATORCONTAINERIOANDERRORS_HPP
+#define SORTSAGREGATORCONTAINERIOANDERRORS_HPP
 
 #include <forward_list>
 #include <list>
@@ -12,6 +12,11 @@
 
 namespace sobolevsky
 {
+  void errorOutput(std::ostream& out)
+  {
+    out << "<NOT CORRECT SIZE ARGUMENT / OUT OF RANGE>\n";
+  }
+
   void fillListRandom(std::forward_list< int > &list, size_t size)
   {
     std::random_device rd;
