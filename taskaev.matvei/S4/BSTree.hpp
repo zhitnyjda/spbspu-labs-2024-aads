@@ -353,7 +353,7 @@ Value& BSTree< Key, Value, Comparator >::at(const Key& key)
 {
   if (find(key) != ConstIterator(nullptr, root_))
   {
-    find(key)->second;
+    return find(key)->second;
   }
   else
   {
