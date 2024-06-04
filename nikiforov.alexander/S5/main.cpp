@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
     std::string cmd = argv[1];
     cmds.at(cmd)(traversalTree, std::cout);
   }
-  catch (const std::out_of_range&)
+  catch (const std::exception&)
   {
     nikiforov::errorMessage(std::cout);
   }
