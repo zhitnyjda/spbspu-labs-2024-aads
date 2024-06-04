@@ -675,30 +675,24 @@ namespace sukacheva
     }
     else
     {
-      if ((node->left == nullptr) || (node->right == nullptr))
+      if (!node->left && !node->right)
+      {
+        delete node;
+        return nullptr;
+      }
+      else if (!node->left || !node->right)
       {
         Node* temp = node->left ? node->left : node->right;
-        if (temp == nullptr)
-        {
-          temp = node;
-          node = nullptr;
-        }
-        else
-        {
-          *node = *temp;
-        }
-        delete temp;
+        temp->parent = node->parent;
+        delete node;
+        return temp;
       }
       else
       {
-        Node* temp = findMin(node->right);
-        node->data = temp->data;
-        node->right = deleteNode(node->right, temp->data.first);
+        Node* successor = findMin(node->right);
+        node->data = successor->data;
+        node->right = deleteNode(node->right, successor->data.first);
       }
-    }
-    if (node == nullptr)
-    {
-      return node;
     }
     return balance(node);
   }
