@@ -4,7 +4,6 @@
 #include <iterator>
 #include <string>
 #include <utility>
-#include "compare.hpp"
 #include "random.hpp"
 
 namespace kovshikov

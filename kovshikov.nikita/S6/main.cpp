@@ -46,54 +46,11 @@ int main(int argc, char ** argv)
     floatSort.insert("ascending", std::bind(sortDataStructures< float, std::less< float > >, _1, _2, std::less< float >{}));
     floatSort.insert("descending", std::bind(sortDataStructures< float, std::greater< float > >, _1, _2, std::greater< float >{}));
 
-    allSort.insert("floats", intSort);
-    allSort.insert("ints", floatSort);
+    allSort.insert("floats", floatSort);
+    allSort.insert("ints", intSort);
   }
 
   allSort.at(type).at(compare)(std::cout, size);
 
   return 0;
 }
-
-
-
-
-/*
-  if(type == "ints")
-  {
-    std::forward_list< int > fwdList;
-    DoubleList< int > list;
-    std::deque< int > deque;
-    getRandomInt(list, fwdList, deque, size);
-    if(compare == "ascending")
-    {
-      Ascending< int > ascending;
-      sort(ascending, deque, fwdList, list, std::cout);
-    }
-    else
-    {
-      Descending< int > descending;
-      sort(descending, deque, fwdList, list, std::cout);
-    }
-  }
-  else
-  {
-    std::forward_list< float > fwdList;
-    DoubleList< float > list;
-    std::deque< float > deque;
-    getRandomFloat(list, fwdList, deque, size);
-    if(compare == "ascending")
-    {
-      Ascending< float > ascending;
-      sort(ascending, deque, fwdList, list, std::cout);
-    }
-    else
-    {
-      Descending< float > descending;
-      sort(descending, deque, fwdList, list, std::cout);
-    }
-  }
-
-  return 0;
-}
-*/
