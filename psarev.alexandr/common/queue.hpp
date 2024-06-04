@@ -1,6 +1,6 @@
 #ifndef QUEUE_HPP
 #define QUEUE_HPP
-#include <list.hpp>
+#include "list.hpp"
 
 namespace psarev
 {
@@ -15,7 +15,6 @@ namespace psarev
 
     Queue< T >& operator=(const Queue& other);
 
-    T& getFront() const;
     T& getBack() const;
 
     void push(const T& data);
@@ -46,12 +45,6 @@ template < typename T >
 psarev::Queue< T >& psarev::Queue< T >::operator=(const Queue& other)
 {
   depot = other.dep;
-}
-
-template < typename T >
-T& psarev::Queue< T >::getFront() const
-{
-  return depot.getFront();
 }
 
 template < typename T >

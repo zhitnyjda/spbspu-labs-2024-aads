@@ -47,6 +47,14 @@ namespace psarev
     iter insert(dataType&& data);
     void erase(const Key& key);
 
+    template < typename F >
+    F traverseLnR(F f) const;
+
+    template < typename F >
+    F traverseRnL(F f) const;
+
+    template < typename F >
+    F traverse(F f) const;
   private:
 
     struct Unit
@@ -526,13 +534,40 @@ typename psarev::avlTree< Key, Value, Compare >::Iterator psarev::avlTree< Key, 
   return find(data.first);
 }
 
-template<typename Key, typename Value, typename Compare>
+template< typename Key, typename Value, typename Compare >
 void psarev::avlTree<Key, Value, Compare>::erase(const Key& key)
 {
   if (find(key) != end())
   {
     treeRoot = delUnit(treeRoot, key);
   }
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename F >
+F psarev::avlTree<Key, Value, Compare>::traverseLnR(F f) const
+{
+  Stack< Unit* > ancestors;
+  Unit* wayP = treeRoot;
+
+  while (!ancestors.isEmpty() || wayP != nullptr)
+  {
+    while (wayP != nullptr)
+    {
+      ancestors.push(wayP);
+      wayP = wayP->left;
+    }
+
+    if (!ancestors.isEmpty())
+    {
+      wayP = ancestors.getTop();
+      ancestors.pop();
+
+      f(wayP->data);
+      wayP = wayP->right;
+    }
+  }
+  return f;
 }
 
 template<typename Key, typename Value, typename Compare>

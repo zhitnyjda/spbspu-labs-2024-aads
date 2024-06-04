@@ -2,7 +2,7 @@
 #define TRAVERSE_CMDS_HPP
 #include <iostream>
 #include <string>
-#include "avlTree.hpp"
+#include "../common/avlTree.hpp"
 
 namespace psarev
 {
@@ -16,7 +16,6 @@ namespace psarev
   void ascending(std::ostream& out, base_t& data);
   void descending(std::ostream& out, base_t& data);
   void breadth(std::ostream& out, base_t& data);
-}
 }
 
 #endif
