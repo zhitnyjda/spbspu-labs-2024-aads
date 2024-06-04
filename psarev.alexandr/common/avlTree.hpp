@@ -350,7 +350,7 @@ bool psarev::avlTree< Key, Value, Compare >::Iterator::operator!=(const this_t& 
 }
 
 template < typename Key, typename Value, typename Compare >
-class psarev::avlTree< Key, Value, Compare >::LnRIterator
+class psarev::avlTree< Key, Value, Compare >::LnRIterator : public std::iterator< std::bidirectional_iterator_tag, dataType >
 {
 public:
   friend class avlTree;
@@ -506,7 +506,7 @@ bool psarev::avlTree< Key, Value, Compare >::LnRIterator::operator!=(const this_
 }
 
 template < typename Key, typename Value, typename Compare >
-class psarev::avlTree< Key, Value, Compare >::RnLIterator
+class psarev::avlTree< Key, Value, Compare >::RnLIterator : public std::iterator< std::bidirectional_iterator_tag, dataType >
 {
 public:
   friend class avlTree;
