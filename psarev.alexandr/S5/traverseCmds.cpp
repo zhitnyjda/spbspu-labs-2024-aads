@@ -43,10 +43,16 @@ void psarev::ascending(std::ostream& out, base_t& data)
 
 void psarev::descending(std::ostream& out, base_t& data)
 {
+  psarev::TaskSumm summ;
+  summ = data.traverseRnL< TaskSumm >(summ);
 
+  out << summ.getKeySumm() << summ.getValSumm() << "\n";
 }
 
 void psarev::breadth(std::ostream& out, base_t& data)
 {
+  psarev::TaskSumm summ;
+  summ = data.traverseBre< TaskSumm >(summ);
 
+  out << summ.getKeySumm() << summ.getValSumm() << "\n";
 }

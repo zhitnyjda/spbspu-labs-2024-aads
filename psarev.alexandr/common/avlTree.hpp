@@ -695,7 +695,7 @@ F psarev::avlTree<Key, Value, Compare>::traverseBre(F f)
 
   while (!stage.isEmpty())
   {
-    if (stage.front() != nullptr)
+    if (stage.getBack() != nullptr)
     {
       Unit* tempo = stage.getFront();
       f(tempo->data);

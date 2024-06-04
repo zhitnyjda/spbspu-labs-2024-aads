@@ -21,11 +21,7 @@ void psarev::TaskSumm::operator()(const std::pair< const long long, std::string 
 
   keySumm += dataPair.first;
 
-  if (!valSumm.empty())
-  {
-    valSumm += " ";
-  }
-  valSumm += dataPair.second;
+  valSumm += ( " " + dataPair.second);
 }
 
 long long psarev::TaskSumm::getKeySumm()
