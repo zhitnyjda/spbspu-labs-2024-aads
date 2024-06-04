@@ -3,7 +3,7 @@
 #include <cmath>
 #include <iostream>
 
-std::string nikiforov::cutElem(std::string& str)
+std::string nikiforov::cutElements(std::string& str)
 {
   std::string elem = str.substr(0, str.find_first_of(" ", 0));
   if (str.find_first_of(" ") == std::string::npos)
