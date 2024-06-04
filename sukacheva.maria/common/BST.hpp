@@ -150,7 +150,7 @@ namespace sukacheva
       {
         applicant = stack.top();
         stack.pop();
-        f(std::make_pair(applicant->key, applicant->value));
+        f(std::make_pair(applicant->data.first, applicant->data.second));
         applicant = applicant->right;
       }
     }
@@ -178,7 +178,7 @@ namespace sukacheva
       {
         applicant = stack.top();
         stack.pop();
-        f(std::make_pair(applicant->key, applicant->value));
+        f(std::make_pair(applicant->data.first, applicant->data.second));
         applicant = applicant->left;
       }
     }
@@ -199,7 +199,7 @@ namespace sukacheva
     {
       TreeNode* applicant = queue.front();
       queue.pop();
-      f(std::make_pair(applicant->key, applicant->value));
+      f(std::make_pair(applicant->data.first, applicant->data.second));
       if (applicant->left)
       {
         queue.push(applicant->left);
@@ -253,6 +253,7 @@ namespace sukacheva
       cmp = std::move(other.cmp);
       other.root = nullptr;
     }
+    return *this;
   }
 
   template< typename Key, typename Value, typename Compare >
