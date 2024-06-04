@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
 
   std::string direct = argv[1];
   //std::string direct = "breadth";
-  
+
   try
   {
     auto cmdIter = travCmds.find(direct);
