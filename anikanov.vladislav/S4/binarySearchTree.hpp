@@ -432,9 +432,10 @@ template< typename Key, typename Value, typename Compare >
 typename anikanov::BinarySearchTree< Key, Value, Compare >::ConstIterator
 anikanov::BinarySearchTree< Key, Value, Compare >::begin() const
 {
-  List< std::pair< Key, Value > > list;
-  inOrder(root.get(), list);
-  return ConstIterator(Iterator(list.begin()));
+  if (!root) {
+    return ConstIterator(Iterator());
+  }
+  return ConstIterator(Iterator(minValueNode(root.get())));
 }
 
 template< typename Key, typename Value, typename Compare >
