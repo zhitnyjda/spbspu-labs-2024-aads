@@ -6,8 +6,7 @@
 #include <string>
 #include <memory>
 #include <iosfwd>
-//#include <list.hpp>
-#include "../common/list.hpp"
+#include <list.hpp>
 
 namespace anikanov {
   template< typename Key, typename Value, typename Compare >
@@ -22,7 +21,7 @@ std::ostream &operator<<(std::ostream &os, const anikanov::BinarySearchTree< Key
   for (size_t i = 0; i < list.size(); ++i) {
     auto p = list[i];
     os << p.first << " " << p.second;
-    if (i != list.size() - 1){
+    if (i != list.size() - 1) {
       os << " ";
     }
   }
@@ -114,12 +113,7 @@ namespace anikanov {
     size_t count(const Key &key) const;
     void insert(const std::pair< Key, Value > &pair);
     void erase(const Key &key);
-    void print() const;
-    friend std::ostream &operator
-    <<< Key, Value, Compare >(
-    std::ostream &os,
-    const BinarySearchTree &tree
-    );
+    friend std::ostream &operator<<< Key, Value, Compare >(std::ostream &os,const BinarySearchTree &tree);
 
   private:
     std::shared_ptr< Node > root;
@@ -485,14 +479,17 @@ std::pair<
     typename anikanov::BinarySearchTree< Key, Value, Compare >::ConstIterator
 > anikanov::BinarySearchTree< Key, Value, Compare >::equalRange(const Key &key) const
 {
-  anikanov::List< std::pair< Key, Value > > list;
-  inOrder(root.get(), list);
-  auto lower = list.begin();
-  while (lower != list.end() && comp(lower->first, key)) {
+  auto node = root;
+  while (node->left){
+    node = node->left;
+  }
+
+  auto lower = Iterator(node);
+  while (lower != Iterator(nullptr) && comp(lower->first, key)) {
     ++lower;
   }
-  auto upper = lower;
-  while (upper != list.end() && !comp(key, upper->first)) {
+  Iterator upper = lower;
+  while (upper != Iterator(nullptr) && !comp(key, upper->first)) {
     ++upper;
   }
   return std::make_pair(ConstIterator(lower), ConstIterator(upper));
@@ -514,17 +511,6 @@ template< typename Key, typename Value, typename Compare >
 void anikanov::BinarySearchTree< Key, Value, Compare >::erase(const Key &key)
 {
   drop(key);
-}
-
-template< typename Key, typename Value, typename Compare >
-void anikanov::BinarySearchTree< Key, Value, Compare >::print() const
-{
-  anikanov::List< std::pair< Key, Value>> list;
-  inOrder(root.get(), list);
-  for (const auto &p: list) {
-    std::cout << p.first << " " << p.second << " ";
-  }
-  std::cout << std::endl;
 }
 
 template< typename Key, typename Value, typename Compare >
