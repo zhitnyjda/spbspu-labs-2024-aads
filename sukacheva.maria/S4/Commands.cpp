@@ -170,10 +170,6 @@ namespace sukacheva
     {
       newDict.insert(secit->first, secit->second);
     }
-    if (treeOfDicts.find(nameNew) != nullptr)
-    {
-      treeOfDicts.erase(nameNew);
-    }
     treeOfDicts.insert(nameNew, newDict);
   }
 }
