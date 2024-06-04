@@ -17,6 +17,12 @@ int main(int argc, char *argv[]) {
   bool isInt = std::string(argv[2]) == "ints";
   size_t size = std::stoi(argv[3]);
 
+  if (size < 1)
+  {
+    std::cerr << "Size must be bigger then 0!\n";
+    return 1;
+  }
+
   if (isInt) {
     zhitnyj::List< int > singleList;
     std::list< int > doubleList;
