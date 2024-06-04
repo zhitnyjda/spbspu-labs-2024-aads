@@ -9,7 +9,6 @@ namespace taskaev
 {
   using Tree = BSTree< std::string, BSTree< size_t, std::string > >;
   using SubTree = BSTree< size_t, std::string >;
-  using ConstIterator = SubTree::ConstIterator;
 
   void createTree(std::istream& in, Tree& tree);
 

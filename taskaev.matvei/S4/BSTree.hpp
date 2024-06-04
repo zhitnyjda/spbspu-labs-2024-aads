@@ -658,11 +658,11 @@ typename BSTree< Key, Value, Comparator >::ConstIterator BSTree< Key, Value, Com
   Node* newRoot = root_;
   while (newRoot != nullptr)
   {
-    if (!(key < newRoot->data_.first) || (key > newRoot->data_.first))
+    if (key == newRoot->data_.first)
     {
       return ConstIterator(newRoot, root_);
     }
-    else if (key < newRoot->data_.first)
+    else if (comp_(key, newRoot->data_.first)
     {
       newRoot = newRoot->left_;
     }
