@@ -20,8 +20,8 @@ namespace kovshikov
   template< typename Iterator, typename Compare >
   void bubbleSort(Iterator begin, Iterator end, Compare comp);
 
-  template< typename Compare, typename Deque, typename FwdList, typename List >
-  std::ostream& sort(Compare comp, Deque& deque, FwdList& fwdList, List& list, std::ostream& out);
+  template< typename T, typename Compare >
+  void sortDataStructures(std::ostream& out, int size, Compare comp);
 }
 
 bool kovshikov::isDigit(std::string str)
@@ -131,14 +131,20 @@ void kovshikov::bubbleSort(Iterator begin, Iterator end, Compare comp)
   }
 }
 
-template< typename Compare, typename Deque, typename FwdList, typename List >
-std::ostream& kovshikov::sort(Compare comp, Deque& deque, FwdList& fwdList, List& list, std::ostream& out)
+template< typename T, typename Compare >
+void kovshikov::sortDataStructures(std::ostream& out, int size, Compare comp)
 {
-  List listBubble;
+  std::forward_list< T > fwdList;
+  DoubleList< T > list;
+  std::deque< T > deque;
+
+  getRandom(list, fwdList, deque, size);
+
+  DoubleList< T > listBubble;
   myCopy(list.begin(), list.end(), std::front_inserter(listBubble));
-  Deque dequeShell;
+  std::deque< T > dequeShell;
   myCopy(deque.begin(), deque.end(), std::back_inserter(dequeShell));
-  Deque dequeBubble;
+  std::deque< T > dequeBubble;
   myCopy(deque.begin(), deque.end(), std::back_inserter(dequeBubble));
 
   printConteiner(fwdList, out);
@@ -154,8 +160,6 @@ std::ostream& kovshikov::sort(Compare comp, Deque& deque, FwdList& fwdList, List
   printConteiner(listBubble, out);
   bubbleSort(dequeBubble.begin(), dequeBubble.end(), comp);
   printConteiner(dequeBubble, out);
-
-  return out;
 }
 
 #endif

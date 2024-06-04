@@ -1,3 +1,4 @@
+#include <functional>
 #include <iomanip>
 #include <iostream>
 #include "random.hpp"
@@ -33,6 +34,31 @@ int main(int argc, char ** argv)
   }
   size_t size = std::stoll(strSize);
 
+  Tree< std::string, Tree< std::string, std::function< void(std::ostream& stream, size_t size) > > > allSort;
+  Tree< std::string, std::function< void(std::ostream& stream, size_t size) > > intSort;
+  Tree< std::string, std::function< void(std::ostream& stream, size_t size) > > floatSort;
+
+  {
+    using namespace std::placeholders;
+    intSort.insert("ascending", std::bind(sortDataStructures< int, std::less< int > >, _1, _2, std::less< int >{}));
+    intSort.insert("descending", std::bind(sortDataStructures< int, std::greater< int > >, _1, _2, std::greater< int >{}));
+
+    floatSort.insert("ascending", std::bind(sortDataStructures< float, std::less< float > >, _1, _2, std::less< float >{}));
+    floatSort.insert("descending", std::bind(sortDataStructures< float, std::greater< float > >, _1, _2, std::greater< float >{}));
+
+    allSort.insert("floats", intSort);
+    allSort.insert("ints", floatSort);
+  }
+
+  allSort.at(type).at(compare)(std::cout, size);
+
+  return 0;
+}
+
+
+
+
+/*
   if(type == "ints")
   {
     std::forward_list< int > fwdList;
@@ -70,3 +96,4 @@ int main(int argc, char ** argv)
 
   return 0;
 }
+*/

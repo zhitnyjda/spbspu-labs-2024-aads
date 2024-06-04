@@ -7,20 +7,21 @@
 #include <iostream>
 #include <iterator>
 #include "doublelist.hpp"
+#include "BinarySearchTree.hpp"
 
 namespace kovshikov
 {
-  void getRandomInt(DoubleList< int >& list, std::forward_list< int >& forward, std::deque< int >& deque, size_t size);
-  void getRandomFloat(DoubleList< float >& list, std::forward_list< float >& forward, std::deque< float >& deque, size_t size);
+  void getRandom(DoubleList< int >& list, std::forward_list< int >& forward, std::deque< int >& deque, size_t size);
+  void getRandom(DoubleList< float >& list, std::forward_list< float >& forward, std::deque< float >& deque, size_t size);
 
   template< typename Container >
-  std::ostream& printConteiner(const Container& container, std::ostream& out);
+  void printConteiner(const Container& container, std::ostream& out);
 
   template<class InputIterator, class OutputIterator>
   OutputIterator myCopy(InputIterator first, InputIterator last, OutputIterator result);
 }
 
-void kovshikov::getRandomInt(DoubleList< int >& list, std::forward_list< int >& forward, std::deque< int >& deque, size_t size)
+void kovshikov::getRandom(DoubleList< int >& list, std::forward_list< int >& forward, std::deque< int >& deque, size_t size)
 {
   std::srand(0);
   for(size_t i = 0; i < size; i++)
@@ -42,7 +43,7 @@ OutputIterator kovshikov::myCopy(InputIterator first, InputIterator last, Output
   return result;
 }
 
-void kovshikov::getRandomFloat(DoubleList< float >& list, std::forward_list< float >& forward, std::deque< float >& deque, size_t size)
+void kovshikov::getRandom(DoubleList< float >& list, std::forward_list< float >& forward, std::deque< float >& deque, size_t size)
 {
   std::srand(0);
   for(size_t i = 0; i < size; i++)
@@ -55,7 +56,7 @@ void kovshikov::getRandomFloat(DoubleList< float >& list, std::forward_list< flo
 }
 
 template< typename Container >
-std::ostream& kovshikov::printConteiner(const Container& container, std::ostream& out)
+void kovshikov::printConteiner(const Container& container, std::ostream& out)
 {
   auto begin = container.begin();
   auto end = container.end();
@@ -73,7 +74,6 @@ std::ostream& kovshikov::printConteiner(const Container& container, std::ostream
     }
     begin++;
   }
-  return out;
 }
 
 #endif
