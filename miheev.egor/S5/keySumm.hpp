@@ -14,7 +14,7 @@ namespace miheev
     void operator()(const std::pair< const long long, std::string >& keyValue);
     std::string getResults();
   private:
-    long long result = 0;
+    long long result;
     std::string values;
   };
 }
