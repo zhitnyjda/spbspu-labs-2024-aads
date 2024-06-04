@@ -570,6 +570,33 @@ F psarev::avlTree<Key, Value, Compare>::traverseLnR(F f) const
   return f;
 }
 
+template< typename Key, typename Value, typename Compare >
+template< typename F >
+F psarev::avlTree<Key, Value, Compare>::traverseRnL(F f) const
+{
+  Stack< Unit* > ancestors;
+  Unit* wayP = treeRoot;
+
+  while (!ancestors.isEmpty() || wayP != nullptr)
+  {
+    while (wayP != nullptr)
+    {
+      ancestors.push(wayP);
+      wayP = wayP->right;
+    }
+
+    if (!ancestors.isEmpty())
+    {
+      wayP = ancestors.getTop();
+      ancestors.pop();
+
+      f(wayP->data);
+      wayP = wayP->left;
+    }
+  }
+  return f;
+}
+
 template<typename Key, typename Value, typename Compare>
 size_t psarev::avlTree<Key, Value, Compare>::getSize(Unit* unit) const
 {
