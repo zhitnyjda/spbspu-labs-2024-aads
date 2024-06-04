@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
         std::cout << "<INVALID COMMAND>" << std::endl;
       } else {
         std::string dictName(token);
-        if (dictionaries.count(dictName) == 0) {
+        if (dictionaries.count(dictName) == 0 || dictionaries[dictName].empty()) {
           std::cout << "<EMPTY>" << std::endl;
         } else {
           std::cout << dictName << " " << dictionaries[dictName] << "\n";
