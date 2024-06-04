@@ -13,6 +13,9 @@ namespace psarev
 
   template< typename T >
   std::ostream& outDepot(std::ostream& out, const T& depot);
+
+  template< typename T, typename Compare >
+  void makeSorted(std::ostream& out, size_t size, Compare compare);
 }
 
 void psarev::fillDepots(size_t size, List< int >& list, std::forward_list< int >& fList, std::deque< int >& deque)
@@ -51,6 +54,34 @@ std::ostream& psarev::outDepot(std::ostream& out, const T& depot)
     }
   }
   return out;
+}
+
+template< typename T, typename Compare >
+void psarev::makeSorted(std::ostream& out, size_t size, Compare compare)
+{
+  std::forward_list< T > fList;
+
+  fillDepots(size, list, fList, deque);
+
+  outDepot(out, fList);
+  QSort(fList.begin(), fList.end(), compare);
+  outDepot(out, fList);
+
+  List< T > list;
+
+  qSort(list.begin(), list.end(), compare);
+  outDepot(out, list);
+  shellSort(list.begin(), list.end(), compare);
+  outDepot(out, list);
+
+  std::deque< T > deque;
+
+  qSort(deque.begin(), deque.end(), compare);
+  outDepot(out, deque);
+  shellSort(deque.begin(), deque.end(), compare);
+  outDepot(out, deque);
+  std::sort(deque.begin(), deque.end(), compare);
+  outDepot(out, deque);
 }
 
 #endif
