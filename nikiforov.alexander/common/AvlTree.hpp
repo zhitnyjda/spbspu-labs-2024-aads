@@ -1,8 +1,8 @@
 #ifndef AvlTree_HPP
 #define AvlTree_HPP
 #include <iostream>
-#include "../S2/queue.hpp"
-#include "../S2/stack.hpp"
+#include "queue.hpp"
+#include "stack.hpp"
 
 namespace nikiforov
 {
