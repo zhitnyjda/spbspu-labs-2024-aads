@@ -351,9 +351,10 @@ BSTree< Key, Value, Comparator >::~BSTree()
 template< typename Key, typename Value, typename Comparator >
 Value& BSTree< Key, Value, Comparator >::at(const Key& key)
 {
-  if (find(key) != ConstIterator(nullptr, root_))
+  ConstIterator it = find(key);
+  if (it != ConstIterator(nullptr, root_))
   {
-    return find(key)->second;
+    return const_cast< Value& >(it->second);
   }
   else
   {
