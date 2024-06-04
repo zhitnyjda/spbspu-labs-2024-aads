@@ -2,6 +2,7 @@
 #include <limits>
 #include <cmath>
 #include <iostream>
+#include <commands.hpp>
 
 std::string nikiforov::cutElements(std::string& str)
 {
@@ -24,7 +25,7 @@ void nikiforov::convertToPostfix(std::string str, Queue< Initialization >& queue
 
   while (!str.empty())
   {
-    elem = cutElements(str);
+    elem = cutElem(str);
     Initialization elemSeq(elem);
 
     if (elemSeq.type == operand)
