@@ -356,12 +356,10 @@ size_t mihalchenko::AVLTree<Key, Value, Compare>::erase(const Key &key)
       }
       else
       {
-        //(deletedNode->right_) ? root_ = deletedNode->right_ : root_ = deletedNode->left_;
         if (deletedNode->right_)
         {
-          root_ = deletedNode->right_;
-          // delete deletedNode;
           delete deletedNode;
+          // root_ = deletedNode->right_;
           size_--;
           return 0;
         }
