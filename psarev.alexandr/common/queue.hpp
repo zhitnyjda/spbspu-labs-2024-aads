@@ -48,8 +48,8 @@ psarev::Queue< T >& psarev::Queue< T >::operator=(const Queue& other)
   depot = other.dep;
 }
 
-template<typename T>
-inline T& psarev::Queue<T>::getFront() const
+template< typename T >
+T& psarev::Queue< T >::getFront() const
 {
   return depot.getFront();
 }
