@@ -104,15 +104,16 @@ namespace zhitnyj {
 
   template< typename T, typename Compare >
   void printSort(List< T > &singleList, std::list< T > &doubleList, std::deque< T > &deq, Compare comp, std::ostream &os) {
-    printList(singleList, os);
-
     oddEvenSort(singleList.begin(), singleList.end(), comp);
+    printList(singleList, os);
     printList(singleList, os);
 
     insertionSort(doubleList.begin(), doubleList.end(), comp);
     printStdList(doubleList, os);
+    printStdList(doubleList, os);
 
     stdSort(deq, comp);
+    printDeque(deq, os);
     printDeque(deq, os);
   }
 
@@ -127,9 +128,6 @@ namespace zhitnyj {
     }
 
     printList(singleList, os);
-    printStdList(doubleList, os);
-    printDeque(deq, os);
-
     printSort(singleList, doubleList, deq, comp, os);
   }
 }
