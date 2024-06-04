@@ -144,7 +144,7 @@ namespace sukacheva
       if (applicant)
       {
         stack.push(applicant);
-        applicant = current->left;
+        applicant = applicant->left;
       }
       else
       {
