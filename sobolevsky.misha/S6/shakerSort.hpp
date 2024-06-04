@@ -24,6 +24,7 @@ namespace sobolevsky
         }
         left++;
       }
+
       if (left == begin)
       {
         break;
