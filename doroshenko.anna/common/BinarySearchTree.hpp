@@ -4,6 +4,8 @@
 #include <cassert>
 #include <functional>
 #include <algorithm>
+#include "stack.hpp"
+#include "queue.hpp"
 
 namespace doroshenko
 {
@@ -43,6 +45,14 @@ namespace doroshenko
 
     ConstIterator cbegin() const;
     ConstIterator cend() const;
+
+    template< typename F >
+    F traverse_lnr(F f) const;
+    template< typename F >
+    F traverse_rnl(F f) const;
+    template< typename F >
+    F traverse_breadth(F f) const;
+
   private:
     Node* root_;
     Compare cmp_;
@@ -718,4 +728,80 @@ typename BST< Key, Value, Compare >::Iterator BST< Key, Value, Compare >::end() 
 {
   return Iterator(cend());
 }
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F BST< Key, Value, Compare >::traverse_lnr(F f) const
+{
+  Stack< Node* > stack;
+  stack.push(root_);
+  Node* current = root_;
+  while (!stack.isEmpty())
+  {
+    while (current->left_)
+    {
+      stack.push(current->left_);
+      current = current->left_;
+    }
+    current = stack.front();
+    stack.drop();
+    f(current->data_);
+    if (current->right_)
+    {
+      current = current->right_;
+      stack.push(current);
+    }
+  }
+  return f;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F BST< Key, Value, Compare >::traverse_rnl(F f) const
+{
+  Stack< Node* > stack;
+  stack.push(root_);
+  Node* current = root_;
+  while (!stack.isEmpty())
+  {
+    while (current->right_)
+    {
+      stack.push(current->right_);
+      current = current->right_;
+    }
+    current = stack.front();
+    stack.drop();
+    f(current->data_);
+    if (current->left_)
+    {
+      current = current->left_;
+      stack.push(current);
+    }
+  }
+  return f;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F BST< Key, Value, Compare >::traverse_breadth(F f) const
+{
+  Queue< Node* > queue;
+  queue.push(root_);
+  while (!queue.isEmpty())
+  {
+    Node* current = queue.front();
+    queue.drop();
+    f(current->data_);
+    if (current->left_)
+    {
+      queue.push(current->left_);
+    }
+    if (current->right_)
+    {
+      queue.push(current->right_);
+    }
+  }
+  return f;
+}
+
 #endif
