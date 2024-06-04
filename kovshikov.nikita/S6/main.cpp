@@ -3,26 +3,57 @@
 #include "random.hpp"
 #include <iomanip>
 
-int main()
+int main(int argc, char ** argv)
 {
+  if(argc != 4)
+  {
+    std::cerr << "<THERE SHOULD BE 4 PARAMETERS>" << "\n";
+    return 1;
+  }
+
   std::cout << std::fixed << std::setprecision(3);
   using namespace kovshikov;
-  std::list< int > listInt;
-  std::forward_list< int > fwdListInt;
-  std::deque< int > dequeInt;
-  std::list< float > listFloat;
-  std::forward_list< float > fwdListFloat;
-  std::deque< float > dequeFloat;
 
-  size_t size = 10;
+  std::string compare = argv[1];
+  std::string type = argv[2];
+  std::string strSize = argv[3];
 
-  getRandomInt(listInt, fwdListInt, dequeInt, size);
-  getRandomFloat(listFloat, fwdListFloat, dequeFloat, size);
+  size_t size = std::stoll(strSize);
 
-  printConteiner(listInt, std::cout);
-  printConteiner(fwdListInt, std::cout);
-  printConteiner(dequeInt, std::cout);
-  printConteiner(listFloat, std::cout);
-  printConteiner(fwdListFloat, std::cout);
-  printConteiner(dequeFloat, std::cout);
+  if(type == "ints")
+  {
+    std::forward_list< int > fwdList;
+    std::list< int > list;
+    std::deque< int > deque;
+    getRandomInt(list, fwdList, deque, size);
+    if(compare == "ascending")
+    {
+      Ascending< int > ascending;
+      sort(ascending, deque, fwdList, list, std::cout);
+    }
+    else
+    {
+      Descending< int > descending;
+      sort(descending, deque, fwdList, list, std::cout);
+    }
+  }
+  else
+  {
+    std::forward_list< float > fwdList;
+    std::list< float > list;
+    std::deque< float > deque;
+    getRandomFloat(list, fwdList, deque, size);
+    if(compare == "ascending")
+    {
+      Ascending< float > ascending;
+      sort(ascending, deque, fwdList, list, std::cout);
+    }
+    else
+    {
+      Descending< float > descending;
+      sort(descending, deque, fwdList, list, std::cout);
+    }
+  }
+
+  return 0;
 }

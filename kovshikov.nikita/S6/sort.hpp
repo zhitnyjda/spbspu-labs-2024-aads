@@ -5,6 +5,7 @@
 #include "compare.hpp"
 #include <iostream>
 #include "random.hpp"
+#include <string>
 
 namespace kovshikov
 {
@@ -17,9 +18,8 @@ namespace kovshikov
   template< typename Iterator, typename Compare >
   void bubbleSort(Iterator begin, Iterator end, Compare comp);
 
-//тип будет определен в main.cpp
-  template< typename Deque, typename FwdList, typename List >
-  void sort(std::string comp, std::string strSize, Deque& deque, FwdList& fwdList, List& list);
+  template< typename Compare, typename Deque, typename FwdList, typename List >
+  std::ostream& sort(Compare comp, Deque& deque, FwdList& fwdList, List& list, std::ostream& out);
 }
 
 template< typename FwdIterator, typename Compare >
@@ -98,38 +98,31 @@ void kovshikov::bubbleSort(Iterator begin, Iterator end, Compare comp)
   }
 }
 
-template< typename Deque, typename FwdList, typename List >
-void kovshikov::sort(std::string comp, std::string strSize, std::string type, Deque& deque, FwdList& fwdList, List& list);
+template< typename Compare, typename Deque, typename FwdList, typename List >
+std::ostream& kovshikov::sort(Compare comp, Deque& deque, FwdList& fwdList, List& list, std::ostream& out)
 {
-  long long size = std::stoll(strSize);
-  if(type == "ints")
-  {
-    getRandomInt(list, fwdList, deque, size);
-  }
-  else
-  {
-    getRandomFloat(list, fwdList, deque, size);
-  }
-  if(comp == "ascending")
-  {
-    Ascending ascending;
-    selectionSort(fwdList.begin(), fwdList.end(), ascending);
-    selectionSort(deque.begin(), deque.end(), ascending);
-    shellSort(list.begin(), list.end(), ascending);
-    shellSort(deque.begin(), deque.end(), ascending);
-    bubbleSort(list.begin(), list.end(), ascending);
-    bubbleSort(deque.begin(), deque.end(), ascending);
-  }
-  else
-  {
-    Descending descending;
-    selectionSort(fwdList.begin(), fwdList.end(), descending);
-    selectionSort(deque.begin(), deque.end(), descending);
-    shellSort(list.begin(), list.end(), descending);
-    shellSort(deque.begin(), deque.end(), descending);
-    bubbleSort(list.begin(), list.end(), descending);
-    bubbleSort(deque.begin(), deque.end(), descending);
-  }
+  List listBubble;
+  std::copy(list.begin(), list.end(), std::back_inserter(listBubble));
+  Deque dequeShell;
+  std::copy(deque.begin(), deque.end(), std::back_inserter(dequeShell));
+  Deque dequeBubble;
+  std::copy(deque.begin(), deque.end(), std::back_inserter(dequeBubble));
+
+  printConteiner(fwdList, out);
+  selectionSort(fwdList.begin(), fwdList.end(), comp);
+  printConteiner(fwdList, out);
+  selectionSort(deque.begin(), deque.end(), comp);
+  printConteiner(deque, out);
+  shellSort(list.begin(), list.end(), comp);
+  printConteiner(list, out);
+  shellSort(dequeShell.begin(), dequeShell.end(), comp);
+  printConteiner(dequeShell, out);
+  bubbleSort(listBubble.begin(), listBubble.end(), comp);
+  printConteiner(listBubble, out);
+  bubbleSort(dequeBubble.begin(), dequeBubble.end(), comp);
+  printConteiner(dequeBubble, out);
+
+  return out;
 }
 
 #endif
