@@ -4,8 +4,7 @@
 #include <iostream>
 #include <list>
 #include <algorithm>
-#include <functional>
-#include <List.hpp>
+#include "List.hpp"
 #include "random.hpp"
 
 namespace zhitnyj {
@@ -20,6 +19,14 @@ namespace zhitnyj {
   template< typename T >
   void printStdList(const std::list< T > &list, std::ostream &os) {
     for (const auto &elem: list) {
+      os << elem << " ";
+    }
+    os << std::endl;
+  }
+
+  template< typename T >
+  void printDeque(const std::deque< T > &deq, std::ostream &os) {
+    for (const auto &elem: deq) {
       os << elem << " ";
     }
     os << std::endl;
@@ -76,12 +83,26 @@ namespace zhitnyj {
   }
 
   template< typename T, typename Compare >
-  void stdSort(std::list< T > &lst, Compare comp) {
-    lst.sort(comp);
+  void stdSort(std::deque< T > &deq, Compare comp) {
+    std::sort(deq.begin(), deq.end(), comp);
+  }
+
+  template< typename T, typename Compare >
+  void printSort(List< T > &singleList, std::list< T > &doubleList, std::deque< T > &deq, Compare comp, std::ostream &os) {
+    printList(singleList, os);
+
+    oddEvenSort(singleList.begin(), singleList.end(), comp);
+    printList(singleList, os);
+
+    insertionSort(doubleList.begin(), doubleList.end(), comp);
+    printStdList(doubleList, os);
+
+    stdSort(deq, comp);
+    printDeque(deq, os);
   }
 
   template< typename T >
-  void performSorts(List< T > &singleList, std::list< T > &doubleList, bool ascending, std::ostream &os) {
+  void performSorts(List< T > &singleList, std::list< T > &doubleList, std::deque< T > &deq, bool ascending, std::ostream &os) {
     std::function< bool(const T &, const T &) > comp;
     if (ascending) {
       comp = std::less< T >();
@@ -91,12 +112,10 @@ namespace zhitnyj {
     }
 
     printList(singleList, os);
-    oddEvenSort(singleList.begin(), singleList.end(), comp);
-    printList(singleList, os);
-    insertionSort(doubleList.begin(), doubleList.end(), comp);
     printStdList(doubleList, os);
-    stdSort(doubleList, comp);
-    printStdList(doubleList, os);
+    printDeque(deq, os);
+
+    printSort(singleList, doubleList, deq, comp, os);
   }
 }
 
