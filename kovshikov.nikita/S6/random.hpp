@@ -42,7 +42,6 @@ OutputIterator kovshikov::myCopy(InputIterator first, InputIterator last, Output
   return result;
 }
 
-
 void kovshikov::getRandomFloat(DoubleList< float >& list, std::forward_list< float >& forward, std::deque< float >& deque, size_t size)
 {
   std::srand(0);

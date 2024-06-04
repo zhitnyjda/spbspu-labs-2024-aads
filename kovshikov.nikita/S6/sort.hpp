@@ -60,7 +60,6 @@ void kovshikov::selectionSort(FwdIterator begin, FwdIterator end, Compare comp)
 template< typename ListIterator, typename Compare >
 void kovshikov::shellSort(ListIterator begin, ListIterator end, Compare comp)
 {
- // int size = std::distance(begin, end);
   int size = 0;
   ListIterator temp = begin;
   while(temp != end)
@@ -136,7 +135,7 @@ template< typename Compare, typename Deque, typename FwdList, typename List >
 std::ostream& kovshikov::sort(Compare comp, Deque& deque, FwdList& fwdList, List& list, std::ostream& out)
 {
   List listBubble;
-  myCopy(list.begin(), list.end(), std::front_inserter(listBubble)); //вот тут вылезает ошибка
+  myCopy(list.begin(), list.end(), std::front_inserter(listBubble));
   Deque dequeShell;
   myCopy(deque.begin(), deque.end(), std::back_inserter(dequeShell));
   Deque dequeBubble;
