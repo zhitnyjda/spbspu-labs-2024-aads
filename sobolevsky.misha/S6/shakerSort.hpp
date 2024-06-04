@@ -2,17 +2,16 @@
 #define SHAKERSORT_HPP
 
 #include <algorithm>
-#include <iterator>
+#include <iostream>
 
 namespace sobolevsky
 {
   template < typename Iterator, typename Comparator >
   void shakerSort(Iterator begin, Iterator end, Comparator comp)
   {
-    bool flag = true;
-    while (flag)
+    end--;
+    while (begin != end)
     {
-      flag = false;
       Iterator left = begin;
       Iterator right = end;
 
@@ -21,19 +20,20 @@ namespace sobolevsky
         if (comp(*std::next(left), *left))
         {
           std::iter_swap(left, std::next(left));
-          flag = true;
+          end = left;
         }
         left++;
       }
-
-      right--;
+      if (left == begin)
+      {
+        break;
+      }
 
       while (right != begin)
       {
         if (comp(*right, *std::prev(right)))
         {
           std::iter_swap(right, std::prev(right));
-          flag = true;
         }
         right--;
       }
