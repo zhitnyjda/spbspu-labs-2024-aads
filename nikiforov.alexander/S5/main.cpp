@@ -5,13 +5,13 @@
 
 int main(int argc, char* argv[])
 {
-  if (argc != 3)
+  /*if (argc != 3)
   {
     std::cerr << "Error: Wrong parameters amount!\n";
     return 2;
-  }
+  }*/
 
-  std::ifstream input(argv[2]);
+  std::ifstream input("input.txt");
   if (!input)
   {
     std::cerr << "Error: unable to open the file\n";
@@ -34,12 +34,12 @@ int main(int argc, char* argv[])
 
   try
   {
-    std::string cmd = argv[1];
+    std::string cmd = "breadth";
     cmds.at(cmd)(traversalTree, std::cout);
   }
-  catch (const std::exception&)
+  catch (const std::exception& e)
   {
-    nikiforov::errorMessage(std::cout);
+    nikiforov::errorMessage(std::cerr);
   }
   return 0;
 }

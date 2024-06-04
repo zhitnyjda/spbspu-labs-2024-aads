@@ -616,13 +616,13 @@ F nikiforov::AvlTree< Key, Value, Compare >::traverse_breadth(F f) const
     queue.pop_front();
     f(actual->data);
 
-    if (actual->right)
-    {
-      queue.push_back(actual->right);
-    }
     if (actual->left)
     {
       queue.push_back(actual->left);
+    }
+    if (actual->right)
+    {
+      queue.push_back(actual->right);
     }
   }
   return F(f);
