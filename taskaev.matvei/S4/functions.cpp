@@ -4,21 +4,6 @@
 
 namespace taskaev
 {
-  bool digit(std::string str)
-  {
-    size_t size = str.length();
-    size_t i = 0;
-    while (i < size)
-    {
-      if (!std::isdigit(str[i]))
-      {
-        return false;
-      }
-      i++;
-    }
-    return true;
-  }
-
   void createTree(std::istream& in, Tree& tree)
   {
     while (in.eof())
@@ -48,7 +33,7 @@ namespace taskaev
           }
           else
           {
-            if (digit(temps) == true)
+            if (std::isdigit(temps[0]))
             {
               key = std::stoll(temps);
               temps = "";
@@ -98,9 +83,7 @@ namespace taskaev
   {
     std::string datas = "";
     std::cin >> datas;
-    std::cout << "1f\n";
-    BSTree< size_t, std::string > tres = tree.at(datas);
-    std::cout << "2f\n ";
+    BSTree< size_t, std::string > tres = tree.at(datas); // ТУТ ОШИБКА НО ПОЧЕМУ?
     if (tres.empty())
     {
       errorEmpty(std::cout);
