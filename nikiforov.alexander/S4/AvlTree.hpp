@@ -514,8 +514,8 @@ typename nikiforov::AvlTree< Key, Value, Compare >::Iterator nikiforov::AvlTree<
 }
 
 template < typename Key, typename Value, typename Compare >
-using pairIters = std::pair< 
-  typename nikiforov::AvlTree< Key, Value, Compare >::Iterator, 
+using pairIters = std::pair<
+  typename nikiforov::AvlTree< Key, Value, Compare >::Iterator,
   typename nikiforov::AvlTree< Key, Value, Compare >::Iterator
 >;
 
