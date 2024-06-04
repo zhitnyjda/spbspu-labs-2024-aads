@@ -22,8 +22,6 @@ float zhitnyj::generateRandomFloat(float min, float max) {
 
 template< typename T >
 void zhitnyj::generateNumbers(zhitnyj::List< T > &singleList, std::list< T > &doubleList, size_t size, bool isInt) {
-  std::srand(static_cast<unsigned int>(std::time(0)));
-
   if (isInt) {
     for (size_t i = 0; i < size; ++i) {
       int num = generateRandomInt(0, 100);
