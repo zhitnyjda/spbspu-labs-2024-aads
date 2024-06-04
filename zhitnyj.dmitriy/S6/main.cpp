@@ -1,8 +1,10 @@
 #include <iostream>
 #include <string>
 #include <list>
+#include <deque>
 #include <List.hpp>
 #include "sortOperations.hpp"
+#include "random.hpp"
 
 int main(int argc, char *argv[]) {
   if (argc != 4) {
@@ -17,14 +19,16 @@ int main(int argc, char *argv[]) {
   if (isInt) {
     zhitnyj::List< int > singleList;
     std::list< int > doubleList;
-    zhitnyj::generateNumbers(singleList, doubleList, size, true);
-    zhitnyj::performSorts(singleList, doubleList, ascending, std::cout);
+    std::deque< int > deq;
+    zhitnyj::generateNumbers(singleList, doubleList, deq, size, true);
+    zhitnyj::performSorts(singleList, doubleList, deq, ascending, std::cout);
   }
   else {
     zhitnyj::List< float > singleList;
     std::list< float > doubleList;
-    zhitnyj::generateNumbers(singleList, doubleList, size, false);
-    zhitnyj::performSorts(singleList, doubleList, ascending, std::cout);
+    std::deque< float > deq;
+    zhitnyj::generateNumbers(singleList, doubleList, deq, size, false);
+    zhitnyj::performSorts(singleList, doubleList, deq, ascending, std::cout);
   }
 
   return 0;
