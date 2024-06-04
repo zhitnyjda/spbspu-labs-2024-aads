@@ -7,6 +7,7 @@
 #include <fstream>
 #include <algorithm>
 #include <random>
+#include <iomanip>
 #include "shakerSort.hpp"
 #include "mergeSort.hpp"
 
@@ -44,6 +45,7 @@ namespace sobolevsky
   template< typename Container >
   void outputContainer(std::ostream& out, const Container& container)
   {
+    out << std::fixed << std::setprecision(1);
     for (typename Container::const_iterator iter = container.cbegin(); iter != container.cend();)
     {
       out << *iter;
