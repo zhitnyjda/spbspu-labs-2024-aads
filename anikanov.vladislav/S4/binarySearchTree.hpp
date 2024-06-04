@@ -448,6 +448,9 @@ template< typename Key, typename Value, typename Compare >
 typename anikanov::BinarySearchTree< Key, Value, Compare >::Iterator
 anikanov::BinarySearchTree< Key, Value, Compare >::begin()
 {
+  if (!root) {
+    return Iterator();
+  }
   return Iterator(minValueNode(root.get()));
 }
 

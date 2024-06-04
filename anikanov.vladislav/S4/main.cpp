@@ -3,7 +3,7 @@
 #include <string>
 #include <cstring>
 #include "binarySearchTree.hpp"
-#include "mainExtansion.hpp"
+#include "mainExtansion.cpp"
 
 using namespace anikanov;
 
