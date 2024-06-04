@@ -4,7 +4,9 @@
 #include <utility>
 #include <functional>
 #include <stdexcept>
-#include "Node.hpp"
+#include "TreeNode.hpp"
+#include "Stack.hpp"
+#include "Queue.hpp"
 
 namespace sukacheva
 {
@@ -15,7 +17,7 @@ namespace sukacheva
     class Iterator;
     class ConstIterator;
 
-    using Node = details::Node< Value, Key >;
+    using TreeNode = details::TreeNode< Value, Key >;
 
     BST();
     BST(const BST& other) noexcept;
@@ -24,14 +26,14 @@ namespace sukacheva
 
     void insert(Key k, Value v);
     Value at(const Key& k);
-    size_t getHeight(Node* node) const noexcept;
+    size_t getHeight(TreeNode* node) const noexcept;
     bool empty() const noexcept;
     size_t size() const noexcept;
     Iterator find(const Key& k) const noexcept;
     Iterator erase(Iterator& pos) noexcept;
     void erase(const Key& k) noexcept;
     size_t count(const Key& k) const noexcept;
-    void clear(Node* node);
+    void clear(TreeNode* node);
     std::pair< Iterator, Iterator > equalRange(const Key& key) const noexcept;
     Iterator lowerBound(const Key& key) const noexcept;
     Iterator upperBound(const Key& key) const noexcept;
@@ -45,20 +47,27 @@ namespace sukacheva
     Value operator[](Key k);
     BST& operator=(const BST& other);
     BST& operator=(BST&& other) noexcept;
+
+    template< typename F >
+    F traverse_lnr(F f) const;
+    template< typename F >
+    F traverse_rnl(F f) const;
+    template< typename F >
+    F traverse_breadth(F f) const;
   private:
-    Node* root;
+    TreeNode* root;
     Compare cmp;
 
-    Node* findMin(Node* node) const;
-    Node* findMax(Node* node) const;
-    Node* push(Node* node, Key k, Value v, Node* parent);
-    Node* balance(Node* node);
-    Node* rotateRight(Node* node);
-    Node* rotateLeft(Node* node);
-    Node* deleteNode(Node* node, const Key& k);
-    void updateHeight(Node* node);
-    int getBalanceFactor(Node* node);
-    Node* copy(Node* node);
+    TreeNode* findMin(TreeNode* node) const;
+    TreeNode* findMax(TreeNode* node) const;
+    TreeNode* push(TreeNode* node, Key k, Value v, TreeNode* parent);
+    TreeNode* balance(TreeNode* node);
+    TreeNode* rotateRight(TreeNode* node);
+    TreeNode* rotateLeft(TreeNode* node);
+    TreeNode* deleteNode(TreeNode* node, const Key& k);
+    void updateHeight(TreeNode* node);
+    int getBalanceFactor(TreeNode* node);
+    TreeNode* copy(TreeNode* node);
   };
 
   template < typename Key, typename Value, typename Compare >
@@ -67,7 +76,7 @@ namespace sukacheva
   public:
     friend class BST;
     Iterator();
-    Iterator(Node* node_);
+    Iterator(TreeNode* node_);
     ~Iterator() = default;
     Iterator(const Iterator&) = default;
     Iterator& operator=(const Iterator&) = default;
@@ -82,8 +91,8 @@ namespace sukacheva
     bool operator==(const Iterator&) const;
 
   private:
-    Node* findMin(Node* node);
-    Node* node;
+    TreeNode* findMin(TreeNode* node);
+    TreeNode* node;
   };
 
   template < typename Key, typename Value, typename Compare >
@@ -92,7 +101,7 @@ namespace sukacheva
   public:
     friend class BST;
     ConstIterator();
-    ConstIterator(Node* node_);
+    ConstIterator(TreeNode* node_);
     ~ConstIterator() = default;
     ConstIterator(const ConstIterator&) = default;
     ConstIterator& operator=(const ConstIterator&) = default;
@@ -107,8 +116,8 @@ namespace sukacheva
     bool operator==(const ConstIterator&) const;
 
   private:
-    Node* findMin(Node* node);
-    Node* node;
+    TreeNode* findMin(TreeNode* node);
+    TreeNode* node;
   };
 
   template< typename Key, typename Value, typename Compare >
@@ -121,13 +130,96 @@ namespace sukacheva
   using iteratorsPair = std::pair< iterator< Key, Value, Compare >, iterator< Key, Value, Compare > >;
 
   template< typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::copy(Node* node)
+  template< typename F >
+  F BST< Key, Value, Compare >::traverse_lnr(F f) const
+  {
+    if (!root)
+    {
+      return f;
+    }
+    Stack< TreeNode* > stack;
+    TreeNode* applicant = root;
+    while (!stack.empty() || applicant)
+    {
+      if (applicant)
+      {
+        stack.push(applicant);
+        applicant = current->left;
+      }
+      else
+      {
+        applicant = stack.top();
+        stack.pop();
+        f(std::make_pair(applicant->key, applicant->value));
+        applicant = applicant->right;
+      }
+    }
+    return f;
+  }
+
+  template< typename Key, typename Value, typename Compare >
+  template< typename F >
+  F BST< Key, Value, Compare >::traverse_rnl(F f) const
+  {
+    if (!root)
+    {
+      return f;
+    }
+    Stack< TreeNode* > stack;
+    TreeNode* applicant = root;
+    while (!stack.empty() || applicant)
+    {
+      if (applicant)
+      {
+        stack.push(applicant);
+        applicant = applicant->right;
+      }
+      else
+      {
+        applicant = stack.top();
+        stack.pop();
+        f(std::make_pair(applicant->key, applicant->value));
+        applicant = applicant->left;
+      }
+    }
+    return f;
+  }
+
+  template< typename Key, typename Value, typename Compare >
+  template< typename F >
+  F BST< Key, Value, Compare >::traverse_breadth(F f) const
+  {
+    if (!root)
+    {
+      return f;
+    }
+    Queue< TreeNode* > queue;
+    queue.push(root);
+    while (!queue.empty())
+    {
+      TreeNode* applicant = queue.front();
+      queue.pop();
+      f(std::make_pair(applicant->key, applicant->value));
+      if (applicant->left)
+      {
+        queue.push(applicant->left);
+      }
+      if (applicant->right)
+      {
+        queue.push(applicant->right);
+      }
+    }
+    return f;
+  }
+
+  template< typename Key, typename Value, typename Compare >
+  typename BST< Key, Value, Compare >::TreeNode* BST< Key, Value, Compare >::copy(TreeNode* node)
   {
     if (!node)
     {
       return nullptr;
     }
-    Node* newNode = new Node(node->data);
+    TreeNode* newNode = new TreeNode(node->data);
     newNode->left = copy(node->left);
     newNode->right = copy(node->right);
     return newNode;
@@ -187,8 +279,8 @@ namespace sukacheva
   template< typename Key, typename Value, typename Compare >
   typename BST< Key, Value, Compare >::Iterator BST< Key, Value, Compare >::lowerBound(const Key& key) const noexcept
   {
-    Node* current = root;
-    Node* result = nullptr;
+    TreeNode* current = root;
+    TreeNode* result = nullptr;
     while (current != nullptr)
     {
       if (!cmp(current->data.first, key))
@@ -207,8 +299,8 @@ namespace sukacheva
   template< typename Key, typename Value, typename Compare >
   typename BST< Key, Value, Compare >::Iterator BST< Key, Value, Compare >::upperBound(const Key& key) const noexcept
   {
-    Node* current = root;
-    Node* result = nullptr;
+    TreeNode* current = root;
+    TreeNode* result = nullptr;
     while (current != nullptr)
     {
       if (cmp(key, current->data.first))
@@ -302,7 +394,7 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  void BST< Key, Value, Compare >::clear(Node* node)
+  void BST< Key, Value, Compare >::clear(TreeNode* node)
   {
     if (node)
     {
@@ -361,7 +453,7 @@ namespace sukacheva
   {}
 
   template< typename Key, typename Value, typename Compare >
-  BST< Key, Value, Compare >::ConstIterator::ConstIterator(Node* node_) :
+  BST< Key, Value, Compare >::ConstIterator::ConstIterator(TreeNode* node_) :
     node(node_)
   {}
 
@@ -422,7 +514,7 @@ namespace sukacheva
   {}
 
   template< typename Key, typename Value, typename Compare >
-  BST< Key, Value, Compare >::Iterator::Iterator(Node* node_):
+  BST< Key, Value, Compare >::Iterator::Iterator(TreeNode* node_):
     node(node_)
   {}
 
@@ -478,7 +570,7 @@ namespace sukacheva
   }
 
   template < typename Key, typename Value, typename Compare >
-  size_t BST< Key, Value, Compare >::getHeight(Node* node) const noexcept
+  size_t BST< Key, Value, Compare >::getHeight(TreeNode* node) const noexcept
   {
     if (node == nullptr)
     {
@@ -488,7 +580,7 @@ namespace sukacheva
   }
 
   template < typename Key, typename Value, typename Compare >
-  void BST< Key, Value, Compare >::updateHeight(Node* node)
+  void BST< Key, Value, Compare >::updateHeight(TreeNode* node)
   {
     if (node != nullptr)
     {
@@ -497,7 +589,7 @@ namespace sukacheva
   }
 
   template < typename Key, typename Value, typename Compare >
-  int BST< Key, Value, Compare >::getBalanceFactor(Node* node)
+  int BST< Key, Value, Compare >::getBalanceFactor(TreeNode* node)
   {
     if (node == nullptr)
     {
@@ -507,7 +599,7 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::Iterator::findMin(Node* node)
+  typename BST< Key, Value, Compare >::TreeNode* BST< Key, Value, Compare >::Iterator::findMin(TreeNode* node)
   {
     while (node && node->left != nullptr)
     {
@@ -517,7 +609,7 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::ConstIterator::findMin(Node* node)
+  typename BST< Key, Value, Compare >::TreeNode* BST< Key, Value, Compare >::ConstIterator::findMin(TreeNode* node)
   {
     while (node && node->left != nullptr)
     {
@@ -527,7 +619,7 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::findMax(Node* node) const
+  typename BST< Key, Value, Compare >::TreeNode* BST< Key, Value, Compare >::findMax(TreeNode* node) const
   {
     while (node && node->right != nullptr)
     {
@@ -537,7 +629,7 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::findMin(Node* node) const
+  typename BST< Key, Value, Compare >::TreeNode* BST< Key, Value, Compare >::findMin(TreeNode* node) const
   {
     while (node && node->left != nullptr)
     {
@@ -547,9 +639,9 @@ namespace sukacheva
   }
 
   template < typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::rotateLeft(Node* node)
+  typename BST< Key, Value, Compare >::TreeNode* BST< Key, Value, Compare >::rotateLeft(TreeNode* node)
   {
-    Node* newRoot = node->right;
+    TreeNode* newRoot = node->right;
     node->right = newRoot->left;
     if (newRoot->left != nullptr)
     {
@@ -576,9 +668,9 @@ namespace sukacheva
   }
 
   template < typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::rotateRight(Node* node)
+  typename BST< Key, Value, Compare >::TreeNode* BST< Key, Value, Compare >::rotateRight(TreeNode* node)
   {
-    Node* newRoot = node->left;
+    TreeNode* newRoot = node->left;
     node->left = newRoot->right;
     if (newRoot->right != nullptr)
     {
@@ -605,7 +697,7 @@ namespace sukacheva
   }
 
   template < typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::balance(Node* node)
+  typename BST< Key, Value, Compare >::TreeNode* BST< Key, Value, Compare >::balance(TreeNode* node)
   {
     updateHeight(node);
     int balanceFactor = getBalanceFactor(node);
@@ -635,11 +727,11 @@ namespace sukacheva
   }
 
   template < typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::push(Node* node, Key k, Value v, Node* parent)
+  typename BST< Key, Value, Compare >::TreeNode* BST< Key, Value, Compare >::push(TreeNode* node, Key k, Value v, TreeNode* parent)
   {
     if (node == nullptr)
     {
-      return new Node(k, v, parent);
+      return new TreeNode(k, v, parent);
     }
     if (cmp(k, node->data.first))
     {
@@ -659,7 +751,7 @@ namespace sukacheva
   }
 
   template < typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::deleteNode(Node* node, const Key& k)
+  typename BST< Key, Value, Compare >::TreeNode* BST< Key, Value, Compare >::deleteNode(TreeNode* node, const Key& k)
   {
     if (node == nullptr)
     {
@@ -682,14 +774,14 @@ namespace sukacheva
       }
       else if (!node->left || !node->right)
       {
-        Node* temp = node->left ? node->left : node->right;
+        TreeNode* temp = node->left ? node->left : node->right;
         temp->parent = node->parent;
         delete node;
         return temp;
       }
       else
       {
-        Node* successor = findMin(node->right);
+        TreeNode* successor = findMin(node->right);
         node->data = successor->data;
         node->right = deleteNode(node->right, successor->data.first);
       }
