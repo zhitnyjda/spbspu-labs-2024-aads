@@ -11,6 +11,7 @@ namespace miheev
   class List
   {
   public:
+    using value_type = T;
     struct ConstIterator;
     struct Iterator;
 
@@ -31,8 +32,10 @@ namespace miheev
 
     void assign (size_t n, const T& val);
     void pushFront(const T& data);
+    void push_front(const T& data);
     void popFront();
     void pushBack(const T& data);
+    void push_back(const T& data);
     void popBack();
     void eraseAfter(Iterator iter);
     void swap(List& aList);
@@ -46,8 +49,8 @@ namespace miheev
 
     Iterator begin();
     Iterator end();
-    ConstIterator cBegin() const;
-    ConstIterator cEnd() const;
+    ConstIterator cbegin() const;
+    ConstIterator cend() const;
 
   private:
     T data_;
@@ -112,13 +115,13 @@ private:
 };
 
 template< typename T >
-typename miheev::List< T >::ConstIterator miheev::List< T >::cBegin() const
+typename miheev::List< T >::ConstIterator miheev::List< T >::cbegin() const
 {
   return this;
 }
 
 template< typename T >
-typename miheev::List< T >::ConstIterator miheev::List< T >::cEnd() const
+typename miheev::List< T >::ConstIterator miheev::List< T >::cend() const
 {
   return nullptr;
 }
@@ -310,7 +313,7 @@ miheev::List< T >::List(List&& rhs):
   next_{nullptr},
   isEmpty_{true}
 {
-  ConstIterator rhsIter(rhs.cBegin());
+  ConstIterator rhsIter(rhs.cbegin());
   List< T >* node = this;
   while (node != nullptr && rhsIter != nullptr)
   {
@@ -461,6 +464,12 @@ void miheev::List< T >::pushFront(const T& data)
 }
 
 template < typename T >
+void miheev::List< T >::push_front(const T& data)
+{
+  pushFront(data);
+}
+
+template < typename T >
 void miheev::List< T >::popFront()
 {
   if (!next_)
@@ -497,6 +506,12 @@ void miheev::List< T >::pushBack(const T& data)
     }
   }
   isEmpty_ = false;
+}
+
+template < typename T >
+void miheev::List< T >::push_back(const T& data)
+{
+  pushBack(data);
 }
 
 template < typename T >
