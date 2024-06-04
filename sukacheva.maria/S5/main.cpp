@@ -10,7 +10,7 @@
 int main(int argc, char* argv[])
 {
   using namespace sukacheva;
-  if (argc != 2)
+  if (argc != 3)
   {
     std::cerr << "<INVALID NUMBER OF ARGUMENTS>\n";
     return 1;
@@ -22,19 +22,16 @@ int main(int argc, char* argv[])
     return 2;
   }
   BinaryTree tree;
-  while (!in.eof())
+  std::string line = {};
+  std::getline(in, line);
+  if (!line.empty())
   {
-    std::string line = {};
-    std::getline(in, line);
-    if (!line.empty())
-    {
-      tree = inputTree(line);
-    }
-    if (in.fail())
-    {
-      in.clear();
-      in.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
-    }
+    tree = inputTree(line);
+  }
+  if (in.fail())
+  {
+    in.clear();
+    in.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
   }
 
   BST< std::string, std::function < void(BinaryTree&, std::ostream&) > > commands;
