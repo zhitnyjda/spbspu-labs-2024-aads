@@ -139,13 +139,13 @@ typename BSTree< Key, Value, Comparator >::ConstIterator& BSTree< Key, Value, Co
   }
   else
   {
-    Node* p = node_->parent_;
-    while (p && node_ == p->right_)
+    Node* nodes = node_->parent_;
+    while (nodes && node_ == nodes->right_)
     {
-      node_ = p;
-      p = p->parent_;
+      node_ = nodes;
+      nodes = nodes->parent_;
     }
-    node_ = p;
+    node_ = nodes;
   }
   return *this;
 }
@@ -180,13 +180,13 @@ typename BSTree< Key, Value, Comparator >::ConstIterator& BSTree< Key, Value, Co
   }
   else
   {
-    Node* p = node_->parent_;
-    while (p && node_ == p->left_)
+   Node* nodes = node_->parent_;
+    while (nodes && node_ == nodes->left_)
     {
-      node_ = p;
-      p = p->parent_;
+      node_ = nodes;
+      nodes = nodes->parent_;
     }
-    node_ = p;
+    node_ = nodes;
   }
   return *this;
 }
@@ -351,23 +351,31 @@ BSTree< Key, Value, Comparator >::~BSTree()
 template< typename Key, typename Value, typename Comparator >
 Value& BSTree< Key, Value, Comparator >::at(const Key& key)
 {
-  Node* newRoot = root_;
-  while (newRoot != nullptr)
+  if (find(key) != end())
   {
-    if (key < newRoot->data_.first)
-    {
-      newRoot = newRoot->left_;
-    }
-    else if (key > newRoot->data_.first)
-    {
-      newRoot = newRoot->right_;
-    }
-    else
-    {
-      return newRoot->data_.second;
-    }
+    find(key)->second;
   }
-  throw std::out_of_range( "Error\n");
+  else
+  {
+    throw std::out_of_range("Error:\n")
+  }
+ // Node* newRoot = root_;
+ // while (newRoot != nullptr)
+ // {
+   // if (key < newRoot->data_.first)
+   // {
+     // newRoot = newRoot->left_;
+   // }
+   // else if (key > newRoot->data_.first)
+   // {
+     // newRoot = newRoot->right_;
+   // }
+   // else
+   // {
+     // return newRoot->data_.second;
+   // }
+ // }
+ // throw std::out_of_range( "Error\n");
 }
 
 template< typename Key, typename Value, typename Comparator >
