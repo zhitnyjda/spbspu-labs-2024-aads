@@ -24,7 +24,7 @@ void nikiforov::convertToPostfix(std::string str, Queue< Initialization >& queue
 
   while (!str.empty())
   {
-    elem = cutElem(str);
+    elem = cutElements(str);
     Initialization elemSeq(elem);
 
     if (elemSeq.type == operand)
