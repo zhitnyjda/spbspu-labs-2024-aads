@@ -2,11 +2,11 @@
 #define RANDOM_HPP
 #include <algorithm>
 #include <cstdlib>
-#include <forward_list>
-#include <iterator>
-#include <iostream>
-#include "doublelist.hpp"
 #include <deque>
+#include <forward_list>
+#include <iostream>
+#include <iterator>
+#include "doublelist.hpp"
 
 namespace kovshikov
 {

@@ -1,7 +1,7 @@
-#include <iostream>
-#include "sort.hpp"
-#include "random.hpp"
 #include <iomanip>
+#include <iostream>
+#include "random.hpp"
+#include "sort.hpp"
 
 int main(int argc, char ** argv)
 {

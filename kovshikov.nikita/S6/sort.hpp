@@ -1,11 +1,11 @@
 #ifndef SORT_HPP
 #define SORT_HPP
-#include <utility>
-#include <iterator>
-#include "compare.hpp"
 #include <iostream>
-#include "random.hpp"
+#include <iterator>
 #include <string>
+#include <utility>
+#include "compare.hpp"
+#include "random.hpp"
 
 namespace kovshikov
 {
