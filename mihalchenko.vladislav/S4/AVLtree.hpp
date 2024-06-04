@@ -289,30 +289,23 @@ size_t mihalchenko::AVLTree<Key, Value, Compare>::erase(const Key &key)
   {
     Node *deletedNode = find(key).constIter_.node_;
     Node *prevDelNode = deletedNode->previous_;
-    // Node *workerNode = deletedNode;
-    // Node *firstRightNode = nullptr;
+    Node *workerNode = deletedNode;
+    Node *firstRightNode = nullptr;
     if ((deletedNode->left_ == nullptr) && (deletedNode->right_ == nullptr))
     {
       if (prevDelNode)
       {
-        if (prevDelNode->left_)
-        {
-          (prevDelNode->left_ == deletedNode) ? prevDelNode->left_ = nullptr : prevDelNode->right_ = nullptr;
-        }
-        else
-        {
-          (prevDelNode->right_ == deletedNode) ? prevDelNode->right_ = nullptr : prevDelNode->left_ = nullptr;
-        }
+        (prevDelNode->left_ == deletedNode) ? prevDelNode->left_ = nullptr : prevDelNode->right_ = nullptr;
       }
       else
       {
         delete deletedNode;
-        root_ = nullptr;
         size_ = 0;
+        root_ = nullptr;
         return 0;
       }
     }
-    /*else if (!(deletedNode->left_ == nullptr) && !(deletedNode->right_ == nullptr))
+    else if (!(deletedNode->left_ == nullptr) && !(deletedNode->right_ == nullptr))
     {
       workerNode = deletedNode->right_;
       while (workerNode->left_)
@@ -325,9 +318,11 @@ size_t mihalchenko::AVLTree<Key, Value, Compare>::erase(const Key &key)
       firstRightNode->left_ = workerNode;
       if (deletedNode == root_)
       {
+        delete deletedNode;
         root_ = firstRightNode;
+        return 0;
       }
-    }*/
+    }
     else
     {
       if (prevDelNode)
@@ -342,12 +337,12 @@ size_t mihalchenko::AVLTree<Key, Value, Compare>::erase(const Key &key)
           else
           {
             deletedNode->right_->previous_ = prevDelNode;
-            prevDelNode->left_ = deletedNode->right_;
+            prevDelNode->right_ = deletedNode->right_;
           }
         }
         else
         {
-          if (!(deletedNode->right_ = nullptr))
+          if (!(deletedNode->left_ = nullptr))
           {
             deletedNode->left_->previous_ = prevDelNode;
             prevDelNode->right_ = deletedNode->left_;
@@ -361,10 +356,25 @@ size_t mihalchenko::AVLTree<Key, Value, Compare>::erase(const Key &key)
       }
       else
       {
-        (deletedNode->right_) ? root_ = deletedNode->right_ : root_ = deletedNode->left_;
+        //(deletedNode->right_) ? root_ = deletedNode->right_ : root_ = deletedNode->left_;
+        if (deletedNode->right_)
+        {
+          root_ = deletedNode->right_;
+          // delete deletedNode;
+          delete deletedNode;
+          size_--;
+          return 0;
+        }
+        else if (deletedNode->left_)
+        {
+          delete deletedNode;
+          root_ = deletedNode->left_;
+          size_--;
+          return 0;
+        }
       }
     }
-    // delete deletedNode;
+    delete deletedNode;
   }
   size_--;
   return 0;
@@ -613,7 +623,8 @@ int mihalchenko::AVLTree<Key, Value, Compare>::getHeight(Node *node)
 }
 
 template <typename Key, typename Value, typename Compare>
-typename mihalchenko::AVLTree<Key, Value, Compare>::Node *mihalchenko::AVLTree<Key, Value, Compare>::getRoot()
+typename mihalchenko::AVLTree<Key, Value, Compare>::Node
+  *mihalchenko::AVLTree<Key, Value, Compare>::getRoot()
 {
   Node *temp = this;
   while (temp->previous_ != root_)
@@ -689,7 +700,7 @@ typename mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator
 
 template <typename Key, typename Value, typename Compare>
 typename mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator
-mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator::operator++(int)
+  mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator::operator++(int)
 {
   ConstIterator result(*this);
   ++(*this);
@@ -734,7 +745,7 @@ typename mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator
 
 template <typename Key, typename Value, typename Compare>
 typename mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator
-mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator::operator--(int)
+  mihalchenko::AVLTree<Key, Value, Compare>::ConstIterator::operator--(int)
 {
   ConstIterator result(*this);
   --(*this);
