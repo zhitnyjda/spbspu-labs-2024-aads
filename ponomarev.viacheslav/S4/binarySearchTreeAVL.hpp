@@ -22,7 +22,7 @@ namespace ponomarev
     BSTree(BSTree && tree) noexcept;
     ~BSTree() = default;
 
-    BSTree & operator=(const BSTree & other);
+    BSTree & operator=(BSTree other);
     BSTree & operator=(BSTree && other);
 
     size_t getSize() const noexcept;
@@ -425,16 +425,9 @@ BSTree< Key, Value, Compare >::BSTree(BSTree< Key, Value, Compare > && tree) noe
 }
 
 template < typename Key, typename Value, typename Compare >
-BSTree< Key, Value, Compare > & BSTree< Key, Value, Compare >::operator=(const BSTree & other)
+BSTree< Key, Value, Compare > & BSTree< Key, Value, Compare >::operator=(BSTree other)
 {
-  if (&other != this)
-  {
-    clear();
-    for (Iterator iter = other.begin(); iter != end(); ++iter)
-    {
-      insert(*iter);
-    }
-  }
+  swap(*this, other);
   return *this;
 }
 
