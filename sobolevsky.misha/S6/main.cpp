@@ -7,6 +7,8 @@
 #include "sortsAgregatorANDcontainerIO.hpp"
 #include "../common/tree.hpp"
 
+using cmdDeclaration = sobolevsky::AVLtree< std::string, std::function< void(std::ostream &, size_t) >, bool >;
+
 int main(int argc, char *argv[])
 {
   if (argc != 4)
@@ -20,7 +22,7 @@ int main(int argc, char *argv[])
 
   size_t size = std::stoull(argv[3]);
 
-  sobolevsky::AVLtree< std::string, sobolevsky::AVLtree< std::string, std::function< void(std::ostream &, size_t) >, bool >, bool >  cmds;
+  sobolevsky::AVLtree< std::string, cmdDeclaration, bool >  cmds;
   using namespace std::placeholders;
   cmds["ascending"]["ints"] = std::bind(sobolevsky::sortsAgregator< int, std::less< int > >, _1, _2, std::less< int >{});
   cmds["descending"]["ints"] = std::bind(sobolevsky::sortsAgregator< int, std::greater< int > >, _1, _2, std::greater< int >{});
@@ -33,8 +35,16 @@ int main(int argc, char *argv[])
   catch(const std::exception & e)
   {
     std::cerr << "inv\n";
+    for (sobolevsky::AVLtree< std::string, cmdDeclaration, bool >::Iterator iter = cmds.begin(); iter != cmds.end(); iter++)
+    {
+      iter->second.clear();
+    }
     cmds.clear();
     return 1;
+  }
+  for (sobolevsky::AVLtree< std::string, cmdDeclaration, bool >::Iterator iter = cmds.begin(); iter != cmds.end(); iter++)
+  {
+    iter->second.clear();
   }
   cmds.clear();
   return 0;
