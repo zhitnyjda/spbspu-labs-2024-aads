@@ -12,6 +12,7 @@ namespace nikiforov
     class ConstIterator;
 
     using keyValue_t = std::pair< Key, Value >;
+    using pairIters = std::pair< typename AvlTree< Key, Value, Compare >::Iterator, typename AvlTree< Key, Value, Compare >::Iterator>;
 
     AvlTree();
     AvlTree(const AvlTree& other);
@@ -38,6 +39,7 @@ namespace nikiforov
     void clear();
 
     Iterator find(const Key& key);
+    std::pair< Iterator, Iterator > equalRange(const Key& key);
 
   private:
 
@@ -509,6 +511,34 @@ typename nikiforov::AvlTree< Key, Value, Compare >::Iterator nikiforov::AvlTree<
     }
   }
   return end();
+}
+
+template < typename Key, typename Value, typename Compare >
+using pairIters = std::pair< 
+  typename nikiforov::AvlTree< Key, Value, Compare >::Iterator, 
+  typename nikiforov::AvlTree< Key, Value, Compare >::Iterator
+>;
+
+template<typename Key, typename Value, typename Compare>
+pairIters<Key, Value, Compare> nikiforov::AvlTree<Key, Value, Compare>::equalRange(const Key& key)
+{
+  if (find(key) == end())
+  {
+    Iterator iter(begin());
+    while (iter != end())
+    {
+      if (cmp(key, (*iter).first))
+      {
+        break;
+      }
+      iter++;
+    }
+    return std::make_pair(iter, iter);
+  }
+  else
+  {
+    return std::make_pair(find(key), find(key)++);
+  }
 }
 
 template < typename Key, typename Value, typename Compare >
