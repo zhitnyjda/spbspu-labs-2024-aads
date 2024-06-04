@@ -10,26 +10,41 @@
 namespace zhitnyj {
   template< typename T >
   void printList(const List< T > &list, std::ostream &os) {
-    for (auto it = list.begin(); it != list.end(); ++it) {
-      os << *it << " ";
+    auto it = list.begin();
+    while (it != list.end()) {
+      os << *it;
+      ++it;
+      if (it != list.end()) {
+        os << " ";
+      }
     }
-    os << "\n";
+    std::cout << "\n";
   }
 
   template< typename T >
   void printStdList(const std::list< T > &list, std::ostream &os) {
-    for (const auto &elem: list) {
-      os << elem << " ";
+    auto it = list.begin();
+    while (it != list.end()) {
+      os << *it;
+      ++it;
+      if (it != list.end()) {
+        os << " ";
+      }
     }
-    os << "\n";
+    std::cout << "\n";
   }
 
   template< typename T >
   void printDeque(const std::deque< T > &deq, std::ostream &os) {
-    for (const auto &elem: deq) {
-      os << elem << " ";
+    auto it = deq.begin();
+    while (it != deq.end()) {
+      os << *it;
+      ++it;
+      if (it != deq.end()) {
+        os << " ";
+      }
     }
-    os << "\n";
+    std::cout << "\n";
   }
 
   template< typename forwardIterator, typename Compare >
