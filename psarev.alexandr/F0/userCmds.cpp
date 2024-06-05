@@ -115,8 +115,8 @@ void psarev::cmdShow(std::istream& in, std::ostream& out, std::map< std::string,
 
 void psarev::cmdRename(std::istream& in, std::ostream& out, std::map< std::string, storage_t >& depot)
 {
-  std::string name = "";
-  std::string newName = "";
+  std::string name;
+  std::string newName;
   in >> name >> newName;
 
   auto desireSt = depot.find(name);
@@ -206,9 +206,9 @@ void psarev::cmdFono(std::istream& in, std::ostream& out)
 
   std::vector< std::string > soundsVec;
   bool softFact = false;
-  std::string vowels = "ёуеыаоэяию";
-  std::string cons = "йцкнгшщзхфвпрлджчсмтб";
-  std::string other = "ъь";
+  const std::string vowels = "ёуеыаоэяию";
+  const std::string cons = "йцкнгшщзхфвпрлджчсмтб";
+  const std::string other = "ъь";
   std::string transc = "[]";
   for (int let : word)
   {
