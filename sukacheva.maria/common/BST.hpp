@@ -198,8 +198,8 @@ namespace sukacheva
     size_t height = getHeight(root);
     for (size_t i = 1; i <= height; i++)
     {
-      BST< Key, Value, Compare >::Iterator it = begin();
-      for (it; it != end(); it++)
+      BST< Key, Value, Compare >::Iterator it;
+      for (it = begin(); it != end(); it++)
       {
         if (getHeight(it.node) == i)
         {
