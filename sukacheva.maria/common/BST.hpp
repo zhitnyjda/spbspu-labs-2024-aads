@@ -193,20 +193,18 @@ namespace sukacheva
     {
       return f;
     }
-    Stack< TreeNode* > queue;
-    queue.push(root);
-    while (!queue.empty())
+    Queue< TreeNode* > queue;
+    f(root->data);
+    size_t height = getHeight(root);
+    for (size_t i = 1; i <= height; i++)
     {
-      TreeNode* applicant = queue.top();
-      queue.pop();
-      f(applicant->data);
-      if (applicant->left)
+      BST< Key, Value, Compare >::Iterator it = begin();
+      for (it; it != end(); it++)
       {
-        queue.push(applicant->left);
-      }
-      if (applicant->right)
-      {
-        queue.push(applicant->right);
+        if (getHeight(it.node) == i)
+        {
+          f(it.operator*());
+        }
       }
     }
     return f;
