@@ -46,7 +46,7 @@ namespace taskaev
             {
               if (!std::isdigit(temps[i]))
               {
-                flag == false;
+                flag = false;
                 break;
               }
             }
