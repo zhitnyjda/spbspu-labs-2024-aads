@@ -139,12 +139,28 @@ namespace taskaev
     //std::cout << "3c\n";
     findComplement(tree.at(oneName), tree.at(twoName), tres);
     //std::cout << "4c\n";
-    findComplement(tree.at(twoName), tree.at(oneName), tres);
+    //findComplement(tree.at(twoName), tree.at(oneName), tres);
     tree.insert(names, tres);
   }
 
-  void findComplement(SubTree& two, SubTree& one, SubTree& tres)
+  void findComplement(SubTree& one, SubTree& two, SubTree& tres)
   {
+    for (auto it = one.begin(); it != one.end(); ++it)
+    {
+      bool flag = false;
+      for (auto iter = two.begin(); iter != two.end(); ++iter)
+      {
+        if (it->first == iter->first)
+        {
+          flag = true;
+          break;
+        }
+      }
+      if (!flag)
+      {
+        tres.insert(*it);
+      }
+    }
    // if (two.empty())
    // {
      // for (auto it = one.begin(); it != one.end(); ++it)
@@ -154,13 +170,13 @@ namespace taskaev
     //}
    // else
    // {
-      for (auto it = two.begin(); it != one.end(); ++it)
-      {
-        if (one.find(it->first) == one.cend())
-        {
-          tres.insert(*it);
-        }
-      }
+     // for (auto it = two.begin(); it != one.end(); ++it)
+     // {
+       // if (one.find(it->first) == one.cend())
+       // {
+         // tres.insert(*it);
+       // }
+     // }
    // }
   }
 
