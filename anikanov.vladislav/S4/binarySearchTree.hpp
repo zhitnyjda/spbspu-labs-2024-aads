@@ -152,7 +152,9 @@ template< typename Key, typename Value, typename Compare >
 anikanov::BinarySearchTree< Key, Value, Compare > &
 anikanov::BinarySearchTree< Key, Value, Compare >::operator=(const BinarySearchTree &other)
 {
-  if (this == &other) return *this;
+  if (this == &other) {
+    return *this;
+  }
   root = clone(other.root.get());
   nodeCount = other.nodeCount;
   comp = other.comp;
@@ -163,7 +165,9 @@ template< typename Key, typename Value, typename Compare >
 anikanov::BinarySearchTree< Key, Value, Compare > &
 anikanov::BinarySearchTree< Key, Value, Compare >::operator=(BinarySearchTree &&other) noexcept
 {
-  if (this == &other) return *this;
+  if (this == &other) {
+    return *this;
+  }
   root = std::move(other.root);
   nodeCount = other.nodeCount;
   comp = std::move(other.comp);
@@ -181,7 +185,9 @@ template< typename Key, typename Value, typename Compare >
 const Value &anikanov::BinarySearchTree< Key, Value, Compare >::operator[](const Key &key) const
 {
   Node *node = find(root.get(), key);
-  if (!node) throw std::runtime_error("Key not found");
+  if (!node) {
+    throw std::runtime_error("Key not found");
+  }
   return node->data.second;
 }
 
@@ -614,7 +620,9 @@ template< typename Key, typename Value, typename Compare >
 std::shared_ptr< typename anikanov::BinarySearchTree< Key, Value, Compare >::Node >
 anikanov::BinarySearchTree< Key, Value, Compare >::erase(std::shared_ptr< Node > node, const Key &key)
 {
-  if (!node) return nullptr;
+  if (!node) {
+    return nullptr;
+  }
   if (comp(key, node->data.first)) {
     node->left = erase(std::move(node->left), key);
   } else if (comp(node->data.first, key)) {
@@ -644,9 +652,15 @@ template< typename Key, typename Value, typename Compare >
 typename anikanov::BinarySearchTree< Key, Value, Compare >::Node *
 anikanov::BinarySearchTree< Key, Value, Compare >::find(BinarySearchTree::Node *node, const Key &key) const
 {
-  if (!node) return nullptr;
-  if (comp(key, node->data.first)) return find(node->left.get(), key);
-  if (comp(node->data.first, key)) return find(node->right.get(), key);
+  if (!node) {
+    return nullptr;
+  }
+  if (comp(key, node->data.first)) {
+    return find(node->left.get(), key);
+  }
+  if (comp(node->data.first, key)) {
+    return find(node->right.get(), key);
+  }
   return node;
 }
 
@@ -654,7 +668,9 @@ template< typename Key, typename Value, typename Compare >
 std::shared_ptr< typename anikanov::BinarySearchTree< Key, Value, Compare >::Node >
 anikanov::BinarySearchTree< Key, Value, Compare >::clone(const BinarySearchTree::Node *node) const
 {
-  if (!node) return nullptr;
+  if (!node) {
+    return nullptr;
+  }
   auto newNode = std::make_unique< Node >(node->data.first, node->data.second);
   newNode->left = clone(node->left.get());
   newNode->right = clone(node->right.get());
