@@ -14,7 +14,7 @@ namespace taskaev
       return false;
     }
     bool isFalg = (str[0] == '-');
-    for (size_t i = isFlag; i < str.length(); i++)
+    for (size_t i = 0; i < str.length(); i++)
     {
       if (!std::isdigit(str[i]))
       {
