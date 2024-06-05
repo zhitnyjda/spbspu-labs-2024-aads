@@ -10,11 +10,11 @@ int main(int argc, char ** argv)
   using namespace taskaev;
   if (argc != 3)
   {
-    std::cerr << "Error: not open file!\n";
+    std::cerr << "Error: arguments invalid!\n";
     return 1;
   }
   BSTree< int, std::string> tree;
-  std::ifstream inputs(argv[1]);
+  std::fstream inputs(argv[2]);
   if (!inputs)
   {
     std::cerr << "Error: not open file!\n";
