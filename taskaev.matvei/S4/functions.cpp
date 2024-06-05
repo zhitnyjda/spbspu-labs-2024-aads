@@ -1,18 +1,15 @@
-#include "functions.hpp"
-#include <string>
 #include <iostream>
+#include <string>
+#include "functions.hpp"
 
 namespace taskaev
 {
   void createTree(std::istream& in, Tree& tree)
   {
-   //std::cout << "1\n";
     while (!in.eof())
     {
       std::string data = "";
-      //std::cout << "2\n";
       std::getline(in, data);
-      //std::cout << "3\n";
       if (!data.empty())
       {
         std::string temps = "";
@@ -22,40 +19,30 @@ namespace taskaev
         BSTree< size_t, std::string > tre;
         bool flag = true;
         size_t i = 0;
-        //std::cout << "4\n";
         while (i < data.length())
         {
-          //std::cout << "5\n";
           if (data[i] != ' ')
           {
-            //std::cout << "6\n";
             temps += data[i];
           }
           else if (data[i] == ' ' && flag == true)
           {
-            //std::cout << "7\n";
             names = temps;
             temps = "";
             flag = false;
           }
           else
           {
-            //std::cout << "8\n";
             if (std::isdigit(temps[0]))
             {
-              //std::cout << "9\n";
               key = std::stoll(temps);
-              //std::cout << "10\n";
               temps = "";
             }
             else
             {
-              //std::cout << "11\n";
               val = temps;
               temps = "";
-              //std::cout << "12\n";
               tre.insert(key, val);
-              //std::cout << "13\n";
             }
           }
           i++;
@@ -67,34 +54,12 @@ namespace taskaev
         if (!val.empty())
         {
           val = temps;
-          //std::cout << "14\n";
           tre.insert(key, val);
-          //std::cout << "15\n";
-          //std::cout << "16 size: " << tre.size() << "\n";
         }
         tree.insert(names, tre);
-        //std::cout << "17 size: " << tree.size() << "\n";
       }
     }
   }
-
-//  void helpPrint(SubTree& tree, Iterator it, Iterator end)
-//  {
-//    while (it != end)
-//    {
-//      std::pair< size_t, std::string > pair = *it;
-//      std::cout << pair.first << " " << pair.second;
-//      ++it;
-//      if (it != end)
-//      {
-//        std::cout << " ";
-//      }
-//      else
-//      {
-//        std::cout << "\n";
-//      }
-//    }
-//  }
 
   void print(Tree& tree)
   {
@@ -108,11 +73,9 @@ namespace taskaev
     }
     else
     {
-      //std::cout << "flags 1\n";
       BSTree< size_t, std::string >::ConstIterator it = tres.cbegin();
       BSTree< size_t, std::string >::ConstIterator end = tres.cend();
       std::cout << datas << " ";
-      //helpPrint(tres, it, end); // типо тут рекурсия вывода
       while (it != end)
       {
         std::pair< size_t, std::string > pair = *it;
@@ -137,16 +100,10 @@ namespace taskaev
     BSTree< size_t, std::string > tres;
     if (oneName == twoName)
     {
-      //std::cout << tres.empty() << " " << tres.size() << "\n";
       tree.insert(names, tres);
-      //std::cout << "2\n";
       return;
     }
-    //std::cout << tree.size() << " " << tres.size() << "\n";
-    //std::cout << "3c\n";
     findComplement(tree.at(oneName), tree.at(twoName), tres);
-    //std::cout << "4c\n";
-    //findComplement(tree.at(twoName), tree.at(oneName), tres);
     if (names != oneName && names != twoName)
     {
       tree.insert(names, tres);
@@ -181,23 +138,6 @@ namespace taskaev
         tres.insert(*it);
       }
     }
-   // if (two.empty())
-   // {
-     // for (auto it = one.begin(); it != one.end(); ++it)
-     // {
-       // tree.insert(*it);
-     // }
-    //}
-   // else
-   // {
-     // for (auto it = two.begin(); it != one.end(); ++it)
-     // {
-       // if (one.find(it->first) == one.cend())
-       // {
-         // tres.insert(*it);
-       // }
-     // }
-   // }
   }
 
   void intersect(Tree& tree)
@@ -207,7 +147,6 @@ namespace taskaev
     BSTree< size_t, std::string > tres;
     BSTree< size_t, std::string > oneTres = tree.at(oneName);
     BSTree< size_t, std::string > twoTres = tree.at(twoName);
-    //std::cout << "IN: " << oneTres.empty() << " " << twoTres.empty() << "\n";
     if (!oneTres.empty() == 0 || !twoTres.empty() == 0)
     {
       tree.erase(names);
@@ -217,7 +156,7 @@ namespace taskaev
     for (auto it = oneTres.begin(); it != oneTres.end(); ++it)
     {
       size_t key = it->first;
-      if (twoTres.find(key) != twoTres.cend()) //проверка на элементстаким ключом во 2 дереве
+      if (twoTres.find(key) != twoTres.cend())
       {
         tres.insert(*it);
       }

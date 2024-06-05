@@ -1,8 +1,8 @@
 #ifndef FUNCTIONS_HPP
 #define FUNCTIONS_HPP
+#include "BSTree.hpp"
 #include <iostream>
 #include <fstream>
-#include "BSTree.hpp"
 #include <string>
 
 namespace taskaev
@@ -13,7 +13,6 @@ namespace taskaev
   void createTree(std::istream& in, Tree& tree);
 
   void print(Tree& tree);
-  //void helpPrint(SubTree& tree, Iterator it, Iterator end);
 
   void complement(Tree& tree);
   void findComplement(SubTree& two, SubTree& one, SubTree& tres);

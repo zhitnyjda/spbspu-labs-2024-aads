@@ -1,5 +1,5 @@
-#include <string>
 #include <iostream>
+#include <string>
 #include <fstream>
 #include <functional>
 #include <limits>
@@ -16,9 +16,12 @@ int main(int argc, char ** argv)
   }
   BSTree< std::string, BSTree< size_t, std::string > > tres;
   std::ifstream inputs(argv[1]);
-  //std::cout << "Starts size: " << tres.size() << "\n";
+  if (!inputs)
+  {
+    std::cerr << "Error: input\n";
+    return 1;
+  }
   createTree(inputs, tres);
-  //std::cout << "End size: " << tres.size() << "\n";
   BSTree< std::string, std::function< void(BSTree< std::string, BSTree< size_t, std::string > >&) > > cmds;
   cmds.insert("print", print);
   cmds.insert("complement", complement);

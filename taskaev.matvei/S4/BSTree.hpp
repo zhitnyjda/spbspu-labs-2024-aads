@@ -356,23 +356,6 @@ Value& BSTree< Key, Value, Comparator >::at(const Key& key)
   {
     throw std::out_of_range("Error:\n");
   }
- // Node* newRoot = root_;
- // while (newRoot != nullptr)
- // {
-   // if (key < newRoot->data_.first)
-   // {
-     // newRoot = newRoot->left_;
-   // }
-   // else if (key > newRoot->data_.first)
-   // {
-     // newRoot = newRoot->right_;
-   // }
-   // else
-   // {
-     // return newRoot->data_.second;
-   // }
- // }
- // throw std::out_of_range( "Error\n");
 }
 
 template< typename Key, typename Value, typename Comparator >
@@ -476,6 +459,7 @@ void BSTree< Key, Value, Comparator >::erase(const Key& key)
     {
       delete root_;
       root_ = nullptr;
+      size_--;
       return;
     }
     if (nodes->data_.first > nodes->parent_->data_.first)
@@ -488,6 +472,7 @@ void BSTree< Key, Value, Comparator >::erase(const Key& key)
       nodes->parent_->left_ = nullptr;
     }
     delete nodes;
+    size_--;
     return;
   }
   else if (nodes->left_ && !nodes->right_)
@@ -518,6 +503,7 @@ void BSTree< Key, Value, Comparator >::erase(const Key& key)
       root_ = root_->right_;
       root_->parent_ = nullptr;
       delete nodes;
+      size_--;
       return;
     }
     if (nodes->data_.first > nodes->parent_->data_.first)
@@ -530,6 +516,7 @@ void BSTree< Key, Value, Comparator >::erase(const Key& key)
     }
     nodes->right_->parent_ = nodes->parent_;
     delete nodes;
+    size_--;
     return;
   }
   Node* temp = nodes->right_;
@@ -565,6 +552,7 @@ void BSTree< Key, Value, Comparator >::erase(const Key& key)
     {
       root_->right_->parent_ = root_;
     }
+    size_--;
     return;
   }
   min->parent_ = nodes->parent_;
@@ -578,6 +566,7 @@ void BSTree< Key, Value, Comparator >::erase(const Key& key)
     min->parent_->left_ = min;
   }
   delete nodes;
+  size_--;
   return;
 }
 
