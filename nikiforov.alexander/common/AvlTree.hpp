@@ -369,7 +369,7 @@ public:
 
   bool operator!=(const this_t&) const;
   bool operator==(const this_t&) const;
-  
+
 private:
   ConstIterator iter;
 };
