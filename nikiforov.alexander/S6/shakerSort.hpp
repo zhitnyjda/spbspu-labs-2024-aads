@@ -1,5 +1,6 @@
 #ifndef SHAKERSORT_HPP
 #define SHAKERSORT_HPP
+#include <iterator>
 
 namespace nikiforov
 {

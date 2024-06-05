@@ -2,6 +2,7 @@
 #define MERGESORT_HPP
 #include <forward_list>
 #include <algorithm>
+#include <iterator>
 
 namespace nikiforov
 {
