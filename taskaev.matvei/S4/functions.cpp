@@ -6,10 +6,13 @@ namespace taskaev
 {
   void createTree(std::istream& in, Tree& tree)
   {
+   std::cout << "1\n";
     while (in.eof())
     {
       std::string data = "";
+      std::cout << "2\n";
       std::getline(in, data);
+      std::cout << "3\n";
       if (!data.empty())
       {
         std::string temps = "";
@@ -19,30 +22,40 @@ namespace taskaev
         BSTree< size_t, std::string > tre;
         bool flag = true;
         size_t i = 0;
+        std::cout << "4\n";
         while (i < data.length())
         {
+          std::cout << "5\n";
           if (data[i] != ' ')
           {
+            std::cout << "6\n";
             temps += data[i];
           }
           else if (data[i] == ' ' && flag == true)
           {
-          names = temps;
-          temps = "";
-          flag = false;
+            std::cout << "7\n";
+            names = temps;
+            temps = "";
+            flag = false;
           }
           else
           {
+            std::cout << "8\n";
             if (std::isdigit(temps[0]))
             {
+              std::cout << "9\n";
               key = std::stoll(temps);
+              std::cout << "10\n";
               temps = "";
             }
             else
             {
+              std::cout << "11\n";
               val = temps;
               temps = "";
+              std::cout << "12\n";
               tre.insert(key, val);
+              std::cout << "13\n";
             }
           }
           i++;
@@ -54,11 +67,13 @@ namespace taskaev
         if (!val.empty())
         {
           val = temps;
+          std::cout << "14\n";
           tre.insert(key, val);
-          std::cout << tre.size() << "\n";
+          std::cout << "15\n";
+          std::cout << "16 size: " << tre.size() << "\n";
         }
         tree.insert(names, tre);
-        std::cout << tree.size() << "\n";
+        std::cout << "17 size: " << tree.size() << "\n";
       }
     }
   }
