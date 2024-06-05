@@ -26,7 +26,7 @@ void psarev::cmdCreate(std::istream& in, std::ostream& out, std::map< std::strin
 {
   using storage_t = std::map< std::string, std::vector< std::string > >;
 
-  std::string file = "";
+  std::string file;
   in >> file;
   if (!file.empty())
   {
@@ -38,7 +38,7 @@ void psarev::cmdCreate(std::istream& in, std::ostream& out, std::map< std::strin
     fileIn.open(file);
     if (fileIn.is_open())
     {
-      std::string name = "";
+      std::string name;
       in >> name;
       if (!in)
       {
@@ -58,7 +58,7 @@ void psarev::cmdCreate(std::istream& in, std::ostream& out, std::map< std::strin
 
 void psarev::cmdChoose(std::istream& in, std::ostream& out, std::map< std::string, storage_t >& depot, std::string& storage)
 {
-  std::string chName = "";
+  std::string chName;
   in >> chName;
   if (!in)
   {
@@ -79,7 +79,7 @@ void psarev::cmdChoose(std::istream& in, std::ostream& out, std::map< std::strin
 
 void psarev::cmdDelete(std::istream& in, std::ostream& out, std::map< std::string, storage_t >& depot)
 {
-  std::string tempoS = "";
+  std::string tempoS;
   in >> tempoS;
 
   if (depot.erase(tempoS))
@@ -102,7 +102,7 @@ void psarev::cmdList(std::ostream& out, std::map< std::string, storage_t >& depo
 
 void psarev::cmdShow(std::istream& in, std::ostream& out, std::map< std::string, storage_t >& depot)
 {
-  std::string tempoS = "";
+  std::string tempoS;
   in >> tempoS;
 
   psarev::outStoreName(out, tempoS);
@@ -141,7 +141,7 @@ void psarev::cmdRename(std::istream& in, std::ostream& out, std::map< std::strin
 
 void psarev::cmdSave(std::istream& in, std::ostream& out, std::map< std::string, storage_t >& depot)
 {
-  std::string dest = "";
+  std::string dest;
   in >> dest;
   std::string makeDest = "mkdir " + dest;
 
@@ -155,7 +155,7 @@ void psarev::cmdSave(std::istream& in, std::ostream& out, std::map< std::string,
   {
     psarev::outAdmMessage(out);
 
-    std::string decis = "";
+    std::string decis;
     in >> decis;
     if (decis == "Y")
     {
@@ -173,7 +173,7 @@ void psarev::cmdPrint(std::istream& in, std::ostream& out, std::map<std::string,
 {
   using storage_t = std::map< std::string, std::vector< std::string > >;
 
-  std::string speechType = "";
+  std::string speechType;
   in >> speechType;
   if (!in)
   {
@@ -197,7 +197,7 @@ void psarev::cmdPrint(std::istream& in, std::ostream& out, std::map<std::string,
 
 void psarev::cmdFono(std::istream& in, std::ostream& out)
 {
-  std::string word = "";
+  std::string word;
   in >> word;
   if (!in)
   {
