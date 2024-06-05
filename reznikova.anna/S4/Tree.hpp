@@ -438,7 +438,7 @@ Tree< Key, Value, Comparator >::~Tree()
 template< typename Key, typename Value, typename Comparator >
 Tree< Key, Value, Comparator > & Tree< Key, Value, Comparator >::operator=(const Tree & otherTree)
 {
-  if (this == &otherTree) 
+  if (this == &otherTree)
   {
     return *this;
   }
@@ -450,7 +450,7 @@ Tree< Key, Value, Comparator > & Tree< Key, Value, Comparator >::operator=(const
 template< typename Key, typename Value, typename Comparator >
 Tree< Key, Value, Comparator > & Tree< Key, Value, Comparator >::operator=(Tree&& otherTree)
 {
-  if (this == &otherTree) 
+  if (this == &otherTree)
   {
     return *this;
   }
