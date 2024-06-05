@@ -5,10 +5,10 @@
 #include "binarySearchTree.hpp"
 #include "mainExtansion.hpp"
 
-using namespace anikanov;
-
 int main(int argc, char *argv[])
 {
+  using namespace anikanov;
+
   if (argc != 2) {
     std::cerr << "Usage: " << argv[0] << " filename" << std::endl;
     return 1;
@@ -16,7 +16,9 @@ int main(int argc, char *argv[])
 
   std::string filename = argv[1];
   std::map< std::string, BinarySearchTree< int, std::string, std::less<> > > dictionaries;
-  loadFromFile(filename, dictionaries);
+  if (!loadFromFile(filename, dictionaries)) {
+    return 1;
+  }
 
   std::string command;
   while (std::getline(std::cin, command)) {
@@ -39,7 +41,9 @@ int main(int argc, char *argv[])
         if (dictionaries.count(dictName) == 0 || dictionaries[dictName].empty()) {
           std::cout << "<EMPTY>" << std::endl;
         } else {
-          std::cout << dictName << " " << dictionaries[dictName] << "\n";
+          std::cout << dictName << " ";
+          print(std::cout, dictionaries[dictName]);
+          std::cout << "\n";
         }
       }
     } else if (cmd == "complement" || cmd == "intersect" || cmd == "union") {

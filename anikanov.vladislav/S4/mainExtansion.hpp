@@ -6,8 +6,9 @@
 #include "binarySearchTree.hpp"
 
 namespace anikanov {
-  void loadFromFile(const std::string &filename,
-                    std::map< std::string, BinarySearchTree< int, std::string, std::less<> > > &dictionaries);
+  using tree = BinarySearchTree< int, std::string, std::less<> >;
+  void print(std::ostream &os, const tree &dict);
+  bool loadFromFile(const std::string &filename, std::map< std::string, tree > &dictionaries);
 }
 
 #endif

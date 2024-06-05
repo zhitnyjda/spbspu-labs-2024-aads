@@ -6,27 +6,6 @@
 #include <string>
 #include <memory>
 #include <iosfwd>
-#include <list.hpp>
-
-namespace anikanov {
-  template< typename Key, typename Value, typename Compare >
-  class BinarySearchTree;
-}
-
-template< typename Key, typename Value, typename Compare >
-std::ostream &operator<<(std::ostream &os, const anikanov::BinarySearchTree< Key, Value, Compare > &tree)
-{
-  anikanov::List< std::pair< Key, Value > > list;
-  tree.inOrder(tree.root.get(), list);
-  for (size_t i = 0; i < list.size(); ++i) {
-    auto p = list[i];
-    os << p.first << " " << p.second;
-    if (i != list.size() - 1) {
-      os << " ";
-    }
-  }
-  return os;
-}
 
 namespace anikanov {
   template< typename Key, typename Value, typename Compare >
@@ -38,20 +17,8 @@ namespace anikanov {
       std::shared_ptr< Node > right;
       std::weak_ptr< Node > parent;
       int height;
-
-      Node(const Key &key, const Value &value, std::shared_ptr< Node > parent = nullptr) : data(key, value),
-                                                                                           left(nullptr),
-                                                                                           right(nullptr),
-                                                                                           parent(parent),
-                                                                                           height(1)
-      {}
-
-      Node(std::shared_ptr< Node > &node) : data(node->data),
-                                            left(std::move(node->left)),
-                                            right(std::move(node->right)),
-                                            parent(node->parent.lock()),
-                                            height(node->height)
-      {}
+      Node(const Key &key, const Value &value, std::shared_ptr< Node > parent = nullptr);
+      Node(std::shared_ptr< Node > &node);
     };
 
     BinarySearchTree() : root(nullptr), nodeCount(0)
@@ -59,11 +26,11 @@ namespace anikanov {
 
     ~BinarySearchTree();
     BinarySearchTree(const BinarySearchTree &other);
-    BinarySearchTree(BinarySearchTree &&other) noexcept;
+    BinarySearchTree(const BinarySearchTree &&other) noexcept;
     BinarySearchTree &operator=(const BinarySearchTree &other);
     BinarySearchTree &operator=(BinarySearchTree &&other) noexcept;
 
-    class Iterator {
+    class Iterator : public std::iterator< std::bidirectional_iterator_tag, std::pair< Key, Value > > {
     private:
       Node *current;
       Node *findNext(Node *node) const;
@@ -72,7 +39,9 @@ namespace anikanov {
       Iterator();
       explicit Iterator(Node *node);
       std::pair< Key, Value > &operator*();
+      std::pair< Key, Value > &operator*() const;
       std::pair< Key, Value > *operator->();
+      std::pair< Key, Value > *operator->() const;
       Iterator &operator++();
       Iterator operator++(int);
       Iterator &operator--();
@@ -81,7 +50,7 @@ namespace anikanov {
       bool operator!=(const Iterator &other) const;
     };
 
-    class ConstIterator {
+    class ConstIterator : public std::iterator< std::bidirectional_iterator_tag, std::pair< Key, Value > > {
     private:
       Iterator iter;
     public:
@@ -100,10 +69,10 @@ namespace anikanov {
     Value &operator[](const Key &key);
     const Value &operator[](const Key &key) const;
     void drop(const Key &key);
-    bool empty() const;
+    bool empty() const noexcept;
     size_t size() const;
     void clear();
-    void swap(BinarySearchTree &other);
+    void swap(BinarySearchTree &other) noexcept;
     ConstIterator begin() const;
     ConstIterator end() const;
     Iterator begin();
@@ -113,7 +82,6 @@ namespace anikanov {
     size_t count(const Key &key) const;
     void insert(const std::pair< Key, Value > &pair);
     void erase(const Key &key);
-    friend std::ostream &operator<<< Key, Value, Compare >(std::ostream &os,const BinarySearchTree &tree);
 
   private:
     std::shared_ptr< Node > root;
@@ -130,9 +98,29 @@ namespace anikanov {
     std::shared_ptr< Node > erase(std::shared_ptr< Node > node, const Key &key);
     Node *minValueNode(Node *node) const;
     Node *find(Node *node, const Key &key) const;
-    void inOrder(Node *node, List< std::pair< Key, Value >> &list) const;
     std::shared_ptr< Node > clone(const Node *node) const;
   };
+}
+
+template< typename Key, typename Value, typename Compare >
+anikanov::BinarySearchTree< Key, Value, Compare >::Node::Node(const Key &key, const Value &value,
+                                                              std::shared_ptr< Node > parent)
+{
+  data = std::pair< Key, Value >(key, value);
+  left = nullptr;
+  right = nullptr;
+  this->parent = parent;
+  height = 1;
+}
+
+template< typename Key, typename Value, typename Compare >
+anikanov::BinarySearchTree< Key, Value, Compare >::Node::Node(std::shared_ptr< Node > &node)
+{
+  data = node->data;
+  left = std::move(node->left);
+  right = std::move(node->right);
+  parent = node->parent.lock();
+  height = node->height;
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -152,7 +140,7 @@ anikanov::BinarySearchTree< Key, Value, Compare >::BinarySearchTree(const Binary
 }
 
 template< typename Key, typename Value, typename Compare >
-anikanov::BinarySearchTree< Key, Value, Compare >::BinarySearchTree(BinarySearchTree &&other) noexcept
+anikanov::BinarySearchTree< Key, Value, Compare >::BinarySearchTree(const BinarySearchTree &&other) noexcept
 {
   root = std::move(other.root);
   nodeCount = other.nodeCount;
@@ -215,7 +203,7 @@ void anikanov::BinarySearchTree< Key, Value, Compare >::drop(const Key &key)
 }
 
 template< typename Key, typename Value, typename Compare >
-bool anikanov::BinarySearchTree< Key, Value, Compare >::empty() const
+bool anikanov::BinarySearchTree< Key, Value, Compare >::empty() const noexcept
 {
   return nodeCount == 0;
 }
@@ -227,7 +215,7 @@ size_t anikanov::BinarySearchTree< Key, Value, Compare >::size() const
 }
 
 template< typename Key, typename Value, typename Compare >
-void anikanov::BinarySearchTree< Key, Value, Compare >::swap(BinarySearchTree &other)
+void anikanov::BinarySearchTree< Key, Value, Compare >::swap(BinarySearchTree &other) noexcept
 {
   std::swap(root, other.root);
   std::swap(nodeCount, other.nodeCount);
@@ -254,7 +242,19 @@ std::pair< Key, Value > &anikanov::BinarySearchTree< Key, Value, Compare >::Iter
 }
 
 template< typename Key, typename Value, typename Compare >
+std::pair< Key, Value > &anikanov::BinarySearchTree< Key, Value, Compare >::Iterator::operator*() const
+{
+  return current->data;
+}
+
+template< typename Key, typename Value, typename Compare >
 std::pair< Key, Value > *anikanov::BinarySearchTree< Key, Value, Compare >::Iterator::operator->()
+{
+  return &current->data;
+}
+
+template< typename Key, typename Value, typename Compare >
+std::pair< Key, Value > *anikanov::BinarySearchTree< Key, Value, Compare >::Iterator::operator->() const
 {
   return &current->data;
 }
@@ -338,16 +338,16 @@ anikanov::BinarySearchTree< Key, Value, Compare >::Iterator::findPrev(Node *node
     return nullptr;
   }
   if (node->left) {
-    node = node->left;
+    node = node->left.get();
     while (node->right) {
-      node = node->right;
+      node = node->right.get();
     }
     return node;
   }
-  while (node->parent && node->parent->left == node) {
-    node = node->parent;
+  while (node->parent.lock().get() && node->parent.lock().get()->left.get() == node) {
+    node = node->parent.lock().get();
   }
-  return node->parent;
+  return node->parent.lock().get();
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -480,7 +480,7 @@ std::pair<
 > anikanov::BinarySearchTree< Key, Value, Compare >::equalRange(const Key &key) const
 {
   auto node = root;
-  while (node->left){
+  while (node->left) {
     node = node->left;
   }
 
@@ -648,17 +648,6 @@ anikanov::BinarySearchTree< Key, Value, Compare >::find(BinarySearchTree::Node *
   if (comp(key, node->data.first)) return find(node->left.get(), key);
   if (comp(node->data.first, key)) return find(node->right.get(), key);
   return node;
-}
-
-template< typename Key, typename Value, typename Compare >
-void anikanov::BinarySearchTree< Key, Value, Compare >::inOrder(BinarySearchTree::Node *node,
-                                                                anikanov::List< std::pair< Key, Value>> &list) const
-{
-  if (node) {
-    inOrder(node->left.get(), list);
-    list.push_back(node->data);
-    inOrder(node->right.get(), list);
-  }
 }
 
 template< typename Key, typename Value, typename Compare >
