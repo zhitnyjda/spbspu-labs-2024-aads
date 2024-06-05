@@ -4,6 +4,7 @@
 #include <iostream>
 #include <iterator>
 #include <numeric>
+#include "sort.hpp"
 
 kovshikov::Graph& kovshikov::Graph::operator=(const Graph& graph)
 {
@@ -330,7 +331,7 @@ size_t kovshikov::Graph::getOwn(size_t key)
 
 size_t kovshikov::Graph::getEdges()
 {
-  std::vector< size_t > count;
+  DoubleList< size_t > count;
   std::transform(tree.begin(), tree.end(), std::back_inserter(count), getCountEdge);
   return std::accumulate(count.begin(), count.end(), 0);
 }
@@ -395,20 +396,22 @@ bool kovshikov::Graph::comp(std::pair< size_t, Node > left, std::pair< size_t, N
 void kovshikov::Graph::getMax(std::ostream& out)
 {
   using namespace std::placeholders;
-  std::vector< std::pair< size_t, Node > > tempVector(tree.begin(), tree.end());
-  std::sort(tempVector.begin(), tempVector.end(), std::bind(comp, _1, _2, *this));
+  DoubleList< std::pair< size_t, Node > > tempVector;
+  std::copy(tree.begin(), tree.end(), std::back_inserter(tempVector));
+  selectionSort(tempVector.begin(), tempVector.end(), std::bind(comp, _1, _2, *this));
   size_t max = tempVector.front().first;
-  std::vector< size_t > keys;
+  DoubleList< size_t > keys;
   std::transform(tree.begin(), tree.end(), std::back_inserter(keys), getKey);
-  std::vector< size_t > keysWithout;
+  DoubleList< size_t > keysWithout;
   std::copy_if(keys.begin(), keys.end(), std::back_inserter(keysWithout), std::bind(noThis, max, _1));
-  size_t size = keysWithout.size();
-  for(size_t i = 0; i < size; i++)
+  auto iterator = keysWithout.begin();
+  while(iterator != keysWithout.end())
   {
-    if(getDegree(max) == getDegree(keysWithout[i]))
+    if(getDegree(max) == getDegree(*iterator))
     {
-      out << keysWithout[i] << " ";
+      out << *iterator << " ";
     }
+    iterator++;
   }
   out << max << "\n";
 }

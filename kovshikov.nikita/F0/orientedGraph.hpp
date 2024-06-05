@@ -3,9 +3,7 @@
 #include <cstddef>
 #include <string>
 #include <utility>
-#include <vector>
 #include "BinarySearchTree.hpp"
-
 #include "doublelist.hpp"
 
 namespace kovshikov
