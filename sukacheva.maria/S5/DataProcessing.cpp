@@ -8,7 +8,7 @@ namespace sukacheva
   void inputTree(BinaryTree& tree, std::string& line)
   {
     std::istringstream iss(line);
-    int key;
+    long long key;
     std::string value;
     while (iss >> key >> value)
     {
@@ -63,14 +63,7 @@ namespace sukacheva
       return;
     }
     KeySum result;
-    try
-    {
-      tree.traverse_breadth(result);
-      printResult(result, out);
-    }
-    catch (const std::exception& error)
-    {
-      throw;
-    }
+    tree.traverse_breadth(result);
+    printResult(result, out);
   }
 }
