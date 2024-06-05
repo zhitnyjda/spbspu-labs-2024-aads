@@ -1,6 +1,8 @@
 #ifndef SORTS_HPP
 #define SORTS_HPP
 #include <list>
+#include <forward_list>
+#include <deque>
 #include <algorithm>
 #include <iterator>
 #include "output.hpp"
@@ -60,13 +62,42 @@ namespace zheleznyakov
   template< typename Type, typename Comparator >
   void executeSorts(std::ostream & out, size_t size, Comparator cmp)
   {
-    std::list< Type > list;
+    std::list< Type > baseList;
     for (size_t i = 0; i < size; i++)
     {
-      list.push_back(anarchy::randomDouble());
+      baseList.push_back(anarchy::randomDouble());
     }
-    sorts::insertion(list.begin(), list.end(), cmp);
-    output::iterOut(list, out);
+    output::iterOut(baseList, out);
+
+    std::list< Type > listForInsertion;
+    std::copy(baseList.begin(), baseList.end(), std::back_inserter(listForInsertion));
+    sorts::insertion(listForInsertion.begin(), listForInsertion.end(), cmp);
+    output::iterOut(listForInsertion, out);
+
+    std::list< Type > listForOddEven;
+    std::copy(baseList.begin(), baseList.end(), std::back_inserter(listForOddEven));
+    sorts::oddEven(listForOddEven.begin(), listForOddEven.end(), cmp);
+    output::iterOut(listForOddEven, out);
+
+    std::deque< Type > dequeForInsertion;
+    std::copy(baseList.begin(), baseList.end(), std::back_inserter(dequeForInsertion));
+    sorts::insertion(dequeForInsertion.begin(), dequeForInsertion.end(), cmp);
+    output::iterOut(dequeForInsertion, out);
+
+    std::deque< Type > dequeForOddEven;
+    std::copy(baseList.begin(), baseList.end(), std::back_inserter(dequeForOddEven));
+    sorts::oddEven(dequeForOddEven.begin(), dequeForOddEven.end(), cmp);
+    output::iterOut(dequeForOddEven, out);
+
+    std::deque< Type > dequeForSort;
+    std::copy(baseList.begin(), baseList.end(), std::back_inserter(dequeForSort));
+    std::sort(dequeForSort.begin(), dequeForSort.end(), cmp);
+    output::iterOut(dequeForSort, out);
+
+    std::forward_list< Type > fwdListForSort;
+    std::copy(baseList.begin(), baseList.end(), std::front_inserter(fwdListForSort));
+    fwdListForSort.sort(cmp);
+    output::iterOut(fwdListForSort, out);
   }
 }
 #endif
