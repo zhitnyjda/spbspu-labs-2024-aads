@@ -6,13 +6,13 @@ namespace taskaev
 {
   void createTree(std::istream& in, Tree& tree)
   {
-   std::cout << "1\n";
+   //std::cout << "1\n";
     while (!in.eof())
     {
       std::string data = "";
-      std::cout << "2\n";
+      //std::cout << "2\n";
       std::getline(in, data);
-      std::cout << "3\n";
+      //std::cout << "3\n";
       if (!data.empty())
       {
         std::string temps = "";
@@ -22,40 +22,40 @@ namespace taskaev
         BSTree< size_t, std::string > tre;
         bool flag = true;
         size_t i = 0;
-        std::cout << "4\n";
+        //std::cout << "4\n";
         while (i < data.length())
         {
-          std::cout << "5\n";
+          //std::cout << "5\n";
           if (data[i] != ' ')
           {
-            std::cout << "6\n";
+            //std::cout << "6\n";
             temps += data[i];
           }
           else if (data[i] == ' ' && flag == true)
           {
-            std::cout << "7\n";
+            //std::cout << "7\n";
             names = temps;
             temps = "";
             flag = false;
           }
           else
           {
-            std::cout << "8\n";
+            //std::cout << "8\n";
             if (std::isdigit(temps[0]))
             {
-              std::cout << "9\n";
+              //std::cout << "9\n";
               key = std::stoll(temps);
-              std::cout << "10\n";
+              //std::cout << "10\n";
               temps = "";
             }
             else
             {
-              std::cout << "11\n";
+              //std::cout << "11\n";
               val = temps;
               temps = "";
-              std::cout << "12\n";
+              //std::cout << "12\n";
               tre.insert(key, val);
-              std::cout << "13\n";
+              //std::cout << "13\n";
             }
           }
           i++;
@@ -67,13 +67,13 @@ namespace taskaev
         if (!val.empty())
         {
           val = temps;
-          std::cout << "14\n";
+          //std::cout << "14\n";
           tre.insert(key, val);
-          std::cout << "15\n";
-          std::cout << "16 size: " << tre.size() << "\n";
+          //std::cout << "15\n";
+          //std::cout << "16 size: " << tre.size() << "\n";
         }
         tree.insert(names, tre);
-        std::cout << "17 size: " << tree.size() << "\n";
+        //std::cout << "17 size: " << tree.size() << "\n";
       }
     }
   }
@@ -134,21 +134,21 @@ namespace taskaev
     std::string names, oneName, twoName;
     std::cin >> names >> oneName >> twoName;
     BSTree< size_t, std::string > tres;
-    std::cout << tree.size() << " " << tres.size() << "\n";
-    std::cout << "3c\n";
+    //std::cout << tree.size() << " " << tres.size() << "\n";
+    //std::cout << "3c\n";
     findComplement(tree.at(oneName), tree.at(twoName), tres);
-    std::cout << "4c\n";
+    //std::cout << "4c\n";
     findComplement(tree.at(twoName), tree.at(oneName), tres);
     tree.insert(names, tres);
   }
 
   void findComplement(SubTree& two, SubTree& one, SubTree& tree)
   {
-    std::cout << "5c\n";
+    //std::cout << "5c\n";
     for (auto it = two.begin(); it != two.end(); ++it)
     {
       bool flag = false;
-      std::cout << "6c\n";
+      //std::cout << "6c\n";
       for (auto iter = one.begin(); iter != one.end(); ++iter)
       {
         if (it->first == iter->first)
