@@ -22,19 +22,16 @@ int main(int argc, char* argv[])
     return 2;
   }
   BinaryTree tree;
-  while (!in.eof())
+  std::string line = {};
+  std::getline(in, line);
+  if (!line.empty())
   {
-    std::string line = {};
-    std::getline(in, line);
-    if (!line.empty())
-    {
-      tree = inputTree(line);
-    }
-    if (in.fail())
-    {
-      in.clear();
-      in.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
-    }
+    inputTree(tree, line);
+  }
+  if (in.fail())
+  {
+    in.clear();
+    in.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
   }
 
   BST< std::string, std::function < void(BinaryTree&, std::ostream&) > > commands;
