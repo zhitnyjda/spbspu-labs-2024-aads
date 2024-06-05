@@ -106,6 +106,7 @@ namespace taskaev
       errorEmpty(std::cout);
       return;
     }
+    std::cout << "flags 1\n";
     else
     {
       BSTree< size_t, std::string >::ConstIterator it = tres.cbegin();
@@ -220,28 +221,9 @@ namespace taskaev
 
   void unions(Tree& tree)
   {
-    //std::string names, oneName, twoName;
-    //std::cin >> names >> oneName >> twoName;
-    //BSTree<size_t, std::string> newTree = mergeTrees(tree.at(oneName), tree.at(twoName));
-    //tree.insert(names, newTree);
     std::string names, oneName, twoName;
     std::cin >> names >> oneName >> twoName;
-    BSTree<size_t, std::string> oneTree = tree.at(oneName);
-    BSTree<size_t, std::string> twoTree = tree.at(twoName);
-    // щбъединение два дерева в новое дерево
-    BSTree<size_t, std::string> newTree;
-    for (auto it = oneTree.begin(); it != oneTree.end(); ++it)
-    {
-      newTree.insert(*it);
-    }
-    for (auto it = twoTree.begin(); it != twoTree.end(); ++it)
-    {
-      if (newTree.find(it->first) == newTree.end())
-      {
-        newTree.insert(*it);
-      }
-    }
-    //тут новое дерево в общее дерево
+    BSTree<size_t, std::string> newTree = mergeTrees(tree.at(oneName), tree.at(twoName));
     tree.insert(names, newTree);
   }
 
