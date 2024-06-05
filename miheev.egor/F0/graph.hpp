@@ -9,10 +9,6 @@ namespace miheev
 {
   class Graph
   {
-  private:
-    struct Node;
-    struct Edge;
-
   public:
     Graph() = default;
 
@@ -31,8 +27,10 @@ namespace miheev
     std::string name;
     std::string filename;
   private:
+    struct Node;
     Tree< int, Node > nodes_;
 
+    struct Edge;
     struct Printer;
     struct Dextra;
   };
