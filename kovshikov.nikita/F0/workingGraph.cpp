@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <functional>
 #include <iterator>
+#include "outMessage.hpp"
 
 bool kovshikov::isDigit(char ch)
 {
@@ -63,15 +64,17 @@ void kovshikov::getDouble(Graph& graph, std::istream& is)
   size_t num2;
   size_t num3;
   is >> num1 >> num2;
+  auto outTrue = std::bind(outMessage, "TRUE", std::placeholders::_1);
+  auto outFalse = std::bind(outMessage, "FALSE", std::placeholders::_1);
   if(is.peek() == '\n')
   {
     if(graph.isDouble(num1, num2) == true)
     {
-      std::cout << "TRUE" << "\n";
+      outTrue(std::cout);
     }
     else
     {
-      std::cout << "FALSE" << "\n";
+      outFalse(std::cout);
     }
   }
   else

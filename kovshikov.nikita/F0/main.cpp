@@ -28,6 +28,7 @@ int main()
   }
 
   std::string command;
+  auto outInvalid = std::bind(outMessage, "<INVALID COMMAND>", std::placeholders::_1);
 
   while(std::cin >> command)
   {

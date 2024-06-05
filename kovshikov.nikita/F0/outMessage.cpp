@@ -29,7 +29,7 @@ void kovshikov::outDescription(std::ostream& out)
   out << "24)max - outputs the vertex with the maximum degree\n";
 }
 
-void kovshikov::outInvalid(std::ostream& out)
+void kovshikov::outMessage(std::string message, std::ostream& out)
 {
-  out << "<INVALID COMMAND>" << "\n";
+  out << message << "\n";
 }

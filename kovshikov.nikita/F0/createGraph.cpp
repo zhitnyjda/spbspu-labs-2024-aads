@@ -108,6 +108,7 @@ void kovshikov::workWith(Tree< std::string, Graph >& graphsList, std::istream& i
   std::string command;
   bool isError = false;
   bool end = false;
+  auto outInvalid = std::bind(outMessage, "<INVALID COMMAND>", std::placeholders::_1);
 
   while(end == false && is >> command)
   {
@@ -175,9 +176,10 @@ void kovshikov::outputVertexes(const Tree< std::string, Graph >& graphsList, std
 {
   std::string graphname;
   std::cin >> graphname;
+  auto outInvalid = std::bind(outMessage, "The entered graph is missing", std::placeholders::_1);
   if(graphsList.find(graphname) == graphsList.end())
   {
-    out << "The entered graph is missing" << "\n";
+    outInvalid(out);
   }
   else
   {

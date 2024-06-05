@@ -4,6 +4,7 @@
 #include <iostream>
 #include <iterator>
 #include <numeric>
+#include "outMessage.hpp"
 #include "sort.hpp"
 
 kovshikov::Graph& kovshikov::Graph::operator=(const Graph& graph)
@@ -338,9 +339,10 @@ size_t kovshikov::Graph::getEdges()
 
 void kovshikov::Graph::outGraph(std::ostream& out) const
 {
+  auto outEmpty = std::bind(outMessage, "This graph is empty", std::placeholders::_1);
   if(isEmpty())
   {
-    out << "This graph is empty" << "\n";
+    outEmpty(out);
   }
   else
   {
