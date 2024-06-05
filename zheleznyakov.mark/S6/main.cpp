@@ -47,7 +47,15 @@ int main(int argc, char *argv[])
     executors["descending"]["floats"] = std::bind(executeSorts< float, std::greater< float > >, _1, _2, std::greater< float >{});
   }
 
-  executors.at(order).at(dataType)(std::cout, count);
+  try
+  {
+    executors.at(order).at(dataType)(std::cout, count);
+  }
+  catch(const std::exception&)
+  {
+    errors::outExecution(std::cerr);
+    return 2;
+  }
 
   return 0;
 }

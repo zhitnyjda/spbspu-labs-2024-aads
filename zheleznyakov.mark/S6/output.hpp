@@ -39,6 +39,11 @@ namespace zheleznyakov
     {
       out << "Wrong size\n";
     }
+
+    void outExecution(std::ostream & out)
+    {
+      out << "Execution error occured\n";
+    }
   }
 }
 #endif
