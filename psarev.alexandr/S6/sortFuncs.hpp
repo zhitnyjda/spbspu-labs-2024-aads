@@ -23,20 +23,22 @@ void psarev::fillDepots(size_t size, List< int >& list, std::forward_list< int >
 {
   for (size_t i = 0; i < size; ++i)
   {
-    list.pushBack(rand() % 100);
-    fList.push_front(rand() % 100);
-    deque.push_back(rand() % 100);
+    list.pushFront(rand() % 100);
   }
+
+  std::copy(list.begin(), list.end(), std::front_inserter(fList));
+  std::copy(list.begin(), list.end(), std::back_inserter(deque));
 }
 
 void psarev::fillDepots(size_t size, List< double >& list, std::forward_list< double >& fList, std::deque< double >& deque)
 {
   for (size_t i = 0; i < size; ++i)
   {
-    list.pushBack(double(rand() % 1000) / double(rand() % 100));
-    fList.push_front(double(rand() % 1000) / double(rand() % 100));
-    deque.push_back(double(rand() % 1000) / double(rand() % 100));
+    list.pushFront(double(rand() % 1000) / double(rand() % 100));
   }
+
+  std::copy(list.begin(), list.end(), std::front_inserter(fList));
+  std::copy(list.begin(), list.end(), std::back_inserter(deque));
 }
 
 template< typename T >
@@ -66,15 +68,21 @@ void psarev::makeSorted(std::ostream& out, size_t size, Compare compare)
 
   fillDepots(size, list, fList, deque);
 
+  outDepot(out, fList);
   sortQ(fList.begin(), fList.end(), compare);
+  outDepot(out, fList);
 
   sortQ(list.begin(), list.end(), compare);
+  outDepot(out, list);
   sortShell(list.begin(), list.end(), compare);
   outDepot(out, list);
 
   sortQ(deque.begin(), deque.end(), compare);
+  outDepot(out, deque);
   sortShell(deque.begin(), deque.end(), compare);
+  outDepot(out, deque);
   std::sort(deque.begin(), deque.end(), compare);
+  outDepot(out, deque);
 }
 
 #endif

@@ -788,7 +788,7 @@ typename psarev::List< T >::ConstIterator psarev::List< T >::cbegin() const noex
 template< typename T >
 typename psarev::List< T >::ConstIterator psarev::List< T >::cend() const noexcept
 {
-  return ConstIterator(tail->next);
+  return nullptr;
 }
 
 template < typename T >
@@ -800,7 +800,7 @@ typename psarev::List< T >::ConstIterator psarev::List< T >::begin() const noexc
 template< typename T >
 typename psarev::List< T >::ConstIterator psarev::List< T >::end() const noexcept
 {
-  return ConstIterator(tail->next);
+  return nullptr;
 }
 
 template < typename T >
@@ -812,7 +812,7 @@ typename psarev::List< T >::Iterator psarev::List< T >::begin() noexcept
 template< typename T >
 typename psarev::List< T >::Iterator psarev::List< T >::end() noexcept
 {
-  return Iterator(tail->next);
+  return nullptr;
 }
 
 #endif
