@@ -103,15 +103,22 @@ public:
   friend class BinarySearchTree;
 
   ConstIterator(Iterator it);
-  const std::pair< Key, Value > &operator*() const;
-  const std::pair< Key, Value > *operator->() const;
   ConstIterator &operator++();
   ConstIterator operator++(int);
   ConstIterator &operator--();
   ConstIterator operator--(int);
+  const std::pair< Key, Value > &operator*() const;
+  const std::pair< Key, Value > *operator->() const;
   bool operator==(const ConstIterator &other) const;
   bool operator!=(const ConstIterator &other) const;
 };
+
+template< typename Key, typename Value, typename Compare >
+anikanov::BinarySearchTree< Key, Value, Compare >::ConstIterator::ConstIterator(
+    anikanov::BinarySearchTree< Key, Value, Compare >::Iterator it)
+{
+  iter = it;
+}
 
 template< typename Key, typename Value, typename Compare >
 anikanov::BinarySearchTree< Key, Value, Compare >::BinarySearchTree()
@@ -372,11 +379,6 @@ anikanov::BinarySearchTree< Key, Value, Compare >::Iterator::findPrev(Node *node
   }
   return node->parent.lock().get();
 }
-
-template< typename Key, typename Value, typename Compare >
-anikanov::BinarySearchTree< Key, Value, Compare >::ConstIterator::ConstIterator(
-    BinarySearchTree::Iterator it) : iter(it)
-{}
 
 template< typename Key, typename Value, typename Compare >
 const std::pair< Key, Value > &anikanov::BinarySearchTree< Key, Value, Compare >::ConstIterator::operator*() const
