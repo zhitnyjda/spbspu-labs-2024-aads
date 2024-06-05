@@ -12,22 +12,13 @@ int main(int argc, char* argv[])
     return 1;
   }
 
-  size_t size = 0;
-  size = std::stoull(argv[3]);
-  try
-  {
-    size = std::stoull(argv[3]);
-  }
-  catch (const std::invalid_argument& e)
+  if (std::isdigit(std::string(argv[3])[0]) && std::stoull(argv[3]) < 1)
   {
     psarev::outWrongParams(std::cout);
     return 1;
   }
-  if (size <= 0)
-  {
-    psarev::outWrongSize(std::cout);
-    return 2;
-  }
+
+  size_t size = std::stoull(argv[3]);
 
   std::map< std::string, std::map < std::string, std::function< void(std::ostream&, size_t) > > > sortFuncs;
   {
