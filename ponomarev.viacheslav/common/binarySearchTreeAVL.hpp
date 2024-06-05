@@ -425,14 +425,14 @@ public:
 
 private:
   Node * node_;
-  Node * curr_;
+  Node * el_;
   Stack< Node * > stack_;
 };
 
 template < typename Key, typename Value, typename Compare >
 ponomarev::BSTree< Key, Value, Compare >::LnRIterator::LnRIterator():
   node_(nullptr),
-  curr_(nullptr),
+  el_(nullptr),
   stack_(Stack< Node * >())
 {}
 
@@ -446,9 +446,9 @@ typename ponomarev::BSTree< Key, Value, Compare >::LnRIterator & ponomarev::BSTr
       stack_.push(node_);
       node_ = node_->left;
     }
-    curr_ = stack_.top();
+    el_ = stack_.top();
     stack_.pop();
-    node_ = curr_->right;
+    node_ = el_->right;
   }
   else
   {
@@ -468,35 +468,135 @@ typename ponomarev::BSTree< Key, Value, Compare >::LnRIterator ponomarev::BSTree
 template < typename Key, typename Value, typename Compare >
 value_t< Key, Value > & ponomarev::BSTree< Key, Value, Compare >::LnRIterator::operator*()
 {
-  return curr_->elem;
+  return el_->elem;
 }
 
 template < typename Key, typename Value, typename Compare >
 value_t< Key, Value > * ponomarev::BSTree< Key, Value, Compare >::LnRIterator::operator->()
 {
-  return std::addressof(curr_->elem);
+  return std::addressof(el_->elem);
 }
 
 template < typename Key, typename Value, typename Compare >
 const value_t< Key, Value > & ponomarev::BSTree< Key, Value, Compare >::LnRIterator::operator*() const
 {
-  return curr_->elem;
+  return el_->elem;
 }
 
 template < typename Key, typename Value, typename Compare >
 const value_t< Key, Value > * ponomarev::BSTree< Key, Value, Compare >::LnRIterator::operator->() const
 {
-  return std::addressof(curr_->elem);
+  return std::addressof(el_->elem);
 }
 
 template < typename Key, typename Value, typename Compare >
 bool ponomarev::BSTree< Key, Value, Compare >::LnRIterator::operator==(const this_t & rhs) const
 {
-  return curr_ == rhs.curr_;
+  return el_ == rhs.el_;
 }
 
 template < typename Key, typename Value, typename Compare >
 bool ponomarev::BSTree< Key, Value, Compare >::LnRIterator::operator!=(const this_t & rhs) const
+{
+  return !(rhs == *this);
+}
+
+template < typename Key, typename Value, typename Compare >
+class ponomarev::BSTree< Key, Value, Compare >::RnLIterator: public std::iterator< std::forward_iterator_tag, value_t >
+{
+  friend class BSTree;
+public:
+  using this_t = RnLIterator;
+  RnLIterator();
+  RnLIterator(const this_t &) = default;
+  ~RnLIterator() = default;
+
+  this_t & operator=(const this_t &) = default;
+  this_t & operator++();
+  this_t operator++(int);
+
+  value_t & operator*();
+  value_t * operator->();
+  const value_t & operator*() const;
+  const value_t * operator->() const;
+
+  bool operator!=(const this_t &) const;
+  bool operator==(const this_t &) const;
+
+private:
+  Node * node_;
+  Node * el_;
+  Stack< Node * > stack_;
+};
+
+template < typename Key, typename Value, typename Compare >
+ponomarev::BSTree< Key, Value, Compare >::RnLIterator::RnLIterator():
+  node_(nullptr),
+  el_(nullptr),
+  stack_(Stack< Node * >())
+{}
+
+template < typename Key, typename Value, typename Compare >
+typename ponomarev::BSTree< Key, Value, Compare >::RnLIterator & ponomarev::BSTree< Key, Value, Compare >::RnLIterator::operator++()
+{
+  if (node_ != nullptr || !stack_.empty())
+  {
+    while (node_ != nullptr)
+    {
+      stack_.push(node_);
+      node_ = node_->right;
+    }
+    el_ = stack_.top();
+    stack_.pop();
+    node_ = el_->left;
+  }
+  else
+  {
+    throw std::out_of_range("can't increment");
+  }
+  return *this;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename ponomarev::BSTree< Key, Value, Compare >::RnLIterator ponomarev::BSTree< Key, Value, Compare >::RnLIterator::operator++(int)
+{
+  RnLIterator result(*this);
+  ++(*this);
+  return result;
+}
+
+template < typename Key, typename Value, typename Compare >
+value_t< Key, Value > & ponomarev::BSTree< Key, Value, Compare >::RnLIterator::operator*()
+{
+  return el_->elem;
+}
+
+template < typename Key, typename Value, typename Compare >
+value_t< Key, Value > * ponomarev::BSTree< Key, Value, Compare >::RnLIterator::operator->()
+{
+  return std::addressof(el_->elem);
+}
+
+template < typename Key, typename Value, typename Compare >
+const value_t< Key, Value > & ponomarev::BSTree< Key, Value, Compare >::RnLIterator::operator*() const
+{
+  return el_->elem;
+}
+
+template < typename Key, typename Value, typename Compare >
+const value_t< Key, Value > * ponomarev::BSTree< Key, Value, Compare >::RnLIterator::operator->() const
+{
+  return std::addressof(el_->elem);
+}
+
+template < typename Key, typename Value, typename Compare >
+bool ponomarev::BSTree< Key, Value, Compare >::RnLIterator::operator==(const this_t & rhs) const
+{
+  return el_ == rhs.el_;
+}
+
+template < typename Key, typename Value, typename Compare >
+bool ponomarev::BSTree< Key, Value, Compare >::RnLIterator::operator!=(const this_t & rhs) const
 {
   return !(rhs == *this);
 }
