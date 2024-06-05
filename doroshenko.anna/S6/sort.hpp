@@ -64,7 +64,7 @@ void doroshenko::printCont(std::ostream& out, const T& container)
   it++;
   while (it != container.end())
   {
-    out << std::fixed << std::setprecision(1) << ' ' << *it;
+    out << ' ' << *it;
     it++;
   }
   out << "\n";
