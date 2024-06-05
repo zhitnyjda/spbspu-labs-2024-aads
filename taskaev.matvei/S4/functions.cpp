@@ -144,19 +144,19 @@ namespace taskaev
 
   void findComplement(SubTree& two, SubTree& one, SubTree& tree)
   {
-    if (two.empty())
-    {
+   // if (two.empty())
+   // {
+     // for (auto it = one.begin(); it != one.end(); ++it)
+     // {
+       // tree.insert(*it);
+     // }
+    //}
+   // else
+   // {
       for (auto it = one.begin(); it != one.end(); ++it)
       {
-        tree.insert(*it);
-      }
-    }
-    else
-    {
-      for (auto it = two.begin(); it != two.end(); ++it)
-      {
         bool flag = false;
-        for (auto iter = one.begin(); iter != one.end(); ++iter)
+        for (auto iter = two.begin(); iter != two.end(); ++iter)
         {
           if (it->first == iter->first)
           {
@@ -169,7 +169,7 @@ namespace taskaev
           tree.insert(*it);
         }
       }
-    }
+   // }
   }
 
   void intersect(Tree& tree)
