@@ -1,13 +1,12 @@
 #ifndef USER_CMDS_HPP
 #define USER_CMDS_HPP
-#include "internalFuncs.hpp"
 #include <iostream>
 #include <fstream>
-#include "../common/avlTree.hpp"
+#include "internalFuncs.hpp"
 
 namespace psarev
 {
-  using storage_t = std::map< std::string, std::vector< std::string > >;
+  using storage_t = std::map< std::string, List< std::string > >;
 
   void cmdHelp(std::istream& in, std::ostream& out);
   void cmdCreate(std::istream& in, std::ostream& out, std::map< std::string, storage_t >& depot, std::string dest);

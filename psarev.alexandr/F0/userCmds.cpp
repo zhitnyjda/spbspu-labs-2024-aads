@@ -1,5 +1,4 @@
 #include "userCmds.hpp"
-#include "internalFuncs.hpp"
 #include <stdexcept>
 #include <functional>
 

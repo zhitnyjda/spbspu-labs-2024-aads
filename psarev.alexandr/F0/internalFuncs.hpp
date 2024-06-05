@@ -6,10 +6,11 @@
 #include <string>
 #include <vector>
 #include "../common/list.hpp"
+#include "../common/avlTree.hpp"
 
 namespace psarev
 {
-  using storage_t = std::map< std::string, std::vector< std::string > >;
+  using storage_t = std::map< std::string, List< std::string > >;
 
   std::ostream& outInvCommand(std::ostream& out);
   std::ostream& outEmptyFile(std::ostream& out);
@@ -29,7 +30,7 @@ namespace psarev
   bool checkLiter(const std::string& word);
 
   std::string getSpType(std::string& word);
-  bool checkType(std::string& word, size_t& endSize, std::vector< std::string >& ends);
+  bool checkType(std::string& word, size_t& endSize, List< std::string >& ends);
 
   void outDepot(std::string dest, std::ofstream& out, std::map< std::string, storage_t >& depot);
 
