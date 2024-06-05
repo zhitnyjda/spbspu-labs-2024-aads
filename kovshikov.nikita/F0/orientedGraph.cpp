@@ -6,6 +6,29 @@
 #include <numeric>
 #include <vector>
 
+kovshikov::Graph& kovshikov::Graph::operator=(const Graph& graph)
+{
+  auto current = graph.tree.begin();
+  while(current != graph.tree.end())
+  {
+    tree.insert(*current); //добавление по итератору
+    current++;
+  }
+  return *this;
+}
+
+kovshikov::Graph::Node& kovshikov::Graph::Node::operator=(const Node& node)
+{
+  auto current = node.edges.begin();
+  while(current != node.edges.end())
+  {
+    edges.insert(*current); //добавление по итератору
+    current++;
+  }
+  value = node.value;
+  return *this;
+}
+
 void kovshikov::Graph::haveThisVertex(size_t key)
 {
   if(tree.find(key) == tree.end())
@@ -75,6 +98,7 @@ size_t kovshikov::getWeightEdge(std::pair< size_t, size_t > edge)
 
 void kovshikov::Graph::addVertex(size_t key, std::string str)
 {
+ // tree.insert(key, Node(str));
   tree[key] = Node(str);
 }
 

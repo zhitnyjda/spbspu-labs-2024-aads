@@ -6,6 +6,8 @@
 #include <utility>
 #include <vector>
 
+#include "BinarySearchTree.hpp"
+
 namespace kovshikov
 {
   class Graph
@@ -13,7 +15,7 @@ namespace kovshikov
   public:
     Graph() = default;
     Graph(const Graph& graph) = default;
-    Graph& operator=(const Graph& graph) = default;
+    Graph& operator=(const Graph& graph);
     ~Graph() = default;
 
     class Node;
@@ -53,7 +55,7 @@ namespace kovshikov
     static bool comp(std::pair< size_t, Node > left, std::pair< size_t, Node > right, Graph& graph);
 
   private:
-    std::map< size_t, Node > tree;
+    Tree< size_t, Node > tree;
   };
 
   bool noThis(size_t whoKey, size_t randomKey);
@@ -71,10 +73,10 @@ public:
   Node() = default;
   Node(std::string str): value(str) {};
   Node(const Node& node) = default;
-  Node& operator=(const Node& node) = default;
+  Node& operator=(const Node& node);
   ~Node() = default;
 private:
-  std::map< size_t, size_t> edges;
+  Tree< size_t, size_t> edges;
   std::string value;
 };
 

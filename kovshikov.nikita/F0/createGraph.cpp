@@ -7,7 +7,9 @@
 #include <sstream>
 #include <vector>
 
-void kovshikov::createGraph(std::map< std::string, Graph >& graphsList, std::istream& is)
+#include "BinarySearchTree.hpp"
+
+void kovshikov::createGraph(Tree< std::string, Graph >& graphsList, std::istream& is)
 {
   std::string parameter;
   is >> parameter;
@@ -39,7 +41,7 @@ void kovshikov::createGraph(std::map< std::string, Graph >& graphsList, std::ist
   }
 }
 
-void kovshikov::createLonely(std::map< std::string, Graph >& graphsList, std::istream& is)
+void kovshikov::createLonely(Tree< std::string, Graph >& graphsList, std::istream& is)
 {
   std::string graphname;
   is >> graphname;
@@ -61,7 +63,7 @@ void kovshikov::createLonely(std::map< std::string, Graph >& graphsList, std::is
   }
 }
 
-void kovshikov::deleteGraph(std::map< std::string, Graph >& graphsList, std::istream& is)
+void kovshikov::deleteGraph(Tree< std::string, Graph >& graphsList, std::istream& is)
 {
   std::string key;
   is >> key;
@@ -75,7 +77,7 @@ void kovshikov::deleteGraph(std::map< std::string, Graph >& graphsList, std::ist
   }
 }
 
-void kovshikov::workWith(std::map< std::string, Graph >& graphsList, std::istream& is)
+void kovshikov::workWith(Tree< std::string, Graph >& graphsList, std::istream& is)
 {
   std::string key;
   is >> key;
@@ -84,7 +86,7 @@ void kovshikov::workWith(std::map< std::string, Graph >& graphsList, std::istrea
     throw std::logic_error("This graph is not there");
   }
 
-  std::map< std::string, std::function< void(Graph& graph, std::istream& is) > > working;
+  Tree< std::string, std::function< void(Graph& graph, std::istream& is) > > working;
   {
     using namespace std::placeholders;
     working["add"] = std::bind(add, _1, _2);
@@ -97,7 +99,7 @@ void kovshikov::workWith(std::map< std::string, Graph >& graphsList, std::istrea
     working["change"] = std::bind(change, _1, _2);
   }
 
-  std::map< std::string, std::function< void(Graph& graph, std::ostream& out) > > outInThisGraph;
+  Tree< std::string, std::function< void(Graph& graph, std::ostream& out) > > outInThisGraph;
   {
     using namespace std::placeholders;
     outInThisGraph["vertex"] = std::bind(getCountVertex, _1, _2);
@@ -162,7 +164,7 @@ void kovshikov::workWith(std::map< std::string, Graph >& graphsList, std::istrea
   }
 }
 
-void kovshikov::outputGraphs(const std::map< std::string, Graph >& graphsList, std::ostream& out)
+void kovshikov::outputGraphs(const Tree< std::string, Graph >& graphsList, std::ostream& out)
 {
   std::vector< std::string > graphnames;
   std::transform(graphsList.begin(), graphsList.end(), std::back_inserter(graphnames), getGraphname);
@@ -171,7 +173,7 @@ void kovshikov::outputGraphs(const std::map< std::string, Graph >& graphsList, s
   out << "\n";
 }
 
-void kovshikov::outputVertexes(const std::map< std::string, Graph >& graphsList, std::ostream& out)
+void kovshikov::outputVertexes(const Tree< std::string, Graph >& graphsList, std::ostream& out)
 {
   std::string graphname;
   std::cin >> graphname;

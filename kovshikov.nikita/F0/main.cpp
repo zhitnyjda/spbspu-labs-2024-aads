@@ -6,11 +6,13 @@
 #include "orientedGraph.hpp"
 #include "outMessage.hpp"
 
+#include "BinarySearchTree.hpp"
+
 int main()
 {
   using namespace kovshikov;
-  std::map< std::string, Graph> graphsList;
-  std::map< std::string, std::function< void(std::map< std::string, Graph >&, std::istream&) > > interaction;
+  Tree< std::string, Graph> graphsList;
+  Tree< std::string, std::function< void(Tree< std::string, Graph >&, std::istream&) > > interaction;
 
   {
     using namespace std::placeholders;
@@ -20,7 +22,7 @@ int main()
     interaction["work"] = std::bind(workWith, _1, _2);
   }
 
-  std::map< std::string, std::function< void(const std::map< std::string, Graph >&, std::ostream&) > > outGraph;
+  Tree< std::string, std::function< void(const Tree< std::string, Graph >&, std::ostream&) > > outGraph;
 
   {
     using namespace std::placeholders;
