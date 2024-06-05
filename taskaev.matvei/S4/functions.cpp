@@ -55,8 +55,10 @@ namespace taskaev
         {
           val = temps;
           tre.insert(key, val);
+          std::cout << tre.size() << "\n";
         }
         tree.insert(names, tre);
+        std::cout << tree.size() << "\n";
       }
     }
   }
