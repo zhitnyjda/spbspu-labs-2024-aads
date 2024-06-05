@@ -28,7 +28,7 @@ namespace anikanov {
     BinarySearchTree(const BinarySearchTree &other);
     BinarySearchTree(const BinarySearchTree &&other) noexcept;
     BinarySearchTree &operator=(const BinarySearchTree &other);
-    BinarySearchTree &operator=(BinarySearchTree &&other) noexcept;
+    BinarySearchTree &operator=(const BinarySearchTree &&other) noexcept;
 
     class Iterator : public std::iterator< std::bidirectional_iterator_tag, std::pair< Key, Value > > {
     private:
@@ -163,7 +163,7 @@ anikanov::BinarySearchTree< Key, Value, Compare >::operator=(const BinarySearchT
 
 template< typename Key, typename Value, typename Compare >
 anikanov::BinarySearchTree< Key, Value, Compare > &
-anikanov::BinarySearchTree< Key, Value, Compare >::operator=(BinarySearchTree &&other) noexcept
+anikanov::BinarySearchTree< Key, Value, Compare >::operator=(const BinarySearchTree &&other) noexcept
 {
   if (this == &other) {
     return *this;
@@ -171,7 +171,6 @@ anikanov::BinarySearchTree< Key, Value, Compare >::operator=(BinarySearchTree &&
   root = std::move(other.root);
   nodeCount = other.nodeCount;
   comp = std::move(other.comp);
-  other.nodeCount = 0;
   return *this;
 }
 
