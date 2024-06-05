@@ -512,9 +512,9 @@ F Tree< Key, Value, Comparator >::traverse_rnl(F f) const
 
 template<typename Key, typename Value, typename Comparator>
 template<typename F>
-F Tree<Key, Value, Comparator>::traverse_breadth(F f) const 
+F Tree<Key, Value, Comparator>::traverse_breadth(F f) const
 {
-  if (root_ == nullptr) 
+  if (root_ == nullptr)
   {
     return f;
   }
@@ -529,7 +529,7 @@ F Tree<Key, Value, Comparator>::traverse_breadth(F f) const
     {
       queue.push(current->left_);
     }
-    if (current->right_ != nullptr) 
+    if (current->right_ != nullptr)
     {
       queue.push(current->right_);
     }
