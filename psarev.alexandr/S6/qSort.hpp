@@ -19,7 +19,8 @@ void psarev::sortQ(Iter begin, Iter end, Compare compare) {
   Iter pivot = psarev::partition(begin, end, compare);
   sortQ(begin, pivot, compare);
 
-  if (pivot != end) {
+  if (pivot != end)
+  {
     sortQ(std::next(pivot), end, compare);
   }
 }
@@ -30,8 +31,10 @@ Iter psarev::partition(Iter begin, Iter end, Compare compare) {
   Iter pivotPos = begin;
   Iter iter = std::next(begin);
 
-  for (; iter != end; ++iter) {
-    if (compare(*iter, pivotValue)) {
+  for (; iter != end; ++iter)
+  {
+    if (compare(*iter, pivotValue))
+    {
       pivotPos = std::next(pivotPos);
       std::iter_swap(iter, pivotPos);
     }

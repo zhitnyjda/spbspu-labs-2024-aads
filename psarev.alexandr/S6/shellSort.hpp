@@ -7,27 +7,23 @@ namespace psarev
   void sortShell(Iter begin, Iter end, Compare compare);
 }
 
-template < typename Iter, typename Compare >
-void psarev::sortShell(Iter begin, Iter end, Compare compare)
-{
-  //long long dist = std::distance(begin, end);
-  //long long gap = 1;
-  //while (gap < dist / 2)
-  //{
-  //  gap = 2 * gap + 1;
-  //}
-  //while (gap > 0)
-  //{
-  //  for (auto i = std::next(begin, gap); i != end; i++)
-  //  {
-  //    for (auto j = i;
-  //      std::distance(begin, j) >= gap && compare(*j, *std::prev(j, gap)); j = std::prev(j, gap))
-  //    {
-  //      std::iter_swap(j, std::prev(j, gap));
-  //    }
-  //  }
-  //  gap /= 2;
-  //}
+template< typename Iter, typename Compare >
+void psarev::sortShell(Iter begin, Iter end, Compare compare) {
+  auto distance = std::distance(begin, end);
+
+  for (size_t space = distance / 2; space > 0; space /= 2)
+  {
+    for (Iter i = std::next(begin, space); i != end; ++i)
+    {
+      auto tempo = *i;
+      Iter j;
+      for (j = i; j >= std::next(begin, space) && compare(tempo, *std::prev(j, space)); j = std::prev(j, space))
+      {
+        *j = *std::prev(j, space);
+      }
+      *j = tempo;
+    }
+  }
 }
 
 #endif
