@@ -5,17 +5,17 @@
 #include <limits>
 #include <fstream>
 #include <scopeguard.hpp>
-#include "IOFunctions.hpp"
 #include <list.hpp>
+#include "IOFunctions.hpp"
 
-std::ostream& miheev::commands::node(std::ostream& out, std::istream& in, miheev::Workspace& workspace)
+std::ostream& miheev::commands::node(std::ostream& out, std::istream& in, Workspace& workspace)
 {
   std::string action = "";
   int node = -1;
   in >> action >> node;
   if (node < 0)
   {
-    throw std::invalid_argument("[ERROR]: nodes can't be negative");
+    throw std::invalid_argument("[ERROR] nodes can't be negative");
   }
   if (action == "add")
   {
@@ -27,12 +27,12 @@ std::ostream& miheev::commands::node(std::ostream& out, std::istream& in, miheev
   }
   else
   {
-    throw std::invalid_argument("command node don't have such parameters");
+    throw std::invalid_argument("[ERROR] command node don't have such parameters");
   }
   return out;
 }
 
-std::ostream& miheev::commands::edge(std::ostream& out, std::istream& in, miheev::Workspace& workspace)
+std::ostream& miheev::commands::edge(std::ostream& out, std::istream& in, Workspace& workspace)
 {
   std::string action = "";
   int lnode = -1, rnode = -1;
@@ -118,7 +118,7 @@ void closeGraphWithoutSaving(std::istream& in, std::ostream& out, miheev::Worksp
   miheev::sendMessage(out, "[INFO] graph \"" + arg + "\" was deleted");
 }
 
-std::ostream& miheev::commands::graph(std::ostream& out, std::istream& in, miheev::Workspace& workspace)
+std::ostream& miheev::commands::graph(std::ostream& out, std::istream& in, Workspace& workspace)
 {
   std::string arg = "";
   in >> arg;
@@ -152,19 +152,19 @@ void printPath(std::ostream& out, const miheev::Graph::Path& path)
   out << '\n' << "Path length is: " << path.lenght << '\n';
 }
 
-std::ostream& miheev::commands::navigate(std::ostream& out, std::istream& in, const miheev::Workspace& workspace)
+std::ostream& miheev::commands::navigate(std::ostream& out, std::istream& in, const Workspace& workspace)
 {
   int lnode = -1, rnode = -1;
   in >> lnode >> rnode;
-  miheev::Graph::Path path = workspace.current.navigate(lnode, rnode);
+  Graph::Path path = workspace.current.navigate(lnode, rnode);
   printPath(out, path);
   return out;
 }
 
-std::ostream& miheev::commands::list(std::ostream& out, std::istream&, const miheev::Workspace& workspace)
+std::ostream& miheev::commands::list(std::ostream& out, std::istream&, const Workspace& workspace)
 {
-  miheev::List< std::string > names;
-  miheev::getGraphsNames(workspace, names);
+  List< std::string > names;
+  getGraphsNames(workspace, names);
   std::copy(
     names.begin(),
     names.end(),
@@ -173,7 +173,7 @@ std::ostream& miheev::commands::list(std::ostream& out, std::istream&, const mih
   return out;
 }
 
-std::ostream& miheev::commands::jump(std::ostream& out, std::istream& in, miheev::Workspace& workspace)
+std::ostream& miheev::commands::jump(std::ostream& out, std::istream& in, Workspace& workspace)
 {
   std::string name = "";
   std::getline(in >> std::ws, name);
@@ -182,7 +182,7 @@ std::ostream& miheev::commands::jump(std::ostream& out, std::istream& in, miheev
   return out;
 }
 
-std::ostream& miheev::commands::print(std::ostream& out, std::istream& in, const miheev::Workspace& workspace)
+std::ostream& miheev::commands::print(std::ostream& out, std::istream& in, const Workspace& workspace)
 {
   std::string arg = "";
   in >> arg;
@@ -201,7 +201,7 @@ std::ostream& miheev::commands::print(std::ostream& out, std::istream& in, const
   return out;
 }
 
-std::ostream& miheev::commands::save(std::ostream& out, std::istream& in, const miheev::Workspace& workspace)
+std::ostream& miheev::commands::save(std::ostream& out, std::istream& in, const Workspace& workspace)
 {
   std::string arg = "";
   in >> arg;
@@ -221,7 +221,7 @@ std::ostream& miheev::commands::save(std::ostream& out, std::istream& in, const 
   return sendMessage(out, "[INFO] graph \"" + workspace.current.name + "\" saved succesfully");
 }
 
-std::ostream& miheev::commands::help(std::ostream& out, std::istream&, const miheev::Workspace&)
+std::ostream& miheev::commands::help(std::ostream& out, std::istream&, const Workspace&)
 {
   out << "help - prints listing of all commands with some clarifications\n" << '\n';
   out << "navigate < a > < b > - searches for the shortest path between nodes < a > and < b >. ";
@@ -244,7 +244,7 @@ std::ostream& miheev::commands::help(std::ostream& out, std::istream&, const mih
   out << "quit - close all graphs without saving\n";
   return out;
 }
-std::ostream& miheev::commands::quit(std::ostream& out, std::istream&, miheev::Workspace& workspace)
+std::ostream& miheev::commands::quit(std::ostream& out, std::istream&, Workspace& workspace)
 {
   workspace.isActive = false;
   return out;

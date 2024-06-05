@@ -40,14 +40,14 @@ namespace miheev
   struct Graph::Path
   {
     size_t lenght;
-    miheev::List< int > path;
+    List< int > path;
   };
 
   struct Graph::Printer
   {
     std::ostream& printUniqueEdges(const Node&, std::ostream&);
     bool hasUniqueEdges(const Node&) const;
-    miheev::List< int > visitedNodes;
+    List< int > visitedNodes;
   };
 
   struct Graph::Dextra
@@ -59,12 +59,12 @@ namespace miheev
     void calcMinTimeToEach();
     int getNodeWithMinimumTimeToIt();
     void recalculateTimeToNeighboursOfTheNode(const Node&);
-    miheev::List< int > findShortestPath(int start, int finish);
+    List< int > findShortestPath(int start, int finish);
 
     void updateNodeState(int node, size_t timeToNode, int parrentNode = -1);
 
     const Graph& graph;
-    miheev::List< int > unprocessedNodes;
+    List< int > unprocessedNodes;
     Tree <int, int> nodesParrents;
     Tree< int, size_t > timeToNodes;
   };
@@ -85,7 +85,7 @@ namespace miheev
   struct Graph::Node
   {
     int name;
-    miheev::List< Edge > edges;
+    List< Edge > edges;
     Tree< int, Edge > backLinks;
   };
   std::istream& operator>>(std::istream&, Graph&);

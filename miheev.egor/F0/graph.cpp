@@ -266,9 +266,9 @@ bool isNewLine(std::istream& in)
   return peek == '\n';
 }
 
-std::istream& miheev::operator>>(std::istream& in, miheev::Graph& graph)
+std::istream& miheev::operator>>(std::istream& in, Graph& graph)
 {
-  using del = miheev::DelimiterIO;
+  using del = DelimiterIO;
 
   int lnode = -1, rnode = -1;
   size_t weight;

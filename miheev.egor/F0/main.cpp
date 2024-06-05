@@ -5,6 +5,7 @@
 #include "workspace.hpp"
 #include "commands.hpp"
 #include "IOFunctions.hpp"
+#include "messages.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -53,7 +54,7 @@ int main(int argc, char* argv[])
     }
     catch (const std::out_of_range& e)
     {
-      sendMessage(std::cerr, "[ERROR] invalid command");
+      errorWrapper(std::cerr, messages::sendInvalidCommand);
       sendMessage(std::cerr, e.what());
       std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
     }
@@ -64,6 +65,6 @@ int main(int argc, char* argv[])
     }
   }
 
-  miheev::sendMessage(std::cout, "[EXIT] Goodbye!");
+  exitWrapper(std::cout, messages::sendGoodbye);
   return 0;
 }

@@ -30,7 +30,7 @@ bool nameIsNotUnique(const std::string& name, const miheev::Workspace& workspace
   }
 }
 
-void miheev::getGraphsNames(const miheev::Workspace& workspace, miheev::List< std::string >& accumulator)
+void miheev::getGraphsNames(const Workspace& workspace, List< std::string >& accumulator)
 {
   std::transform(workspace.graphs.cbegin(), workspace.graphs.cend(), std::back_inserter(accumulator), getName);
 }
@@ -72,7 +72,7 @@ void miheev::initWorkspace(int argc, char* argv[], miheev::Workspace& workspace)
   }
 }
 
-void miheev::readGraph(const std::string& filename, miheev::Graph& container)
+void miheev::readGraph(const std::string& filename, Graph& container)
 {
   std::ifstream in(filename);
   if(!in)
