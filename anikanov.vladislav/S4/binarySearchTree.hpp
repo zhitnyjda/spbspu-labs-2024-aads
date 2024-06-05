@@ -102,13 +102,15 @@ private:
 public:
   friend class BinarySearchTree;
 
+  using kvPair = std::pair< Key, Value >;
+
   ConstIterator(Iterator it);
   ConstIterator &operator++();
   ConstIterator operator++(int);
   ConstIterator &operator--();
   ConstIterator operator--(int);
-  const std::pair< Key, Value > &operator*() const;
-  const std::pair< Key, Value > *operator->() const;
+  const kvPair &operator*() const;
+  const kvPair *operator->() const;
   bool operator==(const ConstIterator &other) const;
   bool operator!=(const ConstIterator &other) const;
 };
