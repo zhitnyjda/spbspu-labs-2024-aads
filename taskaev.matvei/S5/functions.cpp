@@ -54,7 +54,14 @@ namespace taskaev
           }
           if (flag == true)
           {
-            key = std::stoi(temps);
+            try
+            {
+              key = std::stoi(temps);
+            }
+            catch (const std::out_of_range& e)
+            {
+              throw std::out_of_range("Error: VAlGRIND\n");
+            }
             temps = "";
           }
           else
