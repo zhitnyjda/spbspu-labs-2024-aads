@@ -194,17 +194,19 @@ namespace sukacheva
       return f;
     }
     Queue< TreeNode* > queue;
-    f(root->data);
-    size_t height = getHeight(root);
-    for (size_t i = 1; i <= height; i++)
+    queue.push(root);
+    while (!queue.empty())
     {
-      BST< Key, Value, Compare >::Iterator it;
-      for (it = begin(); it != end(); it++)
+      TreeNode* applicant = queue.front();
+      queue.pop();
+      f(applicant->data);
+      if (applicant->left)
       {
-        if (getHeight(it.node) == i)
-        {
-          f(it.operator*());
-        }
+        queue.push(applicant->left);
+      }
+      if (applicant->right)
+      {
+        queue.push(applicant->right);
       }
     }
     return f;
@@ -257,13 +259,9 @@ namespace sukacheva
   template< typename Key, typename Value, typename Compare >
   BST< Key, Value, Compare >::BST(const BST& other) noexcept
   {
-    root = nullptr;
-    cmp = other.cmp;
-    ConstIterator it = other.cbegin();
-    while (it != cend())
+    if (other.root)
     {
-      insert(it->first, it->second);
-      it++;
+      root = copy(other.root);
     }
   }
 
