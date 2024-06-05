@@ -203,7 +203,15 @@ namespace taskaev
         tres.insert(*it);
       }
     }
-    tree.insert(names, tres);
+    if (names != oneName)
+    {
+      tree.insert(names, tres);
+    }
+    else
+    {
+      tree.erase(oneName);
+      tree.insert(names, tres);
+    }
   }
 
   SubTree mergeTrees(SubTree& treeOne, SubTree& treeTwo)
@@ -239,7 +247,15 @@ namespace taskaev
     std::string names, oneName, twoName;
     std::cin >> names >> oneName >> twoName;
     BSTree<size_t, std::string> newTree = mergeTrees(tree.at(oneName), tree.at(twoName));
-    tree.insert(names, newTree);
+    if (names != oneName)
+    {
+      tree.insert(names, tres);
+    }
+    else
+    {
+      tree.erase(oneName);
+      tree.insert(names, tres);
+    }
   }
 
   void errorInvalid(std::ostream& out)
