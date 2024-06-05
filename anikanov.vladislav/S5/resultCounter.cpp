@@ -32,7 +32,7 @@ long long anikanov::ResultCounter::getResult() const
 std::string anikanov::ResultCounter::getValues() const
 {
   std::string ans;
-  Queue<std::string> tempQueue = values;
+  Queue< std::string > tempQueue = values;
   while (!tempQueue.isEmpty()) {
     ans += tempQueue.front();
     tempQueue.pop();

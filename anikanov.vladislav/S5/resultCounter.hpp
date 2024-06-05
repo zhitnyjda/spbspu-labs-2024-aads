@@ -15,8 +15,8 @@ namespace anikanov {
     void operator()(const std::pair< int, std::string > &key_value);
     long long getResult() const;
     std::string getValues() const;
-    Queue<std::string> values;
   private:
+    Queue< std::string > values;
     long long result;
   };
 }
