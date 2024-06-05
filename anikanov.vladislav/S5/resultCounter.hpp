@@ -3,6 +3,7 @@
 
 #include <map>
 #include <string>
+#include <Queue.hpp>
 
 namespace anikanov {
   class ResultCounter {
@@ -13,8 +14,8 @@ namespace anikanov {
     int getResult() const;
     std::string getValues() const;
   private:
-    int result;
-    std::string values;
+    long long result;
+    Queue < std::string > values;
   };
 }
 

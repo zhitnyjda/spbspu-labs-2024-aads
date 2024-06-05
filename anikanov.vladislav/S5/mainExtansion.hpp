@@ -10,6 +10,7 @@ namespace anikanov {
   void printInvalidUsage(std::ostream &os, char *argv[]);
   void printInvalidMode(std::ostream &os);
   void printEmpty(std::ostream &os);
+  void printError(std::ostream &os, const std::string &error);
 }
 
 #endif

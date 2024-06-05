@@ -26,14 +26,19 @@ int main(int argc, char *argv[])
 
   ResultCounter result;
 
-  if (mode == "ascending") {
-    result = bst.traverse_lnr(result);
-  } else if (mode == "descending") {
-    result = bst.traverse_rnl(result);
-  } else if (mode == "breadth") {
-    result = bst.traverse_breadth(result);
-  } else {
-    printInvalidMode(std::cerr);
+  try {
+    if (mode == "ascending") {
+      result = bst.traverse_lnr(result);
+    } else if (mode == "descending") {
+      result = bst.traverse_rnl(result);
+    } else if (mode == "breadth") {
+      result = bst.traverse_breadth(result);
+    } else {
+      printInvalidMode(std::cerr);
+      return 1;
+    }
+  } catch (const std::runtime_error &e) {
+    printError(std::cerr, e.what());
     return 1;
   }
 

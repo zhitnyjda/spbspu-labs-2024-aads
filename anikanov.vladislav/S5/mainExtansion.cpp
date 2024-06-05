@@ -33,3 +33,8 @@ void anikanov::printEmpty(std::ostream &os)
 {
   os << "<EMPTY>\n";
 }
+
+void anikanov::printError(std::ostream &os, const std::string &error)
+{
+  os << error << "\n";
+}
