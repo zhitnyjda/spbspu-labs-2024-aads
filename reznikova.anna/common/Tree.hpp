@@ -481,7 +481,7 @@ F Tree< Key, Value, Comparator >::traverse_lnr(F f) const
       stack.push(current);
       current = current->left_;
     }
-    current = stack.top();
+    current = stack.getValue();
     stack.pop();
     f(current->value_pair_);
     current = current->right_;
@@ -502,7 +502,7 @@ F Tree< Key, Value, Comparator >::traverse_rnl(F f) const
       queue.push(current);
       current = current->right_;
     }
-    current = queue.front();
+    current = queue.getValue();
     queue.pop();
     f(current->value_pair_);
     current = current->left_;
@@ -522,7 +522,7 @@ F Tree<Key, Value, Comparator>::traverse_breadth(F f) const
   queue.push(root_);
   while (!queue.empty())
   {
-    Node * current = queue.front();
+    Node * current = queue.getValue();
     queue.pop();
     f(current->value_pair_);
     if (current->left_ != nullptr)

@@ -1,3 +1,4 @@
+#include <functional>
 #include <iostream>
 #include <fstream>
 #include <Tree.hpp>

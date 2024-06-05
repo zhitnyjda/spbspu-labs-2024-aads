@@ -2,7 +2,7 @@
 #define TRAVERSEOBJECT_HPP
 
 #include <utility>
-#include <numeric>
+#include <limits>
 #include <Queue.hpp>
 
 namespace reznikova

@@ -37,7 +37,7 @@ template< typename T >
 reznikova::Queue< T >::Queue(Queue && other):
   data_(other.data_)
 {
-    other.data_.clean();
+    other.data_.clear();
 }
 
 template< typename T >
