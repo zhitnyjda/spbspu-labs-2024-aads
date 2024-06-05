@@ -15,8 +15,7 @@ void anikanov::ResultCounter::operator()(const std::pair< int, std::string > &ke
 
   if (isOverflow) {
     throw std::overflow_error("Key sum overflow!");
-  }
-  else if (isUndeflow) {
+  } else if (isUndeflow) {
     throw std::underflow_error("Key sum undeflow!");
   }
   result += key_value.first;
@@ -30,8 +29,12 @@ int anikanov::ResultCounter::getResult() const
 
 std::string anikanov::ResultCounter::getValues() const
 {
-  if (!values.empty()) {
-    return values.substr(0, values.size() - 1);
+  std::string ans = "";
+  for (size_t i = 0; i < values.getSize(); ++i) {
+    ans += values[i];
+    if (i != values.getSize() - 1) {
+      ans += " ";
+    }
   }
-  return values;
+  return ans;
 }
