@@ -131,7 +131,7 @@ namespace taskaev
     {
       Queue< std::string > queue;
       int result = 0;
-      tree.traverse_rnl([&](const std::pair< const int, std::string >& value)
+      tree.traverse_breadth([&](const std::pair< const int, std::string >& value) //flaggg
         {
           int max = std::numeric_limits<int>::max();
           int min = std::numeric_limits<int>::min();
