@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include "functions.hpp"
+#include "BSTree.hpp"
+#include "Queue.hpp"
 
 namespace taskaev
 {
@@ -168,7 +170,7 @@ namespace taskaev
     {
       Queue< std::string > queue;
       int result = 0;
-      tree.traverse_lnr([&](const std::pair< const int, std::string >& value)
+      tree.traverse_breadth([&](const std::pair< const int, std::string >& value)
         {
           int max = std::numeric_limits<int>::max();
           int min = -max;
