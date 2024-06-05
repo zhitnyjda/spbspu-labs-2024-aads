@@ -45,6 +45,11 @@ namespace psarev
     bool isEmpty() const noexcept;
     size_t getSize() const noexcept;
 
+    Value& at(const Key& key);
+    const Value& at(const Key& key) const;
+    Value& operator[](const Key& key);
+    Value& operator[](Key&& key);
+
     std::pair< Iterator, Iterator > equalRange(const Key& key);
 
     iter find(const Key& key);
@@ -785,6 +790,98 @@ template<typename Key, typename Value, typename Compare>
 size_t psarev::avlTree< Key, Value, Compare >::getSize() const noexcept
 {
   return getSize(treeRoot);
+}
+
+template<typename Key, typename Value, typename Compare>
+Value& psarev::avlTree<Key, Value, Compare>::at(const Key& key)
+{
+  Unit* curr = treeRoot;
+  Compare compare;
+
+  while (curr != nullptr)
+  {
+    if (compare(curr->data.first, key))
+    {
+      curr = curr->right;
+    }
+    else if (compare(key, curr->data.first))
+    {
+      curr = curr->left;
+    }
+    else
+    {
+      return curr->data.second;
+    }
+  }
+}
+
+template<typename Key, typename Value, typename Compare>
+const Value& psarev::avlTree<Key, Value, Compare>::at(const Key& key) const
+{
+  Unit* curr = treeRoot;
+  Compare compare;
+
+  while (curr != nullptr)
+  {
+    if (compare(curr->data.first, key))
+    {
+      curr = curr->right;
+    }
+    else if (compare(key, curr->data.first))
+    {
+      curr = curr->left;
+    }
+    else
+    {
+      return curr->data.second;
+    }
+  }
+}
+
+template<typename Key, typename Value, typename Compare>
+Value& psarev::avlTree<Key, Value, Compare>::operator[](const Key& key)
+{
+  Unit* curr = treeRoot;
+  Compare compare;
+
+  while (curr != nullptr)
+  {
+    if (compare(curr->data.first, key))
+    {
+      curr = curr->right;
+    }
+    else if (compare(key, curr->data.first))
+    {
+      curr = curr->left;
+    }
+    else
+    {
+      return curr->data.second;
+    }
+  }
+}
+
+template<typename Key, typename Value, typename Compare>
+Value& psarev::avlTree<Key, Value, Compare>::operator[](Key&& key)
+{
+  Unit* curr = treeRoot;
+  Compare compare;
+
+  while (curr != nullptr)
+  {
+    if (compare(curr->data.first, key))
+    {
+      curr = curr->right;
+    }
+    else if (compare(key, curr->data.first))
+    {
+      curr = curr->left;
+    }
+    else
+    {
+      return curr->data.second;
+    }
+  }
 }
 
 template < typename Key, typename Value, typename Compare >

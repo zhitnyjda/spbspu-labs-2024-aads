@@ -350,7 +350,6 @@ T& psarev::List< T >::operator[](const size_t index)
     current = current->next;
     counter++;
   }
-  throw std::out_of_range("Index out of range");
 }
 
 template< typename T >
