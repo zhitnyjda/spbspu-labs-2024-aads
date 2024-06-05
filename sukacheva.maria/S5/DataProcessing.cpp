@@ -63,7 +63,14 @@ namespace sukacheva
       return;
     }
     KeySum result;
-    tree.traverse_breadth(result);
-    printResult(result, out);
+    try
+    {
+      tree.traverse_breadth(result);
+      printResult(result, out);
+    }
+    catch (const std::exception& error)
+    {
+      throw;
+    }
   }
 }
