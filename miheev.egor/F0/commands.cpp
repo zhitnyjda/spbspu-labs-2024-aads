@@ -60,7 +60,7 @@ void updateGraph(miheev::Workspace& workspace, const miheev::Graph& graph)
   workspace.graphs.insert({graph.name, graph});
 }
 
-void makeCastling(std::ostream& out, std::string nameOfNew, miheev::Workspace& workspace)
+void makeCastling(std::ostream&, std::string nameOfNew, miheev::Workspace& workspace)
 {
   updateGraph(workspace, workspace.current);
   if (!workspace.graphs.contains(nameOfNew))
