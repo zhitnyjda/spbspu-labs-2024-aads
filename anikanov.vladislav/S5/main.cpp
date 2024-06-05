@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     printInvalidUsage(std::cerr, argv);
     return 1;
   }
-
+  
   std::string mode = argv[1];
   std::string filename = argv[2];
   BinarySearchTree< int, std::string, std::less<> > bst;

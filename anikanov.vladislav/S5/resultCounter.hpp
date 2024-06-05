@@ -3,19 +3,21 @@
 
 #include <map>
 #include <string>
-#include <Queue.hpp>
+#include <queue.hpp>
 
 namespace anikanov {
   class ResultCounter {
   public:
     ResultCounter();
+    ResultCounter(ResultCounter &lhs);
     ~ResultCounter() = default;
+    ResultCounter operator=(const ResultCounter &rhs) noexcept;
     void operator()(const std::pair< int, std::string > &key_value);
-    int getResult() const;
+    long long getResult() const;
     std::string getValues() const;
+    Queue<std::string> values;
   private:
     long long result;
-    Queue < std::string > values;
   };
 }
 
