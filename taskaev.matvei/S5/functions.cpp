@@ -114,5 +114,47 @@ namespace taskaev
     }
   }
 
+  void descending(BSTree< int, std::string >& tree)
+  {
+    if (tree.empty())
+    {
+      errorEmpty(std::cout);
+      return;
+    }
+    else
+    {
+      Queue< std::string > queue;
+      int result = 0;
+      tree.traverse_rnl([&](const std::pair< const int, std::string >& value)
+        {
+          int max = std::numeric_limits<int>::max();
+          int min = -max;
+          if (value.first > 0 && max - value.first < result)
+          {
+            throw;
+          }
+          else if (value.first < 0 && min - value.first > result)
+          {
+            throw;
+          }
+          result = result + value.first;
+          queue.push(value.second);
+        });
+      std::cout << result << " ";
+      while (!queue.isEmpty())
+      {
+        std::cout << queue.front();
+        queue.pop();
+        if (!queue.isEmpty())
+        {
+          std::cout << " ";
+        }
+        else
+        {
+          std::cout << "\n";
+        }
+      }
+    }
+  }
 
 }

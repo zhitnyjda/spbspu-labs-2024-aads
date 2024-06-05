@@ -20,6 +20,6 @@ int main(int argc, char ** argv)
   }
   createTree(inputs, tree);
   BSTree< std::string, std::function< void(BSTree< int, std::string >&) > > cmds;
-  cmds.insert("ascending",   );
+  cmds.insert("ascending", ascending);
   return 0;
 }
