@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 
   std::string mode = argv[1];
   std::string filename = argv[2];
-  BinarySearchTree< int, std::string, std::less<> > bst;
+  BinarySearchTree< long long, std::string, std::less<> > bst;
 
   if (!loadTreeFromFile(filename, bst)) {
     return 1;

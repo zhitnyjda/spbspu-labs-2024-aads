@@ -12,7 +12,7 @@ namespace anikanov {
     ResultCounter(ResultCounter &lhs);
     ~ResultCounter() = default;
     ResultCounter operator=(const ResultCounter &rhs) noexcept;
-    void operator()(const std::pair< int, std::string > &key_value);
+    void operator()(const std::pair< long long, std::string > &key_value);
     long long getResult() const;
     std::string getValues() const;
   private:

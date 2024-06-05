@@ -10,7 +10,7 @@ anikanov::ResultCounter::ResultCounter()
 {
 }
 
-void anikanov::ResultCounter::operator()(const std::pair< int, std::string > &key_value)
+void anikanov::ResultCounter::operator()(const std::pair< long long, std::string > &key_value)
 {
   bool isOverflow = (key_value.first > 0) && result > std::numeric_limits< long long >::max() - key_value.first;
   bool isUndeflow = (key_value.first < 0) && (result < std::numeric_limits< long long >::min() - key_value.first);

@@ -2,7 +2,7 @@
 #include <fstream>
 #include <iostream>
 
-bool anikanov::loadTreeFromFile(std::string &fileName, BinarySearchTree< int, std::string, std::less<> > &tree)
+bool anikanov::loadTreeFromFile(std::string &fileName, BinarySearchTree< long long, std::string, std::less<> > &tree)
 {
   std::ifstream file(fileName);
   if (!file.is_open()) {
@@ -10,7 +10,7 @@ bool anikanov::loadTreeFromFile(std::string &fileName, BinarySearchTree< int, st
     return false;
   }
 
-  int key;
+  long long key;
   std::string value;
   while (file >> key >> value) {
     tree.push(key, value);
