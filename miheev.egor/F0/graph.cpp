@@ -4,8 +4,9 @@
 #include <utility>
 #include <vector>
 #include <limits>
-#include <sstream>
+// #include <sstream>
 #include <iterator>
+#include <iomanip>
 
 void miheev::Graph::addNode(int name)
 {
@@ -259,6 +260,14 @@ void miheev::Graph::Dextra::updateNodeState(int node, size_t timeToNode, int par
   nodesParrents[node] = parrentNode;
 }
 
+bool isNewLine(std::istream& in)
+{
+  in >> std::noskipws;
+  char peek = in.peek();
+  in >> std::skipws;
+  return peek == '\n';
+}
+
 std::istream& miheev::operator>>(std::istream& in, miheev::Graph& graph)
 {
   using del = miheev::DelimiterIO;
@@ -266,7 +275,7 @@ std::istream& miheev::operator>>(std::istream& in, miheev::Graph& graph)
   int lnode = -1, rnode = -1;
   size_t weight;
 
-  while(!in.eof())
+  while(!(in.eof() || isNewLine(in)))
   {
     in >> lnode >> del{'-'} >> rnode >> del{':'} >> weight;
     if (in.fail() && !in.eof())

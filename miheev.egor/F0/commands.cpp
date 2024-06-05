@@ -89,9 +89,7 @@ void readGraphFromInput(std::istream& in, miheev::Graph& container)
 {
   in.clear();
   std::string input;
-  std::getline(in >> std::ws, input, '\n');
-  std::stringstream ss(input);
-  ss >> container;
+  in >> std::ws >> container;
 }
 
 void createGraphFrominput(std::istream& in, std::ostream& out, const std::string& name, miheev::Workspace& workspace)
