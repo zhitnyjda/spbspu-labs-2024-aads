@@ -192,13 +192,27 @@ namespace taskaev
 
   SubTree mergeTrees(SubTree& treeOne, SubTree& treeTwo)
   {
-    BSTree< size_t, std::string > result = treeOne;
-    for (auto it = treeTwo.begin(); it != treeTwo.end(); ++it)
+    BSTree< size_t, std::string > result;
+    auto itOne = treeOne.begin();
+    auto itTwo = treeTwo.begin();
+
+    while (itOne != treeOne.end() || itTwo != treeTwo.end())
     {
-      size_t key = it->first;
-      if (result.find(key) == result.cend())
+      if (itOne != treeOne.end() && (itTwo == treeTwo.end() || itOne->first < itTwo->first))
       {
-        result.insert(*it);
+        result.insert(*itOne);
+        ++itOne;
+      }
+      else if (itTwo != treeTwo.end() && (itOne == treeOne.end() || itTwo->first < itOne->first))
+      {
+        result.insert(*itTwo);
+        ++itTwo;
+      }
+      else
+      {
+        result.insert(*itOne);
+        ++itOne;
+        ++itTwo;
       }
     }
     return result;
