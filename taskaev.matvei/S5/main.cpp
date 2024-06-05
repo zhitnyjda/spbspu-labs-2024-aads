@@ -21,7 +21,7 @@ int main(int argc, char ** argv)
     return 1;
   }
   std::string name = argv[1];
-  createTree(inputs, tree);
+  //createTree(inputs, tree);
   BSTree< std::string, std::function< void(BSTree< int, std::string >&) > > cmds;
   cmds.insert("ascending", ascending);
   cmds.insert("descending", descending);
@@ -29,11 +29,12 @@ int main(int argc, char ** argv)
 
   try
   {
+    createTree(inputs, tree);
     cmds.at(name)(tree);
   }
-  catch(...)
+  catch(const std::out_of_range& e)
   {
-    std::cerr << "ERROR!\n";
+    std::cerr << e.what();
     return 1;
   }
   return 0;

@@ -7,6 +7,23 @@
 
 namespace taskaev
 {
+  bool numbers(const std::string& str)
+  {
+    if (str.empty())
+    {
+      return false;
+    }
+    bool isFalg = (str[0] == '-');
+    for (size_t i = isFlag; i < str.length(); i++)
+    {
+      if (!std::isdigit(str[i]))
+      {
+        return false;
+      }
+    }
+    return true;
+  }
+
   void createTree(std::istream& in, BSTree< int, std::string >& tree)
   {
     std::string data = "";
@@ -25,34 +42,7 @@ namespace taskaev
         }
         else
         {
-          bool flag = true;
-          bool flagTwo = false;
-          if (temps[0] == '-' && temps.length())
-          {
-            flagTwo = false;
-          }
-          size_t i = 0;
-          while (i < temps.length())
-          {
-            if (flagTwo == true)
-            {
-              if (i > 0 && !std::isdigit(temps[i]))
-              {
-                flag = false;
-                break;
-              }
-            }
-            else
-            {
-              if (!std::isdigit(temps[i]))
-              {
-                flag = false;
-                break;
-              }
-            }
-            i++;
-          }
-          if (flag == true)
+          if (numbers(temps) == true)
           {
             try
             {
@@ -62,12 +52,12 @@ namespace taskaev
             {
               throw std::out_of_range("Error: VAlGRIND\n");
             }
-            temps = "";
+            temps.clear();
           }
           else
           {
             names = temps;
-            temps = "";
+            temps.clear();
             tree.insert(key, names);
           }
         }
