@@ -813,6 +813,7 @@ Value& psarev::avlTree<Key, Value, Compare>::at(const Key& key)
       return curr->data.second;
     }
   }
+  throw std::out_of_range("Error: No such element exists!");
 }
 
 template<typename Key, typename Value, typename Compare>
@@ -836,6 +837,7 @@ const Value& psarev::avlTree<Key, Value, Compare>::at(const Key& key) const
       return curr->data.second;
     }
   }
+  throw std::out_of_range("Error: No such element exists!");
 }
 
 template<typename Key, typename Value, typename Compare>
@@ -859,6 +861,7 @@ Value& psarev::avlTree<Key, Value, Compare>::operator[](const Key& key)
       return curr->data.second;
     }
   }
+  throw std::out_of_range("Error: No such element exists!");
 }
 
 template<typename Key, typename Value, typename Compare>
@@ -882,6 +885,7 @@ Value& psarev::avlTree<Key, Value, Compare>::operator[](Key&& key)
       return curr->data.second;
     }
   }
+  throw std::out_of_range("Error: No such element exists!");
 }
 
 template < typename Key, typename Value, typename Compare >
