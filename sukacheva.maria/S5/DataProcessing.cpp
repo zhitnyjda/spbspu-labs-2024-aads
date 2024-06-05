@@ -18,7 +18,7 @@ namespace sukacheva
     return currentDict;
   }
 
-  void printResult(KeySum result, std::ostream& out)
+  void printResult(KeySum& result, std::ostream& out)
   {
     out << result.result << " ";
     while (!result.values.empty())

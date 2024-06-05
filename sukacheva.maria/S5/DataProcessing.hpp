@@ -11,7 +11,7 @@ namespace sukacheva
   void ascendingCommand(BinaryTree tree, std::ostream& out);
   void descendingCommand(BinaryTree tree, std::ostream& out);
   void breadthCommand(BinaryTree tree, std::ostream& out);
-  void printResult(KeySum result, std::ostream& out);
+  void printResult(KeySum& result, std::ostream& out);
 }
 
 #endif
