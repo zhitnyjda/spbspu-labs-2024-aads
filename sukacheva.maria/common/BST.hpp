@@ -150,7 +150,7 @@ namespace sukacheva
       {
         applicant = stack.top();
         stack.pop();
-        f(std::make_pair(applicant->data.first, applicant->data.second));
+        f(applicant->data);
         applicant = applicant->right;
       }
     }
@@ -178,7 +178,7 @@ namespace sukacheva
       {
         applicant = stack.top();
         stack.pop();
-        f(std::make_pair(applicant->data.first, applicant->data.second));
+        f(applicant->data);
         applicant = applicant->left;
       }
     }
@@ -199,7 +199,7 @@ namespace sukacheva
     {
       TreeNode* applicant = queue.front();
       queue.pop();
-      f(std::make_pair(applicant->data.first, applicant->data.second));
+      f(applicant->data);
       if (applicant->left)
       {
         queue.push(applicant->left);
