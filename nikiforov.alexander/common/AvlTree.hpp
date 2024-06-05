@@ -13,6 +13,9 @@ namespace nikiforov
     class Iterator;
     class ConstIterator;
 
+    class LnrIterator;
+    class RnlIterator;
+
     using keyValue_t = std::pair< Key, Value >;
     using pairIters = std::pair< typename AvlTree< Key, Value, Compare >::Iterator, typename AvlTree< Key, Value, Compare >::Iterator>;
 
@@ -338,6 +341,118 @@ template < typename Key, typename Value, typename Compare >
 bool nikiforov::AvlTree< Key, Value, Compare >::Iterator::operator==(const this_t& rhs) const
 {
   return iter.pNode == rhs.iter.pNode;
+}
+
+template < typename Key, typename Value, typename Compare >
+class nikiforov::AvlTree< Key, Value, Compare >::LnrIterator : public std::iterator< std::bidirectional_iterator_tag, keyValue_t >
+{
+public:
+  friend class AvlTree< Key, Value, Compare >;
+  using this_t = LnrIterator;
+
+  LnrIterator();
+  LnrIterator(Node* pNode);
+  LnrIterator(ConstIterator constIter);
+  LnrIterator(const this_t&) = default;
+  ~LnrIterator() = default;
+
+  this_t& operator=(const this_t&) = default;
+  this_t& operator++();
+  this_t operator++(int);
+  this_t& operator--();
+  this_t operator--(int);
+
+  keyValue_t& operator*();
+  keyValue_t* operator->();
+  const keyValue_t& operator*() const;
+  const keyValue_t* operator->() const;
+
+  bool operator!=(const this_t&) const;
+  bool operator==(const this_t&) const;
+  
+private:
+  ConstIterator iter;
+};
+
+template < typename Key, typename Value, typename Compare >
+nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::LnrIterator() :
+  iter(ConstIterator())
+{}
+
+template< typename Key, typename Value, typename Compare >
+nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::LnrIterator(Node* pNode) :
+  iter(ConstIterator(pNode))
+{}
+
+template < typename Key, typename Value, typename Compare >
+nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::LnrIterator(ConstIterator constIter) :
+  iter(constIter)
+{}
+
+template< typename Key, typename Value, typename Compare >
+typename nikiforov::AvlTree< Key, Value, Compare >::LnrIterator& nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::operator++()
+{
+  iter++;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename nikiforov::AvlTree< Key, Value, Compare >::LnrIterator nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::operator++(int)
+{
+  ++iter;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename nikiforov::AvlTree< Key, Value, Compare >::LnrIterator& nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::operator--()
+{
+  iter--;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename nikiforov::AvlTree< Key, Value, Compare >::LnrIterator nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::operator--(int)
+{
+  --iter;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename nikiforov::AvlTree< Key, Value, Compare >::keyValue_t& nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::operator*()
+{
+  return iter.pNode->data;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename nikiforov::AvlTree< Key, Value, Compare >::keyValue_t* nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::operator->()
+{
+  return &(iter.pNode->data);
+}
+
+template < typename Key, typename Value, typename Compare >
+const typename nikiforov::AvlTree< Key, Value, Compare >::keyValue_t&
+nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::operator*() const
+{
+  return iter.pNode->data;
+}
+
+template < typename Key, typename Value, typename Compare >
+const typename nikiforov::AvlTree< Key, Value, Compare >::keyValue_t*
+nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::operator->() const
+{
+  return &(iter.pNode->data);
+}
+
+template < typename Key, typename Value, typename Compare >
+bool nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::operator==(const this_t& rhs) const
+{
+  return iter.pNode == rhs.iter.pNode;
+}
+
+template < typename Key, typename Value, typename Compare >
+bool nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::operator!=(const this_t& rhs) const
+{
+  return !(rhs == *this);
 }
 
 template< typename Key, typename Value, typename Compare >
