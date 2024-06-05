@@ -140,13 +140,18 @@ namespace taskaev
     findComplement(tree.at(oneName), tree.at(twoName), tres);
     //std::cout << "4c\n";
     //findComplement(tree.at(twoName), tree.at(oneName), tres);
-    if (names != oneName)
+    if (names != oneName && names != twoName)
     {
+      tree.insert(names, tres);
+    }
+    else if (names == oneName)
+    {
+      tree.erase(oneName);
       tree.insert(names, tres);
     }
     else
     {
-      tree.erase(oneName);
+      tree.erase(twoName);
       tree.insert(names, tres);
     }
   }
@@ -203,13 +208,18 @@ namespace taskaev
         tres.insert(*it);
       }
     }
-    if (names != oneName)
+    if (names != oneName && names != twoName)
     {
+      tree.insert(names, tres);
+    }
+    else if (names == oneName)
+    {
+      tree.erase(oneName);
       tree.insert(names, tres);
     }
     else
     {
-      tree.erase(oneName);
+      tree.erase(twoName);
       tree.insert(names, tres);
     }
   }
@@ -247,13 +257,18 @@ namespace taskaev
     std::string names, oneName, twoName;
     std::cin >> names >> oneName >> twoName;
     BSTree<size_t, std::string> tres = mergeTrees(tree.at(oneName), tree.at(twoName));
-    if (names != oneName)
+    if (names != oneName && names != twoName)
     {
+      tree.insert(names, tres);
+    }
+    else if (names == oneName)
+    {
+      tree.erase(oneName);
       tree.insert(names, tres);
     }
     else
     {
-      tree.erase(oneName);
+      tree.erase(twoName);
       tree.insert(names, tres);
     }
   }
