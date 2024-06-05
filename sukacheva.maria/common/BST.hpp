@@ -49,11 +49,11 @@ namespace sukacheva
     BST& operator=(BST&& other) noexcept;
 
     template< typename F >
-    F traverse_lnr(F f) const;
+    F traverse_lnr(F& f) const;
     template< typename F >
-    F traverse_rnl(F f) const;
+    F traverse_rnl(F& f) const;
     template< typename F >
-    F traverse_breadth(F f) const;
+    F traverse_breadth(F& f) const;
   private:
     TreeNode* root;
     Compare cmp;
@@ -131,7 +131,7 @@ namespace sukacheva
 
   template< typename Key, typename Value, typename Compare >
   template< typename F >
-  F BST< Key, Value, Compare >::traverse_lnr(F f) const
+  F BST< Key, Value, Compare >::traverse_lnr(F& f) const
   {
     if (!root)
     {
@@ -159,7 +159,7 @@ namespace sukacheva
 
   template< typename Key, typename Value, typename Compare >
   template< typename F >
-  F BST< Key, Value, Compare >::traverse_rnl(F f) const
+  F BST< Key, Value, Compare >::traverse_rnl(F& f) const
   {
     if (!root)
     {
@@ -187,7 +187,7 @@ namespace sukacheva
 
   template< typename Key, typename Value, typename Compare >
   template< typename F >
-  F BST< Key, Value, Compare >::traverse_breadth(F f) const
+  F BST< Key, Value, Compare >::traverse_breadth(F& f) const
   {
     if (!root)
     {

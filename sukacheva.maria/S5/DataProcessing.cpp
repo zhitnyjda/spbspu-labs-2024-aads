@@ -40,7 +40,8 @@ namespace sukacheva
       EmptyMessage(out);
       return;
     }
-    KeySum result = tree.traverse_lnr(result);
+    KeySum result;
+    tree.traverse_lnr(result);
     printResult(result, out);
   }
 
@@ -51,7 +52,8 @@ namespace sukacheva
       EmptyMessage(out);
       return;
     }
-    KeySum result = tree.traverse_rnl(result);
+    KeySum result;
+    tree.traverse_rnl(result);
     printResult(result, out);
   }
 
@@ -62,7 +64,8 @@ namespace sukacheva
       EmptyMessage(out);
       return;
     }
-    KeySum result = tree.traverse_breadth(result);
+    KeySum result;
+    tree.traverse_breadth(result);
     printResult(result, out);
   }
 }
