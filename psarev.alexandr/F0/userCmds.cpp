@@ -24,6 +24,8 @@ void psarev::cmdHelp(std::istream& in, std::ostream& out)
 
 void psarev::cmdCreate(std::istream& in, std::ostream& out, std::map< std::string, storage_t >& depot, std::string dest)
 {
+  using storage_t = std::map< std::string, std::vector< std::string > >;
+
   std::string file = "";
   in >> file;
   if (!file.empty())
@@ -174,6 +176,8 @@ void psarev::cmdSave(std::istream& in, std::ostream& out, std::map< std::string,
 
 void psarev::cmdPrint(std::istream& in, std::ostream& out, std::map<std::string, storage_t>& depot, std::string& storage)
 {
+  using storage_t = std::map< std::string, std::vector< std::string > >;
+
   std::string speechType = "";
   in >> speechType;
   if (!in)
@@ -256,6 +260,8 @@ void psarev::cmdFono(std::istream& in, std::ostream& out)
 
 void psarev::cmdMakeSent(std::istream& in, std::ostream& out, std::map<std::string, storage_t>& depot, std::string& storage)
 {
+  using storage_t = std::map< std::string, std::vector< std::string > >;
+
   size_t usNum = 0;
   in >> usNum;
   if (!in)

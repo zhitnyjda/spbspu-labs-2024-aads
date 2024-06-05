@@ -8,10 +8,13 @@ std::ostream& psarev::outError(std::ostream& out, const std::string& errText)
   return out;
 }
 
-storage_t psarev::readStorage(std::istream& in)
+std::map< std::string, std::vector< std::string > > psarev::readStorage(std::istream& in)
 {
+  using storage_t = std::map< std::string, std::vector< std::string > >;
+
   storage_t resStorage;
   std::string word = "";
+
   while (!in.eof())
   {
     if (in >> word)
@@ -76,8 +79,9 @@ bool psarev::checkLiter(const std::string& word)
 
 std::string psarev::getSpType(std::string& word)
 {
-  std::string resType = "";
+  using storage_t = std::map< std::string, std::vector< std::string > >;
 
+  std::string resType = "";
   storage_t rusEnds;
 
   rusEnds["noun"] = { "а", "ев", "ов", "ье", "иями", "ями", "ами", "еи", "ии", "и", "ией" };

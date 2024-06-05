@@ -7,10 +7,10 @@
 #include <vector>
 #include "../common/list.hpp"
 
-using storage_t = std::map< std::string, std::vector< std::string > >;
-
 namespace psarev
 {
+  using storage_t = std::map< std::string, std::vector< std::string > >;
+
   std::ostream& outError(std::ostream& out, const std::string& errText);
   storage_t readStorage(std::istream& in);
 

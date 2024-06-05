@@ -7,6 +7,8 @@
 
 namespace psarev
 {
+  using storage_t = std::map< std::string, std::vector< std::string > >;
+
   void cmdHelp(std::istream& in, std::ostream& out);
   void cmdCreate(std::istream& in, std::ostream& out, std::map< std::string, storage_t >& depot, std::string dest);
   void cmdDelete(std::istream& in, std::ostream& out, std::map< std::string, storage_t >& depot);
