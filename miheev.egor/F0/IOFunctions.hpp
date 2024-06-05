@@ -5,8 +5,8 @@
 
 namespace miheev
 {
-  void getGraphsNames(const Workspace&, miheev::List< std::string >&);
-  void initWorkspace(int argc, char* argv[], miheev::Workspace& workspace);
+  void getGraphsNames(const Workspace&, List< std::string >&);
+  void initWorkspace(int argc, char* argv[], Workspace& workspace);
   void readGraph(const std::string& filename, Graph& container);
   std::ostream& sendMessage(std::ostream&, const std::string&);
 }

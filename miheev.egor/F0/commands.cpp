@@ -34,8 +34,8 @@ std::ostream& miheev::commands::node(std::ostream& out, std::istream& in, Worksp
 
 std::ostream& miheev::commands::edge(std::ostream& out, std::istream& in, Workspace& workspace)
 {
-  std::string action = "";
-  int lnode = -1, rnode = -1;
+  std::string action;
+  int lnode, rnode;
   in >> action >> lnode >> rnode;
   if (action == "add")
   {
