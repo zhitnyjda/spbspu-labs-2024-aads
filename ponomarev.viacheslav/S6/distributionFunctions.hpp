@@ -54,9 +54,9 @@ namespace ponomarev
     std::copy(firstList.begin(), firstList.end(), std::front_inserter(forwardList));
 
     printData(out, firstList.begin(), firstList.end());
-
+    sortShaker(firstList.begin(), firstList.end(), comp);
     sortInsertion(secondList.begin(), secondList.end(), comp);
-
+    sortShaker(firstDeque.begin(), firstDeque.end(), comp);
     sortInsertion(secondDeque.begin(), secondDeque.end(), comp);
     forwardList.sort(comp);
     std::sort(thirdDeque.begin(), thirdDeque.end(), comp);
