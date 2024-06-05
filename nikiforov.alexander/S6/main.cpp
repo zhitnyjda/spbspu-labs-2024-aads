@@ -22,13 +22,13 @@ int main(int argc, char* argv[])
   }
   catch (const std::invalid_argument& e)
   {
-    nikiforov::errorMessage(std::cout);
+    nikiforov::errorMessages(std::cout);
     return 1;
   }
 
   if (size < 1)
   {
-    nikiforov::errorMessage(std::cerr);
+    nikiforov::errorMessages(std::cerr);
     return 1;
   }
 
@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
   }
   catch (const std::exception&)
   {
-    nikiforov::errorMessage(std::cerr);
+    nikiforov::errorMessages(std::cerr);
     return 1;
   }
   return 0;

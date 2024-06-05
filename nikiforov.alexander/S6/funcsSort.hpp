@@ -18,7 +18,7 @@ namespace nikiforov
   template< typename T >
   void outputSequence(const T& depot, std::ostream& out);
 
-  std::ostream& errorMessage(std::ostream& out);
+  std::ostream& errorMessages(std::ostream& out);
 }
 
 void nikiforov::fillLists(List< int >& forwardList, std::list< int >& list, std::deque< int >& deque, size_t size)
@@ -82,7 +82,7 @@ void nikiforov::makeSorted(std::ostream& out, size_t size, Compare cmp)
   outputSequence(deque, out);
 }
 
-std::ostream& nikiforov::errorMessage(std::ostream& out)
+std::ostream& nikiforov::errorMessages(std::ostream& out)
 {
   return out << "<ERROR>\n";
 }
