@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <stdexcept>
 #include <iterator>
+#include "stack.hpp"
+#include "queue.hpp"
 
 namespace ponomarev
 {
@@ -14,6 +16,8 @@ namespace ponomarev
   public:
     class Iterator;
     class ConstIterator;
+    class LnRIterator;
+    class RnLIterator;
 
     using value_t = typename std::pair< Key, Value >;
 
@@ -48,6 +52,20 @@ namespace ponomarev
     Iterator end() noexcept;
     ConstIterator cbegin() const noexcept;
     ConstIterator cend() const noexcept;
+
+    template< typename F >
+    F constTraverseLR(F func) const;
+    template< typename F >
+    F traverseLR(F func);
+    template< typename F >
+    F constTraverseRL(F func) const;
+    template< typename F >
+    F traverseRL(F func);
+    template< typename F >
+    F costTraverseBreadth(F func) const;
+    template< typename F >
+    F traverseBreadth(F func);
+
   private:
     class Node;
 
@@ -381,6 +399,106 @@ template< typename Key, typename Value, typename Compare >
 bool BSTree< Key, Value, Compare >::ConstIterator::operator!=(const ConstIterator & rhs) const
 {
   return node_ != rhs.node_;
+}
+
+template < typename Key, typename Value, typename Compare >
+class ponomarev::BSTree< Key, Value, Compare >::LnRIterator: public std::iterator< std::forward_iterator_tag, value_t >
+{
+  friend class BSTree;
+public:
+  using this_t = LnRIterator;
+  LnRIterator();
+  LnRIterator(const this_t &) = default;
+  ~LnRIterator() = default;
+
+  this_t & operator=(const this_t &) = default;
+  this_t & operator++();
+  this_t operator++(int);
+
+  value_t & operator*();
+  value_t * operator->();
+  const value_t & operator*() const;
+  const value_t * operator->() const;
+
+  bool operator!=(const this_t &) const;
+  bool operator==(const this_t &) const;
+
+private:
+  Node * node_;
+  Node * curr_;
+  Stack< Node * > stack_;
+};
+
+template < typename Key, typename Value, typename Compare >
+ponomarev::BSTree< Key, Value, Compare >::LnRIterator::LnRIterator():
+  node_(nullptr),
+  curr_(nullptr),
+  stack_(Stack< Node * >())
+{}
+
+template < typename Key, typename Value, typename Compare >
+typename ponomarev::BSTree< Key, Value, Compare >::LnRIterator & ponomarev::BSTree< Key, Value, Compare >::LnRIterator::operator++()
+{
+  if (node_ != nullptr || !stack_.empty())
+  {
+    while (node_ != nullptr)
+    {
+      stack_.push(node_);
+      node_ = node_->left;
+    }
+    curr_ = stack_.top();
+    stack_.pop();
+    node_ = curr_->right;
+  }
+  else
+  {
+    throw std::out_of_range("wrong increment");
+  }
+  return *this;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename ponomarev::BSTree< Key, Value, Compare >::LnRIterator ponomarev::BSTree< Key, Value, Compare >::LnRIterator::operator++(int)
+{
+  LnRIterator result(*this);
+  ++(*this);
+  return result;
+}
+
+template < typename Key, typename Value, typename Compare >
+value_t< Key, Value > & ponomarev::BSTree< Key, Value, Compare >::LnRIterator::operator*()
+{
+  return curr_->elem;
+}
+
+template < typename Key, typename Value, typename Compare >
+value_t< Key, Value > * ponomarev::BSTree< Key, Value, Compare >::LnRIterator::operator->()
+{
+  return std::addressof(curr_->elem);
+}
+
+template < typename Key, typename Value, typename Compare >
+const value_t< Key, Value > & ponomarev::BSTree< Key, Value, Compare >::LnRIterator::operator*() const
+{
+  return curr_->elem;
+}
+
+template < typename Key, typename Value, typename Compare >
+const value_t< Key, Value > * ponomarev::BSTree< Key, Value, Compare >::LnRIterator::operator->() const
+{
+  return std::addressof(curr_->elem);
+}
+
+template < typename Key, typename Value, typename Compare >
+bool ponomarev::BSTree< Key, Value, Compare >::LnRIterator::operator==(const this_t & rhs) const
+{
+  return curr_ == rhs.curr_;
+}
+
+template < typename Key, typename Value, typename Compare >
+bool ponomarev::BSTree< Key, Value, Compare >::LnRIterator::operator!=(const this_t & rhs) const
+{
+  return !(rhs == *this);
 }
 
 template< typename Key, typename Value, typename Compare >
