@@ -5,7 +5,7 @@
 
 using dictionary = BST< std::string, std::string >;
 
-void doroshenko::help(std::istream& input, std::ostream& output)
+void doroshenko::help(std::ostream& output)
 {
   output << "1) help - output of available commands\n";
   output << "2) create <name> - create a dictionary named name\n";
