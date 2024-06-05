@@ -19,11 +19,11 @@ namespace reznikova
     using pair_type = std::pair< const Key, Value >;
 
     Tree();
-    Tree(const Tree & otherTree);
-    Tree(Tree && otherTree);
     template< class InputIt >
     Tree(InputIt first, InputIt last);
     Tree(std::initializer_list< std::pair< const Key, Value > > init);
+    Tree(const Tree & otherTree);
+    Tree(Tree && otherTree);
     ~Tree();
 
     ConstIterator cbegin() const noexcept;

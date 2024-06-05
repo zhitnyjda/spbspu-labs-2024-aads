@@ -1,5 +1,4 @@
 #include "Commands.hpp"
-#include <sstream>
 
 void reznikova::outputInvalidCommand(std::ostream & out)
 {
