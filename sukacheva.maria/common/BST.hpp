@@ -60,7 +60,7 @@ namespace sukacheva
 
     TreeNode* findMin(TreeNode* node) const;
     TreeNode* findMax(TreeNode* node) const;
-    TreeNode* push(TreeNode* node, Key k, Value v, TreeNode* parent);
+    TreeNode* pushNode(TreeNode* node, Key k, Value v, TreeNode* parent);
     TreeNode* balance(TreeNode* node);
     TreeNode* rotateRight(TreeNode* node);
     TreeNode* rotateLeft(TreeNode* node);
@@ -193,20 +193,20 @@ namespace sukacheva
     {
       return f;
     }
-    Queue< TreeNode* > queue;
-    queue.push(root);
-    while (!queue.empty())
+    Stack< TreeNode* > stack;
+    stack.push(root);
+    while (!stack.empty())
     {
-      TreeNode* applicant = queue.front();
-      queue.pop();
+      TreeNode* applicant = stack.top();
+      stack.pop();
       f(applicant->data);
-      if (applicant->left)
-      {
-        queue.push(applicant->left);
-      }
       if (applicant->right)
       {
-        queue.push(applicant->right);
+        stack.push(applicant->right);
+      }
+      if (applicant->left)
+      {
+        stack.push(applicant->left);
       }
     }
     return f;
@@ -724,11 +724,11 @@ namespace sukacheva
   template < typename Key, typename Value, typename Compare >
   void BST< Key, Value, Compare >::insert(Key k, Value v)
   {
-    root = push(root, k, v, nullptr);
+    root = pushNode(root, k, v, nullptr);
   }
 
   template < typename Key, typename Value, typename Compare >
-  typename BST< Key, Value, Compare >::TreeNode* BST< Key, Value, Compare >::push(TreeNode* node, Key k, Value v, TreeNode* parent)
+  typename BST< Key, Value, Compare >::TreeNode* BST< Key, Value, Compare >::pushNode(TreeNode* node, Key k, Value v, TreeNode* parent)
   {
     if (node == nullptr)
     {
@@ -736,11 +736,11 @@ namespace sukacheva
     }
     if (cmp(k, node->data.first))
     {
-      node->left = push(node->left, k, v, node);
+      node->left = pushNode(node->left, k, v, node);
     }
     else if (cmp(node->data.first, k))
     {
-      node->right = push(node->right, k, v, node);
+      node->right = pushNode(node->right, k, v, node);
     }
     return balance(node);
   }
