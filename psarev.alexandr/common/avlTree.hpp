@@ -6,6 +6,8 @@
 #include <iterator>
 #include <functional>
 #include <assert.h>
+#include "stack.hpp"
+#include "queue.hpp"
 
 namespace psarev
 {
@@ -15,6 +17,9 @@ namespace psarev
   public:
     class ConstIterator;
     class Iterator;
+
+    class LnRIterator;
+    class RnLIterator;
 
     using cIter = ConstIterator;
     using iter = Iterator;
@@ -46,6 +51,20 @@ namespace psarev
     iter insert(dataType& data);
     iter insert(dataType&& data);
     void erase(const Key& key);
+
+    template < typename F >
+    F traverseLnR(F f) const;
+    template < typename F >
+    F traverseRnL(F f) const;
+    template < typename F >
+    F traverseBre(F f) const;
+
+    template < typename F >
+    F traverseLnR(F f);
+    template < typename F >
+    F traverseRnL(F f);
+    template < typename F >
+    F traverseBre(F f);
 
   private:
 
@@ -330,6 +349,318 @@ bool psarev::avlTree< Key, Value, Compare >::Iterator::operator!=(const this_t& 
   return !(that == *this);
 }
 
+template < typename Key, typename Value, typename Compare >
+class psarev::avlTree< Key, Value, Compare >::LnRIterator : public std::iterator< std::bidirectional_iterator_tag, dataType >
+{
+public:
+  friend class avlTree;
+  using this_t = LnRIterator;
+  LnRIterator();
+  LnRIterator(Unit* unit_);
+  LnRIterator(const this_t&) = default;
+  ~LnRIterator() = default;
+
+  this_t& operator++();
+  this_t operator++(int);
+  this_t& operator--();
+  this_t operator--(int);
+
+  dataType& operator*();
+  dataType* operator->();
+  const dataType& operator*() const;
+  const dataType* operator->() const;
+
+  bool operator==(const this_t&) const;
+  bool operator!=(const this_t&) const;
+
+private:
+  Unit* unit;
+};
+
+template < typename Key, typename Value, typename Compare >
+psarev::avlTree< Key, Value, Compare >::LnRIterator::LnRIterator() :
+  unit(nullptr)
+{}
+
+template < typename Key, typename Value, typename Compare >
+psarev::avlTree< Key, Value, Compare >::LnRIterator::LnRIterator(Unit* unit_) :
+  unit(unit_)
+{}
+
+template < typename Key, typename Value, typename Compare >
+typename psarev::avlTree< Key, Value, Compare >::LnRIterator& psarev::avlTree< Key, Value, Compare >::LnRIterator::operator++()
+{
+  if (unit == nullptr)
+  {
+    return *this;
+  }
+
+  if (unit->right != nullptr)
+  {
+    unit = unit->right;
+    while (unit->left != nullptr)
+    {
+      unit = unit->left;
+    }
+  }
+  else
+  {
+    Unit* prev = unit;
+    unit = unit->ancest;
+
+    while (prev == unit->right && unit != nullptr)
+    {
+      prev = unit;
+      unit = unit->ancest;
+    }
+  }
+
+  return *this;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename psarev::avlTree< Key, Value, Compare >::LnRIterator psarev::avlTree< Key, Value, Compare >::LnRIterator::operator++(int)
+{
+  this_t tempo = *this;
+  ++(*this);
+  return tempo;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename psarev::avlTree< Key, Value, Compare >::LnRIterator& psarev::avlTree< Key, Value, Compare >::LnRIterator::operator--()
+{
+  if (unit == nullptr)
+  {
+    unit = treeRoot;
+    while (unit->right != nullptr)
+    {
+      unit = unit->right;
+    }
+  }
+  else if (unit->left != nullptr)
+  {
+    unit = unit->left;
+    while (unit->right != nullptr)
+    {
+      unit = unit->right;
+    }
+  }
+  else
+  {
+    Unit* prev = unit;
+    unit = unit->ancest;
+
+    while (prev == unit->left && unit != nullptr)
+    {
+      prev = unit;
+      unit = unit->ancest;
+    }
+  }
+
+  return *this;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename psarev::avlTree< Key, Value, Compare >::LnRIterator psarev::avlTree< Key, Value, Compare >::LnRIterator::operator--(int)
+{
+  this_t tempo = *this;
+  --(*this);
+  return tempo;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename psarev::avlTree< Key, Value, Compare >::dataType& psarev::avlTree< Key, Value, Compare >::LnRIterator::operator*()
+{
+  return unit->data;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename psarev::avlTree< Key, Value, Compare >::dataType*
+psarev::avlTree< Key, Value, Compare >::LnRIterator::operator->()
+{
+  return &(unit->data);
+}
+
+template < typename Key, typename Value, typename Compare >
+const typename psarev::avlTree< Key, Value, Compare >::dataType& psarev::avlTree< Key, Value, Compare >::LnRIterator::operator*() const
+{
+  return unit->data;
+}
+
+template < typename Key, typename Value, typename Compare >
+const typename psarev::avlTree< Key, Value, Compare >::dataType* psarev::avlTree< Key, Value, Compare >::LnRIterator::operator->() const
+{
+  return &(unit->data);
+}
+
+template < typename Key, typename Value, typename Compare >
+bool psarev::avlTree< Key, Value, Compare >::LnRIterator::operator==(const this_t& that) const
+{
+  return unit == that.unit;
+}
+
+template < typename Key, typename Value, typename Compare >
+bool psarev::avlTree< Key, Value, Compare >::LnRIterator::operator!=(const this_t& that) const
+{
+  return !(*this == that);
+}
+
+template < typename Key, typename Value, typename Compare >
+class psarev::avlTree< Key, Value, Compare >::RnLIterator : public std::iterator< std::bidirectional_iterator_tag, dataType >
+{
+public:
+  friend class avlTree;
+  using this_t = RnLIterator;
+  RnLIterator();
+  RnLIterator(Unit* unit_);
+  RnLIterator(const this_t&) = default;
+  ~RnLIterator() = default;
+
+  this_t& operator++();
+  this_t operator++(int);
+  this_t& operator--();
+  this_t operator--(int);
+
+  dataType& operator*();
+  dataType* operator->();
+  const dataType& operator*() const;
+  const dataType* operator->() const;
+
+  bool operator==(const this_t&) const;
+  bool operator!=(const this_t&) const;
+
+private:
+  Unit* unit;
+};
+
+template < typename Key, typename Value, typename Compare >
+psarev::avlTree< Key, Value, Compare >::RnLIterator::RnLIterator() :
+  unit(nullptr)
+{}
+
+template < typename Key, typename Value, typename Compare >
+psarev::avlTree< Key, Value, Compare >::RnLIterator::RnLIterator(Unit* unit_) :
+  unit(unit_)
+{}
+
+template < typename Key, typename Value, typename Compare >
+typename psarev::avlTree< Key, Value, Compare >::RnLIterator& psarev::avlTree< Key, Value, Compare >::RnLIterator::operator++()
+{
+  if (unit == nullptr)
+  {
+    return *this;
+  }
+
+  if (unit->left != nullptr)
+  {
+    unit = unit->left;
+    while (unit->right != nullptr)
+    {
+      unit = unit->right;
+    }
+  }
+  else
+  {
+    Unit* prev = unit;
+    unit = unit->ancest;
+
+    while (prev == unit->left && unit != nullptr)
+    {
+      prev = unit;
+      unit = unit->ancest;
+    }
+  }
+
+  return *this;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename psarev::avlTree< Key, Value, Compare >::RnLIterator psarev::avlTree< Key, Value, Compare >::RnLIterator::operator++(int)
+{
+  this_t tempo = *this;
+  ++(*this);
+  return tempo;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename psarev::avlTree< Key, Value, Compare >::RnLIterator& psarev::avlTree< Key, Value, Compare >::RnLIterator::operator--()
+{
+  if (unit == nullptr)
+  {
+    unit = treeRoot;
+    while (unit->right != nullptr)
+    {
+      unit = unit->right;
+    }
+  }
+  else if (unit->right != nullptr)
+  {
+    unit = unit->right;
+    while (unit->left != nullptr)
+    {
+      unit = unit->left;
+    }
+  }
+  else
+  {
+    Unit* prev = unit;
+    unit = unit->ancest;
+
+    while (prev == unit->right && unit != nullptr)
+    {
+      prev = unit;
+      unit = unit->ancest;
+    }
+  }
+
+  return *this;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename psarev::avlTree< Key, Value, Compare >::RnLIterator psarev::avlTree< Key, Value, Compare >::RnLIterator::operator--(int)
+{
+  this_t tempo = *this;
+  --(*this);
+  return tempo;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename psarev::avlTree< Key, Value, Compare >::dataType& psarev::avlTree< Key, Value, Compare >::RnLIterator::operator*()
+{
+  return unit->data;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename psarev::avlTree< Key, Value, Compare >::dataType*
+psarev::avlTree< Key, Value, Compare >::RnLIterator::operator->()
+{
+  return &(unit->data);
+}
+
+template < typename Key, typename Value, typename Compare >
+const typename psarev::avlTree< Key, Value, Compare >::dataType& psarev::avlTree< Key, Value, Compare >::RnLIterator::operator*() const
+{
+  return unit->data;
+}
+
+template < typename Key, typename Value, typename Compare >
+const typename psarev::avlTree< Key, Value, Compare >::dataType* psarev::avlTree< Key, Value, Compare >::RnLIterator::operator->() const
+{
+  return &(unit->data);
+}
+
+template < typename Key, typename Value, typename Compare >
+bool psarev::avlTree< Key, Value, Compare >::RnLIterator::operator==(const this_t& that) const
+{
+  return unit == that.unit;
+}
+
+template < typename Key, typename Value, typename Compare >
+bool psarev::avlTree< Key, Value, Compare >::RnLIterator::operator!=(const this_t& that) const
+{
+  return !(*this == that);
+}
+
 template< typename Key, typename Value, typename Compare >
 psarev::avlTree< Key, Value, Compare >::avlTree() :
   treeRoot(nullptr)
@@ -526,13 +857,181 @@ typename psarev::avlTree< Key, Value, Compare >::Iterator psarev::avlTree< Key, 
   return find(data.first);
 }
 
-template<typename Key, typename Value, typename Compare>
+template< typename Key, typename Value, typename Compare >
 void psarev::avlTree<Key, Value, Compare>::erase(const Key& key)
 {
   if (find(key) != end())
   {
     treeRoot = delUnit(treeRoot, key);
   }
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename F >
+F psarev::avlTree<Key, Value, Compare>::traverseLnR(F f) const
+{
+  Stack< const Unit* > ancestors;
+  const Unit* wayP = treeRoot;
+
+  while (!ancestors.isEmpty() || wayP != nullptr)
+  {
+    while (wayP != nullptr)
+    {
+      ancestors.push(wayP);
+      wayP = wayP->left;
+    }
+
+    if (!ancestors.isEmpty())
+    {
+      wayP = ancestors.getTop();
+      ancestors.pop();
+
+      f(wayP->data);
+      wayP = wayP->right;
+    }
+  }
+  return f;
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename F >
+F psarev::avlTree<Key, Value, Compare>::traverseRnL(F f) const
+{
+  Stack< const Unit* > ancestors;
+  const Unit* wayP = treeRoot;
+
+  while (!ancestors.isEmpty() || wayP != nullptr)
+  {
+    while (wayP != nullptr)
+    {
+      ancestors.push(wayP);
+      wayP = wayP->right;
+    }
+
+    if (!ancestors.isEmpty())
+    {
+      wayP = ancestors.getTop();
+      ancestors.pop();
+
+      f(wayP->data);
+      wayP = wayP->left;
+    }
+  }
+  return f;
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename F >
+F psarev::avlTree<Key, Value, Compare>::traverseBre(F f) const
+{
+  if (isEmpty())
+  {
+    return f;
+  }
+  Queue< const Unit* > stage;
+
+  stage.push(treeRoot);
+  while (!stage.isEmpty())
+  {
+    const Unit* unit = stage.getFront();
+    f(unit->data);
+    stage.pop();
+
+    if (unit->left != nullptr)
+    {
+      stage.push(unit->left);
+    }
+
+    if (unit->right != nullptr)
+    {
+      stage.push(unit->right);
+    }
+  }
+  return f;
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename F >
+F psarev::avlTree<Key, Value, Compare>::traverseLnR(F f)
+{
+  Stack< Unit* > ancestors;
+  Unit* wayP = treeRoot;
+
+  while (!ancestors.isEmpty() || wayP != nullptr)
+  {
+    while (wayP != nullptr)
+    {
+      ancestors.push(wayP);
+      wayP = wayP->left;
+    }
+
+    if (!ancestors.isEmpty())
+    {
+      wayP = ancestors.getTop();
+      ancestors.pop();
+
+      f(wayP->data);
+      wayP = wayP->right;
+    }
+  }
+  return f;
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename F >
+F psarev::avlTree<Key, Value, Compare>::traverseRnL(F f)
+{
+  Stack< Unit* > ancestors;
+  Unit* wayP = treeRoot;
+
+  while (!ancestors.isEmpty() || wayP != nullptr)
+  {
+    while (wayP != nullptr)
+    {
+      ancestors.push(wayP);
+      wayP = wayP->right;
+    }
+
+    if (!ancestors.isEmpty())
+    {
+      wayP = ancestors.getTop();
+      ancestors.pop();
+
+      f(wayP->data);
+      wayP = wayP->left;
+    }
+  }
+  return f;
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename F >
+F psarev::avlTree<Key, Value, Compare>::traverseBre(F f)
+{
+  if (isEmpty())
+  {
+    return f;
+  }
+  Queue< Unit* > stage;
+
+  stage.push(treeRoot);
+  while (!stage.isEmpty())
+  {
+    Unit* unit = stage.getFront();
+    f(unit->data);
+    stage.pop();
+
+    if (unit->left != nullptr)
+    {
+      stage.push(unit->left);
+    }
+
+    if (unit->right != nullptr)
+    {
+      stage.push(unit->right);
+    }
+  }
+  return f;
 }
 
 template<typename Key, typename Value, typename Compare>
