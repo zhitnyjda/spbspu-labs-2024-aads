@@ -55,7 +55,7 @@ namespace psarev
     iter find(const Key& key);
     iter insert(dataType& data);
     iter insert(dataType&& data);
-    void erase(const Key& key);
+    bool erase(const Key& key);
 
     template < typename F >
     F traverseLnR(F f) const;
@@ -959,12 +959,14 @@ typename psarev::avlTree< Key, Value, Compare >::Iterator psarev::avlTree< Key, 
 }
 
 template< typename Key, typename Value, typename Compare >
-void psarev::avlTree<Key, Value, Compare>::erase(const Key& key)
+bool psarev::avlTree<Key, Value, Compare>::erase(const Key& key)
 {
   if (find(key) != end())
   {
     treeRoot = delUnit(treeRoot, key);
+    return true;
   }
+  return false;
 }
 
 template< typename Key, typename Value, typename Compare >

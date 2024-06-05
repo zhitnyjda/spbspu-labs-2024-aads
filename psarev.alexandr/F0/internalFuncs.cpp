@@ -55,9 +55,9 @@ std::ostream& psarev::outTypesAmount(std::ostream& out, const std::string type, 
   return out;
 }
 
-using storage_t = std::map< std::string, psarev::List< std::string > >;
+using storage_t = psarev::avlTree< std::string, psarev::List< std::string > >;
 
-std::map< std::string, psarev::List< std::string > > psarev::readStorage(std::istream& in)
+psarev::avlTree< std::string, psarev::List< std::string > > psarev::readStorage(std::istream& in)
 {
   storage_t resStorage;
   std::string word = "";
@@ -75,7 +75,7 @@ std::map< std::string, psarev::List< std::string > > psarev::readStorage(std::is
         {
           List< std::string > words;
           words.pushBack(word);
-          resStorage.emplace(spType, words);
+          resStorage.insert({ spType, words });
         }
         else
         {
@@ -231,7 +231,7 @@ bool psarev::checkType(std::string& word, size_t& endSize, List< std::string >& 
   return false;
 }
 
-void psarev::outDepot(std::string dest, std::ofstream& out, std::map< std::string, storage_t >& depot)
+void psarev::outDepot(std::string dest, std::ofstream& out, avlTree< std::string, storage_t >& depot)
 {
   for (auto storage : depot)
   {
@@ -256,7 +256,7 @@ int psarev::letToSound(int let, bool& softFact)
   const std::string softMakers = "ёйеячищюь";
   const std::string notSoftMakers = "цукнгшзхъфывапролджэсмтб";
 
-  std::map< int, int > softSounds = { { -11887, -12098 }, { -12103, -12103 }, { -11889, -12112 }, { -11897, -11897 },
+  avlTree< int, int > softSounds = { { -11887, -12098 }, { -12103, -12103 }, { -11889, -12112 }, { -11897, -11897 },
   { -12104, -12104 }, { -11895, -11895 }, { -11890, -11901 } };
 
   for (int l : softMakers)
@@ -268,7 +268,7 @@ int psarev::letToSound(int let, bool& softFact)
     }
   }
 
-  std::map< int, int > nSoftSounds = { { -11898, -11898 }, { -11901, -11901 }, { -12102, -12102 }, { -12099, -12099 },
+  avlTree< int, int > nSoftSounds = { { -11898, -11898 }, { -11901, -11901 }, { -12102, -12102 }, { -12099, -12099 },
   { -12109, -12102 }, { -11896, -11896 }, { -12105, -11903 }, { -11899, -11899 }, { -11900, -11900 },
   { -11893, -11893 }, { -12110, -12110 }, { -12112, -12112 }, { -12097, -12097 }, { -11904, -11904 },
   { -12098, -12098 }, { -12101, -12101 }, { -12108, -11902 }, { -12106, -11896 }, { -11891, -11891 },

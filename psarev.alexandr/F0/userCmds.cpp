@@ -21,9 +21,9 @@ void psarev::cmdHelp(std::istream& in, std::ostream& out)
   out << "7.4 save < dest > - Saving whole depot to the < dest > directory.\n";
 }
 
-using storage_t = std::map< std::string, psarev::List< std::string > >;
+using storage_t = psarev::avlTree< std::string, psarev::List< std::string > >;
 
-void psarev::cmdCreate(std::istream& in, std::ostream& out, std::map< std::string, storage_t >& depot, std::string dest)
+void psarev::cmdCreate(std::istream& in, std::ostream& out, psarev::avlTree< std::string, storage_t >& depot, std::string dest)
 {
   std::string file;
   in >> file;
@@ -43,9 +43,10 @@ void psarev::cmdCreate(std::istream& in, std::ostream& out, std::map< std::strin
       {
         psarev::outInvCommand(out);
       }
-      depot.emplace(name, storage_t());
+      depot.insert({ name, storage_t() });
       storage_t tempoStorage = depot[name];
-      tempoStorage = psarev::readStorage(fileIn);
+      storage_t newStorage = psarev::readStorage(fileIn);
+      tempoStorage = newStorage;
       psarev::outSucCreate(out, name);
     }
   }
@@ -55,7 +56,7 @@ void psarev::cmdCreate(std::istream& in, std::ostream& out, std::map< std::strin
   }
 }
 
-void psarev::cmdChoose(std::istream& in, std::ostream& out, std::map< std::string, storage_t >& depot, std::string& storage)
+void psarev::cmdChoose(std::istream& in, std::ostream& out, avlTree< std::string, storage_t >& depot, std::string& storage)
 {
   std::string chName;
   in >> chName;
@@ -76,7 +77,7 @@ void psarev::cmdChoose(std::istream& in, std::ostream& out, std::map< std::strin
   }
 }
 
-void psarev::cmdDelete(std::istream& in, std::ostream& out, std::map< std::string, storage_t >& depot)
+void psarev::cmdDelete(std::istream& in, std::ostream& out, avlTree< std::string, storage_t >& depot)
 {
   std::string tempoS;
   in >> tempoS;
@@ -91,7 +92,7 @@ void psarev::cmdDelete(std::istream& in, std::ostream& out, std::map< std::strin
   }
 }
 
-void psarev::cmdList(std::ostream& out, std::map< std::string, storage_t >& depot)
+void psarev::cmdList(std::ostream& out, avlTree< std::string, storage_t >& depot)
 {
   for (auto iter = depot.begin(); iter != depot.end(); ++iter)
   {
@@ -99,7 +100,7 @@ void psarev::cmdList(std::ostream& out, std::map< std::string, storage_t >& depo
   }
 }
 
-void psarev::cmdShow(std::istream& in, std::ostream& out, std::map< std::string, storage_t >& depot)
+void psarev::cmdShow(std::istream& in, std::ostream& out, avlTree< std::string, storage_t >& depot)
 {
   std::string tempoS;
   in >> tempoS;
@@ -112,7 +113,7 @@ void psarev::cmdShow(std::istream& in, std::ostream& out, std::map< std::string,
   }
 }
 
-void psarev::cmdRename(std::istream& in, std::ostream& out, std::map< std::string, storage_t >& depot)
+void psarev::cmdRename(std::istream& in, std::ostream& out, avlTree< std::string, storage_t >& depot)
 {
   std::string name;
   std::string newName;
@@ -124,8 +125,8 @@ void psarev::cmdRename(std::istream& in, std::ostream& out, std::map< std::strin
     auto renamedSt = depot.find(newName);
     if (renamedSt == depot.end())
     {
-      depot.emplace(newName, desireSt->second);
-      depot.erase(desireSt);
+      depot.insert({ newName, desireSt->second });
+      depot.erase(desireSt->first);
     }
     else
     {
@@ -138,7 +139,7 @@ void psarev::cmdRename(std::istream& in, std::ostream& out, std::map< std::strin
   }
 }
 
-void psarev::cmdSave(std::istream& in, std::ostream& out, std::map< std::string, storage_t >& depot)
+void psarev::cmdSave(std::istream& in, std::ostream& out, avlTree< std::string, storage_t >& depot)
 {
   std::string dest;
   in >> dest;
@@ -168,7 +169,7 @@ void psarev::cmdSave(std::istream& in, std::ostream& out, std::map< std::string,
   }
 }
 
-void psarev::cmdPrint(std::istream& in, std::ostream& out, std::map<std::string, storage_t>& depot, std::string& storage)
+void psarev::cmdPrint(std::istream& in, std::ostream& out, avlTree<std::string, storage_t>& depot, std::string& storage)
 {
   std::string speechType;
   in >> speechType;
@@ -201,7 +202,7 @@ void psarev::cmdFono(std::istream& in, std::ostream& out)
     return;
   }
 
-  std::vector< std::string > soundsVec;
+  List< std::string > soundsVec;
   bool softFact = false;
   const std::string vowels = "ёуеыаоэяию";
   const std::string cons = "йцкнгшщзхфвпрлджчсмтб";
@@ -250,7 +251,7 @@ void psarev::cmdFono(std::istream& in, std::ostream& out)
   }
 }
 
-void psarev::cmdMakeSent(std::istream& in, std::ostream& out, std::map<std::string, storage_t>& depot, std::string& storage)
+void psarev::cmdMakeSent(std::istream& in, std::ostream& out, avlTree<std::string, storage_t>& depot, std::string& storage)
 {
   size_t usNum;
   in >> usNum;

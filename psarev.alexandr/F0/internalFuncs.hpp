@@ -2,15 +2,13 @@
 #define INTERNAL_FUNCS_HPP
 #include <iostream>
 #include <fstream>
-#include <map>
 #include <string>
-#include <vector>
 #include "../common/list.hpp"
 #include "../common/avlTree.hpp"
 
 namespace psarev
 {
-  using storage_t = std::map< std::string, List< std::string > >;
+  using storage_t = avlTree< std::string, List< std::string > >;
 
   std::ostream& outInvCommand(std::ostream& out);
   std::ostream& outEmptyFile(std::ostream& out);
@@ -32,7 +30,7 @@ namespace psarev
   std::string getSpType(std::string& word);
   bool checkType(std::string& word, size_t& endSize, List< std::string >& ends);
 
-  void outDepot(std::string dest, std::ofstream& out, std::map< std::string, storage_t >& depot);
+  void outDepot(std::string dest, std::ofstream& out, avlTree< std::string, storage_t >& depot);
 
   int letToSound(int let, bool& softFact);
   bool printSound(std::ostream& out, int sound, bool softFact);

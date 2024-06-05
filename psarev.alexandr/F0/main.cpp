@@ -1,29 +1,29 @@
 #include <limits>
-#include <functional>
 #include <iostream>
 #include "userCmds.hpp"
 #include "internalFuncs.hpp"
 
 int main()
 {
-  using storage_t = std::map< std::string, psarev::List< std::string > >;
-  std::map< std::string, storage_t > depot;
+  using storage_t = psarev::avlTree< std::string, psarev::List< std::string > >;
+  psarev::avlTree< std::string, storage_t > depot;
   std::string defaultSt = "";
-  std::map< std::string, std::function < void(std::istream&, std::ostream&, std::map< std::string, storage_t >&) > > userCmds;
+
+  psarev::avlTree< std::string, std::function < void(std::istream&, std::ostream&, psarev::avlTree< std::string, storage_t >&) > > userCmds;
   {
     using namespace std::placeholders;
-    userCmds["help"] = std::bind(psarev::cmdHelp, _1, _2);
-    userCmds["create"] = std::bind(psarev::cmdCreate, _1, _2, _3, "");
-    userCmds["delete"] = psarev::cmdDelete;
-    userCmds["list"] = std::bind(psarev::cmdList, _2, _3);
-    userCmds["show"] = psarev::cmdShow;
-    userCmds["rename"] = psarev::cmdRename;
-    userCmds["choose"] = std::bind(psarev::cmdCreate, _1, _2, _3, defaultSt);
-    userCmds["save"] = psarev::cmdSave;
+    userCmds.insert({"help", std::bind(psarev::cmdHelp, _1, _2) });
+    userCmds.insert({"create", std::bind(psarev::cmdCreate, _1, _2, _3, "") });
+    userCmds.insert({"delete", psarev::cmdDelete });
+    userCmds.insert({"list", std::bind(psarev::cmdList, _2, _3) });
+    userCmds.insert({"show", psarev::cmdShow });
+    userCmds.insert({"rename", psarev::cmdRename });
+    userCmds.insert({"choose", std::bind(psarev::cmdCreate, _1, _2, _3, defaultSt) });
+    userCmds.insert({"save", psarev::cmdSave });
 
-    userCmds["print"] = std::bind(psarev::cmdPrint, _1, _2, _3, defaultSt);
-    userCmds["fono"] = std::bind(psarev::cmdFono, _1, _2);
-    userCmds["makeSent"] = std::bind(psarev::cmdMakeSent, _1, _2, _3, defaultSt);
+    userCmds.insert({"print", std::bind(psarev::cmdPrint, _1, _2, _3, defaultSt) });
+    userCmds.insert({"fono", std::bind(psarev::cmdFono, _1, _2) });
+    userCmds.insert({"makeSent", std::bind(psarev::cmdMakeSent, _1, _2, _3, defaultSt) });
   }
 
   std::string userCmd = "";
