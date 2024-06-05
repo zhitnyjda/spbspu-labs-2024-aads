@@ -18,5 +18,8 @@ int main(int argc, char ** argv)
     std::cerr << "Error: not open file!\n";
     return 1;
   }
+  createTree(inputs, tree);
+  BSTree< std::string, std::function< void(BSTree< int, std::string >&) > > cmds;
+  cmds.insert("ascending",   );
   return 0;
 }
