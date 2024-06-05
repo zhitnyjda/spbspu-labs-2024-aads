@@ -18,6 +18,8 @@ namespace kovshikov
     class Iterator;
     class ConstIterator;
 
+    typedef T value_type;
+
     DoubleList(): head_(nullptr), tail_(nullptr) {};
     DoubleList(const DoubleList& dl);
     DoubleList(DoubleList&& dl);
@@ -36,6 +38,12 @@ namespace kovshikov
     void pushBack(const T& value);
     void popFront() noexcept;
     void popBack() noexcept;
+
+    void push_front(const T &value);
+    void push_back(const T& value);
+    void pop_front() noexcept;
+    void pop_back() noexcept;
+
     void clear() noexcept;
     void swap(DoubleList& dl) noexcept;
     void remove(const T &value);
@@ -55,7 +63,7 @@ namespace kovshikov
 }
 
 template< typename T >
-class kovshikov::DoubleList< T >::Iterator : public std::iterator< std::random_access_iterator_tag, T >
+class kovshikov::DoubleList< T >::Iterator : public std::iterator< std::bidirectional_iterator_tag, T >
 {
 public:
   friend class DoubleList< T >;
@@ -144,7 +152,7 @@ T * kovshikov::DoubleList< T >::Iterator::operator->()
 }
 
 template < typename T >
-class kovshikov::DoubleList< T >::ConstIterator : public std::iterator< std::random_access_iterator_tag, T >
+class kovshikov::DoubleList< T >::ConstIterator : public std::iterator< std::bidirectional_iterator_tag, T >
 {
 public:
   friend class DoubleList< T >;
@@ -382,6 +390,30 @@ void kovshikov::DoubleList< T >::popBack() noexcept
       tail_->next = nullptr;
     }
   }
+}
+
+template < typename T >
+void kovshikov::DoubleList< T >::push_front(const T &value)
+{
+  pushFront(value);
+}
+
+template < typename T >
+void kovshikov::DoubleList< T >::push_back(const T& value)
+{
+  pushBack(value);
+}
+
+template < typename T >
+void kovshikov::DoubleList< T >::pop_front() noexcept
+{
+  popFront();
+}
+
+template < typename T >
+void kovshikov::DoubleList< T >::pop_back() noexcept
+{
+  popBack();
 }
 
 template < typename T >
