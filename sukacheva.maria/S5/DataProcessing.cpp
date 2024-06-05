@@ -8,7 +8,7 @@ namespace sukacheva
   void inputTree(BinaryTree& tree, std::string& line)
   {
     std::istringstream iss(line);
-    int key;
+    long long key;
     std::string value;
     while (iss >> key >> value)
     {

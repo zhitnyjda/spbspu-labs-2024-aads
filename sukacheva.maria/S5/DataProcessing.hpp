@@ -5,7 +5,7 @@
 
 namespace sukacheva
 {
-  using BinaryTree = BST< int, std::string >;
+  using BinaryTree = BST< long long, std::string >;
 
   void inputTree(BinaryTree& tree, std::string& line);
   void ascendingCommand(BinaryTree& tree, std::ostream& out);
