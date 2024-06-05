@@ -246,7 +246,7 @@ namespace taskaev
   {
     std::string names, oneName, twoName;
     std::cin >> names >> oneName >> twoName;
-    BSTree<size_t, std::string> newTree = mergeTrees(tree.at(oneName), tree.at(twoName));
+    BSTree<size_t, std::string> tres = mergeTrees(tree.at(oneName), tree.at(twoName));
     if (names != oneName)
     {
       tree.insert(names, tres);
