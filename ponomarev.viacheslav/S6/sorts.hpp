@@ -56,7 +56,7 @@ namespace ponomarev
         }
       }
 
-      last++;
+      first++;
     }
   }
 }
