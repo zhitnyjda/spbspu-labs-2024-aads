@@ -525,7 +525,7 @@ F Tree<Key, Value, Comparator>::traverse_breadth(F f) const
     Node * current = queue.front();
     queue.pop();
     f(current->value_pair_);
-    if (current->left_ != nullptr) 
+    if (current->left_ != nullptr)
     {
       queue.push(current->left_);
     }
