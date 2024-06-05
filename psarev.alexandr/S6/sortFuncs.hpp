@@ -1,10 +1,11 @@
 #ifndef SORT_FUNCS_HPP
 #define SORT_FUNCS_HPP
-#include <iostream>
-#include <algorithm>
+#include <iomanip>
 #include <deque>
 #include <forward_list>
 #include "../common/list.hpp"
+#include "qSort.hpp"
+#include "shellSort.hpp"
 
 namespace psarev
 {
@@ -44,7 +45,7 @@ std::ostream& psarev::outDepot(std::ostream& out, const T& depot)
   for (auto iter = depot.begin(); iter != depot.end(); iter++)
   {
     out << std::fixed << std::setprecision(1) << *iter;
-    if ((std::next(iter) == depot.end())
+    if (std::next(iter) == depot.end())
     {
       out << "\n";
     }
@@ -59,7 +60,9 @@ std::ostream& psarev::outDepot(std::ostream& out, const T& depot)
 template< typename T, typename Compare >
 void psarev::makeSorted(std::ostream& out, size_t size, Compare compare)
 {
+  List< T > list;
   std::forward_list< T > fList;
+  std::deque< T > deque;
 
   fillDepots(size, list, fList, deque);
 
@@ -67,21 +70,17 @@ void psarev::makeSorted(std::ostream& out, size_t size, Compare compare)
   sortQ(fList.begin(), fList.end(), compare);
   outDepot(out, fList);
 
-  List< T > list;
+  //sortQ(list.begin(), list.end(), compare);
+  //outDepot(out, list);
+  //sortShell(list.begin(), list.end(), compare);
+  //outDepot(out, list);
 
-  sortQ(list.begin(), list.end(), compare);
-  outDepot(out, list);
-  shellSort(list.begin(), list.end(), compare);
-  outDepot(out, list);
-
-  std::deque< T > deque;
-
-  sortQ(deque.begin(), deque.end(), compare);
-  outDepot(out, deque);
-  shellSort(deque.begin(), deque.end(), compare);
-  outDepot(out, deque);
-  std::sort(deque.begin(), deque.end(), compare);
-  outDepot(out, deque);
+  //sortQ(deque.begin(), deque.end(), compare);
+  //outDepot(out, deque);
+  //sortShell(deque.begin(), deque.end(), compare);
+  //outDepot(out, deque);
+  //std::sort(deque.begin(), deque.end(), compare);
+  //outDepot(out, deque);
 }
 
 #endif
