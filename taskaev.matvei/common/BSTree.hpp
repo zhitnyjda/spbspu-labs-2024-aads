@@ -8,6 +8,8 @@
 #include <cassert>
 #include <functional>
 #include <algorithm>
+#include "Queue.hpp"
+#include "Stack.hpp"
 
 namespace taskaev
 {
@@ -42,6 +44,15 @@ namespace taskaev
 
     ConstIterator cbegin() const;
     ConstIterator cend() const;
+
+    template < typename F >
+    F traverse_lnr(F f);
+
+    template < typename F >
+    F traverse_rnl(F f);
+
+    template < typename F >
+    F traverse_breadth(F f);
 
   private:
     class Node
@@ -751,6 +762,91 @@ namespace taskaev
   typename BSTree< Key, Value, Comparator>::Iterator BSTree< Key, Value, Comparator >::end()
   {
     return Iterator(cend());
+  }
+
+  template < typename Key, typename Value, typename Comparator >
+  template < typename F >
+  F BSTree< Key, Value, Comparator >::traverse_lnr(F f)
+  {
+    Stack< Node* > stack;
+    Node* nodes = root_;
+    if (!nodes)
+    {
+      return f;
+    }
+
+    while (stack.isEmpty() || nodes)
+    {
+      if (nodes)
+      {
+        stack.push(nodes);
+        nodes = nodes->left_;
+      }
+      else
+      {
+        nodes = stack.top();
+        stack.pop();
+        f(nodes->data_);
+        nodes = nodes->right_;
+      }
+    }
+    return f;
+  }
+
+  template < typename Key, typename Value, typename Comparator >
+  template < typename F >
+  F BSTree< Key, Value, Comparator >::traverse_rnl(F f)
+  {
+    Stack< Node* > stack;
+    Node* nodes = root_;
+    if (!nodes)
+    {
+      return f;
+    }
+
+    while (stack.isEmpty() || nodes)
+    {
+      if (nodes)
+      {
+        stack.push(nodes);
+        nodes = nodes->right_;
+      }
+      else
+      {
+        nodes = stack.top();
+        stack.pop();
+        f(nodes->data_);
+        nodes = nodes->left_;
+      }
+    }
+    return f;
+
+  }
+  template < typename Key, typename Value, typename Comparator >
+  template < typename F >
+  F BSTree< Key, Value, Comparator >::traverse_breadth(F f)
+  {
+    Queue< Node* > queue;
+    if (root_ == nullptr)
+    {
+      return f;
+    }
+    queue.push(root_);
+    while (!queue.isEmpty())
+    {
+      Node* nodes = queue.front();
+      queue.pop();
+      f(nodes->data_);
+      if (nodes->left_)
+      {
+        queue.push(nodes->left);
+      }
+      if (nodes->right_)
+      {
+        queue.push(nodes->right_);
+      }
+    }
+    return f;
   }
 }
 #endif
