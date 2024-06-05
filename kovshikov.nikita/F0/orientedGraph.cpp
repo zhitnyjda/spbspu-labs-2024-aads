@@ -97,11 +97,10 @@ size_t kovshikov::getWeightEdge(std::pair< size_t, size_t > edge)
 
 void kovshikov::Graph::addVertex(size_t key, std::string str)
 {
- // tree.insert(key, Node(str));
   tree[key] = Node(str);
 }
 
-void kovshikov::Graph::deleteVertex(size_t key)
+void kovshikov::Graph::deleteVertex(size_t key)  //заменил!
 {
   try
   {
@@ -111,17 +110,18 @@ void kovshikov::Graph::deleteVertex(size_t key)
   {
     throw;
   }
-  std::vector< size_t > allKeys;
+  DoubleList< size_t > allKeys;
   std::transform(tree.begin(), tree.end(), std::back_inserter(allKeys), getKey);
-  std::vector< size_t > keys;
+  DoubleList< size_t > keys;
+  auto current = keys.begin();
   std::copy_if(allKeys.begin(), allKeys.end(), std::back_inserter(keys), std::bind(noThis, key, std::placeholders::_1));
-  size_t size = keys.size();
-  for(size_t i = 0; i < size; i++)
+  while(current != keys.end())
   {
-    if(tree[keys[i]].edges.find(key) != tree[keys[i]].edges.end())
+    if(tree[*current].edges.find(key) != tree[*current].edges.end())
     {
-      tree[keys[i]].edges.erase(key);
+      tree[*current].edges.erase(key);
     }
+    current++;
   }
   tree.erase(key);
 }

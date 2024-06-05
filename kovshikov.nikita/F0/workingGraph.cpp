@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <functional>
 #include <iterator>
-#include <vector>
 
 bool kovshikov::isDigit(char ch)
 {

@@ -4,10 +4,6 @@
 
 namespace kovshikov
 {
-  //
-//  template<class InputIterator, class OutputIterator>
-//  OutputIterator myCopy(InputIterator first, InputIterator last, OutputIterator result);
-  //
   void createGraph(Tree< std::string, Graph >& graphsList, std::istream& is);
   void createLonely(Tree< std::string, Graph >& graphsList, std::istream& is);
   void deleteGraph(Tree< std::string, Graph >& graphsList, std::istream& is);

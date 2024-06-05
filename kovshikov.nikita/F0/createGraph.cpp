@@ -5,21 +5,8 @@
 #include <iostream>
 #include <iterator>
 #include <sstream>
-#include <vector>
-
 #include "doublelist.hpp"
-/*
-template<class InputIterator, class OutputIterator>
-OutputIterator kovshikov::myCopy(InputIterator first, InputIterator last, OutputIterator result)
-{
-  while (first!=last)
-  {
-    *result = *first;
-    ++result; ++first;
-  }
-  return result;
-}
-*/
+
 void kovshikov::createGraph(Tree< std::string, Graph >& graphsList, std::istream& is)
 {
   std::string parameter;
@@ -177,11 +164,9 @@ void kovshikov::workWith(Tree< std::string, Graph >& graphsList, std::istream& i
 
 void kovshikov::outputGraphs(const Tree< std::string, Graph >& graphsList, std::ostream& out)
 {
- // std::vector< std::string > graphnames; //////заменить на список
   DoubleList< std::string > graphnames;
   std::transform(graphsList.begin(), graphsList.end(), std::back_inserter(graphnames), getGraphname);
   using output_it = std::ostream_iterator< std::string >;
- // myCopy(graphnames.cbegin(), graphnames.cend(), output_it{out, " "});
   std::copy(graphnames.begin(), graphnames.end(), output_it{out, " "});
   out << "\n";
 }
