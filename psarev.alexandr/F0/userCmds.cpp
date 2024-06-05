@@ -109,7 +109,7 @@ void psarev::cmdShow(std::istream& in, std::ostream& out, std::map< std::string,
 
   for (auto iter = depot[tempoS].begin(); iter != depot[tempoS].end(); ++iter)
   {
-    out << (*iter).first << ": " << ((*iter).second).size() << " ";
+    psarev::outTypesAmount(out, (*iter).first, ((*iter).second).size());
   }
 }
 

@@ -15,12 +15,13 @@ namespace psarev
   std::ostream& outEmptyFile(std::ostream& out);
   std::ostream& outEmptyFile(std::ostream& out);
   std::ostream& outEmptyFile(std::ostream& out);
-  std::ostream& outSucCreate(std::ostream& out, std::string name);
-  std::ostream& outSucChoose(std::ostream& out, std::string name);
-  std::ostream& outSucDelete(std::ostream& out, std::string name);
-  std::ostream& outStoreName(std::ostream& out, std::string name);
+  std::ostream& outSucCreate(std::ostream& out, const std::string name);
+  std::ostream& outSucChoose(std::ostream& out, const std::string name);
+  std::ostream& outSucDelete(std::ostream& out, const std::string name);
+  std::ostream& outStoreName(std::ostream& out, const std::string name);
   std::ostream& outDirectWrite(std::ostream& out);
   std::ostream& outAdmMessage(std::ostream& out);
+  std::ostream& outTypesAmount(std::ostream& out, const std::string type, size_t amo);
 
   storage_t readStorage(std::istream& in);
 
