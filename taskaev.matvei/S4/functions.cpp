@@ -108,7 +108,7 @@ namespace taskaev
     }
     else
     {
-      std::cout << "flags 1\n";
+      //std::cout << "flags 1\n";
       BSTree< size_t, std::string >::ConstIterator it = tres.cbegin();
       BSTree< size_t, std::string >::ConstIterator end = tres.cend();
       std::cout << datas << " ";
@@ -154,18 +154,9 @@ namespace taskaev
     //}
    // else
    // {
-      for (auto it = one.begin(); it != one.end(); ++it)
+      for (auto it = two.begin(); it != one.end(); ++it)
       {
-        bool flag = false;
-        for (auto iter = two.begin(); iter != two.end(); ++iter)
-        {
-          if (it->first == iter->first)
-          {
-            flag = true;
-            break;
-          }
-        }
-        if (!flag)
+        if (one.find(it->first) == one.cend())
         {
           tree.insert(*it);
         }
