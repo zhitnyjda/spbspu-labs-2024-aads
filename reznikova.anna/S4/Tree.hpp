@@ -25,6 +25,8 @@ namespace reznikova
     Tree(const Tree & otherTree);
     Tree(Tree && otherTree);
     ~Tree();
+    Tree & operator=(const Tree & otherTree);
+    Tree & operator=(Tree && otherTree);
 
     ConstIterator cbegin() const noexcept;
     ConstIterator cend() const noexcept;
@@ -431,6 +433,31 @@ template< typename Key, typename Value, typename Comparator >
 Tree< Key, Value, Comparator >::~Tree()
 {
   clear(root_);
+}
+
+template< typename Key, typename Value, typename Comparator >
+Tree< Key, Value, Comparator > & Tree< Key, Value, Comparator >::operator=(const Tree & otherTree)
+{
+  if (this == &otherTree) 
+  {
+    return *this;
+  }
+  clear();
+  root_(otherTree.root_);
+  return *this;
+}
+
+template< typename Key, typename Value, typename Comparator >
+Tree< Key, Value, Comparator > & Tree< Key, Value, Comparator >::operator=(Tree&& otherTree)
+{
+  if (this == &otherTree) 
+  {
+    return *this;
+  }
+  clear();
+  root_ = otherTree.root_;
+  otherTree.root_ = nullptr;
+  return *this;
 }
 
 template< typename Key, typename Value, typename Comparator >
