@@ -487,7 +487,6 @@ void BSTree< Key, Value, Comparator >::erase(const Key& key)
     {
       nodes->parent_->left_ = nullptr;
     }
-    Node* temp = nodes->parent_;
     delete nodes;
     return;
   }
@@ -509,7 +508,6 @@ void BSTree< Key, Value, Comparator >::erase(const Key& key)
       nodes->parent_->left_ = nodes->left_;
     }
     nodes->left_->parent_ = nodes->parent_;
-    Node* temp = nodes->parent_;
     delete nodes;
     return;
   }
@@ -531,7 +529,6 @@ void BSTree< Key, Value, Comparator >::erase(const Key& key)
       nodes->parent_->left_ = nodes->right_;
     }
     nodes->right_->parent_ = nodes->parent_;
-    Node* temp = nodes->parent_;
     delete nodes;
     return;
   }
