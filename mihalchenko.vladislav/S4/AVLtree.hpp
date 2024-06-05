@@ -828,7 +828,7 @@ bool mihalchenko::AVLTree< Key, Value, Compare >::Iterator::operator==(const Ite
   return constIter_ == rhs.constIter_;
 }
 
-template < typename Key, typename Value, typename Compare >
+template <typename Key, typename Value, typename Compare>
 typename mihalchenko::AVLTree< Key, Value, Compare >::Iterator
   mihalchenko::AVLTree< Key, Value, Compare >::findNode(const Key &key, Node *node)
 {
@@ -841,18 +841,15 @@ typename mihalchenko::AVLTree< Key, Value, Compare >::Iterator
   {
     return Iterator(ConstIterator(node, root_));
   }
-  else if (compFunc(key, node->pairOfKeyVal_.first))
+  if (compFunc(key, node->pairOfKeyVal_.first))
   {
     return findNode(key, node->left_);
   }
-  else if (!compFunc(key, node->pairOfKeyVal_.first))
+  if (!compFunc(key, node->pairOfKeyVal_.first))
   {
     return findNode(key, node->right_);
   }
-  else
-  {
-    throw std::out_of_range("Such element not exist\n");
-  }
+    throw std::out_of_range("There is no such node");
 }
 
 template < typename Key, typename Value, typename Compare >
