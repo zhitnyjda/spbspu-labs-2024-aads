@@ -35,7 +35,7 @@ namespace ponomarev
       {
         if (comp(*it, *std::next(it)))
         {
-          std::iter_swap(it, std::next(it));
+          std::iter_swap(std::next(it), it);
           swap = true;
         }
       }
