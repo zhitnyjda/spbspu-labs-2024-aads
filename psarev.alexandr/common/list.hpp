@@ -111,6 +111,7 @@ public:
 
   bool operator==(const this_t&) const;
   bool operator!=(const this_t&) const;
+  bool operator>=(const this_t&) const;
 
 private:
   Unit* unit;
@@ -193,6 +194,19 @@ bool psarev::List< T >::ConstIterator::operator!=(const this_t& that) const
 }
 
 template< typename T >
+bool psarev::List< T >::ConstIterator::operator>=(const this_t& that) const
+{
+  Unit* cur = unit;
+  while (cur) {
+    if (cur == that.unit) {
+      return true;
+    }
+    cur = cur->next;
+  }
+  return false;
+}
+
+template< typename T >
 class psarev::List< T >::Iterator : public std::iterator< std::bidirectional_iterator_tag, T >
 {
 public:
@@ -218,6 +232,7 @@ public:
 
   bool operator==(const this_t&) const;
   bool operator!=(const this_t&) const;
+  bool operator>=(const this_t&) const;
 
 private:
   ConstIterator iter_;
@@ -241,24 +256,23 @@ psarev::List< T >::Iterator::Iterator(ConstIterator constIter) :
 template < typename T >
 typename psarev::List< T >::Iterator& psarev::List< T >::Iterator::operator++()
 {
-  assert(iter_ != ConstIterator());
-  iter_++;
-  return iter_;
+  ++iter_;
+  return *this;
 };
 
 template < typename T >
 typename psarev::List< T >::Iterator psarev::List< T >::Iterator::operator++(int)
 {
+  this_t result = iter_;
   ++iter_;
-  return iter_;
+  return result;
 }
 
 template < typename T >
 typename psarev::List< T >::Iterator& psarev::List< T >::Iterator::operator--()
 {
-  assert(iter_ != nullptr);
-  iter_--;
-  return iter_;
+  --iter_;
+  return *this;
 }
 
 template < typename T >
@@ -312,6 +326,12 @@ template< typename T >
 bool psarev::List< T >::Iterator::operator!=(const this_t& that) const
 {
   return !(that == *this);
+}
+
+template< typename T >
+bool psarev::List< T >::Iterator::operator>=(const this_t& that) const
+{
+  return iter_ >= that.iter_;
 }
 
 template< typename T >
@@ -768,7 +788,7 @@ typename psarev::List< T >::ConstIterator psarev::List< T >::cbegin() const noex
 template< typename T >
 typename psarev::List< T >::ConstIterator psarev::List< T >::cend() const noexcept
 {
-  return ConstIterator(tail->next);
+  return nullptr;
 }
 
 template < typename T >
@@ -780,7 +800,7 @@ typename psarev::List< T >::ConstIterator psarev::List< T >::begin() const noexc
 template< typename T >
 typename psarev::List< T >::ConstIterator psarev::List< T >::end() const noexcept
 {
-  return ConstIterator(tail->next);
+  return nullptr;
 }
 
 template < typename T >
@@ -792,7 +812,7 @@ typename psarev::List< T >::Iterator psarev::List< T >::begin() noexcept
 template< typename T >
 typename psarev::List< T >::Iterator psarev::List< T >::end() noexcept
 {
-  return Iterator(tail->next);
+  return nullptr;
 }
 
 #endif
