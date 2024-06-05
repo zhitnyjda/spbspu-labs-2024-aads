@@ -88,20 +88,20 @@ void kovshikov::getDouble(Graph& graph, std::istream& is)
 
 void kovshikov::deleteElement(Graph& graph, std::istream& is)
 {
-  size_t num1;
-  size_t num2;
-  size_t num3;
-  is >> num1;
+  size_t keyOrNum;
+  size_t vertexWho;
+  size_t vertexWith;
+  is >> keyOrNum;
   if(is.peek() == '\n')
   {
-    graph.deleteVertex(num1);
+    graph.deleteVertex(keyOrNum);
   }
   else
   {
-    is >> num2 >> num3;
+    is >> vertexWho >> vertexWith;
     try
     {
-      graph.decreaseWeight(num2, num3, num1);
+      graph.decreaseWeight(vertexWho, vertexWith, keyOrNum);
     }
     catch(const std::logic_error& e)
     {
