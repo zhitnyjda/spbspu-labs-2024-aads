@@ -1,7 +1,7 @@
 #include "commands.hpp"
 #include <iostream>
 #include <fstream>
-#include "List.hpp"
+#include "list.hpp"
 
 using dictionary = BST< std::string, std::string >;
 
