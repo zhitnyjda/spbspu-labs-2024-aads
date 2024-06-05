@@ -3,7 +3,7 @@
 #include <iomanip>
 #include <deque>
 #include <forward_list>
-#include "../common/list.hpp"
+#include <list.hpp>
 #include "qSort.hpp"
 #include "shellSort.hpp"
 

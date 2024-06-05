@@ -20,8 +20,14 @@ int main(int argc, char* argv[])
   }
   catch (const std::invalid_argument&)
   {
-    psarev::outWrongParams(std::cout);
+    psarev::outWrongSize(std::cout);
     return 1;
+  }
+
+  if (size == 0)
+  {
+    psarev::outWrongSize(std::cout);
+    return 2;
   }
 
   std::map< std::string, std::map < std::string, std::function< void(std::ostream&, size_t) > > > sortFuncs;
