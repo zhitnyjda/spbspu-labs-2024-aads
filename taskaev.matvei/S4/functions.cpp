@@ -7,7 +7,7 @@ namespace taskaev
   void createTree(std::istream& in, Tree& tree)
   {
    std::cout << "1\n";
-    while (in.eof())
+    while (!in.eof())
     {
       std::string data = "";
       std::cout << "2\n";
