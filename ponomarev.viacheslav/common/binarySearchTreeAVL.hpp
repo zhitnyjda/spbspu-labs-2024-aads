@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <stdexcept>
 #include <iterator>
+#include "stack.hpp"
+#include "queue.hpp"
 
 namespace ponomarev
 {
@@ -14,6 +16,8 @@ namespace ponomarev
   public:
     class Iterator;
     class ConstIterator;
+    class LnRIterator;
+    class RnLIterator;
 
     using value_t = typename std::pair< Key, Value >;
 
@@ -48,6 +52,20 @@ namespace ponomarev
     Iterator end() noexcept;
     ConstIterator cbegin() const noexcept;
     ConstIterator cend() const noexcept;
+
+    template< typename F >
+    F constTraverseLR(F func) const;
+    template< typename F >
+    F traverseLR(F func);
+    template< typename F >
+    F constTraverseRL(F func) const;
+    template< typename F >
+    F traverseRL(F func);
+    template< typename F >
+    F constTraverseBreadth(F func) const;
+    template< typename F >
+    F traverseBreadth(F func);
+
   private:
     class Node;
 
@@ -66,6 +84,9 @@ namespace ponomarev
 }
 
 using namespace ponomarev;
+
+template < typename Key, typename Value >
+using value_t = typename std::pair< Key, Value >;
 
 template< typename Key, typename Value, typename Compare >
 class BSTree< Key, Value, Compare >::Iterator : public std::iterator< std::input_iterator_tag, Key, Value, Compare >
@@ -381,6 +402,206 @@ template< typename Key, typename Value, typename Compare >
 bool BSTree< Key, Value, Compare >::ConstIterator::operator!=(const ConstIterator & rhs) const
 {
   return node_ != rhs.node_;
+}
+
+template < typename Key, typename Value, typename Compare >
+class ponomarev::BSTree< Key, Value, Compare >::LnRIterator: public std::iterator< std::forward_iterator_tag, value_t >
+{
+  friend class BSTree;
+public:
+  using this_t = LnRIterator;
+  LnRIterator();
+  LnRIterator(const this_t &) = default;
+  ~LnRIterator() = default;
+
+  this_t & operator=(const this_t &) = default;
+  this_t & operator++();
+  this_t operator++(int);
+
+  value_t & operator*();
+  value_t * operator->();
+  const value_t & operator*() const;
+  const value_t * operator->() const;
+
+  bool operator!=(const this_t &) const;
+  bool operator==(const this_t &) const;
+
+private:
+  Node * node_;
+  Node * el_;
+  Stack< Node * > stack_;
+};
+
+template < typename Key, typename Value, typename Compare >
+ponomarev::BSTree< Key, Value, Compare >::LnRIterator::LnRIterator():
+  node_(nullptr),
+  el_(nullptr),
+  stack_(Stack< Node * >())
+{}
+
+template < typename Key, typename Value, typename Compare >
+typename ponomarev::BSTree< Key, Value, Compare >::LnRIterator & ponomarev::BSTree< Key, Value, Compare >::LnRIterator::operator++()
+{
+  if (node_ != nullptr || !stack_.isEmpty())
+  {
+    while (node_ != nullptr)
+    {
+      stack_.push(node_);
+      node_ = node_->left;
+    }
+    el_ = stack_.getUp();
+    stack_.pop();
+    node_ = el_->right;
+  }
+  else
+  {
+    throw std::out_of_range("wrong increment");
+  }
+  return *this;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename ponomarev::BSTree< Key, Value, Compare >::LnRIterator ponomarev::BSTree< Key, Value, Compare >::LnRIterator::operator++(int)
+{
+  LnRIterator result(*this);
+  ++(*this);
+  return result;
+}
+
+template < typename Key, typename Value, typename Compare >
+value_t< Key, Value > & ponomarev::BSTree< Key, Value, Compare >::LnRIterator::operator*()
+{
+  return el_->elem;
+}
+
+template < typename Key, typename Value, typename Compare >
+value_t< Key, Value > * ponomarev::BSTree< Key, Value, Compare >::LnRIterator::operator->()
+{
+  return std::addressof(el_->elem);
+}
+
+template < typename Key, typename Value, typename Compare >
+const value_t< Key, Value > & ponomarev::BSTree< Key, Value, Compare >::LnRIterator::operator*() const
+{
+  return el_->elem;
+}
+
+template < typename Key, typename Value, typename Compare >
+const value_t< Key, Value > * ponomarev::BSTree< Key, Value, Compare >::LnRIterator::operator->() const
+{
+  return std::addressof(el_->elem);
+}
+
+template < typename Key, typename Value, typename Compare >
+bool ponomarev::BSTree< Key, Value, Compare >::LnRIterator::operator==(const this_t & rhs) const
+{
+  return el_ == rhs.el_;
+}
+
+template < typename Key, typename Value, typename Compare >
+bool ponomarev::BSTree< Key, Value, Compare >::LnRIterator::operator!=(const this_t & rhs) const
+{
+  return !(rhs == *this);
+}
+
+template < typename Key, typename Value, typename Compare >
+class ponomarev::BSTree< Key, Value, Compare >::RnLIterator: public std::iterator< std::forward_iterator_tag, value_t >
+{
+  friend class BSTree;
+public:
+  using this_t = RnLIterator;
+  RnLIterator();
+  RnLIterator(const this_t &) = default;
+  ~RnLIterator() = default;
+
+  this_t & operator=(const this_t &) = default;
+  this_t & operator++();
+  this_t operator++(int);
+
+  value_t & operator*();
+  value_t * operator->();
+  const value_t & operator*() const;
+  const value_t * operator->() const;
+
+  bool operator!=(const this_t &) const;
+  bool operator==(const this_t &) const;
+
+private:
+  Node * node_;
+  Node * el_;
+  Stack< Node * > stack_;
+};
+
+template < typename Key, typename Value, typename Compare >
+ponomarev::BSTree< Key, Value, Compare >::RnLIterator::RnLIterator():
+  node_(nullptr),
+  el_(nullptr),
+  stack_(Stack< Node * >())
+{}
+
+template < typename Key, typename Value, typename Compare >
+typename ponomarev::BSTree< Key, Value, Compare >::RnLIterator & ponomarev::BSTree< Key, Value, Compare >::RnLIterator::operator++()
+{
+  if (node_ != nullptr || !stack_.isEmpty())
+  {
+    while (node_ != nullptr)
+    {
+      stack_.push(node_);
+      node_ = node_->right;
+    }
+    el_ = stack_.getUp();
+    stack_.pop();
+    node_ = el_->left;
+  }
+  else
+  {
+    throw std::out_of_range("can't increment");
+  }
+  return *this;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename ponomarev::BSTree< Key, Value, Compare >::RnLIterator ponomarev::BSTree< Key, Value, Compare >::RnLIterator::operator++(int)
+{
+  RnLIterator result(*this);
+  ++(*this);
+  return result;
+}
+
+template < typename Key, typename Value, typename Compare >
+value_t< Key, Value > & ponomarev::BSTree< Key, Value, Compare >::RnLIterator::operator*()
+{
+  return el_->elem;
+}
+
+template < typename Key, typename Value, typename Compare >
+value_t< Key, Value > * ponomarev::BSTree< Key, Value, Compare >::RnLIterator::operator->()
+{
+  return std::addressof(el_->elem);
+}
+
+template < typename Key, typename Value, typename Compare >
+const value_t< Key, Value > & ponomarev::BSTree< Key, Value, Compare >::RnLIterator::operator*() const
+{
+  return el_->elem;
+}
+
+template < typename Key, typename Value, typename Compare >
+const value_t< Key, Value > * ponomarev::BSTree< Key, Value, Compare >::RnLIterator::operator->() const
+{
+  return std::addressof(el_->elem);
+}
+
+template < typename Key, typename Value, typename Compare >
+bool ponomarev::BSTree< Key, Value, Compare >::RnLIterator::operator==(const this_t & rhs) const
+{
+  return el_ == rhs.el_;
+}
+
+template < typename Key, typename Value, typename Compare >
+bool ponomarev::BSTree< Key, Value, Compare >::RnLIterator::operator!=(const this_t & rhs) const
+{
+  return !(rhs == *this);
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -786,6 +1007,151 @@ typename BSTree< Key, Value, Compare >::Iterator BSTree< Key, Value, Compare >::
     }
   }
   return end();
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F ponomarev::BSTree< Key, Value, Compare >::constTraverseLR(F func) const
+{
+  Stack< Node * > stack;
+  Node * temp = root_;
+  while ((temp != nullptr) || (!stack.isEmpty()))
+  {
+    while (temp != nullptr)
+    {
+      stack.push(temp);
+      temp = temp->left;
+    }
+    temp = stack.getUp();
+    stack.pop();
+    func(temp->elem);
+    temp = temp->right;
+  }
+
+  return func;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F ponomarev::BSTree< Key, Value, Compare >::traverseLR(F func)
+{
+  Stack< Node * > stack;
+  Node * temp = root_;
+  while ((temp != nullptr) || (!stack.isEmpty()))
+  {
+    while (temp != nullptr)
+    {
+      stack.push(temp);
+      temp = temp->left;
+    }
+    temp = stack.getUp();
+    stack.pop();
+    func(temp->data);
+    temp = temp->right;
+  }
+
+  return func;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F ponomarev::BSTree< Key, Value, Compare >::constTraverseRL(F func) const
+{
+  Stack< Node * > stack;
+  Node * temp = root_;
+  while ((temp != nullptr) || (!stack.isEmpty()))
+  {
+    while (temp != nullptr)
+    {
+      stack.push(temp);
+      temp = temp->right;
+    }
+    temp = stack.getUp();
+    stack.pop();
+    func(temp->data);
+    temp = temp->left;
+  }
+
+  return func;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F ponomarev::BSTree< Key, Value, Compare >::traverseRL(F func)
+{
+  Stack< Node * > stack;
+  Node * temp = root_;
+  while ((temp != nullptr) || (!stack.isEmpty()))
+  {
+    while (temp != nullptr)
+    {
+      stack.push(temp);
+      temp = temp->right;
+    }
+    temp = stack.getUp();
+    stack.pop();
+    func(temp->data);
+    temp = temp->left;
+  }
+  return func;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F ponomarev::BSTree< Key, Value, Compare >::constTraverseBreadth(F func) const
+{
+  if (isEmpty())
+  {
+     return func;
+  }
+  Queue< Node * > queue;
+  queue.push(root_);
+
+  while (!queue.isEmpty())
+  {
+    Node * node = queue.getElem();
+    func(node->data);
+    queue.pop();
+    if (node->left != nullptr)
+    {
+      queue.push(node->left);
+    }
+    if (node->right != nullptr)
+    {
+      queue.push(node->right);
+    }
+  }
+
+  return func;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F ponomarev::BSTree< Key, Value, Compare >::traverseBreadth(F func)
+{
+  if (isEmpty())
+  {
+     return func;
+  }
+  Queue< Node * > queue;
+  queue.push(root_);
+
+  while (!queue.isEmpty())
+  {
+    Node * node = queue.getElem();
+    func(node->data);
+    queue.pop();
+    if (node->left != nullptr)
+    {
+      queue.push(node->left);
+    }
+    if (node->right != nullptr)
+    {
+      queue.push(node->right);
+    }
+  }
+
+  return func;
 }
 
 #endif
