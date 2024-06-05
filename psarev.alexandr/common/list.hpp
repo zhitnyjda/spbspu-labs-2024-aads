@@ -241,24 +241,23 @@ psarev::List< T >::Iterator::Iterator(ConstIterator constIter) :
 template < typename T >
 typename psarev::List< T >::Iterator& psarev::List< T >::Iterator::operator++()
 {
-  assert(iter_ != ConstIterator());
-  iter_++;
-  return iter_;
+  ++iter_;
+  return *this;
 };
 
 template < typename T >
 typename psarev::List< T >::Iterator psarev::List< T >::Iterator::operator++(int)
 {
+  this_t result = iter_;
   ++iter_;
-  return iter_;
+  return result;
 }
 
 template < typename T >
 typename psarev::List< T >::Iterator& psarev::List< T >::Iterator::operator--()
 {
-  assert(iter_ != nullptr);
-  iter_--;
-  return iter_;
+  --iter_;
+  return *this;
 }
 
 template < typename T >
