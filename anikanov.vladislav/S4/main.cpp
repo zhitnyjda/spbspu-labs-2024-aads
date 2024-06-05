@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
   using namespace anikanov;
 
   if (argc != 2) {
-    std::cerr << "Usage: " << argv[0] << " filename" << std::endl;
+    printInvalidUsage(std::cerr, argv);
     return 1;
   }
 
@@ -36,10 +36,10 @@ int main(int argc, char *argv[])
       token = std::strtok(nullptr, " ");
       std::string dictName(token);
       if (!token || dictionaries.count(dictName) == 0) {
-        std::cout << "<INVALID COMMAND>" << std::endl;
+        printInvalidCommand(std::cout);
       } else {
         if (dictionaries.count(dictName) == 0 || dictionaries[dictName].empty()) {
-          std::cout << "<EMPTY>" << std::endl;
+          printEmpty(std::cout);
         } else {
           std::cout << dictName << " ";
           print(std::cout, dictionaries[dictName]);
@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
       std::string dict2(token);
 
       if (dictionaries.count(dict1) == 0 || dictionaries.count(dict2) == 0) {
-        std::cout << "<INVALID COMMAND>" << std::endl;
+        printInvalidCommand(std::cout);
         delete[] cstr;
         continue;
       }
@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
       }
       dictionaries[newDict] = std::move(result);
     } else {
-      std::cout << "<INVALID COMMAND>" << std::endl;
+      printInvalidCommand(std::cout);
     }
 
     delete[] cstr;

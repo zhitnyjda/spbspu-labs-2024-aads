@@ -54,3 +54,18 @@ bool anikanov::loadFromFile(const std::string &filename, std::map< std::string, 
   }
   return true;
 }
+
+void anikanov::printInvalidUsage(std::ostream &os, char **argv)
+{
+  os << "Usage: " << argv[0] << " filename\n";
+}
+
+void anikanov::printInvalidCommand(std::ostream &os)
+{
+  os << "<INVALID COMMAND>\n";
+}
+
+void anikanov::printEmpty(std::ostream &os)
+{
+  os << "<EMPTY>\n";
+}
