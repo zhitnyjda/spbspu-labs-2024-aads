@@ -143,7 +143,7 @@ namespace taskaev
     tree.insert(names, tres);
   }
 
-  void findComplement(SubTree& two, SubTree& one, SubTree& tree)
+  void findComplement(SubTree& two, SubTree& one, SubTree& tres)
   {
    // if (two.empty())
    // {
@@ -158,7 +158,7 @@ namespace taskaev
       {
         if (one.find(it->first) == one.cend())
         {
-          tree.insert(*it);
+          tres.insert(*it);
         }
       }
    // }

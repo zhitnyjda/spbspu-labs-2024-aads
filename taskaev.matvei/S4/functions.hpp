@@ -16,7 +16,7 @@ namespace taskaev
   //void helpPrint(SubTree& tree, Iterator it, Iterator end);
 
   void complement(Tree& tree);
-  void findComplement(SubTree& two, SubTree& one, SubTree& tree);
+  void findComplement(SubTree& two, SubTree& one, SubTree& tres);
 
   void intersect(Tree& tree);
 
