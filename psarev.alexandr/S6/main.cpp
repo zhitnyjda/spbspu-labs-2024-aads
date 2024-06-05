@@ -1,4 +1,5 @@
 #include <map>
+#include <string>
 #include <functional>
 #include "sortFuncs.hpp"
 #include "utils.hpp"
@@ -25,7 +26,7 @@ int main(int argc, char* argv[])
   std::map< std::string, std::map < std::string, std::function< void(std::ostream&, int) > > > sortFuncs;
   {
     using namespace std::placeholders;
-    functions["ints"]["ascending"] = std::bind(psarev::makeSorted< int, std::less< int > >, _1, _2, std::less< int >());
+    sortFuncs["ints"]["ascending"] = std::bind(psarev::makeSorted< int, std::less< int > >, _1, _2, std::less< int >());
     sortFuncs["ints"]["descending"] = std::bind(psarev::makeSorted< int, std::greater< int > >, _1, _2, std::greater< int >());
 
     sortFuncs["floats"]["ascending"] = std::bind(psarev::makeSorted< double, std::less< double > >, _1, _2, std::less< double >());
@@ -34,7 +35,7 @@ int main(int argc, char* argv[])
 
   std::string sortDirect = argv[1];
   std::string dataType = argv[2];
-  if (sortFuncs.find(dataType) == nullptr || sortFuncs.at.(dataType).find(sortDirect) == nullptr)
+  if (sortFuncs.find(dataType) == sortFuncs.end())
   {
     psarev::outWrongParams(std::cout);
     return 1;

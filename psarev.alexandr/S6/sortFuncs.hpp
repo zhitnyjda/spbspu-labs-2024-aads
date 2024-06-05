@@ -23,8 +23,8 @@ void psarev::fillDepots(size_t size, List< int >& list, std::forward_list< int >
   for (size_t i = 0; i < size; ++i)
   {
     list.pushBack(rand() % 100);
-    fList.push_back(rand() % 100);
-    deque.pushBack(rand() % 100);
+    fList.push_front(rand() % 100);
+    deque.push_back(rand() % 100);
   }
 }
 
@@ -33,8 +33,8 @@ void psarev::fillDepots(size_t size, List< double >& list, std::forward_list< do
   for (size_t i = 0; i < size; ++i)
   {
     list.pushBack(double(rand() % 1000) / double(rand() % 100));
-    fList.push_back(double(rand() % 1000) / double(rand() % 100));
-    deque.pushBack(double(rand() % 1000) / double(rand() % 100));
+    fList.push_front(double(rand() % 1000) / double(rand() % 100));
+    deque.push_back(double(rand() % 1000) / double(rand() % 100));
   }
 }
 

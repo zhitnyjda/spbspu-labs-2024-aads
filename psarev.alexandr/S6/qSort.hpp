@@ -8,7 +8,7 @@ namespace psarev
   void sortQ(Iter begin, Iter end, Compare compare);
 
   template< typename Iter, typename Compare >
-  Iter splitThat(Iter begin, Iter end, Comparator compare);
+  Iter splitThat(Iter begin, Iter end, Compare compare);
 }
 
 template< typename Iter, typename Compare >
@@ -31,7 +31,7 @@ void psarev::sortQ(Iter begin, Iter end, Compare compare)
 }
 
 template< typename Iter, typename Compare >
-Iter splitThat(Iter begin, Iter end, Comparator compare)
+Iter splitThat(Iter begin, Iter end, Compare compare)
 {
   --end;
   while (begin != end)
