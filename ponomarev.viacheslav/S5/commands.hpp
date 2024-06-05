@@ -7,7 +7,7 @@
 
 namespace ponomarev
 {
-  using tree_t = ponomarev::BSTree< int, std::string, int >;
+  using tree_t = ponomarev::BSTree< long long, std::string, long long >;
 
   void makeInput(std::istream & in, tree_t & data);
 

@@ -7,7 +7,7 @@ namespace ponomarev
 {
   struct Key_summ
   {
-    void operator()(const std::pair< int, std::string > & value);
+    void operator()(const std::pair< long long, std::string > & value);
 
     int sum_ = 0;
     std::string valueRes_;

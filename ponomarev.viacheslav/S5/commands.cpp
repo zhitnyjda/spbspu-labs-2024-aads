@@ -2,7 +2,7 @@
 #include <iostream>
 #include "funcObj.hpp"
 
-using tree_t = ponomarev::BSTree< int, std::string, int >;
+using tree_t = ponomarev::BSTree< long long, std::string, long long >;
 
 void ponomarev::makeInput(std::istream & in, tree_t & data)
 {
@@ -13,7 +13,7 @@ void ponomarev::makeInput(std::istream & in, tree_t & data)
       in.clear();
     }
 
-    int key = 0;
+    long long key = 0;
     std::string value = "";
 
     if (in >> key >> value)

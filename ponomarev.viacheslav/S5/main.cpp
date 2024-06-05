@@ -4,7 +4,7 @@
 #include "commands.hpp"
 #include "IOFunctions.hpp"
 
-using tree_t = ponomarev::BSTree< int, std::string, int >;
+using tree_t = ponomarev::BSTree< long long, std::string, long long >;
 
 int main(int argc, char ** argv)
 {
@@ -30,7 +30,7 @@ int main(int argc, char ** argv)
     return 0;
   }
 
-  ponomarev::BSTree< std::string, std::function< void(std::ostream &, tree_t &) >, int > commands;
+  ponomarev::BSTree< std::string, std::function< void(std::ostream &, tree_t &) >, long long > commands;
   {
     commands["ascending"] = ponomarev::makeAscending;
     commands["descending"] = ponomarev::makeDescending;
