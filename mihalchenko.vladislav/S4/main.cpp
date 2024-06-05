@@ -21,21 +21,18 @@ int main(int argc, char *argv[])
     std::cerr << "Cannot open file\n";
     return 1;
   }
-
   std::string inputStr;
-  AVLTree<std::string, AVLTree<long long, std::string>> TreeAndLeaves{};
+  AVLTree< std::string, AVLTree< long long, std::string > > TreeAndLeaves{};
   while (getline(input, inputStr))
   {
     insertDataToTree(TreeAndLeaves, inputStr);
   }
-
-  using secondPar = AVLTree<std::string, AVLTree<long long, std::string>>;
-  AVLTree<std::string, std::function<void(secondPar & AVLTree)>> commands{};
+  using secondPar = AVLTree< std::string, AVLTree< long long, std::string > >;
+  AVLTree< std::string, std::function< void(secondPar & AVLTree) > > commands{};
   commands.insert("print", print);
   commands.insert("union", unionAVL);
   commands.insert("intersect", intersect);
   commands.insert("complement", complement);
-
   while (!std::cin.eof())
   {
     std::string inputCommand;
@@ -44,13 +41,12 @@ int main(int argc, char *argv[])
     if (commands.find(inputCommand) == commands.end() && !inputCommand.empty())
     {
       mihalchenko::printInvalidCommand(std::cout);
-      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+      std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
     }
     else if (!inputCommand.empty())
     {
       (*commands.find(inputCommand)).second(TreeAndLeaves);
     }
   }
-
   return 0;
 }

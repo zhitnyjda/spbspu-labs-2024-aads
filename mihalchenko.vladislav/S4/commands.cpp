@@ -75,7 +75,7 @@ void mihalchenko::complement(typeParam &AVLTree)
     printInvalidCommand(std::cout);
     return;
   }
-  mihalchenko::AVLTree<long long, std::string> compTree{};
+  mihalchenko::AVLTree< long long, std::string > compTree{};
   for (auto it = (*AVLTree.find(nameOneGlossary)).second.begin(); it != (*AVLTree.find(nameOneGlossary)).second.end(); it++)
   {
     auto inSecondData = (*AVLTree.find(nameTwoGlossary)).second.find((*it).first);
@@ -102,66 +102,60 @@ void mihalchenko::complement(typeParam &AVLTree)
 
 void mihalchenko::intersect(typeParam &AVLTree)
 {
-  std::string name, nameFirst, nameSecond;
-  std::cin >> name >> nameFirst >> nameSecond;
-  auto firstData = AVLTree.find(nameFirst);
-  auto Glossary = AVLTree.find(nameSecond);
-  if (firstData == AVLTree.end() || Glossary == AVLTree.end())
+  std::string nameNewGlossary, nameOneGlossary, nameTwoGlossary;
+  std::cin >> nameNewGlossary >> nameOneGlossary >> nameTwoGlossary;
+  if (AVLTree.find(nameOneGlossary) == AVLTree.end() || AVLTree.find(nameTwoGlossary) == AVLTree.end())
   {
     printInvalidCommand(std::cout);
     return;
   }
-  mihalchenko::AVLTree<long long, std::string> datasets{};
-  for (auto it = (*firstData).second.begin(); it != (*firstData).second.end(); it++)
+  mihalchenko::AVLTree< long long, std::string > dicts{};
+  for (auto it = (*AVLTree.find(nameOneGlossary)).second.begin(); it != (*AVLTree.find(nameOneGlossary)).second.end(); it++)
   {
-    auto inSecondData = (*AVLTree.find(nameSecond)).second.find((*it).first);
-    if (inSecondData != (*AVLTree.find(nameSecond)).second.end())
+    auto inSecondData = (*AVLTree.find(nameTwoGlossary)).second.find((*it).first);
+    if (inSecondData != (*AVLTree.find(nameTwoGlossary)).second.end())
     {
-      datasets.insert(*it);
+      dicts.insert(*it);
     }
   }
-  if (AVLTree.find(name) != AVLTree.end())
+  if (AVLTree.find(nameNewGlossary) != AVLTree.end())
   {
-    AVLTree.erase(name);
+    AVLTree.erase(nameNewGlossary);
   }
-  AVLTree.insert(name, datasets);
+  AVLTree.insert(nameNewGlossary, dicts);
 }
 
 void mihalchenko::unionAVL(typeParam &AVLTree)
 {
-  std::string name, nameFirst, nameSecond;
-  std::cin >> name >> nameFirst >> nameSecond;
-  auto firstData = AVLTree.find(nameFirst);
-  auto secondData = AVLTree.find(nameSecond);
-  std::string nameTest = "test";
-  if (firstData == AVLTree.end() || secondData == AVLTree.end())
+  std::string nameNewGlossary, nameOneGlossary, nameTwoGlossary;
+  std::cin >> nameNewGlossary >> nameOneGlossary >> nameTwoGlossary;
+  if (AVLTree.find(nameOneGlossary) == AVLTree.end() || AVLTree.find(nameTwoGlossary) == AVLTree.end())
   {
     printInvalidCommand(std::cout);
     return;
   }
-  mihalchenko::AVLTree<long long, std::string> datasets{};
-  for (auto it = (*firstData).second.begin(); it != (*firstData).second.end(); it++)
+  mihalchenko::AVLTree< long long, std::string > dicts{};
+  for (auto it = (*AVLTree.find(nameOneGlossary)).second.begin(); it != (*AVLTree.find(nameOneGlossary)).second.end(); it++)
   {
-    datasets.insert(*it);
+    dicts.insert(*it);
   }
-  for (auto it = (*secondData).second.begin(); it != (*secondData).second.end(); it++)
+  for (auto it = (*AVLTree.find(nameTwoGlossary)).second.begin(); it != (*AVLTree.find(nameTwoGlossary)).second.end(); it++)
   {
-    auto inSet = datasets.find((*it).first);
-    if (inSet == datasets.end())
+    if (dicts.find((*it).first) == dicts.end())
     {
-      datasets.insert(*it);
+      dicts.insert(*it);
     }
   }
-  if (AVLTree.find(name) != AVLTree.end())
+  if (AVLTree.find(nameNewGlossary) != AVLTree.end())
   {
-    AVLTree.erase(name);
+    AVLTree.erase(nameNewGlossary);
   }
-  AVLTree.insert(name, datasets);
+  AVLTree.insert(nameNewGlossary, dicts);
 }
 
 void mihalchenko::insertDataToTree(typeParam &TreeAndLeaves, std::string &inputStr)
 {
-  AVLTree<long long, std::string> branchAndLeaves{};
+  AVLTree< long long, std::string > branchAndLeaves{};
   size_t pos = 0;
   std::string nameGlossary = resiveString(inputStr, pos, true);
   while (pos < inputStr.length())
