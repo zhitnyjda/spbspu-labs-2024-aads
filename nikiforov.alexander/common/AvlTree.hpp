@@ -343,36 +343,39 @@ bool nikiforov::AvlTree< Key, Value, Compare >::Iterator::operator==(const this_
   return iter.pNode == rhs.iter.pNode;
 }
 
-template < typename Key, typename Value, typename Compare >
-class nikiforov::AvlTree< Key, Value, Compare >::LnrIterator : public std::iterator< std::bidirectional_iterator_tag, keyValue_t >
+namespace nikiforov
 {
-public:
-  friend class AvlTree< Key, Value, Compare >;
-  using this_t = LnrIterator;
+  template < typename Key, typename Value, typename Compare >
+  class AvlTree< Key, Value, Compare >::LnrIterator : public std::iterator< std::bidirectional_iterator_tag, keyValue_t >
+  {
+  public:
+    friend class AvlTree< Key, Value, Compare >;
+    using this_t = LnrIterator;
 
-  LnrIterator();
-  LnrIterator(Node* pNode);
-  LnrIterator(ConstIterator constIter);
-  LnrIterator(const this_t&) = default;
-  ~LnrIterator() = default;
+    LnrIterator();
+    LnrIterator(Node* pNode);
+    LnrIterator(ConstIterator constIter);
+    LnrIterator(const this_t&) = default;
+    ~LnrIterator() = default;
 
-  this_t& operator=(const this_t&) = default;
-  this_t& operator++();
-  this_t operator++(int);
-  this_t& operator--();
-  this_t operator--(int);
+    this_t& operator=(const this_t&) = default;
+    this_t& operator++();
+    this_t operator++(int);
+    this_t& operator--();
+    this_t operator--(int);
 
-  keyValue_t& operator*();
-  keyValue_t* operator->();
-  const keyValue_t& operator*() const;
-  const keyValue_t* operator->() const;
+    keyValue_t& operator*();
+    keyValue_t* operator->();
+    const keyValue_t& operator*() const;
+    const keyValue_t* operator->() const;
 
-  bool operator!=(const this_t&) const;
-  bool operator==(const this_t&) const;
+    bool operator!=(const this_t&) const;
+    bool operator==(const this_t&) const;
 
-private:
-  ConstIterator iter;
-};
+  private:
+    ConstIterator iter;
+  };
+}
 
 template < typename Key, typename Value, typename Compare >
 nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::LnrIterator() :
