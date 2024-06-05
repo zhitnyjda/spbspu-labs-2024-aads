@@ -34,14 +34,13 @@ namespace ponomarev
       Iterator left = first;
       Iterator right = last;
 
-      while (left != right)
+      for (auto it = left; it != right; it++)
       {
         if (comp(*std::next(left), *left))
         {
           std::iter_swap(left, std::next(left));
           last = left;
         }
-        left++;
       }
 
       if (left == first)
@@ -49,16 +48,15 @@ namespace ponomarev
         break;
       }
 
-      while (right != first)
+      for (auto it = right; it != left; it--)
       {
         if (comp(*right, *std::prev(right)))
         {
           std::iter_swap(right, std::prev(right));
         }
-        right--;
       }
 
-      first++;
+     first++;
     }
   }
 }

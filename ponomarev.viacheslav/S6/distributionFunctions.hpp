@@ -6,7 +6,7 @@
 
 namespace ponomarev
 {
-  void inputRandomData(std::forward_list< int > & list, int size)
+  void inputRandomData(std::list< int > & list, int size)
   {
     for (int i = 0; i < size; ++i)
     {
@@ -14,7 +14,7 @@ namespace ponomarev
     }
   }
 
-  void inputRandomData(std::forward_list< double > & list, int size)
+  void inputRandomData(std::list< double > & list, int size)
   {
     for (int i = 0; i < size; ++i)
     {
@@ -41,7 +41,7 @@ namespace ponomarev
     std::forward_list< T > forwardList;
     std::list< T > firstList;
     std::list< T > secondList;
-    inputRandomData(forwardList, size);
+    inputRandomData(firstList, size);
     std::deque< T > firstDeque;
     std::deque< T > secondDeque;
     std::deque< T > thirdDeque;
@@ -50,7 +50,7 @@ namespace ponomarev
     std::copy(firstList.begin(), firstList.end(), std::back_inserter(firstDeque));
     std::copy(firstList.begin(), firstList.end(), std::back_inserter(secondDeque));
     std::copy(firstList.begin(), firstList.end(), std::back_inserter(thirdDeque));
-    std::copy(firstList.begin(), firstList.end(), std::back_inserter(firstList));
+    std::copy(firstList.begin(), firstList.end(), std::front_inserter(forwardList));
 
     printData(out, firstList.begin(), firstList.end());
 
