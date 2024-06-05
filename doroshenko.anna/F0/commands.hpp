@@ -7,6 +7,7 @@
 namespace doroshenko
 {
   using dictionary = BST< std::string, std::string >;
+
   void help(std::istream& input, std::ostream& output);
   void createDict(BST< std::string, dictionary >& dicts, std::istream& input, std::ostream& output);
   void removeDict(BST< std::string, dictionary >& dicts, std::istream& input, std::ostream& output);

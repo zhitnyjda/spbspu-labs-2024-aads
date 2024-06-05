@@ -18,6 +18,7 @@ int main()
     commands.insert("write", std::bind(doroshenko::writeToFile, _1, _2, _3));
     commands.insert("top", std::bind(doroshenko::printTop, _1, _2, _3));
   }
+
   std::string cmd;
   while (std::cin >> cmd && cmd != "save")
   {
