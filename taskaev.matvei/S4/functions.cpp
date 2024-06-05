@@ -137,6 +137,7 @@ namespace taskaev
     BSTree< size_t, std::string > tres;
     if (oneName == twoName)
     {
+      //std::cout << tres.empty() << " " << tres.size() << "\n";
       tree.insert(names, tres);
       //std::cout << "2\n";
       return;
@@ -207,7 +208,7 @@ namespace taskaev
     BSTree< size_t, std::string > oneTres = tree.at(oneName);
     BSTree< size_t, std::string > twoTres = tree.at(twoName);
     //std::cout << "IN: " << oneTres.empty() << " " << twoTres.empty() << "\n";
-    if (oneTres.empty() && twoTres.empty())
+    if (!oneTres.empty() && !twoTres.empty())
     {
       tree.erase(names);
       tree.insert(names, tres);
