@@ -205,6 +205,11 @@ namespace taskaev
     BSTree< size_t, std::string > tres;
     BSTree< size_t, std::string > oneTres = tree.at(oneName);
     BSTree< size_t, std::string > twoTres = tree.at(twoName);
+    if (oneTres.empty() && twoTres.empty())
+    {
+      tree.insert(names, tres);
+      return;
+    }
     for (auto it = oneTres.begin(); it != oneTres.end(); ++it)
     {
       size_t key = it->first;
