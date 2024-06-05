@@ -2,19 +2,20 @@
 #include <functional>
 #include <map>
 #include "distributionFunctions.hpp"
+#include "outputErrorFunctions.hpp"
 
 int main(int argc, char ** argv)
 {
   if (argc != 4)
   {
-    std::cerr << "wrong number of parameters\n";
+    ponomarev::printInvalidParameters(std::cout);
     return 2;
   }
 
   int size = std::atoi(argv[3]);
   if (size == 0)
   {
-      std::cerr << "wrong size parameter\n";
+      ponomarev::pringWrongSize(std::cout);
       return 1;
   }
 
@@ -33,7 +34,7 @@ int main(int argc, char ** argv)
   }
   catch (const std::out_of_range &)
   {
-    std::cerr << "Error: wrong parameter\n";
+    ponomarev::printInvalidParameters(std::cout);
     return 1;
   }
 

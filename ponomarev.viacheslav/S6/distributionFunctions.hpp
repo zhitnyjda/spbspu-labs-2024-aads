@@ -2,6 +2,7 @@
 #include <forward_list>
 #include <algorithm>
 #include <list>
+#include <iomanip>
 #include "sorts.hpp"
 
 namespace ponomarev
@@ -29,7 +30,7 @@ namespace ponomarev
   {
     while (first != last)
     {
-      out << *first;
+      out << std::fixed << std::setprecision(1) << *first;
       out << (++first == last ? '\n' : ' ');
     }
     return out;
