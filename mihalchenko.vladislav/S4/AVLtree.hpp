@@ -849,7 +849,7 @@ typename mihalchenko::AVLTree< Key, Value, Compare >::Iterator
   {
     return findNode(key, node->right_);
   }
-    throw std::out_of_range("There is no such node");
+  throw std::out_of_range("There is no such node\n");
 }
 
 template < typename Key, typename Value, typename Compare >
@@ -873,10 +873,7 @@ typename mihalchenko::AVLTree< Key, Value, Compare >::ConstIterator
   {
     return findNode(key, node->right_);
   }
-  else
-  {
-    throw std::out_of_range("Such element not exist\n");
-  }
+  throw std::out_of_range("There is no such node\n");
 }
 
 template < typename Key, typename Value, typename Compare >
