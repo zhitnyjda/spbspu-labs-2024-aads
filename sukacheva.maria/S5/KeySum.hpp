@@ -11,13 +11,13 @@ namespace sukacheva
   {
     void operator()(const std::pair< const long long int, std::string >& keyValue)
     {
-      long long int max = std::numeric_limits< long long int >::max();
-      long long int min = std::numeric_limits< long long int >::min();
-      if (keyValue.first > 0 && result > max - keyValue.first)
+      long long max = std::numeric_limits< long long >::max();
+      long long min = std::numeric_limits< long long >::min();
+      if (keyValue.first > 0 && keyValue.first > max - result)
       {
         throw std::overflow_error("<OVERFLOW>\n");
       }
-      else if (keyValue.first < 0 && result < min - keyValue.first)
+      else if (keyValue.first < 0 && keyValue.first < min - result)
       {
         throw std::underflow_error("<UNDERFLOW>\n");
       }
