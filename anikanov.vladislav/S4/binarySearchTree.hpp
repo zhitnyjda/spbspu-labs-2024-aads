@@ -11,62 +11,16 @@ namespace anikanov {
   template< typename Key, typename Value, typename Compare >
   class BinarySearchTree {
   public:
-    class Node {
-    public:
-      Node(std::shared_ptr< Node > &node);
-      Node(const Key &key, const Value &value, std::shared_ptr< Node > parent = nullptr);
-    private:
-      friend class BinarySearchTree;
-
-      std::pair< Key, Value > data;
-      std::shared_ptr< Node > left;
-      std::shared_ptr< Node > right;
-      std::weak_ptr< Node > parent;
-      int height;
-    };
-
     BinarySearchTree();
-    ~BinarySearchTree();
     BinarySearchTree(const BinarySearchTree &other);
     BinarySearchTree(const BinarySearchTree &&other) noexcept;
     BinarySearchTree &operator=(const BinarySearchTree &other);
     BinarySearchTree &operator=(BinarySearchTree &&other) noexcept;
+    ~BinarySearchTree();
 
-    class Iterator : public std::iterator< std::bidirectional_iterator_tag, std::pair< Key, Value > > {
-    private:
-      Node *current;
-      Node *findNext(Node *node) const;
-      Node *findPrev(Node *node) const;
-    public:
-      Iterator();
-      explicit Iterator(Node *node);
-      ~Iterator() = default;
-      Iterator &operator++();
-      Iterator operator++(int);
-      Iterator &operator--();
-      Iterator operator--(int);
-      std::pair< Key, Value > &operator*();
-      std::pair< Key, Value > *operator->();
-      std::pair< Key, Value > &operator*() const;
-      std::pair< Key, Value > *operator->() const;
-      bool operator==(const Iterator &other) const;
-      bool operator!=(const Iterator &other) const;
-    };
+    class Iterator;
 
-    class ConstIterator : public std::iterator< std::bidirectional_iterator_tag, std::pair< Key, Value > > {
-    private:
-      Iterator iter;
-    public:
-      ConstIterator(Iterator it);
-      const std::pair< Key, Value > &operator*() const;
-      const std::pair< Key, Value > *operator->() const;
-      ConstIterator &operator++();
-      ConstIterator operator++(int);
-      ConstIterator &operator--();
-      ConstIterator operator--(int);
-      bool operator==(const ConstIterator &other) const;
-      bool operator!=(const ConstIterator &other) const;
-    };
+    class ConstIterator;
 
     void push(const Key &key, const Value &value);
     Value &operator[](const Key &key);
@@ -87,6 +41,16 @@ namespace anikanov {
     void erase(const Key &key);
 
   private:
+    struct Node {
+      std::pair< Key, Value > data;
+      std::shared_ptr< Node > left;
+      std::shared_ptr< Node > right;
+      std::weak_ptr< Node > parent;
+      int height;
+      Node(std::shared_ptr< Node > &node);
+      Node(const Key &key, const Value &value, std::shared_ptr< Node > parent = nullptr);
+    };
+
     std::shared_ptr< Node > root;
     size_t nodeCount;
     Compare comp;
@@ -104,6 +68,50 @@ namespace anikanov {
     std::shared_ptr< Node > clone(const Node *node) const;
   };
 }
+template< typename Key, typename Value, typename Compare >
+class anikanov::BinarySearchTree< Key, Value, Compare >::Iterator
+    : public std::iterator< std::bidirectional_iterator_tag, std::pair< Key, Value > > {
+private:
+  Node *current;
+  Node *findNext(Node *node) const;
+  Node *findPrev(Node *node) const;
+public:
+  friend class BinarySearchTree;
+
+  using kvPair = std::pair< Key, Value >;
+
+  Iterator();
+  explicit Iterator(Node *node);
+  Iterator &operator++();
+  Iterator operator++(int);
+  Iterator &operator--();
+  Iterator operator--(int);
+  kvPair &operator*();
+  kvPair *operator->();
+  const kvPair &operator*() const;
+  const kvPair *operator->() const;
+  bool operator==(const Iterator &other) const;
+  bool operator!=(const Iterator &other) const;
+};
+
+template< typename Key, typename Value, typename Compare >
+class anikanov::BinarySearchTree< Key, Value, Compare >::ConstIterator
+    : public std::iterator< std::bidirectional_iterator_tag, std::pair< Key, Value > > {
+private:
+  Iterator iter;
+public:
+  friend class BinarySearchTree;
+
+  ConstIterator(Iterator it);
+  const std::pair< Key, Value > &operator*() const;
+  const std::pair< Key, Value > *operator->() const;
+  ConstIterator &operator++();
+  ConstIterator operator++(int);
+  ConstIterator &operator--();
+  ConstIterator operator--(int);
+  bool operator==(const ConstIterator &other) const;
+  bool operator!=(const ConstIterator &other) const;
+};
 
 template< typename Key, typename Value, typename Compare >
 anikanov::BinarySearchTree< Key, Value, Compare >::BinarySearchTree()
@@ -257,7 +265,7 @@ std::pair< Key, Value > &anikanov::BinarySearchTree< Key, Value, Compare >::Iter
 }
 
 template< typename Key, typename Value, typename Compare >
-std::pair< Key, Value > &anikanov::BinarySearchTree< Key, Value, Compare >::Iterator::operator*() const
+const std::pair< Key, Value > &anikanov::BinarySearchTree< Key, Value, Compare >::Iterator::operator*() const
 {
   return current->data;
 }
@@ -269,7 +277,7 @@ std::pair< Key, Value > *anikanov::BinarySearchTree< Key, Value, Compare >::Iter
 }
 
 template< typename Key, typename Value, typename Compare >
-std::pair< Key, Value > *anikanov::BinarySearchTree< Key, Value, Compare >::Iterator::operator->() const
+const std::pair< Key, Value > *anikanov::BinarySearchTree< Key, Value, Compare >::Iterator::operator->() const
 {
   return &current->data;
 }
