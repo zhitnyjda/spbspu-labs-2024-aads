@@ -25,41 +25,33 @@ namespace ponomarev
   }
 
   template < typename Iterator, typename Comparator >
-  void sortShaker(Iterator first, Iterator last, Comparator comp)
+  void sortShaker(Iterator begin, Iterator end, Comparator comp)
   {
-    last--;
-    while (first != last)
+    bool swap = true;
+    while (swap)
     {
-      Iterator left = first;
-      Iterator right = last;
-
-      for (auto it = left; it != right; it++)
+      swap = false;
+      for (auto it = begin; it != std::prev(end); ++it)
       {
-        if (comp(*std::next(left), *left))
+        if (comp(*it, *std::next(it)))
         {
-          std::iter_swap(left, std::next(left));
-          last = left;
+          std::iter_swap(it, std::next(it));
+          swap = true;
         }
-        left++;
       }
 
-      if (left == first)
-      {
-        break;
-      }
+      if (!swap) break;
 
-      for (auto it = right; it != left; it--)
+      swap = false;
+      for (auto it = std::prev(end); it != begin; --it)
       {
-        if (comp(*right, *std::prev(right)))
+        if (comp(*it, *std::prev(it)))
         {
-          std::iter_swap(right, std::prev(right));
+          std::iter_swap(it, std::prev(it));
+          swap = true;
         }
-        right--;
       }
-
-      first++;
     }
   }
 }
-
 #endif
