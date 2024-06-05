@@ -17,7 +17,7 @@ bool compareNames(const std::string& rhs, const std::string& lhs)
 
 bool nameIsNotUnique(const std::string& name, const miheev::Workspace& workspace)
 {
-  std::vector< std::string > names;
+  miheev::List< std::string > names;
   miheev::getGraphsNames(workspace, names);
   {
     using namespace std::placeholders;
@@ -30,7 +30,7 @@ bool nameIsNotUnique(const std::string& name, const miheev::Workspace& workspace
   }
 }
 
-void miheev::getGraphsNames(const miheev::Workspace& workspace, std::vector< std::string >& accumulator)
+void miheev::getGraphsNames(const miheev::Workspace& workspace, miheev::List< std::string >& accumulator)
 {
   std::transform(workspace.graphs.cbegin(), workspace.graphs.cend(), std::back_inserter(accumulator), getName);
 }

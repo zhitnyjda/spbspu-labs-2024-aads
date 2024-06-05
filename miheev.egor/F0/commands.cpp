@@ -4,9 +4,9 @@
 #include <iostream>
 #include <limits>
 #include <fstream>
-#include <sstream>
 #include <scopeguard.hpp>
 #include "IOFunctions.hpp"
+#include <list.hpp>
 
 std::ostream& miheev::commands::node(std::ostream& out, std::istream& in, miheev::Workspace& workspace)
 {
@@ -163,7 +163,7 @@ std::ostream& miheev::commands::navigate(std::ostream& out, std::istream& in, co
 
 std::ostream& miheev::commands::list(std::ostream& out, std::istream&, const miheev::Workspace& workspace)
 {
-  std::vector< std::string > names;
+  miheev::List< std::string > names;
   miheev::getGraphsNames(workspace, names);
   std::copy(
     names.begin(),

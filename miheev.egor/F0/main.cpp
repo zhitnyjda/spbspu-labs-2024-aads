@@ -6,8 +6,6 @@
 #include "commands.hpp"
 #include "IOFunctions.hpp"
 
-#include <sstream>
-
 int main(int argc, char* argv[])
 {
   using namespace miheev;

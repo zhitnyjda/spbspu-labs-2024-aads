@@ -2,7 +2,6 @@
 #define WORKSPACE_HPP
 
 #include "graph.hpp"
-#include <vector>
 
 namespace miheev
 {
