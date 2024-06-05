@@ -22,7 +22,7 @@ namespace taskaev
       {
         return false;
       }
-      else if (!isNegative && !std::isdigit(str[i]))
+      else if (!isFlag && !std::isdigit(str[i]))
       {
         return false;
       }
