@@ -37,10 +37,13 @@ namespace psarev
     void assign(iter beginThat, iter endThat);
     void assign(std::initializer_list< T > ilThat);
 
+    iter insert(iter pos, iter beginThat, iter endThat);
+
     iter insert(iter& pos, T& data);
     iter insert(iter& pos, T&& data);
     iter insert(iter& pos, size_t& amount, T& data);
     iter insert(iter& pos, size_t& amount, T&& data);
+
     iter erase(iter& pos);
     iter erase(iter& first, iter& last);
 
@@ -350,7 +353,7 @@ T& psarev::List< T >::operator[](const size_t index)
     current = current->next;
     counter++;
   }
-  throw std::out_of_range("Error: Indexuot of range!");
+  throw std::out_of_range("Error: Index out of range!");
 }
 
 template< typename T >
@@ -539,6 +542,18 @@ void psarev::List<T>::assign(std::initializer_list<T> ilThat)
   {
     pushBack(data);
   }
+}
+
+template<typename T>
+typename psarev::List< T >::Iterator psarev::List<T>::insert(iter pos, iter beginThat, iter endThat)
+{
+  while (beginThat != endThat)
+  {
+    insert(pos, *beginThat);
+    ++beginThat;
+    ++pos;
+  }
+  return pos;
 }
 
 template<typename T>
