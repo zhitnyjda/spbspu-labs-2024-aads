@@ -66,21 +66,15 @@ void psarev::makeSorted(std::ostream& out, size_t size, Compare compare)
 
   fillDepots(size, list, fList, deque);
 
-  outDepot(out, fList);
   sortQ(fList.begin(), fList.end(), compare);
-  outDepot(out, fList);
 
   sortQ(list.begin(), list.end(), compare);
-  outDepot(out, list);
   sortShell(list.begin(), list.end(), compare);
   outDepot(out, list);
 
   sortQ(deque.begin(), deque.end(), compare);
-  outDepot(out, deque);
   sortShell(deque.begin(), deque.end(), compare);
-  outDepot(out, deque);
   std::sort(deque.begin(), deque.end(), compare);
-  outDepot(out, deque);
 }
 
 #endif

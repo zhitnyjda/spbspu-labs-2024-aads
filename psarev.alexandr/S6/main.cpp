@@ -8,19 +8,25 @@ int main(int argc, char* argv[])
 {
   if (argc != 4)
   {
-    std::cerr << "Error: Wrong parameters amount!\n";
+    psarev::outWrongParams(std::cout);
     return 1;
   }
 
   size_t size = 0;
+  size = std::stoull(argv[3]);
   try
   {
     size = std::stoull(argv[3]);
   }
-  catch (const std::invalid_argument&)
+  catch (const std::invalid_argument& e)
   {
     psarev::outWrongParams(std::cout);
     return 1;
+  }
+  if (size <= 0)
+  {
+    psarev::outWrongSize(std::cout);
+    return 2;
   }
 
   std::map< std::string, std::map < std::string, std::function< void(std::ostream&, size_t) > > > sortFuncs;
@@ -33,9 +39,6 @@ int main(int argc, char* argv[])
     sortFuncs["floats"]["descending"] = std::bind(psarev::makeSorted< double, std::greater< double > >, _1, _2, std::greater< double >());
   }
 
-  //size_t size = 5;
-  //std::string sortDirect = "ascending";
-  //std::string dataType = "ints";
   std::string sortDirect = argv[1];
   std::string dataType = argv[2];
 
