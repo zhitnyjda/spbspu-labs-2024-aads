@@ -1,6 +1,7 @@
 #include "workingGraph.hpp"
 #include <algorithm>
 #include <functional>
+#include <iostream>
 #include <iterator>
 #include "outMessage.hpp"
 

@@ -1,6 +1,6 @@
 #ifndef WORKINGGRAPH_HPP
 #define WORKINGGRAPH_HPP
-#include <iostream>
+#include <iosfwd>
 #include "orientedGraph.hpp"
 
 namespace kovshikov
