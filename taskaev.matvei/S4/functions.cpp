@@ -100,7 +100,7 @@ namespace taskaev
   {
     std::string datas = "";
     std::cin >> datas;
-    BSTree< size_t, std::string > tres = tree.at(datas); // ТУТ ОШИБКА НО ПОЧЕМУ?
+    BSTree< size_t, std::string > tres = tree.at(datas);
     if (tres.empty())
     {
       errorEmpty(std::cout);
@@ -138,6 +138,7 @@ namespace taskaev
     if (oneName == twoName)
     {
       tree.insert(names, tres);
+      //std::cout << "2\n";
       return;
     }
     //std::cout << tree.size() << " " << tres.size() << "\n";
@@ -205,8 +206,10 @@ namespace taskaev
     BSTree< size_t, std::string > tres;
     BSTree< size_t, std::string > oneTres = tree.at(oneName);
     BSTree< size_t, std::string > twoTres = tree.at(twoName);
+    //std::cout << "IN: " << oneTres.empty() << " " << twoTres.empty() << "\n";
     if (oneTres.empty() && twoTres.empty())
     {
+      tree.erase(names);
       tree.insert(names, tres);
       return;
     }
