@@ -194,7 +194,7 @@ namespace sukacheva
       return f;
     }
     Queue< TreeNode* > queue;
-    queue.push(root);
+    queue.push(findMin(root));
     while (!queue.empty())
     {
       TreeNode* applicant = queue.front();
