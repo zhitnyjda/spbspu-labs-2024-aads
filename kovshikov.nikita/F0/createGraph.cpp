@@ -7,8 +7,6 @@
 #include <sstream>
 #include <vector>
 
-#include "BinarySearchTree.hpp"
-
 void kovshikov::createGraph(Tree< std::string, Graph >& graphsList, std::istream& is)
 {
   std::string parameter;

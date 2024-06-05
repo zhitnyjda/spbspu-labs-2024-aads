@@ -1,11 +1,9 @@
 #ifndef ORIENTEDGRAPH_HPP
 #define ORIENTEDGRAPH_HPP
 #include <cstddef>
-#include <map>
 #include <string>
 #include <utility>
 #include <vector>
-
 #include "BinarySearchTree.hpp"
 
 namespace kovshikov

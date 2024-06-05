@@ -45,7 +45,7 @@ namespace kovshikov
     Value& operator[](const Key& key);
     Value& at(const Key& key);
 
-    const Value& at(const Key& key) const; ////
+    const Value& at(const Key& key) const;
 
     void clear();
     size_t erase(const Key& key);
@@ -90,8 +90,6 @@ class kovshikov::Tree< Key, Value, Compare >::Node
 public:
   friend class Tree< Key, Value, Compare >;
   Node(Key key, Value value, Node* father = nullptr, Node* left = nullptr, Node* right = nullptr);
- // Node(const Node& node); ////
- // Node& operator=(const Node& node); ////
 
 private:
   Node* left_;
@@ -107,34 +105,7 @@ kovshikov::Tree< Key, Value, Compare >::Node::Node(Key key, Value value, Node* f
   father_(father),
   element_(std::make_pair(key, value))
 {};
-/*
-/////start
-template< typename Key, typename Value, typename Compare >
-kovshikov::Tree< Key, Value, Compare >::Node::Node(const Node& node)
-{
-  if(*this != node)
-  {
-    left_ = node.left_;
-    right_ = node.right_;
-    father_ = node.father_;
-    element_ = node.element_;
-  }
-}
 
-template< typename Key, typename Value, typename Compare >
-typename kovshikov::Tree< Key, Value, Compare >::Node& kovshikov::Tree< Key, Value, Compare >::Node::operator=(const Node& node)
-{
-  if(*this != node)
-  {
-    left_ = node.left_;
-    right_ = node.right_;
-    father_ = node.father_;
-    element_ = node.element_;
-  }
-  return *this;
-}
-//////finish
-*/
 template< typename Key, typename Value, typename Compare >
 class kovshikov::Tree< Key, Value, Compare >::Iterator : public std::iterator< std::bidirectional_iterator_tag, Pair >
 {
@@ -724,7 +695,7 @@ Value& kovshikov::Tree< Key, Value, Compare >::at(const Key& key)
     return find(key) -> second;
   }
 }
-////////////start
+
 template< typename Key, typename Value, typename Compare >
 const Value& kovshikov::Tree< Key, Value, Compare >::at(const Key& key) const
 {
@@ -737,7 +708,7 @@ const Value& kovshikov::Tree< Key, Value, Compare >::at(const Key& key) const
     return find(key) -> second;
   }
 }
-////////////finish
+
 template< typename Key, typename Value, typename Compare >
 void kovshikov::Tree< Key, Value, Compare >::clear(Node* node)
 {

@@ -3,10 +3,7 @@
 #include <iostream>
 #include <limits>
 #include "createGraph.hpp"
-#include "orientedGraph.hpp"
 #include "outMessage.hpp"
-
-#include "BinarySearchTree.hpp"
 
 int main()
 {

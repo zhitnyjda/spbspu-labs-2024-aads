@@ -4,14 +4,13 @@
 #include <iostream>
 #include <iterator>
 #include <numeric>
-#include <vector>
 
 kovshikov::Graph& kovshikov::Graph::operator=(const Graph& graph)
 {
   auto current = graph.tree.begin();
   while(current != graph.tree.end())
   {
-    tree.insert(*current); //добавление по итератору
+    tree.insert(*current);
     current++;
   }
   return *this;
@@ -22,7 +21,7 @@ kovshikov::Graph::Node& kovshikov::Graph::Node::operator=(const Node& node)
   auto current = node.edges.begin();
   while(current != node.edges.end())
   {
-    edges.insert(*current); //добавление по итератору
+    edges.insert(*current);
     current++;
   }
   value = node.value;

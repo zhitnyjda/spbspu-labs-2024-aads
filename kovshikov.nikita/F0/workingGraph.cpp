@@ -1,9 +1,9 @@
+#include "orientedGraph.hpp"
 #include "workingGraph.hpp"
 #include <algorithm>
 #include <functional>
 #include <iterator>
 #include <vector>
-#include "orientedGraph.hpp"
 
 bool kovshikov::isDigit(char ch)
 {

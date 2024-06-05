@@ -1,9 +1,6 @@
 #ifndef CREATEGRAPH_HPP
 #define CREATEGRAPH_HP
-#include "orientedGraph.hpp"
 #include "workingGraph.hpp"
-
-#include "BinarySearchTree.hpp"
 
 namespace kovshikov
 {
