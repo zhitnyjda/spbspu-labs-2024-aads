@@ -9,14 +9,20 @@ namespace taskaev
 {
   bool numbers(const std::string& str)
   {
-    if (str.empty())
+    size_t size = str.length();
+    bool isFlag = false;
+    if (size > 1 && str[0] == '-')
     {
-      return false;
+      isFlag = true;
     }
-    bool isFalg = (str[0] == '-');
-    for (size_t i = 0; i < str.length(); i++)
+
+    for (size_t i = 0; i < size; i++)
     {
-      if (!std::isdigit(str[i]))
+      if (isFlag && i > 0 && !std::isdigit(str[i]))
+      {
+        return false;
+      }
+      else if (!isNegative && !std::isdigit(str[i]))
       {
         return false;
       }
