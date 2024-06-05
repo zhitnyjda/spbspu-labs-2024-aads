@@ -60,7 +60,6 @@ namespace ponomarev
     forwardList.sort();
     std::sort(thirdDeque.begin(), thirdDeque.end(), comp);
 
-    printData(out, forwardList.begin(), forwardList.end());
     printData(out, firstList.begin(), firstList.end());
     printData(out, secondList.begin(), secondList.end());
     printData(out, firstDeque.begin(), firstDeque.end());
