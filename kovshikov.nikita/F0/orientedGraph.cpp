@@ -63,9 +63,9 @@ bool kovshikov::noThis(size_t whoKey, size_t randomKey)
   return whoKey != randomKey;
 }
 
-void kovshikov::Graph::getConnectKeys(std::vector< size_t >& connectKeys, size_t whoKey)
+void kovshikov::Graph::getConnectKeys(DoubleList< size_t >& connectKeys, size_t whoKey)
 {
-   std::vector< size_t > keys;
+   DoubleList< size_t > keys;
    std::transform(tree.begin(), tree.end(), std::back_inserter(keys), getKey);
    std::copy_if(keys.begin(), keys.end(), std::back_inserter(connectKeys), std::bind(noThis, whoKey, std::placeholders::_1));
 }
@@ -100,7 +100,7 @@ void kovshikov::Graph::addVertex(size_t key, std::string str)
   tree[key] = Node(str);
 }
 
-void kovshikov::Graph::deleteVertex(size_t key)  //заменил!
+void kovshikov::Graph::deleteVertex(size_t key)
 {
   try
   {
@@ -232,22 +232,27 @@ void kovshikov::Graph::connect(size_t whoKey, size_t count, size_t weight)
   size_t size = getSize() - 1;
   size_t remainder = count % size;
   size_t numCircules = (remainder == 0)?(count / size):(count / size + 1);
-  std::vector< size_t > connectKeys;
+  DoubleList< size_t > connectKeys;
   getConnectKeys(connectKeys, whoKey);
   for(size_t i = 1; i <= numCircules; i++)
   {
     if(i == numCircules)
     {
+      auto current = connectKeys.begin();
+      current++;
       for(size_t j = 1; j <= remainder; j++)
       {
-        increaseWeight(whoKey, connectKeys[j], weight);
+        increaseWeight(whoKey, *current, weight);
+        current++;
       }
     }
     else
     {
+      auto current = connectKeys.begin();
       for(size_t k = 0; k < size; k++)
       {
-        increaseWeight(whoKey, connectKeys[k], weight);
+        increaseWeight(whoKey, *current, weight);
+        current++;
       }
     }
   }

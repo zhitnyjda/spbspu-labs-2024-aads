@@ -42,7 +42,7 @@ namespace kovshikov
     bool haveThisKey(size_t key);
     bool isDouble(size_t key1, size_t key2);
 
-    void getConnectKeys(std::vector< size_t >& connectKeys, size_t whoKey);  //заменить на DoubleList
+    void getConnectKeys(DoubleList< size_t >& connectKeys, size_t whoKey);
     std::string getVertex(std::pair< size_t, Node > vertex);
     static size_t getCountEdge(std::pair< size_t, Node > vertex);
 
