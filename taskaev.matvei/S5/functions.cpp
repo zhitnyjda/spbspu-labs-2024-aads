@@ -6,58 +6,71 @@ namespace taskaev
 {
   void createTree(std::istream& in, BSTree< int, std::string >& tree)
   {
-    while (!in.eof())
+    std::string data = "";
+    std::getline(in, data);
+    if (!data.empty())
     {
-      std::string data = "";
-      std::getline(in, data);
-      if (!data.empty())
+      std::string temps = "";
+      std::string names = "";
+      size_t i = 0;
+      int key = 0;
+      while (i < data.length())
       {
-        std::string temps = "";
-        std::string names = "";
-        size_t key = 0;
-        std::string val = "";
-        BSTree< size_t, std::string > tre;
-        bool flag = true;
-        size_t i = 0;
-        while (i < data.length())
+        if (data[i] != ' ')
         {
-          if (data[i] != ' ')
+          temps += data[i];
+        }
+        else
+        {
+          bool flag = true;
+          bool flagTwo = false;
+          if (temps[0] == '-' && temps.length())
           {
-            temps += data[i];
+            flagTwo = false;
           }
-          else if (data[i] == ' ' && flag == true)
+          size_t i = 0;
+          while (i < temps.length())
           {
-            names = temps;
-            temps = "";
-            flag = false;
-          }
-          else
-          {
-            if (std::isdigit(temps[0]))
+            if (flagTwo == true)
             {
-              key = std::stoll(temps);
-              temps = "";
+              if (i > 0 && !std::isDigit(temps[i]))
+              {
+                flag == false;
+                break;
+              }
             }
             else
             {
-              val = temps;
-              temps = "";
-              tre.insert(key, val);
+              if (!std::isDigit(temps[i]))
+              {
+                flag == false;
+                break;
+              }
             }
+            i++;
           }
-          i++;
+          if (flag == true)
+          {
+            key = std::stoi(temps);
+            temps = "";
+          }
+          else
+          {
+            names = temps;
+            temps = "";
+            tree.insert(key, names);
+          }
         }
-        if (key == 0)
-        {
-          names = temps;
-        }
-        if (!val.empty())
-        {
-          val = temps;
-          tre.insert(key, val);
-        }
-        tree.insert(names, tre);
+        i++;
+      }
+      if (!names.empty())
+      {
+        names = temps;
+        tree.insert(key, names);
       }
     }
   }
+
+
+
 }
