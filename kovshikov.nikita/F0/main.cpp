@@ -49,7 +49,7 @@ int main()
         }
         catch(const std::out_of_range& error)
         {
-          std::cout << "<INVALID COMMAND>\n";
+          outInvalid(std::cout);
           std::cin.clear();
           std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
         }

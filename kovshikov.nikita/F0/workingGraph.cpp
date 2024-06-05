@@ -1,4 +1,3 @@
-#include "orientedGraph.hpp"
 #include "workingGraph.hpp"
 #include <algorithm>
 #include <functional>

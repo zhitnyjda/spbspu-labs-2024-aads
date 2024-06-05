@@ -5,7 +5,7 @@
 #include <iostream>
 #include <iterator>
 #include <sstream>
-#include "doublelist.hpp"
+#include "outMessage.hpp"
 
 void kovshikov::createGraph(Tree< std::string, Graph >& graphsList, std::istream& is)
 {
@@ -131,7 +131,7 @@ void kovshikov::workWith(Tree< std::string, Graph >& graphsList, std::istream& i
         else
         {
           isError = true;
-          std::cout << "<INVALID COMMAND>\n";
+          outInvalid(std::cout);
           is.clear();
           is.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
         }
