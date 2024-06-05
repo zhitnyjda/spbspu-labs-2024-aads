@@ -144,22 +144,30 @@ namespace taskaev
 
   void findComplement(SubTree& two, SubTree& one, SubTree& tree)
   {
-    //std::cout << "5c\n";
-    for (auto it = two.begin(); it != two.end(); ++it)
+    if (two.empty())
     {
-      bool flag = false;
-      //std::cout << "6c\n";
-      for (auto iter = one.begin(); iter != one.end(); ++iter)
-      {
-        if (it->first == iter->first)
-        {
-          flag = true;
-          break;
-        }
-      }
-      if (!flag)
+      for (auto it = one.begin(); it != one.end(); ++it)
       {
         tree.insert(*it);
+      }
+    }
+    else
+    {
+      for (auto it = two.begin(); it != two.end(); ++it)
+      {
+        bool flag = false;
+        for (auto iter = one.begin(); iter != one.end(); ++iter)
+        {
+          if (it->first == iter->first)
+          {
+            flag = true;
+            break;
+          }
+        }
+        if (!flag)
+        {
+          tree.insert(*it);
+        }
       }
     }
   }
