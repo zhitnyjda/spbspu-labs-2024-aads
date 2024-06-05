@@ -268,7 +268,7 @@ size_t kovshikov::Graph::getVertexWeight(size_t key)
   {
     throw;
   }
-  std::vector< size_t > sum;
+  DoubleList< size_t > sum;
   std::transform(tree.at(key).edges.begin(), tree.at(key).edges.end(), std::back_inserter(sum), getWeightEdge);
   return std::accumulate(sum.begin(), sum.end(), 0);
 }
@@ -285,17 +285,18 @@ size_t kovshikov::Graph::getDegree(size_t key)
   }
   size_t degree = 0;
   degree += tree.at(key).edges.size();
-  std::vector< size_t > allKeys;
+  DoubleList< size_t > allKeys;
   std::transform(tree.begin(), tree.end(), std::back_inserter(allKeys), getKey);
-  std::vector< size_t > keys;
+  DoubleList< size_t > keys;
   std::copy_if(allKeys.begin(), allKeys.end(), std::back_inserter(keys), std::bind(noThis, key, std::placeholders::_1));
-  size_t size = keys.size();
-  for(size_t i = 0; i < size; i++)
+  auto current = keys.begin();
+  while(current != keys.end())
   {
-    if(tree[keys[i]].edges.find(key) != tree[keys[i]].edges.end())
+    if(tree[*current].edges.find(key) != tree[*current].edges.end())
     {
       degree += 1;
     }
+    current++;
   }
   return degree;
 }
@@ -311,17 +312,18 @@ size_t kovshikov::Graph::getOwn(size_t key)
     throw;
   }
   size_t own = 0;
-  std::vector< size_t > allKeys;
+  DoubleList< size_t > allKeys;
   std::transform(tree.begin(), tree.end(), std::back_inserter(allKeys), getKey);
-  std::vector< size_t > keys;
+  DoubleList< size_t > keys;
   std::copy_if(allKeys.begin(), allKeys.end(), std::back_inserter(keys), std::bind(noThis, key, std::placeholders::_1));
-  size_t size = keys.size();
-  for(size_t i = 0; i < size; i++)
+  auto current = keys.begin();
+  while(current != keys.end())
   {
-    if(tree[keys[i]].edges.find(key) != tree[keys[i]].edges.end())
+    if(tree[*current].edges.find(key) != tree[*current].edges.end())
     {
-      own += tree[keys[i]].edges[key];
+      own += tree[*current].edges[key];
     }
+    current++;
   }
   return own;
 }
@@ -341,33 +343,36 @@ void kovshikov::Graph::outGraph(std::ostream& out) const
   }
   else
   {
-    std::vector< size_t > keysList;
+    DoubleList< size_t > keysList;
     std::transform(tree.begin(), tree.end(), std::back_inserter(keysList), getKey);
-    size_t size = tree.size();
-    for(size_t i = 0; i < size; i++)
+    auto curKeysList = keysList.begin();
+    while(curKeysList != keysList.end())
     {
-      out << keysList[i] << " " << tree.at(keysList[i]).value << " ";
-      if(tree.at(keysList[i]).edges.empty())
+      out << *curKeysList << " " << tree.at(*curKeysList).value << " ";
+      if(tree.at(*curKeysList).edges.empty())
       {
         out << 0 << "\n";
       }
       else
       {
-        std::vector< size_t > keysWith;
-        std::transform(tree.at(keysList[i]).edges.begin(), tree.at(keysList[i]).edges.end(), std::back_inserter(keysWith), getWith);
-        size_t count = tree.at(keysList[i]).edges.size();
+        DoubleList< size_t > keysWith;
+        std::transform(tree.at(*curKeysList).edges.begin(), tree.at(*curKeysList).edges.end(), std::back_inserter(keysWith), getWith);
+        auto curKeysWith = keysWith.begin();
+        size_t count = tree.at(*curKeysList).edges.size();
         for(size_t j = 0; j < count; j++)
         {
           if(j == count - 1)
           {
-            out << keysWith[j] << " : " << tree.at(keysList[i]).edges.at(keysWith[j]) << "\n";
+            out << *curKeysWith << " : " << tree.at(*curKeysList).edges.at(*curKeysWith) << "\n";
           }
           else
           {
-            out << keysWith[j] << " : " << tree.at(keysList[i]).edges.at(keysWith[j]) << "  ";
+            out << *curKeysWith << " : " << tree.at(*curKeysList).edges.at(*curKeysWith) << "  ";
           }
+          curKeysWith++;
         }
       }
+      curKeysList++;
     }
   }
 }
