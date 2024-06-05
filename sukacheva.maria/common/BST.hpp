@@ -259,9 +259,12 @@ namespace sukacheva
   template< typename Key, typename Value, typename Compare >
   BST< Key, Value, Compare >::BST(const BST& other) noexcept
   {
-    if (other.root)
+    root = nullptr;
+    cmp = other.cmp;
+    Iterator it;
+    for (it = other.begin(); it != other.end(); it++)
     {
-      root = copy(other.root);
+      insert(it->first, it->second);
     }
   }
 
