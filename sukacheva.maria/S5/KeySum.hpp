@@ -9,22 +9,22 @@ namespace sukacheva
 {
   struct KeySum
   {
-    void operator()(const std::pair< const int, std::string >& keyValue)
+    void operator()(const std::pair< const long long, std::string >& keyValue)
     {
-      int max = std::numeric_limits< long long >::max();
-      int min = std::numeric_limits< long long >::min();
-      if (keyValue.first >= 0 && result >= max - keyValue.first)
+      const long long max = std::numeric_limits< long long >::max();
+      const long long min = std::numeric_limits< long long >::min();
+      if (keyValue.first >= 0 && keyValue.first > max - result)
       {
         throw std::overflow_error("<OVERFLOW>\n");
       }
-      else if (keyValue.first <= 0 && result <= min - keyValue.first)
+      else if (keyValue.first <= 0 && keyValue.first < min - result)
       {
         throw std::underflow_error("<UNDERFLOW>\n");
       }
       result += keyValue.first;
       values.push(keyValue.second);
     }
-    long long result = 0;
+    int result = 0;
     Queue< std::string > values;
   };
 }
