@@ -839,7 +839,7 @@ namespace taskaev
       f(nodes->data_);
       if (nodes->left_)
       {
-        queue.push(nodes->left);
+        queue.push(nodes->left_);
       }
       if (nodes->right_)
       {
