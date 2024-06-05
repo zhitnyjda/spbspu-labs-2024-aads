@@ -1,21 +1,58 @@
 #include <iostream>
+#include <stdexcept>
 #include "sort.hpp"
 
-int main()
+int main(int argc, char* argv[])
 {
   using namespace doroshenko;
-  List<int> list;
-  list.pushBack(3);
-  list.pushBack(2);
-  list.pushBack(1);
-  list.pushBack(4);
-  list.pushBack(5);
-  mergeSort(list.begin(), list.end(), std::less<int>());
-  List<int>::Iterator it = list.begin();
-  while (it != list.end())
+  if (argc != 4)
   {
-    std::cout << *it;
-    it++;
+    std::cerr << "Wrong input\n";
+    return 1;
   }
+  std::string cmp = argv[1];
+  std::string type = argv[2];
+  std::string stringSize = argv[3];
+
+  if ((cmp != "ascending" && cmp != "descending") || (type != "ints" && type != "floats"))
+  {
+    std::cerr << "Wrong input\n";
+    return 1;
+  }
+
+  size_t size;
+  try
+  {
+    size = std::stoll(stringSize);
+  }
+  catch (std::exception& e)
+  {
+    std::cerr << e.what() << "\n";
+    return 1;
+  }
+
+  if (cmp == "ascending")
+  {
+    if (type == "ints")
+    {
+      sortData< int, std::less< int > >(std::cout, type, size, std::less< int >{});
+    }
+    else
+    {
+      sortData< float, std::less< float > >(std::cout, type, size, std::less< float >{});
+    }
+  }
+  else
+  {
+    if (type == "ints")
+    {
+      sortData< int, std::greater< int > >(std::cout, type, size, std::greater< int >{});
+    }
+    else
+    {
+      sortData< float, std::greater< float > >(std::cout, type, size, std::greater< float >{});
+    }
+  }
+
   return 0;
 }

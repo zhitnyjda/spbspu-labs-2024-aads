@@ -6,11 +6,16 @@
 #include <forward_list>
 #include <deque>
 #include <random>
+#include <iomanip>
 
 namespace doroshenko
 {
+  using str = const std::string;
   template< typename T >
-  void randCont(const std::string type, size_t elCnt, List< T >& fList, std::list< T >& bList, std::deque< T >& queue);
+  void randCont(str type, size_t elCnt, List< T >& fList, std::list< T >& bList, std::deque< T >& queue);
+
+  template< typename T >
+  void printCont(std::ostream& out, const T& container);
 
   template< typename Iterator, typename Comparator >
   void oddEvenSort(Iterator first, Iterator last, Comparator cmp);
@@ -18,12 +23,15 @@ namespace doroshenko
   template< typename Iterator, typename Comparator >
   void mergeSort(Iterator first, Iterator last, Comparator cmp);
 
-  template< typename Iterator, typename Comparator >
-  void merge(Iterator fbeg, Iterator fend, Iterator sbeg, Iterator send, Iterator dest, Comparator cmp);
+  template< typename Iterator, typename OtherIter, typename Comparator >
+  void merge(Iterator fbeg, Iterator fend, Iterator sbeg, Iterator send, OtherIter dest, Comparator cmp);
+
+  template< typename T, typename Compare >
+  void sortData(std::ostream& out, std::string type, size_t size, Compare cmp);
 }
 
 template< typename T >
-void doroshenko::randCont(const std::string type, size_t elCnt, List< T >&fList, std::list< T >&bList, std::deque< T >&queue)
+void doroshenko::randCont(str type, size_t elCnt, List< T >&fList, std::list< T >&bList, std::deque< T >&queue)
 {
   std::random_device dev;
   std::mt19937 reng(dev());
@@ -34,7 +42,7 @@ void doroshenko::randCont(const std::string type, size_t elCnt, List< T >&fList,
       std::uniform_int_distribution< int > dis(-1000, 1000);
       int value = dis(dev);
       queue.push_back(value);
-      fList.pushBack(value); 
+      fList.pushBack(value);
       bList.push_back(value);
     }
     else if (type == "floats")
@@ -44,13 +52,31 @@ void doroshenko::randCont(const std::string type, size_t elCnt, List< T >&fList,
       queue.push_back(value);
       fList.pushBack(value);
       bList.push_back(value);
-    } 
+    }
   }
+}
+
+template< typename T >
+void doroshenko::printCont(std::ostream& out, const T& container)
+{
+  auto it = container.begin();
+  out << *it;
+  it++;
+  while (it != container.end())
+  {
+    out << std::fixed << std::setprecision(1) << ' ' << *it;
+    it++;
+  }
+  out << "\n";
 }
 
 template< typename Iterator, typename Comparator >
 void doroshenko::oddEvenSort(Iterator first, Iterator last, Comparator cmp)
 {
+  if (std::distance(first, last) < 1)
+  {
+    return;
+  }
   bool isSorted = false;
   while (!isSorted)
   {
@@ -118,7 +144,7 @@ void doroshenko::mergeSort(Iterator first, Iterator last, Comparator cmp)
   size_t curIndex = 0;
   while (curIndex < midIndex)
   {
-    mid++; 
+    mid++;
     curIndex++;
   }
   mergeSort(first, mid, cmp);
@@ -128,8 +154,8 @@ void doroshenko::mergeSort(Iterator first, Iterator last, Comparator cmp)
   std::copy(temp.begin(), temp.end(), first);
 }
 
-template< typename Iterator, typename Comparator >
-void doroshenko::merge(Iterator fbeg, Iterator fend, Iterator sbeg, Iterator send, Iterator dest, Comparator cmp)
+template< typename Iterator, typename OtherIter, typename Comparator >
+void doroshenko::merge(Iterator fbeg, Iterator fend, Iterator sbeg, Iterator send, OtherIter dest, Comparator cmp)
 {
   while (fbeg != fend && sbeg != send)
   {
@@ -157,6 +183,48 @@ void doroshenko::merge(Iterator fbeg, Iterator fend, Iterator sbeg, Iterator sen
     ++sbeg;
     ++dest;
   }
+}
+
+template< typename T, typename Compare >
+void doroshenko::sortData(std::ostream& out, std::string type, size_t size, Compare cmp)
+{
+  List< T > forwardList;
+  std::list< T > list;
+  std::deque< T > deque;
+
+  List< T > tempFwdList;
+  std::list< T > tempList;
+  std::deque< T > tempDeque;
+
+  randCont(type, size, forwardList, list, deque);
+
+  typename List< T >::Iterator first = forwardList.begin();
+  typename List< T >::Iterator last = forwardList.end();
+  while (first != last)
+  {
+    tempFwdList.pushBack(*first);
+    first++;
+  }
+
+  std::copy(list.begin(), list.end(), std::back_inserter(tempList));
+  std::copy(deque.begin(), deque.end(), std::back_inserter(tempDeque));
+
+  printCont(out, forwardList);
+
+  oddEvenSort(forwardList.begin(), forwardList.end(), cmp);
+  printCont(out, forwardList);
+  mergeSort(tempFwdList.begin(), tempFwdList.end(), cmp);
+  printCont(out, tempFwdList);
+
+  oddEvenSort(list.begin(), list.end(), cmp);
+  printCont(out, list);
+  mergeSort(tempList.begin(), tempList.end(), cmp);
+  printCont(out, tempList);
+
+  oddEvenSort(deque.begin(), deque.end(), cmp);
+  printCont(out, deque);
+  mergeSort(tempDeque.begin(), tempDeque.end(), cmp);
+  printCont(out, tempDeque);
 }
 
 #endif
