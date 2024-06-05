@@ -9,8 +9,8 @@ namespace ponomarev
   {
     void operator()(const std::pair< int, std::string > & value);
 
-    int sum = 0;
-    std::string valueRes;
+    int sum_ = 0;
+    std::string valueRes_;
   };
 }
 

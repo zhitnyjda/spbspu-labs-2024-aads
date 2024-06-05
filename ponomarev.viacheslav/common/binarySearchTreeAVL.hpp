@@ -1046,7 +1046,7 @@ F ponomarev::BSTree< Key, Value, Compare >::traverseLR(F func)
     }
     temp = stack.getUp();
     stack.pop();
-    func(temp->elem);
+    func(temp->data);
     temp = temp->right;
   }
 
@@ -1068,7 +1068,7 @@ F ponomarev::BSTree< Key, Value, Compare >::constTraverseRL(F func) const
     }
     temp = stack.getUp();
     stack.pop();
-    func(temp->elem);
+    func(temp->data);
     temp = temp->left;
   }
 
@@ -1090,7 +1090,7 @@ F ponomarev::BSTree< Key, Value, Compare >::traverseRL(F func)
     }
     temp = stack.getUp();
     stack.pop();
-    func(temp->elem);
+    func(temp->data);
     temp = temp->left;
   }
   return func;
@@ -1110,7 +1110,7 @@ F ponomarev::BSTree< Key, Value, Compare >::constTraverseBreadth(F func) const
   while (!queue.isEmpty())
   {
     Node * node = queue.getElem();
-    func(node->elem);
+    func(node->data);
     queue.pop();
     if (node->left != nullptr)
     {
@@ -1139,7 +1139,7 @@ F ponomarev::BSTree< Key, Value, Compare >::traverseBreadth(F func)
   while (!queue.isEmpty())
   {
     Node * node = queue.getElem();
-    func(node->elem);
+    func(node->data);
     queue.pop();
     if (node->left != nullptr)
     {
