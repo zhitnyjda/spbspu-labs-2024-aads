@@ -11,24 +11,26 @@ namespace anikanov {
   template< typename Key, typename Value, typename Compare >
   class BinarySearchTree {
   public:
-    struct Node {
+    class Node {
+    public:
+      Node(std::shared_ptr< Node > &node);
+      Node(const Key &key, const Value &value, std::shared_ptr< Node > parent = nullptr);
+    private:
+      friend class BinarySearchTree;
+
       std::pair< Key, Value > data;
       std::shared_ptr< Node > left;
       std::shared_ptr< Node > right;
       std::weak_ptr< Node > parent;
       int height;
-      Node(const Key &key, const Value &value, std::shared_ptr< Node > parent = nullptr);
-      Node(std::shared_ptr< Node > &node);
     };
 
-    BinarySearchTree() : root(nullptr), nodeCount(0)
-    {}
-
+    BinarySearchTree();
     ~BinarySearchTree();
     BinarySearchTree(const BinarySearchTree &other);
     BinarySearchTree(const BinarySearchTree &&other) noexcept;
     BinarySearchTree &operator=(const BinarySearchTree &other);
-    BinarySearchTree &operator=(const BinarySearchTree &&other) noexcept;
+    BinarySearchTree &operator=(BinarySearchTree &&other) noexcept;
 
     class Iterator : public std::iterator< std::bidirectional_iterator_tag, std::pair< Key, Value > > {
     private:
@@ -38,14 +40,15 @@ namespace anikanov {
     public:
       Iterator();
       explicit Iterator(Node *node);
-      std::pair< Key, Value > &operator*();
-      std::pair< Key, Value > &operator*() const;
-      std::pair< Key, Value > *operator->();
-      std::pair< Key, Value > *operator->() const;
+      ~Iterator() = default;
       Iterator &operator++();
       Iterator operator++(int);
       Iterator &operator--();
       Iterator operator--(int);
+      std::pair< Key, Value > &operator*();
+      std::pair< Key, Value > *operator->();
+      std::pair< Key, Value > &operator*() const;
+      std::pair< Key, Value > *operator->() const;
       bool operator==(const Iterator &other) const;
       bool operator!=(const Iterator &other) const;
     };
@@ -100,6 +103,13 @@ namespace anikanov {
     Node *find(Node *node, const Key &key) const;
     std::shared_ptr< Node > clone(const Node *node) const;
   };
+}
+
+template< typename Key, typename Value, typename Compare >
+anikanov::BinarySearchTree< Key, Value, Compare >::BinarySearchTree()
+{
+  root = nullptr;
+  nodeCount = 0;
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -163,7 +173,7 @@ anikanov::BinarySearchTree< Key, Value, Compare >::operator=(const BinarySearchT
 
 template< typename Key, typename Value, typename Compare >
 anikanov::BinarySearchTree< Key, Value, Compare > &
-anikanov::BinarySearchTree< Key, Value, Compare >::operator=(const BinarySearchTree &&other) noexcept
+anikanov::BinarySearchTree< Key, Value, Compare >::operator=(BinarySearchTree &&other) noexcept
 {
   if (this == &other) {
     return *this;
