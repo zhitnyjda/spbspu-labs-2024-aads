@@ -2,9 +2,51 @@
 #include <cctype>
 #include <vector>
 
-std::ostream& psarev::outError(std::ostream& out, const std::string& errText)
+std::ostream& psarev::outInvCommand(std::ostream& out)
 {
-  out << errText << '\n';
+  out << "<INVALID COMMAND>\n";
+  return out;
+}
+
+std::ostream& psarev::outEmptyFile(std::ostream& out)
+{
+  out << "Error: File is empty!\n";
+  return out;
+}
+
+std::ostream& psarev::outSucCreate(std::ostream& out, std::string name)
+{
+  out << "Storage <" << name << "> has been created!\n";
+  return out;
+}
+
+std::ostream& psarev::outSucChoose(std::ostream& out, std::string name)
+{
+  out << "Storage <" << name << "> has been choosen!\n";
+  return out;
+}
+
+std::ostream& psarev::outSucDelete(std::ostream& out, std::string name)
+{
+  out << "Storage <" << name << "> has been deleted!\n";
+  return out;
+}
+
+std::ostream& psarev::outStoreName(std::ostream& out, std::string name)
+{
+  out << "Storage <" << name << "> \n";
+  return out;
+}
+
+std::ostream& psarev::outDirectWrite(std::ostream& out)
+{
+  out << "Whole depot was printed at the directory!\n";
+  return out;
+}
+
+std::ostream& psarev::outAdmMessage(std::ostream& out)
+{
+  out << "Directory with that name already exists, do you want to overwrite it? (Y/N)\n";
   return out;
 }
 

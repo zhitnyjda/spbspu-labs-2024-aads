@@ -11,7 +11,17 @@ namespace psarev
 {
   using storage_t = std::map< std::string, std::vector< std::string > >;
 
-  std::ostream& outError(std::ostream& out, const std::string& errText);
+  std::ostream& outInvCommand(std::ostream& out);
+  std::ostream& outEmptyFile(std::ostream& out);
+  std::ostream& outEmptyFile(std::ostream& out);
+  std::ostream& outEmptyFile(std::ostream& out);
+  std::ostream& outSucCreate(std::ostream& out, std::string name);
+  std::ostream& outSucChoose(std::ostream& out, std::string name);
+  std::ostream& outSucDelete(std::ostream& out, std::string name);
+  std::ostream& outStoreName(std::ostream& out, std::string name);
+  std::ostream& outDirectWrite(std::ostream& out);
+  std::ostream& outAdmMessage(std::ostream& out);
+
   storage_t readStorage(std::istream& in);
 
   void cleanUpWord(std::string& word);

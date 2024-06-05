@@ -35,7 +35,7 @@ int main()
     }
     catch (const std::logic_error&)
     {
-      psarev::outError(std::cout, "<INVALID COMMAND>");
+      psarev::outInvCommand(std::cout);
       std::cin.clear();
       std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
     }

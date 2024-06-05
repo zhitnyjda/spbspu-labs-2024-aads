@@ -42,17 +42,17 @@ void psarev::cmdCreate(std::istream& in, std::ostream& out, std::map< std::strin
       in >> name;
       if (!in)
       {
-        std::cerr << "Error: Can't read the name!\n";
+        psarev::outInvCommand(out);
       }
       depot.emplace(name, storage_t());
       storage_t tempoStorage = depot[name];
       tempoStorage = psarev::readStorage(fileIn);
-      out << "Storage <" << name << "> has been created!\n";
+      psarev::outSucCreate(out, name);
     }
   }
   else
   {
-    std::cerr << "Error: File is empty!\n";
+    psarev::outEmptyFile(out);
   }
 }
 
@@ -69,11 +69,11 @@ void psarev::cmdChoose(std::istream& in, std::ostream& out, std::map< std::strin
   if (chStorage != depot.end())
   {
     storage = chName;
-    out << "Storage <" << chName << "> has been choosen!\n";
+    psarev::outSucChoose(out, chName);
   }
   else
   {
-    out << "Dictionary <" << chName << "> doesn't exists!\n";
+    psarev::outInvCommand(out);
   }
 }
 
@@ -84,11 +84,11 @@ void psarev::cmdDelete(std::istream& in, std::ostream& out, std::map< std::strin
 
   if (depot.erase(tempoS))
   {
-    out << "Storage <" << tempoS << "> has been deleted!\n";
+    psarev::outSucChoose(out, tempoS);
   }
   else
   {
-    out << "Storage with name <" << tempoS << "> doesn't exists!\n";
+    psarev::outInvCommand(out);
   }
 }
 
@@ -96,7 +96,7 @@ void psarev::cmdList(std::ostream& out, std::map< std::string, storage_t >& depo
 {
   for (auto iter = depot.begin(); iter != depot.end(); ++iter)
   {
-    out << "Storage <" << (*iter).first << "> \n";
+    psarev::outStoreName(out, (*iter).first);
   }
 }
 
@@ -105,7 +105,7 @@ void psarev::cmdShow(std::istream& in, std::ostream& out, std::map< std::string,
   std::string tempoS = "";
   in >> tempoS;
 
-  out << "Storage <" << tempoS << "> content:\n";
+  psarev::outStoreName(out, tempoS);
 
   for (auto iter = depot[tempoS].begin(); iter != depot[tempoS].end(); ++iter)
   {
@@ -127,16 +127,15 @@ void psarev::cmdRename(std::istream& in, std::ostream& out, std::map< std::strin
     {
       depot.emplace(newName, desireSt->second);
       depot.erase(desireSt);
-      out << "Storage <" << name << "> has been renamed to <" << newName << ">!\n";
     }
     else
     {
-      out << "Storage <" << newName << "> already exists! Try another name!" << "\n";
+      psarev::outInvCommand(out);
     }
   }
   else
   {
-    out << "There is no storage <" << name << ">! Can't rename so!\n";
+    psarev::outInvCommand(out);
   }
 }
 
@@ -144,32 +143,28 @@ void psarev::cmdSave(std::istream& in, std::ostream& out, std::map< std::string,
 {
   std::string dest = "";
   in >> dest;
-  std::string maekDest = "mkdir " + dest;
+  std::string makeDest = "mkdir " + dest;
 
   std::ofstream fileOut;
-  if (!std::system(maekDest.c_str()))
+  if (!std::system(makeDest.c_str()))
   {
     outDepot(dest, fileOut, depot);
-    out << "Whole depot was printed at the directory <" << dest << ">!\n";
+    psarev::outDirectWrite(out);
   }
   else
   {
-    out << "Directory with that name already exists, do you want to overwrite it? (Y/N)\n";
+    psarev::outAdmMessage(out);
 
     std::string decis = "";
     in >> decis;
     if (decis == "Y")
     {
       outDepot(dest, fileOut, depot);
-      out << "Whole depot was printed at the directory <" << dest << ">!\n";
-    }
-    else if (decis == "N")
-    {
-      out << "Depot wasn't printed at the directory <" << dest << ">!\n";
+      psarev::outDirectWrite(out);
     }
     else
     {
-      out << "Please, type Y to print or N otherwise!" << "\n";
+      psarev::outInvCommand(out);
     }
   }
 }
