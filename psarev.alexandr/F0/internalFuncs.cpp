@@ -258,139 +258,31 @@ int psarev::letToSound(int let, bool& softFact)
 {
   const std::string softMakers = "ёйеячищюь";
   const std::string notSoftMakers = "цукнгшзхъфывапролджэсмтб";
+
+  std::map< int, int > softSounds = { { -11887, -12098 }, { -12103, -12103 }, { -11889, -12112 }, { -11897, -11897 },
+  { -12104, -12104 }, { -11895, -11895 }, { -11890, -11901 } };
+
   for (int l : softMakers)
   {
     if (l == let)
     {
       softFact = true;
-      if (l == -11887)
-      {
-        return -12098;
-      }
-      else if (l == -12103)
-      {
-        return -12103;
-      }
-      else if (l == -11889)
-      {
-        return -12112;
-      }
-      else if (l == -11897)
-      {
-        return -11897;
-      }
-      else if (l == -12104)
-      {
-        return -12104;
-      }
-      else if (l == -11895)
-      {
-        return -11895;
-      }
-      else if (l == -11890)
-      {
-        return -11901;
-      }
+      return (*(softSounds.find(l))).second;
     }
   }
+
+  std::map< int, int > nSoftSounds = { { -11898, -11898 }, { -11901, -11901 }, { -12102, -12102 }, { -12099, -12099 },
+  { -12109, -12102 }, { -11896, -11896 }, { -12105, -11903 }, { -11899, -11899 }, { -11900, -11900 },
+  { -11893, -11893 }, { -12110, -12110 }, { -12112, -12112 }, { -12097, -12097 }, { -11904, -11904 },
+  { -12098, -12098 }, { -12101, -12101 }, { -12108, -11902 }, { -12106, -11896 }, { -11891, -11891 },
+  { -11903, -11903 }, { -12100, -12100 }, { -11902, -11902 }, { -12111, -12097 } };
 
   for (int l : notSoftMakers)
   {
     if (l == let)
     {
       softFact = false;
-      if (l == -11898)
-      {
-        return -11898;
-      }
-      else if (l == -11901)
-      {
-        return -11901;
-      }
-      else if (l == -12102)
-      {
-        return -12102;
-      }
-      else if (l == -12099)
-      {
-        return -12099;
-      }
-      else if (l == -12109)
-      {
-        return -12102;
-      }
-      else if (l == -11896)
-      {
-        return -11896;
-      }
-      else if (l == -12105)
-      {
-        return -11903;
-      }
-      else if (l == -11899)
-      {
-        return -11899;
-      }
-      else if (l == -11900)
-      {
-        return -11900;
-      }
-      else if (l == -11893)
-      {
-        return -11893;
-      }
-      else if (l == -12110)
-      {
-        return -12110;
-      }
-      else if (l == -12112)
-      {
-        return -12112;
-      }
-      else if (l == -12097)
-      {
-        return -12097;
-      }
-      else if (l == -11904)
-      {
-        return -11904;
-      }
-      else if (l == -12098)
-      {
-        return -12098;
-      }
-      else if (l == -12101)
-      {
-        return -12101;
-      }
-      else if (l == -12108)
-      {
-        return -11902;
-      }
-      else if (l == -12106)
-      {
-        return -11896;
-      }
-      else if (l == -11891)
-      {
-        return -11891;
-      }
-      else if (l == -11903)
-      {
-        return -11903;
-      }
-      else if (l == -12100)
-      {
-        return -12100;
-      }
-      else if (l == -11902)
-      {
-        return -11902;
-      }
-      else if (l == -12111)
-      {
-        return -12097;
-      }
+      return (*(nSoftSounds.find(l))).second;
     }
   }
   return ' ';

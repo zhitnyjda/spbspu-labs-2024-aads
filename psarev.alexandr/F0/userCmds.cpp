@@ -257,7 +257,7 @@ void psarev::cmdMakeSent(std::istream& in, std::ostream& out, std::map<std::stri
 {
   using storage_t = std::map< std::string, std::vector< std::string > >;
 
-  size_t usNum = 0;
+  size_t usNum;
   in >> usNum;
   if (!in)
   {
