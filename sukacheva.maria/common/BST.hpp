@@ -200,13 +200,13 @@ namespace sukacheva
       TreeNode* applicant = queue.front();
       queue.pop();
       f(applicant->data);
-      if (applicant->right)
-      {
-        queue.push(applicant->right);
-      }
       if (applicant->left)
       {
         queue.push(applicant->left);
+      }
+      if (applicant->right)
+      {
+        queue.push(applicant->right);
       }
     }
     return f;
