@@ -4,6 +4,9 @@
 #include <cassert>
 #include <functional>
 #include <algorithm>
+#include <stdexcept>
+#include "queue.hpp"
+#include "stack.hpp"
 
 namespace doroshenko
 {
@@ -27,7 +30,8 @@ namespace doroshenko
     size_t getSize() noexcept;
     void clear();
     void swap(BST& other);
-    ConstIterator find(const Key& key) const;
+    ConstIterator constFind(const Key& key) const;
+    Iterator find(const Key& key);
     Node* insert(const Key& key, const Value& value);
     void insert(const keyValPair& pair);
     keyValPair& at(const Key& key);
@@ -43,6 +47,13 @@ namespace doroshenko
 
     ConstIterator cbegin() const;
     ConstIterator cend() const;
+
+    template< typename F >
+    F traverse_lnr(F f) const;
+    template< typename F >
+    F traverse_rnl(F f) const;
+    template< typename F >
+    F traverse_breadth(F f) const;
   private:
     Node* root_;
     Compare cmp_;
@@ -441,19 +452,19 @@ template< typename Key, typename Value, typename Compare >
 typename BST< Key, Value, Compare >::Iterator BST< Key, Value, Compare >::erase(Iterator position)
 {
   Node* node = position.iterator.node_;
-  if(!node)
+  if (!node)
   {
     return Iterator(ConstIterator(nullptr, root_));
   }
-  if(!node->left_ && !node->right_)
+  if (!node->left_ && !node->right_)
   {
     return Iterator(ConstIterator(eraseIfNoChildren(node), root_));
   }
-  else if(node->left_ && !node->right_)
+  else if (node->left_ && !node->right_)
   {
     return Iterator(ConstIterator(eraseIfOnlyLeftChild(node), root_));
   }
-  else if(node->right_ && !node->left_)
+  else if (node->right_ && !node->left_)
   {
     return Iterator(ConstIterator(eraseIfOnlyRightChild(node), root_));
   }
@@ -534,9 +545,9 @@ template < typename Key, typename Value, typename Compare >
 typename BST< Key, Value, Compare>::Node* BST< Key, Value, Compare >::eraseIfTwoChildren(Node* node)
 {
   Node* temp = node->right_;
-  if(temp != nullptr)
+  if (temp != nullptr)
   {
-    while(temp->left_)
+    while (temp->left_)
     {
       temp = temp->left_;
     }
@@ -619,9 +630,9 @@ typename BST< Key, Value, Compare >::Node* BST< Key, Value, Compare >::balance(N
       return turnLeft(node);
     }
   }
-  else if(balanceFactor < -1)
+  else if (balanceFactor < -1)
   {
-    if(getBalance(node->left_) > 0)
+    if (getBalance(node->left_) > 0)
     {
       node->left_ = turnLeft(node->left_);
       return turnRight(node);
@@ -695,7 +706,7 @@ void BST< Key, Value, Compare >::swap(BST& other)
 }
 
 template < typename Key, typename Value, typename Compare >
-typename BST< Key, Value, Compare >::ConstIterator BST< Key, Value, Compare >::find(const Key& key) const
+typename BST< Key, Value, Compare >::ConstIterator BST< Key, Value, Compare >::constFind(const Key& key) const
 {
   Node* current = root_;
   while (current)
@@ -715,6 +726,29 @@ typename BST< Key, Value, Compare >::ConstIterator BST< Key, Value, Compare >::f
   }
   return ConstIterator(nullptr, root_);
 }
+
+template < typename Key, typename Value, typename Compare >
+typename BST< Key, Value, Compare >::Iterator BST< Key, Value, Compare >::find(const Key& key)
+{
+  Node* current = root_;
+  while (current)
+  {
+    if (cmp_(key, current->data_.first))
+    {
+      current = current->left_;
+    }
+    else if (cmp_(current->data_.first, key))
+    {
+      current = current->right_;
+    }
+    else
+    {
+      return Iterator(ConstIterator(current, root_));
+    }
+  }
+  return Iterator(ConstIterator(nullptr, root_));
+}
+
 template< typename Key, typename Value, typename Compare >
 size_t BST< Key, Value, Compare >::count(const Key& key) const
 {
@@ -824,4 +858,80 @@ typename BST< Key, Value, Compare >::Iterator BST< Key, Value, Compare >::end() 
 {
   return Iterator(cend());
 }
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F BST< Key, Value, Compare >::traverse_lnr(F f) const
+{
+  Stack< Node* > stack;
+  stack.push(root_);
+  Node* current = root_;
+  while (!stack.isEmpty())
+  {
+    while (current->left_)
+    {
+      stack.push(current->left_);
+      current = current->left_;
+    }
+    current = stack.front();
+    stack.drop();
+    f(current->data_);
+    if (current->right_)
+    {
+      current = current->right_;
+      stack.push(current);
+    }
+  }
+  return f;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F BST< Key, Value, Compare >::traverse_rnl(F f) const
+{
+  Stack< Node* > stack;
+  stack.push(root_);
+  Node* current = root_;
+  while (!stack.isEmpty())
+  {
+    while (current->right_)
+    {
+      stack.push(current->right_);
+      current = current->right_;
+    }
+    current = stack.front();
+    stack.drop();
+    f(current->data_);
+    if (current->left_)
+    {
+      current = current->left_;
+      stack.push(current);
+    }
+  }
+  return f;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F BST< Key, Value, Compare >::traverse_breadth(F f) const
+{
+  Queue< Node* > queue;
+  queue.push(root_);
+  while (!queue.isEmpty())
+  {
+    Node* current = queue.front();
+    queue.drop();
+    f(current->data_);
+    if (current->left_)
+    {
+      queue.push(current->left_);
+    }
+    if (current->right_)
+    {
+      queue.push(current->right_);
+    }
+  }
+  return f;
+}
+
 #endif

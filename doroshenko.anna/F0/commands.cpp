@@ -40,7 +40,7 @@ void doroshenko::createDict(BST< std::string, dictionary >& dicts, std::istream&
   std::string cmdType;
   while (input >> cmdType && cmdType != "stop")
   {
-    if(cmdDict.find(cmdType) != cmdDict.cend())
+    if (cmdDict.find(cmdType) != cmdDict.cend())
     {
       cmdDict.at(cmdType).second(currentDict, input, output);
       dicts.erase(dictName);
@@ -138,12 +138,12 @@ void doroshenko::writeToFile(const BST< std::string, dictionary >& dicts, std::i
   }
   std::string dictName;
   in >> dictName;
-  if (dicts.find(dictName) == dicts.cend())
+  if (dicts.constFind(dictName) == dicts.cend())
   {
     warningDict(out);
     return;
   }
-  dictionary dict = dicts.find(dictName)->second;
+  dictionary dict = dicts.constFind(dictName)->second;
   output << "\n" << dictName << "\n";
   for (auto it = dict.begin(); it != dict.end(); it++)
   {
@@ -168,12 +168,12 @@ void doroshenko::printDict(const BST< std::string, dictionary >& dicts, std::ist
 {
   std::string dictName;
   in >> dictName;
-  if (dicts.find(dictName) == dicts.cend())
+  if (dicts.constFind(dictName) == dicts.cend())
   {
     warningDict(out);
     return;
   }
-  dictionary dictToPrint = dicts.find(dictName)->second;
+  dictionary dictToPrint = dicts.constFind(dictName)->second;
   out << dictName << "\n";
   if (dictToPrint.isEmpty())
   {
