@@ -1,7 +1,6 @@
 #ifndef SORTS_HPP
 #define SORTS_HPP
 
-#include <algorithm>
 #include <iostream>
 
 namespace ponomarev
@@ -26,30 +25,30 @@ namespace ponomarev
   }
 
   template < typename Iterator, typename Comparator >
-  void sortShaker(Iterator begin, Iterator end, Comparator comp)
+  void sortShaker(Iterator first, Iterator last, Comparator comp)
   {
-    end--;
-    while (begin != end)
+    last--;
+    while (first != last)
     {
-      Iterator left = begin;
-      Iterator right = end;
+      Iterator left = first;
+      Iterator right = last;
 
-      while (left != right)
+      for (auto it = left; it != right; it++)
       {
         if (comp(*std::next(left), *left))
         {
           std::iter_swap(left, std::next(left));
-          end = left;
+          last = left;
         }
         left++;
       }
 
-      if (left == begin)
+      if (left == first)
       {
         break;
       }
 
-      while (right != begin)
+      for (auto it = right; it != left; it--)
       {
         if (comp(*right, *std::prev(right)))
         {
@@ -58,7 +57,7 @@ namespace ponomarev
         right--;
       }
 
-      begin++;
+      first++;
     }
   }
 }

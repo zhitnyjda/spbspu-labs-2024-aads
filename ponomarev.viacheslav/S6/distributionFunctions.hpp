@@ -1,8 +1,8 @@
 #include <deque>
 #include <forward_list>
-#include <algorithm>
 #include <list>
 #include <iomanip>
+#include <algorithm>
 #include "sorts.hpp"
 
 namespace ponomarev
