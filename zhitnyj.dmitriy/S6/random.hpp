@@ -19,7 +19,7 @@ int zhitnyj::generateRandomInt(int min, int max) {
 }
 
 float zhitnyj::generateRandomFloat(float min, float max) {
-  return min + static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX) * (max - min);
+  return min + static_cast< float >(std::rand()) / static_cast< float >(RAND_MAX) * (max - min);
 }
 
 template< typename T >
