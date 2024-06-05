@@ -5,7 +5,7 @@
 
 int main(int argc, char ** argv)
 {
-  using namespace taskaev; 
+  using namespace taskaev;
   if (argc != 3)
   {
     std::cerr << "Error: not open file!\n";
