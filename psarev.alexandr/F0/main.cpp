@@ -6,7 +6,7 @@
 
 int main()
 {
-  using storage_t = std::map< std::string, std::vector< std::string > >;
+  using storage_t = std::map< std::string, psarev::List< std::string > >;
   std::map< std::string, storage_t > depot;
   std::string defaultSt = "";
   std::map< std::string, std::function < void(std::istream&, std::ostream&, std::map< std::string, storage_t >&) > > userCmds;

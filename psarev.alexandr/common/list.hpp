@@ -22,6 +22,8 @@ namespace psarev
     List(std::initializer_list< T > ilThat);
     ~List();
 
+    T& operator[](const size_t index);
+
     void popFront();
     void popBack();
     void pushFront(T& data);
@@ -332,6 +334,23 @@ template< typename T >
 bool psarev::List< T >::Iterator::operator>=(const this_t& that) const
 {
   return iter_ >= that.iter_;
+}
+
+template< typename T >
+T& psarev::List< T >::operator[](const size_t index)
+{
+  size_t counter = 0;
+  Unit* current = this->head;
+  while (current != nullptr)
+  {
+    if (counter == index)
+    {
+      return current->data;
+    }
+    current = current->next;
+    counter++;
+  }
+  throw std::out_of_range("Index out of range");
 }
 
 template< typename T >

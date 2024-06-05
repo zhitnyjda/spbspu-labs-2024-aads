@@ -21,10 +21,10 @@ void psarev::cmdHelp(std::istream& in, std::ostream& out)
   out << "7.4 save < dest > - Saving whole depot to the < dest > directory.\n";
 }
 
+using storage_t = std::map< std::string, psarev::List< std::string > >;
+
 void psarev::cmdCreate(std::istream& in, std::ostream& out, std::map< std::string, storage_t >& depot, std::string dest)
 {
-  using storage_t = std::map< std::string, std::vector< std::string > >;
-
   std::string file;
   in >> file;
   if (!file.empty())
@@ -108,7 +108,7 @@ void psarev::cmdShow(std::istream& in, std::ostream& out, std::map< std::string,
 
   for (auto iter = depot[tempoS].begin(); iter != depot[tempoS].end(); ++iter)
   {
-    psarev::outTypesAmount(out, (*iter).first, ((*iter).second).size());
+    psarev::outTypesAmount(out, (*iter).first, ((*iter).second).getSize());
   }
 }
 
@@ -170,8 +170,6 @@ void psarev::cmdSave(std::istream& in, std::ostream& out, std::map< std::string,
 
 void psarev::cmdPrint(std::istream& in, std::ostream& out, std::map<std::string, storage_t>& depot, std::string& storage)
 {
-  using storage_t = std::map< std::string, std::vector< std::string > >;
-
   std::string speechType;
   in >> speechType;
   if (!in)
@@ -185,7 +183,7 @@ void psarev::cmdPrint(std::istream& in, std::ostream& out, std::map<std::string,
     if ((*iter).first == speechType)
     {
       out << (*iter).first << ": \n";
-      for (size_t i = 0; i < (*iter).second.size(); i++)
+      for (size_t i = 0; i < (*iter).second.getSize(); i++)
       {
         out << (*iter).second[i] << " ";
       }
@@ -254,8 +252,6 @@ void psarev::cmdFono(std::istream& in, std::ostream& out)
 
 void psarev::cmdMakeSent(std::istream& in, std::ostream& out, std::map<std::string, storage_t>& depot, std::string& storage)
 {
-  using storage_t = std::map< std::string, std::vector< std::string > >;
-
   size_t usNum;
   in >> usNum;
   if (!in)
@@ -268,7 +264,7 @@ void psarev::cmdMakeSent(std::istream& in, std::ostream& out, std::map<std::stri
   for (auto iter = curStorage.begin(); iter != curStorage.end(); iter++)
   {
     size_t curNum = 0;
-    for (size_t i = 0; i < (*iter).second.size(); i++)
+    for (size_t i = 0; i < (*iter).second.getSize(); i++)
     {
       if (curNum <= usNum)
       {

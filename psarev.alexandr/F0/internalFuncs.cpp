@@ -55,10 +55,10 @@ std::ostream& psarev::outTypesAmount(std::ostream& out, const std::string type, 
   return out;
 }
 
+using storage_t = std::map< std::string, psarev::List< std::string > >;
+
 std::map< std::string, psarev::List< std::string > > psarev::readStorage(std::istream& in)
 {
-  using storage_t = std::map< std::string, List< std::string > >;
-
   storage_t resStorage;
   std::string word = "";
 
@@ -126,8 +126,6 @@ bool psarev::checkLiter(const std::string& word)
 
 std::string psarev::getSpType(std::string& word)
 {
-  using storage_t = std::map< std::string, List< std::string > >;
-
   std::string resType = "";
   storage_t rusEnds;
 
@@ -183,21 +181,21 @@ std::string psarev::getSpType(std::string& word)
   //rusEnds["prepos"].insert(rusEnds["prepos"].end(), pSec.begin(), pSec.end());
   //rusEnds["prepos"].insert(rusEnds["prepos"].end(), pThi.begin(), pThi.end());
 
-  for (auto iter = rusEnds["prepos"].begin(); iter != rusEnds["prepos"].end(); ++iter)
+  for (auto iter = rusEnds["prepos"].cbegin(); iter != rusEnds["prepos"].cend(); ++iter)
   {
     if (word == *iter)
     {
       return "Prepos";
     }
   }
-  for (auto iter = rusEnds["conjuct"].begin(); iter != rusEnds["conjuct"].end(); ++iter)
+  for (auto iter = rusEnds["conjuct"].cbegin(); iter != rusEnds["conjuct"].cend(); ++iter)
   {
     if (word == *iter)
     {
       return "Conjuct";
     }
   }
-  for (auto iter = rusEnds["numeric"].begin(); iter != rusEnds["numeric"].end(); ++iter)
+  for (auto iter = rusEnds["numeric"].cbegin(); iter != rusEnds["numeric"].cend(); ++iter)
   {
     if (word == *iter)
     {
