@@ -10,7 +10,7 @@ int main()
   BST< std::string, std::function< void(BST< std::string, dictionary >&, std::istream&, std::ostream&) > > commands;
   {
     using namespace std::placeholders;
-    commands.insert("help", std::bind(doroshenko::help, _2, _3));
+    commands.insert("help", std::bind(doroshenko::help, _3));
     commands.insert("create", std::bind(doroshenko::createDict, _1, _2, _3));
     commands.insert("remove", std::bind(doroshenko::removeDict, _1, _2, _3));
     commands.insert("print", std::bind(doroshenko::printDict, _1, _2, _3));
