@@ -5,17 +5,15 @@
 
 namespace sukacheva
 {
-  BinaryTree inputTree(std::string& line)
+  void inputTree(BinaryTree& tree, std::string& line)
   {
     std::istringstream iss(line);
-    BinaryTree currentDict;
     int key;
     std::string value;
     while (iss >> key >> value)
     {
-      currentDict.insert(key, value);
+      tree.insert(key, value);
     }
-    return currentDict;
   }
 
   void printResult(KeySum& result, std::ostream& out)

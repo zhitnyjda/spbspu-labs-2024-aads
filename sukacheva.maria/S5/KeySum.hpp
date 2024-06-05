@@ -9,10 +9,10 @@ namespace sukacheva
 {
   struct KeySum
   {
-    void operator()(const std::pair< const int, std::string >& keyValue)
+    void operator()(const std::pair< const long long int, std::string >& keyValue)
     {
-      int max = std::numeric_limits< int >::max();
-      int min = std::numeric_limits< int >::min();
+      long long int max = std::numeric_limits< long long int >::max();
+      long long int min = std::numeric_limits< long long int >::min();
       if (keyValue.first > 0 && result > max - keyValue.first)
       {
         throw std::overflow_error("<OVERFLOW>\n");

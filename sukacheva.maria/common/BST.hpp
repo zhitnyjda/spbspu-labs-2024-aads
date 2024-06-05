@@ -195,7 +195,6 @@ namespace sukacheva
     }
     Queue< TreeNode* > queue;
     queue.push(root);
-    f(root->data);
     while (!queue.empty())
     {
       TreeNode* applicant = queue.front();
