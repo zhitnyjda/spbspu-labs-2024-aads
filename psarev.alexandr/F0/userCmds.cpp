@@ -1,6 +1,5 @@
 #include "userCmds.hpp"
 #include <stdexcept>
-#include <functional>
 
 void psarev::cmdHelp(std::istream& in, std::ostream& out)
 {

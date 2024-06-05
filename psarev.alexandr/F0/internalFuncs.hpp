@@ -3,8 +3,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "../common/list.hpp"
-#include "../common/avlTree.hpp"
+#include <list.hpp>
+#include <avlTree.hpp>
 
 namespace psarev
 {

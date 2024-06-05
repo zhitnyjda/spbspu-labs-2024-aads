@@ -1,13 +1,10 @@
 #ifndef AVL_TREE_HPP
 #define AVL_TREE_HPP
 #include <utility>
-#include <cstddef>
 #include <algorithm>
-#include <iterator>
 #include <functional>
-#include <assert.h>
-#include "stack.hpp"
-#include "queue.hpp"
+#include <stack.hpp>
+#include <queue.hpp>
 
 namespace psarev
 {

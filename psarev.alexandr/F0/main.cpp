@@ -1,7 +1,5 @@
 #include <limits>
-#include <iostream>
 #include "userCmds.hpp"
-#include "internalFuncs.hpp"
 
 int main()
 {
