@@ -39,7 +39,7 @@ void kovshikov::createGraph(Tree< std::string, Graph >& graphsList, std::istream
   }
 }
 
-void kovshikov::createLonely(Tree< std::string, Graph >& graphsList, std::istream& is)
+void kovshikov::createSingle(Tree< std::string, Graph >& graphsList, std::istream& is)
 {
   std::string graphname;
   is >> graphname;

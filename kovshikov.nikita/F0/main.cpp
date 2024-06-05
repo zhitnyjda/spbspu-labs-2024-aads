@@ -14,7 +14,7 @@ int main()
   {
     using namespace std::placeholders;
     interaction["create"] = std::bind(createGraph, _1, _2);
-    interaction["lonely"] = std::bind(createLonely, _1, _2);
+    interaction["lonely"] = std::bind(createSingle, _1, _2);
     interaction["delete"] = std::bind(deleteGraph, _1, _2);
     interaction["work"] = std::bind(workWith, _1, _2);
   }
