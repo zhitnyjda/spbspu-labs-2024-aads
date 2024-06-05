@@ -36,7 +36,6 @@ namespace reznikova
     F traverse_rnl(F f) const;
     template< typename F >
     F traverse_breadth(F f) const;
-      
     ConstIterator cbegin() const noexcept;
     ConstIterator cend() const noexcept;
     Iterator begin() noexcept;
