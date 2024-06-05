@@ -37,29 +37,6 @@ int main(int argc, char* argv[])
     return 1;
   }
 
-  if (cmp == "ascending")
-  {
-    if (type == "ints")
-    {
-      sortData< int, std::less< int > >(std::cout, type, size, std::less< int >{});
-    }
-    else
-    {
-      sortData< float, std::less< float > >(std::cout, type, size, std::less< float >{});
-    }
-  }
-  else
-  {
-    if (type == "ints")
-    {
-      sortData< int, std::greater< int > >(std::cout, type, size, std::greater< int >{});
-    }
-    else
-    {
-      sortData< float, std::greater< float > >(std::cout, type, size, std::greater< float >{});
-    }
-  }
-
   BST< std::string, BST< std::string, std::function< void(std::ostream& stream, std::string type, size_t size) > > > sorts;
   BST< std::string, std::function< void(std::ostream& stream, std::string type, size_t size) > > ints;
   BST< std::string, std::function< void(std::ostream& stream, std::string type, size_t size) > > floats;
