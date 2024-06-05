@@ -11,8 +11,8 @@ namespace sukacheva
   {
     void operator()(const std::pair< const int, std::string >& keyValue)
     {
-      int max = std::numeric_limits< int >::max();
-      int min = std::numeric_limits< int >::min();
+      int max = std::numeric_limits< long long >::max();
+      int min = std::numeric_limits< long long >::min();
       if (keyValue.first >= 0 && result >= max - keyValue.first)
       {
         throw std::overflow_error("<OVERFLOW>\n");
