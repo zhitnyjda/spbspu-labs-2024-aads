@@ -63,15 +63,12 @@ void updateGraph(miheev::Workspace& workspace, const miheev::Graph& graph)
 void makeCastling(std::ostream& out, std::string nameOfNew, miheev::Workspace& workspace)
 {
   updateGraph(workspace, workspace.current);
-  try
+  if (!workspace.graphs.contains(nameOfNew))
   {
-    miheev::Graph newCurrent = workspace.graphs.at(nameOfNew);
-    workspace.current = newCurrent;
+    throw std::out_of_range("[ERROR] no graph \"" + nameOfNew + "\" in workspace");
   }
-  catch (const std::out_of_range& e)
-  {
-    miheev::sendMessage(out, "[ERROR]: graph with name \"" + nameOfNew + "\" doesn't exist\n");
-  }
+  miheev::Graph newCurrent = workspace.graphs.at(nameOfNew);
+  workspace.current = newCurrent;
 }
 
 void createGraphFromFile(std::istream& in, std::ostream& out, miheev::Workspace& workspace)
