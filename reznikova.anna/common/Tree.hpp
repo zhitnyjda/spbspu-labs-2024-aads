@@ -493,17 +493,17 @@ template< typename Key, typename Value, typename Comparator >
 template< typename F >
 F Tree< Key, Value, Comparator >::traverse_rnl(F f) const
 {
-  Queue< Node * > queue;
+  Stack< Node * > stack;
   Node * current = root_;
-  while (current != nullptr or !queue.empty())
+  while (current != nullptr or !stack.empty())
   {
     while (current != nullptr)
     {
-      queue.push(current);
+      stack.push(current);
       current = current->right_;
     }
-    current = queue.getValue();
-    queue.pop();
+    current = stack.getValue();
+    stack.pop();
     f(current->value_pair_);
     current = current->left_;
   }
