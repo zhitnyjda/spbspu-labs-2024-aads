@@ -30,7 +30,7 @@ namespace ponomarev
     BSTree & operator=(BSTree && other);
 
     size_t getSize() const noexcept;
-    bool isisEmpty() const noexcept;
+    bool isEmpty() const noexcept;
 
     Value & operator[](const Key & key);
     Value & operator[](Key && key);
@@ -62,7 +62,7 @@ namespace ponomarev
     template< typename F >
     F traverseRL(F func);
     template< typename F >
-    F costTraverseBreadth(F func) const;
+    F constTraverseBreadth(F func) const;
     template< typename F >
     F traverseBreadth(F func);
 
@@ -84,6 +84,9 @@ namespace ponomarev
 }
 
 using namespace ponomarev;
+
+template < typename Key, typename Value >
+using value_t = typename std::pair< Key, Value >;
 
 template< typename Key, typename Value, typename Compare >
 class BSTree< Key, Value, Compare >::Iterator : public std::iterator< std::input_iterator_tag, Key, Value, Compare >
@@ -668,7 +671,7 @@ size_t BSTree< Key, Value, Compare >::getSize() const noexcept
 }
 
 template< typename Key, typename Value, typename Compare >
-bool BSTree< Key, Value, Compare >::isisEmpty() const noexcept
+bool BSTree< Key, Value, Compare >::isEmpty() const noexcept
 {
   return size_ == 0;
 }
