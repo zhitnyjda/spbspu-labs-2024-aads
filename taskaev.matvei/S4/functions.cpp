@@ -140,7 +140,15 @@ namespace taskaev
     findComplement(tree.at(oneName), tree.at(twoName), tres);
     //std::cout << "4c\n";
     //findComplement(tree.at(twoName), tree.at(oneName), tres);
-    tree.insert(names, tres);
+    if (names != oneName)
+    {
+      tree.insert(names, tres);
+    }
+    else
+    {
+      tree.erase(oneName);
+      tree.insert(names, tres);
+    }
   }
 
   void findComplement(SubTree& one, SubTree& two, SubTree& tres)
