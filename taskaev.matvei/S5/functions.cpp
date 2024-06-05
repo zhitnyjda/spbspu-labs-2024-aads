@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <limits>
 #include "functions.hpp"
 #include "BSTree.hpp"
 #include "Queue.hpp"
@@ -35,15 +36,15 @@ namespace taskaev
           {
             if (flagTwo == true)
             {
-              if (i > 0 && !std::isDigit(temps[i]))
+              if (i > 0 && !std::isdigit(temps[i]))
               {
-                flag == false;
+                flag = false;
                 break;
               }
             }
             else
             {
-              if (!std::isDigit(temps[i]))
+              if (!std::isdigit(temps[i]))
               {
                 flag == false;
                 break;

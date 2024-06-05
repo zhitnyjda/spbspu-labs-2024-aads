@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <functional>
 #include "BSTree.hpp"
 
 int main(int argc, char ** argv)
