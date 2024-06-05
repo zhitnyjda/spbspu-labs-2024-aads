@@ -30,7 +30,7 @@ namespace ponomarev
     BSTree & operator=(BSTree && other);
 
     size_t getSize() const noexcept;
-    bool isEmpty() const noexcept;
+    bool isisEmpty() const noexcept;
 
     Value & operator[](const Key & key);
     Value & operator[](Key && key);
@@ -439,14 +439,14 @@ ponomarev::BSTree< Key, Value, Compare >::LnRIterator::LnRIterator():
 template < typename Key, typename Value, typename Compare >
 typename ponomarev::BSTree< Key, Value, Compare >::LnRIterator & ponomarev::BSTree< Key, Value, Compare >::LnRIterator::operator++()
 {
-  if (node_ != nullptr || !stack_.empty())
+  if (node_ != nullptr || !stack_.isEmpty())
   {
     while (node_ != nullptr)
     {
       stack_.push(node_);
       node_ = node_->left;
     }
-    el_ = stack_.top();
+    el_ = stack_.getUp();
     stack_.pop();
     node_ = el_->right;
   }
@@ -539,14 +539,14 @@ ponomarev::BSTree< Key, Value, Compare >::RnLIterator::RnLIterator():
 template < typename Key, typename Value, typename Compare >
 typename ponomarev::BSTree< Key, Value, Compare >::RnLIterator & ponomarev::BSTree< Key, Value, Compare >::RnLIterator::operator++()
 {
-  if (node_ != nullptr || !stack_.empty())
+  if (node_ != nullptr || !stack_.isEmpty())
   {
     while (node_ != nullptr)
     {
       stack_.push(node_);
       node_ = node_->right;
     }
-    el_ = stack_.top();
+    el_ = stack_.getUp();
     stack_.pop();
     node_ = el_->left;
   }
@@ -668,7 +668,7 @@ size_t BSTree< Key, Value, Compare >::getSize() const noexcept
 }
 
 template< typename Key, typename Value, typename Compare >
-bool BSTree< Key, Value, Compare >::isEmpty() const noexcept
+bool BSTree< Key, Value, Compare >::isisEmpty() const noexcept
 {
   return size_ == 0;
 }
@@ -1004,6 +1004,151 @@ typename BSTree< Key, Value, Compare >::Iterator BSTree< Key, Value, Compare >::
     }
   }
   return end();
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F ponomarev::BSTree< Key, Value, Compare >::constTraverseLR(F func) const
+{
+  Stack< Node * > stack;
+  Node * temp = root_;
+  while ((temp != nullptr) || (!stack.isEmpty()))
+  {
+    while (temp != nullptr)
+    {
+      stack.push(temp);
+      temp = temp->left;
+    }
+    temp = stack.getUp();
+    stack.pop();
+    func(temp->elem);
+    temp = temp->right;
+  }
+
+  return func;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F ponomarev::BSTree< Key, Value, Compare >::traverseLR(F func)
+{
+  Stack< Node * > stack;
+  Node * temp = root_;
+  while ((temp != nullptr) || (!stack.isEmpty()))
+  {
+    while (temp != nullptr)
+    {
+      stack.push(temp);
+      temp = temp->left;
+    }
+    temp = stack.getUp();
+    stack.pop();
+    func(temp->elem);
+    temp = temp->right;
+  }
+
+  return func;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F ponomarev::BSTree< Key, Value, Compare >::constTraverseRL(F func) const
+{
+  Stack< Node * > stack;
+  Node * temp = root_;
+  while ((temp != nullptr) || (!stack.isEmpty()))
+  {
+    while (temp != nullptr)
+    {
+      stack.push(temp);
+      temp = temp->right;
+    }
+    temp = stack.getUp();
+    stack.pop();
+    func(temp->elem);
+    temp = temp->left;
+  }
+
+  return func;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F ponomarev::BSTree< Key, Value, Compare >::traverseRL(F func)
+{
+  Stack< Node * > stack;
+  Node * temp = root_;
+  while ((temp != nullptr) || (!stack.isEmpty()))
+  {
+    while (temp != nullptr)
+    {
+      stack.push(temp);
+      temp = temp->right;
+    }
+    temp = stack.getUp();
+    stack.pop();
+    func(temp->elem);
+    temp = temp->left;
+  }
+  return func;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F ponomarev::BSTree< Key, Value, Compare >::constTraverseBreadth(F func) const
+{
+  if (isEmpty())
+  {
+     return func;
+  }
+  Queue< Node * > queue;
+  queue.push(root_);
+
+  while (!queue.isEmpty())
+  {
+    Node * node = queue.getElem();
+    func(node->elem);
+    queue.pop();
+    if (node->left != nullptr)
+    {
+      queue.push(node->left);
+    }
+    if (node->right != nullptr)
+    {
+      queue.push(node->right);
+    }
+  }
+
+  return func;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F ponomarev::BSTree< Key, Value, Compare >::traverseBreadth(F func)
+{
+  if (isEmpty())
+  {
+     return func;
+  }
+  Queue< Node * > queue;
+  queue.push(root_);
+
+  while (!queue.isEmpty())
+  {
+    Node * node = queue.getElem();
+    func(node->elem);
+    queue.pop();
+    if (node->left != nullptr)
+    {
+      queue.push(node->left);
+    }
+    if (node->right != nullptr)
+    {
+      queue.push(node->right);
+    }
+  }
+
+  return func;
 }
 
 #endif
