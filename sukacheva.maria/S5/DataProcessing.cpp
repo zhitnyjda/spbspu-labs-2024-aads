@@ -31,7 +31,7 @@ namespace sukacheva
     std::cout << "\n";
   }
 
-  void ascendingCommand(BinaryTree tree, std::ostream& out)
+  void ascendingCommand(BinaryTree& tree, std::ostream& out)
   {
     if (tree.empty())
     {
@@ -43,7 +43,7 @@ namespace sukacheva
     printResult(result, out);
   }
 
-  void descendingCommand(BinaryTree tree, std::ostream& out)
+  void descendingCommand(BinaryTree& tree, std::ostream& out)
   {
     if (tree.empty())
     {
@@ -55,7 +55,7 @@ namespace sukacheva
     printResult(result, out);
   }
 
-  void breadthCommand(BinaryTree tree, std::ostream& out)
+  void breadthCommand(BinaryTree& tree, std::ostream& out)
   {
     if (tree.empty())
     {
