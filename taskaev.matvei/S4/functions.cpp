@@ -106,9 +106,9 @@ namespace taskaev
       errorEmpty(std::cout);
       return;
     }
-    std::cout << "flags 1\n";
     else
     {
+      std::cout << "flags 1\n";
       BSTree< size_t, std::string >::ConstIterator it = tres.cbegin();
       BSTree< size_t, std::string >::ConstIterator end = tres.cend();
       std::cout << datas << " ";
