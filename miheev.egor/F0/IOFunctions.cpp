@@ -21,11 +21,7 @@ bool nameIsNotUnique(const std::string& name, const miheev::Workspace& workspace
   miheev::getGraphsNames(workspace, names);
   {
     using namespace std::placeholders;
-    bool nameAlreadyExists = std::any_of(
-      std::begin(names),
-      std::end(names),
-      std::bind(compareNames, _1, name)
-    );
+    bool nameAlreadyExists = std::any_of(std::begin(names), std::end(names), std::bind(compareNames, _1, name));
     return nameAlreadyExists;
   }
 }
