@@ -30,6 +30,11 @@ int main(int argc, char* argv[])
     std::cerr << e.what() << "\n";
     return 1;
   }
+  if (size == 0)
+  {
+    std::cerr << "Wrong input\n";
+    return 1;
+  }
 
   if (cmp == "ascending")
   {
