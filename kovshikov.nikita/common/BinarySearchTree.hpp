@@ -2,10 +2,13 @@
 #define BINARYSEARCHTREE_HPP
 #include <algorithm>
 #include <cassert>
+#include <exception>
 #include <functional>
 #include <iterator>
 #include <memory>
 #include <utility>
+#include "queue.hpp"
+#include "stack.hpp"
 
 namespace kovshikov
 {
@@ -50,6 +53,15 @@ namespace kovshikov
 
     ConstIterator cend() const noexcept;
     ConstIterator cbegin() const noexcept;
+
+    template< typename F >
+    F traverse_lnr(F f) const;
+
+    template< typename F >
+    F traverse_rnl(F f) const;
+
+    template< typename F >
+    F traverse_breadth(F f) const;
 
   private:
     Node* root_;
@@ -658,7 +670,7 @@ Value& kovshikov::Tree< Key, Value, Compare >::at(const Key& key)
 {
   if(find(key) == end())
   {
-    throw std::out_of_range("");
+    throw std::out_of_range("out_of_range");
   }
   else
   {
@@ -811,6 +823,74 @@ size_t kovshikov::Tree< Key, Value, Compare >::erase(const Key& key)
     erase(iterator);
     return 1;
   }
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename F >
+F kovshikov::Tree< Key, Value, Compare >::traverse_lnr(F f) const
+{
+  Stack < Node* > stack;
+  Node* current = root_;
+  while(current != nullptr || !stack.isEmpty())
+  {
+    while(current != nullptr)
+    {
+      stack.push(current);
+      current = current -> left_;
+    }
+    current = stack.top();
+    f(current -> element_);
+    stack.pop();
+    current = current -> right_;
+  }
+  return f;
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename F >
+F kovshikov::Tree< Key, Value, Compare >::traverse_rnl(F f) const
+{
+  Stack< Node* > stack;
+  Node* current = root_;
+  while(current != nullptr || !stack.isEmpty())
+  {
+    while(current != nullptr)
+    {
+      stack.push(current);
+      current = current -> right_;
+    }
+    current = stack.top();
+    f(current -> element_);
+    stack.pop();
+    current = current -> left_;
+  }
+  return f;
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename F >
+F kovshikov::Tree< Key, Value, Compare >::traverse_breadth(F f) const
+{
+  if(!isEmpty())
+  {
+    Queue< Node* > queue;
+    queue.push(root_);
+    while (!queue.isEmpty())
+    {
+      Node* current = queue.front();
+      queue.pop();
+      f(current -> element_);
+      if (current -> left_)
+      {
+        queue.push(current -> left_);
+      }
+      if (current -> right_)
+      {
+        queue.push(current -> right_);
+      }
+    }
+  }
+  return f;
 }
 
 #endif
