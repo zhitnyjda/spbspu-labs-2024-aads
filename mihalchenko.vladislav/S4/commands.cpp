@@ -23,10 +23,6 @@ std::string mihalchenko::resiveString(std::string &inputStr, size_t &pos, bool f
   return result;
 }
 
-/*void mihalchenko::printErrorMessage(std::ostream & out) {
-    out << "ERROR\n";
-}*/
-
 void mihalchenko::printInvalidCommand(std::ostream &out)
 {
   out << "<INVALID COMMAND>\n";
@@ -156,15 +152,11 @@ void mihalchenko::unionAVL(typeParam &AVLTree)
       datasets.insert(*it);
     }
   }
-  // std::cout << "123" << std::endl;
-
   if (AVLTree.find(name) != AVLTree.end())
   {
     AVLTree.erase(name);
   }
-  // std::cout << "456" << std::endl;
   AVLTree.insert(name, datasets);
-  // std::cout << "789" << std::endl;
 }
 
 void mihalchenko::insertDataToTree(typeParam &TreeAndLeaves, std::string &inputStr)

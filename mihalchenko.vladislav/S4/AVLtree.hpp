@@ -148,7 +148,8 @@ mihalchenko::AVLTree<Key, Value, Compare>::Node::Node(Key key, Value data, int h
 {}
 
 template <typename Key, typename Value, typename Compare>
-typename mihalchenko::AVLTree<Key, Value, Compare>::Node *mihalchenko::AVLTree<Key, Value, Compare>::insertNode(Key key, Value val, Node *node)
+typename mihalchenko::AVLTree<Key, Value, Compare>::Node
+  *mihalchenko::AVLTree<Key, Value, Compare>::insertNode(Key key, Value val, Node *node)
 {
   Node *newNode = new Node(key, val, 0, nullptr, nullptr, nullptr);
   if (!node)
@@ -609,7 +610,8 @@ int mihalchenko::AVLTree<Key, Value, Compare>::getHeight(Node *node)
 }
 
 template <typename Key, typename Value, typename Compare>
-typename mihalchenko::AVLTree<Key, Value, Compare>::Node *mihalchenko::AVLTree<Key, Value, Compare>::getRoot()
+typename mihalchenko::AVLTree<Key, Value, Compare>::Node
+  *mihalchenko::AVLTree<Key, Value, Compare>::getRoot()
 {
   Node *temp = this;
   while (temp->previous_ != root_)
@@ -620,7 +622,8 @@ typename mihalchenko::AVLTree<Key, Value, Compare>::Node *mihalchenko::AVLTree<K
 }
 
 template <typename Key, typename Value, typename Compare>
-typename mihalchenko::AVLTree<Key, Value, Compare>::Node const *mihalchenko::AVLTree<Key, Value, Compare>::getRoot() const
+typename mihalchenko::AVLTree<Key, Value, Compare>::Node
+  const *mihalchenko::AVLTree<Key, Value, Compare>::getRoot() const
 {
   Node *temp = this;
   while (temp->previous_ != root_)
@@ -631,7 +634,8 @@ typename mihalchenko::AVLTree<Key, Value, Compare>::Node const *mihalchenko::AVL
 }
 
 template <typename Key, typename Value, typename Compare>
-typename mihalchenko::AVLTree<Key, Value, Compare>::Node *mihalchenko::AVLTree<Key, Value, Compare>::copyTree(Node *node, Node *previous)
+typename mihalchenko::AVLTree<Key, Value, Compare>::Node
+  *mihalchenko::AVLTree<Key, Value, Compare>::copyTree(Node *node, Node *previous)
 {
   if (node == nullptr)
   {
