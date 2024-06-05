@@ -88,7 +88,7 @@ namespace taskaev
       tree.traverse_lnr([&](const std::pair< const int, std::string >& value)
         {
           int max = std::numeric_limits<int>::max();
-          int min = -max;
+          int min = std::numeric_limits<int>::min();
           if (value.first > 0 && max - value.first < result)
           {
             throw;
@@ -131,7 +131,7 @@ namespace taskaev
       tree.traverse_rnl([&](const std::pair< const int, std::string >& value)
         {
           int max = std::numeric_limits<int>::max();
-          int min = -max;
+          int min = std::numeric_limits<int>::min();
           if (value.first > 0 && max - value.first < result)
           {
             throw;
@@ -174,7 +174,7 @@ namespace taskaev
       tree.traverse_breadth([&](const std::pair< const int, std::string >& value)
         {
           int max = std::numeric_limits<int>::max();
-          int min = -max;
+          int min = std::numeric_limits<int>::min();
           if (value.first > 0 && max - value.first < result)
           {
             throw;
