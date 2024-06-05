@@ -1,5 +1,7 @@
 #ifndef SHELL_SORT_HPP
 #define SHELL_SORT_HPP
+#include <iterator>
+#include <cstddef>
 
 namespace psarev
 {
