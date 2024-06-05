@@ -189,7 +189,7 @@ namespace sukacheva
   template< typename F >
   F BST< Key, Value, Compare >::traverse_breadth(F& f) const
   {
-    if (!root)
+    /*if (!root)
     {
       return f;
     }
@@ -208,7 +208,8 @@ namespace sukacheva
       {
         queue.push(applicant->right);
       }
-    }
+    }*/
+    std::cout << "test";
     return f;
   }
 

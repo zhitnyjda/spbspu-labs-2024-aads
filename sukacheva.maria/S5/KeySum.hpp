@@ -13,7 +13,7 @@ namespace sukacheva
     {
       int max = std::numeric_limits< int >::max();
       int min = std::numeric_limits< int >::min();
-      if (result > max - keyValue.first)
+      if (keyValue.first > 0 && result > max - keyValue.first)
       {
         throw std::overflow_error("<OVERFLOW>\n");
       }
