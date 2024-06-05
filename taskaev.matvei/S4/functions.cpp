@@ -135,6 +135,11 @@ namespace taskaev
     std::string names, oneName, twoName;
     std::cin >> names >> oneName >> twoName;
     BSTree< size_t, std::string > tres;
+    if (oneName == twoName)
+    {
+      tree.insert(names, tres);
+      return;
+    }
     //std::cout << tree.size() << " " << tres.size() << "\n";
     //std::cout << "3c\n";
     findComplement(tree.at(oneName), tree.at(twoName), tres);
