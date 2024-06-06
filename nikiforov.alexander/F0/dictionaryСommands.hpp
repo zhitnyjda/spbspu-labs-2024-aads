@@ -11,6 +11,7 @@ namespace nikiforov
 {
   using mapDictionaries_t = nikiforov::AvlTree< std::string, nikiforov::AvlTree< std::string, size_t > >;
   using invertedMap_t = std::multimap< size_t, std::string >;
+  using AvlTreeConstIter = nikiforov::AvlTree< std::string, size_t >::ConstIterator;
 
   void printCommands(std::ostream& out);
 
@@ -39,7 +40,7 @@ namespace nikiforov
 
   void writingDictionaries(const mapDictionaries_t& mapDictionaries, std::string nameMkdir, std::ofstream& fout);
 
-  void printWordAndFrequency(nikiforov::AvlTree< std::string, size_t >::ConstIterator begin, nikiforov::AvlTree< std::string, size_t >::ConstIterator end, std::ostream& out);
+  void printWordAndFrequency(AvlTreeConstIter begin, AvlTreeConstIter end, std::ostream& out);
   void printWordAndFrequency(nikiforov::AvlTree< std::string, size_t >::Iterator iterPair, std::ostream& out);
 
   void select(mapDictionaries_t& mapDictionaries, std::istream& in, std::ostream& out, std::string& nameSelectedDictionary);

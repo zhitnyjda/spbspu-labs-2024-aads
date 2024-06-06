@@ -7,7 +7,7 @@ int main()
   using mapDictionaries_t = nikiforov::AvlTree< std::string, nikiforov::AvlTree< std::string, size_t > >;
 
   mapDictionaries_t mapDictionaries;
-  
+
   using namespace std::placeholders;
   std::map< std::string, std::function < void(mapDictionaries_t&, std::istream&, std::ostream&, std::string&) > > command;
   {

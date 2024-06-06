@@ -186,7 +186,7 @@ void nikiforov::add(mapDictionaries_t& mapDictionaries, std::istream& in, std::o
 
   if (firstDictionary != mapDictionaries.end() && secondDictionary != mapDictionaries.end())
   {
-    for (auto it = secondDictionary->second.begin(); it != secondDictionary->second.end(); ++it) 
+    for (auto it = secondDictionary->second.begin(); it != secondDictionary->second.end(); ++it)
     {
       firstDictionary->second.emplace(it->first, it->second);
     }
@@ -214,7 +214,7 @@ void nikiforov::unit(mapDictionaries_t& mapDictionaries, std::istream& in, std::
     if (firstDictionary != mapDictionaries.end() && secondDictionary != mapDictionaries.end())
     {
       nikiforov::AvlTree< std::string, size_t > newDictionary = firstDictionary->second;
-      for (auto it = secondDictionary->second.begin(); it != secondDictionary->second.end(); ++it) 
+      for (auto it = secondDictionary->second.begin(); it != secondDictionary->second.end(); ++it)
       {
         newDictionary.emplace(it->first, it->second);
       }
@@ -272,7 +272,7 @@ void nikiforov::clear(mapDictionaries_t& mapDictionaries, std::istream& in, std:
 
   if (firstDictionary != mapDictionaries.end() && secondDictionary != mapDictionaries.end())
   {
-    for (auto it = secondDictionary->second.begin(); it != secondDictionary->second.end(); ++it) 
+    for (auto it = secondDictionary->second.begin(); it != secondDictionary->second.end(); ++it)
     {
       if (firstDictionary->second.find(it->first) != firstDictionary->second.end())
       {
@@ -302,7 +302,7 @@ void nikiforov::save(const mapDictionaries_t& mapDictionaries, std::istream& in,
   else
   {
     out << " The folder already exists, do you want to overwrite it (yes/no)? \n";
-    std::string consent = "";
+    std::string consent;
     in >> consent;
 
     if (consent == "yes" || consent == "y")
@@ -372,7 +372,7 @@ void nikiforov::printDict(mapDictionaries_t& mapDictionaries, std::istream& in, 
     else
     {
       out << " The contents of the dictionary '" << nameSelectedDictionary << "':\n";
-      for (auto iterPair = SelectedDictionary->second.begin(); iterPair != SelectedDictionary->second.end(); ++iterPair) 
+      for (auto iterPair = SelectedDictionary->second.begin(); iterPair != SelectedDictionary->second.end(); ++iterPair)
       {
         printWordAndFrequency(iterPair, out);
       }
@@ -392,7 +392,7 @@ void nikiforov::printMost(nikiforov::AvlTree< std::string, size_t >& invertDicti
   out << " The " << numOfTheMostFrequent << " most common words\n";
 
   size_t count = 0;
-  for (auto iterPair = invertDictionary.begin(); iterPair != invertDictionary.end(); ++iterPair) 
+  for (auto iterPair = invertDictionary.begin(); iterPair != invertDictionary.end(); ++iterPair)
   {
     if (numOfTheMostFrequent != count++)
     {
@@ -457,8 +457,7 @@ void nikiforov::erase(mapDictionaries_t& mapDictionaries, std::istream& in, std:
   }
 }
 
-void nikiforov::printWordAndFrequency(nikiforov::AvlTree< std::string, size_t >::ConstIterator begin, 
-  nikiforov::AvlTree< std::string, size_t >::ConstIterator end, std::ostream& out)
+void nikiforov::printWordAndFrequency(AvlTreeConstIter begin, AvlTreeConstIter end, std::ostream& out)
 {
   for (begin; begin != end; ++begin)
   {
