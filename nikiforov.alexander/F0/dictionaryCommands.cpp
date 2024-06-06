@@ -459,9 +459,10 @@ void nikiforov::erase(mapDictionaries_t& mapDictionaries, std::istream& in, std:
 
 void nikiforov::printWordAndFrequency(AvlTreeConstIter begin, AvlTreeConstIter end, std::ostream& out)
 {
-  for (begin; begin != end; ++begin)
+  while (begin != end)
   {
     out << begin->first << " " << begin->second << "\n";
+    begin++;
   }
 }
 
