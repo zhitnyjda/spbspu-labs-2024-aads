@@ -25,11 +25,11 @@ void sukacheva::bucketSort(Iterator begin, Iterator end, Comparator cmp)
   auto minmax = std::minmax_element(begin, end, cmp);
   ValueType minValue = *minmax.first;
   ValueType maxValue = *minmax.second;
-  std::size_t bucketCount = std::distance(begin, end);
+  size_t bucketCount = std::distance(begin, end);
   std::vector< std::vector< ValueType > > buckets(bucketCount);
   for (auto it = begin; it != end; ++it)
   {
-    std::size_t bucketIndex = bucketCount * (*it - minValue) / (maxValue - minValue + 1);
+    size_t bucketIndex = static_cast< size_t >((bucketCount - 1) * (static_cast< double >(*it - minValue) / (maxValue - minValue)));
     buckets[bucketIndex].push_back(*it);
   }
   for (size_t i = 0; i < bucketCount; i++)
