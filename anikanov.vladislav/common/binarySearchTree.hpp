@@ -6,6 +6,8 @@
 #include <string>
 #include <memory>
 #include <iosfwd>
+#include <stack.hpp>
+#include <queue.hpp>
 
 namespace anikanov {
   template< typename Key, typename Value, typename Compare >
@@ -39,6 +41,12 @@ namespace anikanov {
     size_t count(const Key &key) const;
     void insert(const std::pair< Key, Value > &pair);
     void erase(const Key &key);
+    template< typename F >
+    F traverse_lnr(F f) const;
+    template< typename F >
+    F traverse_rnl(F f) const;
+    template< typename F >
+    F traverse_breadth(F f) const;
 
   private:
     struct Node {
@@ -696,6 +704,71 @@ anikanov::BinarySearchTree< Key, Value, Compare >::clone(const BinarySearchTree:
   newNode->left = clone(node->left.get());
   newNode->right = clone(node->right.get());
   return newNode;
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename F >
+F anikanov::BinarySearchTree< Key, Value, Compare >::traverse_lnr(F f) const
+{
+  if (!root) {
+    return f;
+  }
+
+  Stack < Node * > stack;
+  Node *current = root.get();
+  while (!stack.isEmpty() || current != nullptr) {
+    while (current != nullptr) {
+      stack.push(current);
+      current = current->left.get();
+    }
+    current = stack.top();
+    stack.pop();
+    f(current->data);
+    current = current->right.get();
+  }
+  return f;
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename F >
+F anikanov::BinarySearchTree< Key, Value, Compare >::traverse_rnl(F f) const
+{
+  Stack < Node * > stack;
+  Node *current = root.get();
+  while (!stack.isEmpty() || current != nullptr) {
+    while (current != nullptr) {
+      stack.push(current);
+      current = current->right.get();
+    }
+    current = stack.top();
+    stack.pop();
+    f(current->data);
+    current = current->left.get();
+  }
+  return f;
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename F >
+F anikanov::BinarySearchTree< Key, Value, Compare >::traverse_breadth(F f) const
+{
+  if (!root) {
+    return f;
+  }
+  Queue < Node * > queue;
+  queue.push(root.get());
+  while (!queue.isEmpty()) {
+    Node *current = queue.front();
+    queue.pop();
+    f(current->data);
+    if (current->left) {
+      queue.push(current->left.get());
+    }
+    if (current->right) {
+      queue.push(current->right.get());
+    }
+  }
+  return f;
 }
 
 #endif

@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "binarySearchTree.hpp"
+#include <binarySearchTree.hpp>
 
 namespace anikanov {
   using tree = BinarySearchTree< int, std::string, std::less<> >;
