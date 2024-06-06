@@ -25,7 +25,7 @@ void dijkstraCommand(std::istream &input, std::ostream &output, Graph &graph) {
     resetDijkstra(graph);
     graph.distances[startVertex] = 0;
 
-    List< std::string > vertices;
+    zhitnyj::List< std::string > vertices;
     for (const auto &pair: graph.adjList) {
       vertices.push_back(pair.first);
     }
@@ -117,8 +117,8 @@ void saveGraphCommand(std::istream &input, std::ostream &output, const Graph &gr
   }
 }
 
-List< std::string > split(const std::string &str) {
-  List< std::string > tokens;
+zhitnyj::List< std::string > split(const std::string &str) {
+  zhitnyj::List< std::string > tokens;
   std::string token;
   size_t start = 0;
   size_t end = 0;
