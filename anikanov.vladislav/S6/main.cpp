@@ -25,8 +25,10 @@ int main(int argc, char *argv[])
   auto floatComparator = ascending
                          ? std::function< bool(float, float) >(std::less< float >())
                          : std::function< bool(float, float) >(std::greater< float >());
+
   auto typeSelected = std::string(argv[2]);
   size_t size;
+
   try {
     size = std::stoi(argv[3]);
   } catch (std::invalid_argument &e) {
