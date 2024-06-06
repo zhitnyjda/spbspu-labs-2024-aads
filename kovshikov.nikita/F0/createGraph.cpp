@@ -115,27 +115,24 @@ void kovshikov::workWith(Tree< std::string, Graph >& graphsList, std::istream& i
     isError = false;
     try
     {
-      working.at(command)(graphsList.at(key), is);
-    }
-    catch(const std::out_of_range& error)
-    {
-      try
+      if(working.find(command) != working.end())
+      {
+        working.at(command)(graphsList.at(key), is);
+      }
+      else if(outInThisGraph.find(command) != outInThisGraph.end())
       {
         outInThisGraph.at(command)(graphsList.at(key), std::cout);
       }
-      catch(const std::out_of_range& error)
+      else if(command == "graphname")
       {
-        if(command == "graphname")
-        {
-          outName(key, std::cout);
-        }
-        else
-        {
-          isError = true;
-          outInvalid(std::cout);
-          is.clear();
-          is.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
-        }
+        outName(key, std::cout);
+      }
+      else
+      {
+        isError = true;
+        outInvalid(std::cout);
+        is.clear();
+        is.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
       }
     }
     catch(const std::logic_error& error)
