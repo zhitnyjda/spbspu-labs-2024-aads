@@ -94,12 +94,6 @@ void ponomarev::deleteTextInFile(long long n, long long k, const std::string par
   out << res << "\n";
 }
 
-std::ostream & ponomarev::printInvalidCommandMessage(std::ostream & out)
-{
-  out << "<INVALID COMMAND>" << "\n";
-  return out;
-}
-
 std::ostream & ponomarev::printWelcomeMessage(std::ostream & out)
 {
   out << "-----Start working-----" << "\n";
