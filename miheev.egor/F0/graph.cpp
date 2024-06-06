@@ -19,7 +19,6 @@ void miheev::Graph::rmNode(int name)
 {
   Node& node = nodes_.at(name);
   auto iter(node.edges.begin());
-  // for (auto iter(node.edges.begin()); iter != node.edges.end(); iter = node.edges.begin())
   for (auto iter(node.edges.begin()); !node.edges.empty(); iter = node.edges.begin())
   {
     int neighbourName = iter->dest;
