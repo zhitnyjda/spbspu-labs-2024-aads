@@ -1,5 +1,5 @@
 #include <iostream>
-#include "List.hpp"
+#include <List.hpp>
 #include "GraphUtils.hpp"
 
 void addVertex(Graph &graph, const std::string &vertex) {
