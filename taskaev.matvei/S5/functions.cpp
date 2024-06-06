@@ -87,18 +87,18 @@ namespace taskaev
     else
     {
       Queue< std::string > queue;
-      int result = 0;
+      long long result = 0;
       tree.traverse_lnr([&](const std::pair< const int, std::string >& value)
         {
           int max = std::numeric_limits<int>::max();
           int min = std::numeric_limits<int>::min();
           if (value.first > 0 && max - value.first < result)
           {
-            throw;
+            throw std::overflow_error("Error: 1\n");
           }
           else if (value.first < 0 && min - value.first > result)
           {
-            throw;
+            throw std::underflow_error("Error: 2\n");
           }
           result = result + value.first;
           queue.push(value.second);

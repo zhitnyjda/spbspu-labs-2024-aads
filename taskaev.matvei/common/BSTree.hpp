@@ -775,7 +775,7 @@ namespace taskaev
       return f;
     }
 
-    while (stack.isEmpty() || nodes)
+    while (!stack.isEmpty() || nodes)
     {
       if (nodes)
       {
@@ -804,7 +804,7 @@ namespace taskaev
       return f;
     }
 
-    while (stack.isEmpty() || nodes)
+    while (!stack.isEmpty() || nodes)
     {
       if (nodes)
       {

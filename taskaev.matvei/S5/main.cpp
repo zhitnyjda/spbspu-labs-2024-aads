@@ -32,7 +32,7 @@ int main(int argc, char ** argv)
     createTree(inputs, tree);
     cmds.at(name)(tree);
   }
-  catch(const std::out_of_range& e)
+  catch(const std::exception& e)
   {
     std::cerr << e.what();
     return 1;
