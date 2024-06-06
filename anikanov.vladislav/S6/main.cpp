@@ -25,7 +25,6 @@ int main(int argc, char *argv[])
   auto floatComparator = ascending
                          ? std::function< bool(float, float) >(std::less< float >())
                          : std::function< bool(float, float) >(std::greater< float >());
-
   auto typeSelected = std::string(argv[2]);
   size_t size;
 
@@ -44,21 +43,9 @@ int main(int argc, char *argv[])
   std::srand(static_cast< unsigned >(std::time(0)));
 
   if (typeSelected == "ints") {
-    std::forward_list< int > fwd;
-    List< int > list;
-    std::deque< int > deq;
-
-    generateRandomData(fwd, list, deq, size);
-    printContainer(std::cout, fwd);
-    applySort(fwd, list, deq, intComparator, std::cout);
+    processData< int >(intComparator, size);
   } else if (typeSelected == "floats") {
-    std::forward_list< float > fwd;
-    List< float > list;
-    std::deque< float > deq;
-
-    generateRandomData(fwd, list, deq, size);
-    printContainer(std::cout, fwd);
-    applySort(fwd, list, deq, floatComparator, std::cout);
+    processData< float >(intComparator, size);
   } else {
     printInvalidType(std::cerr);
     return 1;
