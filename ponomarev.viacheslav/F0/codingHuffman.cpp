@@ -44,7 +44,6 @@ void ponomarev::printCodes(MinHeapNode * root, std::string str)
         std::cout << root->data << ": " << str << "\n";
       }
     }
-
     printCodes(root->left, str + "0");
     printCodes(root->right, str + "1");
 }
@@ -60,7 +59,6 @@ void ponomarev::storeCodes(MinHeapNode * root, std::string str, HuffmanCode & da
     {
         data.codes[root->data] = str;
     }
-
     storeCodes(root->left, str + "0", data);
     storeCodes(root->right, str + "1", data);
 }
@@ -73,16 +71,13 @@ void ponomarev::createTree(HuffmanCode & data)
     {
         data.minHeap.push(new MinHeapNode(v->first, v->second));
     }
-
     while (data.minHeap.size() != 1)
     {
         left = data.minHeap.top();
         data.minHeap.pop();
         right = data.minHeap.top();
         data.minHeap.pop();
-
         top = new MinHeapNode('$', left->freq + right->freq);
-
         top->left = left;
         top->right = right;
         data.minHeap.push(top);
@@ -122,7 +117,6 @@ void ponomarev::decodeFile(HuffmanCode & data)
         }
       }
     }
-
     data.text = ans;
 }
 
@@ -139,12 +133,10 @@ void ponomarev::makeEncode(HuffmanCode & data)
     ponomarev::calcFreq(str, data);
     ponomarev::createTree(data);
     std::string encodedString = "";
-
     for (char i : str)
     {
       encodedString += data.codes[i];
     }
-
     ponomarev::printSuccessfullyEncodeMessage(std::cout);
   }
 }
@@ -159,13 +151,11 @@ void ponomarev::fillFreq(std::string parameter, HuffmanCode & data)
   }
 
   std::string str = "";
-
   while (input >> str)
   {
     char symbol = cutType(str)[0];
     int freq = std::stoi(str);
     data.freq[symbol] = freq;
   }
-
   ponomarev::printSuccessfullyFrequenceInput(std::cout);
 }
