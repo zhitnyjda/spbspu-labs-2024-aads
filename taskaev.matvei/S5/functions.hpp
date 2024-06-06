@@ -1,9 +1,10 @@
 #ifndef FUNCTIONS_HPP
 #define FUNCTIONS_HPP
+
+#include <BSTree.hpp>
+#include <Queue.hpp>
 #include <string>
 #include <fstream>
-#include "BSTree.hpp"
-#include "Queue.hpp"
 
 namespace taskaev
 {

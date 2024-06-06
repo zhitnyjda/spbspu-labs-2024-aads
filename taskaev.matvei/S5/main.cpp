@@ -3,7 +3,7 @@
 #include <string>
 #include <functional>
 #include "functions.hpp"
-#include "BSTree.hpp"
+#include <BSTree.hpp>
 
 int main(int argc, char ** argv)
 {
@@ -21,15 +21,21 @@ int main(int argc, char ** argv)
     return 1;
   }
   std::string name = argv[1];
-  //createTree(inputs, tree);
+  try
+  {
+    createTree(inputs, tree);
+  }
+  catch (const std::exception& e)
+  {
+    std::cerr << e.what();
+    return 1;
+  }
   BSTree< std::string, std::function< void(BSTree< int, std::string >&) > > cmds;
   cmds.insert("ascending", ascending);
   cmds.insert("descending", descending);
   cmds.insert("breadth", breadth);
-
   try
   {
-    createTree(inputs, tree);
     cmds.at(name)(tree);
   }
   catch(const std::exception& e)
