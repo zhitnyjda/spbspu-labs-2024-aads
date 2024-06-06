@@ -29,6 +29,7 @@ namespace miheev
     const T& front() const;
 
     size_t size() const;
+    bool contains(const T&) const;
 
     void assign (size_t n, const T& val);
     void pushFront(const T& data);
@@ -167,7 +168,7 @@ const T& miheev::List< T >::ConstIterator::operator*() const
 template< typename T >
 const T* miheev::List< T >::ConstIterator::operator->() const
 {
-  return std::addressof(cur_->data);
+  return std::addressof(cur_->data_);
 }
 
 template< typename T >
@@ -524,9 +525,9 @@ template < typename T >
 void miheev::List< T >::remove(T data)
 {
   Iterator iter(begin());
-  while(iter)
+  while(iter != nullptr)
   {
-    if (*(iter.next()) == data)
+    if (iter.next() != nullptr && *(iter.next()) == data)
     {
       iter.eraseAfter();
     }
@@ -601,6 +602,20 @@ void miheev::List< T >::popBack()
     }
     eraseAfter(iter);
   }
+}
+
+template < typename T >
+bool miheev::List< T >::contains(const T& value) const
+{
+  if (data_ == value)
+  {
+    return true;
+  }
+  if (next_)
+  {
+    return next_->contains(value);
+  }
+  return false;
 }
 
 #endif
