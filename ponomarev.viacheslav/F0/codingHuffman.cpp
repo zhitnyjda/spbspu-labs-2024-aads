@@ -67,7 +67,7 @@ void ponomarev::createTree(HuffmanCode & data)
 {
     MinHeapNode * left, * right, * top;
 
-    for (std::map< char, int >::iterator v = data.freq.begin(); v != data.freq.end(); v++)
+    for (BSTree < char, int, int >::Iterator v = data.freq.begin(); v != data.freq.end(); v++)
     {
         data.minHeap.push(new MinHeapNode(v->first, v->second));
     }

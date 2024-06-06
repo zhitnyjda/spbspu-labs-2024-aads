@@ -1,12 +1,10 @@
 #ifndef CODING_HUFFMAN_HPP
 #define CODING_HUFFMAN_HPP
 
-#include <map>
+#include <string>
 #include "list.hpp"
 #include "queue.hpp"
-#include <string>
-#include <queue>
-#include <vector>
+#include "binarySearchTreeAVL.hpp"
 
 namespace ponomarev
 {
@@ -29,8 +27,8 @@ namespace ponomarev
   public:
     HuffmanCode();
 
-    std::map< char, std::string > codes;
-    std::map< char, int > freq;
+    BSTree < char, std::string, int > codes;
+    BSTree < char, int, int > freq;
     std::string text;
     std::string decodingText;
     Queue < MinHeapNode * > minHeap;
