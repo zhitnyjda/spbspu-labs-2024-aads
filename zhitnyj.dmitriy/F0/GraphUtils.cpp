@@ -75,8 +75,8 @@ void isConnected(const Graph &graph, const std::string &vertex1, const std::stri
     throw std::logic_error("One or both vertices do not exist\n");
   }
 
-  List< std::string > visited;
-  List< std::string > stack;
+  zhitnyj::List< std::string > visited;
+  zhitnyj::List< std::string > stack;
   stack.push_back(vertex1);
 
   while (!stack.empty()) {
