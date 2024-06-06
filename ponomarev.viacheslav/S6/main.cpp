@@ -1,5 +1,6 @@
 #include <functional>
 #include <map>
+#include <iostream>
 #include "distributionFunctions.hpp"
 #include "outputErrorFunctions.hpp"
 
