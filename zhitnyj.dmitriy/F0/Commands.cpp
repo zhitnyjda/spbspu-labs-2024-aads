@@ -3,8 +3,8 @@
 #include <limits>
 #include <queue>
 #include <algorithm>
+#include <List.hpp>
 #include "Commands.hpp"
-#include "List.hpp"
 #include "GraphUtils.hpp"
 #include "iofmtguard.hpp"
 
