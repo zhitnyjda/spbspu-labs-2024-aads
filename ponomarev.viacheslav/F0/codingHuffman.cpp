@@ -1,5 +1,4 @@
 #include "codingHuffman.hpp"
-#include <iterator>
 #include <fstream>
 #include <iostream>
 #include "accessoryFunctions.hpp"
