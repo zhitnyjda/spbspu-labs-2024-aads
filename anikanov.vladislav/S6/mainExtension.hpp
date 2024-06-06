@@ -8,10 +8,10 @@
 #include <list.hpp>
 
 namespace anikanov {
-  template<typename T, typename Comparator>
+  template< typename T, typename Comparator >
   void processData(Comparator comp, size_t size);
   template< typename T >
-  void generateRandomData(std::forward_list< T > &fwd, List <T> &list, std::deque< T > &deq, size_t size);
+  void generateRandomData(std::forward_list< T > &fwd, List < T > &list, std::deque< T > &deq, size_t size);
   template< typename T, typename Comparator >
   void fwdSort(std::forward_list< T > &fwd, Comparator comp);
   template< typename BidirectionalIterator, typename Comparator >
@@ -19,7 +19,7 @@ namespace anikanov {
   template< typename RandomAccessIterator, typename Comparator >
   void mergeSort(RandomAccessIterator first, RandomAccessIterator last, Comparator comp);
   template< typename T, typename Comparator >
-  void applySort(std::forward_list< T > &fwd, List <T> &list, std::deque< T > &deq, Comparator comp, std::ostream &os);
+  void applySort(std::forward_list< T > &fwd, List < T > &list, std::deque< T > &deq, Comparator comp, std::ostream &os);
   template< typename Container >
   void printContainer(std::ostream &os, const Container &container);
   void printUsingError(std::ostream &os);
@@ -27,10 +27,11 @@ namespace anikanov {
   void printInvalidType(std::ostream &os);
 }
 
-template<typename T, typename Comparator>
-void anikanov::processData(Comparator comp, size_t size){
+template< typename T, typename Comparator >
+void anikanov::processData(Comparator comp, size_t size)
+{
   std::forward_list< T > fwd;
-  List< T > list;
+  List < T > list;
   std::deque< T > deq;
 
   generateRandomData(fwd, list, deq, size);
@@ -39,7 +40,7 @@ void anikanov::processData(Comparator comp, size_t size){
 }
 
 template< typename T >
-void anikanov::generateRandomData(std::forward_list< T > &fwd, List <T> &list, std::deque< T > &deq, size_t size)
+void anikanov::generateRandomData(std::forward_list< T > &fwd, List < T > &list, std::deque< T > &deq, size_t size)
 {
   for (size_t i = 0; i < size; ++i) {
     auto value = static_cast< T >(std::rand() % 100 +
@@ -130,7 +131,7 @@ void anikanov::mergeSort(RandomAccessIterator first, RandomAccessIterator last, 
   mergeSort(mid, last, comp);
 
   using ValueType = typename std::iterator_traits< RandomAccessIterator >::value_type;
-  List <ValueType> buffer;
+  List < ValueType > buffer;
   RandomAccessIterator left = first;
   RandomAccessIterator right = mid;
 
@@ -162,7 +163,7 @@ void anikanov::mergeSort(RandomAccessIterator first, RandomAccessIterator last, 
 
 template< typename T, typename Comparator >
 void
-anikanov::applySort(std::forward_list< T > &fwd, List <T> &list, std::deque< T > &deq, Comparator comp,
+anikanov::applySort(std::forward_list< T > &fwd, List < T > &list, std::deque< T > &deq, Comparator comp,
                     std::ostream &os)
 {
   fwdSort(fwd, comp);
