@@ -80,10 +80,8 @@ void anikanov::shakerSort(BidirectionalIterator first, BidirectionalIterator las
       }
     }
 
-    // Если ничего не поменялось, выходим из цикла
     if (!swapped) break;
 
-    // Обновляем последний отсортированный элемент
     --end;
 
     swapped = false;
