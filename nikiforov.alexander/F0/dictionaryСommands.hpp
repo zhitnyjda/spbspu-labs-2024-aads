@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <iostream>
 #include <string>
-#include "../common/commands.hpp"
+#include <commands.hpp>
 
 namespace nikiforov
 {
