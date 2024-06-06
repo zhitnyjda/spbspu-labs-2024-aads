@@ -44,32 +44,32 @@ std::string kovshikov::getGraphname(std::pair< std::string, Graph > element)
 
 void kovshikov::connect(Graph& graph, std::istream& is)
 {
-  size_t num1;
-  size_t num2;
-  size_t num3;
-  is >> num1 >> num2;
+  size_t keyWhoOrNum;
+  size_t whoOrWith;
+  size_t vertexWith;
+  is >> keyWhoOrNum >> whoOrWith;
   if(is.peek() == '\n')
   {
-    std::cout << graph.getWeight(num1, num2) << "\n";
+    std::cout << graph.getWeight(keyWhoOrNum, whoOrWith) << "\n";
   }
   else
   {
-    is >> num3;
-    graph.createEdge(num2, num3, num1);
+    is >> vertexWith;
+    graph.createEdge(whoOrWith, vertexWith, keyWhoOrNum);
   }
 }
 
 void kovshikov::getDouble(Graph& graph, std::istream& is)
 {
-  size_t num1;
-  size_t num2;
-  size_t num3;
-  is >> num1 >> num2;
+  size_t keyWhoOrNum;
+  size_t whoOrWith;
+  size_t vertexWith;
+  is >> keyWhoOrNum >> whoOrWith;
   auto outTrue = std::bind(outMessage, "TRUE", std::placeholders::_1);
   auto outFalse = std::bind(outMessage, "FALSE", std::placeholders::_1);
   if(is.peek() == '\n')
   {
-    if(graph.isDouble(num1, num2) == true)
+    if(graph.isDouble(keyWhoOrNum, whoOrWith) == true)
     {
       outTrue(std::cout);
     }
@@ -80,9 +80,9 @@ void kovshikov::getDouble(Graph& graph, std::istream& is)
   }
   else
   {
-    is >> num3;
-    graph.createEdge(num2, num3, num1);
-    graph.createEdge(num3, num2, num1);
+    is >> vertexWith;
+    graph.createEdge(whoOrWith, vertexWith, keyWhoOrNum);
+    graph.createEdge(vertexWith, whoOrWith, keyWhoOrNum);
   }
 }
 
