@@ -114,6 +114,7 @@ void saveGraphCommand(std::istream &input, std::ostream &output, const Graph &gr
     }
     file << "\n";
   }
+  output << "Graph was saved in file!\n";
 }
 
 zhitnyj::List< std::string > split(const std::string &str) {
