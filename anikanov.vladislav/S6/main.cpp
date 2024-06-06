@@ -26,10 +26,16 @@ int main(int argc, char *argv[])
                          ? std::function< bool(float, float) >(std::less< float >())
                          : std::function< bool(float, float) >(std::greater< float >());
   auto typeSelected = std::string(argv[2]);
-  size_t size = std::stoi(argv[3]);
+  size_t size;
+  try {
+    size = std::stoi(argv[3]);
+  } catch (std::invalid_argument &e) {
+    printInvalidType(std::cerr);
+    return 1;
+  }
 
   if (size < 1) {
-    std::cerr << "Size must be bigger then 0!\n";
+    printInvalidCount(std::cerr);
     return 1;
   }
 
