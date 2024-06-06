@@ -1,13 +1,10 @@
 #ifndef AVL_TREE_HPP
 #define AVL_TREE_HPP
 #include <utility>
-#include <cstddef>
 #include <algorithm>
-#include <iterator>
 #include <functional>
-#include <assert.h>
-#include "stack.hpp"
-#include "queue.hpp"
+#include <stack.hpp>
+#include <queue.hpp>
 
 namespace psarev
 {
@@ -45,12 +42,17 @@ namespace psarev
     bool isEmpty() const noexcept;
     size_t getSize() const noexcept;
 
+    Value& at(const Key& key);
+    const Value& at(const Key& key) const;
+    Value& operator[](const Key& key);
+    Value& operator[](Key&& key);
+
     std::pair< Iterator, Iterator > equalRange(const Key& key);
 
     iter find(const Key& key);
     iter insert(dataType& data);
     iter insert(dataType&& data);
-    void erase(const Key& key);
+    bool erase(const Key& key);
 
     template < typename F >
     F traverseLnR(F f) const;
@@ -787,6 +789,102 @@ size_t psarev::avlTree< Key, Value, Compare >::getSize() const noexcept
   return getSize(treeRoot);
 }
 
+template<typename Key, typename Value, typename Compare>
+Value& psarev::avlTree<Key, Value, Compare>::at(const Key& key)
+{
+  Unit* curr = treeRoot;
+  Compare compare;
+
+  while (curr != nullptr)
+  {
+    if (compare(curr->data.first, key))
+    {
+      curr = curr->right;
+    }
+    else if (compare(key, curr->data.first))
+    {
+      curr = curr->left;
+    }
+    else
+    {
+      return curr->data.second;
+    }
+  }
+  throw std::out_of_range("Error: No such element exists!");
+}
+
+template<typename Key, typename Value, typename Compare>
+const Value& psarev::avlTree<Key, Value, Compare>::at(const Key& key) const
+{
+  Unit* curr = treeRoot;
+  Compare compare;
+
+  while (curr != nullptr)
+  {
+    if (compare(curr->data.first, key))
+    {
+      curr = curr->right;
+    }
+    else if (compare(key, curr->data.first))
+    {
+      curr = curr->left;
+    }
+    else
+    {
+      return curr->data.second;
+    }
+  }
+  throw std::out_of_range("Error: No such element exists!");
+}
+
+template<typename Key, typename Value, typename Compare>
+Value& psarev::avlTree<Key, Value, Compare>::operator[](const Key& key)
+{
+  Unit* curr = treeRoot;
+  Compare compare;
+
+  while (curr != nullptr)
+  {
+    if (compare(curr->data.first, key))
+    {
+      curr = curr->right;
+    }
+    else if (compare(key, curr->data.first))
+    {
+      curr = curr->left;
+    }
+    else
+    {
+      return curr->data.second;
+    }
+  }
+  throw std::out_of_range("Error: No such element exists!");
+}
+
+template<typename Key, typename Value, typename Compare>
+Value& psarev::avlTree<Key, Value, Compare>::operator[](Key&& key)
+{
+  Unit* curr = treeRoot;
+  Compare compare;
+
+  while (curr != nullptr)
+  {
+    if (compare(curr->data.first, key))
+    {
+      curr = curr->right;
+    }
+    else if (compare(key, curr->data.first))
+    {
+      curr = curr->left;
+    }
+    else
+    {
+      return curr->data.second;
+    }
+  }
+  throw std::out_of_range("Error: No such element exists!");
+}
+
 template < typename Key, typename Value, typename Compare >
 using it = typename psarev::avlTree< Key, Value, Compare >::Iterator;
 
@@ -858,12 +956,14 @@ typename psarev::avlTree< Key, Value, Compare >::Iterator psarev::avlTree< Key, 
 }
 
 template< typename Key, typename Value, typename Compare >
-void psarev::avlTree<Key, Value, Compare>::erase(const Key& key)
+bool psarev::avlTree<Key, Value, Compare>::erase(const Key& key)
 {
   if (find(key) != end())
   {
     treeRoot = delUnit(treeRoot, key);
+    return true;
   }
+  return false;
 }
 
 template< typename Key, typename Value, typename Compare >
