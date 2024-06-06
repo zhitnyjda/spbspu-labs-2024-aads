@@ -4,9 +4,9 @@
 
 namespace reznikova
 {
-    void ascendingCommand(Tree< int, std::string > & tree);
-    void descendingCommand(Tree< int, std::string > & tree);
-    void breadthCommand(Tree< int, std::string > & tree);
+  void ascendingCommand(Tree< int, std::string > & tree);
+  void descendingCommand(Tree< int, std::string > & tree);
+  void breadthCommand(Tree< int, std::string > & tree);
 }
 
 #endif
