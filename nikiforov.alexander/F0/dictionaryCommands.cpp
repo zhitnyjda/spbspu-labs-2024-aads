@@ -1,4 +1,4 @@
-#include "dictionary—ommands.hpp"
+#include "dictionaryCommands.hpp"
 #include <fstream>
 
 void nikiforov::printCommands(std::ostream& out)
