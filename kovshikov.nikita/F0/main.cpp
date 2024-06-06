@@ -40,15 +40,15 @@ int main()
     {
       try
       {
-        interaction.at(command)(graphsList, std::cin);
-      }
-      catch(const std::out_of_range& error)
-      {
-        try
+        if(interaction.find(command) != interaction.end())
+        {
+          interaction.at(command)(graphsList, std::cin);
+        }
+        else if(outGraph.find(command) != outGraph.end())
         {
           outGraph.at(command)(graphsList, std::cout);
         }
-        catch(const std::out_of_range& error)
+        else
         {
           outInvalid(std::cout);
           std::cin.clear();
