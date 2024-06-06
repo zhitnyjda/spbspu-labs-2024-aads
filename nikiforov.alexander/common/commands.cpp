@@ -22,11 +22,8 @@ void nikiforov::createDictionary(std::string& strVocab, AvlTree< int, std::strin
   while (!strVocab.empty())
   {
     key = cutElem(strVocab);
-    if (isdigit(key[0]))
-    {
-      value = cutElem(strVocab);
-      dict.emplace(stoi(key), value);
-    }
+    value = cutElem(strVocab);
+    dict.emplace(stoi(key), value);
   }
 }
 

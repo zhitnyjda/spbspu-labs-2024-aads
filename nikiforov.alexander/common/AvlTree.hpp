@@ -1,6 +1,8 @@
 #ifndef AvlTree_HPP
 #define AvlTree_HPP
 #include <iostream>
+#include "queue.hpp"
+#include "stack.hpp"
 
 namespace nikiforov
 {
@@ -10,6 +12,9 @@ namespace nikiforov
   public:
     class Iterator;
     class ConstIterator;
+
+    class LnrIterator;
+    class RnlIterator;
 
     using keyValue_t = std::pair< Key, Value >;
     using pairIters = std::pair< typename AvlTree< Key, Value, Compare >::Iterator, typename AvlTree< Key, Value, Compare >::Iterator>;
@@ -41,6 +46,15 @@ namespace nikiforov
 
     Iterator find(const Key& key);
     std::pair< Iterator, Iterator > equalRange(const Key& key);
+
+    template< typename F >
+    F traverse_lnr(F f) const;
+
+    template< typename F >
+    F traverse_rnl(F f) const;
+
+    template< typename F >
+    F traverse_breadth(F f) const;
 
   private:
 
@@ -329,6 +343,269 @@ bool nikiforov::AvlTree< Key, Value, Compare >::Iterator::operator==(const this_
   return iter.pNode == rhs.iter.pNode;
 }
 
+namespace nikiforov
+{
+  template < typename Key, typename Value, typename Compare >
+  class AvlTree< Key, Value, Compare >::LnrIterator : public std::iterator< std::bidirectional_iterator_tag, keyValue_t >
+  {
+  public:
+    friend class AvlTree< Key, Value, Compare >;
+    using this_t = LnrIterator;
+
+    LnrIterator();
+    LnrIterator(Node* pNode);
+    LnrIterator(ConstIterator constIter);
+    LnrIterator(const this_t&) = default;
+    ~LnrIterator() = default;
+
+    this_t& operator=(const this_t&) = default;
+    this_t& operator++();
+    this_t operator++(int);
+    this_t& operator--();
+    this_t operator--(int);
+
+    keyValue_t& operator*();
+    keyValue_t* operator->();
+    const keyValue_t& operator*() const;
+    const keyValue_t* operator->() const;
+
+    bool operator!=(const this_t&) const;
+    bool operator==(const this_t&) const;
+
+  private:
+    ConstIterator iter;
+  };
+}
+
+template < typename Key, typename Value, typename Compare >
+nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::LnrIterator() :
+  iter(ConstIterator())
+{}
+
+template< typename Key, typename Value, typename Compare >
+nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::LnrIterator(Node* pNode) :
+  iter(ConstIterator(pNode))
+{}
+
+template < typename Key, typename Value, typename Compare >
+nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::LnrIterator(ConstIterator constIter) :
+  iter(constIter)
+{}
+
+template< typename Key, typename Value, typename Compare >
+typename nikiforov::AvlTree< Key, Value, Compare >::LnrIterator& nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::operator++()
+{
+  iter++;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename nikiforov::AvlTree< Key, Value, Compare >::LnrIterator nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::operator++(int)
+{
+  ++iter;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename nikiforov::AvlTree< Key, Value, Compare >::LnrIterator& nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::operator--()
+{
+  iter--;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename nikiforov::AvlTree< Key, Value, Compare >::LnrIterator nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::operator--(int)
+{
+  --iter;
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename nikiforov::AvlTree< Key, Value, Compare >::keyValue_t& nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::operator*()
+{
+  return iter.pNode->data;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename nikiforov::AvlTree< Key, Value, Compare >::keyValue_t* nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::operator->()
+{
+  return &(iter.pNode->data);
+}
+
+template < typename Key, typename Value, typename Compare >
+const typename nikiforov::AvlTree< Key, Value, Compare >::keyValue_t&
+nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::operator*() const
+{
+  return iter.pNode->data;
+}
+
+template < typename Key, typename Value, typename Compare >
+const typename nikiforov::AvlTree< Key, Value, Compare >::keyValue_t*
+nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::operator->() const
+{
+  return &(iter.pNode->data);
+}
+
+template < typename Key, typename Value, typename Compare >
+bool nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::operator==(const this_t& rhs) const
+{
+  return iter.pNode == rhs.iter.pNode;
+}
+
+template < typename Key, typename Value, typename Compare >
+bool nikiforov::AvlTree< Key, Value, Compare >::LnrIterator::operator!=(const this_t& rhs) const
+{
+  return !(rhs == *this);
+}
+
+namespace nikiforov
+{
+  template < typename Key, typename Value, typename Compare >
+  class AvlTree< Key, Value, Compare >::RnlIterator : public std::iterator< std::bidirectional_iterator_tag, keyValue_t >
+  {
+  public:
+    friend class AvlTree< Key, Value, Compare >;
+    using this_t = RnlIterator;
+
+    RnlIterator();
+    RnlIterator(Node* pNode);
+    RnlIterator(const this_t&) = default;
+    ~RnlIterator() = default;
+
+    this_t& operator=(const this_t&) = default;
+    this_t& operator++();
+    this_t operator++(int);
+    this_t& operator--();
+    this_t operator--(int);
+
+    keyValue_t& operator*();
+    keyValue_t* operator->();
+    const keyValue_t& operator*() const;
+    const keyValue_t* operator->() const;
+
+    bool operator!=(const this_t&) const;
+    bool operator==(const this_t&) const;
+
+  private:
+    Node* pNode;
+  };
+}
+
+template < typename Key, typename Value, typename Compare >
+nikiforov::AvlTree< Key, Value, Compare >::RnlIterator::RnlIterator() :
+  pNode(nullptr)
+{}
+
+template< typename Key, typename Value, typename Compare >
+nikiforov::AvlTree< Key, Value, Compare >::RnlIterator::RnlIterator(Node* pNode) :
+  pNode(pNode)
+{}
+
+template< typename Key, typename Value, typename Compare >
+typename nikiforov::AvlTree< Key, Value, Compare >::RnlIterator& nikiforov::AvlTree< Key, Value, Compare >::RnlIterator::operator++()
+{
+  if (pNode->left != nullptr)
+  {
+    pNode = pNode->left;
+    while (pNode->right != nullptr)
+    {
+      pNode = pNode->right;
+    }
+  }
+  else
+  {
+    while ((pNode->parent != nullptr) && (pNode == pNode->parent->left))
+    {
+      pNode = pNode->parent;
+    }
+    pNode = pNode->parent;
+  }
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename nikiforov::AvlTree< Key, Value, Compare >::RnlIterator nikiforov::AvlTree< Key, Value, Compare >::RnlIterator::operator++(int)
+{
+  RnlIterator iter = *this;
+  ++(*this);
+  return iter;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename nikiforov::AvlTree< Key, Value, Compare >::RnlIterator& nikiforov::AvlTree< Key, Value, Compare >::RnlIterator::operator--()
+{
+  if (pNode == nullptr)
+  {
+    pNode = pRoot;
+    while (pNode->left != nullptr)
+    {
+      pNode = pNode->left;
+    }
+  }
+  else if (pNode->right != nullptr)
+  {
+    pNode = pNode->right;
+    while (pNode->left != nullptr)
+    {
+      pNode = pNode->left;
+    }
+  }
+  else
+  {
+    while ((pNode == pNode->parent->right) && (pNode->parent != nullptr))
+    {
+      pNode = pNode->parent;
+    }
+    pNode = pNode->parent;
+  }
+  return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename nikiforov::AvlTree< Key, Value, Compare >::RnlIterator nikiforov::AvlTree< Key, Value, Compare >::RnlIterator::operator--(int)
+{
+  RnlIterator iter = *this;
+  --(*this);
+  return iter;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename nikiforov::AvlTree< Key, Value, Compare >::keyValue_t& nikiforov::AvlTree< Key, Value, Compare >::RnlIterator::operator*()
+{
+  return pNode->data;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename nikiforov::AvlTree< Key, Value, Compare >::keyValue_t* nikiforov::AvlTree< Key, Value, Compare >::RnlIterator::operator->()
+{
+  return &(pNode->data);
+}
+
+template < typename Key, typename Value, typename Compare > const typename nikiforov::AvlTree< Key, Value, Compare >::keyValue_t&
+nikiforov::AvlTree< Key, Value, Compare >::RnlIterator::operator*() const
+{
+  return pNode->data;
+}
+
+template < typename Key, typename Value, typename Compare >
+const typename nikiforov::AvlTree< Key, Value, Compare >::keyValue_t*
+nikiforov::AvlTree< Key, Value, Compare >::RnlIterator::operator->() const
+{
+  return &(pNode->data);
+}
+
+template < typename Key, typename Value, typename Compare >
+bool nikiforov::AvlTree< Key, Value, Compare >::RnlIterator::operator!=(const this_t& rhs) const
+{
+  return !(rhs == *this);
+}
+
+template < typename Key, typename Value, typename Compare >
+bool nikiforov::AvlTree< Key, Value, Compare >::RnlIterator::operator==(const this_t& rhs) const
+{
+  return pNode == rhs.pNode;
+}
+
 template< typename Key, typename Value, typename Compare >
 nikiforov::AvlTree< Key, Value, Compare >::AvlTree() :
   pRoot(nullptr), size(0)
@@ -546,6 +823,75 @@ pairIters<Key, Value, Compare> nikiforov::AvlTree<Key, Value, Compare>::equalRan
   {
     return std::make_pair(find(key), find(key)++);
   }
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename F >
+F nikiforov::AvlTree< Key, Value, Compare >::traverse_lnr(F f) const
+{
+  Stack< Node* > stack;
+  Node* actual = pRoot;
+
+  while (actual || !stack.is_empty())
+  {
+    while (actual)
+    {
+      stack.push_back(actual);
+      actual = actual->left;
+    }
+    actual = stack.back();
+    stack.pop_back();
+    f(actual->data);
+    actual = actual->right;
+  }
+  return F(f);
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename F >
+F nikiforov::AvlTree< Key, Value, Compare >::traverse_rnl(F f) const
+{
+  Stack< Node* > stack;
+  Node* actual = pRoot;
+
+  while (actual || !stack.is_empty())
+  {
+    while (actual)
+    {
+      stack.push_back(actual);
+      actual = actual->right;
+    }
+    actual = stack.back();
+    stack.pop_back();
+    f(actual->data);
+    actual = actual->left;
+  }
+  return F(f);
+}
+
+template< typename Key, typename Value, typename Compare >
+template< typename F >
+F nikiforov::AvlTree< Key, Value, Compare >::traverse_breadth(F f) const
+{
+  Queue < Node* > queue;
+  queue.push_back(pRoot);
+
+  while (!queue.is_empty())
+  {
+    Node* actual = queue.front();
+    queue.pop_front();
+    f(actual->data);
+
+    if (actual->left)
+    {
+      queue.push_back(actual->left);
+    }
+    if (actual->right)
+    {
+      queue.push_back(actual->right);
+    }
+  }
+  return F(f);
 }
 
 template < typename Key, typename Value, typename Compare >
