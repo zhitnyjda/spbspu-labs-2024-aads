@@ -9,7 +9,7 @@
 
 int main()
 {
-  std::map< std::string, std::function< void (std::string &, ponomarev::HuffmanCode &) > > commands;
+  ponomarev::BSTree < std::string, std::function< void (std::string &, ponomarev::HuffmanCode &) >, int > commands;
   {
     commands["help"] = ponomarev::outputInfoAboutCommands;
     commands["input"] = ponomarev::makeInput;
@@ -21,7 +21,6 @@ int main()
     commands["decode"] = ponomarev::makeDecode;
     commands["delete"] = ponomarev::makeDelete;
     commands["clean"] = ponomarev::makeClean;
-    commands["save"] = ponomarev::makeSave;
   }
 
   ponomarev::printWelcomeMessage(std::cout);
@@ -44,5 +43,8 @@ int main()
     }
   }
 
+  data.codes.clear();
+  data.freq.clear();
+  commands.clear();
   return 0;
 }
