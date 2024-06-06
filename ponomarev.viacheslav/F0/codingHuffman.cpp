@@ -71,11 +71,11 @@ void ponomarev::createTree(HuffmanCode & data)
     {
         data.minHeap.push(new MinHeapNode(v->first, v->second));
     }
-    while (data.minHeap.size() != 1)
+    while (data.minHeap.getSize() != 1)
     {
-        left = data.minHeap.top();
+        left = data.minHeap.getElem();
         data.minHeap.pop();
-        right = data.minHeap.top();
+        right = data.minHeap.getElem();
         data.minHeap.pop();
         top = new MinHeapNode('$', left->freq + right->freq);
         top->left = left;
@@ -83,7 +83,7 @@ void ponomarev::createTree(HuffmanCode & data)
         data.minHeap.push(top);
     }
 
-    storeCodes(data.minHeap.top(), "", data);
+    storeCodes(data.minHeap.getElem(), "", data);
 }
 
 void ponomarev::calcFreq(std::string str, HuffmanCode & data)
@@ -96,7 +96,7 @@ void ponomarev::calcFreq(std::string str, HuffmanCode & data)
 
 void ponomarev::decodeFile(HuffmanCode & data)
 {
-    MinHeapNode * root = data.minHeap.top();
+    MinHeapNode * root = data.minHeap.getElem();
     MinHeapNode * curr = root;
     std::string s = data.decodingText;
     std::string ans = "";

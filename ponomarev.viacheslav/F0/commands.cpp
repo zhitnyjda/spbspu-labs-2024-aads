@@ -114,7 +114,7 @@ void ponomarev::writeTextIntoFile(std::string & parameters, HuffmanCode & data)
     throw std::logic_error("can't open the file");
   }
 
-  data.fileNames.push_back(parameter);
+  data.fileNames.pushBack(parameter);
   fout << data.text;
   ponomarev::printSuccessfullyWriteMessage(std::cout);
 }
@@ -168,7 +168,7 @@ void ponomarev::showTable(std::string & parameters, HuffmanCode & data)
     throw std::logic_error("error: wrong parameters");
   }
 
-  printCodes(data.minHeap.top(), "");
+  printCodes(data.minHeap.getElem(), "");
 }
 
 void ponomarev::makeDecode(std::string & parameters, HuffmanCode & data)
@@ -203,9 +203,9 @@ void ponomarev::makeClean(std::string & parameters, HuffmanCode & data)
 {
   if (parameters.empty())
   {
-    for (size_t i; i < data.fileNames.size(); i++)
+    for (size_t i; i < data.fileNames.getSize(); i++)
     {
-      makeDelete(data.fileNames[i], data);
+      makeDelete(data.fileNames.getFront(), data);
     }
   }
   else
@@ -268,6 +268,6 @@ void ponomarev::makeSave(std::string & parameters, HuffmanCode & data)
   }
 
   std::ofstream out(parameter);
-  data.fileNames.push_back(parameter);
+  data.fileNames.pushBack(parameter);
   out << data.text << "\n" << data.decodingText;
 }

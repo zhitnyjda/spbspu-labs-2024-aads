@@ -15,7 +15,6 @@ namespace ponomarev
   void deleteFile(const std::string parameter);
   void deleteTextInFile(long long n, long long k, const std::string parameter);
 
-  std::ostream & printInvalidCommandMessage(std::ostream & out);
   std::ostream & printWelcomeMessage(std::ostream & out);
   std::ostream & printInvalidEncodeMessage(std::ostream & out);
   std::ostream & printSuccessfullyEncodeMessage(std::ostream & out);

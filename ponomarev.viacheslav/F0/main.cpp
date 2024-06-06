@@ -4,6 +4,8 @@
 #include <iostream>
 #include "commands.hpp"
 #include "accessoryFunctions.hpp"
+#include "binarySearchTreeAVL.hpp"
+#include "IOFunctions.hpp"
 
 int main()
 {

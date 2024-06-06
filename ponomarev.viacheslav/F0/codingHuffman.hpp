@@ -2,9 +2,11 @@
 #define CODING_HUFFMAN_HPP
 
 #include <map>
-#include <vector>
-#include <queue>
+#include "list.hpp"
+#include "queue.hpp"
 #include <string>
+#include <queue>
+#include <vector>
 
 namespace ponomarev
 {
@@ -31,8 +33,8 @@ namespace ponomarev
     std::map< char, int > freq;
     std::string text;
     std::string decodingText;
-    std::priority_queue< MinHeapNode *, std::vector< MinHeapNode * >, Compare > minHeap;
-    std::vector< std::string > fileNames;
+    Queue < MinHeapNode * > minHeap;
+    List< std::string > fileNames;
   };
 
   void printCodes(MinHeapNode * root, std::string str);
