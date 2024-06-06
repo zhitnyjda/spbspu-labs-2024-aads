@@ -5,7 +5,6 @@
 #include <List.hpp>
 #include "Commands.hpp"
 #include "GraphUtils.hpp"
-#include "iofmtguard.hpp"
 
 void resetDijkstra(Graph &graph) {
   graph.distances.clear();
@@ -105,9 +104,6 @@ void saveGraphCommand(std::istream &input, std::ostream &output, const Graph &gr
     throw std::logic_error("File read/write error\n");
   }
 
-  iofmtguard guard(output);
-  output << std::fixed << std::setprecision(1);
-
   for (const auto &vertexEdgesPair: graph.adjList) {
     const auto &vertex = vertexEdgesPair.first;
     const auto &edges = vertexEdgesPair.second;
@@ -188,9 +184,6 @@ void addCommand(std::istream &input, std::ostream &output, Graph &graph) {
   std::string type;
   input >> type;
 
-  iofmtguard guard(output);
-  output << std::fixed << std::setprecision(1);
-
   if (type == "v") {
     std::string vertex;
     input >> vertex;
@@ -210,9 +203,6 @@ void addCommand(std::istream &input, std::ostream &output, Graph &graph) {
 void delCommand(std::istream &input, std::ostream &output, Graph &graph) {
   std::string type;
   input >> type;
-
-  iofmtguard guard(output);
-  output << std::fixed << std::setprecision(1);
 
   if (type == "v") {
     std::string vertex;
@@ -246,9 +236,6 @@ void showGraphCommand(std::ostream &output, const Graph &graph) {
 void updateEdgeCommand(std::istream &input, std::ostream &output, Graph &graph) {
   std::string type;
   input >> type;
-
-  iofmtguard guard(output);
-  output << std::fixed << std::setprecision(1);
 
   if (type == "e") {
     std::string vertex1, vertex2;
