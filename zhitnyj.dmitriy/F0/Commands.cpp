@@ -68,7 +68,6 @@ void dijkstraCommand(std::istream &input, std::ostream &output, Graph &graph) {
   }
 }
 
-
 void shortestPathCommand(std::istream &input, std::ostream &output, const Graph &graph) {
   std::string startVertex, endVertex;
   input >> startVertex >> endVertex;
@@ -80,7 +79,7 @@ void shortestPathCommand(std::istream &input, std::ostream &output, const Graph 
     output << "No path between vertices\n";
   }
   else {
-    List< std::string > path;
+    zhitnyj::List< std::string > path;
     std::string current = endVertex;
 
     while (current != startVertex) {
