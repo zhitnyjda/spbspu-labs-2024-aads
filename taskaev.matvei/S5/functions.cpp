@@ -90,8 +90,8 @@ namespace taskaev
       long long result = 0;
       tree.traverse_lnr([&](const std::pair< const int, std::string >& value)
         {
-          int max = std::numeric_limits<int>::max();
-          int min = std::numeric_limits<int>::min();
+          int max = std::numeric_limits< int >::max();
+          int min = std::numeric_limits< int >::min();
           if (value.first > 0 && max - value.first < result)
           {
             throw std::overflow_error("Error: overflow\n");
@@ -133,8 +133,8 @@ namespace taskaev
       int result = 0;
       tree.traverse_rnl([&](const std::pair< const int, std::string >& value)
         {
-          int max = std::numeric_limits<int>::max();
-          int min = std::numeric_limits<int>::min();
+          int max = std::numeric_limits< int >::max();
+          int min = std::numeric_limits< int >::min();
           if (value.first > 0 && max - value.first < result)
           {
             throw std::overflow_error("Error: overflow\n");
@@ -176,8 +176,8 @@ namespace taskaev
       int result = 0;
       tree.traverse_breadth([&](const std::pair< const int, std::string >& value)
         {
-          int max = std::numeric_limits<int>::max();
-          int min = std::numeric_limits<int>::min();
+          int max = std::numeric_limits< int >::max();
+          int min = std::numeric_limits< int >::min();
           if (value.first > 0 && max - value.first < result)
           {
             throw std::overflow_error("Error: overflow\n");
