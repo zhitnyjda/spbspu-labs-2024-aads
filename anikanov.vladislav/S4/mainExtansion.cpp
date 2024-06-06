@@ -4,7 +4,7 @@
 #include <fstream>
 #include <string>
 #include <cstring>
-#include "binarySearchTree.hpp"
+#include <binarySearchTree.hpp>
 
 void anikanov::print(std::ostream &os, const tree &dict)
 {

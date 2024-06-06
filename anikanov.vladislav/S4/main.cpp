@@ -2,7 +2,7 @@
 #include <map>
 #include <string>
 #include <cstring>
-#include "binarySearchTree.hpp"
+#include <binarySearchTree.hpp>
 #include "mainExtansion.hpp"
 
 int main(int argc, char *argv[])

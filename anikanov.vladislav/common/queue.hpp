@@ -2,6 +2,7 @@
 #define QUEUE_HPP
 
 #include <cassert>
+#include <iostream>
 #include <list.hpp>
 
 namespace anikanov {
@@ -11,9 +12,10 @@ namespace anikanov {
   public:
     Queue() = default;
     Queue(const Queue &rhs);
-    Queue(const Queue &&rhs) noexcept;
+    Queue(Queue &&rhs) noexcept;
     ~Queue() = default;
 
+    Queue &operator=(const Queue &rhs) noexcept;
     Queue &operator=(Queue &&rhs) noexcept;
 
     T &front() noexcept;
@@ -38,9 +40,22 @@ anikanov::Queue< T >::Queue(const Queue &rhs)
 }
 
 template< typename T >
-anikanov::Queue< T >::Queue(const Queue &&rhs) noexcept
+anikanov::Queue< T >::Queue(Queue &&rhs) noexcept
 {
   list = std::move(rhs.list);
+}
+
+template< typename T >
+anikanov::Queue< T > &anikanov::Queue< T >::operator=(const Queue &rhs) noexcept
+{
+  if (this == &rhs) {
+    return *this;
+  }
+  list.clear();
+  for (auto elem: rhs.list) {
+    list.push_back(elem);
+  }
+  return *this;
 }
 
 template< typename T >
