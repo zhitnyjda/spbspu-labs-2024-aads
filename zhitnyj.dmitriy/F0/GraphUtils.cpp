@@ -80,7 +80,7 @@ void isConnected(const Graph &graph, const std::string &vertex1, const std::stri
   stack.push_back(vertex1);
 
   while (!stack.empty()) {
-    List< std::string >::Iterator it = stack.begin();
+    zhitnyj::List< std::string >::Iterator it = stack.begin();
     std::string current = *it;
     stack.erase(current);
 
